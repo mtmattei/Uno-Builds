@@ -1,0 +1,412 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================== -->
+    <!-- DEFI DASHBOARD THEME - Dark Mode              -->
+    <!-- Based on cryptocurrency tracking UI            -->
+    <!-- ============================================== -->
+
+    <!-- COLOR PALETTE -->
+    
+    <!-- Background Colors -->
+    <Color x:Key="BackgroundPrimaryColor">#000000</Color>
+    <Color x:Key="BackgroundSecondaryColor">#0D0D0D</Color>
+    <Color x:Key="BackgroundTertiaryColor">#1A1A1A</Color>
+    <Color x:Key="CardBackgroundColor">#141414</Color>
+    <Color x:Key="CardBackgroundElevatedColor">#1C1C1C</Color>
+    
+    <!-- Surface Colors -->
+    <Color x:Key="SurfaceDimColor">#0A0A0A</Color>
+    <Color x:Key="SurfaceColor">#121212</Color>
+    <Color x:Key="SurfaceBrightColor">#1E1E1E</Color>
+    <Color x:Key="SurfaceContainerLowestColor">#080808</Color>
+    <Color x:Key="SurfaceContainerLowColor">#101010</Color>
+    <Color x:Key="SurfaceContainerColor">#181818</Color>
+    <Color x:Key="SurfaceContainerHighColor">#222222</Color>
+    <Color x:Key="SurfaceContainerHighestColor">#2C2C2C</Color>
+
+    <!-- Text Colors -->
+    <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
+    <Color x:Key="TextSecondaryColor">#B3B3B3</Color>
+    <Color x:Key="TextTertiaryColor">#808080</Color>
+    <Color x:Key="TextDisabledColor">#4D4D4D</Color>
+    <Color x:Key="TextMutedColor">#666666</Color>
+    <Color x:Key="TextLabelColor">#999999</Color>
+
+    <!-- Accent Colors -->
+    <Color x:Key="AccentPrimaryColor">#FFFFFF</Color>
+    <Color x:Key="AccentSecondaryColor">#E0E0E0</Color>
+    
+    <!-- Semantic Colors -->
+    <Color x:Key="PositiveColor">#00C853</Color>
+    <Color x:Key="PositiveLightColor">#69F0AE</Color>
+    <Color x:Key="PositiveDarkColor">#00A844</Color>
+    <Color x:Key="NegativeColor">#FF5252</Color>
+    <Color x:Key="NegativeLightColor">#FF8A80</Color>
+    <Color x:Key="NegativeDarkColor">#D32F2F</Color>
+    <Color x:Key="NeutralColor">#808080</Color>
+    <Color x:Key="WarningColor">#FFB300</Color>
+    <Color x:Key="InfoColor">#29B6F6</Color>
+
+    <!-- Chart Colors -->
+    <Color x:Key="ChartLineColor">#FFFFFF</Color>
+    <Color x:Key="ChartLineLightColor">#E0E0E0</Color>
+    <Color x:Key="ChartGridColor">#2A2A2A</Color>
+    <Color x:Key="ChartAxisColor">#404040</Color>
+    <Color x:Key="ChartFillStartColor">#33FFFFFF</Color>
+    <Color x:Key="ChartFillEndColor">#00FFFFFF</Color>
+
+    <!-- Border Colors -->
+    <Color x:Key="BorderDefaultColor">#2A2A2A</Color>
+    <Color x:Key="BorderSubtleColor">#1F1F1F</Color>
+    <Color x:Key="BorderStrongColor">#404040</Color>
+    <Color x:Key="DividerColor">#262626</Color>
+
+    <!-- Navigation Colors -->
+    <Color x:Key="NavBackgroundColor">#1A1A1A</Color>
+    <Color x:Key="NavItemActiveColor">#2C2C2C</Color>
+    <Color x:Key="NavItemInactiveColor">#666666</Color>
+    <Color x:Key="NavIconActiveColor">#FFFFFF</Color>
+    <Color x:Key="NavIconInactiveColor">#666666</Color>
+
+    <!-- Interactive Colors -->
+    <Color x:Key="HoverColor">#1F1F1F</Color>
+    <Color x:Key="PressedColor">#2A2A2A</Color>
+    <Color x:Key="FocusColor">#404040</Color>
+    <Color x:Key="SelectedColor">#333333</Color>
+    <Color x:Key="RippleColor">#1AFFFFFF</Color>
+
+    <!-- Social/Engagement Colors (from bottom bar) -->
+    <Color x:Key="HeartColor">#FF4081</Color>
+    <Color x:Key="HeartActiveColor">#FF1744</Color>
+    <Color x:Key="CommentColor">#808080</Color>
+    <Color x:Key="ShareColor">#808080</Color>
+    <Color x:Key="BookmarkColor">#808080</Color>
+    <Color x:Key="ViewsColor">#808080</Color>
+
+
+    <!-- BRUSHES -->
+    
+    <!-- Background Brushes -->
+    <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource BackgroundPrimaryColor}" />
+    <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="{StaticResource BackgroundSecondaryColor}" />
+    <SolidColorBrush x:Key="BackgroundTertiaryBrush" Color="{StaticResource BackgroundTertiaryColor}" />
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{StaticResource CardBackgroundColor}" />
+    <SolidColorBrush x:Key="CardBackgroundElevatedBrush" Color="{StaticResource CardBackgroundElevatedColor}" />
+
+    <!-- Surface Brushes -->
+    <SolidColorBrush x:Key="SurfaceDimBrush" Color="{StaticResource SurfaceDimColor}" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
+    <SolidColorBrush x:Key="SurfaceBrightBrush" Color="{StaticResource SurfaceBrightColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerLowestBrush" Color="{StaticResource SurfaceContainerLowestColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerLowBrush" Color="{StaticResource SurfaceContainerLowColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerBrush" Color="{StaticResource SurfaceContainerColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerHighBrush" Color="{StaticResource SurfaceContainerHighColor}" />
+    <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="{StaticResource SurfaceContainerHighestColor}" />
+
+    <!-- Text Brushes -->
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiaryColor}" />
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource TextDisabledColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+    <SolidColorBrush x:Key="TextLabelBrush" Color="{StaticResource TextLabelColor}" />
+
+    <!-- Semantic Brushes -->
+    <SolidColorBrush x:Key="PositiveBrush" Color="{StaticResource PositiveColor}" />
+    <SolidColorBrush x:Key="PositiveLightBrush" Color="{StaticResource PositiveLightColor}" />
+    <SolidColorBrush x:Key="NegativeBrush" Color="{StaticResource NegativeColor}" />
+    <SolidColorBrush x:Key="NegativeLightBrush" Color="{StaticResource NegativeLightColor}" />
+    <SolidColorBrush x:Key="NeutralBrush" Color="{StaticResource NeutralColor}" />
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />
+    <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}" />
+
+    <!-- Chart Brushes -->
+    <SolidColorBrush x:Key="ChartLineBrush" Color="{StaticResource ChartLineColor}" />
+    <SolidColorBrush x:Key="ChartGridBrush" Color="{StaticResource ChartGridColor}" />
+    <SolidColorBrush x:Key="ChartAxisBrush" Color="{StaticResource ChartAxisColor}" />
+    
+    <LinearGradientBrush x:Key="ChartAreaFillBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource ChartFillStartColor}" Offset="0" />
+        <GradientStop Color="{StaticResource ChartFillEndColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Border Brushes -->
+    <SolidColorBrush x:Key="BorderDefaultBrush" Color="{StaticResource BorderDefaultColor}" />
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtleColor}" />
+    <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource BorderStrongColor}" />
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource DividerColor}" />
+
+    <!-- Navigation Brushes -->
+    <SolidColorBrush x:Key="NavBackgroundBrush" Color="{StaticResource NavBackgroundColor}" />
+    <SolidColorBrush x:Key="NavItemActiveBrush" Color="{StaticResource NavItemActiveColor}" />
+    <SolidColorBrush x:Key="NavIconActiveBrush" Color="{StaticResource NavIconActiveColor}" />
+    <SolidColorBrush x:Key="NavIconInactiveBrush" Color="{StaticResource NavIconInactiveColor}" />
+
+    <!-- Interactive Brushes -->
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
+    <SolidColorBrush x:Key="PressedBrush" Color="{StaticResource PressedColor}" />
+    <SolidColorBrush x:Key="FocusBrush" Color="{StaticResource FocusColor}" />
+    <SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource SelectedColor}" />
+    <SolidColorBrush x:Key="RippleBrush" Color="{StaticResource RippleColor}" />
+
+    <!-- Social Brushes -->
+    <SolidColorBrush x:Key="HeartBrush" Color="{StaticResource HeartColor}" />
+    <SolidColorBrush x:Key="HeartActiveBrush" Color="{StaticResource HeartActiveColor}" />
+
+
+    <!-- TYPOGRAPHY -->
+    
+    <!-- Font Family -->
+    <FontFamily x:Key="PrimaryFontFamily">SF Pro Display, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif</FontFamily>
+    <FontFamily x:Key="MonospaceFontFamily">SF Mono, Consolas, Monaco, Courier New, monospace</FontFamily>
+
+    <!-- Font Sizes -->
+    <x:Double x:Key="FontSizeCaption">11</x:Double>
+    <x:Double x:Key="FontSizeSmall">12</x:Double>
+    <x:Double x:Key="FontSizeBody">14</x:Double>
+    <x:Double x:Key="FontSizeMedium">16</x:Double>
+    <x:Double x:Key="FontSizeLarge">18</x:Double>
+    <x:Double x:Key="FontSizeTitle">20</x:Double>
+    <x:Double x:Key="FontSizeHeadline">24</x:Double>
+    <x:Double x:Key="FontSizeDisplay">32</x:Double>
+
+    <!-- Font Weights -->
+    <FontWeight x:Key="FontWeightLight">Light</FontWeight>
+    <FontWeight x:Key="FontWeightRegular">Normal</FontWeight>
+    <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
+    <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
+    <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+
+    <!-- Line Heights -->
+    <x:Double x:Key="LineHeightTight">1.2</x:Double>
+    <x:Double x:Key="LineHeightNormal">1.5</x:Double>
+    <x:Double x:Key="LineHeightRelaxed">1.75</x:Double>
+
+
+    <!-- SPACING -->
+    
+    <Thickness x:Key="SpacingNone">0</Thickness>
+    <Thickness x:Key="SpacingXxs">2</Thickness>
+    <Thickness x:Key="SpacingXs">4</Thickness>
+    <Thickness x:Key="SpacingSm">8</Thickness>
+    <Thickness x:Key="SpacingMd">12</Thickness>
+    <Thickness x:Key="SpacingLg">16</Thickness>
+    <Thickness x:Key="SpacingXl">20</Thickness>
+    <Thickness x:Key="SpacingXxl">24</Thickness>
+    <Thickness x:Key="Spacing3Xl">32</Thickness>
+    <Thickness x:Key="Spacing4Xl">40</Thickness>
+
+    <!-- Card Padding -->
+    <Thickness x:Key="CardPaddingSmall">12</Thickness>
+    <Thickness x:Key="CardPaddingMedium">16</Thickness>
+    <Thickness x:Key="CardPaddingLarge">20</Thickness>
+
+    <!-- Content Margins -->
+    <Thickness x:Key="ContentMarginHorizontal">16,0</Thickness>
+    <Thickness x:Key="ContentMarginVertical">0,16</Thickness>
+    <Thickness x:Key="ContentMargin">16</Thickness>
+    <Thickness x:Key="PageMargin">16,24</Thickness>
+
+
+    <!-- CORNER RADIUS -->
+    
+    <CornerRadius x:Key="CornerRadiusNone">0</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusXs">4</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusSm">8</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusMd">12</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusLg">16</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusXl">20</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusFull">9999</CornerRadius>
+
+    <!-- Specific Component Radius -->
+    <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
+    <CornerRadius x:Key="ButtonCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="ChipCornerRadius">16</CornerRadius>
+    <CornerRadius x:Key="NavItemCornerRadius">24</CornerRadius>
+    <CornerRadius x:Key="InputCornerRadius">8</CornerRadius>
+
+
+    <!-- SHADOWS / ELEVATION -->
+    
+    <x:String x:Key="ShadowNone">0 0 0 0 transparent</x:String>
+    <x:String x:Key="ShadowSm">0 1 2 0 rgba(0,0,0,0.3)</x:String>
+    <x:String x:Key="ShadowMd">0 4 6 -1 rgba(0,0,0,0.4)</x:String>
+    <x:String x:Key="ShadowLg">0 10 15 -3 rgba(0,0,0,0.5)</x:String>
+    <x:String x:Key="ShadowXl">0 20 25 -5 rgba(0,0,0,0.6)</x:String>
+
+
+    <!-- BORDER THICKNESS -->
+    
+    <Thickness x:Key="BorderThicknessNone">0</Thickness>
+    <Thickness x:Key="BorderThicknessThin">0.5</Thickness>
+    <Thickness x:Key="BorderThicknessDefault">1</Thickness>
+    <Thickness x:Key="BorderThicknessMedium">1.5</Thickness>
+    <Thickness x:Key="BorderThicknessThick">2</Thickness>
+
+
+    <!-- ICON SIZES -->
+    
+    <x:Double x:Key="IconSizeXs">12</x:Double>
+    <x:Double x:Key="IconSizeSm">16</x:Double>
+    <x:Double x:Key="IconSizeMd">20</x:Double>
+    <x:Double x:Key="IconSizeLg">24</x:Double>
+    <x:Double x:Key="IconSizeXl">28</x:Double>
+    <x:Double x:Key="IconSizeXxl">32</x:Double>
+
+
+    <!-- COMPONENT SIZES -->
+    
+    <!-- Navigation Bar -->
+    <x:Double x:Key="NavBarHeight">56</x:Double>
+    <x:Double x:Key="NavItemSize">48</x:Double>
+    
+    <!-- Status Bar -->
+    <x:Double x:Key="StatusBarHeight">44</x:Double>
+    
+    <!-- Button Heights -->
+    <x:Double x:Key="ButtonHeightSmall">32</x:Double>
+    <x:Double x:Key="ButtonHeightMedium">40</x:Double>
+    <x:Double x:Key="ButtonHeightLarge">48</x:Double>
+    
+    <!-- Input Heights -->
+    <x:Double x:Key="InputHeightSmall">36</x:Double>
+    <x:Double x:Key="InputHeightMedium">44</x:Double>
+    <x:Double x:Key="InputHeightLarge">52</x:Double>
+
+    <!-- Chart -->
+    <x:Double x:Key="ChartLineThickness">2</x:Double>
+    <x:Double x:Key="ChartMinHeight">150</x:Double>
+    <x:Double x:Key="ChartDefaultHeight">200</x:Double>
+
+
+    <!-- OPACITY VALUES -->
+    
+    <x:Double x:Key="OpacityDisabled">0.38</x:Double>
+    <x:Double x:Key="OpacityMedium">0.60</x:Double>
+    <x:Double x:Key="OpacityHigh">0.87</x:Double>
+    <x:Double x:Key="OpacityFull">1.0</x:Double>
+    <x:Double x:Key="OpacityHover">0.08</x:Double>
+    <x:Double x:Key="OpacityPressed">0.12</x:Double>
+    <x:Double x:Key="OpacityFocus">0.12</x:Double>
+    <x:Double x:Key="OpacityOverlay">0.5</x:Double>
+
+
+    <!-- ANIMATION DURATIONS -->
+    
+    <Duration x:Key="AnimationFast">0:0:0.15</Duration>
+    <Duration x:Key="AnimationNormal">0:0:0.25</Duration>
+    <Duration x:Key="AnimationSlow">0:0:0.35</Duration>
+    <Duration x:Key="AnimationVerySlow">0:0:0.5</Duration>
+
+
+    <!-- TEXT STYLES -->
+    
+    <Style x:Key="DisplayTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDisplay}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightBold}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="HeadlineTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeHeadline}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="BodyTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightRegular}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightRegular}" />
+        <Setter Property="Foreground" Value="{StaticResource TextLabelBrush}" />
+    </Style>
+
+    <Style x:Key="CaptionTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightRegular}" />
+        <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+    </Style>
+
+    <Style x:Key="MonospaceTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonospaceFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightRegular}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="ValueTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="PositiveChangeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}" />
+        <Setter Property="Foreground" Value="{StaticResource PositiveBrush}" />
+    </Style>
+
+    <Style x:Key="NegativeChangeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}" />
+        <Setter Property="Foreground" Value="{StaticResource NegativeBrush}" />
+    </Style>
+
+
+    <!-- COMPONENT STYLES -->
+    
+    <Style x:Key="DashboardCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+        <Setter Property="Padding" Value="{StaticResource CardPaddingMedium}" />
+        <Setter Property="BorderThickness" Value="{StaticResource BorderThicknessNone}" />
+    </Style>
+
+    <Style x:Key="DashboardCardWithBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+        <Setter Property="Padding" Value="{StaticResource CardPaddingMedium}" />
+        <Setter Property="BorderThickness" Value="{StaticResource BorderThicknessThin}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}" />
+    </Style>
+
+    <Style x:Key="NavBarContainerStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource NavBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusFull}" />
+        <Setter Property="Padding" Value="8,4" />
+    </Style>
+
+    <Style x:Key="NavItemActiveStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource NavItemActiveBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource NavItemCornerRadius}" />
+        <Setter Property="Width" Value="{StaticResource NavItemSize}" />
+        <Setter Property="Height" Value="{StaticResource NavItemSize}" />
+    </Style>
+
+    <Style x:Key="DividerStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource DividerBrush}" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+</ResourceDictionary>

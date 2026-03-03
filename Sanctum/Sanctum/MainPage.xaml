@@ -1,0 +1,180 @@
+<Page x:Class="Sanctum.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Sanctum"
+      xmlns:pages="using:Sanctum.Pages"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <!-- Onboarding View -->
+    <pages:OnboardingPage x:Name="OnboardingView"
+                          Visibility="{x:Bind ViewModel.IsOnboarding, Mode=OneWay}"/>
+
+    <!-- Dashboard Shell (Hidden during onboarding) -->
+    <Grid Visibility="{x:Bind ViewModel.IsOnboarding, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}">
+      <Grid.ColumnDefinitions>
+        <!-- Desktop: Left Nav Rail -->
+        <ColumnDefinition Width="Auto"/>
+        <!-- Main Content -->
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <!-- Mobile: Bottom Nav -->
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <!-- Desktop Left Nav Rail (288px) -->
+      <Border Grid.Column="0"
+              Grid.Row="0"
+              Width="288"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}"
+              BorderThickness="0,0,1,0"
+              Padding="24,32"
+              Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+        <Grid RowSpacing="32">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+
+          <!-- Logo -->
+          <StackPanel Grid.Row="0" Spacing="8">
+            <FontIcon Glyph="&#xE9E9;" FontSize="32" Foreground="{ThemeResource OnBackgroundBrush}"/>
+            <TextBlock Text="SANCTUM"
+                       Style="{StaticResource MicroLabelStyle}"
+                       FontWeight="Bold"/>
+          </StackPanel>
+
+          <!-- Navigation Items -->
+          <StackPanel Grid.Row="1" Spacing="4">
+            <Button Style="{StaticResource NavRailItemStyle}"
+                    Command="{x:Bind ViewModel.NavigateToCommand}"
+                    CommandParameter="command">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE80F;" FontSize="20"/>
+                <TextBlock Text="Command Center" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource NavRailItemStyle}"
+                    Command="{x:Bind ViewModel.NavigateToCommand}"
+                    CommandParameter="feed">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE7BC;" FontSize="20"/>
+                <TextBlock Text="Signal Feed" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource NavRailItemStyle}"
+                    Command="{x:Bind ViewModel.NavigateToCommand}"
+                    CommandParameter="digest">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE787;" FontSize="20"/>
+                <TextBlock Text="Daily Digest" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource NavRailItemStyle}"
+                    Command="{x:Bind ViewModel.NavigateToCommand}"
+                    CommandParameter="rules">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE713;" FontSize="20"/>
+                <TextBlock Text="Rules Studio" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource NavRailItemStyle}"
+                    Command="{x:Bind ViewModel.NavigateToCommand}"
+                    CommandParameter="insights">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE9D2;" FontSize="20"/>
+                <TextBlock Text="Insights" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+
+          <!-- Profile -->
+          <StackPanel Grid.Row="2" Spacing="16">
+            <Border Height="1" Background="{ThemeResource OutlineBrush}"/>
+            <Button Style="{StaticResource NavRailItemStyle}">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <Border Width="32" Height="32" CornerRadius="16" Background="{ThemeResource PrimaryContainerBrush}">
+                  <TextBlock Text="S" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             FontWeight="SemiBold"/>
+                </Border>
+                <TextBlock Text="Settings" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!-- Main Content Area -->
+      <Grid Grid.Column="1" Grid.Row="0" Padding="32">
+        <ScrollViewer>
+          <StackPanel Spacing="24" MaxWidth="768" HorizontalAlignment="Left">
+            <!-- Mode Switcher -->
+            <Border Background="{ThemeResource SurfaceVariantBrush}"
+                    CornerRadius="24"
+                    Padding="4"
+                    HorizontalAlignment="Left">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <RadioButton Content="Explore"
+                             GroupName="Mode"
+                             IsChecked="{x:Bind ViewModel.CurrentMode, Mode=OneWay, Converter={StaticResource ModeToCheckedConverter}, ConverterParameter=Explore}"
+                             Command="{x:Bind ViewModel.SetModeCommand}"
+                             CommandParameter="explore"
+                             Style="{StaticResource ModeSwitcherTabStyle}"/>
+                <RadioButton Content="Focus"
+                             GroupName="Mode"
+                             IsChecked="{x:Bind ViewModel.CurrentMode, Mode=OneWay, Converter={StaticResource ModeToCheckedConverter}, ConverterParameter=Focus}"
+                             Command="{x:Bind ViewModel.SetModeCommand}"
+                             CommandParameter="focus"
+                             Style="{StaticResource ModeSwitcherTabStyle}"/>
+                <RadioButton Content="Recover"
+                             GroupName="Mode"
+                             IsChecked="{x:Bind ViewModel.CurrentMode, Mode=OneWay, Converter={StaticResource ModeToCheckedConverter}, ConverterParameter=Recover}"
+                             Command="{x:Bind ViewModel.SetModeCommand}"
+                             CommandParameter="recover"
+                             Style="{StaticResource ModeSwitcherTabStyle}"/>
+              </StackPanel>
+            </Border>
+
+            <!-- Content Frame -->
+            <Frame x:Name="ContentFrame"/>
+
+            <!-- Dashboard Content (shown by default) -->
+            <pages:DashboardPage x:Name="DashboardView"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+
+      <!-- Mobile Bottom Nav -->
+      <utu:TabBar Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Grid.Row="1"
+                  Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+        <utu:TabBarItem>
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE80F;"/>
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem>
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE7BC;"/>
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem>
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE787;"/>
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem>
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE713;"/>
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+      </utu:TabBar>
+    </Grid>
+  </Grid>
+</Page>

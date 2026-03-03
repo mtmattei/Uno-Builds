@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" msdata:Ordinal="5" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Main Page Title -->
+  <data name="MainPage_Title.Text" xml:space="preserve">
+    <value>Depth Card Demo</value>
+    <comment>The main title of the demo page</comment>
+  </data>
+
+  <!-- Main Page Subtitle -->
+  <data name="MainPage_Subtitle.Text" xml:space="preserve">
+    <value>Move your cursor over the card to see the 3D parallax effect</value>
+    <comment>Instructions for interacting with the depth card</comment>
+  </data>
+
+  <!-- Expected Behavior Section -->
+  <data name="MainPage_ExpectedBehaviorTitle.Text" xml:space="preserve">
+    <value>Expected Behavior:</value>
+    <comment>Title for the expected behavior section</comment>
+  </data>
+
+  <data name="MainPage_Behavior1.Text" xml:space="preserve">
+    <value>1. Idle: All layers appear stacked flat</value>
+    <comment>Description of idle state behavior</comment>
+  </data>
+
+  <data name="MainPage_Behavior2.Text" xml:space="preserve">
+    <value>2. Hover top-left: Card tilts up-left</value>
+    <comment>Description of hover top-left behavior</comment>
+  </data>
+
+  <data name="MainPage_Behavior3.Text" xml:space="preserve">
+    <value>3. Hover bottom-right: Card tilts down-right</value>
+    <comment>Description of hover bottom-right behavior</comment>
+  </data>
+
+  <data name="MainPage_Behavior4.Text" xml:space="preserve">
+    <value>4. Exit: Card springs back flat</value>
+    <comment>Description of exit behavior</comment>
+  </data>
+
+  <!-- Tilt State Section -->
+  <data name="MainPage_TiltStateLabel.Text" xml:space="preserve">
+    <value>Tilt State:</value>
+    <comment>Label for the tilt state display</comment>
+  </data>
+
+  <data name="MainPage_TiltInfoDefault.Text" xml:space="preserve">
+    <value>RotateX: 0.0, RotateY: 0.0</value>
+    <comment>Default tilt state information when card is not tilted</comment>
+  </data>
+</root>

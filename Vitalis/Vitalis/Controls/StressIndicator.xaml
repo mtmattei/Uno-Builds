@@ -1,0 +1,20 @@
+<UserControl x:Class="Vitalis.Controls.StressIndicator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Width="50" Height="50" HorizontalAlignment="Left">
+        <!-- Background circle -->
+        <Ellipse Stroke="#262626" StrokeThickness="4" />
+
+        <!-- Progress arc (simulated with partial ellipse) -->
+        <Ellipse x:Name="ProgressRing"
+                 Stroke="#eab308"
+                 StrokeThickness="4"
+                 StrokeDashArray="3.14,10"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <RotateTransform Angle="-90" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+    </Grid>
+</UserControl>

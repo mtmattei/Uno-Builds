@@ -1,0 +1,9 @@
+<UserControl x:Class="Vitalis.Controls.HeartRateChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI">
+
+    <Grid>
+        <lvc:CartesianChart x:Name="Chart" ZoomMode="None" />
+    </Grid>
+</UserControl>

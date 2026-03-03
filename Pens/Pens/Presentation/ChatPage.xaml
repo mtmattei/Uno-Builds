@@ -1,0 +1,113 @@
+<Page x:Class="Pens.Presentation.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid Padding="20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Section Title -->
+    <TextBlock x:Uid="ChatPage_Title"
+               Grid.Row="0"
+               Text="TEAM CHAT"
+               Foreground="{StaticResource TextMutedBrush}"
+               FontSize="14"
+               CharacterSpacing="120"
+               FontWeight="SemiBold"
+               Margin="0,0,0,16" />
+
+    <!-- Messages List -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+      <ItemsRepeater ItemsSource="{Binding Messages}">
+        <ItemsRepeater.Layout>
+          <StackLayout Spacing="16" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate>
+            <StackPanel>
+              <!-- Message Header -->
+              <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+                <!-- Avatar -->
+                <Border Width="28" Height="28"
+                        CornerRadius="6"
+                        Background="{StaticResource PowderBlueGradientBrush}">
+                  <TextBlock Text="{Binding Initials}"
+                             FontSize="12"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource ArenaDarkBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center" />
+                </Border>
+
+                <!-- Sender Name -->
+                <TextBlock Text="{Binding Sender}"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           VerticalAlignment="Center" />
+
+                <!-- Spacer -->
+                <Border HorizontalAlignment="Stretch" />
+
+                <!-- Timestamp -->
+                <TextBlock Text="{Binding Time}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextMutedBrush}"
+                           VerticalAlignment="Center" />
+              </utu:AutoLayout>
+
+              <!-- Message Bubble -->
+              <Border Background="{StaticResource BoardsMidBrush}"
+                      Padding="12,12,16,12"
+                      CornerRadius="4,16,16,16"
+                      BorderBrush="{StaticResource CardBorderBrush}"
+                      BorderThickness="1"
+                      Margin="36,6,0,0">
+                <TextBlock Text="{Binding Message}"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           FontSize="14"
+                           TextWrapping="Wrap" />
+              </Border>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+    </ScrollViewer>
+
+    <!-- Chat Input Area -->
+    <Border Grid.Row="2"
+            BorderBrush="{StaticResource SubtleBorderBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="0,16,0,0"
+            Margin="0,0,0,16">
+      <utu:AutoLayout Orientation="Horizontal" Spacing="10">
+        <!-- Text Input -->
+        <TextBox x:Uid="ChatPage_MessageInput"
+                 Text="{Binding MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PlaceholderText="Type a message..."
+                 Background="{StaticResource BoardsDarkBrush}"
+                 BorderBrush="{StaticResource SubtleBorderBrush}"
+                 Foreground="{StaticResource TextPrimaryBrush}"
+                 utu:AutoLayout.PrimaryAlignment="Stretch"
+                 Padding="14,14,18,14"
+                 AutomationProperties.Name="Message input, type your message to the team" />
+
+        <!-- Send Button -->
+        <Button Command="{Binding SendMessageCommand}"
+                Width="50" Height="50"
+                Background="{StaticResource PowderBlueGradientBrush}"
+                CornerRadius="{StaticResource CardCornerRadius}"
+                Padding="0"
+                AutomationProperties.Name="Send message">
+          <SymbolIcon Symbol="Send"
+                      Foreground="{StaticResource ArenaDarkBrush}" />
+        </Button>
+      </utu:AutoLayout>
+    </Border>
+  </Grid>
+</Page>

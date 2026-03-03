@@ -1,0 +1,80 @@
+<UserControl x:Class="Sanctum.Pages.SignalFeedPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Grid Padding="32">
+    <StackPanel Spacing="24" MaxWidth="600" HorizontalAlignment="Left">
+
+      <!-- Header -->
+      <StackPanel Spacing="8">
+        <TextBlock Text="Signal Feed" Style="{StaticResource SectionHeaderStyle}"/>
+        <TextBlock Text="Curated content, intentionally finite"
+                   Style="{StaticResource MutedTextStyle}"/>
+      </StackPanel>
+
+      <!-- Feed Items -->
+      <ItemsRepeater ItemsSource="{x:Bind ViewModel.FeedItems}">
+        <ItemsRepeater.Layout>
+          <StackLayout Spacing="16"/>
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate>
+            <Border Style="{StaticResource ElevatedCardStyle}">
+              <StackPanel Spacing="12">
+                <!-- Source and Tag -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                  <TextBlock Text="{Binding Source}"
+                             Style="{StaticResource MicroLabelStyle}"
+                             Foreground="{ThemeResource AccentBrush}"/>
+                  <Border Background="{ThemeResource SurfaceVariantBrush}"
+                          CornerRadius="8"
+                          Padding="8,4">
+                    <TextBlock Text="{Binding Tag}"
+                               FontSize="11"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                  </Border>
+                </StackPanel>
+
+                <!-- Title -->
+                <TextBlock Text="{Binding Title}"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           TextWrapping="Wrap"/>
+
+                <!-- Summary -->
+                <TextBlock Text="{Binding Summary}"
+                           Style="{StaticResource MutedTextStyle}"
+                           TextWrapping="Wrap"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+
+      <!-- Caught Up State -->
+      <Border Visibility="{x:Bind ViewModel.IsAllCaughtUp, Mode=OneWay}"
+              Padding="48"
+              HorizontalAlignment="Center">
+        <StackPanel Spacing="16" HorizontalAlignment="Center">
+          <Border Width="64" Height="64"
+                  CornerRadius="32"
+                  Background="{ThemeResource AllowedBackgroundBrush}"
+                  HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE73E;"
+                      FontSize="32"
+                      Foreground="{ThemeResource AllowedForegroundBrush}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+          </Border>
+          <TextBlock Text="You are all caught up."
+                     Style="{StaticResource SectionHeaderStyle}"
+                     HorizontalAlignment="Center"/>
+          <TextBlock Text="Enjoy your moment of clarity."
+                     Style="{StaticResource MutedTextStyle}"
+                     HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </Grid>
+</UserControl>

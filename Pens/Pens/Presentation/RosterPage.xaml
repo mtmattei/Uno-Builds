@@ -1,0 +1,178 @@
+<Page x:Class="Pens.Presentation.RosterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:Pens.Presentation"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <ScrollViewer Padding="20" VerticalScrollBarVisibility="Auto">
+    <utu:AutoLayout Spacing="16">
+      <!-- Section Title -->
+      <TextBlock x:Uid="RosterPage_Title"
+                 Text="ROSTER &amp; ATTENDANCE"
+                 Foreground="{StaticResource TextMutedBrush}"
+                 FontSize="14"
+                 CharacterSpacing="120"
+                 FontWeight="SemiBold" />
+
+      <!-- Attendance Summary -->
+      <Grid Margin="0,0,0,8">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="10" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="10" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- In Box -->
+        <Border Grid.Column="0"
+                Background="{StaticResource SuccessGreenSubtleBrush}"
+                BorderBrush="{StaticResource SuccessGreenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource CardCornerRadius}"
+                Padding="12,16"
+                AutomationProperties.Name="Players confirmed playing">
+          <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="{Binding InCount}"
+                       Foreground="{StaticResource SuccessGreenBrush}"
+                       FontFamily="{StaticResource BebasNeueFont}"
+                       FontSize="40"
+                       HorizontalAlignment="Center" />
+            <TextBlock x:Uid="RosterPage_Playing"
+                       Text="PLAYING"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       FontSize="10"
+                       CharacterSpacing="60"
+                       HorizontalAlignment="Center"
+                       Margin="0,4,0,0" />
+          </StackPanel>
+        </Border>
+
+        <!-- Out Box -->
+        <Border Grid.Column="2"
+                Background="{StaticResource HotRedSubtleBrush}"
+                BorderBrush="{StaticResource HotRedBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource CardCornerRadius}"
+                Padding="12,16"
+                AutomationProperties.Name="Players not playing">
+          <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="{Binding OutCount}"
+                       Foreground="{StaticResource HotRedBrush}"
+                       FontFamily="{StaticResource BebasNeueFont}"
+                       FontSize="40"
+                       HorizontalAlignment="Center" />
+            <TextBlock x:Uid="RosterPage_Out"
+                       Text="OUT"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       FontSize="10"
+                       CharacterSpacing="60"
+                       HorizontalAlignment="Center"
+                       Margin="0,4,0,0" />
+          </StackPanel>
+        </Border>
+
+        <!-- Pending Box -->
+        <Border Grid.Column="4"
+                Background="{StaticResource NeonAmberSubtleBrush}"
+                BorderBrush="{StaticResource NeonAmberBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource CardCornerRadius}"
+                Padding="12,16"
+                AutomationProperties.Name="Players pending response">
+          <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="{Binding PendingCount}"
+                       Foreground="{StaticResource NeonAmberBrush}"
+                       FontFamily="{StaticResource BebasNeueFont}"
+                       FontSize="40"
+                       HorizontalAlignment="Center" />
+            <TextBlock x:Uid="RosterPage_Pending"
+                       Text="PENDING"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       FontSize="10"
+                       CharacterSpacing="60"
+                       HorizontalAlignment="Center"
+                       Margin="0,4,0,0" />
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <!-- Hint Text -->
+      <TextBlock x:Uid="RosterPage_HintText"
+                 Text="Tap your status to change it"
+                 Foreground="{StaticResource TextMutedBrush}"
+                 FontSize="11" />
+
+      <!-- Player List -->
+      <ItemsRepeater ItemsSource="{Binding Players}">
+        <ItemsRepeater.Layout>
+          <StackLayout Spacing="8" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate x:DataType="local:PlayerViewModel">
+            <Button Command="{Binding ToggleStatusCommand}"
+                    IsEnabled="{Binding IsCurrentPlayer}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    AutomationProperties.Name="{Binding Name}">
+              <Border Background="{StaticResource BoardsDarkBrush}"
+                      CornerRadius="{StaticResource CardCornerRadius}"
+                      Padding="12,12,16,12"
+                      BorderBrush="{StaticResource CardBorderBrush}"
+                      BorderThickness="1">
+                <utu:AutoLayout Orientation="Horizontal" Spacing="14">
+                  <!-- Jersey Number Badge -->
+                  <Border Width="44" Height="44"
+                          CornerRadius="10"
+                          Background="{StaticResource PowderBlueGradientBrush}">
+                    <TextBlock Text="{Binding Number}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource ArenaDarkBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                  </Border>
+
+                  <!-- Player Info -->
+                  <StackPanel VerticalAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
+                    <TextBlock Text="{Binding Name}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="15"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Position, Converter={StaticResource ToUpperConverter}}"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontSize="11"
+                               CharacterSpacing="40"
+                               Margin="0,2,0,0" />
+                  </StackPanel>
+
+                  <!-- Status Badge -->
+                  <Border CornerRadius="{StaticResource MediumCornerRadius}"
+                          Width="72"
+                          Height="32"
+                          VerticalAlignment="Center"
+                          Background="{Binding Status, Converter={StaticResource StatusToBackgroundConverter}}">
+                    <TextBlock Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}"
+                               Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"
+                               FontSize="11"
+                               FontWeight="Bold"
+                               CharacterSpacing="40"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                  </Border>
+                </utu:AutoLayout>
+              </Border>
+            </Button>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+
+      <!-- Bottom padding for nav -->
+      <Border Height="24" />
+    </utu:AutoLayout>
+  </ScrollViewer>
+</Page>

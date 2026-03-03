@@ -1,0 +1,203 @@
+<UserControl x:Class="Sanctum.Pages.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Grid>
+    <StackPanel Spacing="24">
+      <!-- Page Header -->
+      <TextBlock Text="Command Center" Style="{StaticResource SectionHeaderStyle}"/>
+
+      <!-- Two Column Layout -->
+      <Grid ColumnSpacing="24">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Column -->
+        <StackPanel Grid.Column="0" Spacing="24">
+
+          <!-- Smart Synthesis Card -->
+          <Border CornerRadius="16" Padding="24">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{ThemeResource PrimaryContainerColor}" Offset="0"/>
+                <GradientStop Color="{ThemeResource SurfaceColor}" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+            <Grid RowSpacing="16">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+
+              <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE9D9;" FontSize="20" Foreground="{ThemeResource TertiaryBrush}"/>
+                <TextBlock Text="SMART SYNTHESIS" Style="{StaticResource MicroLabelStyle}"
+                           Foreground="{ThemeResource TertiaryBrush}"/>
+              </StackPanel>
+
+              <TextBlock Grid.Row="1"
+                         Text="{x:Bind ViewModel.SmartSynthesis, Mode=OneWay}"
+                         Style="{StaticResource BodyTextStyle}"
+                         FontSize="18"/>
+            </Grid>
+          </Border>
+
+          <!-- Overview Stats Card -->
+          <Border Style="{StaticResource DarkCardStyle}">
+            <Grid>
+              <!-- Decorative Circle -->
+              <Ellipse Width="120" Height="120"
+                       Fill="{ThemeResource SurfaceVariantBrush}"
+                       Opacity="0.1"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Margin="0,-20,-20,0"/>
+
+              <StackPanel Spacing="16">
+                <TextBlock Text="ATTENTION RECLAIMED" Style="{StaticResource MicroLabelStyle}"
+                           Foreground="{ThemeResource OnDarkSurfaceBrush}" Opacity="0.7"/>
+
+                <TextBlock Text="{x:Bind ViewModel.AttentionReclaimed, Mode=OneWay, Converter={StaticResource IntToTimeStringConverter}}"
+                           FontSize="48" FontWeight="Bold"
+                           Foreground="{ThemeResource OnDarkSurfaceBrush}"/>
+
+                <!-- Progress Bar -->
+                <Grid Height="8" CornerRadius="4">
+                  <Border Background="{ThemeResource SurfaceVariantBrush}" Opacity="0.3" CornerRadius="4"/>
+                  <Border Background="{ThemeResource AllowedForegroundBrush}"
+                          HorizontalAlignment="Left"
+                          Width="180"
+                          CornerRadius="4"/>
+                </Grid>
+
+                <TextBlock Text="Daily goal: 3h focused time"
+                           Style="{StaticResource MutedTextStyle}"
+                           Foreground="{ThemeResource OnDarkSurfaceBrush}"
+                           Opacity="0.7"/>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </StackPanel>
+
+        <!-- Right Column -->
+        <StackPanel Grid.Column="1" Spacing="24">
+
+          <!-- Source Control Widget -->
+          <Border Style="{StaticResource ElevatedCardStyle}">
+            <StackPanel Spacing="16">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE713;" FontSize="20"/>
+                <TextBlock Text="Source Control" FontWeight="SemiBold" FontSize="18"/>
+              </StackPanel>
+
+              <ItemsRepeater ItemsSource="{x:Bind ViewModel.SourceControls}">
+                <ItemsRepeater.Layout>
+                  <StackLayout Spacing="8"/>
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate>
+                    <Grid Padding="12" ColumnSpacing="12">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                      </Grid.ColumnDefinitions>
+
+                      <FontIcon Grid.Column="0" Glyph="{Binding Icon}" FontSize="20"
+                                Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                      <TextBlock Grid.Column="1" Text="{Binding Label}"
+                                 VerticalAlignment="Center"/>
+
+                      <!-- Status Pill -->
+                      <Border Grid.Column="2"
+                              Background="{Binding Status, Converter={StaticResource StatusToBackgroundConverter}}"
+                              CornerRadius="12"
+                              Padding="12,6"
+                              PointerPressed="StatusPill_PointerPressed"
+                              Tag="{Binding}">
+                        <TextBlock Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}"
+                                   Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"
+                                   FontSize="12"
+                                   FontWeight="Medium"/>
+                      </Border>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+            </StackPanel>
+          </Border>
+
+          <!-- Quick Actions -->
+          <Border Style="{StaticResource ElevatedCardStyle}">
+            <StackPanel Spacing="16">
+              <TextBlock Text="Quick Actions" FontWeight="SemiBold" FontSize="18"/>
+
+              <Button Style="{StaticResource SecondaryButtonStyle}"
+                      HorizontalAlignment="Stretch"
+                      Command="{x:Bind ViewModel.SetModeCommand}"
+                      CommandParameter="focus">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <FontIcon Glyph="&#xE8BE;" FontSize="16"/>
+                  <TextBlock Text="Start Focus Session"/>
+                </StackPanel>
+              </Button>
+
+              <Button Style="{StaticResource SecondaryButtonStyle}"
+                      HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <FontIcon Glyph="&#xE7BC;" FontSize="16"/>
+                  <TextBlock Text="View Signal Feed"/>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+
+    <!-- Context Engine Toast -->
+    <Border Visibility="{x:Bind ViewModel.ShowContextToast, Mode=OneWay}"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Margin="0,0,0,32"
+            CornerRadius="16"
+            Padding="20,16">
+      <Border.Background>
+        <SolidColorBrush Color="{ThemeResource SurfaceColor}" Opacity="0.95"/>
+      </Border.Background>
+      <Border.Shadow>
+        <ThemeShadow/>
+      </Border.Shadow>
+
+      <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <FontIcon Grid.Column="0" Glyph="&#xE9E9;" FontSize="24"
+                  Foreground="{ThemeResource TertiaryBrush}"/>
+
+        <StackPanel Grid.Column="1" Spacing="4">
+          <TextBlock Text="Time for a break?" FontWeight="SemiBold"/>
+          <TextBlock Text="You've been focused for 2 hours" Style="{StaticResource MutedTextStyle}"/>
+        </StackPanel>
+
+        <Button Grid.Column="2"
+                Content="Switch to Recover"
+                Style="{StaticResource SecondaryButtonStyle}"
+                Command="{x:Bind ViewModel.SwitchToRecoverCommand}"/>
+
+        <Button Grid.Column="3"
+                Command="{x:Bind ViewModel.DismissContextToastCommand}">
+          <FontIcon Glyph="&#xE711;" FontSize="16"/>
+        </Button>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

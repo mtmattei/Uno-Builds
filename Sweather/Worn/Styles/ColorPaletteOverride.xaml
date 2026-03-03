@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- LIGHT THEME: Warm cream earth tones     -->
+    <!-- ═══════════════════════════════════════ -->
+    <ResourceDictionary x:Key="Light">
+      <!-- Primary: Terracotta -->
+      <Color x:Key="PrimaryColor">#C4654A</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#F5D5CC</Color>
+      <Color x:Key="OnPrimaryContainerColor">#3B1A10</Color>
+
+      <!-- Secondary: Sage -->
+      <Color x:Key="SecondaryColor">#8B9E7E</Color>
+      <Color x:Key="OnSecondaryColor">#FFFFFF</Color>
+      <Color x:Key="SecondaryContainerColor">#D6E5CE</Color>
+      <Color x:Key="OnSecondaryContainerColor">#1A2A14</Color>
+
+      <!-- Tertiary: Gold -->
+      <Color x:Key="TertiaryColor">#C9A96E</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#F0E4CC</Color>
+      <Color x:Key="OnTertiaryContainerColor">#2E2410</Color>
+
+      <Color x:Key="ErrorColor">#B3261E</Color>
+      <Color x:Key="ErrorContainerColor">#F9DEDC</Color>
+      <Color x:Key="OnErrorColor">#FFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#410E0B</Color>
+
+      <!-- Background: Cream -->
+      <Color x:Key="BackgroundColor">#F5F0E8</Color>
+      <Color x:Key="OnBackgroundColor">#1A1714</Color>
+
+      <!-- Surface: Cream / Linen -->
+      <Color x:Key="SurfaceColor">#F5F0E8</Color>
+      <Color x:Key="OnSurfaceColor">#1A1714</Color>
+      <Color x:Key="SurfaceVariantColor">#EDE6D6</Color>
+      <Color x:Key="OnSurfaceVariantColor">#6B7B8D</Color>
+
+      <Color x:Key="OutlineColor">#6B7B8D</Color>
+      <Color x:Key="OutlineVariantColor">#C9C1B1</Color>
+      <Color x:Key="OnSurfaceInverseColor">#F5F0E8</Color>
+      <Color x:Key="SurfaceInverseColor">#1A1714</Color>
+      <Color x:Key="PrimaryInverseColor">#E8A08E</Color>
+      <Color x:Key="SurfaceTintColor">#C4654A</Color>
+    </ResourceDictionary>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DARK THEME: Deep warm tones              -->
+    <!-- ═══════════════════════════════════════ -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Primary: Softened Terracotta -->
+      <Color x:Key="PrimaryColor">#E8A08E</Color>
+      <Color x:Key="OnPrimaryColor">#3B1A10</Color>
+      <Color x:Key="PrimaryContainerColor">#6B3425</Color>
+      <Color x:Key="OnPrimaryContainerColor">#F5D5CC</Color>
+
+      <!-- Secondary: Muted Sage -->
+      <Color x:Key="SecondaryColor">#B0C9A2</Color>
+      <Color x:Key="OnSecondaryColor">#1A2A14</Color>
+      <Color x:Key="SecondaryContainerColor">#3A4D32</Color>
+      <Color x:Key="OnSecondaryContainerColor">#D6E5CE</Color>
+
+      <!-- Tertiary: Warm Gold -->
+      <Color x:Key="TertiaryColor">#DCC48E</Color>
+      <Color x:Key="OnTertiaryColor">#2E2410</Color>
+      <Color x:Key="TertiaryContainerColor">#5A4A28</Color>
+      <Color x:Key="OnTertiaryContainerColor">#F0E4CC</Color>
+
+      <Color x:Key="ErrorColor">#F2B8B5</Color>
+      <Color x:Key="ErrorContainerColor">#8C1D18</Color>
+      <Color x:Key="OnErrorColor">#601410</Color>
+      <Color x:Key="OnErrorContainerColor">#F9DEDC</Color>
+
+      <!-- Background: Deep warm black -->
+      <Color x:Key="BackgroundColor">#141210</Color>
+      <Color x:Key="OnBackgroundColor">#EDE6D6</Color>
+
+      <!-- Surface: Charcoal tones -->
+      <Color x:Key="SurfaceColor">#141210</Color>
+      <Color x:Key="OnSurfaceColor">#EDE6D6</Color>
+      <Color x:Key="SurfaceVariantColor">#2A2622</Color>
+      <Color x:Key="OnSurfaceVariantColor">#9BA5AF</Color>
+
+      <Color x:Key="OutlineColor">#8A8880</Color>
+      <Color x:Key="OutlineVariantColor">#4A4640</Color>
+      <Color x:Key="OnSurfaceInverseColor">#1A1714</Color>
+      <Color x:Key="SurfaceInverseColor">#EDE6D6</Color>
+      <Color x:Key="PrimaryInverseColor">#C4654A</Color>
+      <Color x:Key="SurfaceTintColor">#E8A08E</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!--
+      Terminal Neon Theme
+      Inspired by hacker terminals, CRT monitors, and cyberpunk UIs.
+      Neon green and cyan accents on deep black with subtle green tints.
+    -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Primary: neon green -->
+      <Color x:Key="PrimaryColor">#FF00FF66</Color>
+      <Color x:Key="OnPrimaryColor">#FF000A03</Color>
+      <Color x:Key="PrimaryContainerColor">#FF003311</Color>
+      <Color x:Key="OnPrimaryContainerColor">#FF00DD55</Color>
+
+      <!-- Secondary: electric cyan -->
+      <Color x:Key="SecondaryColor">#FF00E5FF</Color>
+      <Color x:Key="OnSecondaryColor">#FF000A0D</Color>
+      <Color x:Key="SecondaryContainerColor">#FF002233</Color>
+      <Color x:Key="OnSecondaryContainerColor">#FF00CCEE</Color>
+
+      <!-- Tertiary: amber warning -->
+      <Color x:Key="TertiaryColor">#FFFFAB00</Color>
+      <Color x:Key="OnTertiaryColor">#FF0A0700</Color>
+      <Color x:Key="TertiaryContainerColor">#FF332200</Color>
+      <Color x:Key="OnTertiaryContainerColor">#FFFF9900</Color>
+
+      <!-- Error: hot red -->
+      <Color x:Key="ErrorColor">#FFFF1744</Color>
+      <Color x:Key="ErrorContainerColor">#FF330011</Color>
+      <Color x:Key="OnErrorColor">#FF0A0002</Color>
+      <Color x:Key="OnErrorContainerColor">#FFFF5252</Color>
+
+      <!-- Surfaces: deep black with green tint -->
+      <Color x:Key="BackgroundColor">#FF010201</Color>
+      <Color x:Key="OnBackgroundColor">#FF00FF66</Color>
+      <Color x:Key="SurfaceColor">#FF040804</Color>
+      <Color x:Key="OnSurfaceColor">#FF00FF66</Color>
+      <Color x:Key="SurfaceVariantColor">#FF081408</Color>
+      <Color x:Key="OnSurfaceVariantColor">#FF00CC55</Color>
+
+      <!-- Borders: dark green glow lines -->
+      <Color x:Key="OutlineColor">#FF003311</Color>
+      <Color x:Key="OutlineVariantColor">#FF005522</Color>
+
+      <!-- Inverse -->
+      <Color x:Key="OnSurfaceInverseColor">#FF010201</Color>
+      <Color x:Key="SurfaceInverseColor">#FF00FF66</Color>
+      <Color x:Key="PrimaryInverseColor">#FF003311</Color>
+      <Color x:Key="SurfaceTintColor">#FF00FF66</Color>
+    </ResourceDictionary>
+
+    <!-- Light theme fallback (matching terminal feel) -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PrimaryColor">#FF00CC55</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#FFE0FFE8</Color>
+      <Color x:Key="OnPrimaryContainerColor">#FF003311</Color>
+      <Color x:Key="SecondaryColor">#FF00AACC</Color>
+      <Color x:Key="OnSecondaryColor">#FFFFFFFF</Color>
+      <Color x:Key="SecondaryContainerColor">#FFE0F7FA</Color>
+      <Color x:Key="OnSecondaryContainerColor">#FF002233</Color>
+      <Color x:Key="TertiaryColor">#FFFF9900</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#FFFFF3E0</Color>
+      <Color x:Key="OnTertiaryContainerColor">#FF332200</Color>
+      <Color x:Key="ErrorColor">#FFFF1744</Color>
+      <Color x:Key="ErrorContainerColor">#FFFFEBEE</Color>
+      <Color x:Key="OnErrorColor">#FFFFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#FF330011</Color>
+      <Color x:Key="BackgroundColor">#FFF0FFF4</Color>
+      <Color x:Key="OnBackgroundColor">#FF003311</Color>
+      <Color x:Key="SurfaceColor">#FFFFFFFF</Color>
+      <Color x:Key="OnSurfaceColor">#FF003311</Color>
+      <Color x:Key="SurfaceVariantColor">#FFE8F5E9</Color>
+      <Color x:Key="OnSurfaceVariantColor">#FF2E7D32</Color>
+      <Color x:Key="OutlineColor">#FFA5D6A7</Color>
+      <Color x:Key="OutlineVariantColor">#FFC8E6C9</Color>
+      <Color x:Key="OnSurfaceInverseColor">#FFE0FFE8</Color>
+      <Color x:Key="SurfaceInverseColor">#FF003311</Color>
+      <Color x:Key="PrimaryInverseColor">#FF00FF66</Color>
+      <Color x:Key="SurfaceTintColor">#FF00CC55</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

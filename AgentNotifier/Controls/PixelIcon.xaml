@@ -1,0 +1,10 @@
+<UserControl x:Class="AgentNotifier.Controls.PixelIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AgentNotifier.Controls">
+
+    <Grid x:Name="PixelGrid" Width="32" Height="32">
+        <!-- Pixels are generated in code-behind -->
+    </Grid>
+
+</UserControl>

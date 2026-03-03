@@ -1,0 +1,86 @@
+<Application x:Class="DepthCardDemo.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml">
+        </utum:MaterialToolkitTheme>
+
+        <!-- DepthCard Controls -->
+        <ResourceDictionary Source="ms-appx:///Controls/DepthCard.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Demo Page Colors -->
+      <Color x:Key="DemoPageBackgroundColor">#0f172a</Color>
+      <Color x:Key="DemoPageHeadingColor">#e2e8f0</Color>
+      <Color x:Key="DemoPageBodyColor">#94a3b8</Color>
+
+      <!-- Demo Card Colors -->
+      <Color x:Key="DemoCardBackgroundColor">#1e293b</Color>
+      <Color x:Key="DemoCardBorderColor">#334155</Color>
+
+      <!-- Demo Layer: Depth -1 (Back) -->
+      <Color x:Key="DemoLayerBackDepthColor">#1a1f4d</Color>
+      <Color x:Key="DemoLayerBackBorderColor">#3730a3</Color>
+      <Color x:Key="DemoLayerBackTextColor">#818cf8</Color>
+
+      <!-- Demo Layer: Depth 0 (Neutral) -->
+      <Color x:Key="DemoLayerNeutralBackgroundColor">#334155</Color>
+      <Color x:Key="DemoLayerNeutralBorderColor">#475569</Color>
+      <Color x:Key="DemoLayerNeutralTextColor">#cbd5e1</Color>
+
+      <!-- Demo Layer: Depth 0.5 (Mid) -->
+      <Color x:Key="DemoLayerMidDepthBackgroundColor">#2e1065</Color>
+      <Color x:Key="DemoLayerMidBorderColor">#7c3aed</Color>
+      <Color x:Key="DemoLayerMidTextColor">#a78bfa</Color>
+
+      <!-- Demo Layer: Depth 1 (Front) -->
+      <Color x:Key="DemoLayerFrontBackgroundColor">#f59e0b</Color>
+      <Color x:Key="DemoLayerFrontTextColor">#451a03</Color>
+
+      <!-- Tilt Info Colors -->
+      <Color x:Key="TiltInfoActiveColor">#22c55e</Color>
+      <Color x:Key="TiltInfoInactiveColor">#64748b</Color>
+
+      <!-- Expected Behavior Section Colors -->
+      <Color x:Key="DemoExpectedBehaviorTitleColor">#e2e8f0</Color>
+      <Color x:Key="DemoExpectedBehaviorTextColor">#94a3b8</Color>
+
+      <!-- Tilt State Section Colors -->
+      <Color x:Key="DemoTiltStateBackgroundColor">#1e293b</Color>
+      <Color x:Key="DemoTiltStateLabelColor">#64748b</Color>
+
+      <!-- Brushes from Colors -->
+      <SolidColorBrush x:Key="DemoPageBackgroundBrush" Color="{StaticResource DemoPageBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoPageHeadingBrush" Color="{StaticResource DemoPageHeadingColor}"/>
+      <SolidColorBrush x:Key="DemoPageBodyBrush" Color="{StaticResource DemoPageBodyColor}"/>
+      <SolidColorBrush x:Key="DemoCardBackgroundBrush" Color="{StaticResource DemoCardBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoCardBorderBrush" Color="{StaticResource DemoCardBorderColor}"/>
+      <SolidColorBrush x:Key="DemoLayerBackDepthBrush" Color="{StaticResource DemoLayerBackDepthColor}"/>
+      <SolidColorBrush x:Key="DemoLayerBackBorderBrush" Color="{StaticResource DemoLayerBackBorderColor}"/>
+      <SolidColorBrush x:Key="DemoLayerBackTextBrush" Color="{StaticResource DemoLayerBackTextColor}"/>
+      <SolidColorBrush x:Key="DemoLayerNeutralBackgroundBrush" Color="{StaticResource DemoLayerNeutralBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoLayerNeutralBorderBrush" Color="{StaticResource DemoLayerNeutralBorderColor}"/>
+      <SolidColorBrush x:Key="DemoLayerNeutralTextBrush" Color="{StaticResource DemoLayerNeutralTextColor}"/>
+      <SolidColorBrush x:Key="DemoLayerMidDepthBackgroundBrush" Color="{StaticResource DemoLayerMidDepthBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoLayerMidBorderBrush" Color="{StaticResource DemoLayerMidBorderColor}"/>
+      <SolidColorBrush x:Key="DemoLayerMidTextBrush" Color="{StaticResource DemoLayerMidTextColor}"/>
+      <SolidColorBrush x:Key="DemoLayerFrontBackgroundBrush" Color="{StaticResource DemoLayerFrontBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoLayerFrontTextBrush" Color="{StaticResource DemoLayerFrontTextColor}"/>
+      <SolidColorBrush x:Key="TiltInfoActiveBrush" Color="{StaticResource TiltInfoActiveColor}"/>
+      <SolidColorBrush x:Key="TiltInfoInactiveBrush" Color="{StaticResource TiltInfoInactiveColor}"/>
+      <SolidColorBrush x:Key="DemoExpectedBehaviorTitleBrush" Color="{StaticResource DemoExpectedBehaviorTitleColor}"/>
+      <SolidColorBrush x:Key="DemoExpectedBehaviorTextBrush" Color="{StaticResource DemoExpectedBehaviorTextColor}"/>
+      <SolidColorBrush x:Key="DemoTiltStateBackgroundBrush" Color="{StaticResource DemoTiltStateBackgroundColor}"/>
+      <SolidColorBrush x:Key="DemoTiltStateLabelBrush" Color="{StaticResource DemoTiltStateLabelColor}"/>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

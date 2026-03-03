@@ -1,0 +1,26 @@
+{
+  "profiles": {
+    "AnimatedExtendedSplashScreen (Desktop)": {
+      "commandName": "Project",
+      "compatibleTargetFramework": "desktop"
+    },
+    "AnimatedExtendedSplashScreen (Desktop WSL2)": {
+      "commandName": "WSL2",
+      "commandLineArgs": "{ProjectDir}/bin/Debug/net9.0-desktop/AnimatedExtendedSplashScreen.dll",
+      "distributionName": "",
+      "compatibleTargetFramework": "desktop"
+    },
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "Fullscreen"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8080",
+      "sslPort": 0
+    }
+  }
+}

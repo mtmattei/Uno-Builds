@@ -1,0 +1,67 @@
+<UserControl
+    x:Class="Caffe.Controls.EspressoCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border x:Name="CardBorder"
+            Background="{StaticResource CaffeSurfaceBrush}"
+            BorderBrush="{StaticResource CaffeBorderBrush}"
+            BorderThickness="2"
+            CornerRadius="14"
+            Padding="16,20"
+            Translation="0,0,4">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Volume Badge + Checkmark Row -->
+            <Grid Grid.Row="0">
+                <Border x:Name="VolumeBadge"
+                        Background="{StaticResource CaffeAccentRedBrush}"
+                        CornerRadius="4"
+                        Padding="8,4"
+                        HorizontalAlignment="Left">
+                    <TextBlock x:Name="VolumeText"
+                               Style="{StaticResource VolumeBadgeTextStyle}" />
+                </Border>
+
+                <!-- Checkmark (visible when selected) -->
+                <Border x:Name="CheckmarkBorder"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="{StaticResource CaffePrimaryBrush}"
+                        CornerRadius="12"
+                        Width="24"
+                        Height="24"
+                        Visibility="Collapsed">
+                    <FontIcon Glyph="&#xE73E;"
+                              FontSize="14"
+                              Foreground="White"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+
+            <!-- Espresso Name -->
+            <TextBlock x:Name="NameText"
+                       Grid.Row="2"
+                       Style="{StaticResource CardTitleTextStyle}" />
+
+            <!-- Description -->
+            <TextBlock x:Name="DescriptionText"
+                       Grid.Row="4"
+                       Style="{StaticResource CardDescriptionTextStyle}" />
+        </Grid>
+    </Border>
+
+</UserControl>

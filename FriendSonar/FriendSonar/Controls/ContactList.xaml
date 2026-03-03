@@ -1,0 +1,148 @@
+<UserControl x:Class="FriendSonar.Controls.ContactList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="using:FriendSonar.Models"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="380">
+
+  <Border Margin="20"
+          Padding="15"
+          BorderThickness="1"
+          BorderBrush="{ThemeResource PhosphorGreen20Brush}"
+          Background="{ThemeResource PhosphorGreen3Brush}"
+          CornerRadius="4">
+    
+    <Grid RowSpacing="10">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <!-- Header with Sort Options -->
+      <Border Grid.Row="0"
+              BorderThickness="0,0,0,1"
+              BorderBrush="{ThemeResource PhosphorGreen12Brush}"
+              Padding="0,0,0,10">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock Grid.Column="0"
+                     Text="•  DETECTED CONTACTS"
+                     Style="{StaticResource SonarSectionHeaderTextBlockStyle}"
+                     VerticalAlignment="Center"
+                     Opacity="0.53" />
+
+          <!-- Sort Dropdown -->
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+            <TextBlock Text="SORT:"
+                       Style="{StaticResource SonarCountLabelTextBlockStyle}"
+                       VerticalAlignment="Center"
+                       Opacity="0.53" />
+            <ComboBox x:Name="SortComboBox"
+                      SelectedIndex="0"
+                      SelectionChanged="SortComboBox_SelectionChanged"
+                      MinWidth="100"
+                      Height="24"
+                      Padding="8,2"
+                      Background="Transparent"
+                      BorderBrush="{ThemeResource PhosphorGreen20Brush}"
+                      Foreground="{ThemeResource PhosphorGreen53Brush}"
+                      FontFamily="Courier New, Consolas, monospace"
+                      FontSize="10">
+              <ComboBoxItem Content="DISTANCE ▼" Tag="Distance" />
+              <ComboBoxItem Content="NAME ▼" Tag="Name" />
+              <ComboBoxItem Content="STATUS ▼" Tag="Status" />
+            </ComboBox>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!-- Contact Items -->
+      <ScrollViewer Grid.Row="1"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+        <ItemsRepeater x:Name="ContactsRepeater"
+                       ItemsSource="{x:Bind Friends, Mode=OneWay}">
+          <ItemsRepeater.Layout>
+            <StackLayout />
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="models:Friend">
+              <Border BorderThickness="0,0,0,1"
+                      BorderBrush="{ThemeResource PhosphorGreen7Brush}"
+                      Padding="8,12"
+                      Background="Transparent">
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+
+                  <!-- Left Side: Status Dot + Emoji Avatar -->
+                  <StackPanel Grid.Column="0"
+                              Orientation="Horizontal"
+                              Spacing="10">
+
+                    <!-- Status Dot with color based on status -->
+                    <Ellipse Width="8" Height="8"
+                             VerticalAlignment="Center">
+                      <Ellipse.Fill>
+                        <SolidColorBrush Color="{x:Bind StatusColor}" />
+                      </Ellipse.Fill>
+                    </Ellipse>
+
+                    <!-- Emoji Avatar -->
+                    <Border Width="32" Height="32"
+                            Background="{ThemeResource PhosphorGreen12Brush}"
+                            BorderBrush="{ThemeResource PhosphorGreen20Brush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            VerticalAlignment="Center">
+                      <TextBlock Text="{x:Bind Emoji}"
+                                 FontSize="16"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                    </Border>
+                  </StackPanel>
+
+                  <!-- Middle: Name + Status -->
+                  <StackPanel Grid.Column="1"
+                              VerticalAlignment="Center"
+                              Spacing="2">
+                    <TextBlock Text="{x:Bind Name}"
+                               Style="{StaticResource SonarContactNameTextBlockStyle}" />
+                    <TextBlock Text="{x:Bind StatusText}"
+                               Style="{StaticResource SonarCountLabelTextBlockStyle}"
+                               Opacity="0.53" />
+                  </StackPanel>
+
+                  <!-- Right Side: Distance + Bearing + ETA -->
+                  <StackPanel Grid.Column="2"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right"
+                              Spacing="2">
+                    <TextBlock Text="{x:Bind DistanceAndBearing}"
+                               Style="{StaticResource SonarContactInfoTextBlockStyle}"
+                               HorizontalAlignment="Right" />
+                    <TextBlock Text="{x:Bind EtaText}"
+                               Style="{StaticResource SonarCountLabelTextBlockStyle}"
+                               Opacity="0.53"
+                               HorizontalAlignment="Right" />
+                  </StackPanel>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </ScrollViewer>
+    </Grid>
+  </Border>
+</UserControl>

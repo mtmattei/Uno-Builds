@@ -1,0 +1,17 @@
+<Page
+    x:Class="Unoblueprint.Presentation.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Unoblueprint.Presentation"
+    xmlns:controls="using:Unoblueprint.Controls"
+    NavigationCacheMode="Required"
+    Background="#F7F8FA">
+
+    <Grid>
+        <!-- Centered Plugin Card -->
+        <controls:PluginCard
+            x:Name="PluginCardControl"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+    </Grid>
+</Page>

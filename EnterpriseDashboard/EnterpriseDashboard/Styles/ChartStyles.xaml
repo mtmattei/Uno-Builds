@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+  <!--
+    Black Monochromatic chart palette.
+    Uses white-to-dark-gray gradient for series differentiation.
+  -->
+  <Color x:Key="ChartSeries1Color">#FFFFFFFF</Color>
+  <Color x:Key="ChartSeries2Color">#FFCCCCCC</Color>
+  <Color x:Key="ChartSeries3Color">#FF999999</Color>
+  <Color x:Key="ChartSeries4Color">#FF666666</Color>
+  <Color x:Key="ChartSeries5Color">#FF4D4D4D</Color>
+  <Color x:Key="ChartSeries6Color">#FF383838</Color>
+  <Color x:Key="ChartSeries7Color">#FFB0B0B0</Color>
+  <Color x:Key="ChartSeries8Color">#FF858585</Color>
+
+  <SolidColorBrush x:Key="ChartSeries1Brush" Color="{StaticResource ChartSeries1Color}" />
+  <SolidColorBrush x:Key="ChartSeries2Brush" Color="{StaticResource ChartSeries2Color}" />
+  <SolidColorBrush x:Key="ChartSeries3Brush" Color="{StaticResource ChartSeries3Color}" />
+  <SolidColorBrush x:Key="ChartSeries4Brush" Color="{StaticResource ChartSeries4Color}" />
+  <SolidColorBrush x:Key="ChartSeries5Brush" Color="{StaticResource ChartSeries5Color}" />
+  <SolidColorBrush x:Key="ChartSeries6Brush" Color="{StaticResource ChartSeries6Color}" />
+  <SolidColorBrush x:Key="ChartSeries7Brush" Color="{StaticResource ChartSeries7Color}" />
+  <SolidColorBrush x:Key="ChartSeries8Brush" Color="{StaticResource ChartSeries8Color}" />
+
+  <!-- Chart surface colors - pure black -->
+  <Color x:Key="ChartBackgroundColor">#FF0A0A0A</Color>
+  <Color x:Key="ChartGridLineColor">#FF1A1A1A</Color>
+  <Color x:Key="ChartLabelColor">#FF9E9E9E</Color>
+
+  <SolidColorBrush x:Key="ChartBackgroundBrush" Color="{StaticResource ChartBackgroundColor}" />
+  <SolidColorBrush x:Key="ChartGridLineBrush" Color="{StaticResource ChartGridLineColor}" />
+  <SolidColorBrush x:Key="ChartLabelBrush" Color="{StaticResource ChartLabelColor}" />
+
+</ResourceDictionary>

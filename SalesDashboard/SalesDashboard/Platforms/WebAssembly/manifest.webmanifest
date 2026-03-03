@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "SalesDashboard",
+  "display": "standalone",
+  "name": "SalesDashboard",
+  "short_name": "SalesDashboard",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

@@ -1,0 +1,43 @@
+<Page x:Class="LiquidMorph.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:LiquidMorph"
+      xmlns:morph="using:LiquidMorph.Controls.LiquidMorph"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="Transparent">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#4A4A52" Offset="0.0" />
+                <GradientStop Color="#333338" Offset="0.5" />
+                <GradientStop Color="#252528" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Card area -->
+        <morph:LiquidMorphPanel x:Name="MorphPanel"
+                                Grid.Row="0"
+                                MaxWidth="420"
+                                MaxHeight="520"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="24" />
+
+        <!-- Button -->
+        <Button Grid.Row="1"
+                x:Name="SwitchButton"
+                Click="OnSwitchClicked"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,24">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE148;" FontSize="16" />
+                <TextBlock Text="Morph Transition" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</Page>

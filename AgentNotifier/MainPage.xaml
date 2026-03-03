@@ -1,0 +1,178 @@
+<Page x:Class="AgentNotifier.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:AgentNotifier"
+      xmlns:controls="using:AgentNotifier.Controls"
+      xmlns:vm="using:AgentNotifier.ViewModels"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{StaticResource BgVoidBrush}">
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="CLAUDE AGENT SWARM"
+                           Style="{StaticResource PageTitleStyle}" />
+                <TextBlock Text="Multi-agent orchestration dashboard"
+                           Style="{StaticResource PageSubtitleStyle}"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+
+            <!-- LIVE Indicator -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Top">
+                <TextBlock Text="LIVE"
+                           Style="{StaticResource MicroLabelStyle}"
+                           VerticalAlignment="Center" />
+                <Ellipse Width="8" Height="8"
+                         Fill="{StaticResource AccentBrush}"
+                         Opacity="{x:Bind ViewModel.IsLive, Mode=OneWay, Converter={StaticResource BoolToOpacityConverter}, TargetNullValue=1}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Summary Stats Bar -->
+        <Border Grid.Row="1"
+                Background="{StaticResource BgCardBrush}"
+                BorderBrush="{StaticResource BorderDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="2"
+                Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Total Agents -->
+                <Border Grid.Column="0" Padding="12,8" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,1,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.TotalAgents, Mode=OneWay}"
+                                   Style="{StaticResource StatValueLargeStyle}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="TOTAL"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Awaiting Input -->
+                <Border Grid.Column="1" Padding="12,8" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,1,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.AwaitingInputCount, Mode=OneWay}"
+                                   Style="{StaticResource StatValueLargeStyle}"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="AWAITING"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Total Tokens -->
+                <Border Grid.Column="2" Padding="12,8" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,1,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.TotalTokensDisplay, Mode=OneWay}"
+                                   Style="{StaticResource StatValueLargeStyle}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="TOKENS"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Elapsed Time -->
+                <Border Grid.Column="3" Padding="12,8">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.TotalElapsedDisplay, Mode=OneWay}"
+                                   Style="{StaticResource StatValueLargeStyle}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="ELAPSED"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Agent Instances Header -->
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="AGENT INSTANCES"
+                       Style="{StaticResource SectionLabelStyle}" />
+            <TextBlock Grid.Column="1"
+                       Text="Click to expand"
+                       Style="{StaticResource MicroTextStyle}" />
+        </Grid>
+
+        <!-- Agent List -->
+        <ScrollViewer Grid.Row="3"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Agents, Mode=OneWay}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="8" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="vm:AgentViewModel">
+                        <controls:AgentCard DataContext="{x:Bind}" />
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+
+        <!-- Footer Ticker -->
+        <Border Grid.Row="4"
+                Background="{StaticResource BgBaseBrush}"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="1"
+                CornerRadius="2"
+                Padding="0,10"
+                Margin="0,16,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource MicroTextStyle}">
+                    <Run Text="▪" Foreground="{StaticResource AccentBrush}" />
+                    <Run Text=" ORCHESTRATOR v2.1.0" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource MicroTextStyle}">
+                    <Run Text="▪" Foreground="{StaticResource AccentBrush}" />
+                    <Run Text=" API LATENCY: 142ms" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource MicroTextStyle}">
+                    <Run Text="▪" Foreground="{StaticResource AccentBrush}" />
+                    <Run Text=" QUEUE DEPTH: " />
+                    <Run Text="{x:Bind ViewModel.TotalAgents, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource MicroTextStyle}">
+                    <Run Text="▪" Foreground="{StaticResource AccentBrush}" />
+                    <Run Text=" UPTIME: 99.97%" />
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</Page>

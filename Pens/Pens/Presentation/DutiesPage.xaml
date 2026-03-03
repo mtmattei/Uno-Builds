@@ -1,0 +1,166 @@
+<Page x:Class="Pens.Presentation.DutiesPage"
+      x:Name="DutiesPageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:Pens.Models"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Page.Resources>
+    <!-- Ice Duty -->
+    <SolidColorBrush x:Key="IceAccentBrush" Color="{StaticResource IceBlueColor}" />
+    <SolidColorBrush x:Key="IceBackgroundBrush" Color="#2600D4FF" />
+
+    <!-- Beer Duty -->
+    <SolidColorBrush x:Key="BeerAccentBrush" Color="{StaticResource NeonAmberColor}" />
+    <SolidColorBrush x:Key="BeerBackgroundBrush" Color="#26FFAA00" />
+
+    <!-- Cooler Duty -->
+    <SolidColorBrush x:Key="CoolerAccentBrush" Color="{StaticResource PurpleAccentColor}" />
+    <SolidColorBrush x:Key="CoolerBackgroundBrush" Color="#268B5CF6" />
+
+    <!-- Food Duty -->
+    <SolidColorBrush x:Key="FoodAccentBrush" Color="{StaticResource SuccessGreenColor}" />
+    <SolidColorBrush x:Key="FoodBackgroundBrush" Color="#2610B981" />
+  </Page.Resources>
+
+  <ScrollViewer Padding="20" VerticalScrollBarVisibility="Auto">
+    <utu:AutoLayout Spacing="12">
+      <!-- Header Row -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+          <!-- Section Title -->
+          <TextBlock x:Uid="DutiesPage_Title"
+                     Text="THIS WEEK'S DUTIES"
+                     Foreground="{StaticResource TextMutedBrush}"
+                     FontSize="14"
+                     CharacterSpacing="120"
+                     FontWeight="SemiBold" />
+
+          <!-- Subheader -->
+          <TextBlock Text="{Binding GameInfo}"
+                     Foreground="{StaticResource TextMutedBrush}"
+                     FontSize="13"
+                     Margin="0,4,0,0" />
+        </StackPanel>
+
+        <!-- Randomize Button -->
+        <Button Grid.Column="1"
+                Command="{Binding RandomizeDutiesCommand}"
+                IsEnabled="{Binding CanRandomize}"
+                Background="{StaticResource IceBlueSubtleBrush}"
+                BorderBrush="{StaticResource IceBlueBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource MediumCornerRadius}"
+                Padding="12,8"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="Randomize duties">
+          <TextBlock Text="RANDOMIZE"
+                     Foreground="{StaticResource IceBlueBrush}"
+                     FontSize="12"
+                     CharacterSpacing="60"
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center" />
+        </Button>
+      </Grid>
+
+      <!-- Spacer -->
+      <Border Height="8" />
+
+      <!-- Duties List -->
+      <ItemsRepeater ItemsSource="{Binding Duties}">
+        <ItemsRepeater.Layout>
+          <StackLayout Spacing="12" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate x:DataType="models:Duty">
+            <Border Background="{StaticResource BoardsDarkBrush}"
+                    CornerRadius="{StaticResource LargeCornerRadius}"
+                    Padding="20"
+                    BorderBrush="{StaticResource CardBorderBrush}"
+                    BorderThickness="1">
+              <Grid>
+                <!-- Left Accent Bar -->
+                <Border Width="4"
+                        HorizontalAlignment="Left"
+                        Margin="-20,0,0,0"
+                        CornerRadius="0,2,2,0">
+                  <Border.Background>
+                    <SolidColorBrush Color="{Binding Type, Converter={StaticResource DutyTypeToColorConverter}}" />
+                  </Border.Background>
+                </Border>
+
+                <utu:AutoLayout Orientation="Horizontal" Spacing="16">
+                  <!-- Icon Container -->
+                  <Border Width="52" Height="52"
+                          CornerRadius="{StaticResource CardCornerRadius}">
+                    <Border.Background>
+                      <SolidColorBrush Color="{Binding Type, Converter={StaticResource DutyTypeToColorConverter}}" Opacity="0.15" />
+                    </Border.Background>
+                    <TextBlock Text="{Binding Type, Converter={StaticResource DutyTypeToIconConverter}}"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               AutomationProperties.AccessibilityView="Raw" />
+                  </Border>
+
+                  <!-- Info Section -->
+                  <StackPanel VerticalAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
+                    <TextBlock Text="{Binding Role, Converter={StaticResource ToUpperConverter}}"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontSize="12"
+                               CharacterSpacing="40" />
+                    
+                    <!-- Show name for non-manual duties (Ice, Cooler) -->
+                    <TextBlock Text="{Binding Name}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Margin="0,4,0,0"
+                               Visibility="{Binding IsManuallyAssigned, Converter={StaticResource InverseBoolConverter}}" />
+                    
+                    <!-- Show dropdown for manual duties (Beer, Food) -->
+                    <ComboBox ItemsSource="{Binding DataContext.AvailablePlayers, ElementName=DutiesPageRoot}"
+                              SelectedValue="{Binding PlayerId, Mode=OneWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Name"
+                              PlaceholderText="Select player"
+                              SelectionChanged="OnPlayerSelected"
+                              Background="{StaticResource BoardsMidBrush}"
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              BorderBrush="{StaticResource SubtleBorderBrush}"
+                              BorderThickness="1"
+                              CornerRadius="{StaticResource CardCornerRadius}"
+                              Padding="12,8"
+                              MinWidth="180"
+                              Margin="0,4,0,0"
+                              Visibility="{Binding IsManuallyAssigned}"
+                              AutomationProperties.Name="{Binding Role}">
+                      <ComboBox.Resources>
+                        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="{StaticResource BoardsMidColor}" />
+                        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#1AFFFFFF" />
+                        <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="#26FFFFFF" />
+                        <SolidColorBrush x:Key="ComboBoxItemForeground" Color="{StaticResource TextPrimaryColor}" />
+                        <SolidColorBrush x:Key="ComboBoxItemForegroundPointerOver" Color="{StaticResource TextPrimaryColor}" />
+                        <SolidColorBrush x:Key="ComboBoxItemForegroundPressed" Color="{StaticResource TextPrimaryColor}" />
+                        <SolidColorBrush x:Key="ComboBoxPlaceholderForeground" Color="{StaticResource TextMutedColor}" />
+                      </ComboBox.Resources>
+                    </ComboBox>
+                  </StackPanel>
+                </utu:AutoLayout>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+
+      <!-- Bottom padding for nav -->
+      <Border Height="24" />
+    </utu:AutoLayout>
+  </ScrollViewer>
+</Page>

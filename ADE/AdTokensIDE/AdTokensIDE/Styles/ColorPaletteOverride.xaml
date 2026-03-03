@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- Monochromatic black and grey theme -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PrimaryColor">#808080</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#404040</Color>
+      <Color x:Key="OnPrimaryContainerColor">#E0E0E0</Color>
+      <Color x:Key="SecondaryColor">#A0A0A0</Color>
+      <Color x:Key="OnSecondaryColor">#1A1A1A</Color>
+      <Color x:Key="SecondaryContainerColor">#333333</Color>
+      <Color x:Key="OnSecondaryContainerColor">#D0D0D0</Color>
+      <Color x:Key="TertiaryColor">#909090</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#383838</Color>
+      <Color x:Key="OnTertiaryContainerColor">#C8C8C8</Color>
+      <Color x:Key="ErrorColor">#B0B0B0</Color>
+      <Color x:Key="ErrorContainerColor">#2A2A2A</Color>
+      <Color x:Key="OnErrorColor">#FFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#E8E8E8</Color>
+      <Color x:Key="BackgroundColor">#121212</Color>
+      <Color x:Key="OnBackgroundColor">#E0E0E0</Color>
+      <Color x:Key="SurfaceColor">#1A1A1A</Color>
+      <Color x:Key="OnSurfaceColor">#E0E0E0</Color>
+      <Color x:Key="SurfaceVariantColor">#242424</Color>
+      <Color x:Key="OnSurfaceVariantColor">#A0A0A0</Color>
+      <Color x:Key="OutlineColor">#333333</Color>
+      <Color x:Key="OnSurfaceInverseColor">#121212</Color>
+      <Color x:Key="SurfaceInverseColor">#E0E0E0</Color>
+      <Color x:Key="PrimaryInverseColor">#606060</Color>
+      <Color x:Key="SurfaceTintColor">#808080</Color>
+      <Color x:Key="OutlineVariantColor">#484848</Color>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="PrimaryColor">#808080</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#404040</Color>
+      <Color x:Key="OnPrimaryContainerColor">#E0E0E0</Color>
+      <Color x:Key="SecondaryColor">#A0A0A0</Color>
+      <Color x:Key="OnSecondaryColor">#1A1A1A</Color>
+      <Color x:Key="SecondaryContainerColor">#333333</Color>
+      <Color x:Key="OnSecondaryContainerColor">#D0D0D0</Color>
+      <Color x:Key="TertiaryColor">#909090</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#383838</Color>
+      <Color x:Key="OnTertiaryContainerColor">#C8C8C8</Color>
+      <Color x:Key="ErrorColor">#B0B0B0</Color>
+      <Color x:Key="ErrorContainerColor">#2A2A2A</Color>
+      <Color x:Key="OnErrorColor">#FFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#E8E8E8</Color>
+      <Color x:Key="BackgroundColor">#121212</Color>
+      <Color x:Key="OnBackgroundColor">#E0E0E0</Color>
+      <Color x:Key="SurfaceColor">#1A1A1A</Color>
+      <Color x:Key="OnSurfaceColor">#E0E0E0</Color>
+      <Color x:Key="SurfaceVariantColor">#242424</Color>
+      <Color x:Key="OnSurfaceVariantColor">#A0A0A0</Color>
+      <Color x:Key="OutlineColor">#333333</Color>
+      <Color x:Key="OnSurfaceInverseColor">#121212</Color>
+      <Color x:Key="SurfaceInverseColor">#E0E0E0</Color>
+      <Color x:Key="PrimaryInverseColor">#606060</Color>
+      <Color x:Key="SurfaceTintColor">#808080</Color>
+      <Color x:Key="OutlineVariantColor">#484848</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

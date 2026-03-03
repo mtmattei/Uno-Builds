@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "PuckUp",
+  "display": "standalone",
+  "name": "PuckUp",
+  "short_name": "PuckUp",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

@@ -1,0 +1,23 @@
+<UserControl
+    x:Class="Caffe.Controls.BrewButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Button x:Name="MainButton"
+            HorizontalAlignment="Stretch"
+            Height="56"
+            CornerRadius="14"
+            Click="OnClick">
+        <Button.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource CaffePrimaryBrush}" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+        </Button.Resources>
+        <TextBlock x:Name="ButtonText"
+                   Text="Select your espresso"
+                   Style="{StaticResource ButtonTextStyle}" />
+    </Button>
+
+</UserControl>

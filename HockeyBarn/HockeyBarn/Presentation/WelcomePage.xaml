@@ -1,0 +1,209 @@
+﻿<Page xmlns:um="using:Uno.Material" x:Class="HockeyBarn.Presentation.WelcomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <!-- Background gradient with hockey rink atmosphere -->
+    <Grid.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#0C1118" Offset="0" />
+        <GradientStop Color="#1E293B" Offset="0.5" />
+        <GradientStop Color="#0C1118" Offset="1" />
+      </LinearGradientBrush>
+    </Grid.Background>
+
+    <!-- Faint rink line decorations in background -->
+    <Border Opacity="0.05"
+            VerticalAlignment="Top"
+            Margin="0,100,0,0">
+      <Border.Background>
+        <ImageBrush ImageSource="https://picsum.photos/800/1200?blur=5"
+                    Stretch="UniformToFill"
+                    Opacity="0.3" />
+      </Border.Background>
+    </Border>
+
+    <ScrollViewer>
+      <utu:AutoLayout Orientation="Vertical"
+                      Spacing="32"
+                      Padding="24"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      MaxWidth="500">
+
+        <!-- Logo and Branding -->
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="16"
+                        HorizontalAlignment="Center">
+          
+          <!-- Hockey Icon Logo -->
+          <Border Width="120"
+                  Height="120"
+                  CornerRadius="30"
+                  Background="{ThemeResource OrangeBrush}"
+                  Translation="0,0,16">
+            <Border.Shadow>
+              <ThemeShadow />
+            </Border.Shadow>
+            <Viewbox Width="70"
+                     Height="70">
+              <FontIcon Glyph="&#xE8FE;"
+                        Foreground="White" />
+            </Viewbox>
+          </Border>
+
+          <!-- App Title -->
+          <TextBlock Text="The Hockey Barn"
+                     FontSize="36"
+                     Foreground="{ThemeResource OnBackgroundColor}"
+                     FontWeight="ExtraBold"
+                     HorizontalAlignment="Center" />
+
+          <!-- Tagline -->
+          <TextBlock Text="Find spares before the puck drops"
+                     FontSize="16"
+                     Foreground="{ThemeResource IceBlueBrush}"
+                     HorizontalAlignment="Center"
+                     TextAlignment="Center"
+                     TextWrapping="Wrap"
+                     FontWeight="Medium"
+                     Opacity="0.95" />
+        </utu:AutoLayout>
+
+        <!-- Hero Illustration Area -->
+        <Button Style="{StaticResource IconButtonStyle}">
+          <SymbolIcon />
+        </Button>
+        <Border Height="300"
+                CornerRadius="28"
+                Translation="0,0,16"
+                Margin="0,32,0,0"
+                BorderBrush="#30FFFFFF"
+                BorderThickness="1">
+          <Border.Shadow>
+            <ThemeShadow />
+          </Border.Shadow>
+          <Border.Background>
+            <ImageBrush ImageSource="https://picsum.photos/600/400"
+                        Stretch="UniformToFill" />
+          </Border.Background>
+          <!-- Gradient overlay for better integration -->
+          <Border Background="#60000000"
+                  CornerRadius="28" />
+        </Border>
+
+        <!-- Feature Highlights -->
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="16"
+                        Margin="0,8,0,0">
+
+          <!-- Feature 1 -->
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="16">
+            <Border Width="48"
+                    Height="48"
+                    CornerRadius="12"
+                    Background="{ThemeResource PrimaryContainerColor}"
+                    VerticalAlignment="Top">
+              <FontIcon Glyph="&#xE787;"
+                        Foreground="{ThemeResource PrimaryColor}"
+                        FontSize="24"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="4"
+                            PrimaryAxisAlignment="Center">
+              <TextBlock Text="Find Games Fast"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnBackgroundColor}"
+                         FontWeight="SemiBold" />
+              <TextBlock Text="Browse local pick-up games needing players"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+
+          <!-- Feature 2 -->
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="16">
+            <Border Width="48"
+                    Height="48"
+                    CornerRadius="12"
+                    Background="{ThemeResource SecondaryContainerColor}"
+                    VerticalAlignment="Top">
+              <FontIcon Glyph="&#xE716;"
+                        Foreground="{ThemeResource SecondaryColor}"
+                        FontSize="24"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="4"
+                            PrimaryAxisAlignment="Center">
+              <TextBlock Text="Join Your Level"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnBackgroundColor}"
+                         FontWeight="SemiBold" />
+              <TextBlock Text="Filter by skill level and position"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+
+          <!-- Feature 3 -->
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="16">
+            <Border Width="48"
+                    Height="48"
+                    CornerRadius="12"
+                    Background="{ThemeResource TertiaryContainerColor}"
+                    VerticalAlignment="Top">
+              <FontIcon Glyph="&#xE8F2;"
+                        Foreground="{ThemeResource TertiaryColor}"
+                        FontSize="24"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="4"
+                            PrimaryAxisAlignment="Center">
+              <TextBlock Text="Build Your Reputation"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnBackgroundColor}"
+                         FontWeight="SemiBold" />
+              <TextBlock Text="Track your games and reliability score"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+
+        </utu:AutoLayout>
+
+        <!-- CTA Buttons -->
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="12"
+                        Margin="0,16,0,32">
+          
+          <Button Content="Get Started"
+                  Style="{StaticResource PrimaryButtonStyle}"
+                  HorizontalAlignment="Stretch"
+                  Click="GetStarted_Click" />
+
+          <Button Content="Log In"
+                  Style="{StaticResource SecondaryButtonStyle}"
+                  HorizontalAlignment="Stretch"
+                  Click="LogIn_Click" />
+
+        </utu:AutoLayout>
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+
+  </Grid>
+</Page>

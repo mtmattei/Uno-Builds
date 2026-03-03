@@ -1,0 +1,57 @@
+<UserControl x:Class="AdaptiveInputDemo.Controls.ColorPickerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Preset Color Grid -->
+        <ItemsControl x:Name="ColorGrid">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VariableSizedWrapGrid Orientation="Horizontal"
+                                           ItemWidth="48"
+                                           ItemHeight="48" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <!-- Custom Hex Input -->
+        <Grid Grid.Row="1" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Preview Swatch -->
+            <Border x:Name="PreviewSwatch"
+                    Width="40"
+                    Height="40"
+                    CornerRadius="8"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="1"
+                    Background="#FFFFFF" />
+
+            <!-- Hex Input -->
+            <TextBox x:Name="HexInput"
+                     Grid.Column="1"
+                     PlaceholderText="#FFFFFF"
+                     MaxLength="7"
+                     TextChanged="OnHexInputChanged"
+                     VerticalAlignment="Center" />
+
+            <!-- Apply Button -->
+            <Button x:Name="ApplyButton"
+                    Grid.Column="2"
+                    Content="Apply"
+                    Click="OnApplyClick"
+                    Style="{StaticResource FilledButtonStyle}"
+                    VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</UserControl>

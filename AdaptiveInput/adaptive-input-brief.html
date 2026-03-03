@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adaptive Input Component — Design Specification</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      line-height: 1.7;
+      color: #1e293b;
+      background: #fff;
+    }
+    h1 { font-size: 2.25rem; color: #0f172a; border-bottom: 3px solid #6366f1; padding-bottom: 0.75rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.5rem; color: #1e293b; margin-top: 3rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
+    h3 { font-size: 1.2rem; color: #334155; margin-top: 2rem; }
+    h4 { font-size: 1rem; color: #475569; margin-top: 1.25rem; font-weight: 600; }
+    .subtitle { font-size: 1.1rem; color: #64748b; margin-top: 0; margin-bottom: 2rem; }
+    .meta { font-size: 0.85rem; color: #94a3b8; margin-bottom: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: 0.9rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 0.75rem 1rem; text-align: left; vertical-align: top; }
+    th { background: #f8fafc; font-weight: 600; color: #1e293b; white-space: nowrap; }
+    tr:nth-child(even) { background: #fafafa; }
+    code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; color: #7c3aed; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+    pre code { background: none; color: inherit; padding: 0; }
+    hr { border: none; border-top: 2px solid #e2e8f0; margin: 2.5rem 0; }
+    blockquote { border-left: 4px solid #6366f1; margin: 1.5rem 0; padding: 0.5rem 0 0.5rem 1.25rem; color: #64748b; background: #f8fafc; border-radius: 0 8px 8px 0; }
+    ul, ol { padding-left: 1.5rem; }
+    li { margin: 0.4rem 0; }
+    strong { color: #0f172a; }
+    a { color: #6366f1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .ascii-box { font-family: "SF Mono", Menlo, Monaco, monospace; font-size: 0.8rem; background: #f8fafc; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; white-space: pre; line-height: 1.4; }
+    .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-purple { background: #ede9fe; color: #6d28d9; }
+    @media print {
+      body { padding: 1rem; font-size: 11pt; }
+      h1 { font-size: 18pt; }
+      h2 { font-size: 14pt; page-break-after: avoid; }
+      pre { font-size: 9pt; }
+      table { font-size: 9pt; }
+    }
+  </style>
+</head>
+<body>
+<h1 id="adaptive-input-component">Adaptive Input Component</h1>
+<h2 id="design-technical-specification">Design &amp; Technical
+Specification</h2>
+<p><strong>Version:</strong> 1.0<br />
+<strong>Status:</strong> Ready for Implementation<br />
+<strong>Last Updated:</strong> December 2024</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The Adaptive Input is a text input component that detects the
+semantic type of user input in real-time and morphs its UI to provide
+contextually appropriate input tools. Rather than requiring users to
+select input types upfront, the component infers intent from natural
+typing patterns and surfaces the right tool automatically.</p>
+<hr />
+<h2 id="core-concept">Core Concept</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Traditional form inputs force users to context-switch between
+multiple input types: - Click a calendar icon → navigate months → select
+date - Click a color swatch → open picker → choose color - Remember that
+“@” triggers mentions in this app but not that one</p>
+<p>This creates friction and cognitive load, especially in unified input
+contexts like chat, command palettes, or quick-capture interfaces.</p>
+<h3 id="the-solution">The Solution</h3>
+<p>A single input field that: 1. Accepts freeform text 2. Analyzes input
+patterns in real-time 3. Detects semantic intent (date, color, mention,
+tag, number range) 4. Morphs to reveal the appropriate specialized tool
+5. Falls back gracefully to plain text when no pattern matches</p>
+<hr />
+<h2 id="detection-patterns">Detection Patterns</h2>
+<h3 id="priority-order-critical">Priority Order (Critical)</h3>
+<p>Detection must follow this exact priority to resolve ambiguous
+patterns:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 17%" />
+<col style="width: 25%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Priority</th>
+<th>Type</th>
+<th>Pattern</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Mention</td>
+<td><code>@</code> followed by characters</td>
+<td><code>@alice</code>, <code>@team</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Hex Color</td>
+<td><code>#</code> + only hex digits (1-6)</td>
+<td><code>#FF5500</code>, <code>#fff</code>, <code>#a1b2c3</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Color Keyword</td>
+<td>Known color names</td>
+<td><code>red</code>, <code>blue</code>, <code>rgb(...)</code>,
+<code>hsl(...)</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Tag</td>
+<td><code>#</code> + word containing non-hex letter</td>
+<td><code>#urgent</code>, <code>#bug</code>,
+<code>#v2-release</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Number Range</td>
+<td>Number patterns with range indicators</td>
+<td><code>50-100</code>, <code>10 to 50</code>, <code>75</code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Date</td>
+<td>Natural language or date formats</td>
+<td><code>tomorrow</code>, <code>jan 15</code>,
+<code>3/14/2025</code></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>URL</td>
+<td>Standard URL patterns</td>
+<td><code>https://...</code>, <code>www.</code></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Email</td>
+<td>Standard email format</td>
+<td><code>name@domain.com</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pattern-definitions">Pattern Definitions</h3>
+<h4 id="mention">Mention (<code>@</code>)</h4>
+<pre><code>Trigger: ^@.+
+Examples: @alice, @engineering-team, @123
+Behavior: Opens contact/user picker with search</code></pre>
+<h4 id="color-hex">Color (Hex)</h4>
+<pre><code>Trigger: ^#[0-9a-fA-F]{1,6}$
+Examples: #F00, #FF5500, #abc
+Excludes: #urgent (contains non-hex &#39;u&#39;)
+Behavior: Opens color palette with custom hex input</code></pre>
+<h4 id="color-keyword">Color (Keyword)</h4>
+<pre><code>Trigger: ^(red|blue|green|yellow|purple|orange|pink|cyan|
+          black|white|gray|grey|navy|teal|coral|salmon|
+          gold|silver|maroon|olive|lime|aqua|fuchsia|
+          indigo|violet|rgb\(|hsl\()
+Examples: red, rgb(255,0,0)
+Behavior: Opens color palette</code></pre>
+<h4 id="tag">Tag</h4>
+<pre><code>Trigger: ^#[a-z_][a-z0-9_-]*$ OR ^#[0-9a-f]*[g-z_][a-z0-9_-]*$
+Examples: #urgent, #bug, #release-v2, #abc123test
+Key: Must contain at least one non-hex letter (g-z) or underscore
+Behavior: Opens tag picker with create option</code></pre>
+<h4 id="number-range">Number Range</h4>
+<pre><code>Trigger: ^\d+\s*(-|–|to|through)\s*\d+$ OR ^\d+$ (standalone)
+Examples: 50-100, 10 to 50, 25 through 75, 50
+Behavior: Opens dual-handle range slider</code></pre>
+<h4 id="date">Date</h4>
+<pre><code>Trigger (natural): ^(today|tomorrow|yesterday|next\s+|last\s+|this\s+)
+Trigger (day): ^(mon|tue|wed|thu|fri|sat|sun)(day)?$
+Trigger (month): ^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)
+Trigger (format): ^\d{1,2}[\/\-]\d{1,2}([\/\-]\d{2,4})?$
+Examples: tomorrow, next week, jan 15, 3/14/2025
+Behavior: Opens mini calendar with quick picks</code></pre>
+<hr />
+<h2 id="visual-design">Visual Design</h2>
+<h3 id="component-states">Component States</h3>
+<h4 id="idle-state">1. Idle State</h4>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│  ┌──────────┐                                      ┌──┐ │
+│  │ ✦  Auto  │  Type anything...                    │ → │ │
+│  └──────────┘                                      └──┘ │
+└─────────────────────────────────────────────────────────┘
+     Type Badge        Placeholder              Submit</code></pre>
+<h4 id="active-state-type-detected">2. Active State (Type Detected)</h4>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│  ┌──────────┐                                      ┌──┐ │
+│  │ 📅 Date  │  tomorrow                            │ → │ │
+│  └──────────┘                                      └──┘ │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────┐    │
+│  │               EXPANDED PANEL                    │    │
+│  │           (Calendar in this case)               │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘</code></pre>
+<h3 id="type-badge">Type Badge</h3>
+<p>The badge provides immediate visual feedback about detected type:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Icon</th>
+<th>Label</th>
+<th>Color (HSL suggested)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Auto (default)</td>
+<td>Sparkle/asterisk</td>
+<td>“Auto”</td>
+<td>Neutral gray</td>
+</tr>
+<tr class="even">
+<td>Date</td>
+<td>Calendar</td>
+<td>“Date”</td>
+<td>Teal (170°, 70%, 45%)</td>
+</tr>
+<tr class="odd">
+<td>Color</td>
+<td>Palette/circle</td>
+<td>“Color”</td>
+<td>Violet (260°, 70%, 60%)</td>
+</tr>
+<tr class="even">
+<td>Mention</td>
+<td>Person</td>
+<td>“Mention”</td>
+<td>Blue (215°, 80%, 55%)</td>
+</tr>
+<tr class="odd">
+<td>Tag</td>
+<td>Tag/label</td>
+<td>“Tag”</td>
+<td>Amber (40°, 90%, 50%)</td>
+</tr>
+<tr class="even">
+<td>Range</td>
+<td>Sliders</td>
+<td>“Range”</td>
+<td>Indigo (235°, 70%, 60%)</td>
+</tr>
+<tr class="odd">
+<td>URL</td>
+<td>Link</td>
+<td>“Link”</td>
+<td>Cyan (190°, 85%, 45%)</td>
+</tr>
+<tr class="even">
+<td>Email</td>
+<td>Envelope</td>
+<td>“Email”</td>
+<td>Orange (25°, 90%, 55%)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="expanded-panel">Expanded Panel</h3>
+<p>Each detected type reveals a specialized picker panel below the
+input:</p>
+<ul>
+<li><strong>Anchored</strong> to input field (flows downward)</li>
+<li><strong>Dismissible</strong> via: outside click, Escape key, close
+button</li>
+<li><strong>Animated</strong> entrance: fade + slide up (200-300ms
+ease-out)</li>
+<li><strong>Shadow</strong> to create depth separation from page</li>
+<li><strong>Header</strong> shows type icon + “Select {Type}” + close
+button</li>
+</ul>
+<hr />
+<h2 id="interaction-patterns">Interaction Patterns</h2>
+<h3 id="input-flow">Input Flow</h3>
+<pre><code>User types → Detect pattern → Update badge → Expand panel (if applicable)
+     ↓
+User selects from panel → Value updates → Panel closes → Focus returns
+     ↓
+User presses Enter (or clicks submit) → onSubmit({ type, value })</code></pre>
+<h3 id="keyboard-navigation">Keyboard Navigation</h3>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Enter</code></td>
+<td>Submit value (if panel closed) or confirm selection</td>
+</tr>
+<tr class="even">
+<td><code>Escape</code></td>
+<td>Close expanded panel, keep value</td>
+</tr>
+<tr class="odd">
+<td><code>Tab</code></td>
+<td>Move focus into panel (if open)</td>
+</tr>
+<tr class="even">
+<td><code>Arrow keys</code></td>
+<td>Navigate within panel (calendar days, color grid, etc.)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="touch-considerations">Touch Considerations</h3>
+<ul>
+<li>Panels should be sized for touch targets (minimum 44×44px
+interactive areas)</li>
+<li>Color swatches: at least 40×40px with 8px gap</li>
+<li>Calendar days: full aspect-square cells</li>
+<li>Consider bottom-sheet pattern on mobile viewports</li>
+</ul>
+<hr />
+<h2 id="picker-specifications">Picker Specifications</h2>
+<h3 id="date-picker">Date Picker</h3>
+<p><strong>Components:</strong> - Month/year header with prev/next
+navigation - 7-column day grid (Su-Sa) - Current day highlighted
+distinctly - Quick picks row: “Today”, “Tomorrow”, “Next Week”</p>
+<p><strong>Behavior:</strong> - Selecting a date formats to locale
+string and closes panel - Quick picks calculate relative dates from
+current date - Month navigation does not close panel</p>
+<h3 id="color-picker">Color Picker</h3>
+<p><strong>Components:</strong> - Preset grid (20 colors recommended,
+10×2) - Custom hex input with live preview swatch - “Apply” button for
+custom colors</p>
+<p><strong>Preset Palette (suggested):</strong></p>
+<pre><code>#EF4444  #F97316  #F59E0B  #EAB308  #84CC16
+#22C55E  #10B981  #14B8A6  #06B6D4  #0EA5E9
+#3B82F6  #6366F1  #8B5CF6  #A855F7  #D946EF
+#EC4899  #F43F5E  #FFFFFF  #94A3B8  #1E293B</code></pre>
+<p><strong>Behavior:</strong> - Clicking preset immediately selects and
+closes - Custom hex requires explicit “Apply” action - Live preview
+updates as user types</p>
+<h3 id="mention-picker">Mention Picker</h3>
+<p><strong>Components:</strong> - Scrollable contact list (max-height
+constrained) - Avatar, name, handle, status indicator per row -
+Optional: role/department secondary text - Empty state for no
+matches</p>
+<p><strong>Behavior:</strong> - Filters list as user types after
+<code>@</code> - Selecting contact replaces input with
+<code>@handle</code> - Status colors: green=online, amber=away,
+gray=offline</p>
+<h3 id="tag-picker">Tag Picker</h3>
+<p><strong>Components:</strong> - Flex-wrap grid of existing tags - Each
+tag shows: color dot, name, usage count - “Create new tag” button
+(appears when typing unknown tag)</p>
+<p><strong>Behavior:</strong> - Clicking existing tag selects it -
+Create option only shows when no exact match exists - Tags should have
+distinct colors for scannability</p>
+<h3 id="range-picker">Range Picker</h3>
+<p><strong>Components:</strong> - Two number displays (min/max) with
+direct edit - Visual range bar with filled segment - Dual-handle slider
+(or two overlapping range inputs) - Quick preset buttons (e.g., “0-50”,
+“0-100”, “50-150”)</p>
+<p><strong>Behavior:</strong> - Dragging handles updates number displays
+in real-time - Number inputs clamp to valid ranges (min &lt; max) -
+“Apply” button confirms selection</p>
+<hr />
+<h2 id="component-api">Component API</h2>
+<h3 id="propsinputs">Props/Inputs</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>placeholder</code></td>
+<td>string</td>
+<td>“Type anything…”</td>
+<td>Input placeholder text</td>
+</tr>
+<tr class="even">
+<td><code>value</code></td>
+<td>string</td>
+<td>“”</td>
+<td>Controlled input value (optional)</td>
+</tr>
+<tr class="odd">
+<td><code>disabled</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Disable input</td>
+</tr>
+<tr class="even">
+<td><code>autoFocus</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Focus on mount</td>
+</tr>
+</tbody>
+</table>
+<h3 id="eventsoutputs">Events/Outputs</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 31%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Event</th>
+<th>Payload</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>onSubmit</code></td>
+<td><code>{ type: string, value: string }</code></td>
+<td>Fired when user submits (Enter or button)</td>
+</tr>
+<tr class="even">
+<td><code>onChange</code></td>
+<td><code>{ type: string \| null, value: string }</code></td>
+<td>Fired on every input change</td>
+</tr>
+<tr class="odd">
+<td><code>onTypeDetected</code></td>
+<td><code>{ type: string \| null }</code></td>
+<td>Fired when detected type changes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="type-values">Type Values</h3>
+<pre><code>type DetectedType = 
+  | &#39;date&#39; 
+  | &#39;color&#39; 
+  | &#39;mention&#39; 
+  | &#39;tag&#39; 
+  | &#39;number&#39; 
+  | &#39;url&#39; 
+  | &#39;email&#39; 
+  | null  // No pattern detected, plain text</code></pre>
+<hr />
+<h2 id="accessibility">Accessibility</h2>
+<h3 id="aria-requirements">ARIA Requirements</h3>
+<ul>
+<li>Input: <code>role="combobox"</code>, <code>aria-expanded</code>,
+<code>aria-haspopup="dialog"</code></li>
+<li>Panel: <code>role="dialog"</code>,
+<code>aria-label="Select {type}"</code></li>
+<li>Type badge: <code>aria-live="polite"</code> to announce type
+changes</li>
+<li>Close button: <code>aria-label="Close picker"</code></li>
+</ul>
+<h3 id="focus-management">Focus Management</h3>
+<ol type="1">
+<li>Panel open → focus moves to first interactive element in panel</li>
+<li>Panel close → focus returns to input</li>
+<li>Tab from input (panel open) → enters panel</li>
+<li>Shift+Tab from first panel element → returns to input</li>
+</ol>
+<h3 id="screen-reader-announcements">Screen Reader Announcements</h3>
+<ul>
+<li>On type detection: “Detected {type}. {Type} picker available.”</li>
+<li>On panel open: “{Type} picker opened”</li>
+<li>On selection: “Selected {value}”</li>
+</ul>
+<hr />
+<h2 id="animation-specifications">Animation Specifications</h2>
+<h3 id="badge-transition">Badge Transition</h3>
+<pre><code>Property: background-color, color
+Duration: 200ms
+Easing: ease-out</code></pre>
+<h3 id="panel-enter">Panel Enter</h3>
+<pre><code>Properties: opacity, transform
+From: opacity: 0, translateY(-8px)
+To: opacity: 1, translateY(0)
+Duration: 250ms
+Easing: cubic-bezier(0.4, 0, 0.2, 1)</code></pre>
+<h3 id="panel-exit">Panel Exit</h3>
+<pre><code>Properties: opacity, transform
+To: opacity: 0, translateY(-4px)
+Duration: 150ms
+Easing: ease-in</code></pre>
+<h3 id="list-item-stagger-mentions-tags">List Item Stagger (mentions,
+tags)</h3>
+<pre><code>Delay per item: 30ms
+Max total delay: 300ms (cap at 10 items)</code></pre>
+<hr />
+<h2 id="edge-cases">Edge Cases</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Empty input</td>
+<td>Badge shows “Auto”, no panel</td>
+</tr>
+<tr class="even">
+<td>Ambiguous <code>#abc</code></td>
+<td>Detected as Color (valid 3-digit hex)</td>
+</tr>
+<tr class="odd">
+<td><code>#abc123test</code></td>
+<td>Detected as Tag (contains non-hex letters)</td>
+</tr>
+<tr class="even">
+<td><code>@</code> alone</td>
+<td>Detected as Mention, shows full contact list</td>
+</tr>
+<tr class="odd">
+<td><code>#</code> alone</td>
+<td>No detection (needs at least one character after)</td>
+</tr>
+<tr class="even">
+<td>Very long input</td>
+<td>Detection still runs, but may not match patterns</td>
+</tr>
+<tr class="odd">
+<td>Paste multi-line</td>
+<td>Take first line only, or reject</td>
+</tr>
+<tr class="even">
+<td>Invalid hex <code>#GGGGGG</code></td>
+<td>Falls through to Tag detection</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="implementation-notes">Implementation Notes</h2>
+<h3 id="performance">Performance</h3>
+<ul>
+<li>Detection runs on every keystroke — keep regex simple</li>
+<li>Debounce is NOT recommended (feels laggy)</li>
+<li>Panel content can lazy-load on first open per type</li>
+</ul>
+<h3 id="extensibility">Extensibility</h3>
+<p>Consider allowing custom type definitions:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;phone&#39;</span><span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pattern</span><span class="op">:</span> <span class="ss">/</span><span class="sc">^\+?[\d\s\-\(\)]{7,}$</span><span class="ss">/</span><span class="op">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">icon</span><span class="op">:</span> PhoneIcon<span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">&#39;Phone&#39;</span><span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> { <span class="dt">bg</span><span class="op">:</span> <span class="st">&#39;...&#39;</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> <span class="st">&#39;...&#39;</span> }<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">picker</span><span class="op">:</span> PhonePickerComponent  <span class="co">// Optional</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="localization">Localization</h3>
+<ul>
+<li>Date formats should respect locale</li>
+<li>Day/month names in detection should support localized variants</li>
+<li>Quick pick labels (“Today”, “Tomorrow”) need translation</li>
+</ul>
+<hr />
+<h2 id="dependencies">Dependencies</h2>
+<p>The component requires implementations for:</p>
+<ol type="1">
+<li><strong>Pattern detection engine</strong> — can be pure functions,
+no library needed</li>
+<li><strong>Date picker</strong> — any calendar component or native date
+input</li>
+<li><strong>Color picker</strong> — custom or library-based</li>
+<li><strong>Contact/user data source</strong> — app-specific
+integration</li>
+<li><strong>Tag data source</strong> — app-specific integration</li>
+</ol>
+<p>No external runtime dependencies required for core functionality.</p>
+<hr />
+<h2 id="testing-checklist">Testing Checklist</h2>
+<h3 id="detection-tests">Detection Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" /><code>@alice</code> →
+mention</label></li>
+<li><label><input type="checkbox" /><code>#FF5500</code> →
+color</label></li>
+<li><label><input type="checkbox" /><code>#fff</code> →
+color</label></li>
+<li><label><input type="checkbox" /><code>#urgent</code> →
+tag</label></li>
+<li><label><input type="checkbox" /><code>#abc123</code> → color (valid
+hex)</label></li>
+<li><label><input type="checkbox" /><code>#abc123test</code> → tag
+(contains ‘t’)</label></li>
+<li><label><input type="checkbox" /><code>tomorrow</code> →
+date</label></li>
+<li><label><input type="checkbox" /><code>jan 15</code> →
+date</label></li>
+<li><label><input type="checkbox" /><code>3/14</code> →
+date</label></li>
+<li><label><input type="checkbox" /><code>50-100</code> →
+number</label></li>
+<li><label><input type="checkbox" /><code>50 to 100</code> →
+number</label></li>
+<li><label><input type="checkbox" /><code>hello world</code> → null
+(plain text)</label></li>
+</ul>
+<h3 id="interaction-tests">Interaction Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Panel opens on pattern
+match</label></li>
+<li><label><input type="checkbox" />Panel closes on outside
+click</label></li>
+<li><label><input type="checkbox" />Panel closes on Escape</label></li>
+<li><label><input type="checkbox" />Selection updates input
+value</label></li>
+<li><label><input type="checkbox" />Focus returns to input after
+selection</label></li>
+<li><label><input type="checkbox" />Enter submits when panel
+closed</label></li>
+<li><label><input type="checkbox" />Keyboard navigation within
+panels</label></li>
+</ul>
+<h3 id="accessibility-tests">Accessibility Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Screen reader announces type
+changes</label></li>
+<li><label><input type="checkbox" />Focus trap works in
+panels</label></li>
+<li><label><input type="checkbox" />All interactive elements reachable
+via keyboard</label></li>
+</ul>
+</body>
+</html>

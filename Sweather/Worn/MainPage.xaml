@@ -1,0 +1,788 @@
+<Page x:Class="Worn.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Worn"
+      xmlns:controls="using:Worn.Controls"
+      xmlns:converters="using:Worn.Converters"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      Background="{ThemeResource WornCreamBrush}">
+
+    <Page.Resources>
+        <converters:HexToBrushConverter x:Key="HexToBrush" />
+        <converters:BoolToBrushConverter x:Key="BoolToBrush" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
+
+    <ScrollViewer>
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="{utu:Responsive Narrowest=40, Normal=48, Wide=60}"
+                        Padding="{utu:Responsive Narrowest='20,24,20,48', Normal='48,32,48,48', Wide='80,40,80,60'}"
+                        utu:SafeArea.Insets="VisibleBounds"
+                        MaxWidth="1280"
+                        HorizontalAlignment="Center">
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- ZONE 1: Navigation Bar                      -->
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- Navigation Bar (Grid wrapper so back tag overlays without pushing content) -->
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Logo -->
+                    <TextBlock Grid.Column="0"
+                               Style="{StaticResource WornLogoStyle}"
+                               VerticalAlignment="Center"
+                               AutomationProperties.AutomationId="WornLogo">
+                        <Run Text="s" Foreground="{ThemeResource WornTerracottaBrush}" /><Run Text="weather" />
+                    </TextBlock>
+
+                    <!-- Location Flipper: Front Face Only -->
+                    <Border Grid.Column="2"
+                            x:Name="LocationPillFront"
+                            Tapped="OnLocationTagTapped"
+                            Background="{ThemeResource WornTerracottaBrush}"
+                            CornerRadius="12"
+                            Padding="14,10"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin="0.5,0.5"
+                            AutomationProperties.Name="Switch location">
+                        <Border.RenderTransform>
+                            <ScaleTransform x:Name="LocationFrontScale" ScaleX="1" />
+                        </Border.RenderTransform>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE707;"
+                                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                      FontSize="13"
+                                      Foreground="{ThemeResource WornCreamBrush}" />
+                            <mvux:FeedView Source="{Binding LocationName}">
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Data}"
+                                               Foreground="{ThemeResource WornCreamBrush}"
+                                               Style="{StaticResource WornLabelStyle}" />
+                                </DataTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="LOCATING..."
+                                                   Foreground="{ThemeResource WornCreamBrush}"
+                                                   Style="{StaticResource WornLabelStyle}"
+                                                   Opacity="0.7" />
+                                    </DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                                <mvux:FeedView.ErrorTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="LOCATION"
+                                                   Foreground="{ThemeResource WornCreamBrush}"
+                                                   Style="{StaticResource WornLabelStyle}"
+                                                   Opacity="0.5" />
+                                    </DataTemplate>
+                                </mvux:FeedView.ErrorTemplate>
+                            </mvux:FeedView>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Back Face: Luggage Tag (overlay, does not affect nav layout) -->
+                <Border x:Name="LocationTagBack"
+                        Visibility="Collapsed"
+                        Background="{ThemeResource WornLinenBrush}"
+                        CornerRadius="16"
+                        Padding="20,16"
+                        MinWidth="280"
+                        MaxWidth="360"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Canvas.ZIndex="10"
+                        RenderTransformOrigin="0.5,0.5"
+                        Translation="0,0,24">
+                    <Border.Shadow>
+                        <ThemeShadow />
+                    </Border.Shadow>
+                    <Border.RenderTransform>
+                        <ScaleTransform x:Name="LocationBackScale" ScaleX="0" />
+                    </Border.RenderTransform>
+                    <utu:AutoLayout Orientation="Vertical" Spacing="12">
+                        <!-- Header: string hole + "where to?" + close -->
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- String hole decoration -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal"
+                                        Spacing="4" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8"
+                                         Stroke="{ThemeResource WornSlateBrush}"
+                                         StrokeThickness="1.5" />
+                                <Border Width="20" Height="1.5"
+                                        Background="{ThemeResource WornSlateBrush}"
+                                        VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <!-- "where to?" title -->
+                            <TextBlock Grid.Column="1"
+                                       Text="where to?"
+                                       Style="{StaticResource WornTaglineStyle}"
+                                       FontSize="18"
+                                       Foreground="{ThemeResource WornSlateBrush}"
+                                       VerticalAlignment="Center" />
+
+                            <!-- Close button -->
+                            <Border Grid.Column="2"
+                                    Tapped="OnLocationTagClose"
+                                    Background="{ThemeResource WornBlushBrush}"
+                                    CornerRadius="12"
+                                    Width="32" Height="32"
+                                    VerticalAlignment="Center">
+                                <FontIcon Glyph="&#xE711;"
+                                          FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                          FontSize="11"
+                                          Foreground="{ThemeResource WornSlateBrush}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Blush divider -->
+                        <Border Height="1"
+                                Background="{ThemeResource WornBlushBrush}"
+                                HorizontalAlignment="Stretch"
+                                Opacity="0.5" />
+
+                        <!-- Search TextBox -->
+                        <TextBox x:Name="LocationSearchBox"
+                                 PlaceholderText="type a city name..."
+                                 FontFamily="{StaticResource CaveatFont}"
+                                 FontSize="18"
+                                 KeyDown="OnLocationSearchKeyDown"
+                                 TextChanged="OnLocationSearchTextChanged"
+                                 CornerRadius="12"
+                                 AutomationProperties.Name="City search" />
+
+                        <!-- Suggestions List -->
+                        <ItemsRepeater x:Name="SuggestionsList"
+                                       Visibility="Collapsed">
+                            <ItemsRepeater.Layout>
+                                <muxc:StackLayout Spacing="0" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Tapped="OnSuggestionTapped"
+                                            Padding="10,12"
+                                            Background="Transparent"
+                                            CornerRadius="10">
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <FontIcon Glyph="&#xE718;"
+                                                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                      FontSize="12"
+                                                      Foreground="{ThemeResource WornTerracottaBrush}"
+                                                      VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       FontFamily="{StaticResource CaveatFont}"
+                                                       FontSize="16"
+                                                       Foreground="{ThemeResource WornWarmBlackBrush}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <!-- My location reset pill -->
+                        <Border Tapped="OnResetLocationTapped"
+                                CornerRadius="20"
+                                Padding="14,8"
+                                Background="{ThemeResource WornWarmBlackBrush}"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon Glyph="&#xE81D;"
+                                          FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                          FontSize="11"
+                                          Foreground="{ThemeResource WornCreamBrush}" />
+                                <TextBlock Text="My location"
+                                           Style="{StaticResource WornLabelStyle}"
+                                           Foreground="{ThemeResource WornCreamBrush}" />
+                            </StackPanel>
+                        </Border>
+                    </utu:AutoLayout>
+                </Border>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- ZONES 2-6: Main Content (data-dependent)   -->
+            <!-- ═══════════════════════════════════════════ -->
+            <mvux:FeedView Source="{Binding Result}">
+
+                <!-- VALUE TEMPLATE (Loaded state) -->
+                <DataTemplate>
+                    <utu:AutoLayout Orientation="Vertical"
+                                    Spacing="{utu:Responsive Narrowest=40, Normal=48, Wide=60}">
+                        <utu:AutoLayout.ChildrenTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition FromVerticalOffset="40" IsStaggeringEnabled="True" />
+                            </TransitionCollection>
+                        </utu:AutoLayout.ChildrenTransitions>
+
+                        <!-- ═══════════════════════════════ -->
+                        <!-- ZONE 2: Hero Section            -->
+                        <!-- ═══════════════════════════════ -->
+                        <Grid ColumnSpacing="{utu:Responsive Narrowest=0, Wide=48}"
+                              RowSpacing="{utu:Responsive Narrowest=32, Wide=0}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Left Column: Headline + Description + Tags -->
+                            <utu:AutoLayout Grid.Column="0" Grid.Row="0"
+                                            Orientation="Vertical" Spacing="20">
+
+                                <!-- Tagline -->
+                                <TextBlock Text="{Binding Data.Tagline}"
+                                           Style="{StaticResource WornTaglineStyle}"
+                                           x:Uid="Hero.Tagline" />
+
+                                <!-- Headline with cycling ticker -->
+                                <StackPanel Spacing="0"
+                                            AutomationProperties.AutomationId="HeroHeadline">
+                                    <TextBlock Text="It's a"
+                                               Style="{StaticResource WornDisplayStyle}"
+                                               FontSize="{utu:Responsive Narrowest=36, Narrow=44, Normal=56, Wide=64}" />
+                                    <controls:HeadlineTicker Headlines="{Binding Data.HeadlineRotation}"
+                                                             TextStyle="{StaticResource WornDisplayStyle}"
+                                                             FontSize="{utu:Responsive Narrowest=36, Narrow=44, Normal=56, Wide=64}"
+                                                             Margin="0,-4,0,-4" />
+                                    <TextBlock Text="kind of day."
+                                               Style="{StaticResource WornDisplayStyle}"
+                                               FontSize="{utu:Responsive Narrowest=36, Narrow=44, Normal=56, Wide=64}" />
+                                </StackPanel>
+
+                                <!-- Description -->
+                                <TextBlock Text="{Binding Data.Description}"
+                                           Style="{StaticResource WornBodyStyle}"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="600"
+                                           Foreground="{ThemeResource WornCharcoalBrush}" />
+
+                                <!-- Fabric Tags (includes layer count as first tag) -->
+                                <ItemsRepeater ItemsSource="{Binding Data.FabricTags}">
+                                    <ItemsRepeater.Layout>
+                                        <muxc:StackLayout Orientation="Horizontal"
+                                                          Spacing="8" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{ThemeResource WornLinenBrush}"
+                                                    CornerRadius="16"
+                                                    Padding="12,6">
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Ellipse Width="8" Height="8"
+                                                             Fill="{Binding Color, Converter={StaticResource HexToBrush}}" />
+                                                    <TextBlock Text="{Binding Label}"
+                                                               Style="{StaticResource WornLabelStyle}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </utu:AutoLayout>
+
+                            <!-- Outfit Memo Card -->
+                            <Border Grid.Column="{utu:Responsive Narrowest=0, Wide=1}"
+                                    Grid.Row="{utu:Responsive Narrowest=1, Wide=0}"
+                                    MaxWidth="{utu:Responsive Narrowest=9999, Wide=420}"
+                                    Background="{ThemeResource WornLinenBrush}"
+                                    CornerRadius="24"
+                                    Padding="28"
+                                    Translation="0,0,24"
+                                    AutomationProperties.Name="Today's outfit recommendation">
+                                <Border.Shadow>
+                                    <ThemeShadow />
+                                </Border.Shadow>
+
+                                <utu:AutoLayout Orientation="Vertical" Spacing="0">
+
+                                    <!-- Tappable Header Row -->
+                                    <Border Tapped="OnOutfitMemoHeaderTapped"
+                                            Padding="0,0,0,16"
+                                            Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0"
+                                                       Text="TODAY'S OUTFIT MEMO"
+                                                       Style="{StaticResource WornLabelStyle}"
+                                                       Foreground="{ThemeResource WornSlateBrush}"
+                                                       VerticalAlignment="Center"
+                                                       x:Uid="Hero.OutfitMemo.Title" />
+
+                                            <!-- Item count badge -->
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource WornBlushBrush}"
+                                                    CornerRadius="10"
+                                                    Padding="8,4"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,10,0">
+                                                <TextBlock Style="{StaticResource WornLabelStyle}"
+                                                           Foreground="{ThemeResource WornSlateBrush}">
+                                                    <Run Text="{Binding Data.Outfit.Count}" /><Run Text=" items" />
+                                                </TextBlock>
+                                            </Border>
+
+                                            <!-- Chevron (rotates 0 <-> 180) -->
+                                            <FontIcon Grid.Column="2"
+                                                      Glyph="&#xE70D;"
+                                                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                      FontSize="12"
+                                                      Foreground="{ThemeResource WornSlateBrush}"
+                                                      RenderTransformOrigin="0.5,0.5">
+                                                <FontIcon.RenderTransform>
+                                                    <RotateTransform Angle="0" />
+                                                </FontIcon.RenderTransform>
+                                            </FontIcon>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Collapsible container -->
+                                    <Border RenderTransformOrigin="0.5,0">
+                                        <Border.RenderTransform>
+                                            <ScaleTransform ScaleY="1" />
+                                        </Border.RenderTransform>
+                                        <ItemsRepeater ItemsSource="{Binding Data.Outfit}">
+                                            <ItemsRepeater.Layout>
+                                                <muxc:StackLayout Spacing="0" />
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <utu:AutoLayout Orientation="Vertical" Spacing="0">
+                                                        <!-- Divider -->
+                                                        <Border Height="1"
+                                                                Background="{ThemeResource WornBlushBrush}"
+                                                                HorizontalAlignment="Stretch"
+                                                                Opacity="0.5" />
+
+                                                        <!-- Item Row (liftable on hover) -->
+                                                        <Border CornerRadius="12"
+                                                                Padding="8,0"
+                                                                Margin="-8,0"
+                                                                RenderTransformOrigin="0.5,0.5"
+                                                                PointerEntered="OnOutfitItemEntered"
+                                                                PointerExited="OnOutfitItemExited">
+                                                            <Border.RenderTransform>
+                                                                <TranslateTransform />
+                                                            </Border.RenderTransform>
+
+                                                            <Grid Padding="0,16" ColumnSpacing="12">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <!-- Emoji in colored square -->
+                                                                <Border Grid.Column="0"
+                                                                        Background="{ThemeResource WornBlushBrush}"
+                                                                        CornerRadius="12"
+                                                                        Width="44" Height="44"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding Emoji}"
+                                                                               Style="{StaticResource WornEmojiStyle}"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Center" />
+                                                                </Border>
+
+                                                                <!-- Name + Description -->
+                                                                <StackPanel Grid.Column="1" Spacing="2"
+                                                                            VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding Name}"
+                                                                               Style="{StaticResource WornCardTitleStyle}" />
+                                                                    <TextBlock Text="{Binding Desc}"
+                                                                               Style="{StaticResource WornBodyStyle}"
+                                                                               Foreground="{ThemeResource WornSlateBrush}"
+                                                                               TextWrapping="Wrap" />
+                                                                </StackPanel>
+
+                                                                <!-- Necessity Label -->
+                                                                <TextBlock Grid.Column="2"
+                                                                           Text="{Binding NecessityLabel}"
+                                                                           Style="{StaticResource WornNecessityStyle}"
+                                                                           VerticalAlignment="Center"
+                                                                           HorizontalAlignment="Right"
+                                                                           AutomationProperties.Name="Necessity level" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </utu:AutoLayout>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </Border>
+
+                                    <!-- Collapsed hint (hidden when expanded) -->
+                                    <TextBlock x:Name="OutfitCollapsedHint"
+                                               Style="{StaticResource WornTaglineStyle}"
+                                               Foreground="{ThemeResource WornTerracottaBrush}"
+                                               HorizontalAlignment="Center"
+                                               Opacity="0"
+                                               Margin="0,8,0,0"
+                                               IsHitTestVisible="False" />
+
+                                </utu:AutoLayout>
+                            </Border>
+                        </Grid>
+
+                        <!-- ═══════════════════════════════ -->
+                        <!-- ZONE 3: Hourly Wardrobe Strip   -->
+                        <!-- ═══════════════════════════════ -->
+                        <utu:AutoLayout Orientation="Vertical" Spacing="16">
+                            <!-- Section Header -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="HOURLY WARDROBE"
+                                           Style="{StaticResource WornLabelStyle}"
+                                           Foreground="{ThemeResource WornSlateBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource WornTaglineStyle}"
+                                           Foreground="{ThemeResource WornSlateBrush}"
+                                           VerticalAlignment="Center"
+                                           Opacity="0.6"
+                                           AutomationProperties.AccessibilityView="Raw">
+                                    <Run Text="&#x2190; scroll &#x2192;" />
+                                </TextBlock>
+                            </Grid>
+
+                            <!-- Clothesline Strip (layered Grid) -->
+                            <Grid AutomationProperties.Name="Hourly outfit clothesline">
+                                <!-- ScrollViewer with rope + cards -->
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                              HorizontalScrollMode="Enabled"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              VerticalScrollMode="Disabled"
+                                              PointerWheelChanged="OnHorizontalScrollWheel"
+                                              ViewChanged="OnClotheslineViewChanged">
+                                    <Grid>
+                                        <!-- Clothesline rope -->
+                                        <Border Height="1.5"
+                                                Background="{ThemeResource WornSlateBrush}"
+                                                Opacity="0.3"
+                                                VerticalAlignment="Top"
+                                                Margin="0,32,0,0"
+                                                HorizontalAlignment="Stretch" />
+
+                                        <!-- Hourly cards -->
+                                        <ItemsRepeater ItemsSource="{Binding Data.Hourly}">
+                                            <ItemsRepeater.Layout>
+                                                <muxc:StackLayout Orientation="Horizontal"
+                                                                  Spacing="4" />
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <controls:ClotheslineCard Moment="{Binding}" />
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </Grid>
+                                </ScrollViewer>
+
+                                <!-- Left fade edge -->
+                                <Border Width="32"
+                                        HorizontalAlignment="Left"
+                                        IsHitTestVisible="False"
+                                        Background="{ThemeResource WornFadeLeftBrush}" />
+
+                                <!-- Right fade edge -->
+                                <Border Width="32"
+                                        HorizontalAlignment="Right"
+                                        IsHitTestVisible="False"
+                                        Background="{ThemeResource WornFadeRightBrush}" />
+                            </Grid>
+
+                            <!-- Nudge Bar -->
+                            <Border Background="{ThemeResource WornLinenBrush}"
+                                    CornerRadius="14"
+                                    Padding="16,12"
+                                    AutomationProperties.Name="Day outfit summary">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nudge icon -->
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding Data.Nudge.Icon}"
+                                               FontSize="20"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+
+                                    <!-- Nudge summary -->
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Data.Nudge.Summary}"
+                                               FontFamily="{StaticResource InstrumentSerifFont}"
+                                               FontStyle="Italic"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource WornCharcoalBrush}"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
+
+                                    <!-- Tag pill -->
+                                    <Border Grid.Column="2"
+                                            Background="{ThemeResource WornBlushBrush}"
+                                            CornerRadius="10"
+                                            Padding="10,4"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Data.Nudge.Tag}"
+                                                   Style="{StaticResource WornLabelStyle}"
+                                                   FontSize="10"
+                                                   Foreground="{ThemeResource WornSlateBrush}" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </utu:AutoLayout>
+
+                        <!-- ═══════════════════════════════ -->
+                        <!-- ZONE 4: Alert Ribbon            -->
+                        <!-- ═══════════════════════════════ -->
+                        <ItemsRepeater ItemsSource="{Binding Data.Alerts}">
+                            <ItemsRepeater.Layout>
+                                <muxc:StackLayout Spacing="12" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource WornAlertGradientBrush}"
+                                            CornerRadius="20"
+                                            Padding="24,20"
+                                            AutomationProperties.Name="Weather alert">
+                                        <Grid ColumnSpacing="16">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Alert Icon -->
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding Icon}"
+                                                       FontSize="32"
+                                                       VerticalAlignment="Center" />
+
+                                            <!-- Alert Text -->
+                                            <StackPanel Grid.Column="1" Spacing="4"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Title}"
+                                                           Style="{StaticResource WornCardTitleStyle}"
+                                                           Foreground="{ThemeResource WornCreamBrush}"
+                                                           TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding Desc}"
+                                                           Style="{StaticResource WornBodyStyle}"
+                                                           Foreground="{ThemeResource WornCreamBrush}"
+                                                           Opacity="0.9"
+                                                           TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <!-- ═══════════════════════════════ -->
+                        <!-- ZONE 5: Weekly Outfit Forecast   -->
+                        <!-- ═══════════════════════════════ -->
+                        <utu:AutoLayout Orientation="Vertical" Spacing="20">
+                            <!-- Section Header -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="The week in outfits"
+                                           Style="{StaticResource WornSectionTitleStyle}"
+                                           FontSize="{utu:Responsive Narrowest=20, Normal=24, Wide=28}" />
+                                <TextBlock Grid.Column="1"
+                                           Text="7-day wardrobe forecast"
+                                           Style="{StaticResource WornLabelStyle}"
+                                           Foreground="{ThemeResource WornSlateBrush}"
+                                           VerticalAlignment="Bottom" />
+                            </Grid>
+
+                            <!-- Day cards: horizontal scroll strip -->
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          HorizontalScrollMode="Enabled"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          VerticalScrollMode="Disabled"
+                                          PointerWheelChanged="OnHorizontalScrollWheel">
+                                <ItemsRepeater ItemsSource="{Binding Data.Daily}">
+                                    <ItemsRepeater.Layout>
+                                        <muxc:StackLayout Orientation="Horizontal"
+                                                          Spacing="14" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <controls:DayCard Forecast="{Binding}"
+                                                              Width="165" />
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </ScrollViewer>
+
+                            <!-- Flip/Swipe Hint -->
+                            <TextBlock x:Name="WeeklyFlipHint"
+                                       Text="tap or swipe any day to reveal styling notes"
+                                       Style="{StaticResource WornLabelStyle}"
+                                       Foreground="{ThemeResource WornSlateBrush}"
+                                       HorizontalAlignment="Center"
+                                       Opacity="0.5" />
+                        </utu:AutoLayout>
+
+                        <!-- ═══════════════════════════════ -->
+                        <!-- ZONE 6: Footer                  -->
+                        <!-- ═══════════════════════════════ -->
+                        <utu:AutoLayout Orientation="Vertical"
+                                        Spacing="8"
+                                        HorizontalAlignment="Center"
+                                        Padding="0,24,0,0">
+                            <TextBlock Style="{StaticResource WornLogoSmallStyle}"
+                                       HorizontalAlignment="Center">
+                                <Run Text="s" Foreground="{ThemeResource WornTerracottaBrush}" /><Run Text="weather" />
+                            </TextBlock>
+                            <TextBlock Text="dressing you for the world outside"
+                                       Style="{StaticResource WornTaglineStyle}"
+                                       Foreground="{ThemeResource WornSlateBrush}"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center" />
+                            <TextBlock Text="no degrees, no percentages, just vibes."
+                                       Style="{StaticResource WornBodyStyle}"
+                                       Foreground="{ThemeResource WornSlateBrush}"
+                                       Opacity="0.6"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center" />
+                        </utu:AutoLayout>
+                    </utu:AutoLayout>
+                </DataTemplate>
+
+                <!-- LOADING TEMPLATE -->
+                <mvux:FeedView.ProgressTemplate>
+                    <DataTemplate>
+                        <utu:AutoLayout x:Name="SkeletonRoot" Orientation="Vertical" Spacing="32"
+                                        Padding="0,24"
+                                        AutomationProperties.Name="Loading weather data">
+                            <!-- Skeleton headline -->
+                            <StackPanel Spacing="12">
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="8" Height="16" Width="160"
+                                        HorizontalAlignment="Left" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="8" Height="48" Width="400"
+                                        HorizontalAlignment="Left" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="8" Height="48" Width="320"
+                                        HorizontalAlignment="Left" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="8" Height="16" Width="500"
+                                        HorizontalAlignment="Left" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="8" Height="16" Width="450"
+                                        HorizontalAlignment="Left" />
+                            </StackPanel>
+
+                            <!-- Skeleton tags -->
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="16" Height="28" Width="100" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="16" Height="28" Width="80" />
+                                <Border Background="{ThemeResource WornBlushBrush}"
+                                        CornerRadius="16" Height="28" Width="110" />
+                            </StackPanel>
+
+                            <!-- Skeleton outfit card -->
+                            <Border Background="{ThemeResource WornLinenBrush}"
+                                    CornerRadius="24" Padding="28" Height="280">
+                                <StackPanel Spacing="16">
+                                    <Border Background="{ThemeResource WornBlushBrush}"
+                                            CornerRadius="4" Height="12" Width="160"
+                                            HorizontalAlignment="Left" />
+                                    <Border Background="{ThemeResource WornBlushBrush}"
+                                            CornerRadius="4" Height="44"
+                                            HorizontalAlignment="Stretch" />
+                                    <Border Background="{ThemeResource WornBlushBrush}"
+                                            CornerRadius="4" Height="44"
+                                            HorizontalAlignment="Stretch" />
+                                    <Border Background="{ThemeResource WornBlushBrush}"
+                                            CornerRadius="4" Height="44"
+                                            HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Skeleton hourly strip -->
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <Border Background="{ThemeResource WornLinenBrush}"
+                                        CornerRadius="20" Width="155" Height="180" />
+                                <Border Background="{ThemeResource WornLinenBrush}"
+                                        CornerRadius="20" Width="155" Height="180" />
+                                <Border Background="{ThemeResource WornLinenBrush}"
+                                        CornerRadius="20" Width="155" Height="180" />
+                                <Border Background="{ThemeResource WornLinenBrush}"
+                                        CornerRadius="20" Width="155" Height="180" />
+                            </StackPanel>
+                        </utu:AutoLayout>
+                    </DataTemplate>
+                </mvux:FeedView.ProgressTemplate>
+
+                <!-- ERROR TEMPLATE -->
+                <mvux:FeedView.ErrorTemplate>
+                    <DataTemplate>
+                        <utu:AutoLayout Orientation="Vertical" Spacing="16"
+                                        HorizontalAlignment="Center"
+                                        Padding="48"
+                                        AutomationProperties.Name="Error loading weather data">
+                            <TextBlock Text="&#x2614;"
+                                       FontSize="48"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="Check back soon"
+                                       Style="{StaticResource WornSectionTitleStyle}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="We need your location to dress you for the weather. Enable location access and refresh to try again."
+                                       Style="{StaticResource WornBodyStyle}"
+                                       Foreground="{ThemeResource WornSlateBrush}"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       MaxWidth="400" />
+                            <Button Content="Try Again"
+                                    Command="{Binding Refresh}"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,12,0,0"
+                                    AutomationProperties.Name="Retry loading weather data" />
+                        </utu:AutoLayout>
+                    </DataTemplate>
+                </mvux:FeedView.ErrorTemplate>
+
+            </mvux:FeedView>
+
+        </utu:AutoLayout>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,43 @@
+<Application x:Class="AdTokensIDE.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       xmlns:converters="using:AdTokensIDE.Converters">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Converters -->
+      <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
+      <converters:BoolToMessageBgConverter x:Key="BoolToMessageBgConverter" />
+      <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+      <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+      <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+
+      <!-- Custom Colors -->
+      <SolidColorBrush x:Key="SponsorLimeGreenBrush" Color="#32CD32" />
+
+      <!-- MenuBarItem Style for accessible text -->
+      <Style TargetType="MenuBarItem">
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+      </Style>
+
+      <!-- MenuFlyoutItem Style -->
+      <Style TargetType="MenuFlyoutItem">
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+      </Style>
+
+      <!-- TreeViewItem Style -->
+      <Style TargetType="TreeViewItem">
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

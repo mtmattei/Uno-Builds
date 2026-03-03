@@ -1,0 +1,99 @@
+<UserControl x:Class="AdaptiveInputDemo.Controls.DatePickerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Quick Picks -->
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button x:Name="TodayButton"
+                    Content="Today"
+                    Click="OnQuickPickClick"
+                    Tag="today"
+                    Style="{StaticResource FilledTonalButtonStyle}"
+                    MinWidth="80" />
+            <Button x:Name="TomorrowButton"
+                    Content="Tomorrow"
+                    Click="OnQuickPickClick"
+                    Tag="tomorrow"
+                    Style="{StaticResource FilledTonalButtonStyle}"
+                    MinWidth="80" />
+            <Button x:Name="NextWeekButton"
+                    Content="Next Week"
+                    Click="OnQuickPickClick"
+                    Tag="nextweek"
+                    Style="{StaticResource FilledTonalButtonStyle}"
+                    MinWidth="80" />
+        </StackPanel>
+
+        <!-- Month/Year Header -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="PrevMonthButton"
+                    Click="OnPrevMonthClick"
+                    Style="{StaticResource IconButtonStyle}"
+                    AutomationProperties.Name="Previous month">
+                <FontIcon Glyph="&#xE76B;" FontSize="14" />
+            </Button>
+
+            <TextBlock x:Name="MonthYearLabel"
+                       Grid.Column="1"
+                       Text="December 2024"
+                       Style="{StaticResource TitleMedium}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+
+            <Button x:Name="NextMonthButton"
+                    Grid.Column="2"
+                    Click="OnNextMonthClick"
+                    Style="{StaticResource IconButtonStyle}"
+                    AutomationProperties.Name="Next month">
+                <FontIcon Glyph="&#xE76C;" FontSize="14" />
+            </Button>
+        </Grid>
+
+        <!-- Calendar Grid - fixed 7x7 structure for proper alignment -->
+        <Grid x:Name="CalendarGrid" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="44" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Day Headers -->
+            <TextBlock Text="Su" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="1" Text="Mo" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="2" Text="Tu" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="3" Text="We" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="4" Text="Th" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="5" Text="Fr" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Grid.Column="6" Text="Sa" Style="{StaticResource LabelSmall}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+
+            <!-- Day buttons added programmatically with Grid.Row and Grid.Column -->
+        </Grid>
+    </Grid>
+</UserControl>

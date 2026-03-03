@@ -1,0 +1,36 @@
+<UserControl x:Class="Wellmetrix.Controls.InsightCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border Style="{StaticResource InsightCardStyle}">
+        <utu:AutoLayout Orientation="Horizontal"
+                       Spacing="12"
+                       CounterAxisAlignment="Start">
+
+            <!-- Icon -->
+            <Border x:Name="IconContainer"
+                   Background="{StaticResource GlassSurfaceBrush}"
+                   CornerRadius="8"
+                   Width="32"
+                   Height="32">
+                <FontIcon x:Name="InsightIcon"
+                         Glyph="&#xE73E;"
+                         FontSize="16"
+                         Foreground="{StaticResource KidneysAccentBrush}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Border>
+
+            <!-- Message -->
+            <TextBlock x:Name="MessageText"
+                      Text="Your heart rhythm looks steady today."
+                      Style="{StaticResource BodyTextStyle}"
+                      Foreground="{StaticResource TextSecondaryBrush}"
+                      TextWrapping="Wrap"
+                      utu:AutoLayout.PrimaryAlignment="Stretch" />
+
+        </utu:AutoLayout>
+    </Border>
+
+</UserControl>

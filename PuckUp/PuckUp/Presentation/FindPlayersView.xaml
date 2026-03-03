@@ -1,0 +1,118 @@
+<UserControl x:Class="PuckUp.Presentation.FindPlayersView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:PuckUp.Presentation"
+      xmlns:models="using:PuckUp.Models"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      Background="{ThemeResource BackgroundBrush}"
+      x:Name="_root">
+
+  <Grid>
+        <ProgressRing
+            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+            Width="50"
+            Height="50"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+
+        <ListView
+            ItemsSource="{x:Bind ViewModel.Players, Mode=OneWay}"
+            IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+            SelectionMode="None"
+            Padding="0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource StandardListViewItemStyle}"/>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Player">
+                    <Border Style="{StaticResource CardBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Header with Name and Rating -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Text="{x:Bind Name, Mode=OneWay}"
+                                    FontSize="18"
+                                    FontWeight="SemiBold"/>
+
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" Foreground="{ThemeResource PrimaryColor}" Margin="0,0,4,0"/>
+                                    <TextBlock
+                                        Text="{x:Bind Rating, Mode=OneWay}"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource PrimaryColor}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Position and League -->
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,8,0,0">
+                                <Border Style="{StaticResource PositionBadgeStyle}">
+                                    <TextBlock
+                                        Text="{x:Bind Position, Mode=OneWay}"
+                                        FontSize="12"/>
+                                </Border>
+                                <TextBlock
+                                    Text="{x:Bind League, Mode=OneWay}"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"/>
+                            </StackPanel>
+
+                            <!-- Location -->
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE707;" Margin="0,0,8,0"/>
+                                <TextBlock Text="{x:Bind Arena, Mode=OneWay}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Availability -->
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,8,0,0">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE823;" Margin="0,0,8,0"/>
+                                <TextBlock Text="{x:Bind Availability, Mode=OneWay}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Buttons -->
+                            <Grid Grid.Row="4" Margin="0,16,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    Content="Invite to Game"
+                                    Style="{StaticResource PrimaryActionButtonStyle}"
+                                    Command="{Binding DataContext.InviteToGameCommand, ElementName=_root}"
+                                    CommandParameter="{x:Bind}"/>
+
+                                <Button
+                                    Grid.Column="1"
+                                    Content="Message"
+                                    Style="{StaticResource SecondaryActionButtonStyle}"
+                                    Margin="12,0,0,0"
+                                    Command="{Binding DataContext.SendMessageCommand, ElementName=_root}"
+                                    CommandParameter="{x:Bind}"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -1,0 +1,320 @@
+﻿<Page x:Class="HockeyBarn.Presentation.GameListingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:HockeyBarn.Models"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <!-- Background gradient -->
+    <Grid.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#0C1118" Offset="0" />
+        <GradientStop Color="#1E293B" Offset="1" />
+      </LinearGradientBrush>
+    </Grid.Background>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <Border Grid.Row="0"
+            Background="{ThemeResource SurfaceColor}"
+            Padding="16,12">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Logo -->
+        <utu:AutoLayout Grid.Column="0"
+                        Orientation="Horizontal"
+                        Spacing="12"
+                        VerticalAlignment="Center">
+          <FontIcon Glyph="&#xE8FE;"
+                    Foreground="{ThemeResource IceBlueBrush}"
+                    FontSize="28" />
+          <TextBlock Text="The Hockey Barn"
+                     Style="{StaticResource MaterialSubtitle1}"
+                     Foreground="{ThemeResource OnSurfaceColor}"
+                     FontWeight="Bold"
+                     VerticalAlignment="Center" />
+        </utu:AutoLayout>
+
+        <!-- Notification Icon -->
+        <Button Grid.Column="2"
+                Background="Transparent"
+                Width="44"
+                Height="44"
+                Padding="0"
+                Click="Notifications_Click">
+          <Grid>
+            <FontIcon Glyph="&#xEA8F;"
+                      Foreground="{ThemeResource OnSurfaceColor}"
+                      FontSize="24" />
+            <!-- Notification Badge -->
+            <Border Width="20"
+                    Height="20"
+                    CornerRadius="10"
+                    Background="{ThemeResource ErrorColor}"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Margin="0,-4,-4,0">
+              <TextBlock Text="3"
+                         FontSize="11"
+                         FontWeight="Bold"
+                         Foreground="White"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Border>
+          </Grid>
+        </Button>
+
+      </Grid>
+    </Border>
+
+    <!-- Main Content -->
+    <ScrollViewer Grid.Row="1">
+      <utu:AutoLayout Orientation="Vertical"
+                      Spacing="16"
+                      Padding="0,16,0,80">
+
+        <!-- Page Header -->
+        <utu:AutoLayout Orientation="Horizontal"
+                        Spacing="0"
+                        Padding="16,0"
+                        Justify="SpaceBetween">
+          <TextBlock Text="Find a Game"
+                     Style="{StaticResource PageTitleStyle}" />
+          
+          <Button Background="Transparent"
+                  Padding="8">
+            <FontIcon Glyph="&#xE71C;"
+                      Foreground="{ThemeResource IceBlueBrush}"
+                      FontSize="24" />
+          </Button>
+        </utu:AutoLayout>
+
+        <!-- Game Cards -->
+        <ItemsRepeater x:Name="{Binding}">
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="models:Game">
+              
+              <Border Style="{StaticResource GameCardStyle}">
+                <utu:AutoLayout Orientation="Vertical"
+                                Spacing="16">
+
+                  <!-- Header: Logo, Name, Date -->
+                  <utu:AutoLayout Orientation="Horizontal"
+                                  Spacing="12">
+                    <!-- Team Logo -->
+                    <Border Width="56"
+                            Height="56"
+                            CornerRadius="28"
+                            Background="{ThemeResource SurfaceVariantColor}">
+                      <Image Source="{Binding TeamLogoUrl}"
+                             Stretch="UniformToFill" />
+                    </Border>
+
+                    <!-- Game Info -->
+                    <utu:AutoLayout Orientation="Vertical"
+                                    Spacing="4"
+                                    PrimaryAxisAlignment="Center">
+                      <TextBlock Text="{Binding Location}"
+                                 Style="{StaticResource MaterialSubtitle1}"
+                                 Foreground="{ThemeResource OnSurfaceColor}"
+                                 FontWeight="SemiBold" />
+                      <TextBlock Style="{StaticResource MaterialBody2}"
+                                 Foreground="{ThemeResource OnSurfaceVariantColor}">
+                        <Run Text="{Binding DateTime, Converter={StaticResource DateTimeConverter}}" />
+                      </TextBlock>
+                    </utu:AutoLayout>
+                  </utu:AutoLayout>
+
+                  <!-- Spots Needed -->
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Skaters -->
+                    <utu:AutoLayout Grid.Column="0"
+                                    Orientation="Vertical"
+                                    Spacing="4">
+                      <TextBlock Text="SKATERS"
+                                 Style="{StaticResource MaterialCaption}"
+                                 Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                      <TextBlock TextAlignment="Center" FontSize="28"
+                                 FontWeight="Light"
+                                 Foreground="{ThemeResource IceBlueBrush}">
+                        <Run Text="{Binding SkatersNeeded}" />
+                        <Run Text=" Needed"
+                             FontSize="16"
+                             FontWeight="Normal" />
+                      </TextBlock>
+                    </utu:AutoLayout>
+
+                    <!-- Goalies -->
+                    <utu:AutoLayout Grid.Column="1"
+                                    Orientation="Vertical"
+                                    Spacing="4">
+                      <TextBlock Text="GOALIE"
+                                 Style="{StaticResource MaterialCaption}"
+                                 Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                      <TextBlock FontSize="28"
+                                 FontWeight="Bold"
+                                 Foreground="{ThemeResource IceBlueBrush}">
+                        <Run Text="{Binding GoaliesNeeded}" />
+                        <Run Text=" Needed"
+                             FontSize="16"
+                             FontWeight="Normal" />
+                      </TextBlock>
+                    </utu:AutoLayout>
+                  </Grid>
+
+                  <!-- Tags and Distance -->
+                  <utu:AutoLayout Orientation="Horizontal"
+                                  Spacing="8"
+                                  CounterAlignment="Center">
+                    
+                    <!-- Skill Level Chips -->
+                    <Border CornerRadius="16"
+                            Padding="12,6"
+                            Background="{Binding SkillLevel, Converter={StaticResource SkillLevelColorConverter}}">
+                      <TextBlock Text="{Binding SkillLevel}"
+                                 Style="{StaticResource MaterialCaption}"
+                                 Foreground="{ThemeResource OnPrimaryContainerColor}"
+                                 FontWeight="SemiBold" />
+                    </Border>
+
+                    <!-- Distance -->
+                    <Border Style="{StaticResource ChipStyle}"
+                            Background="{ThemeResource SurfaceVariantColor}">
+                      <utu:AutoLayout Orientation="Horizontal"
+                                      Spacing="4">
+                        <FontIcon Glyph="&#xE81D;"
+                                  FontSize="14"
+                                  Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                        <TextBlock Style="{StaticResource MaterialCaption}"
+                                   Foreground="{ThemeResource OnSurfaceVariantColor}">
+                          <Run Text="{Binding DistanceKm}" />
+                          <Run Text=" km" />
+                        </TextBlock>
+                      </utu:AutoLayout>
+                    </Border>
+
+                  </utu:AutoLayout>
+
+                  <!-- Join Button -->
+                  <Button Content="Join"
+                          Style="{StaticResource PrimaryButtonStyle}"
+                          HorizontalAlignment="Stretch"
+                          Click="JoinGame_Click"
+                          Tag="{Binding Id}" />
+
+                </utu:AutoLayout>
+              </Border>
+
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+
+    <!-- Bottom Navigation Bar -->
+    <Grid Grid.Row="1"
+          VerticalAlignment="Bottom"
+          Background="{ThemeResource SurfaceColor}"
+          Padding="8,4"
+          Translation="0,0,16">
+      <Grid.Shadow>
+        <ThemeShadow />
+      </Grid.Shadow>
+
+      <Grid MaxWidth="600">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Find Game -->
+        <Button Grid.Column="0"
+                Background="Transparent"
+                Height="60"
+                Click="NavigateToFindGame_Click">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE71E;"
+                      FontSize="24"
+                      Foreground="{ThemeResource IceBlueBrush}" />
+            <TextBlock Text="Find Game"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource IceBlueBrush}"
+                       FontWeight="SemiBold" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- My Team -->
+        <Button Grid.Column="1"
+                Background="Transparent"
+                Height="60">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE716;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="My Team"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- Messages -->
+        <Button Grid.Column="2"
+                Background="Transparent"
+                Height="60">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE8F2;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="Messages"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- Profile -->
+        <Button Grid.Column="3"
+                Background="Transparent"
+                Height="60"
+                Click="NavigateToProfile_Click">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE77B;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="Profile"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+      </Grid>
+    </Grid>
+
+  </Grid>
+</Page>

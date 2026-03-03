@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "HorizontalCalendarControl",
+  "display": "standalone",
+  "name": "HorizontalCalendarControl",
+  "short_name": "HorizontalCalendarControl",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

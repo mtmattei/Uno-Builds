@@ -1,0 +1,75 @@
+﻿<Page x:Class="Zara.Views.ProductCatalogPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Zara.Views.Controls"
+      xmlns:viewmodels="using:Zara.ViewModels"
+      Background="{StaticResource ZaraPrimaryBackgroundBrush}">
+
+    <Page.DataContext>
+        <viewmodels:ProductCatalogViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="Auto" />
+            <!-- Category Tabs -->
+            <RowDefinition Height="*" />
+            <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <controls:HeaderControl Grid.Row="0"
+                                MenuClicked="OnMenuClicked"
+                                FiltersClicked="OnFiltersClicked"
+                                SearchClicked="OnSearchClicked"
+                                CartClicked="OnCartClicked" />
+
+        <!-- Category Tabs -->
+        <controls:CategoryTabBar Grid.Row="1"
+                                 Categories="{x:Bind ViewModel.Categories, Mode=OneWay}"
+                                 CategorySelected="OnCategorySelected" />
+
+        <!-- Scrollable Content -->
+        <ScrollViewer Grid.Row="2"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel Padding="16,0,16,16">
+                <!-- The Fits Section -->
+                <controls:FitsGridSection Fits="{x:Bind ViewModel.Fits, Mode=OneWay}" />
+
+                <!-- Straight // Basic Section -->
+                <controls:ProductListSection SectionTitle="FIT: STRAIGHT // BASIC"
+                                             Products="{x:Bind ViewModel.StraightBasicProducts, Mode=OneWay}" />
+
+                <!-- Flare // Boot Cut Section -->
+                <controls:ProductListSection SectionTitle="FIT: FLARE // BOOT CUT"
+                                             Products="{x:Bind ViewModel.FlareBootCutProducts, Mode=OneWay}" />
+
+                <!-- Cargo // Utility Section -->
+                <controls:ProductListSection SectionTitle="FIT: CARGO // UTILITY"
+                                             Products="{x:Bind ViewModel.CargoUtilityProducts, Mode=OneWay}" />
+
+                <!-- Balloon // Contemporary Section -->
+                <controls:ProductListSection SectionTitle="FIT: BALLOON // CONTEMPORARY"
+                                             Products="{x:Bind ViewModel.BalloonContemporaryProducts, Mode=OneWay}" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Loading Indicator -->
+        <Grid Grid.Row="2"
+              Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+              Background="{StaticResource ZaraPrimaryBackgroundBrush}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <ProgressRing IsActive="True"
+                              Width="40"
+                              Height="40" />
+                <TextBlock Text="Loading products..."
+                           Margin="0,16,0,0"
+                           Foreground="{StaticResource ZaraTextSecondaryBrush}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Page>

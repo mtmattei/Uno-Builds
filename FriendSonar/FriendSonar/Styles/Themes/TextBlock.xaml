@@ -1,0 +1,126 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Sonar Terminal Typography Styles -->
+  
+  <!-- App Title Style -->
+  <Style x:Key="SonarTitleTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="28" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Subtitle Style -->
+  <Style x:Key="SonarSubtitleTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen53Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Contact Count Style -->
+  <Style x:Key="SonarCountTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="28" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Contact Count Label Style -->
+  <Style x:Key="SonarCountLabelTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen53Brush}" />
+    <Setter Property="Opacity" Value="0.7" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Status Bar Style -->
+  <Style x:Key="SonarStatusBarTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="Opacity" Value="0.5" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Section Header Style -->
+  <Style x:Key="SonarSectionHeaderTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen53Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Contact Name Style -->
+  <Style x:Key="SonarContactNameTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Contact Info Style -->
+  <Style x:Key="SonarContactInfoTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen53Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Button Text Style -->
+  <Style x:Key="SonarButtonTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Center Label Style -->
+  <Style x:Key="SonarCenterLabelTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="9" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="Opacity" Value="0.7" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Distance Labels Style -->
+  <Style x:Key="SonarDistanceLabelTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="9" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen33Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Blip Label Style -->
+  <Style x:Key="SonarBlipLabelTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen100Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+  <!-- Bearing Label Style (0, 90, 180, 270 around radar) -->
+  <Style x:Key="SonarBearingLabelTextBlockStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Courier New, Consolas, monospace" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Foreground" Value="{ThemeResource PhosphorGreen33Brush}" />
+    <Setter Property="TextWrapping" Value="NoWrap" />
+  </Style>
+
+</ResourceDictionary>

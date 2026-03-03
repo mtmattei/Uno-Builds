@@ -1,0 +1,191 @@
+<UserControl x:Class="AgentNotifier.Controls.AgentCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AgentNotifier.Controls"
+             xmlns:vm="using:AgentNotifier.ViewModels"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBadgeBorder"
+                                           Storyboard.TargetProperty="Opacity">
+                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0.4" />
+                <LinearDoubleKeyFrame KeyTime="0:0:0.6" Value="1.0" />
+                <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="0.4" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Border Background="{StaticResource BgCardBrush}"
+            BorderBrush="{Binding IsExpanded, Converter={StaticResource BoolToCardBorderConverter}}"
+            BorderThickness="1"
+            CornerRadius="2">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Card Header (Always Visible) -->
+            <Border x:Name="HeaderBorder"
+                    Grid.Row="0"
+                    Background="{StaticResource BgElevatedBrush}"
+                    Padding="14,10"
+                    CornerRadius="2,2,0,0"
+                    utu:CommandExtensions.Command="{Binding ToggleExpandedCommand}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Status Dot + Name -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                        <Ellipse Width="8" Height="8"
+                                 Fill="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                 VerticalAlignment="Center"
+                                 Opacity="{Binding IsBlinkVisible, Converter={StaticResource BoolToOpacityConverter}}" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}"
+                                       Style="{StaticResource AgentNameStyle}" />
+                            <TextBlock Text="{Binding AgentId}"
+                                       Style="{StaticResource AgentIdStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Spacer -->
+                    <Grid Grid.Column="1" />
+
+                    <!-- Tokens -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,24,0">
+                        <TextBlock Text="{Binding TokensDisplay}"
+                                   Style="{StaticResource StatValueMediumStyle}"
+                                   Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                   HorizontalAlignment="Right" />
+                        <TextBlock Text="TOKENS"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Right" />
+                    </StackPanel>
+
+                    <!-- Time -->
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Margin="0,0,24,0">
+                        <TextBlock Text="{Binding ElapsedTime}"
+                                   Style="{StaticResource StatValueMediumStyle}"
+                                   HorizontalAlignment="Right" />
+                        <TextBlock Text="TIME"
+                                   Style="{StaticResource MicroLabelStyle}"
+                                   HorizontalAlignment="Right" />
+                    </StackPanel>
+
+                    <!-- Status Badge with Pulsing Border -->
+                    <Grid Grid.Column="4" VerticalAlignment="Center">
+                        <!-- Pulsing orange border (behind badge, only visible when waiting) -->
+                        <Border x:Name="StatusBadgeBorder"
+                                BorderBrush="{StaticResource AttentionBorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="2"
+                                Opacity="0"
+                                Margin="-2" />
+                        <!-- Status Badge -->
+                        <Border Background="{Binding Status, Converter={StaticResource StatusToBgColorConverter}}"
+                                BorderBrush="{Binding Status, Converter={StaticResource StatusToBorderColorConverter}}"
+                                BorderThickness="1"
+                                CornerRadius="2"
+                                Padding="8,4">
+                            <TextBlock Text="{Binding StatusLabel}"
+                                       Style="{StaticResource MicroLabelStyle}"
+                                       Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Working Progress Bar (Always visible when working) -->
+            <local:SegmentedProgress Grid.Row="1"
+                                     IsIndeterminate="True"
+                                     ActiveColor="{StaticResource AccentBrush}"
+                                     Visibility="{Binding IsWorking, Converter={StaticResource BoolToVisibilityConverter}}"
+                                     HorizontalAlignment="Stretch"
+                                     Margin="0,2,0,0" />
+
+            <!-- Expanded Content -->
+            <Border Grid.Row="2"
+                    Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Padding="14,12"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Spacing="12">
+                    <!-- Current Task Section -->
+                    <StackPanel Spacing="6"
+                                Visibility="{Binding CurrentTask, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="CURRENT TASK"
+                                   Style="{StaticResource MicroLabelStyle}" />
+                        <Border Background="{StaticResource BgBaseBrush}"
+                                BorderBrush="{StaticResource BorderSubtleBrush}"
+                                BorderThickness="1"
+                                CornerRadius="2"
+                                Padding="12,10">
+                            <TextBlock Style="{StaticResource BodyTextStyle}">
+                                <Run Text="▸ " Foreground="{StaticResource AccentBrush}" />
+                                <Run Text="{Binding CurrentTask}" />
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Progress Bar (when explicit progress value exists) -->
+                    <local:SegmentedProgress Value="{Binding Progress}"
+                                             ActiveColor="{StaticResource AccentBrush}"
+                                             Visibility="{Binding HasProgress, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!-- Detail Metrics Grid -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Model -->
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock Text="MODEL"
+                                       Style="{StaticResource MicroLabelStyle}" />
+                            <TextBlock Text="{Binding Model}"
+                                       Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+
+                        <!-- Rate -->
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock Text="RATE"
+                                       Style="{StaticResource MicroLabelStyle}" />
+                            <TextBlock Text="{Binding RateDisplay}"
+                                       Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+
+                        <!-- Cost -->
+                        <StackPanel Grid.Column="2" Spacing="4">
+                            <TextBlock Text="COST"
+                                       Style="{StaticResource MicroLabelStyle}" />
+                            <TextBlock Text="{Binding CostDisplay}"
+                                       Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+
+                        <!-- Queue -->
+                        <StackPanel Grid.Column="3" Spacing="4">
+                            <TextBlock Text="QUEUE"
+                                       Style="{StaticResource MicroLabelStyle}" />
+                            <TextBlock Text="{Binding QueueDisplay}"
+                                       Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+
+</UserControl>

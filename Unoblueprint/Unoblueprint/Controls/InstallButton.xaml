@@ -1,0 +1,192 @@
+<UserControl
+    x:Class="Unoblueprint.Controls.InstallButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#E0E0E0" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="HeartColorBrush" Color="#FF4757" />
+
+        <LinearGradientBrush x:Key="InstalledGradientBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#C4FF0D" Offset="0" />
+            <GradientStop Color="#A0D80B" Offset="1" />
+        </LinearGradientBrush>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" Width="110" Height="40">
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Target="ButtonBorder.BorderBrush" Value="{StaticResource ButtonBorderBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                        <Setter Target="ButtonBorder.BorderBrush" Value="{StaticResource PrimaryTextBrush}" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ButtonScale"
+                            Storyboard.TargetProperty="ScaleX"
+                            To="1.03"
+                            Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ButtonScale"
+                            Storyboard.TargetProperty="ScaleY"
+                            To="1.03"
+                            Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="Pressed">
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ButtonScale"
+                            Storyboard.TargetProperty="ScaleX"
+                            To="0.97"
+                            Duration="0:0:0.1">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation
+                            Storyboard.TargetName="ButtonScale"
+                            Storyboard.TargetProperty="ScaleY"
+                            To="0.97"
+                            Duration="0:0:0.1">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="InstallStates">
+                <VisualState x:Name="NotInstalled">
+                    <VisualState.Setters>
+                        <Setter Target="ButtonBorder.Background" Value="White" />
+                        <Setter Target="ButtonText.Text" Value="Install now" />
+                        <Setter Target="HeartIcon.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Installed">
+                    <VisualState.Setters>
+                        <Setter Target="ButtonBorder.Background" Value="{StaticResource InstalledGradientBrush}" />
+                        <Setter Target="ButtonText.Text" Value="Installed" />
+                        <Setter Target="HeartIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames
+                            Storyboard.TargetName="HeartTransform"
+                            Storyboard.TargetProperty="ScaleX">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <BackEase EasingMode="EaseOut" Amplitude="0.5" />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1.0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="4" />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+
+                        <DoubleAnimationUsingKeyFrames
+                            Storyboard.TargetName="HeartTransform"
+                            Storyboard.TargetProperty="ScaleY">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.3">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <BackEase EasingMode="EaseOut" Amplitude="0.5" />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1.0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="4" />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Border
+            x:Name="ButtonBorder"
+            Background="White"
+            BorderBrush="{StaticResource ButtonBorderBrush}"
+            BorderThickness="1.5"
+            CornerRadius="8"
+            RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="ButtonScale" />
+            </Border.RenderTransform>
+
+            <Grid Padding="12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <FontIcon
+                    x:Name="HeartIcon"
+                    Grid.Column="0"
+                    FontFamily="Segoe Fluent Icons"
+                    Glyph="&#xE00B;"
+                    FontSize="18"
+                    Foreground="{StaticResource HeartColorBrush}"
+                    Margin="0,0,6,0"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed"
+                    RenderTransformOrigin="0.5,0.5">
+                    <FontIcon.RenderTransform>
+                        <CompositeTransform x:Name="HeartTransform" />
+                    </FontIcon.RenderTransform>
+                </FontIcon>
+
+                <TextBlock
+                    x:Name="ButtonText"
+                    Grid.Column="1"
+                    Text="Install now"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource PrimaryTextBrush}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <Canvas x:Name="RippleCanvas" IsHitTestVisible="False" Width="200" Height="100"/>
+        <Canvas x:Name="ParticleCanvas" IsHitTestVisible="False" Width="200" Height="100"/>
+
+        <Button
+            x:Name="InteractionButton"
+            Background="Transparent"
+            BorderThickness="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Click="OnButtonClick"
+            PointerEntered="OnPointerEntered"
+            PointerExited="OnPointerExited"
+            PointerPressed="OnPointerPressed"
+            PointerReleased="OnPointerReleased" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,43 @@
+<UserControl
+    x:Class="MsnMessenger.Controls.AvatarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MsnMessenger.Controls">
+
+    <Grid Width="{x:Bind Size, Mode=OneWay}" Height="{x:Bind Size, Mode=OneWay}">
+        <!-- Gradient Frame -->
+        <Border CornerRadius="{x:Bind FrameCornerRadius, Mode=OneWay}"
+                Background="{x:Bind FrameBrush, Mode=OneWay}"
+                Padding="3">
+            <!-- Avatar Background -->
+            <Border CornerRadius="{x:Bind AvatarCornerRadius, Mode=OneWay}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4000B377" Offset="0" />
+                        <GradientStop Color="#400078D4" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <!-- Initials -->
+                <TextBlock Text="{x:Bind Initials, Mode=OneWay}"
+                           FontSize="{x:Bind InitialsFontSize, Mode=OneWay}"
+                           FontWeight="Bold"
+                           Foreground="{ThemeResource PrimaryBrush}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Border>
+        </Border>
+
+        <!-- Status Badge -->
+        <Border x:Name="StatusBadge"
+                Width="{x:Bind StatusSize, Mode=OneWay}"
+                Height="{x:Bind StatusSize, Mode=OneWay}"
+                CornerRadius="{x:Bind StatusCornerRadius, Mode=OneWay}"
+                Background="{x:Bind StatusBrush, Mode=OneWay}"
+                BorderBrush="{ThemeResource SurfaceBrush}"
+                BorderThickness="2.5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,-2,-2"
+                Visibility="{x:Bind ShowStatus, Mode=OneWay}" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,34 @@
+<UserControl x:Class="Vitalis.Controls.SleepChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <lvc:CartesianChart x:Name="Chart" ZoomMode="None" />
+
+        <!-- Legend -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16" Margin="0,8,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Rectangle Width="12" Height="12" RadiusX="2" RadiusY="2" Fill="#404040" />
+                <TextBlock Text="Awake" FontSize="10" Foreground="#808080" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Rectangle Width="12" Height="12" RadiusX="2" RadiusY="2" Fill="#65a30d" />
+                <TextBlock Text="Rem" FontSize="10" Foreground="#808080" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Rectangle Width="12" Height="12" RadiusX="2" RadiusY="2" Fill="#a3e635" />
+                <TextBlock Text="Core" FontSize="10" Foreground="#808080" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Rectangle Width="12" Height="12" RadiusX="2" RadiusY="2" Fill="#d9f99d" />
+                <TextBlock Text="Deep" FontSize="10" Foreground="#808080" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

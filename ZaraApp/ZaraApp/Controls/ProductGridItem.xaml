@@ -1,0 +1,26 @@
+<UserControl
+    x:Class="ZaraApp.Controls.ProductGridItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="#F5F5F5"
+          CornerRadius="4"
+          Height="280">
+
+        <!-- Product Image -->
+        <Image Source="{x:Bind ImageSource, Mode=OneWay}"
+               Stretch="UniformToFill"/>
+
+        <!-- Text Overlay -->
+        <Grid Background="#4D000000"
+              VerticalAlignment="Center"
+              Padding="16,12">
+            <TextBlock Text="{x:Bind FitName, Mode=OneWay}"
+                       Foreground="White"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

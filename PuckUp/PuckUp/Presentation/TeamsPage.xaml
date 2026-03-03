@@ -1,0 +1,164 @@
+<Page
+    x:Class="PuckUp.Presentation.TeamsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PuckUp.Presentation"
+    xmlns:viewmodels="using:PuckUp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Uno.Toolkit.UI"
+    mc:Ignorable="d"
+    x:Name="TeamsPageRoot">
+
+    <Grid Background="{ThemeResource SurfaceColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid ColumnDefinitions="Auto,*,Auto" Grid.Row="0" Background="{ThemeResource PrimaryColor}" Padding="16,12">
+            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"
+                Text="My Teams"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="{ThemeResource OnPrimaryColor}"/>
+
+            <Button
+                Grid.Column="2"
+                Margin="0,0,16,0"
+                Background="{ThemeResource PrimaryContainerColor}"
+                CornerRadius="20"
+                Width="40"
+                Height="40">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" Foreground="{ThemeResource OnPrimaryColor}"/>
+            </Button>
+        </Grid>
+
+        <!-- Content -->
+        <Grid Grid.Row="1" Padding="16">
+            <ListView ItemsSource="{x:Bind ViewModel.Teams}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:TeamItem">
+                        <Grid Margin="0,8" Padding="16" Background="{ThemeResource SurfaceContainerColor}" CornerRadius="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="{x:Bind Name}"
+                                       Foreground="{ThemeResource PrimaryColor}"
+                                       FontWeight="SemiBold"
+                                       FontSize="18"/>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,8,0,0">
+                                <TextBlock Text="{x:Bind League}" FontWeight="Medium"/>
+                                <TextBlock Text=" • "/>
+                                <TextBlock Text="{x:Bind Players}" FontWeight="Medium"/>
+                                <TextBlock Text=" players"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0" Spacing="8">
+                                <Button Command="{Binding ViewModel.ViewTeamCommand, ElementName=TeamsPageRoot}"
+                                        CommandParameter="{x:Bind Id}"
+                                        Content="View Team"
+                                        Style="{StaticResource AccentButtonStyle}"/>
+
+                                <Button Command="{Binding ViewModel.ManageTeamCommand, ElementName=TeamsPageRoot}"
+                                        CommandParameter="{x:Bind Id}"
+                                        Content="Manage" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- Empty state -->
+            <StackPanel Visibility="{x:Bind ViewModel.NoTeamsVisibility}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="16">
+                <TextBlock Text="You're not on any teams yet"
+                           HorizontalAlignment="Center"
+                           Opacity="0.6"
+                           FontSize="16"/>
+
+                <Button Content="Create a Team"
+                        Command="{x:Bind ViewModel.CreateTeamCommand}"
+                        Style="{StaticResource AccentButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Bottom Navigation TabBar -->
+        <toolkit:TabBar
+            Grid.Row="2"
+            SelectedIndex="{x:Bind ViewModel.SelectedBottomTabIndex, Mode=TwoWay}"
+            Background="{ThemeResource SurfaceColor}"
+            BorderBrush="{ThemeResource OutlineColor}"
+            BorderThickness="0,1,0,0">
+            <toolkit:TabBar.Items>
+                <!-- Find Tab -->
+                <toolkit:TabBarItem>
+                    <toolkit:TabBarItem.Content>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;"
+                                      Foreground="{ThemeResource OnSurfaceVariantColor}" FontSize="20"/>
+                            <TextBlock Text="Find"
+                                       Foreground="{ThemeResource OnSurfaceVariantColor}"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </toolkit:TabBarItem.Content>
+                </toolkit:TabBarItem>
+
+                <!-- Upcoming Tab -->
+                <toolkit:TabBarItem>
+                    <toolkit:TabBarItem.Content>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE823;"
+                                      Foreground="{ThemeResource OnSurfaceVariantColor}" FontSize="20"/>
+                            <TextBlock Text="Upcoming"
+                                       Foreground="{ThemeResource OnSurfaceVariantColor}"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </toolkit:TabBarItem.Content>
+                </toolkit:TabBarItem>
+
+                <!-- Teams Tab -->
+                <toolkit:TabBarItem>
+                    <toolkit:TabBarItem.Content>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE716;"
+                                      Foreground="{ThemeResource PrimaryColor}" FontSize="20"/>
+                            <TextBlock Text="Teams"
+                                       Foreground="{ThemeResource PrimaryColor}"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </toolkit:TabBarItem.Content>
+                </toolkit:TabBarItem>
+
+                <!-- Profile Tab -->
+                <toolkit:TabBarItem>
+                    <toolkit:TabBarItem.Content>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"
+                                      Foreground="{ThemeResource OnSurfaceVariantColor}" FontSize="20"/>
+                            <TextBlock Text="Profile"
+                                       Foreground="{ThemeResource OnSurfaceVariantColor}"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </toolkit:TabBarItem.Content>
+                </toolkit:TabBarItem>
+            </toolkit:TabBar.Items>
+        </toolkit:TabBar>
+    </Grid>
+</Page>

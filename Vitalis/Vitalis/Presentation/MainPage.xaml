@@ -1,0 +1,373 @@
+<Page x:Class="Vitalis.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Vitalis.Presentation"
+      xmlns:controls="using:Vitalis.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      NavigationCacheMode="Required"
+      Background="#0a0a0a">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <Grid MaxWidth="1200" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Row 1: Appointments Section -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Next Appointment Label -->
+                <StackPanel VerticalAlignment="Center" Margin="0,0,24,0">
+                    <TextBlock Text="Next Appointment"
+                               FontSize="13"
+                               Foreground="#808080" />
+                    <TextBlock Text="4 Schedules"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="#ffffff" />
+                </StackPanel>
+
+                <!-- Appointment Cards -->
+                <ScrollViewer Grid.Column="1"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <!-- Blood Panel Lab Test -->
+                        <Border Background="#1a1a1a" CornerRadius="16" Padding="16" MinWidth="280">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Date -->
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                                    <TextBlock Text="Wed" FontSize="12" Foreground="#808080" HorizontalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Details -->
+                                <StackPanel Grid.Column="1" Spacing="8">
+                                    <TextBlock Text="Blood Panel Lab Test"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Foreground="#ffffff" />
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Border Background="#2d4a1c" CornerRadius="12" Padding="10,4">
+                                            <TextBlock Text="Upcoming" FontSize="11" Foreground="#a3e635" />
+                                        </Border>
+                                        <Border Background="#262626" CornerRadius="12" Padding="10,4">
+                                            <TextBlock Text="08:06am" FontSize="11" Foreground="#808080" />
+                                        </Border>
+                                        <Border Background="#262626" CornerRadius="12" Padding="10,4">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <Ellipse Width="6" Height="6" Fill="#a3e635" VerticalAlignment="Center" />
+                                                <TextBlock Text="Laboratory" FontSize="11" Foreground="#808080" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Icon -->
+                                <Border Grid.Column="2"
+                                        Background="#a3e635"
+                                        CornerRadius="12"
+                                        Width="44" Height="44"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE8A5;" FontSize="20" Foreground="#0a0a0a"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Dermatology Follow-up -->
+                        <Border Background="#1a1a1a" CornerRadius="16" Padding="16" MinWidth="280">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Date -->
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                                    <TextBlock Text="21" FontSize="24" FontWeight="Bold" Foreground="#ffffff" HorizontalAlignment="Center" />
+                                    <TextBlock Text="Wed" FontSize="12" Foreground="#808080" HorizontalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Details -->
+                                <StackPanel Grid.Column="1" Spacing="8">
+                                    <TextBlock Text="Dermatology Follow-up"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Foreground="#ffffff" />
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Border Background="#4a1c1c" CornerRadius="12" Padding="10,4">
+                                            <TextBlock Text="Cancelled" FontSize="11" Foreground="#f87171" />
+                                        </Border>
+                                        <Border Background="#262626" CornerRadius="12" Padding="10,4">
+                                            <TextBlock Text="08:06am" FontSize="11" Foreground="#808080" />
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Row 2: Heart Rate + Blood Pressure -->
+            <Grid Grid.Row="1" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Heart Rate Trend Card -->
+                <Border Background="#1a1a1a" CornerRadius="16" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Heart Rate Trend (Weekly)"
+                                           FontSize="13"
+                                           Foreground="#808080" />
+                                <TextBlock Text="68 bpm"
+                                           FontSize="32"
+                                           FontWeight="Bold"
+                                           Foreground="#ffffff" />
+                            </StackPanel>
+                            <Border Grid.Column="1"
+                                    Background="#262626"
+                                    CornerRadius="8"
+                                    Padding="8"
+                                    VerticalAlignment="Top">
+                                <FontIcon Glyph="&#xE8A7;" FontSize="14" Foreground="#808080" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Chart -->
+                        <controls:HeartRateChart x:Name="HeartRateChart" Grid.Row="1" Height="180" />
+                    </Grid>
+                </Border>
+
+                <!-- Blood Pressure Card -->
+                <Border Grid.Column="2" Background="#1a1a1a" CornerRadius="16" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Blood Pressure Trend (Sys / Dia)"
+                                           FontSize="13"
+                                           Foreground="#808080" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="Hypertensive Crisis"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#ffffff" />
+                                    <Border Background="#4a1c1c" CornerRadius="8" Padding="8,4" VerticalAlignment="Center">
+                                        <TextBlock Text="Need Care" FontSize="10" Foreground="#f87171" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Grid.Column="1"
+                                    Background="#262626"
+                                    CornerRadius="8"
+                                    Padding="8"
+                                    VerticalAlignment="Top">
+                                <FontIcon Glyph="&#xE8A7;" FontSize="14" Foreground="#808080" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Gauge -->
+                        <controls:BloodPressureGauge Grid.Row="1" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Row 3: Health Risks -->
+            <Border Grid.Row="2" Background="#1a1a1a" CornerRadius="16" Padding="20" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Health Risks Score -->
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,32,0">
+                        <TextBlock Text="Health Risks"
+                                   FontSize="13"
+                                   Foreground="#808080" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock Text="22"
+                                       FontSize="36"
+                                       FontWeight="Bold"
+                                       Foreground="#ffffff" />
+                            <TextBlock Text="/ 100"
+                                       FontSize="18"
+                                       Foreground="#808080"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,0,0,6" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Diabetes Risk -->
+                    <StackPanel Grid.Column="1" Spacing="8" Margin="16,0">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Diabetes Risk:" FontSize="12" Foreground="#808080" />
+                            <TextBlock Text="Very Low" FontSize="12" Foreground="#a3e635" FontWeight="SemiBold" />
+                        </StackPanel>
+                        <controls:RiskIndicator RiskLevel="0.15" />
+                    </StackPanel>
+
+                    <!-- Cardiovascular Risk -->
+                    <StackPanel Grid.Column="2" Spacing="8" Margin="16,0">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Cardiovascular Risk:" FontSize="12" Foreground="#808080" />
+                            <TextBlock Text="Low" FontSize="12" Foreground="#a3e635" FontWeight="SemiBold" />
+                        </StackPanel>
+                        <controls:RiskIndicator RiskLevel="0.25" />
+                    </StackPanel>
+
+                    <!-- Stress Level -->
+                    <StackPanel Grid.Column="3" Spacing="8" Margin="16,0">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Stress Level :" FontSize="12" Foreground="#808080" />
+                            <TextBlock Text="Moderate (HRV)" FontSize="12" Foreground="#eab308" FontWeight="SemiBold" />
+                        </StackPanel>
+                        <controls:StressIndicator StressLevel="0.55" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Row 4: Vitals Trend + Sleep Hours -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Vitals Trend Card -->
+                <Border Background="#1a1a1a" CornerRadius="16" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Vitals Trend (Past 7 Days)"
+                                           FontSize="13"
+                                           Foreground="#808080" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="826"
+                                               FontSize="32"
+                                               FontWeight="Bold"
+                                               Foreground="#ffffff" />
+                                    <Border Background="#2d4a1c" CornerRadius="8" Padding="8,4" VerticalAlignment="Center">
+                                        <TextBlock Text="+51.34%" FontSize="11" Foreground="#a3e635" />
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="Average daily vitals stability compared to last week."
+                                           FontSize="11"
+                                           Foreground="#606060"
+                                           Margin="0,4,0,0" />
+                            </StackPanel>
+                            <Border Grid.Column="1"
+                                    Background="#262626"
+                                    CornerRadius="8"
+                                    Padding="8"
+                                    VerticalAlignment="Top">
+                                <FontIcon Glyph="&#xE8A7;" FontSize="14" Foreground="#808080" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Chart -->
+                        <controls:VitalsBarChart x:Name="VitalsChart" Grid.Row="1" Height="140" />
+                    </Grid>
+                </Border>
+
+                <!-- Sleep Hours Card -->
+                <Border Grid.Column="2" Background="#1a1a1a" CornerRadius="16" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Sleep Hours (Past 6 Days)"
+                                           FontSize="13"
+                                           Foreground="#808080" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="6hr 57min"
+                                               FontSize="32"
+                                               FontWeight="Bold"
+                                               Foreground="#ffffff" />
+                                    <Border Background="#2d4a1c" CornerRadius="8" Padding="8,4" VerticalAlignment="Center">
+                                        <TextBlock Text="Good" FontSize="11" Foreground="#a3e635" />
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="Time in Bed"
+                                           FontSize="11"
+                                           Foreground="#606060"
+                                           Margin="0,4,0,0" />
+                            </StackPanel>
+                            <Border Grid.Column="1"
+                                    Background="#262626"
+                                    CornerRadius="8"
+                                    Padding="8"
+                                    VerticalAlignment="Top">
+                                <FontIcon Glyph="&#xE8A7;" FontSize="14" Foreground="#808080" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Chart -->
+                        <controls:SleepChart x:Name="SleepChart" Grid.Row="1" Height="140" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

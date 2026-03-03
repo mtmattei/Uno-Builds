@@ -1,0 +1,201 @@
+<UserControl x:Class="FormaEspresso.Controls.EspressoCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FormaEspresso.Controls"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             x:Name="Root">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="SelectAnimation">
+            <DoubleAnimation Storyboard.TargetName="CardScaleTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             To="1.02" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="CardScaleTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             To="1.02" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="AmbientGlow"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1" Duration="0:0:0.3" />
+            <DoubleAnimation Storyboard.TargetName="ExpandedDescription"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="DeselectAnimation">
+            <DoubleAnimation Storyboard.TargetName="CardScaleTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             To="1.0" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="CardScaleTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             To="1.0" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="AmbientGlow"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0" Duration="0:0:0.3" />
+            <DoubleAnimation Storyboard.TargetName="ExpandedDescription"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0" Duration="0:0:0.3" />
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border x:Name="CardBorder"
+                CornerRadius="24"
+                Padding="24"
+                Background="{x:Bind local:EspressoCard.GetCardBackground(IsSelected), Mode=OneWay}"
+                RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="CardScaleTransform" ScaleX="1" ScaleY="1" />
+            </Border.RenderTransform>
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid>
+                <!-- Ambient glow for selected state -->
+                <Canvas x:Name="AmbientGlow" Opacity="0" IsHitTestVisible="False">
+                    <Ellipse Width="128" Height="128" Canvas.Right="-32" Canvas.Top="-32">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#33d97706" Offset="0" />
+                                <GradientStop Color="#00d97706" Offset="1" />
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="96" Height="96" Canvas.Left="-24" Canvas.Bottom="-24">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#1Ab45309" Offset="0" />
+                                <GradientStop Color="#00b45309" Offset="1" />
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Canvas>
+
+                <utu:AutoLayout Spacing="16" PrimaryAxisAlignment="Stretch">
+                    <!-- Header Row -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <!-- Name + Volume Badge -->
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="{x:Bind Item.Name, Mode=OneWay}"
+                                           FontFamily="Georgia"
+                                           FontSize="24"
+                                           Foreground="{x:Bind local:EspressoCard.GetTextForeground(IsSelected), Mode=OneWay}" />
+                                <Border Background="{x:Bind local:EspressoCard.GetBadgeBackground(IsSelected), Mode=OneWay}"
+                                        CornerRadius="9999"
+                                        Padding="8,4"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind Item.Volume, Mode=OneWay}"
+                                               FontSize="11"
+                                               CharacterSpacing="80"
+                                               Foreground="{x:Bind local:EspressoCard.GetBadgeText(IsSelected), Mode=OneWay}" />
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Short Note -->
+                            <TextBlock Text="{x:Bind Item.Note, Mode=OneWay}"
+                                       FontSize="14"
+                                       FontWeight="Light"
+                                       CharacterSpacing="40"
+                                       Foreground="{x:Bind local:EspressoCard.GetNoteColor(IsSelected), Mode=OneWay}" />
+                        </StackPanel>
+
+                        <!-- Selection Indicator -->
+                        <Border Grid.Column="1"
+                                Width="24" Height="24"
+                                CornerRadius="12"
+                                BorderThickness="2"
+                                BorderBrush="{x:Bind local:EspressoCard.GetCheckBorder(IsSelected), Mode=OneWay}"
+                                Background="{x:Bind local:EspressoCard.GetCheckBackground(IsSelected), Mode=OneWay}"
+                                VerticalAlignment="Top">
+                            <FontIcon Glyph="&#xE73E;"
+                                      FontSize="12"
+                                      Foreground="#1c1917"
+                                      Visibility="{x:Bind IsSelected, Mode=OneWay}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+
+                    <!-- Expanded Description -->
+                    <TextBlock x:Name="ExpandedDescription"
+                               Text="{x:Bind Item.Description, Mode=OneWay}"
+                               FontSize="14"
+                               LineHeight="22"
+                               TextWrapping="Wrap"
+                               Foreground="{x:Bind local:EspressoCard.GetDescriptionColor(IsSelected), Mode=OneWay}"
+                               Opacity="0"
+                               MaxHeight="96" />
+
+                    <!-- Divider -->
+                    <Border Height="1"
+                            Background="{x:Bind local:EspressoCard.GetDividerColor(IsSelected), Mode=OneWay}"
+                            Margin="0,8,0,0" />
+
+                    <!-- Footer Row -->
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Intensity -->
+                        <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock Text="INTENSITY"
+                                       FontSize="10"
+                                       CharacterSpacing="80"
+                                       Foreground="{x:Bind local:EspressoCard.GetLabelColor(IsSelected), Mode=OneWay}" />
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <Border Width="24" Height="4" CornerRadius="2"
+                                        Background="{x:Bind local:EspressoCard.GetIntensityBar(Item.Intensity, 1, IsSelected), Mode=OneWay}" />
+                                <Border Width="24" Height="4" CornerRadius="2"
+                                        Background="{x:Bind local:EspressoCard.GetIntensityBar(Item.Intensity, 2, IsSelected), Mode=OneWay}" />
+                                <Border Width="24" Height="4" CornerRadius="2"
+                                        Background="{x:Bind local:EspressoCard.GetIntensityBar(Item.Intensity, 3, IsSelected), Mode=OneWay}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Time -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,0,24,0">
+                            <FontIcon Glyph="&#xE823;"
+                                      FontSize="14"
+                                      Foreground="{x:Bind local:EspressoCard.GetLabelColor(IsSelected), Mode=OneWay}" />
+                            <TextBlock Text="{x:Bind Item.FormattedTime, Mode=OneWay}"
+                                       FontSize="12"
+                                       Foreground="{x:Bind local:EspressoCard.GetLabelColor(IsSelected), Mode=OneWay}" />
+                        </StackPanel>
+
+                        <!-- Price -->
+                        <TextBlock Grid.Column="2"
+                                   Text="{x:Bind Item.FormattedPrice, Mode=OneWay}"
+                                   FontFamily="Georgia"
+                                   FontSize="24"
+                                   Foreground="{x:Bind local:EspressoCard.GetTextForeground(IsSelected), Mode=OneWay}"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </utu:AutoLayout>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,33 @@
+<Project Sdk="Uno.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net9.0-android;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+
+        <OutputType>Exe</OutputType>
+        <UnoSingleProject>true</UnoSingleProject>
+        <ApplicationTitle>PuckUp</ApplicationTitle>
+        <ApplicationId>com.companyname.PuckUp</ApplicationId>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <ApplicationPublisher>O=PuckUp</ApplicationPublisher>
+        <Description>PuckUp powered by Uno Platform.</Description>
+
+
+        <UnoFeatures>
+            Material;
+            Dsp;
+            Hosting;
+            Toolkit;
+            Logging;
+            Mvvm;
+            Configuration;
+            HttpRefit;
+            Serialization;
+            Localization;
+            Navigation;
+            ThemeService;
+            SkiaRenderer;
+            AuthenticationOidc;
+        </UnoFeatures>
+    </PropertyGroup>
+
+</Project>

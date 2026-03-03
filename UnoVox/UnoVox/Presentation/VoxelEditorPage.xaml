@@ -1,0 +1,218 @@
+<Page x:Class="UnoVox.Presentation.VoxelEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:skia="using:SkiaSharp.Views.Windows"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:wui="using:Windows.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource SurfaceBrush}">
+
+  <Page.KeyboardAccelerators>
+    <KeyboardAccelerator Key="Delete" Invoked="OnDeleteKeyPressed" />
+  </Page.KeyboardAccelerators>
+
+  <Grid RowDefinitions="Auto,*" utu:SafeArea.Insets="VisibleBounds">
+
+    <!-- Compact Toolbar -->
+    <Border Grid.Row="0"
+            Background="{ThemeResource SurfaceVariantBrush}"
+            Padding="12,8"
+            BorderBrush="{ThemeResource DividerBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+
+        <!-- Left: Project Name + File Actions -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <TextBlock Text="{x:Bind ViewModel.ProjectName, Mode=OneWay}"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="*"
+                       Foreground="Orange"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.IsDirty, Mode=OneWay}" />
+          </StackPanel>
+
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <Button ToolTipService.ToolTip="New (Ctrl+N)" Command="{x:Bind ViewModel.NewProjectCommand}" Padding="8">
+              <FontIcon Glyph="&#xE7C3;" FontSize="16" />
+              <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Modifiers="Control" Key="N" />
+              </Button.KeyboardAccelerators>
+            </Button>
+            <Button ToolTipService.ToolTip="Open (Ctrl+O)" Command="{x:Bind ViewModel.OpenProjectCommand}" Padding="8">
+              <FontIcon Glyph="&#xE8E5;" FontSize="16" />
+              <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Modifiers="Control" Key="O" />
+              </Button.KeyboardAccelerators>
+            </Button>
+            <Button ToolTipService.ToolTip="Save (Ctrl+S)" Command="{x:Bind ViewModel.SaveProjectCommand}" Padding="8">
+              <FontIcon Glyph="&#xE74E;" FontSize="16" />
+              <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Modifiers="Control" Key="S" />
+              </Button.KeyboardAccelerators>
+            </Button>
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Center: Tools -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+          <ToggleButton x:Name="PlaceModeButton" IsChecked="True" ToolTipService.ToolTip="Place (P)" Padding="10">
+            <FontIcon Glyph="&#xE710;" FontSize="18" />
+            <ToggleButton.KeyboardAccelerators>
+              <KeyboardAccelerator Key="P" />
+            </ToggleButton.KeyboardAccelerators>
+          </ToggleButton>
+          <ToggleButton x:Name="EraseModeButton" ToolTipService.ToolTip="Erase (E)" Padding="10">
+            <FontIcon Glyph="&#xE75C;" FontSize="18" />
+            <ToggleButton.KeyboardAccelerators>
+              <KeyboardAccelerator Key="E" />
+            </ToggleButton.KeyboardAccelerators>
+          </ToggleButton>
+
+          <Border Width="1" Background="{ThemeResource DividerBrush}" Margin="4,4" />
+
+          <Button ToolTipService.ToolTip="Undo (Ctrl+Z)" Command="{x:Bind ViewModel.UndoCommand}"
+                  IsEnabled="{x:Bind ViewModel.CanUndo, Mode=OneWay}" Padding="10">
+            <FontIcon Glyph="&#xE7A7;" FontSize="18" />
+            <Button.KeyboardAccelerators>
+              <KeyboardAccelerator Modifiers="Control" Key="Z" />
+            </Button.KeyboardAccelerators>
+          </Button>
+          <Button ToolTipService.ToolTip="Redo (Ctrl+Y)" Command="{x:Bind ViewModel.RedoCommand}"
+                  IsEnabled="{x:Bind ViewModel.CanRedo, Mode=OneWay}" Padding="10">
+            <FontIcon Glyph="&#xE7A6;" FontSize="18" />
+            <Button.KeyboardAccelerators>
+              <KeyboardAccelerator Modifiers="Control" Key="Y" />
+            </Button.KeyboardAccelerators>
+          </Button>
+
+          <Border Width="1" Background="{ThemeResource DividerBrush}" Margin="4,4" />
+
+          <Button ToolTipService.ToolTip="Reset Camera (R)" Command="{x:Bind ViewModel.ResetCameraCommand}" Padding="10">
+            <FontIcon Glyph="&#xE72C;" FontSize="18" />
+            <Button.KeyboardAccelerators>
+              <KeyboardAccelerator Key="R" />
+            </Button.KeyboardAccelerators>
+          </Button>
+          <Button ToolTipService.ToolTip="Clear All (Ctrl+Del)" Command="{x:Bind ViewModel.ClearGridCommand}" Padding="10">
+            <FontIcon Glyph="&#xE74D;" FontSize="18" Foreground="#E85D4C" />
+            <Button.KeyboardAccelerators>
+              <KeyboardAccelerator Modifiers="Control" Key="Delete" />
+            </Button.KeyboardAccelerators>
+          </Button>
+        </StackPanel>
+
+        <!-- Right: Camera + Color -->
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <ComboBox ItemsSource="{Binding AvailableCameras}"
+                    SelectedIndex="{Binding SelectedCameraIndex, Mode=TwoWay}"
+                    Width="140"
+                    PlaceholderText="Camera" />
+          <Button Command="{Binding ToggleWebcamCommand}" Padding="10"
+                  ToolTipService.ToolTip="{Binding WebcamButtonText}">
+            <FontIcon Glyph="&#xE714;" FontSize="18" />
+          </Button>
+          <ToggleSwitch IsOn="{x:Bind ViewModel.IsHandTrackingEnabled, Mode=TwoWay}"
+                        OnContent="Hand" OffContent="Hand"
+                        MinWidth="80" />
+
+          <Border Width="1" Background="{ThemeResource DividerBrush}" Margin="4,4" />
+
+          <Border Width="32" Height="32" CornerRadius="4"
+                  BorderBrush="{ThemeResource DividerBrush}" BorderThickness="2">
+            <Border.Background>
+              <SolidColorBrush Color="{x:Bind ViewModel.SelectedColor, Mode=OneWay}" />
+            </Border.Background>
+          </Border>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- Main Content -->
+    <Grid Grid.Row="1" ColumnDefinitions="*,280">
+
+      <!-- Canvas -->
+      <Border Grid.Column="0" Background="#1A1A1A">
+        <Grid>
+          <skia:SKXamlCanvas x:Name="VoxelCanvas" />
+          <TextBlock Text="Start camera for AR sculpting"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     Opacity="0.5"
+                     Visibility="{Binding IsWebcamActive, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+        </Grid>
+      </Border>
+
+      <!-- Side Panel -->
+      <Border Grid.Column="1"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource DividerBrush}"
+              BorderThickness="1,0,0,0">
+        <ScrollViewer>
+          <StackPanel Padding="16" Spacing="16">
+
+            <!-- Status -->
+            <Border Background="{ThemeResource SurfaceVariantBrush}" Padding="12" CornerRadius="8">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Gesture" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind ViewModel.CurrentGesture, Mode=OneWay}"
+                           FontWeight="SemiBold" Foreground="{ThemeResource PrimaryBrush}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="FPS" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="0,4,0,0" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind ViewModel.Fps, Mode=OneWay}" Margin="0,4,0,0" />
+              </Grid>
+            </Border>
+
+            <!-- Color Palette -->
+            <StackPanel Spacing="8">
+              <TextBlock Text="Colors" FontWeight="SemiBold" />
+              <GridView x:Name="ColorPaletteGrid"
+                        ItemsSource="{x:Bind ViewModel.ColorPalette, Mode=OneWay}"
+                        SelectionMode="Single"
+                        SelectionChanged="{x:Bind ViewModel.OnPaletteColorSelected}">
+                <GridView.ItemTemplate>
+                  <DataTemplate x:DataType="wui:Color">
+                    <Border Width="36" Height="36" CornerRadius="6"
+                            BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1">
+                      <Border.Background>
+                        <SolidColorBrush Color="{x:Bind}" />
+                      </Border.Background>
+                    </Border>
+                  </DataTemplate>
+                </GridView.ItemTemplate>
+              </GridView>
+            </StackPanel>
+
+            <!-- Gestures Help -->
+            <Border Background="{ThemeResource SurfaceVariantBrush}" Padding="12" CornerRadius="8">
+              <StackPanel Spacing="6">
+                <TextBlock Text="Gestures" FontWeight="SemiBold" FontSize="13" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <TextBlock Text="&#x1F90F;" FontSize="16" />
+                  <TextBlock Text="Pinch = Place" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <TextBlock Text="&#x270A;" FontSize="16" />
+                  <TextBlock Text="Fist = Erase" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <TextBlock Text="&#x261D;" FontSize="16" />
+                  <TextBlock Text="Point = Color" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <!-- Calibrate -->
+            <Button Content="Calibrate Background"
+                    Command="{x:Bind ViewModel.CalibrateBackgroundCommand}"
+                    IsEnabled="{x:Bind ViewModel.IsWebcamActive, Mode=OneWay}"
+                    HorizontalAlignment="Stretch" />
+
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>

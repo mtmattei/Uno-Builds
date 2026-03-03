@@ -1,0 +1,43 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Spacing Scale (4px base unit) -->
+    <x:Double x:Key="SpacingXSmall">4</x:Double>
+    <x:Double x:Key="SpacingSmall">8</x:Double>
+    <x:Double x:Key="SpacingMedium">12</x:Double>
+    <x:Double x:Key="SpacingBase">16</x:Double>
+    <x:Double x:Key="SpacingLarge">24</x:Double>
+    <x:Double x:Key="SpacingXLarge">32</x:Double>
+    <x:Double x:Key="SpacingXXLarge">48</x:Double>
+    <x:Double x:Key="SpacingHuge">64</x:Double>
+
+    <!-- Common Thickness Values -->
+    <Thickness x:Key="CardPadding">20</Thickness>
+    <Thickness x:Key="CardPaddingLarge">24</Thickness>
+    <Thickness x:Key="PageMargin">24</Thickness>
+    <Thickness x:Key="SectionSpacing">0,0,0,24</Thickness>
+    <Thickness x:Key="ItemSpacing">0,0,0,12</Thickness>
+    <Thickness x:Key="SmallItemSpacing">0,0,0,8</Thickness>
+
+    <!-- Border Radius -->
+    <CornerRadius x:Key="SmallCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="MediumCornerRadius">12</CornerRadius>
+    <CornerRadius x:Key="CardCornerRadius">16</CornerRadius>
+    <CornerRadius x:Key="LargeCornerRadius">20</CornerRadius>
+    <CornerRadius x:Key="XLargeCornerRadius">24</CornerRadius>
+    <CornerRadius x:Key="PillCornerRadius">9999</CornerRadius>
+
+    <!-- Sizes -->
+    <x:Double x:Key="IconSizeSmall">16</x:Double>
+    <x:Double x:Key="IconSizeMedium">20</x:Double>
+    <x:Double x:Key="IconSizeLarge">24</x:Double>
+    <x:Double x:Key="IconSizeXLarge">32</x:Double>
+
+    <x:Double x:Key="CircularProgressSmall">80</x:Double>
+    <x:Double x:Key="CircularProgressMedium">100</x:Double>
+    <x:Double x:Key="CircularProgressLarge">120</x:Double>
+
+    <x:Double x:Key="MetricCardMinWidth">140</x:Double>
+    <x:Double x:Key="MetricCardMinHeight">100</x:Double>
+
+</ResourceDictionary>

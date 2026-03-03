@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!-- LIGHT THEME - Stone Palette -->
+    <ResourceDictionary x:Key="Light">
+      <!-- Primary: Stone 900 (Ink) -->
+      <Color x:Key="PrimaryColor">#1C1917</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#F5F5F4</Color>
+      <Color x:Key="OnPrimaryContainerColor">#1C1917</Color>
+
+      <!-- Secondary: Stone 500 (Muted) -->
+      <Color x:Key="SecondaryColor">#78716C</Color>
+      <Color x:Key="OnSecondaryColor">#FFFFFF</Color>
+      <Color x:Key="SecondaryContainerColor">#E7E5E4</Color>
+      <Color x:Key="OnSecondaryContainerColor">#1C1917</Color>
+
+      <!-- Tertiary: Accent Amber -->
+      <Color x:Key="TertiaryColor">#8B5E3C</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#FEF3C7</Color>
+      <Color x:Key="OnTertiaryContainerColor">#78350F</Color>
+
+      <!-- Error -->
+      <Color x:Key="ErrorColor">#DC2626</Color>
+      <Color x:Key="ErrorContainerColor">#FEF2F2</Color>
+      <Color x:Key="OnErrorColor">#FFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#DC2626</Color>
+
+      <!-- Background: Stone 50 (Base) -->
+      <Color x:Key="BackgroundColor">#FAFAF9</Color>
+      <Color x:Key="OnBackgroundColor">#1C1917</Color>
+
+      <!-- Surface: White -->
+      <Color x:Key="SurfaceColor">#FFFFFF</Color>
+      <Color x:Key="OnSurfaceColor">#1C1917</Color>
+      <Color x:Key="SurfaceVariantColor">#F5F5F4</Color>
+      <Color x:Key="OnSurfaceVariantColor">#78716C</Color>
+
+      <!-- Outline: Stone 200 -->
+      <Color x:Key="OutlineColor">#E7E5E4</Color>
+      <Color x:Key="OutlineVariantColor">#D6D3D1</Color>
+
+      <!-- Inverse -->
+      <Color x:Key="OnSurfaceInverseColor">#FAFAF9</Color>
+      <Color x:Key="SurfaceInverseColor">#1C1917</Color>
+      <Color x:Key="PrimaryInverseColor">#A8A29E</Color>
+      <Color x:Key="SurfaceTintColor">#1C1917</Color>
+    </ResourceDictionary>
+
+    <!-- DARK THEME - Stone Palette Inverted -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Primary: Stone 100 -->
+      <Color x:Key="PrimaryColor">#F5F5F4</Color>
+      <Color x:Key="OnPrimaryColor">#1C1917</Color>
+      <Color x:Key="PrimaryContainerColor">#44403C</Color>
+      <Color x:Key="OnPrimaryContainerColor">#F5F5F4</Color>
+
+      <!-- Secondary: Stone 400 -->
+      <Color x:Key="SecondaryColor">#A8A29E</Color>
+      <Color x:Key="OnSecondaryColor">#1C1917</Color>
+      <Color x:Key="SecondaryContainerColor">#57534E</Color>
+      <Color x:Key="OnSecondaryContainerColor">#E7E5E4</Color>
+
+      <!-- Tertiary: Accent Amber (lighter for dark) -->
+      <Color x:Key="TertiaryColor">#D4A574</Color>
+      <Color x:Key="OnTertiaryColor">#1C1917</Color>
+      <Color x:Key="TertiaryContainerColor">#78350F</Color>
+      <Color x:Key="OnTertiaryContainerColor">#FEF3C7</Color>
+
+      <!-- Error -->
+      <Color x:Key="ErrorColor">#F87171</Color>
+      <Color x:Key="ErrorContainerColor">#7F1D1D</Color>
+      <Color x:Key="OnErrorColor">#1C1917</Color>
+      <Color x:Key="OnErrorContainerColor">#FEF2F2</Color>
+
+      <!-- Background: Stone 900 -->
+      <Color x:Key="BackgroundColor">#1C1917</Color>
+      <Color x:Key="OnBackgroundColor">#F5F5F4</Color>
+
+      <!-- Surface: Stone 800 -->
+      <Color x:Key="SurfaceColor">#292524</Color>
+      <Color x:Key="OnSurfaceColor">#F5F5F4</Color>
+      <Color x:Key="SurfaceVariantColor">#44403C</Color>
+      <Color x:Key="OnSurfaceVariantColor">#A8A29E</Color>
+
+      <!-- Outline -->
+      <Color x:Key="OutlineColor">#57534E</Color>
+      <Color x:Key="OutlineVariantColor">#44403C</Color>
+
+      <!-- Inverse -->
+      <Color x:Key="OnSurfaceInverseColor">#1C1917</Color>
+      <Color x:Key="SurfaceInverseColor">#F5F5F4</Color>
+      <Color x:Key="PrimaryInverseColor">#78716C</Color>
+      <Color x:Key="SurfaceTintColor">#F5F5F4</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

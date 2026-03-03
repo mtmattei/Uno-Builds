@@ -1,0 +1,478 @@
+<Page x:Class="UnoEnterpriseApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:UnoEnterpriseApp"
+      xmlns:models="using:UnoEnterpriseApp.Models"
+      xmlns:controls="using:UnoEnterpriseApp.Controls"
+      xmlns:converters="using:UnoEnterpriseApp.Converters"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/EnterpriseTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <converters:StatusToBackgroundColorConverter x:Key="StatusToBackgroundConverter"/>
+            <converters:StatusToTextColorConverter x:Key="StatusToTextConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Bar -->
+        <Grid Grid.Row="0" Background="{StaticResource HeaderGradientBrush}" Height="64">
+            <TextBlock Text="Customer Relationship Management"
+                       VerticalAlignment="Center" Margin="24,0"
+                       Foreground="White" FontSize="20" FontWeight="SemiBold"/>
+        </Grid>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1" Background="{StaticResource BackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="360"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Sidebar Navigation -->
+            <Border Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{StaticResource HeaderBackgroundBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="20,16">
+                        <TextBlock Text="NAVIGATION" Style="{StaticResource SectionHeaderStyle}"/>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="12">
+                        <StackPanel Spacing="8">
+                            <controls:NavigationSection Title="Customer Management" IconGlyph="&#xE77B;" IsExpanded="True">
+                                <controls:NavigationSection.InnerContent>
+                                    <StackPanel Spacing="4">
+                                        <CheckBox Content="All Customers" IsChecked="{x:Bind ViewModel.IsAllCustomersChecked, Mode=TwoWay}"
+                                                  Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Active Accounts" IsChecked="{x:Bind ViewModel.IsActiveAccountsChecked, Mode=TwoWay}"
+                                                  Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Pending Approvals" IsChecked="{x:Bind ViewModel.IsPendingApprovalsChecked, Mode=TwoWay}"
+                                                  Style="{StaticResource FilterCheckBoxStyle}"/>
+                                    </StackPanel>
+                                </controls:NavigationSection.InnerContent>
+                            </controls:NavigationSection>
+
+                            <controls:NavigationSection Title="Orders" IconGlyph="&#xE7BF;" IsExpanded="True">
+                                <controls:NavigationSection.InnerContent>
+                                    <StackPanel Spacing="4">
+                                        <CheckBox Content="Current Orders" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Order History" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Returns" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                    </StackPanel>
+                                </controls:NavigationSection.InnerContent>
+                            </controls:NavigationSection>
+
+                            <controls:NavigationSection Title="Inventory" IconGlyph="&#xE7B8;" IsExpanded="True">
+                                <controls:NavigationSection.InnerContent>
+                                    <StackPanel Spacing="4">
+                                        <CheckBox Content="Stock Levels" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Warehouses" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                    </StackPanel>
+                                </controls:NavigationSection.InnerContent>
+                            </controls:NavigationSection>
+
+                            <controls:NavigationSection Title="Reports" IconGlyph="&#xE9F9;" IsExpanded="True">
+                                <controls:NavigationSection.InnerContent>
+                                    <StackPanel Spacing="4">
+                                        <CheckBox Content="Sales Reports" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Analytics" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                    </StackPanel>
+                                </controls:NavigationSection.InnerContent>
+                            </controls:NavigationSection>
+
+                            <controls:NavigationSection Title="Administration" IconGlyph="&#xE713;" IsExpanded="False">
+                                <controls:NavigationSection.InnerContent>
+                                    <StackPanel Spacing="4">
+                                        <CheckBox Content="Users" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                        <CheckBox Content="Settings" Style="{StaticResource FilterCheckBoxStyle}"/>
+                                    </StackPanel>
+                                </controls:NavigationSection.InnerContent>
+                            </controls:NavigationSection>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Work Area -->
+            <Grid Grid.Column="1" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Tabs -->
+                <Border Grid.Row="0" Margin="0,0,0,16"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" Spacing="0">
+                        <RadioButton Content="Customer List" IsChecked="True"
+                                     Style="{StaticResource TabRadioButtonStyle}" GroupName="Tabs"/>
+                        <RadioButton Content="Customer Details"
+                                     Style="{StaticResource TabRadioButtonStyle}" GroupName="Tabs"/>
+                        <RadioButton Content="Orders"
+                                     Style="{StaticResource TabRadioButtonStyle}" GroupName="Tabs"/>
+                        <RadioButton Content="Activities"
+                                     Style="{StaticResource TabRadioButtonStyle}" GroupName="Tabs"/>
+                        <RadioButton Content="Documents"
+                                     Style="{StaticResource TabRadioButtonStyle}" GroupName="Tabs"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card Container with DataGrid -->
+                <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Search Bar -->
+                        <Grid Grid.Row="0" Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Grid.Column="0" Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}"
+                                     PlaceholderText="Search customers by name, ID, or email..."
+                                     Style="{StaticResource ModernTextBoxStyle}"
+                                     VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="1" Content="Search"
+                                    Command="{x:Bind ViewModel.SearchCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Margin="12,0,8,0"
+                                    IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"/>
+
+                            <Button Grid.Column="2" Content="Advanced Filter"
+                                    Command="{x:Bind ViewModel.AdvancedFilterCommand}"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"/>
+                        </Grid>
+
+                        <!-- Data Grid with Progress Overlay -->
+                        <Border Grid.Row="1" BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" CornerRadius="{StaticResource MediumCornerRadius}">
+                            <Grid>
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                             VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Header -->
+                                        <Border Grid.Row="0" Style="{StaticResource DataGridHeaderStyle}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="60"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="220"/>
+                                                    <ColumnDefinition Width="140"/>
+                                                    <ColumnDefinition Width="100"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="" Style="{StaticResource SectionHeaderStyle}" Margin="16,0"/>
+                                                <TextBlock Grid.Column="1" Text="ID" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="2" Text="NAME" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="3" Text="COMPANY" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="4" Text="EMAIL" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="5" Text="PHONE" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="6" Text="STATUS" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="7" Text="LAST ORDER" Style="{StaticResource SectionHeaderStyle}"/>
+                                                <TextBlock Grid.Column="8" Text="REVENUE" Style="{StaticResource SectionHeaderStyle}"/>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Data Rows -->
+                                        <ListView Grid.Row="1" SelectionMode="Single"
+                                                  ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
+                                                  SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="models:Customer">
+                                                    <Grid Padding="12,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="60"/>
+                                                            <ColumnDefinition Width="80"/>
+                                                            <ColumnDefinition Width="180"/>
+                                                            <ColumnDefinition Width="200"/>
+                                                            <ColumnDefinition Width="220"/>
+                                                            <ColumnDefinition Width="140"/>
+                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="120"/>
+                                                            <ColumnDefinition Width="120"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Avatar -->
+                                                        <Grid Grid.Column="0" Margin="4,0,0,0">
+                                                            <Ellipse Width="36" Height="36" Fill="{x:Bind AvatarColor, Mode=OneWay}"/>
+                                                            <TextBlock Text="{x:Bind Initials, Mode=OneWay}" 
+                                                                      HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"
+                                                                      Foreground="White"
+                                                                      FontWeight="SemiBold"
+                                                                      FontSize="14"/>
+                                                        </Grid>
+
+                                                        <TextBlock Grid.Column="1" Text="{x:Bind Id, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="2" Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="3" Text="{x:Bind Company, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="4" Text="{x:Bind Email, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" VerticalAlignment="Center" FontSize="12"/>
+                                                        <TextBlock Grid.Column="5" Text="{x:Bind Phone, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" VerticalAlignment="Center"/>
+
+                                                        <Border Grid.Column="6"
+                                                                Background="{x:Bind Status, Mode=OneWay, Converter={StaticResource StatusToBackgroundConverter}}"
+                                                                Style="{StaticResource StatusBadgeStyle}"
+                                                                VerticalAlignment="Center">
+                                                            <TextBlock Text="{x:Bind Status, Mode=OneWay}"
+                                                                       FontSize="{StaticResource CaptionFontSize}"
+                                                                       FontWeight="SemiBold"
+                                                                       Foreground="{x:Bind Status, Mode=OneWay, Converter={StaticResource StatusToTextConverter}}"/>
+                                                        </Border>
+
+                                                        <TextBlock Grid.Column="7" Text="{x:Bind FormattedLastOrder, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="8" Text="{x:Bind FormattedRevenue, Mode=OneWay}" Style="{StaticResource DataGridCellTextStyle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </ScrollViewer>
+
+                                <!-- Progress Indicator Overlay -->
+                                <Border Background="#80000000"
+                                        Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        CornerRadius="{StaticResource MediumCornerRadius}">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ProgressRing IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
+                                                     Width="50" Height="50"
+                                                     Foreground="{StaticResource PrimaryBrush}"/>
+                                        <TextBlock Text="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+                                                  Foreground="White"
+                                                  FontWeight="Medium"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,12,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Right Panel - Customer Details -->
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="0,20,20,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{StaticResource HeaderBackgroundBrush}"
+                            CornerRadius="{StaticResource TopCornerRadius}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="0,0,0,1" Padding="24,20">
+                        <TextBlock Text="Customer Details"
+                                   FontSize="{StaticResource SubtitleFontSize}"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24">
+                        <StackPanel Spacing="20">
+                            <!-- Customer Avatar and Basic Info -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Avatar -->
+                                <Grid Grid.Column="0" Margin="0,0,16,0">
+                                    <Ellipse Width="64" Height="64" Fill="{x:Bind ViewModel.SelectedCustomer.AvatarColor, Mode=OneWay}"/>
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedCustomer.Initials, Mode=OneWay}" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              Foreground="White"
+                                              FontWeight="SemiBold"
+                                              FontSize="24"/>
+                                </Grid>
+                                
+                                <!-- Name and Company -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedCustomer.Name, Mode=OneWay}" 
+                                              FontSize="18" 
+                                              FontWeight="SemiBold"
+                                              Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{x:Bind ViewModel.SelectedCustomer.Company, Mode=OneWay}" 
+                                              FontSize="14" 
+                                              Foreground="{StaticResource TextSecondaryBrush}"
+                                              Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                            
+                            <!-- Validation Errors -->
+                            <Border Background="{StaticResource ErrorBackgroundBrush}"
+                                    BorderBrush="{StaticResource ErrorTextBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource MediumCornerRadius}"
+                                    Padding="12"
+                                    Visibility="{x:Bind ViewModel.ValidationErrors, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE783;"
+                                             Foreground="{StaticResource ErrorTextBrush}"
+                                             FontSize="16"/>
+                                    <TextBlock Text="{x:Bind ViewModel.ValidationErrors, Mode=OneWay}"
+                                              Foreground="{StaticResource ErrorTextBrush}"
+                                              FontWeight="Medium"
+                                              TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                            <!-- Customer ID -->
+                            <StackPanel>
+                                <TextBlock Text="Customer ID" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.Id, Mode=OneWay}"
+                                         IsReadOnly="True" Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- First Name -->
+                            <StackPanel>
+                                <TextBlock Text="First Name" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.FirstName, Mode=TwoWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Last Name -->
+                            <StackPanel>
+                                <TextBlock Text="Last Name" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.LastName, Mode=TwoWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Company -->
+                            <StackPanel>
+                                <TextBlock Text="Company" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.Company, Mode=TwoWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Email -->
+                            <StackPanel>
+                                <TextBlock Text="Email" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.Email, Mode=TwoWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Phone -->
+                            <StackPanel>
+                                <TextBlock Text="Phone" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.Phone, Mode=TwoWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Status -->
+                            <StackPanel>
+                                <TextBlock Text="Status" Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox SelectedIndex="{x:Bind ViewModel.SelectedCustomer.Status, Mode=TwoWay, Converter={StaticResource EnumToIntConverter}}"
+                                          Style="{StaticResource ModernComboBoxStyle}">
+                                    <ComboBoxItem Content="Active"/>
+                                    <ComboBoxItem Content="Inactive"/>
+                                    <ComboBoxItem Content="Pending"/>
+                                    <ComboBoxItem Content="Suspended"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Credit Limit -->
+                            <StackPanel>
+                                <TextBlock Text="Credit Limit" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.FormattedCreditLimit, Mode=OneWay}"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Notes -->
+                            <StackPanel>
+                                <TextBlock Text="Notes" Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{x:Bind ViewModel.SelectedCustomer.Notes, Mode=TwoWay}"
+                                         TextWrapping="Wrap" MinHeight="80" AcceptsReturn="True"
+                                         Style="{StaticResource ModernTextBoxStyle}"/>
+                            </StackPanel>
+
+                            <!-- Action Buttons -->
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Content="Save Changes"
+                                        Command="{x:Bind ViewModel.SaveChangesCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        HorizontalAlignment="Stretch" Margin="0,0,6,0"
+                                        IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"/>
+
+                                <Button Grid.Column="1" Content="Cancel"
+                                        Command="{x:Bind ViewModel.CancelCommand}"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        HorizontalAlignment="Stretch" Margin="6,0,0,0"
+                                        IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <Grid Padding="20,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="24" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}"/>
+                        <TextBlock Text="Connected" Foreground="{StaticResource TextMutedBrush}" FontSize="{StaticResource CaptionFontSize}"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind ViewModel.StatusMessage, Mode=OneWay}" Foreground="{StaticResource TextMutedBrush}" FontSize="{StaticResource CaptionFontSize}"/>
+                    <TextBlock Text="{x:Bind ViewModel.StatusBarInfo, Mode=OneWay}" Foreground="{StaticResource TextMutedBrush}" FontSize="{StaticResource CaptionFontSize}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="24" VerticalAlignment="Center">
+                    <TextBlock Text="Demo Mode" Foreground="{StaticResource TextMutedBrush}" FontSize="{StaticResource CaptionFontSize}"/>
+                    <TextBlock Text="Sample Data" Foreground="{StaticResource TextMutedBrush}" FontSize="{StaticResource CaptionFontSize}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

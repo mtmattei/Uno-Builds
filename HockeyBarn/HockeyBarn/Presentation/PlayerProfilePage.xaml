@@ -1,0 +1,515 @@
+<Page x:Class="HockeyBarn.Presentation.PlayerProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:HockeyBarn.Models"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <!-- Background gradient -->
+    <Grid.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#0C1118" Offset="0" />
+        <GradientStop Color="#1E293B" Offset="1" />
+      </LinearGradientBrush>
+    </Grid.Background>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <Border Grid.Row="0"
+            Background="{ThemeResource SurfaceColor}"
+            Padding="8,8,16,8">
+      <Grid>
+        <Button Background="Transparent"
+                Click="Back_Click"
+                HorizontalAlignment="Left"
+                Width="48"
+                Height="48">
+          <FontIcon Glyph="&#xE72B;"
+                    FontSize="20"
+                    Foreground="{ThemeResource OnSurfaceColor}" />
+        </Button>
+
+        <Button Background="Transparent"
+                HorizontalAlignment="Right"
+                Width="48"
+                Height="48">
+          <FontIcon Glyph="&#xE712;"
+                    FontSize="20"
+                    Foreground="{ThemeResource OnSurfaceColor}" />
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- Main Content -->
+    <ScrollViewer Grid.Row="1">
+      <utu:AutoLayout Orientation="Vertical"
+                      Spacing="24"
+                      Padding="16,24,16,80">
+
+        <!-- Profile Header -->
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="16"
+                        HorizontalAlignment="Center">
+
+          <!-- Avatar with Glow -->
+          <Border Width="140"
+                  Height="140"
+                  CornerRadius="70"
+                  BorderBrush="{ThemeResource IceBlueBrush}"
+                  BorderThickness="4"
+                  Translation="0,0,16">
+            <Border.Shadow>
+              <ThemeShadow />
+            </Border.Shadow>
+            <Ellipse>
+              <Ellipse.Fill>
+                <ImageBrush ImageSource="https://picsum.photos/200/200?random=5"
+                            Stretch="UniformToFill" />
+              </Ellipse.Fill>
+            </Ellipse>
+          </Border>
+
+          <!-- Player Name -->
+          <TextBlock Text="Alex Johnson"
+                     Style="{StaticResource MaterialHeadline4}"
+                     Foreground="{ThemeResource OnBackgroundColor}"
+                     FontWeight="Bold"
+                     HorizontalAlignment="Center" />
+
+          <!-- Location -->
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="6"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE81D;"
+                      FontSize="16"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="North York, ON"
+                       Style="{StaticResource MaterialBody1}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+
+          <!-- Position Chips -->
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="8"
+                          HorizontalAlignment="Center">
+            <Border Background="{ThemeResource PrimaryContainerColor}"
+                    CornerRadius="16"
+                    Padding="16,8">
+              <TextBlock Text="Forward"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnPrimaryContainerColor}"
+                         FontWeight="SemiBold" />
+            </Border>
+            <Border Background="{ThemeResource SurfaceVariantColor}"
+                    CornerRadius="16"
+                    Padding="16,8">
+              <TextBlock Text="Defense"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         FontWeight="SemiBold" />
+            </Border>
+            <Border Background="{ThemeResource SecondaryContainerColor}"
+                    CornerRadius="16"
+                    Padding="16,8">
+              <TextBlock Text="Goalie"
+                         Style="{StaticResource MaterialBody2}"
+                         Foreground="{ThemeResource OnSecondaryContainerColor}"
+                         FontWeight="SemiBold" />
+            </Border>
+          </utu:AutoLayout>
+
+        </utu:AutoLayout>
+
+        <!-- Stats Cards -->
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Games Played -->
+          <Border Grid.Column="0"
+                  Style="{StaticResource GlassCardStyle}"
+                  Padding="16,20"
+                  Margin="4">
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="8"
+                            HorizontalAlignment="Center">
+              <TextBlock Text="82"
+                         Style="{StaticResource MaterialHeadline5}"
+                         Foreground="{ThemeResource OnSurfaceColor}"
+                         FontWeight="Bold"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Games Played"
+                         Style="{StaticResource MaterialCaption}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         HorizontalAlignment="Center"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- Reliability -->
+          <Border Grid.Column="1"
+                  Style="{StaticResource GlassCardStyle}"
+                  Padding="16,20"
+                  Margin="4">
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="8"
+                            HorizontalAlignment="Center">
+              <TextBlock Text="98%"
+                         Style="{StaticResource MaterialHeadline5}"
+                         Foreground="{ThemeResource IceBlueBrush}"
+                         FontWeight="Bold"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Reliability"
+                         Style="{StaticResource MaterialCaption}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         HorizontalAlignment="Center"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- Rating -->
+          <Border Grid.Column="2"
+                  Style="{StaticResource GlassCardStyle}"
+                  Padding="16,20"
+                  Margin="4">
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="8"
+                            HorizontalAlignment="Center">
+              <utu:AutoLayout Orientation="Horizontal"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="4.5"
+                           Style="{StaticResource MaterialHeadline5}"
+                           Foreground="{ThemeResource OnSurfaceColor}"
+                           FontWeight="Bold" />
+                <FontIcon Glyph="&#xE735;"
+                          FontSize="24"
+                          Foreground="{ThemeResource SecondaryColor}"
+                          VerticalAlignment="Center" />
+              </utu:AutoLayout>
+              <TextBlock Text="Avg. Rating"
+                         Style="{StaticResource MaterialCaption}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}"
+                         HorizontalAlignment="Center"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+          </Border>
+
+        </Grid>
+
+        <!-- Details Card -->
+        <Border Style="{StaticResource GlassCardStyle}">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="16">
+
+            <!-- Skill Level -->
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="12"
+                            Justify="SpaceBetween">
+              <TextBlock Text="Skill Level"
+                         Style="{StaticResource MaterialBody1}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              <TextBlock Text="Intermediate"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnSurfaceColor}"
+                         FontWeight="SemiBold" />
+            </utu:AutoLayout>
+
+            <Border Height="1"
+                    Background="{ThemeResource OutlineVariantColor}" />
+
+            <!-- Handedness -->
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="12"
+                            Justify="SpaceBetween">
+              <TextBlock Text="Handedness"
+                         Style="{StaticResource MaterialBody1}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              <TextBlock Text="Shoots Left"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnSurfaceColor}"
+                         FontWeight="SemiBold" />
+            </utu:AutoLayout>
+
+            <Border Height="1"
+                    Background="{ThemeResource OutlineVariantColor}" />
+
+            <!-- Preferred Positions -->
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="8">
+              <TextBlock Text="Preferred Positions"
+                         Style="{StaticResource MaterialBody1}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              <TextBlock Text="Forward, Defense"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnSurfaceColor}"
+                         FontWeight="SemiBold"
+                         TextWrapping="Wrap" />
+            </utu:AutoLayout>
+
+            <Border Height="1"
+                    Background="{ThemeResource OutlineVariantColor}" />
+
+            <!-- Home Rink -->
+            <utu:AutoLayout Orientation="Vertical"
+                            Spacing="8">
+              <TextBlock Text="Home Rink"
+                         Style="{StaticResource MaterialBody1}"
+                         Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              <TextBlock Text="Canlan Ice Sports"
+                         Style="{StaticResource MaterialSubtitle2}"
+                         Foreground="{ThemeResource OnSurfaceColor}"
+                         FontWeight="SemiBold" />
+            </utu:AutoLayout>
+
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Availability -->
+        <Border Style="{StaticResource GlassCardStyle}">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="16">
+
+            <TextBlock Text="Availability"
+                       Style="{StaticResource SectionTitleStyle}"
+                       Margin="0" />
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <!-- Days of Week -->
+              <utu:AutoLayout Grid.Column="0"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="MON"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource SurfaceVariantColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="1"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="TUE"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource PrimaryContainerColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource PrimaryColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="2"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="WED"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource SurfaceVariantColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="3"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="THU"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource PrimaryContainerColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource PrimaryColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="4"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="FRI"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource PrimaryContainerColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource PrimaryColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="5"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="SAT"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource SurfaceVariantColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+              <utu:AutoLayout Grid.Column="6"
+                              Orientation="Vertical"
+                              Spacing="4"
+                              HorizontalAlignment="Center">
+                <TextBlock Text="SUN"
+                           Style="{StaticResource MaterialCaption}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}"
+                           HorizontalAlignment="Center" />
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Background="{ThemeResource SurfaceVariantColor}">
+                  <FontIcon Glyph="&#xE73E;"
+                            FontSize="16"
+                            Foreground="{ThemeResource OnSurfaceVariantColor}" />
+                </Border>
+              </utu:AutoLayout>
+
+            </Grid>
+
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Bio -->
+        <Border Style="{StaticResource GlassCardStyle}">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="12">
+            <TextBlock Text="Bio"
+                       Style="{StaticResource SectionTitleStyle}"
+                       Margin="0" />
+            <TextBlock Text="Lifelong hockey enthusiast with 10+ years of beer league experience. Reliable playmaker, always positive on the bench. Looking for competitive but friendly skates."
+                       Style="{StaticResource BodyTextStyle}"
+                       TextWrapping="Wrap"
+                       LineHeight="24" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Past Teams -->
+        <Border Style="{StaticResource GlassCardStyle}">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="16">
+
+            <TextBlock Text="Past Teams"
+                       Style="{StaticResource SectionTitleStyle}"
+                       Margin="0" />
+
+            <!-- Team 1 -->
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="16">
+              <Border Width="56"
+                      Height="56"
+                      CornerRadius="12"
+                      Background="{ThemeResource PrimaryContainerColor}">
+                <Image Source="https://picsum.photos/80/80?random=10"
+                       Stretch="UniformToFill" />
+              </Border>
+              <utu:AutoLayout Orientation="Vertical"
+                              Spacing="4"
+                              PrimaryAxisAlignment="Center">
+                <TextBlock Text="Toronto Grizzlies"
+                           Style="{StaticResource MaterialSubtitle2}"
+                           Foreground="{ThemeResource OnSurfaceColor}"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="2020 - 2023"
+                           Style="{StaticResource MaterialBody2}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+
+            <Border Height="1"
+                    Background="{ThemeResource OutlineVariantColor}" />
+
+            <!-- Team 2 -->
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="16">
+              <Border Width="56"
+                      Height="56"
+                      CornerRadius="12"
+                      Background="{ThemeResource SecondaryContainerColor}">
+                <Image Source="https://picsum.photos/80/80?random=11"
+                       Stretch="UniformToFill" />
+              </Border>
+              <utu:AutoLayout Orientation="Vertical"
+                              Spacing="4"
+                              PrimaryAxisAlignment="Center">
+                <TextBlock Text="North York Beavers"
+                           Style="{StaticResource MaterialSubtitle2}"
+                           Foreground="{ThemeResource OnSurfaceColor}"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="2018 - 2020"
+                           Style="{StaticResource MaterialBody2}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- CTA Button -->
+        <Button Content="Invite to Game"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Stretch" />
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+
+  </Grid>
+</Page>

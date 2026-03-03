@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depth Card Component — Design & Architecture Specification</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      line-height: 1.7;
+      color: #1e293b;
+      background: #fff;
+    }
+    h1 { font-size: 2.25rem; color: #0f172a; border-bottom: 3px solid #8b5cf6; padding-bottom: 0.75rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.5rem; color: #1e293b; margin-top: 3rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
+    h3 { font-size: 1.2rem; color: #334155; margin-top: 2rem; }
+    h4 { font-size: 1rem; color: #475569; margin-top: 1.25rem; font-weight: 600; }
+    .subtitle { font-size: 1.1rem; color: #64748b; margin-top: 0; margin-bottom: 2rem; }
+    .meta { font-size: 0.85rem; color: #94a3b8; margin-bottom: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: 0.9rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 0.75rem 1rem; text-align: left; vertical-align: top; }
+    th { background: #f8fafc; font-weight: 600; color: #1e293b; white-space: nowrap; }
+    tr:nth-child(even) { background: #fafafa; }
+    code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; color: #7c3aed; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+    pre code { background: none; color: inherit; padding: 0; }
+    hr { border: none; border-top: 2px solid #e2e8f0; margin: 2.5rem 0; }
+    blockquote { border-left: 4px solid #8b5cf6; margin: 1.5rem 0; padding: 0.5rem 0 0.5rem 1.25rem; color: #64748b; background: #f8fafc; border-radius: 0 8px 8px 0; }
+    ul, ol { padding-left: 1.5rem; }
+    li { margin: 0.4rem 0; }
+    strong { color: #0f172a; }
+    a { color: #8b5cf6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .ascii-box { font-family: "SF Mono", Menlo, Monaco, monospace; font-size: 0.75rem; background: #f8fafc; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; white-space: pre; line-height: 1.3; }
+    @media print {
+      body { padding: 1rem; font-size: 11pt; }
+      h1 { font-size: 18pt; }
+      h2 { font-size: 14pt; page-break-after: avoid; }
+      pre { font-size: 8pt; }
+      table { font-size: 9pt; }
+    }
+  </style>
+</head>
+<body>
+<h1 id="depth-card-component">Depth Card Component</h1>
+<h2 id="design-architecture-specification">Design &amp; Architecture
+Specification</h2>
+<p><strong>Version:</strong> 1.0<br />
+<strong>Status:</strong> Ready for Implementation<br />
+<strong>Last Updated:</strong> December 2024</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>Depth Card is a 3D interactive card component that creates a
+diorama-like parallax effect. As users move their cursor over the card,
+it tilts in response while internal elements separate along the Z-axis
+based on their assigned depth values. This creates a tactile, premium
+feel that elevates content presentation and encourages user
+interaction.</p>
+<hr />
+<h2 id="core-concept">Core Concept</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Traditional card components are flat and static. While hover effects
+like shadows and scale transforms add some interactivity, they fail to
+create meaningful depth or hierarchy between card elements. Every
+element exists on the same plane, making it difficult to visually
+communicate importance or create memorable interactions.</p>
+<h3 id="the-solution">The Solution</h3>
+<p>A card system with true 3D depth where:</p>
+<ol type="1">
+<li>The card tilts toward the cursor position</li>
+<li>Internal elements are assigned depth values (-1 to +1)</li>
+<li>Elements physically separate in Z-space as the card tilts</li>
+<li>A glare effect simulates light reflection for realism</li>
+<li>Smooth animations create a polished, responsive feel</li>
+</ol>
+<p>This creates a “living diorama” effect where badges float above
+content, backgrounds recede, and users can perceive actual spatial
+relationships.</p>
+<hr />
+<h2 id="visual-design">Visual Design</h2>
+<h3 id="anatomy">Anatomy</h3>
+<pre><code>┌─────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────┐    │
+│  │         DEPTH LAYER: -1             │    │  ← Background (recedes)
+│  │         (furthest back)             │    │
+│  │    ┌───────────────────────────┐    │    │
+│  │    │     DEPTH LAYER: 0        │    │    │  ← Content (neutral)
+│  │    │     (neutral plane)       │    │    │
+│  │    │  ┌─────────────────────┐  │    │    │
+│  │    │  │   DEPTH LAYER: 0.5  │  │    │    │  ← Elevated content
+│  │    │  └─────────────────────┘  │    │    │
+│  │    └───────────────────────────┘    │    │
+│  └─────────────────────────────────────┘    │
+│                                ┌────────┐   │
+│                                │DEPTH: 1│   │  ← Badge (floats highest)
+│                                └────────┘   │
+│ ············· GLARE OVERLAY ·············· │  ← Light reflection
+└─────────────────────────────────────────────┘
+       ↑
+  PERSPECTIVE CONTAINER</code></pre>
+<h3 id="depth-scale">Depth Scale</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Depth Value</th>
+<th>Visual Position</th>
+<th>Typical Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1.0</td>
+<td>Furthest back</td>
+<td>Background images, patterns</td>
+</tr>
+<tr class="even">
+<td>-0.5</td>
+<td>Slightly back</td>
+<td>Secondary backgrounds</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>Neutral plane</td>
+<td>Main content, text</td>
+</tr>
+<tr class="even">
+<td>+0.5</td>
+<td>Slightly forward</td>
+<td>Highlighted content, CTAs</td>
+</tr>
+<tr class="odd">
+<td>+1.0</td>
+<td>Furthest forward</td>
+<td>Badges, tags, floating elements</td>
+</tr>
+</tbody>
+</table>
+<h3 id="states">States</h3>
+<h4 id="idle-state">Idle State</h4>
+<ul>
+<li>Card is flat (no rotation)</li>
+<li>All layers at base positions (no Z separation)</li>
+<li>Glare invisible or minimal</li>
+</ul>
+<h4 id="hover-state">Hover State</h4>
+<ul>
+<li>Card tilts toward cursor</li>
+<li>Layers separate based on depth values</li>
+<li>Glare visible, following cursor position</li>
+</ul>
+<h4 id="transition-state-enterexit">Transition State (Enter/Exit)</h4>
+<ul>
+<li>Smooth interpolation between idle and hover</li>
+<li>Exit uses spring easing for natural “settle” effect</li>
+</ul>
+<hr />
+<h2 id="interaction-model">Interaction Model</h2>
+<h3 id="tilt-calculation">Tilt Calculation</h3>
+<p>The card tilts based on cursor position relative to card center:</p>
+<pre><code>┌─────────────────────────────────────┐
+│               ↑                     │
+│               │ -Y rotation         │
+│               │                     │
+│  ←────────────┼────────────→        │
+│  -X rotation  │  +X rotation        │
+│               │                     │
+│               │ +Y rotation         │
+│               ↓                     │
+└─────────────────────────────────────┘</code></pre>
+<p><strong>Formulas:</strong></p>
+<pre><code>centerX = cardLeft + (cardWidth / 2)
+centerY = cardTop + (cardHeight / 2)
+
+percentX = (cursorX - centerX) / (cardWidth / 2)   // Range: -1 to +1
+percentY = (cursorY - centerY) / (cardHeight / 2)  // Range: -1 to +1
+
+rotateY = percentX * intensity    // Positive = tilt right
+rotateX = -percentY * intensity   // Negative because Y-axis is inverted</code></pre>
+<p>Where <code>intensity</code> is the maximum tilt angle in degrees
+(recommended: 10-25°).</p>
+<h3 id="layer-parallax-calculation">Layer Parallax Calculation</h3>
+<p>Each layer moves based on the card’s rotation and its depth
+value:</p>
+<pre><code>translateX = rotateY * depth * parallaxFactor
+translateY = -rotateX * depth * parallaxFactor
+translateZ = depth * depthScale * hoverMultiplier</code></pre>
+<p>Where: - <code>depth</code> is the layer’s assigned depth (-1 to +1)
+- <code>parallaxFactor</code> controls horizontal/vertical shift
+(recommended: 0.3-0.8) - <code>depthScale</code> is the Z separation in
+pixels (recommended: 40-80) - <code>hoverMultiplier</code> is 1 when
+hovered, 0 when idle</p>
+<h3 id="glare-position">Glare Position</h3>
+<p>The glare follows cursor position within the card:</p>
+<pre><code>glareX = ((cursorX - cardLeft) / cardWidth) * 100   // Percentage 0-100
+glareY = ((cursorY - cardTop) / cardHeight) * 100   // Percentage 0-100</code></pre>
+<hr />
+<h2 id="architecture">Architecture</h2>
+<h3 id="component-structure">Component Structure</h3>
+<pre><code>DepthCard (Container)
+├── Perspective Wrapper
+│   └── Transform Container (receives tilt rotation)
+│       ├── DepthLayer (depth: -1) ─── Background
+│       ├── DepthLayer (depth: 0)  ─── Content
+│       ├── DepthLayer (depth: 0.5) ── Elevated
+│       ├── DepthLayer (depth: 1)  ─── Floating
+│       └── Glare Overlay</code></pre>
+<h3 id="state-requirements">State Requirements</h3>
+<p><strong>DepthCard must track:</strong> -
+<code>isHovered: boolean</code> — Whether cursor is over card -
+<code>rotateX: number</code> — Current X-axis rotation (degrees) -
+<code>rotateY: number</code> — Current Y-axis rotation (degrees) -
+<code>glarePosition: { x: number, y: number }</code> — Glare center
+(percentage)</p>
+<p><strong>DepthCard must provide to children:</strong> -
+<code>rotateX</code> — For parallax calculation - <code>rotateY</code> —
+For parallax calculation<br />
+- <code>isHovered</code> — For transition timing -
+<code>depthScale</code> — For Z translation calculation</p>
+<h3 id="data-flow">Data Flow</h3>
+<pre><code>User moves cursor
+       │
+       ▼
+DepthCard captures mouse position
+       │
+       ▼
+Calculate rotateX, rotateY, glarePosition
+       │
+       ▼
+Update state / trigger re-render
+       │
+       ▼
+DepthCard applies tilt transform
+       │
+       ▼
+Each DepthLayer reads context, calculates own transform
+       │
+       ▼
+Glare overlay updates gradient position</code></pre>
+<h3 id="communication-pattern">Communication Pattern</h3>
+<p>Use a context/provider pattern (or equivalent) to share tilt state
+with child layers:</p>
+<pre><code>// Pseudocode - Framework agnostic concept
+
+DepthContext = {
+  rotateX: number,
+  rotateY: number,
+  isHovered: boolean,
+  depthScale: number
+}
+
+DepthCard:
+  - Creates context with current state
+  - Wraps children in context provider
+  - Handles all mouse events
+
+DepthLayer:
+  - Consumes context
+  - Calculates own transform based on depth prop
+  - Applies transform to wrapper element</code></pre>
+<hr />
+<h2 id="component-api">Component API</h2>
+<h3 id="depthcard">DepthCard</h3>
+<p><strong>Props/Inputs:</strong></p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>intensity</code></td>
+<td>number</td>
+<td>15</td>
+<td>Maximum tilt angle in degrees</td>
+</tr>
+<tr class="even">
+<td><code>depthScale</code></td>
+<td>number</td>
+<td>50</td>
+<td>Z-axis separation in pixels</td>
+</tr>
+<tr class="odd">
+<td><code>glareOpacity</code></td>
+<td>number</td>
+<td>0.2</td>
+<td>Maximum glare opacity (0-1)</td>
+</tr>
+<tr class="even">
+<td><code>glareColor</code></td>
+<td>string</td>
+<td>“white”</td>
+<td>Glare gradient color</td>
+</tr>
+<tr class="odd">
+<td><code>transitionDuration</code></td>
+<td>number</td>
+<td>400</td>
+<td>Exit transition in ms</td>
+</tr>
+<tr class="even">
+<td><code>easing</code></td>
+<td>string</td>
+<td>“cubic-bezier(0.34, 1.56, 0.64, 1)”</td>
+<td>Exit easing function</td>
+</tr>
+<tr class="odd">
+<td><code>disabled</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Disable all interactions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Events/Outputs:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Event</th>
+<th>Payload</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>onTiltChange</code></td>
+<td><code>{ rotateX, rotateY }</code></td>
+<td>Fired on every tilt update</td>
+</tr>
+<tr class="even">
+<td><code>onHoverStart</code></td>
+<td>—</td>
+<td>Fired when cursor enters</td>
+</tr>
+<tr class="odd">
+<td><code>onHoverEnd</code></td>
+<td>—</td>
+<td>Fired when cursor leaves</td>
+</tr>
+</tbody>
+</table>
+<h3 id="depthlayer">DepthLayer</h3>
+<p><strong>Props/Inputs:</strong></p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>depth</code></td>
+<td>number</td>
+<td>0</td>
+<td>Z-position from -1 (back) to +1 (front)</td>
+</tr>
+<tr class="even">
+<td><code>parallaxFactor</code></td>
+<td>number</td>
+<td>0.5</td>
+<td>Multiplier for X/Y parallax movement</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cssstyling-requirements">CSS/Styling Requirements</h2>
+<h3 id="essential-styles-for-depthcard">Essential Styles for
+DepthCard</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-card</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Enable 3D space for children */</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">perspective</span>: <span class="dv">1000</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">perspective-origin</span>: <span class="dv">center</span> <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-card-inner</span> {</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Preserve 3D transforms for children */</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform-style</span>: preserve-3d<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Applied dynamically */</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform</span>: rotateX(<span class="fu">var(</span><span class="va">--rotate-x</span><span class="fu">)</span>) rotateY(<span class="fu">var(</span><span class="va">--rotate-y</span><span class="fu">)</span>)<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Smooth transitions */</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span>: transform <span class="dv">0.4</span><span class="dt">s</span> <span class="fu">cubic-bezier(</span><span class="dv">0.34</span><span class="op">,</span> <span class="dv">1.56</span><span class="op">,</span> <span class="dv">0.64</span><span class="op">,</span> <span class="dv">1</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-card-inner.is-hovered</span> {</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Faster response while hovering */</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span>: transform <span class="dv">0.1</span><span class="dt">s</span> <span class="dv">ease-out</span><span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="essential-styles-for-depthlayer">Essential Styles for
+DepthLayer</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-layer</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Applied dynamically based on calculations */</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform</span>: translate3d(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var(</span><span class="va">--translate-x</span><span class="fu">)</span><span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var(</span><span class="va">--translate-y</span><span class="fu">)</span><span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var(</span><span class="va">--translate-z</span><span class="fu">)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Match parent transition timing */</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span>: transform <span class="dv">0.4</span><span class="dt">s</span> <span class="fu">cubic-bezier(</span><span class="dv">0.34</span><span class="op">,</span> <span class="dv">1.56</span><span class="op">,</span> <span class="dv">0.64</span><span class="op">,</span> <span class="dv">1</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-layer.is-hovered</span> {</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span>: transform <span class="dv">0.1</span><span class="dt">s</span> <span class="dv">ease-out</span><span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="glare-overlay-styles">Glare Overlay Styles</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-card-glare</span> {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span>: <span class="dv">absolute</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">inset</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">pointer-events</span>: <span class="dv">none</span><span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border-radius</span>: <span class="bu">inherit</span><span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">z-index</span>: <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Applied dynamically */</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="fu">radial-gradient(</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">circle</span> at <span class="fu">var(</span><span class="va">--glare-x</span><span class="fu">)</span> <span class="fu">var(</span><span class="va">--glare-y</span><span class="fu">)</span><span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rgba(</span><span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="fu">var(</span><span class="va">--glare-opacity</span><span class="fu">))</span> <span class="dv">0</span><span class="dt">%</span><span class="op">,</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">transparent</span> <span class="dv">60</span><span class="dt">%</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">)</span><span class="op">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="animation-specifications">Animation Specifications</h2>
+<h3 id="hover-enter">Hover Enter</h3>
+<pre><code>Property: transform (card tilt)
+Duration: Immediate (0.1s ease-out for smoothing)
+Behavior: Direct response to cursor position</code></pre>
+<h3 id="hover-exit">Hover Exit</h3>
+<pre><code>Property: transform (card returns to flat)
+Duration: 400-500ms
+Easing: cubic-bezier(0.34, 1.56, 0.64, 1) — Spring overshoot
+Behavior: Card &quot;settles&quot; back with slight bounce</code></pre>
+<h3 id="layer-separation">Layer Separation</h3>
+<pre><code>Property: transform (translate3d)
+Duration: Matches card transition
+Easing: Matches card easing
+Behavior: Layers smoothly separate/collapse with card tilt</code></pre>
+<h3 id="glare-movement">Glare Movement</h3>
+<pre><code>Property: background (radial-gradient position)
+Duration: 0.1s while hovered, 0.4s on exit
+Easing: ease-out
+Behavior: Follows cursor, fades on exit</code></pre>
+<hr />
+<h2 id="reference-implementation-depth-visualization">Reference
+Implementation: Depth Visualization</h2>
+<p>This minimal example demonstrates all core mechanics. Implement this
+first to validate your approach before building complex card
+layouts.</p>
+<h3 id="visual-target">Visual Target</h3>
+<pre><code>┌────────────────────────────────────────────────────┐
+│                                          ┌───────┐ │
+│  ┌──────────────────────────────────┐    │depth:1│ │
+│  │                                  │    │(front)│ │
+│  │       depth: -1 (back)           │    └───────┘ │
+│  │       [indigo tinted]            │              │
+│  │                                  │              │
+│  │    ┌────────────────────────┐    │              │
+│  │    │                        │    │              │
+│  │    │    depth: 0 (neutral)  │    │              │
+│  │    │    [slate colored]     │    │              │
+│  │    │                        │    │              │
+│  │    │  ┌──────────────────┐  │    │              │
+│  │    │  │                  │  │    │              │
+│  │    │  │   depth: 0.5     │  │    │              │
+│  │    │  │  [violet tinted] │  │    │              │
+│  │    │  │                  │  │    │              │
+│  │    │  └──────────────────┘  │    │              │
+│  │    │                        │    │              │
+│  │    └────────────────────────┘    │              │
+│  │                                  │              │
+│  └──────────────────────────────────┘              │
+│                                                    │
+└────────────────────────────────────────────────────┘</code></pre>
+<h3 id="structure">Structure</h3>
+<pre><code>DepthCard
+├── Container (rounded, semi-transparent, padding)
+│   ├── DepthLayer depth={-1}
+│   │   └── Box (indigo tint, label &quot;depth: -1 (back)&quot;)
+│   │
+│   ├── DepthLayer depth={0}
+│   │   └── Box (slate, label &quot;depth: 0 (neutral)&quot;)
+│   │
+│   ├── DepthLayer depth={0.5}
+│   │   └── Box (violet tint, label &quot;depth: 0.5&quot;)
+│   │
+│   └── DepthLayer depth={1}
+│       └── Badge (amber, absolute top-right, label &quot;depth: 1 (front)&quot;)</code></pre>
+<h3 id="specifications">Specifications</h3>
+<p><strong>Card Container:</strong> - Width: 320px - Background:
+<code>rgba(30, 41, 59, 0.5)</code> with backdrop blur - Border: 1px
+solid <code>rgba(255, 255, 255, 0.1)</code> - Border radius: 16px -
+Padding: 32px</p>
+<p><strong>DepthCard Settings:</strong> - intensity: 25 - depthScale: 80
+- glareOpacity: 0.1</p>
+<p><strong>Layer: depth={-1} (Back)</strong> - Position: absolute, inset
+16px from container edges - Background:
+<code>rgba(99, 102, 241, 0.2)</code> (indigo) - Border: 1px solid
+<code>rgba(99, 102, 241, 0.3)</code> - Border radius: 12px - Content:
+Centered text “depth: -1 (back)” - Text color:
+<code>rgb(129, 140, 248)</code> (indigo-400) - Font: monospace, 14px</p>
+<p><strong>Layer: depth={0} (Neutral)</strong> - Position: relative
+(normal flow) - Margin top: 32px (to show behind layer) - Background:
+<code>rgba(51, 65, 85, 0.5)</code> (slate) - Border: 1px solid
+<code>rgba(255, 255, 255, 0.1)</code> - Border radius: 12px - Padding:
+24px - Content: Text “depth: 0 (neutral)” - Text color:
+<code>rgb(203, 213, 225)</code> (slate-300) - Font: monospace, 14px</p>
+<p><strong>Layer: depth={0.5}</strong> - Position: relative (normal
+flow) - Margin top: 16px - Background:
+<code>rgba(139, 92, 246, 0.2)</code> (violet) - Border: 1px solid
+<code>rgba(139, 92, 246, 0.3)</code> - Border radius: 12px - Padding:
+16px - Content: Text “depth: 0.5” - Text color:
+<code>rgb(167, 139, 250)</code> (violet-400) - Font: monospace, 14px</p>
+<p><strong>Layer: depth={1} (Front Badge)</strong> - Position: absolute,
+top 16px, right 16px - Background: <code>rgb(245, 158, 11)</code>
+(amber-500) - Text color: <code>rgb(69, 26, 3)</code> (amber-950) -
+Padding: 4px 12px - Border radius: 9999px (pill) - Font: monospace,
+12px, bold - Box shadow: <code>0 4px 12px rgba(0, 0, 0, 0.3)</code> -
+Content: Text “depth: 1 (front)”</p>
+<h3 id="expected-behavior">Expected Behavior</h3>
+<ol type="1">
+<li><strong>Idle:</strong> All layers appear stacked flat</li>
+<li><strong>Hover top-left corner:</strong> Card tilts up-left, back
+layer shifts right-down, front badge shifts left-up</li>
+<li><strong>Hover bottom-right corner:</strong> Card tilts down-right,
+back layer shifts left-up, front badge shifts right-down</li>
+<li><strong>Exit:</strong> Card springs back flat with overshoot, layers
+collapse smoothly</li>
+</ol>
+<hr />
+<h2 id="accessibility">Accessibility</h2>
+<h3 id="reduced-motion">Reduced Motion</h3>
+<p>When user prefers reduced motion: - Disable tilt effect (card stays
+flat) - Disable layer separation - Keep glare subtle or disable entirely
+- Content remains fully accessible</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> (<span class="kw">prefers-reduced-motion</span>: reduce) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.depth-card-inner</span><span class="op">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.depth-layer</span> {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">transition</span>: <span class="dv">none</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">transform</span>: <span class="dv">none</span> <span class="at">!important</span><span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="keyboard-interaction">Keyboard Interaction</h3>
+<ul>
+<li>Card effects are decorative; no keyboard activation needed</li>
+<li>Ensure any interactive elements inside layers remain focusable</li>
+<li>Focus states should be clearly visible despite 3D effects</li>
+</ul>
+<h3 id="screen-readers">Screen Readers</h3>
+<ul>
+<li>3D effects are purely visual; no ARIA needed</li>
+<li>Ensure content hierarchy in DOM matches visual hierarchy</li>
+</ul>
+<hr />
+<h2 id="performance-considerations">Performance Considerations</h2>
+<h3 id="optimization-strategies">Optimization Strategies</h3>
+<ol type="1">
+<li><strong>Use <code>transform</code> only</strong> — Avoid animating
+layout properties</li>
+<li><strong>Use <code>will-change: transform</code></strong> — Hint to
+browser for optimization</li>
+<li><strong>Throttle mouse events</strong> — Limit to 60fps (use
+requestAnimationFrame)</li>
+<li><strong>Avoid shadows on layers</strong> — Use on card container
+only</li>
+<li><strong>Limit blur effects</strong> — backdrop-filter is
+expensive</li>
+</ol>
+<h3 id="gpu-acceleration">GPU Acceleration</h3>
+<p>Ensure transforms trigger GPU acceleration:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.depth-layer</span> {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Force GPU layer */</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform</span>: translate3d(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">will-change</span>: transform<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="event-handling">Event Handling</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Throttle mouse move to animation frames</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> frameRequested <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleMouseMove</span>(<span class="bu">event</span>) {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (frameRequested) <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  frameRequested <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">requestAnimationFrame</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">updateTilt</span>(<span class="bu">event</span>)<span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    frameRequested <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="testing-checklist">Testing Checklist</h2>
+<h3 id="visual-tests">Visual Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Card tilts correctly toward cursor
+position</label></li>
+<li><label><input type="checkbox" />Layers separate in correct direction
+based on depth</label></li>
+<li><label><input type="checkbox" />Negative depth moves opposite to
+positive depth</label></li>
+<li><label><input type="checkbox" />Glare follows cursor
+position</label></li>
+<li><label><input type="checkbox" />Exit animation has spring
+overshoot</label></li>
+<li><label><input type="checkbox" />Depth visualization matches
+specification</label></li>
+</ul>
+<h3 id="interaction-tests">Interaction Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Tilt responds immediately to cursor
+movement</label></li>
+<li><label><input type="checkbox" />Exit transition is smooth (no
+snapping)</label></li>
+<li><label><input type="checkbox" />Rapid mouse movements don’t cause
+jitter</label></li>
+<li><label><input type="checkbox" />Works correctly at card
+edges</label></li>
+<li><label><input type="checkbox" />Multiple cards on page work
+independently</label></li>
+</ul>
+<h3 id="edge-cases">Edge Cases</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Very fast cursor
+entry/exit</label></li>
+<li><label><input type="checkbox" />Cursor leaving viewport while over
+card</label></li>
+<li><label><input type="checkbox" />Window resize while
+hovering</label></li>
+<li><label><input type="checkbox" />Touch devices (graceful
+fallback)</label></li>
+<li><label><input type="checkbox" />Reduced motion preference
+respected</label></li>
+</ul>
+<h3 id="performance-tests">Performance Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Smooth 60fps during
+interaction</label></li>
+<li><label><input type="checkbox" />No layout thrashing (check
+DevTools)</label></li>
+<li><label><input type="checkbox" />GPU layers created
+correctly</label></li>
+<li><label><input type="checkbox" />Memory stable during extended
+interaction</label></li>
+</ul>
+<hr />
+<h2 id="browser-support">Browser Support</h2>
+<h3 id="required-features">Required Features</h3>
+<ul>
+<li>CSS <code>perspective</code> and
+<code>transform-style: preserve-3d</code></li>
+<li>CSS <code>transform: rotate3d()</code> and
+<code>translate3d()</code></li>
+<li>CSS custom properties (variables)</li>
+<li><code>requestAnimationFrame</code></li>
+<li><code>getBoundingClientRect()</code></li>
+</ul>
+<h3 id="minimum-versions">Minimum Versions</h3>
+<ul>
+<li>Chrome 36+</li>
+<li>Firefox 16+</li>
+<li>Safari 9+</li>
+<li>Edge 12+</li>
+</ul>
+<h3 id="fallback-behavior">Fallback Behavior</h3>
+<p>For unsupported browsers, card displays flat without interaction
+effects. Content remains fully accessible.</p>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<Page x:Class="UnoWallet.Presentation.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:UnoWallet.Presentation"
+      xmlns:models="using:UnoWallet.Models"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:um="using:Uno.Material"
+      Background="#F2F2F7">
+
+    <Grid utu:SafeArea.Insets="Top,Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Scrollable Content -->
+        <ScrollViewer Grid.Row="0"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel Padding="16"
+                        Spacing="16">
+
+                <!-- ===== HEADER SECTION (on gray background) ===== -->
+                <Grid Height="48"
+                      Margin="4,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Avatar -->
+                    <Border Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            CornerRadius="24">
+                        <Border.Background>
+                            <ImageBrush ImageSource="ms-appx:///Assets/Images/avatar.png"
+                                        Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Support Button -->
+                    <Button Grid.Column="2"
+                            Width="44"
+                            Height="44"
+                            Padding="0"
+                            Background="White"
+                            BorderThickness="0"
+                            CornerRadius="22"
+                            Margin="0,0,8,0">
+                        <FontIcon Glyph="&#xE95B;"
+                                  FontSize="20"
+                                  Foreground="#1C1C1E" />
+                    </Button>
+
+                    <!-- Notification Button with Badge -->
+                    <Grid Grid.Column="3"
+                          Width="44"
+                          Height="44">
+                        <Button Width="44"
+                                Height="44"
+                                Padding="0"
+                                Background="White"
+                                BorderThickness="0"
+                                CornerRadius="22">
+                            <FontIcon Glyph="&#xE7E7;"
+                                      FontSize="20"
+                                      Foreground="#1C1C1E" />
+                        </Button>
+                        <!-- Badge -->
+                        <Border HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="#FF3B30"
+                                CornerRadius="9"
+                                MinWidth="18"
+                                Height="18"
+                                Padding="4,0"
+                                Margin="0,2,2,0">
+                            <TextBlock Text="{Binding NotificationCount}"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- ===== BALANCE CARD ===== -->
+                <Border Background="White"
+                        CornerRadius="16"
+                        Padding="20">
+                    <StackPanel Spacing="16">
+                        <!-- Balance Section -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Total Balance"
+                                       FontSize="14"
+                                       Foreground="#8E8E93" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"
+                                           Text="$"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Top"
+                                           Margin="0,4,2,0"
+                                           Foreground="#1C1C1E" />
+
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding TotalBalanceFormatted}"
+                                           FontSize="32"
+                                           FontWeight="Bold"
+                                           Foreground="#1C1C1E" />
+
+                                <Button Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Padding="0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE740;"
+                                              FontSize="16"
+                                              Foreground="#1C1C1E" />
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Payment Summary Cards -->
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Payment Next Card -->
+                            <Border Grid.Column="0"
+                                    Background="#F2F2F7"
+                                    CornerRadius="12"
+                                    Padding="16,12">
+                                <StackPanel Spacing="6"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="Payment Next"
+                                               FontSize="13"
+                                               Foreground="#8E8E93"
+                                               HorizontalAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <TextBlock Text="$"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Top"
+                                                   Margin="0,2,2,0"
+                                                   Foreground="#1C1C1E" />
+                                        <TextBlock Text="{Binding NextPaymentFormatted}"
+                                                   FontSize="17"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#1C1C1E" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Payment Completed Card -->
+                            <Border Grid.Column="1"
+                                    Background="#F2F2F7"
+                                    CornerRadius="12"
+                                    Padding="16,12">
+                                <StackPanel Spacing="6"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="Payment Completed"
+                                               FontSize="13"
+                                               Foreground="#8E8E93"
+                                               HorizontalAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <TextBlock Text="$"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Top"
+                                                   Margin="0,2,2,0"
+                                                   Foreground="#1C1C1E" />
+                                        <TextBlock Text="{Binding CompletedPaymentsFormatted}"
+                                                   FontSize="17"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#1C1C1E" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== CARD LIMITS CARD ===== -->
+                <Border Background="White"
+                        CornerRadius="16"
+                        Padding="20">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Card Limits"
+                                   FontSize="17"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1C1C1E" />
+
+                        <!-- Progress Bar with striped pattern -->
+                        <Grid Height="14"
+                              VerticalAlignment="Center">
+                            <!-- Background (light cyan with stripes) -->
+                            <Border CornerRadius="5"
+                                    Background="#E0F7FA"
+                                    Height="10"
+                                    VerticalAlignment="Center" />
+
+                            <!-- Spent portion -->
+                            <Border HorizontalAlignment="Left"
+                                    Width="{Binding SpentBarWidth}"
+                                    Height="10"
+                                    Background="#4DD0E1"
+                                    CornerRadius="5,0,0,5"
+                                    VerticalAlignment="Center">
+                                <!-- White thumb indicator at the end -->
+                                <Ellipse Width="14"
+                                         Height="14"
+                                         Fill="White"
+                                         Stroke="#4DD0E1"
+                                         StrokeThickness="2"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,-7,0" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Limits Text Row -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Text="Today Limits"
+                                       FontSize="14"
+                                       Foreground="#1C1C1E" />
+
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="{Binding TodaySpentFormatted}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1C1C1E" />
+                                <TextBlock Text="/"
+                                           FontSize="14"
+                                           Foreground="#8E8E93"
+                                           Margin="2,0" />
+                                <TextBlock Text="{Binding DailyLimitFormatted}"
+                                           FontSize="14"
+                                           Foreground="#8E8E93" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Divider -->
+                        <Border Height="1"
+                                Background="#E5E5EA" />
+
+                        <!-- Set Card Limits Link -->
+                        <Button Background="Transparent"
+                                BorderThickness="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Padding="0"
+                                Height="32">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"
+                                           Text="Set card limits"
+                                           FontSize="14"
+                                           Foreground="#1C1C1E"
+                                           VerticalAlignment="Center" />
+
+                                <FontIcon Grid.Column="1"
+                                          Glyph="&#xE76C;"
+                                          FontSize="12"
+                                          Foreground="#8E8E93" />
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== TRANSACTIONS CARD ===== -->
+                <Border Background="White"
+                        CornerRadius="16"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Transaction"
+                                   FontSize="17"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1C1C1E" />
+
+                        <!-- Transaction Groups -->
+                        <ItemsRepeater ItemsSource="{Binding TransactionGroups}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="models:TransactionGroup">
+                                    <StackPanel Spacing="0">
+                                        <!-- Date Header with line -->
+                                        <Grid Margin="0,12,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{x:Bind DateLabel}"
+                                                       FontSize="13"
+                                                       Foreground="#8E8E93"
+                                                       Margin="0,0,12,0"
+                                                       VerticalAlignment="Center" />
+
+                                            <Border Grid.Column="1"
+                                                    Height="1"
+                                                    Background="#E5E5EA"
+                                                    VerticalAlignment="Center" />
+                                        </Grid>
+
+                                        <!-- Transactions for this date -->
+                                        <ItemsRepeater ItemsSource="{x:Bind Transactions}">
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="models:Transaction">
+                                                    <Grid Padding="0,10"
+                                                          ColumnSpacing="12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="44" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Merchant Logo -->
+                                                        <Border Grid.Column="0"
+                                                                Width="44"
+                                                                Height="44"
+                                                                CornerRadius="22">
+                                                            <Border.Background>
+                                                                <ImageBrush ImageSource="{x:Bind LogoSource}"
+                                                                            Stretch="UniformToFill" />
+                                                            </Border.Background>
+                                                        </Border>
+
+                                                        <!-- Merchant Info -->
+                                                        <StackPanel Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Spacing="2">
+                                                            <TextBlock Text="{x:Bind MerchantName}"
+                                                                       FontSize="15"
+                                                                       FontWeight="Medium"
+                                                                       Foreground="#1C1C1E" />
+                                                            <TextBlock Text="{x:Bind FormattedDate}"
+                                                                       FontSize="13"
+                                                                       Foreground="#8E8E93" />
+                                                        </StackPanel>
+
+                                                        <!-- Amount and Time -->
+                                                        <StackPanel Grid.Column="2"
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Right"
+                                                                    Spacing="2">
+                                                            <TextBlock Text="{x:Bind FormattedAmount}"
+                                                                       FontSize="15"
+                                                                       FontWeight="Medium"
+                                                                       HorizontalAlignment="Right"
+                                                                       Foreground="#1C1C1E" />
+                                                            <TextBlock Text="{x:Bind FormattedTime}"
+                                                                       FontSize="13"
+                                                                       HorizontalAlignment="Right"
+                                                                       Foreground="#8E8E93" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+
+                <!-- Bottom spacing for tab bar -->
+                <Border Height="8" />
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ===== BOTTOM TAB BAR ===== -->
+        <Border Grid.Row="1"
+                Background="#F2F2F7"
+                Padding="8,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Home Tab (Selected) -->
+                <Border Grid.Column="0"
+                        Background="#3C3C3C"
+                        CornerRadius="20"
+                        HorizontalAlignment="Center"
+                        Padding="16,10">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8">
+                        <FontIcon Glyph="&#xE80F;"
+                                  FontSize="18"
+                                  Foreground="White" />
+                        <TextBlock Text="Home"
+                                   FontSize="14"
+                                   FontWeight="Medium"
+                                   Foreground="White"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Card Tab -->
+                <Button Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="48"
+                        Height="48"
+                        CornerRadius="12"
+                        uen:Navigation.Request="Card">
+                    <FontIcon Glyph="&#xE8C7;"
+                              FontSize="22"
+                              Foreground="#8E8E93" />
+                </Button>
+
+                <!-- Wallet Tab -->
+                <Button Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="48"
+                        Height="48"
+                        CornerRadius="12">
+                    <FontIcon Glyph="&#xE786;"
+                              FontSize="22"
+                              Foreground="#8E8E93" />
+                </Button>
+
+                <!-- Progress Tab -->
+                <Button Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="48"
+                        Height="48"
+                        CornerRadius="12"
+                        uen:Navigation.Request="Analytics">
+                    <FontIcon Glyph="&#xE9D2;"
+                              FontSize="22"
+                              Foreground="#8E8E93" />
+                </Button>
+
+                <!-- Profile Tab -->
+                <Button Grid.Column="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="48"
+                        Height="48"
+                        CornerRadius="12">
+                    <FontIcon Glyph="&#xE77B;"
+                              FontSize="22"
+                              Foreground="#8E8E93" />
+                </Button>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Page>

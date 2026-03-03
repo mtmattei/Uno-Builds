@@ -1,0 +1,497 @@
+<Page x:Class="FluxTransit.Presentation.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FluxTransit.Presentation"
+      xmlns:models="using:FluxTransit.Models"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      NavigationCacheMode="Required"
+      Background="{StaticResource FluxBackgroundBrush}">
+
+  <ScrollViewer>
+    <StackPanel utu:SafeArea.Insets="VisibleBounds"
+                Padding="16"
+                Spacing="24"
+                MaxWidth="800"
+                HorizontalAlignment="Center">
+
+      <!-- Header Section -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="4">
+          <TextBlock Text="{Binding Greeting}"
+                     Style="{StaticResource FluxBody}" />
+          <TextBlock Text="Commuter"
+                     Style="{StaticResource FluxHeadingLarge}" />
+        </StackPanel>
+
+        <!-- Profile Button -->
+        <Button Grid.Column="1"
+                Style="{StaticResource FluxIconButtonStyle}"
+                Command="{Binding GoToProfile}"
+                VerticalAlignment="Top">
+          <FontIcon Glyph="&#xE77B;" FontSize="20" />
+        </Button>
+      </Grid>
+
+      <!-- Status Pills Row -->
+      <StackPanel Orientation="Horizontal" Spacing="12">
+
+        <!-- Weather Pill -->
+        <Border Style="{StaticResource FluxStatusPillStyle}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Border CornerRadius="20"
+                    Background="{StaticResource FluxPrimaryBrush}"
+                    Padding="8"
+                    Width="36" Height="36">
+              <FontIcon Glyph="&#xE9CA;"
+                        FontSize="16"
+                        Foreground="{StaticResource FluxBackgroundBrush}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FluxMicro}" Text="WEATHER" />
+              <TextBlock Style="{StaticResource FluxBodyBold}" Text="-8°C" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <!-- OPUS Balance Pill -->
+        <Border Style="{StaticResource FluxStatusPillStyle}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Border CornerRadius="20"
+                    Background="{StaticResource FluxSuccessBrush}"
+                    Padding="8"
+                    Width="36" Height="36">
+              <FontIcon Glyph="&#xE8C8;"
+                        FontSize="16"
+                        Foreground="{StaticResource FluxBackgroundBrush}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FluxMicro}" Text="BALANCE" />
+              <TextBlock Style="{StaticResource FluxBodyBold}" Text="$18.50" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <!-- Trips Pill -->
+        <Border Style="{StaticResource FluxStatusPillStyle}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Border CornerRadius="20"
+                    Background="{StaticResource FluxWarningBrush}"
+                    Padding="8"
+                    Width="36" Height="36">
+              <FontIcon Glyph="&#xE7C1;"
+                        FontSize="16"
+                        Foreground="{StaticResource FluxBackgroundBrush}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+            </Border>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FluxMicro}" Text="TRIPS" />
+              <TextBlock Style="{StaticResource FluxBodyBold}" Text="12" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+
+      <!-- AI Smart Planner Panel -->
+      <Border Style="{StaticResource FluxGlassPanelStyle}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="AI SMART PLANNER"
+                     Style="{StaticResource FluxMicro}" />
+
+          <!-- Origin/Destination Inputs -->
+          <TextBox PlaceholderText="From (e.g., Home, Berri-UQAM)"
+                   Text="{Binding Origin, Mode=TwoWay}"
+                   Background="{StaticResource FluxSurfaceBrush}"
+                   BorderBrush="{StaticResource FluxBorderLightBrush}" />
+
+          <TextBox PlaceholderText="To (e.g., Work, McGill)"
+                   Text="{Binding Destination, Mode=TwoWay}"
+                   Background="{StaticResource FluxSurfaceBrush}"
+                   BorderBrush="{StaticResource FluxBorderLightBrush}" />
+
+          <!-- Favorites Chips -->
+          <utu:ChipGroup SelectionMode="Multiple"
+                         Style="{StaticResource FilterChipGroupStyle}">
+            <utu:Chip Content="Home - Work" />
+            <utu:Chip Content="Downtown Loop" />
+            <utu:Chip Content="Airport" />
+          </utu:ChipGroup>
+
+          <!-- Find Routes Button with Loading State -->
+          <Grid>
+            <Button Content="Find Routes"
+                    Command="{Binding FindRoutes}"
+                    Style="{StaticResource FluxPrimaryButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding IsSearching, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="12"
+                        Visibility="{Binding IsSearching}">
+              <ProgressRing IsActive="True" Width="20" Height="20" />
+              <TextBlock Text="Finding best routes..."
+                         Style="{StaticResource FluxBody}"
+                         VerticalAlignment="Center" />
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- AI Route Suggestions Section -->
+      <mvux:FeedView Source="{Binding RouteSuggestions}">
+        <mvux:FeedView.ValueTemplate>
+          <DataTemplate>
+            <StackPanel Spacing="12"
+                        Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="AI SUGGESTIONS"
+                           Style="{StaticResource FluxMicro}" />
+                <Button Grid.Column="1"
+                        Command="{Binding DataContext.ClearSuggestions, ElementName=SuggestionsPanel}"
+                        Background="Transparent"
+                        Padding="8,4">
+                  <FontIcon Glyph="&#xE711;"
+                            FontSize="14"
+                            Foreground="{StaticResource FluxTextMutedBrush}" />
+                </Button>
+              </Grid>
+
+              <ItemsRepeater x:Name="SuggestionsPanel" ItemsSource="{Binding}">
+                <ItemsRepeater.Layout>
+                  <StackLayout Spacing="12" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate x:DataType="models:RouteSuggestion">
+                    <Border Style="{StaticResource FluxGlassPanelStyle}"
+                            Background="{StaticResource FluxGlassIndigoBrush}">
+                      <StackPanel Spacing="12">
+                        <!-- Suggestion Header -->
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <StackPanel Spacing="4">
+                            <TextBlock Text="{Binding Title}"
+                                       Style="{StaticResource FluxHeadingCard}" />
+                            <TextBlock Text="{Binding Description}"
+                                       Style="{StaticResource FluxBody}" />
+                          </StackPanel>
+                          <StackPanel Grid.Column="1"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top">
+                            <TextBlock Style="{StaticResource FluxHeadingCard}"
+                                       Foreground="{StaticResource FluxPrimaryBrush}"
+                                       HorizontalAlignment="Right">
+                              <Run Text="{Binding TotalMinutes}" /><Run Text=" min" />
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource FluxBody}"
+                                       HorizontalAlignment="Right">
+                              <Run Text="{Binding Transfers}" /><Run Text=" transfers" />
+                            </TextBlock>
+                          </StackPanel>
+                        </Grid>
+
+                        <!-- Route Legs -->
+                        <ItemsRepeater ItemsSource="{Binding Legs}">
+                          <ItemsRepeater.Layout>
+                            <StackLayout Spacing="8" Orientation="Horizontal" />
+                          </ItemsRepeater.Layout>
+                          <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="models:RouteLeg">
+                              <Border CornerRadius="8"
+                                      Background="{Binding Type, Converter={StaticResource RouteTypeColorConverter}}"
+                                      Padding="8,4">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                  <TextBlock Text="{Binding RouteNumber}"
+                                             FontWeight="Bold"
+                                             FontSize="12"
+                                             Foreground="{StaticResource FluxBackgroundBrush}" />
+                                  <TextBlock Text="{Binding DepartureTime}"
+                                             FontSize="10"
+                                             Foreground="{StaticResource FluxBackgroundBrush}"
+                                             Opacity="0.8"
+                                             VerticalAlignment="Center" />
+                                </StackPanel>
+                              </Border>
+                            </DataTemplate>
+                          </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <!-- AI Reasoning -->
+                        <Border Background="{StaticResource FluxSurfaceBrush}"
+                                CornerRadius="8"
+                                Padding="12">
+                          <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE946;"
+                                      FontSize="14"
+                                      Foreground="{StaticResource FluxPrimaryBrush}" />
+                            <TextBlock Text="{Binding AiReasoning}"
+                                       Style="{StaticResource FluxBody}"
+                                       TextWrapping="Wrap" />
+                          </StackPanel>
+                        </Border>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.ValueTemplate>
+      </mvux:FeedView>
+
+      <!-- Network Status Panel -->
+      <mvux:FeedView Source="{Binding NetworkStatus}">
+        <mvux:FeedView.ValueTemplate>
+          <DataTemplate x:DataType="models:NetworkStatus">
+            <StackPanel Spacing="12">
+              <!-- Status Overview -->
+              <Border Style="{StaticResource FluxGlassPanelStyle}">
+                <StackPanel Spacing="12">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="NETWORK STATUS"
+                               Style="{StaticResource FluxMicro}"
+                               VerticalAlignment="Center" />
+                    <Border Grid.Column="1"
+                            CornerRadius="12"
+                            Background="{Binding Health, Converter={StaticResource NetworkHealthColorConverter}}"
+                            Padding="8,4">
+                      <TextBlock Text="{Binding Health, Converter={StaticResource NetworkHealthConverter}}"
+                                 FontSize="10"
+                                 FontWeight="Bold"
+                                 Foreground="{StaticResource FluxBackgroundBrush}" />
+                    </Border>
+                  </Grid>
+
+                  <TextBlock Text="{Binding Summary}"
+                             Style="{StaticResource FluxBody}"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+              </Border>
+
+              <!-- Service Alerts -->
+              <ItemsRepeater ItemsSource="{Binding Alerts}">
+                <ItemsRepeater.Layout>
+                  <StackLayout Spacing="8" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate x:DataType="models:ServiceAlert">
+                    <Border CornerRadius="12"
+                            Background="{StaticResource FluxSurfaceBrush}"
+                            BorderBrush="{Binding Severity, Converter={StaticResource AlertSeverityColorConverter}}"
+                            BorderThickness="1,1,1,1"
+                            Padding="16">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border CornerRadius="20"
+                                Background="{Binding Severity, Converter={StaticResource AlertSeverityColorConverter}}"
+                                Width="32" Height="32"
+                                VerticalAlignment="Top"
+                                Margin="0,0,12,0">
+                          <FontIcon Glyph="&#xE7BA;"
+                                    FontSize="14"
+                                    Foreground="{StaticResource FluxBackgroundBrush}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel Grid.Column="1" Spacing="4">
+                          <TextBlock Text="{Binding Title}"
+                                     Style="{StaticResource FluxHeadingCard}" />
+                          <TextBlock Text="{Binding Message}"
+                                     Style="{StaticResource FluxBody}"
+                                     TextWrapping="Wrap" />
+                        </StackPanel>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.ValueTemplate>
+        <mvux:FeedView.ProgressTemplate>
+          <DataTemplate>
+            <Border Style="{StaticResource FluxGlassPanelStyle}">
+              <StackPanel Spacing="12" HorizontalAlignment="Center">
+                <ProgressRing IsActive="True" />
+                <TextBlock Text="Loading network status..."
+                           Style="{StaticResource FluxBody}"
+                           HorizontalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </mvux:FeedView.ProgressTemplate>
+      </mvux:FeedView>
+
+      <!-- Crowd Analytics Chart -->
+      <Border Style="{StaticResource FluxGlassPanelStyle}">
+        <StackPanel Spacing="16">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="CROWD ANALYTICS"
+                       Style="{StaticResource FluxMicro}"
+                       VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1"
+                       Text="Today"
+                       Style="{StaticResource FluxBody}" />
+          </Grid>
+
+          <!-- Temporary placeholder while troubleshooting LiveCharts -->
+          <Border Height="200"
+                  Background="{StaticResource FluxSurfaceBrush}"
+                  CornerRadius="8">
+            <TextBlock Text="Chart placeholder - crowd analytics"
+                       Style="{StaticResource FluxBody}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+          </Border>
+
+          <!-- Legend -->
+          <StackPanel Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Border CornerRadius="4"
+                      Background="{StaticResource FluxPrimaryBrush}"
+                      Width="12" Height="12" />
+              <TextBlock Text="Metro"
+                         Style="{StaticResource FluxBody}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Border CornerRadius="4"
+                      Background="{StaticResource FluxWarningBrush}"
+                      Width="12" Height="12" />
+              <TextBlock Text="Bus"
+                         Style="{StaticResource FluxBody}" />
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Live Routes Section -->
+      <StackPanel Spacing="12">
+        <TextBlock Text="LIVE ROUTES"
+                   Style="{StaticResource FluxMicro}" />
+
+        <mvux:FeedView Source="{Binding LiveRoutes}">
+          <mvux:FeedView.ValueTemplate>
+            <DataTemplate>
+              <ItemsRepeater ItemsSource="{Binding}">
+                <ItemsRepeater.Layout>
+                  <StackLayout Spacing="12" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate x:DataType="models:TransitRoute">
+                    <Border Style="{StaticResource FluxTransitCardStyle}">
+                      <StackPanel Spacing="12">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+
+                          <!-- Route Badge -->
+                          <Border CornerRadius="8"
+                                  Background="{Binding Type, Converter={StaticResource RouteTypeColorConverter}}"
+                                  Padding="12,8"
+                                  MinWidth="50"
+                                  VerticalAlignment="Center">
+                            <TextBlock Text="{Binding RouteNumber}"
+                                       FontWeight="Bold"
+                                       FontSize="16"
+                                       Foreground="{StaticResource FluxBackgroundBrush}"
+                                       HorizontalAlignment="Center" />
+                          </Border>
+
+                          <!-- Route Info -->
+                          <StackPanel Grid.Column="1" Spacing="4" Margin="12,0">
+                            <TextBlock Text="{Binding RouteName}"
+                                       Style="{StaticResource FluxHeadingCard}" />
+                            <TextBlock Text="{Binding Direction}"
+                                       Style="{StaticResource FluxBody}" />
+                          </StackPanel>
+
+                          <!-- ETA -->
+                          <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource FluxBodyBold}"
+                                       Foreground="{Binding Type, Converter={StaticResource RouteTypeColorConverter}}">
+                              <Run Text="{Binding EtaMinutes}" /><Run Text=" min" />
+                            </TextBlock>
+                          </StackPanel>
+                        </Grid>
+
+                        <!-- Progress Bar -->
+                        <ProgressBar Value="{Binding ProgressPercent}"
+                                     Style="{StaticResource FluxProgressBarStyle}"
+                                     Foreground="{Binding Type, Converter={StaticResource RouteTypeColorConverter}}" />
+
+                        <!-- Crowd Level -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <FontIcon Glyph="&#xE716;"
+                                    FontSize="14"
+                                    Foreground="{StaticResource FluxTextMutedBrush}" />
+                          <TextBlock Text="{Binding CrowdLevel, Converter={StaticResource CrowdLevelConverter}}"
+                                     Style="{StaticResource FluxBody}" />
+                        </StackPanel>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+            </DataTemplate>
+          </mvux:FeedView.ValueTemplate>
+          <mvux:FeedView.ProgressTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="12" HorizontalAlignment="Center" Padding="24">
+                <ProgressRing IsActive="True" />
+                <TextBlock Text="Loading live routes..."
+                           Style="{StaticResource FluxBody}"
+                           HorizontalAlignment="Center" />
+              </StackPanel>
+            </DataTemplate>
+          </mvux:FeedView.ProgressTemplate>
+          <mvux:FeedView.NoneTemplate>
+            <DataTemplate>
+              <Border Style="{StaticResource FluxGlassPanelStyle}">
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                  <FontIcon Glyph="&#xE774;"
+                            FontSize="32"
+                            Foreground="{StaticResource FluxTextMutedBrush}" />
+                  <TextBlock Text="No live routes available"
+                             Style="{StaticResource FluxBody}"
+                             HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </mvux:FeedView.NoneTemplate>
+        </mvux:FeedView>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</Page>

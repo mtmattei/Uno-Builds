@@ -1,0 +1,57 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>WinampClassic</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.winampclassic</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>WinampClassic</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>WinampClassic powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Mvvm;
+      SkiaRenderer;
+      MediaPlayerElement;
+      Logging;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <UnoFont Include="Assets\Fonts\PressStart2P-Regular.ttf" />
+    <UnoFont Include="Assets\Fonts\DS-DIGI.TTF" />
+    <UnoFont Include="Assets\Fonts\BitcountPropSingle-Medium.ttf" />
+  </ItemGroup>
+
+  <!-- Winamp Skin Bitmap Assets -->
+  <ItemGroup>
+    <Content Include="Assets\Skins\Winamp5_Classified\main.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\cbuttons.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\numbers.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\text.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\titlebar.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\volume.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\balance.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\posbar.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\eqmain.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\playpaus.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\monoster.bmp" />
+    <Content Include="Assets\Skins\Winamp5_Classified\shufrep.bmp" />
+  </ItemGroup>
+
+</Project>

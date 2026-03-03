@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>FluxTransit</value>
+  </data>
+  <!-- Dashboard -->
+  <data name="Dashboard_GoodMorning" xml:space="preserve">
+    <value>Good morning,</value>
+  </data>
+  <data name="Dashboard_GoodAfternoon" xml:space="preserve">
+    <value>Good afternoon,</value>
+  </data>
+  <data name="Dashboard_GoodEvening" xml:space="preserve">
+    <value>Good evening,</value>
+  </data>
+  <data name="Dashboard_Commuter" xml:space="preserve">
+    <value>Commuter</value>
+  </data>
+  <data name="Dashboard_Weather" xml:space="preserve">
+    <value>WEATHER</value>
+  </data>
+  <data name="Dashboard_Balance" xml:space="preserve">
+    <value>BALANCE</value>
+  </data>
+  <data name="Dashboard_Trips" xml:space="preserve">
+    <value>TRIPS</value>
+  </data>
+  <data name="Dashboard_AiSmartPlanner" xml:space="preserve">
+    <value>AI SMART PLANNER</value>
+  </data>
+  <data name="Dashboard_FromPlaceholder" xml:space="preserve">
+    <value>From (e.g., Home, Berri-UQAM)</value>
+  </data>
+  <data name="Dashboard_ToPlaceholder" xml:space="preserve">
+    <value>To (e.g., Work, McGill)</value>
+  </data>
+  <data name="Dashboard_FindRoutes" xml:space="preserve">
+    <value>Find Routes</value>
+  </data>
+  <data name="Dashboard_FindingRoutes" xml:space="preserve">
+    <value>Finding best routes...</value>
+  </data>
+  <data name="Dashboard_AiSuggestions" xml:space="preserve">
+    <value>AI SUGGESTIONS</value>
+  </data>
+  <data name="Dashboard_NetworkStatus" xml:space="preserve">
+    <value>NETWORK STATUS</value>
+  </data>
+  <data name="Dashboard_LoadingNetwork" xml:space="preserve">
+    <value>Loading network status...</value>
+  </data>
+  <data name="Dashboard_CrowdAnalytics" xml:space="preserve">
+    <value>CROWD ANALYTICS</value>
+  </data>
+  <data name="Dashboard_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Dashboard_Metro" xml:space="preserve">
+    <value>Metro</value>
+  </data>
+  <data name="Dashboard_Bus" xml:space="preserve">
+    <value>Bus</value>
+  </data>
+  <data name="Dashboard_LiveRoutes" xml:space="preserve">
+    <value>LIVE ROUTES</value>
+  </data>
+  <data name="Dashboard_LoadingRoutes" xml:space="preserve">
+    <value>Loading live routes...</value>
+  </data>
+  <data name="Dashboard_NoRoutes" xml:space="preserve">
+    <value>No live routes available</value>
+  </data>
+  <!-- Profile -->
+  <data name="Profile_Title" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Profile_Subtitle" xml:space="preserve">
+    <value>Manage your transit settings</value>
+  </data>
+  <data name="Profile_OpusCard" xml:space="preserve">
+    <value>OPUS CARD</value>
+  </data>
+  <data name="Profile_CurrentBalance" xml:space="preserve">
+    <value>Current Balance</value>
+  </data>
+  <data name="Profile_TapToRefresh" xml:space="preserve">
+    <value>Tap to refresh</value>
+  </data>
+  <data name="Profile_UpdateBalance" xml:space="preserve">
+    <value>Update Balance</value>
+  </data>
+  <data name="Profile_Updating" xml:space="preserve">
+    <value>Updating...</value>
+  </data>
+  <data name="Profile_SavedRoutes" xml:space="preserve">
+    <value>SAVED ROUTES</value>
+  </data>
+  <data name="Profile_AddNewRoute" xml:space="preserve">
+    <value>Add New Route</value>
+  </data>
+  <data name="Profile_Settings" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="Profile_GeminiApiKey" xml:space="preserve">
+    <value>Gemini API Key (for AI features)</value>
+  </data>
+  <data name="Profile_ApiKeyPlaceholder" xml:space="preserve">
+    <value>Enter your Gemini API key</value>
+  </data>
+  <data name="Profile_ApiKeyHint" xml:space="preserve">
+    <value>Get your API key from ai.google.dev</value>
+  </data>
+  <data name="Profile_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Profile_ServiceAlerts" xml:space="preserve">
+    <value>Service Alerts</value>
+  </data>
+  <data name="Profile_NotificationsHint" xml:space="preserve">
+    <value>Receive notifications about delays</value>
+  </data>
+  <data name="Profile_Version" xml:space="preserve">
+    <value>Flux Transit v1.0</value>
+  </data>
+  <data name="Profile_BuiltWith" xml:space="preserve">
+    <value>Built with Uno Platform</value>
+  </data>
+  <!-- Common -->
+  <data name="Common_Min" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="Common_Transfers" xml:space="preserve">
+    <value>transfers</value>
+  </data>
+</root>

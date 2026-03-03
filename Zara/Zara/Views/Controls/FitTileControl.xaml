@@ -1,0 +1,31 @@
+<UserControl x:Class="Zara.Views.Controls.FitTileControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:Zara.Models">
+
+    <Button Background="Transparent"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Click="OnFitClick">
+        <Grid Background="{StaticResource ZaraAccentGrayBrush}">
+            <!-- Background Image -->
+            <Image Source="{x:Bind Fit.ImageUrl, Mode=OneWay}"
+                   Stretch="UniformToFill" />
+
+            <!-- Semi-transparent Overlay -->
+            <Border Background="#40000000" />
+
+            <!-- Centered Text Overlay -->
+            <TextBlock Text="{x:Bind Fit.Name, Mode=OneWay}"
+                       Style="{StaticResource ZaraFitOverlayStyle}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <TextBlock.Shadow>
+                    <ThemeShadow />
+                </TextBlock.Shadow>
+            </TextBlock>
+        </Grid>
+    </Button>
+
+</UserControl>

@@ -1,0 +1,116 @@
+<UserControl x:Class="Sanctum.Pages.DailyDigestPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Grid Padding="32">
+    <StackPanel Spacing="24" MaxWidth="600" HorizontalAlignment="Left">
+
+      <!-- Header -->
+      <StackPanel Spacing="8">
+        <TextBlock Text="Daily Digest" Style="{StaticResource SectionHeaderStyle}"/>
+        <TextBlock Text="Your batched notifications, summarized"
+                   Style="{StaticResource MutedTextStyle}"/>
+      </StackPanel>
+
+      <!-- AI Summary -->
+      <Border CornerRadius="16" Padding="24">
+        <Border.Background>
+          <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="{ThemeResource PrimaryContainerColor}" Offset="0"/>
+            <GradientStop Color="{ThemeResource SurfaceColor}" Offset="1"/>
+          </LinearGradientBrush>
+        </Border.Background>
+        <StackPanel Spacing="12">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <FontIcon Glyph="&#xE9D9;" FontSize="20" Foreground="{ThemeResource TertiaryBrush}"/>
+            <TextBlock Text="AI SUMMARY" Style="{StaticResource MicroLabelStyle}"
+                       Foreground="{ThemeResource TertiaryBrush}"/>
+          </StackPanel>
+          <TextBlock Text="{x:Bind ViewModel.AiSummary, Mode=OneWay}"
+                     Style="{StaticResource BodyTextStyle}"
+                     FontSize="16"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Must See Section -->
+      <StackPanel Spacing="12" Visibility="{x:Bind HasMustSeeItems, Mode=OneWay}">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Border Width="8" Height="8" CornerRadius="4"
+                  Background="{ThemeResource UrgentForegroundBrush}"/>
+          <TextBlock Text="MUST SEE" Style="{StaticResource MicroLabelStyle}"
+                     Foreground="{ThemeResource UrgentForegroundBrush}"/>
+        </StackPanel>
+
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.MustSeeItems}">
+          <ItemsRepeater.Layout>
+            <StackLayout Spacing="8"/>
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <Border Style="{StaticResource ElevatedCardStyle}"
+                      BorderBrush="{ThemeResource UrgentForegroundBrush}"
+                      BorderThickness="1">
+                <Grid ColumnSpacing="16">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+
+                  <FontIcon Grid.Column="0" Glyph="{Binding Icon}" FontSize="24"
+                            Foreground="{ThemeResource UrgentForegroundBrush}"/>
+
+                  <StackPanel Grid.Column="1" Spacing="4">
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding Summary}" Style="{StaticResource MutedTextStyle}"/>
+                  </StackPanel>
+
+                  <TextBlock Grid.Column="2" Text="{Binding Timestamp}"
+                             Style="{StaticResource MutedTextStyle}"
+                             VerticalAlignment="Top"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </StackPanel>
+
+      <!-- Nice to Know Section -->
+      <StackPanel Spacing="12">
+        <TextBlock Text="NICE TO KNOW" Style="{StaticResource MicroLabelStyle}"/>
+
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.NiceToKnowItems}">
+          <ItemsRepeater.Layout>
+            <StackLayout Spacing="8"/>
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <Border Style="{StaticResource ElevatedCardStyle}" Opacity="0.9">
+                <Grid ColumnSpacing="16">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+
+                  <FontIcon Grid.Column="0" Glyph="{Binding Icon}" FontSize="24"
+                            Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+
+                  <StackPanel Grid.Column="1" Spacing="4">
+                    <TextBlock Text="{Binding Title}" FontWeight="Medium"/>
+                    <TextBlock Text="{Binding Summary}" Style="{StaticResource MutedTextStyle}"/>
+                  </StackPanel>
+
+                  <TextBlock Grid.Column="2" Text="{Binding Timestamp}"
+                             Style="{StaticResource MutedTextStyle}"
+                             VerticalAlignment="Top"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>

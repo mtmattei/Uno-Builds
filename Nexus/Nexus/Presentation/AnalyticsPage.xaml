@@ -1,0 +1,471 @@
+<Page x:Class="Nexus.Presentation.AnalyticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Padding="24" MinWidth="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Row: OEE Metrics -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- OEE OVERALL Card -->
+                <Border Grid.Column="0" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="OEE OVERALL" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        <TextBlock Grid.Row="1" Text="85.4" Style="{ThemeResource NexusDisplayStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                        <lvc:CartesianChart Grid.Row="3"
+                                            Series="{x:Bind ViewModel.OeeSeries}"
+                                            XAxes="{x:Bind ViewModel.SparklineXAxis}"
+                                            YAxes="{x:Bind ViewModel.SparklineYAxis}"
+                                            TooltipPosition="Hidden"
+                                            ZoomMode="None"
+                                            Margin="0,8,0,0"/>
+                        <Grid Grid.Row="4" Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="+1.2%" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="WORLD CLASS" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- AVAILABILITY Card -->
+                <Border Grid.Column="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="AVAILABILITY" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        <TextBlock Grid.Row="1" Text="92.1" Style="{ThemeResource NexusDisplayStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                        <lvc:CartesianChart Grid.Row="3"
+                                            Series="{x:Bind ViewModel.AvailabilitySeries}"
+                                            XAxes="{x:Bind ViewModel.SparklineXAxis}"
+                                            YAxes="{x:Bind ViewModel.SparklineYAxis}"
+                                            TooltipPosition="Hidden"
+                                            ZoomMode="None"
+                                            Margin="0,8,0,0"/>
+                        <Grid Grid.Row="4" Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="+0.5%" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="TARGET MET" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- PERFORMANCE Card -->
+                <Border Grid.Column="4" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="PERFORMANCE" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        <TextBlock Grid.Row="1" Text="95.8" Style="{ThemeResource NexusDisplayStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                        <lvc:CartesianChart Grid.Row="3"
+                                            Series="{x:Bind ViewModel.PerformanceSeries}"
+                                            XAxes="{x:Bind ViewModel.SparklineXAxis}"
+                                            YAxes="{x:Bind ViewModel.SparklineYAxis}"
+                                            TooltipPosition="Hidden"
+                                            ZoomMode="None"
+                                            Margin="0,8,0,0"/>
+                        <Grid Grid.Row="4" Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="+2.1%" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="OPTIMAL" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- QUALITY Card -->
+                <Border Grid.Column="6" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="QUALITY" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        <TextBlock Grid.Row="1" Text="96.8" Style="{ThemeResource NexusDisplayStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                        <lvc:CartesianChart Grid.Row="3"
+                                            Series="{x:Bind ViewModel.QualitySeries}"
+                                            XAxes="{x:Bind ViewModel.SparklineXAxis}"
+                                            YAxes="{x:Bind ViewModel.SparklineYAxis}"
+                                            TooltipPosition="Hidden"
+                                            ZoomMode="None"
+                                            Margin="0,8,0,0"/>
+                        <Grid Grid.Row="4" Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="-0.3%" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="NOMINAL" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Middle Row: Production Trend + Defect Analysis -->
+            <Grid Grid.Row="1" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- PRODUCTION TREND Panel -->
+                <Border Grid.Column="0" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <StackPanel Spacing="16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusInfoBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="PRODUCTION TREND (7 DAYS)" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="OUTPUT" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusInfoBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="TARGET" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Production Trend Chart -->
+                        <lvc:CartesianChart Height="300"
+                                            Margin="0,16,0,0"
+                                            Series="{x:Bind ViewModel.ProductionTrendSeries}"
+                                            XAxes="{x:Bind ViewModel.ProductionTrendXAxis}"
+                                            YAxes="{x:Bind ViewModel.ProductionTrendYAxis}"
+                                            TooltipPosition="Top"
+                                            ZoomMode="None"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- DEFECT ANALYSIS Panel -->
+                <Border Grid.Column="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <StackPanel Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusDangerBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="DEFECT ANALYSIS" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="0">
+                            <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                <StackPanel Spacing="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Dimensional Variance" Style="{ThemeResource NexusBodyStyle}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="42%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                                    </Grid>
+                                    <ProgressBar Value="42" Style="{ThemeResource NexusProgressBarStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                <StackPanel Spacing="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Surface Defects" Style="{ThemeResource NexusBodyStyle}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="28%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusWarningBrush}"/>
+                                    </Grid>
+                                    <ProgressBar Value="28" Style="{ThemeResource NexusProgressBarStyle}" Foreground="{ThemeResource NexusWarningBrush}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                <StackPanel Spacing="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Assembly Errors" Style="{ThemeResource NexusBodyStyle}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="18%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                    </Grid>
+                                    <ProgressBar Value="18" Style="{ThemeResource NexusProgressBarStyle}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                <StackPanel Spacing="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Material Defects" Style="{ThemeResource NexusBodyStyle}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="12%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                    </Grid>
+                                    <ProgressBar Value="12" Style="{ThemeResource NexusProgressBarStyle}"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Row: Line Comparison Matrix -->
+            <Border Grid.Row="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusInfoBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="LINE COMPARISON MATRIX" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Content="EXPORT REPORT" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Margin="0,16,0,0" Spacing="0">
+                        <!-- Table Header -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="140"/>
+                                <ColumnDefinition Width="*" MinWidth="50"/>
+                                <ColumnDefinition Width="*" MinWidth="50"/>
+                                <ColumnDefinition Width="*" MinWidth="50"/>
+                                <ColumnDefinition Width="*" MinWidth="50"/>
+                                <ColumnDefinition Width="*" MinWidth="60"/>
+                                <ColumnDefinition Width="*" MinWidth="70"/>
+                                <ColumnDefinition Width="*" MinWidth="50"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="LINE" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="1" Text="OEE" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="2" Text="AVAIL" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="3" Text="PERF" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="4" Text="QUAL" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="5" Text="UNITS/HR" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="6" Text="DEFECTS" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="7" Text="TREND" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                        </Grid>
+
+                        <!-- Row A1 -->
+                        <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="60"/>
+                                    <ColumnDefinition Width="*" MinWidth="70"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,2">
+                                        <TextBlock Text="A1" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                    </Border>
+                                    <TextBlock Text="Assembly A1" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="87.2%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Grid.Column="2" Text="91.5%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="3" Text="96.2%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="4" Text="98.8%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="5" Text="847" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="6" Text="12 (1.2%)" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="7" Text="+2.1%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row A2 -->
+                        <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="60"/>
+                                    <ColumnDefinition Width="*" MinWidth="70"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,2">
+                                        <TextBlock Text="A2" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                    </Border>
+                                    <TextBlock Text="Assembly A2" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="89.4%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Grid.Column="2" Text="93.2%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="3" Text="97.1%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="4" Text="98.5%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="5" Text="892" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="6" Text="8 (0.9%)" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="7" Text="+1.8%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row B1 -->
+                        <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="60"/>
+                                    <ColumnDefinition Width="*" MinWidth="70"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,2">
+                                        <TextBlock Text="B1" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                    </Border>
+                                    <TextBlock Text="Processing B1" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusWarningBrush}"/>
+                                <TextBlock Grid.Column="2" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="3" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="4" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="5" Text="0" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="6" Text="STANDBY" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusWarningBrush}"/>
+                                <TextBlock Grid.Column="7" Text="--" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row C1 -->
+                        <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="60"/>
+                                    <ColumnDefinition Width="*" MinWidth="70"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,2">
+                                        <TextBlock Text="C1" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                    </Border>
+                                    <TextBlock Text="Packaging C1" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="82.6%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Grid.Column="2" Text="88.4%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="3" Text="94.8%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="4" Text="97.2%" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="5" Text="756" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="6" Text="21 (2.8%)" Style="{ThemeResource NexusTableCellStyle}"/>
+                                <TextBlock Grid.Column="7" Text="-0.5%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row C2 -->
+                        <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                    <ColumnDefinition Width="*" MinWidth="60"/>
+                                    <ColumnDefinition Width="*" MinWidth="70"/>
+                                    <ColumnDefinition Width="*" MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,2">
+                                        <TextBlock Text="C2" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                    </Border>
+                                    <TextBlock Text="Packaging C2" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                                <TextBlock Grid.Column="2" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="3" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="4" Text="0%" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="5" Text="0" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Grid.Column="6" Text="MAINT" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusDangerBrush}"/>
+                                <TextBlock Grid.Column="7" Text="--" Style="{ThemeResource NexusTableCellStyle}" Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>

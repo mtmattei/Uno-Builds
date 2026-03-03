@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "MPE",
+  "display": "standalone",
+  "name": "MPE",
+  "short_name": "MPE",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

@@ -1,0 +1,242 @@
+<Page x:Class="FluxTransit.Presentation.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FluxTransit.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{StaticResource FluxBackgroundBrush}">
+
+  <ScrollViewer>
+    <StackPanel utu:SafeArea.Insets="VisibleBounds"
+                Padding="16"
+                Spacing="24"
+                MaxWidth="600"
+                HorizontalAlignment="Center">
+
+      <!-- Header with Back Button -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Style="{StaticResource FluxIconButtonStyle}"
+                Command="{Binding GoBack}"
+                VerticalAlignment="Top">
+          <FontIcon Glyph="&#xE72B;" FontSize="20" />
+        </Button>
+
+        <StackPanel Grid.Column="1" Spacing="8" Margin="12,0,0,0">
+          <TextBlock Text="Profile"
+                     Style="{StaticResource FluxHeadingLarge}" />
+          <TextBlock Text="Manage your transit settings"
+                     Style="{StaticResource FluxBody}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- OPUS Card Section -->
+      <Border Style="{StaticResource FluxGlassPanelStyle}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="OPUS CARD"
+                     Style="{StaticResource FluxMicro}" />
+
+          <StackPanel Orientation="Horizontal" Spacing="16">
+            <!-- Card Visual -->
+            <Border CornerRadius="12"
+                    Background="{StaticResource FluxPrimaryStrongBrush}"
+                    Padding="16"
+                    Width="120"
+                    Height="80">
+              <StackPanel VerticalAlignment="Bottom">
+                <TextBlock Text="OPUS"
+                           FontWeight="Bold"
+                           FontSize="16"
+                           Foreground="White" />
+                <TextBlock Text="{Binding CardNumber}"
+                           FontSize="12"
+                           Foreground="White"
+                           Opacity="0.7" />
+              </StackPanel>
+            </Border>
+
+            <!-- Balance Info -->
+            <StackPanel Spacing="8" VerticalAlignment="Center">
+              <TextBlock Text="Current Balance"
+                         Style="{StaticResource FluxBody}" />
+              <TextBlock Style="{StaticResource FluxHeadingLarge}"
+                         Foreground="{StaticResource FluxSuccessBrush}">
+                <Run Text="$" /><Run Text="{Binding OpusBalance}" />
+              </TextBlock>
+              <TextBlock Text="Tap to refresh"
+                         Style="{StaticResource FluxBody}"
+                         Opacity="0.6" />
+            </StackPanel>
+          </StackPanel>
+
+          <Grid>
+            <Button Content="Update Balance"
+                    Command="{Binding UpdateBalance}"
+                    Style="{StaticResource FluxPrimaryButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding IsRefreshing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="12"
+                        Visibility="{Binding IsRefreshing}">
+              <ProgressRing IsActive="True" Width="20" Height="20" />
+              <TextBlock Text="Updating..."
+                         Style="{StaticResource FluxBody}"
+                         VerticalAlignment="Center" />
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- Saved Routes Section -->
+      <Border Style="{StaticResource FluxGlassPanelStyle}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="SAVED ROUTES"
+                     Style="{StaticResource FluxMicro}" />
+
+          <!-- Route Item -->
+          <Border Style="{StaticResource FluxTransitCardStyle}"
+                  Background="Transparent"
+                  Padding="12">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <FontIcon Glyph="&#xE80F;"
+                        FontSize="20"
+                        Foreground="{StaticResource FluxPrimaryBrush}"
+                        VerticalAlignment="Center" />
+              <StackPanel Grid.Column="1" Spacing="4" Margin="12,0">
+                <TextBlock Text="Home → Work"
+                           Style="{StaticResource FluxBodyBold}" />
+                <TextBlock Text="Berri-UQAM → McGill"
+                           Style="{StaticResource FluxBody}" />
+              </StackPanel>
+              <FontIcon Grid.Column="2"
+                        Glyph="&#xE76C;"
+                        FontSize="16"
+                        Foreground="{StaticResource FluxTextMutedBrush}"
+                        VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+
+          <!-- Route Item 2 -->
+          <Border Style="{StaticResource FluxTransitCardStyle}"
+                  Background="Transparent"
+                  Padding="12">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <FontIcon Glyph="&#xE80F;"
+                        FontSize="20"
+                        Foreground="{StaticResource FluxPrimaryBrush}"
+                        VerticalAlignment="Center" />
+              <StackPanel Grid.Column="1" Spacing="4" Margin="12,0">
+                <TextBlock Text="Downtown Loop"
+                           Style="{StaticResource FluxBodyBold}" />
+                <TextBlock Text="Place-des-Arts → Mont-Royal"
+                           Style="{StaticResource FluxBody}" />
+              </StackPanel>
+              <FontIcon Grid.Column="2"
+                        Glyph="&#xE76C;"
+                        FontSize="16"
+                        Foreground="{StaticResource FluxTextMutedBrush}"
+                        VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+
+          <Button HorizontalAlignment="Stretch"
+                  Background="Transparent"
+                  BorderBrush="{StaticResource FluxBorderLightBrush}"
+                  Foreground="{StaticResource FluxTextPrimaryBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <FontIcon Glyph="&#xE710;" FontSize="16" />
+              <TextBlock Text="Add New Route" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </Border>
+
+      <!-- Settings Section -->
+      <Border Style="{StaticResource FluxGlassPanelStyle}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="SETTINGS"
+                     Style="{StaticResource FluxMicro}" />
+
+          <!-- Gemini API Key -->
+          <StackPanel Spacing="8">
+            <TextBlock Text="Gemini API Key (for AI features)"
+                       Style="{StaticResource FluxBody}" />
+            <TextBox PlaceholderText="Enter your Gemini API key"
+                     Text="{Binding GeminiApiKey, Mode=TwoWay}"
+                     Background="{StaticResource FluxSurfaceBrush}"
+                     BorderBrush="{StaticResource FluxBorderLightBrush}" />
+            <TextBlock Text="Get your API key from ai.google.dev"
+                       Style="{StaticResource FluxBody}"
+                       Opacity="0.6"
+                       FontSize="12" />
+          </StackPanel>
+
+          <!-- Language Toggle -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Language"
+                       Style="{StaticResource FluxBody}"
+                       VerticalAlignment="Center" />
+            <utu:ChipGroup Grid.Column="1"
+                           SelectionMode="Single"
+                           Style="{StaticResource FilterChipGroupStyle}">
+              <utu:Chip Content="EN" IsChecked="True" />
+              <utu:Chip Content="FR" />
+            </utu:ChipGroup>
+          </Grid>
+
+          <!-- Notifications Toggle -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Spacing="4">
+              <TextBlock Text="Service Alerts"
+                         Style="{StaticResource FluxBody}"
+                         VerticalAlignment="Center" />
+              <TextBlock Text="Receive notifications about delays"
+                         Style="{StaticResource FluxBody}"
+                         Opacity="0.6"
+                         FontSize="12" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1"
+                          IsOn="True"
+                          OnContent=""
+                          OffContent="" />
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- App Info -->
+      <StackPanel Spacing="8" HorizontalAlignment="Center" Opacity="0.5">
+        <TextBlock Text="Flux Transit v1.0"
+                   Style="{StaticResource FluxBody}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Built with Uno Platform"
+                   Style="{StaticResource FluxBody}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</Page>

@@ -1,0 +1,152 @@
+<Application x:Class="HockeyBarn.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       xmlns:converters="using:HockeyBarn.Converters">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml">
+          <!-- NOTE: You can override the default Roboto font by providing your font assets here. -->
+          <!-- <utum:MaterialToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <FontFamily x:Key="MaterialLightFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Light.ttf#Roboto</FontFamily>
+              <FontFamily x:Key="MaterialMediumFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Medium.ttf#Roboto</FontFamily>
+              <FontFamily x:Key="MaterialRegularFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
+            </ResourceDictionary>
+          </utum:MaterialToolkitTheme.FontOverrideDictionary> -->
+        </utum:MaterialToolkitTheme>
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Add resources here -->
+
+      <!-- Converters -->
+      <converters:SkillLevelColorConverter x:Key="SkillLevelColorConverter" />
+      <converters:PaymentStatusColorConverter x:Key="PaymentStatusColorConverter" />
+      <converters:NotificationTypeColorConverter x:Key="NotificationTypeColorConverter" />
+      <converters:NotificationTypeIconConverter x:Key="NotificationTypeIconConverter" />
+      <converters:DateTimeConverter x:Key="DateTimeConverter" />
+      <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+
+      <!-- Custom Hockey Barn Brushes -->
+      <SolidColorBrush x:Key="IceBlueBrush" Color="{ThemeResource PrimaryColor}" />
+      <SolidColorBrush x:Key="OrangeBrush" Color="{ThemeResource SecondaryColor}" />
+      <SolidColorBrush x:Key="CardBackgroundBrush" Color="{ThemeResource SurfaceColor}" />
+      <SolidColorBrush x:Key="GlassBackgroundBrush" Color="{ThemeResource SurfaceVariantColor}" Opacity="0.7" />
+      
+      <!-- Glassmorphism Card Style -->
+      <Style x:Key="GlassCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ThemeResource CardBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="BorderBrush" Value="#20FFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Translation" Value="0,0,12" />
+        <Setter Property="Shadow">
+          <Setter.Value>
+            <ThemeShadow />
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Game Card Style -->
+      <Style x:Key="GameCardStyle" TargetType="Border" BasedOn="{StaticResource GlassCardStyle}">
+        <Setter Property="BorderBrush" Value="#30FFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="20,12" />
+        <Setter Property="Padding" Value="20" />
+      </Style>
+
+      <!-- Primary Button Style -->
+      <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialFilledButtonStyle}">
+        <Setter Property="Background" Value="{ThemeResource OrangeBrush}" />
+        <Setter Property="Foreground" Value="#1A1F26" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Translation" Value="0,0,4" />
+        <Setter Property="Shadow">
+          <Setter.Value>
+            <ThemeShadow />
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Secondary Button Style -->
+      <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialOutlinedButtonStyle}">
+        <Setter Property="BorderBrush" Value="{ThemeResource IceBlueBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource IceBlueBrush}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderThickness" Value="2" />
+      </Style>
+
+      <!-- Chip Style for Tags -->
+      <Style x:Key="ChipStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ThemeResource PrimaryContainerColor}" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="Margin" Value="4,0" />
+      </Style>
+
+      <!-- Skill Level Chip Styles -->
+      <Style x:Key="BeginnerChipStyle" TargetType="Border" BasedOn="{StaticResource ChipStyle}">
+        <Setter Property="Background" Value="{ThemeResource TertiaryContainerColor}" />
+      </Style>
+
+      <Style x:Key="IntermediateChipStyle" TargetType="Border" BasedOn="{StaticResource ChipStyle}">
+        <Setter Property="Background" Value="{ThemeResource PrimaryContainerColor}" />
+      </Style>
+
+      <Style x:Key="AdvancedChipStyle" TargetType="Border" BasedOn="{StaticResource ChipStyle}">
+        <Setter Property="Background" Value="{ThemeResource SecondaryContainerColor}" />
+      </Style>
+
+      <!-- Input Field Style -->
+      <Style x:Key="InputFieldStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialFilledTextBoxStyle}">
+        <Setter Property="Background" Value="{ThemeResource SurfaceVariantColor}" />
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceColor}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderThickness" Value="0" />
+      </Style>
+
+      <!-- Page Title Style -->
+      <Style x:Key="PageTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource MaterialHeadline4}">
+        <Setter Property="Foreground" Value="{ThemeResource OnBackgroundColor}" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="FontSize" Value="32" />
+      </Style>
+
+      <!-- Section Title Style -->
+      <Style x:Key="SectionTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource MaterialHeadline6}">
+        <Setter Property="Foreground" Value="{ThemeResource OnBackgroundColor}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,16,0,8" />
+      </Style>
+
+      <!-- Body Text Style -->
+      <Style x:Key="BodyTextStyle" TargetType="TextBlock" BasedOn="{StaticResource MaterialBody1}">
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantColor}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+      </Style>
+
+      <!-- Icon Style -->
+      <Style x:Key="IconStyle" TargetType="FontIcon">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Foreground" Value="{ThemeResource IceBlueBrush}" />
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

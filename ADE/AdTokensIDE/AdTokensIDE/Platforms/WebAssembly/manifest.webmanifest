@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "AdTokensIDE",
+  "display": "standalone",
+  "name": "AdTokensIDE",
+  "short_name": "AdTokensIDE",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

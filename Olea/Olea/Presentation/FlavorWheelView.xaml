@@ -1,0 +1,167 @@
+<UserControl x:Class="Olea.Presentation.FlavorWheelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <!-- Flavor Wheel Card -->
+  <Border Background="{StaticResource OleaSurfaceBrush}"
+          BorderBrush="{StaticResource OleaBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="{StaticResource OleaCardRadius}"
+          Padding="24"
+          Translation="0,0,8">
+    <Border.Shadow>
+      <ThemeShadow />
+    </Border.Shadow>
+
+    <StackPanel Spacing="16">
+      <!-- Section Heading -->
+      <StackPanel Spacing="4">
+        <TextBlock Text="Flavor Wheel"
+                   Style="{StaticResource OleaSectionHeadingStyle}" />
+        <TextBlock Text="Tap segments to tag flavor notes"
+                   FontFamily="{StaticResource OleaBodyFont}"
+                   FontSize="11"
+                   Foreground="{StaticResource OleaTextMutedBrush}" />
+      </StackPanel>
+
+      <!-- Flavor Wheel Placeholder - TODO: Replace with SkiaSharp canvas wheel -->
+      <Border Background="{StaticResource OleaCreamDarkBrush}"
+              CornerRadius="200"
+              Width="300" Height="300"
+              HorizontalAlignment="Center"
+              Margin="0,8">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="2">
+          <TextBlock Text="Flavor"
+                     FontFamily="{StaticResource OleaDisplayFont}"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     Foreground="{StaticResource OleaPrimaryBrush}"
+                     TextAlignment="Center" />
+          <TextBlock Text="Profile"
+                     FontFamily="{StaticResource OleaDisplayFont}"
+                     FontSize="12"
+                     FontWeight="Light"
+                     Foreground="{StaticResource OleaPrimaryBrush}"
+                     TextAlignment="Center" />
+        </StackPanel>
+      </Border>
+
+      <!-- Selected Flavors -->
+      <ItemsControl x:Name="SelectedFlavorsPanel">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal" Spacing="8" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+
+      <TextBlock x:Name="NoFlavorsText"
+                 Text="No flavors selected yet"
+                 FontFamily="{StaticResource OleaBodyFont}"
+                 FontSize="11"
+                 FontStyle="Italic"
+                 Foreground="{StaticResource OleaTextMutedBrush}"
+                 HorizontalAlignment="Center" />
+
+      <!-- Divider -->
+      <Border BorderBrush="{StaticResource OleaBorderBrush}"
+              BorderThickness="0,1,0,0"
+              Margin="0,12,0,0"
+              Padding="0,20,0,0">
+
+        <StackPanel Spacing="16">
+          <TextBlock Text="Intensity Profile"
+                     Style="{StaticResource OleaSectionSubHeadingStyle}" />
+
+          <!-- Fruity Slider -->
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="60" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="28" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="FRUITY"
+                       Style="{StaticResource OleaIntensityLabelStyle}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       FontSize="9" />
+            <Grid Grid.Column="1" VerticalAlignment="Center" Height="6">
+              <Border Background="{StaticResource OleaCreamDarkBrush}"
+                      CornerRadius="3" />
+              <Border x:Name="FruityFill"
+                      Background="{StaticResource OleaFruityBrush}"
+                      CornerRadius="3"
+                      HorizontalAlignment="Left"
+                      Width="150" />
+            </Grid>
+            <TextBlock x:Name="FruityValue" Grid.Column="2"
+                       Text="7"
+                       FontFamily="{StaticResource OleaBodyFont}"
+                       FontSize="11" FontWeight="Bold"
+                       Foreground="{StaticResource OleaPrimaryBrush}"
+                       TextAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+
+          <!-- Bitter Slider -->
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="60" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="28" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="BITTER"
+                       Style="{StaticResource OleaIntensityLabelStyle}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       FontSize="9" />
+            <Grid Grid.Column="1" VerticalAlignment="Center" Height="6">
+              <Border Background="{StaticResource OleaCreamDarkBrush}"
+                      CornerRadius="3" />
+              <Border x:Name="BitterFill"
+                      Background="{StaticResource OleaBitterBrush}"
+                      CornerRadius="3"
+                      HorizontalAlignment="Left"
+                      Width="100" />
+            </Grid>
+            <TextBlock x:Name="BitterValue" Grid.Column="2"
+                       Text="5"
+                       FontFamily="{StaticResource OleaBodyFont}"
+                       FontSize="11" FontWeight="Bold"
+                       Foreground="{StaticResource OleaPrimaryBrush}"
+                       TextAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+
+          <!-- Pungent Slider -->
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="60" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="28" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="PUNGENT"
+                       Style="{StaticResource OleaIntensityLabelStyle}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       FontSize="9" />
+            <Grid Grid.Column="1" VerticalAlignment="Center" Height="6">
+              <Border Background="{StaticResource OleaCreamDarkBrush}"
+                      CornerRadius="3" />
+              <Border x:Name="PungentFill"
+                      Background="{StaticResource OleaPungentBrush}"
+                      CornerRadius="3"
+                      HorizontalAlignment="Left"
+                      Width="170" />
+            </Grid>
+            <TextBlock x:Name="PungentValue" Grid.Column="2"
+                       Text="8"
+                       FontFamily="{StaticResource OleaBodyFont}"
+                       FontSize="11" FontWeight="Bold"
+                       Foreground="{StaticResource OleaPrimaryBrush}"
+                       TextAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </Border>
+</UserControl>

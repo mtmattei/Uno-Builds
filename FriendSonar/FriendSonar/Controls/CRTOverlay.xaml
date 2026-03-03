@@ -1,0 +1,40 @@
+<UserControl x:Class="FriendSonar.Controls.CRTOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="420"
+             IsHitTestVisible="False">
+
+  <Grid>
+    <!-- Static Scanlines -->
+    <Border x:Name="StaticScanlines">
+      <Border.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" SpreadMethod="Repeat">
+          <LinearGradientBrush.RelativeTransform>
+            <ScaleTransform ScaleY="0.005" />
+          </LinearGradientBrush.RelativeTransform>
+          <GradientStop Color="Transparent" Offset="0" />
+          <GradientStop Color="Transparent" Offset="0.5" />
+          <GradientStop Color="#1A000000" Offset="0.5" />
+          <GradientStop Color="#1A000000" Offset="1" />
+        </LinearGradientBrush>
+      </Border.Background>
+    </Border>
+
+    <!-- Moving Scanline -->
+    <Border x:Name="MovingScanline"
+            Height="4"
+            VerticalAlignment="Top"
+            Margin="0,-10,0,0">
+      <Border.Background>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <GradientStop Color="Transparent" Offset="0" />
+          <GradientStop Color="#2600FF41" Offset="0.5" />
+          <GradientStop Color="Transparent" Offset="1" />
+        </LinearGradientBrush>
+      </Border.Background>
+    </Border>
+  </Grid>
+</UserControl>

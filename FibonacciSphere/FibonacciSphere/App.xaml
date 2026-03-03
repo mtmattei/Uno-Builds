@@ -1,0 +1,35 @@
+<Application x:Class="FibonacciSphere.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <!-- Load Material resources -->
+        <MaterialTheme xmlns="using:Uno.Material" />
+        <!-- Load Toolkit resources -->
+        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+        <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material" />
+        
+        <!-- Load DeFi Dashboard Color Palette -->
+        <ResourceDictionary Source="ms-appx:///Themes/ColorPaletteOverride.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Custom styles for control panel -->
+      <Style x:Key="SectionHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource TitleSmall}">
+        <Setter Property="Foreground" Value="{ThemeResource TextSecondaryBrush}" />
+        <Setter Property="Margin" Value="0,16,0,8" />
+      </Style>
+
+      <Style x:Key="ValueDisplayStyle" TargetType="TextBlock" BasedOn="{StaticResource BodySmall}">
+        <Setter Property="Foreground" Value="{ThemeResource TextSecondaryBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

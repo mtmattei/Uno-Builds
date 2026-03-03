@@ -1,0 +1,78 @@
+<UserControl x:Class="AdaptiveInputDemo.Controls.MentionPickerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid>
+        <!-- Contact List -->
+        <ListView x:Name="ContactList"
+                  MaxHeight="280"
+                  SelectionMode="Single"
+                  IsItemClickEnabled="True"
+                  ItemClick="OnContactClick">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Avatar with Status -->
+                        <Grid>
+                            <Border Width="40"
+                                    Height="40"
+                                    CornerRadius="20"
+                                    Background="{ThemeResource SecondaryContainerBrush}">
+                                <TextBlock Text="{Binding Initials}"
+                                           Style="{StaticResource TitleSmall}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                            </Border>
+                            <Ellipse Width="12"
+                                     Height="12"
+                                     Fill="{Binding StatusColor}"
+                                     Stroke="{ThemeResource SurfaceBrush}"
+                                     StrokeThickness="2"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Bottom" />
+                        </Grid>
+
+                        <!-- Name and Handle -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                            <TextBlock Text="{Binding Name}"
+                                       Style="{StaticResource BodyMedium}"
+                                       Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <TextBlock Text="{Binding Handle}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+
+                        <!-- Role/Department -->
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding Role}"
+                                   Style="{StaticResource LabelSmall}"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Empty State -->
+        <StackPanel x:Name="EmptyState"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="8">
+            <FontIcon Glyph="&#xE77B;"
+                      FontSize="32"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Text="No contacts found"
+                       Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

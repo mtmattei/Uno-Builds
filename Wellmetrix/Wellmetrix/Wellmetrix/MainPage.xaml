@@ -1,0 +1,346 @@
+<Page x:Class="Wellmetrix.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:Wellmetrix.Controls"
+      Background="{StaticResource DeepSpaceBrush}">
+
+    <Grid Padding="24">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT COLUMN: Body Viewer -->
+        <utu:AutoLayout Grid.Column="0"
+                       Orientation="Vertical"
+                       Spacing="24"
+                       Padding="0,0,24,0">
+
+            <!-- Header -->
+            <utu:AutoLayout Orientation="Horizontal"
+                           Spacing="16"
+                           CounterAxisAlignment="Center">
+                <Border Background="{StaticResource GlassSurfaceBrush}"
+                       CornerRadius="12"
+                       Padding="12">
+                    <FontIcon Glyph="&#xE95B;"
+                             FontSize="24"
+                             Foreground="{StaticResource LungsAccentBrush}" />
+                </Border>
+                <utu:AutoLayout Orientation="Vertical" Spacing="4">
+                    <TextBlock Text="Wellmetrix"
+                              Style="{StaticResource SectionHeadingTextStyle}" />
+                    <TextBlock Text="Digital Wellness Companion"
+                              Style="{StaticResource CaptionTextStyle}" />
+                </utu:AutoLayout>
+            </utu:AutoLayout>
+
+            <!-- Organ Selector -->
+            <ScrollViewer HorizontalScrollMode="Auto"
+                         HorizontalScrollBarVisibility="Hidden"
+                         VerticalScrollMode="Disabled">
+                <utu:AutoLayout x:Name="OrganSelector"
+                               Orientation="Horizontal"
+                               Spacing="8" />
+            </ScrollViewer>
+
+            <!-- Body Viewer -->
+            <Border Style="{StaticResource GlassCardStrongStyle}"
+                   utu:AutoLayout.PrimaryAlignment="Stretch"
+                   MinHeight="420">
+                <Grid>
+                    <!-- Ambient glow behind body -->
+                    <Border x:Name="OrganGlow"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Width="200"
+                           Height="200"
+                           CornerRadius="100"
+                           Opacity="0.25"
+                           Margin="0,0,0,20">
+                        <Border.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#F43F5E" Offset="0" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </RadialGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Body Silhouette -->
+                    <controls:BodySilhouette HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="180"
+                                            Height="360" />
+
+                    <!-- Organ Markers - Circular buttons with glow -->
+                    <Canvas HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Width="180"
+                           Height="360">
+
+                        <!-- Brain Marker -->
+                        <Button x:Name="BrainMarker"
+                               Canvas.Left="72"
+                               Canvas.Top="20"
+                               Click="OnOrganMarkerClick"
+                               Tag="brain"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource BrainAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource BrainAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource BrainAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+
+                        <!-- Heart Marker -->
+                        <Button x:Name="HeartMarker"
+                               Canvas.Left="95"
+                               Canvas.Top="95"
+                               Click="OnOrganMarkerClick"
+                               Tag="heart"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource HeartAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource HeartAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource HeartAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+
+                        <!-- Lungs Marker -->
+                        <Button x:Name="LungsMarker"
+                               Canvas.Left="50"
+                               Canvas.Top="90"
+                               Click="OnOrganMarkerClick"
+                               Tag="lungs"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource LungsAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource LungsAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource LungsAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+
+                        <!-- Liver Marker -->
+                        <Button x:Name="LiverMarker"
+                               Canvas.Left="45"
+                               Canvas.Top="140"
+                               Click="OnOrganMarkerClick"
+                               Tag="liver"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource LiverAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource LiverAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource LiverAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+
+                        <!-- Kidneys Marker -->
+                        <Button x:Name="KidneysMarker"
+                               Canvas.Left="72"
+                               Canvas.Top="165"
+                               Click="OnOrganMarkerClick"
+                               Tag="kidneys"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource KidneysAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource KidneysAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource KidneysAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+
+                        <!-- Pancreas Marker -->
+                        <Button x:Name="PancreasMarker"
+                               Canvas.Left="100"
+                               Canvas.Top="155"
+                               Click="OnOrganMarkerClick"
+                               Tag="pancreas"
+                               Style="{StaticResource OrganMarkerButtonStyle}">
+                            <Grid Width="36" Height="36">
+                                <Ellipse Fill="{StaticResource PancreasAccentBrush}"
+                                        Opacity="0.25"
+                                        Width="36" Height="36" />
+                                <Ellipse Fill="{StaticResource PancreasAccentBrush}"
+                                        Width="20" Height="20"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                <Ellipse Stroke="{StaticResource PancreasAccentBrush}"
+                                        StrokeThickness="2"
+                                        Width="28" Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6" />
+                            </Grid>
+                        </Button>
+                    </Canvas>
+                </Grid>
+            </Border>
+
+            <!-- Compare Toggle -->
+            <utu:AutoLayout Orientation="Horizontal"
+                           Spacing="12"
+                           CounterAxisAlignment="Center">
+                <ToggleSwitch x:Name="CompareToggle"
+                             OnContent=""
+                             OffContent="" />
+                <TextBlock Text="Compare Mode"
+                          Style="{StaticResource BodyTextStyle}"
+                          VerticalAlignment="Center" />
+            </utu:AutoLayout>
+
+        </utu:AutoLayout>
+
+        <!-- RIGHT COLUMN: Metrics & Insights -->
+        <ScrollViewer Grid.Column="1">
+            <utu:AutoLayout Orientation="Vertical"
+                           Spacing="24">
+
+                <!-- Score Hero Card -->
+                <Border Style="{StaticResource GlassCardStrongStyle}">
+                    <utu:AutoLayout Orientation="Horizontal"
+                                   Justify="SpaceBetween"
+                                   PrimaryAxisAlignment="Stretch"
+                                   CounterAxisAlignment="Center">
+                        <utu:AutoLayout Orientation="Vertical" Spacing="8">
+                            <utu:AutoLayout Orientation="Horizontal"
+                                           Spacing="12"
+                                           CounterAxisAlignment="Center">
+                                <FontIcon x:Name="OrganIconDisplay"
+                                         Glyph="&#xE95B;"
+                                         FontSize="28"
+                                         Foreground="{StaticResource HeartAccentBrush}" />
+                                <TextBlock x:Name="OrganNameDisplay"
+                                          Text="Heart"
+                                          Style="{StaticResource SectionHeadingTextStyle}" />
+                            </utu:AutoLayout>
+                            <TextBlock Text="HEALTH ASSESSMENT"
+                                      Style="{StaticResource OverlineTextStyle}" />
+                            <Border x:Name="StatusBadge"
+                                   Background="{StaticResource GlassSurfaceBrush}"
+                                   CornerRadius="4"
+                                   Padding="8,4"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,4,0,0">
+                                <TextBlock x:Name="StatusText"
+                                          Text="Optimal"
+                                          Style="{StaticResource CaptionTextStyle}"
+                                          Foreground="{StaticResource KidneysAccentBrush}" />
+                            </Border>
+                        </utu:AutoLayout>
+
+                        <controls:CircularProgress x:Name="ScoreProgress"
+                                                  Value="94"
+                                                  Width="120"
+                                                  Height="120" />
+                    </utu:AutoLayout>
+                </Border>
+
+                <!-- Trend Chart -->
+                <Border Style="{StaticResource GlassCardStyle}">
+                    <controls:TrendChart x:Name="WeeklyTrendChart" />
+                </Border>
+
+                <!-- Key Metrics Section -->
+                <TextBlock Text="KEY METRICS"
+                          Style="{StaticResource OverlineTextStyle}" />
+
+                <Grid ColumnSpacing="12" RowSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <controls:MetricCard x:Name="Metric1"
+                                        Grid.Row="0"
+                                        Grid.Column="0" />
+                    <controls:MetricCard x:Name="Metric2"
+                                        Grid.Row="0"
+                                        Grid.Column="1" />
+                    <controls:MetricCard x:Name="Metric3"
+                                        Grid.Row="1"
+                                        Grid.Column="0" />
+                    <controls:MetricCard x:Name="Metric4"
+                                        Grid.Row="1"
+                                        Grid.Column="1" />
+                </Grid>
+
+                <!-- Clinical Insights Section -->
+                <TextBlock Text="CLINICAL INSIGHTS"
+                          Style="{StaticResource OverlineTextStyle}" />
+
+                <utu:AutoLayout x:Name="InsightsContainer"
+                               Orientation="Vertical"
+                               Spacing="8" />
+
+                <!-- Action Buttons -->
+                <utu:AutoLayout Orientation="Horizontal"
+                               Spacing="12"
+                               Margin="0,8,0,0">
+                    <Button Content="View Full Report"
+                           Style="{StaticResource PrimaryButtonStyle}"
+                           utu:AutoLayout.PrimaryAlignment="Stretch" />
+                    <Button Content="Schedule Checkup"
+                           Style="{StaticResource GlassButtonStyle}"
+                           utu:AutoLayout.PrimaryAlignment="Stretch" />
+                </utu:AutoLayout>
+
+            </utu:AutoLayout>
+        </ScrollViewer>
+
+    </Grid>
+
+</Page>

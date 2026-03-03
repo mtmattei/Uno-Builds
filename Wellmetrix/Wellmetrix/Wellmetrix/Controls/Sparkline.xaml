@@ -1,0 +1,19 @@
+<UserControl x:Class="Wellmetrix.Controls.Sparkline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Canvas x:Name="SparklineCanvas"
+            Height="24"
+            Width="80">
+        <Polyline x:Name="SparklinePath"
+                 Stroke="{StaticResource LungsAccentBrush}"
+                 StrokeThickness="2"
+                 Opacity="0.7" />
+
+        <!-- Area fill under the line -->
+        <Polygon x:Name="SparklineArea"
+                Fill="{StaticResource LungsAccentBrush}"
+                Opacity="0.15" />
+    </Canvas>
+
+</UserControl>

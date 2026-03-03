@@ -1,0 +1,133 @@
+<UserControl x:Class="Olea.Presentation.NewTastingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <!-- Oil Details Card -->
+  <Border Background="{StaticResource OleaSurfaceBrush}"
+          BorderBrush="{StaticResource OleaBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="{StaticResource OleaCardRadius}"
+          Padding="24"
+          Translation="0,0,8">
+    <Border.Shadow>
+      <ThemeShadow />
+    </Border.Shadow>
+
+    <StackPanel Spacing="20">
+      <!-- Section Heading -->
+      <TextBlock Text="Oil Details"
+                 Style="{StaticResource OleaSectionHeadingStyle}" />
+
+      <!-- Name / Brand -->
+      <StackPanel Spacing="8">
+        <TextBlock Text="NAME / BRAND"
+                   Style="{StaticResource OleaFormLabelStyle}" />
+        <TextBox x:Name="NameInput"
+                 PlaceholderText="e.g. Castello di Ama, Laconiko Reserve"
+                 Style="{StaticResource OleaTextBoxStyle}" />
+      </StackPanel>
+
+      <!-- Origin + Cultivar row -->
+      <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Spacing="8">
+          <TextBlock Text="ORIGIN / REGION"
+                     Style="{StaticResource OleaFormLabelStyle}" />
+          <TextBox x:Name="OriginInput"
+                   PlaceholderText="e.g. Tuscany, Italy"
+                   Style="{StaticResource OleaTextBoxStyle}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Spacing="8">
+          <TextBlock Text="CULTIVAR"
+                     Style="{StaticResource OleaFormLabelStyle}" />
+          <TextBox x:Name="CultivarInput"
+                   PlaceholderText="e.g. Frantoio"
+                   Style="{StaticResource OleaTextBoxStyle}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Harvest Date + Tasting Date row -->
+      <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Spacing="8">
+          <TextBlock Text="HARVEST DATE"
+                     Style="{StaticResource OleaFormLabelStyle}" />
+          <TextBox x:Name="HarvestDateInput"
+                   PlaceholderText="e.g. October 2024"
+                   Style="{StaticResource OleaTextBoxStyle}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Spacing="8">
+          <TextBlock Text="TASTING DATE"
+                     Style="{StaticResource OleaFormLabelStyle}" />
+          <TextBox x:Name="TastingDateInput"
+                   PlaceholderText="e.g. Feb 18, 2026"
+                   Style="{StaticResource OleaTextBoxStyle}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Overall Rating -->
+      <StackPanel Spacing="8">
+        <TextBlock Text="OVERALL RATING"
+                   Style="{StaticResource OleaFormLabelStyle}" />
+        <StackPanel x:Name="StarPanel"
+                    Orientation="Horizontal"
+                    Spacing="6"
+                    Margin="0,4,0,0">
+          <FontIcon x:Name="Star1" Glyph="&#xE735;" FontSize="28"
+                    Foreground="{StaticResource OleaStarInactiveBrush}"
+                    Tapped="OnStarTapped" Tag="1" />
+          <FontIcon x:Name="Star2" Glyph="&#xE735;" FontSize="28"
+                    Foreground="{StaticResource OleaStarInactiveBrush}"
+                    Tapped="OnStarTapped" Tag="2" />
+          <FontIcon x:Name="Star3" Glyph="&#xE735;" FontSize="28"
+                    Foreground="{StaticResource OleaStarInactiveBrush}"
+                    Tapped="OnStarTapped" Tag="3" />
+          <FontIcon x:Name="Star4" Glyph="&#xE735;" FontSize="28"
+                    Foreground="{StaticResource OleaStarInactiveBrush}"
+                    Tapped="OnStarTapped" Tag="4" />
+          <FontIcon x:Name="Star5" Glyph="&#xE735;" FontSize="28"
+                    Foreground="{StaticResource OleaStarInactiveBrush}"
+                    Tapped="OnStarTapped" Tag="5" />
+        </StackPanel>
+      </StackPanel>
+
+      <!-- Tasting Notes -->
+      <StackPanel Spacing="8">
+        <TextBlock Text="TASTING NOTES"
+                   Style="{StaticResource OleaFormLabelStyle}" />
+        <TextBox x:Name="NotesInput"
+                 PlaceholderText="Describe the aroma, mouthfeel, finish..."
+                 Style="{StaticResource OleaTextBoxStyle}"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 MinHeight="80" />
+      </StackPanel>
+
+      <!-- Save Button -->
+      <Button x:Name="SaveButton"
+              Content="SAVE TO JOURNAL"
+              Style="{StaticResource OleaPrimaryButtonStyle}"
+              Click="OnSaveClick" />
+
+      <!-- Scroll hint -->
+      <TextBlock Text="Scroll for Flavor Wheel ↓"
+                 FontFamily="{StaticResource OleaBodyFont}"
+                 FontSize="10"
+                 Foreground="{StaticResource OleaTextMutedBrush}"
+                 HorizontalAlignment="Center"
+                 Margin="0,8,0,0" />
+
+    </StackPanel>
+  </Border>
+</UserControl>

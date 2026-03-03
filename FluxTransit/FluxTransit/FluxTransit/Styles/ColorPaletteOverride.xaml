@@ -1,0 +1,69 @@
+<!-- Flux Transit Color Palette - Cyber-Noir / Deep Aurora Dark Theme -->
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- Dark theme - Primary theme for Flux Transit -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Material Color Overrides -->
+      <Color x:Key="PrimaryColor">#818cf8</Color>
+      <Color x:Key="OnPrimaryColor">#0f172a</Color>
+      <Color x:Key="PrimaryContainerColor">#312e81</Color>
+      <Color x:Key="OnPrimaryContainerColor">#c7d2fe</Color>
+      <Color x:Key="SecondaryColor">#34d399</Color>
+      <Color x:Key="OnSecondaryColor">#0f172a</Color>
+      <Color x:Key="SecondaryContainerColor">#065f46</Color>
+      <Color x:Key="OnSecondaryContainerColor">#a7f3d0</Color>
+      <Color x:Key="TertiaryColor">#fbbf24</Color>
+      <Color x:Key="OnTertiaryColor">#0f172a</Color>
+      <Color x:Key="TertiaryContainerColor">#78350f</Color>
+      <Color x:Key="OnTertiaryContainerColor">#fde68a</Color>
+      <Color x:Key="ErrorColor">#fb7185</Color>
+      <Color x:Key="ErrorContainerColor">#9f1239</Color>
+      <Color x:Key="OnErrorColor">#0f172a</Color>
+      <Color x:Key="OnErrorContainerColor">#fecdd3</Color>
+      <Color x:Key="BackgroundColor">#0f172a</Color>
+      <Color x:Key="OnBackgroundColor">#f8fafc</Color>
+      <Color x:Key="SurfaceColor">#1e293b</Color>
+      <Color x:Key="OnSurfaceColor">#f8fafc</Color>
+      <Color x:Key="SurfaceVariantColor">#334155</Color>
+      <Color x:Key="OnSurfaceVariantColor">#94a3b8</Color>
+      <Color x:Key="OutlineColor">#475569</Color>
+      <Color x:Key="OnSurfaceInverseColor">#0f172a</Color>
+      <Color x:Key="SurfaceInverseColor">#f8fafc</Color>
+      <Color x:Key="PrimaryInverseColor">#4f46e5</Color>
+      <Color x:Key="SurfaceTintColor">#818cf8</Color>
+      <Color x:Key="OutlineVariantColor">#334155</Color>
+    </ResourceDictionary>
+    <!-- Light theme mirrors Dark - enforcing dark-only mode -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PrimaryColor">#818cf8</Color>
+      <Color x:Key="OnPrimaryColor">#0f172a</Color>
+      <Color x:Key="PrimaryContainerColor">#312e81</Color>
+      <Color x:Key="OnPrimaryContainerColor">#c7d2fe</Color>
+      <Color x:Key="SecondaryColor">#34d399</Color>
+      <Color x:Key="OnSecondaryColor">#0f172a</Color>
+      <Color x:Key="SecondaryContainerColor">#065f46</Color>
+      <Color x:Key="OnSecondaryContainerColor">#a7f3d0</Color>
+      <Color x:Key="TertiaryColor">#fbbf24</Color>
+      <Color x:Key="OnTertiaryColor">#0f172a</Color>
+      <Color x:Key="TertiaryContainerColor">#78350f</Color>
+      <Color x:Key="OnTertiaryContainerColor">#fde68a</Color>
+      <Color x:Key="ErrorColor">#fb7185</Color>
+      <Color x:Key="ErrorContainerColor">#9f1239</Color>
+      <Color x:Key="OnErrorColor">#0f172a</Color>
+      <Color x:Key="OnErrorContainerColor">#fecdd3</Color>
+      <Color x:Key="BackgroundColor">#0f172a</Color>
+      <Color x:Key="OnBackgroundColor">#f8fafc</Color>
+      <Color x:Key="SurfaceColor">#1e293b</Color>
+      <Color x:Key="OnSurfaceColor">#f8fafc</Color>
+      <Color x:Key="SurfaceVariantColor">#334155</Color>
+      <Color x:Key="OnSurfaceVariantColor">#94a3b8</Color>
+      <Color x:Key="OutlineColor">#475569</Color>
+      <Color x:Key="OnSurfaceInverseColor">#0f172a</Color>
+      <Color x:Key="SurfaceInverseColor">#f8fafc</Color>
+      <Color x:Key="PrimaryInverseColor">#4f46e5</Color>
+      <Color x:Key="SurfaceTintColor">#818cf8</Color>
+      <Color x:Key="OutlineVariantColor">#334155</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

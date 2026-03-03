@@ -1,0 +1,222 @@
+<UserControl x:Class="SalesDashboard.Presentation.SalesDashboardWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:SalesDashboard.Presentation"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid>
+        <!-- Soft glow effect behind the card -->
+        <Border CornerRadius="18"
+                Margin="-4"
+                Opacity="0.4"
+                Background="{ThemeResource SurfaceVariantBrush}"/>
+
+        <!-- Main card with gradient border -->
+        <Border CornerRadius="16"
+                Padding="2"
+                Background="{ThemeResource OutlineBrush}">
+
+            <Border Background="{ThemeResource SurfaceBrush}"
+                    CornerRadius="14"
+                    Padding="24">
+        <Grid RowSpacing="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header with LIVE indicator -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TitleText"
+                           Text="SALES OVERVIEW"
+                           FontFamily="Consolas"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="{ThemeResource OnSurfaceBrush}"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Ellipse x:Name="LiveIndicator"
+                             Width="8" Height="8"
+                             Fill="{ThemeResource PrimaryBrush}"/>
+                    <TextBlock Text="LIVE"
+                               FontFamily="Consolas"
+                               FontSize="12"
+                               Foreground="{ThemeResource PrimaryBrush}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Heatmap Grid 12x8 -->
+            <Border Grid.Row="1"
+                    Background="{ThemeResource BackgroundBrush}"
+                    CornerRadius="8"
+                    Padding="12"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="1">
+                <Grid x:Name="HeatmapGrid" HorizontalAlignment="Center" />
+            </Border>
+
+            <!-- Monthly/Yearly Totals -->
+            <Grid Grid.Row="2" ColumnSpacing="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Monthly -->
+                <StackPanel Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Ellipse Width="8" Height="8" Fill="{ThemeResource OnSurfaceVariantBrush}"/>
+                        <TextBlock Text="MONTHLY"
+                                   FontFamily="Consolas"
+                                   FontSize="11"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="MonthlyValue"
+                               FontFamily="Consolas"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock x:Name="MonthlyChangeIcon"
+                                   FontFamily="Consolas"
+                                   FontSize="12"/>
+                        <TextBlock x:Name="MonthlyChangeValue"
+                                   FontFamily="Consolas"
+                                   FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Yearly -->
+                <StackPanel Grid.Column="1" Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Ellipse Width="8" Height="8" Fill="{ThemeResource OnSurfaceVariantBrush}"/>
+                        <TextBlock Text="YEARLY"
+                                   FontFamily="Consolas"
+                                   FontSize="11"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="YearlyValue"
+                               FontFamily="Consolas"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock x:Name="YearlyChangeIcon"
+                                   FontFamily="Consolas"
+                                   FontSize="12"/>
+                        <TextBlock x:Name="YearlyChangeValue"
+                                   FontFamily="Consolas"
+                                   FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- City Breakdown -->
+            <Border Grid.Row="3"
+                    Background="{ThemeResource SurfaceContainerBrush}"
+                    CornerRadius="8"
+                    Padding="16"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="1">
+                <Grid RowSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="TOP REGIONS"
+                               FontFamily="Consolas"
+                               FontSize="11"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+
+                    <!-- Los Angeles -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Los Angeles"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                        <TextBlock x:Name="LAValue"
+                                   Grid.Column="1"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                   HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="LAChange"
+                                   Grid.Column="2"
+                                   FontFamily="Consolas"
+                                   FontSize="12"
+                                   HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!-- New York -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="New York"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                        <TextBlock x:Name="NYValue"
+                                   Grid.Column="1"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                   HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="NYChange"
+                                   Grid.Column="2"
+                                   FontFamily="Consolas"
+                                   FontSize="12"
+                                   HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!-- Canada -->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Canada"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                        <TextBlock x:Name="CAValue"
+                                   Grid.Column="1"
+                                   FontFamily="Consolas"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                   HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="CAChange"
+                                   Grid.Column="2"
+                                   FontFamily="Consolas"
+                                   FontSize="12"
+                                   HorizontalAlignment="Right"/>
+                    </Grid>
+                </Grid>
+                </Border>
+            </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>

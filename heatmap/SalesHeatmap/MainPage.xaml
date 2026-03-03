@@ -1,0 +1,235 @@
+<Page x:Class="SalesHeatmap.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SalesHeatmap"
+      xmlns:converters="using:SalesHeatmap.Converters"
+      xmlns:models="using:SalesHeatmap.Models"
+      xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Page.Resources>
+        <converters:IntensityToBrushConverter x:Key="IntensityToBrush"/>
+        <converters:IntensityToOpacityConverter x:Key="IntensityToOpacity"/>
+        <converters:CurrencyConverter x:Key="Currency"/>
+        <converters:PercentageConverter x:Key="Percentage"/>
+        <converters:PercentageToBrushConverter x:Key="PercentageToBrush"/>
+        <converters:NumberConverter x:Key="Number"/>
+        <converters:ColorToBrushConverter x:Key="ColorToBrush"/>
+
+        <FontFamily x:Key="MonoFont">Consolas, Courier New, monospace</FontFamily>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource HeatmapPageBackgroundBrush}">
+        <!-- Outer glow border -->
+        <Border MaxWidth="424"
+                Margin="30"
+                Padding="2"
+                CornerRadius="26"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Translation="0,0,60"
+                Background="{ThemeResource HeatmapOuterGlowBrush}">
+            <Border.Shadow>
+                <ThemeShadow/>
+            </Border.Shadow>
+
+            <!-- Main card -->
+            <Border Padding="32"
+                    CornerRadius="24"
+                    BorderThickness="1"
+                    Background="{ThemeResource HeatmapCardBackgroundBrush}"
+                    BorderBrush="{ThemeResource HeatmapCardBorderBrush}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header Row -->
+                <Grid Grid.Row="0" Margin="0,0,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Title -->
+                    <TextBlock Grid.Column="0"
+                               Text="Sales Report"
+                               FontFamily="{StaticResource MonoFont}"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource HeatmapPrimaryAccentBrush}"
+                               VerticalAlignment="Center"
+                               CharacterSpacing="-25"/>
+
+                    <!-- Live Indicator -->
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Spacing="6">
+                        <Ellipse Width="6" Height="6"
+                                 Fill="{ThemeResource HeatmapLiveIndicatorBrush}"
+                                 Opacity="{x:Bind ViewModel.LiveIndicatorOpacity, Mode=OneWay}"/>
+                        <TextBlock Text="LIVE"
+                                   FontFamily="{StaticResource MonoFont}"
+                                   FontSize="10"
+                                   Foreground="{ThemeResource HeatmapLiveIndicatorBrush}"
+                                   FontWeight="SemiBold"
+                                   CharacterSpacing="50"
+                                   Opacity="{x:Bind ViewModel.LiveIndicatorOpacity, Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Heatmap Grid -->
+                <Border Grid.Row="1"
+                        Background="{ThemeResource HeatmapContainerBgBrush}"
+                        CornerRadius="12"
+                        Padding="8"
+                        Margin="0,0,0,28"
+                        HorizontalAlignment="Center">
+                    <Grid>
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.HeatmapCells}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout Orientation="Horizontal"
+                                                   ItemsStretch="None"
+                                                   MinItemWidth="24"
+                                                   MinItemHeight="24"
+                                                   MinRowSpacing="3"
+                                                   MinColumnSpacing="3"
+                                                   MaximumRowsOrColumns="12"/>
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="models:HeatmapCell">
+                                    <Border Width="24" Height="24"
+                                            CornerRadius="3"
+                                            Background="{x:Bind Intensity, Mode=OneWay, Converter={StaticResource IntensityToBrush}}"
+                                            Opacity="{x:Bind Intensity, Mode=OneWay, Converter={StaticResource IntensityToOpacity}}"
+                                            ToolTipService.ToolTip="{x:Bind Tooltip, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <!-- Gradient Overlay -->
+                        <Border CornerRadius="6"
+                                IsHitTestVisible="False"
+                                Background="{ThemeResource HeatmapOverlayBrush}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Totals Section -->
+                <Grid Grid.Row="2" Margin="0,0,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Monthly -->
+                    <StackPanel Grid.Column="0" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="8" Height="8"
+                                     Fill="{ThemeResource HeatmapMonthlyDotBrush}"/>
+                            <TextBlock Text="MONTHLY"
+                                       FontFamily="{StaticResource MonoFont}"
+                                       FontSize="13"
+                                       FontWeight="Medium"
+                                       Foreground="{ThemeResource HeatmapTextMutedBrush}"
+                                       CharacterSpacing="50"/>
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.DisplayMonthly, Mode=OneWay, Converter={StaticResource Currency}}"
+                                   FontFamily="{StaticResource MonoFont}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource HeatmapTextPrimaryBrush}"
+                                   CharacterSpacing="-50"/>
+                        <TextBlock FontFamily="{StaticResource MonoFont}"
+                                   FontSize="13"
+                                   Foreground="{x:Bind ViewModel.MonthlyChange, Mode=OneWay, Converter={StaticResource PercentageToBrush}}">
+                            <Run Text="{x:Bind ViewModel.MonthlyChange, Mode=OneWay, Converter={StaticResource Percentage}}"/>
+                            <Run Text=" MoM" Foreground="{ThemeResource HeatmapTextMutedBrush}"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Yearly -->
+                    <StackPanel Grid.Column="2" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="8" Height="8"
+                                     Fill="{ThemeResource HeatmapYearlyDotBrush}"/>
+                            <TextBlock Text="YEARLY"
+                                       FontFamily="{StaticResource MonoFont}"
+                                       FontSize="13"
+                                       FontWeight="Medium"
+                                       Foreground="{ThemeResource HeatmapTextMutedBrush}"
+                                       CharacterSpacing="50"/>
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.DisplayYearly, Mode=OneWay, Converter={StaticResource Currency}}"
+                                   FontFamily="{StaticResource MonoFont}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource HeatmapTextPrimaryBrush}"
+                                   CharacterSpacing="-50"/>
+                        <TextBlock FontFamily="{StaticResource MonoFont}"
+                                   FontSize="13"
+                                   Foreground="{x:Bind ViewModel.YearlyChange, Mode=OneWay, Converter={StaticResource PercentageToBrush}}">
+                            <Run Text="{x:Bind ViewModel.YearlyChange, Mode=OneWay, Converter={StaticResource Percentage}}"/>
+                            <Run Text=" YoY" Foreground="{ThemeResource HeatmapTextMutedBrush}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Divider -->
+                <Border Grid.Row="3"
+                        Height="1"
+                        Margin="0,8,0,20"
+                        Background="{ThemeResource HeatmapDividerGradientBrush}"/>
+
+                <!-- Cities Section -->
+                <ItemsRepeater Grid.Row="4" ItemsSource="{x:Bind ViewModel.Cities}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="0"/>
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:CityData">
+                            <Border Padding="0,12"
+                                    BorderThickness="0,0,0,1"
+                                    BorderBrush="{ThemeResource HeatmapCityBorderBrush}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Ellipse Grid.Column="0"
+                                             Width="6" Height="6"
+                                             Fill="{x:Bind DotColor, Converter={StaticResource ColorToBrush}}"
+                                             Margin="0,0,12,0"
+                                             VerticalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{x:Bind Name}"
+                                               FontFamily="Consolas, Courier New, monospace"
+                                               FontSize="15"
+                                               Foreground="{ThemeResource HeatmapCityNameBrush}"
+                                               VerticalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="{x:Bind DisplayValue, Mode=OneWay, Converter={StaticResource Number}}"
+                                               FontFamily="Consolas, Courier New, monospace"
+                                               FontSize="15"
+                                               FontWeight="Medium"
+                                               Foreground="{ThemeResource HeatmapCityValueBrush}"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Page>

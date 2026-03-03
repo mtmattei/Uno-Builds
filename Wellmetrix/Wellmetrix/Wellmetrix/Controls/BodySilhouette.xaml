@@ -1,0 +1,63 @@
+<UserControl x:Class="Wellmetrix.Controls.BodySilhouette"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Viewbox Stretch="Uniform">
+        <Canvas Width="200" Height="400">
+            <!-- Human Body Silhouette Path -->
+            <Path Fill="{StaticResource GlassBorderBrush}"
+                  Opacity="0.4"
+                  Data="M100,0
+                        C115,0 128,12 128,30
+                        C128,45 118,58 105,62
+                        L105,70
+                        C130,75 150,95 155,125
+                        L175,180
+                        C178,190 175,195 168,195
+                        L150,195
+                        C145,195 142,192 140,188
+                        L125,150
+                        L125,175
+                        C130,180 132,190 132,200
+                        L132,280
+                        C132,290 128,295 120,295
+                        L120,380
+                        C120,390 115,395 108,395
+                        L92,395
+                        C85,395 80,390 80,380
+                        L80,295
+                        C72,295 68,290 68,280
+                        L68,200
+                        C68,190 70,180 75,175
+                        L75,150
+                        L60,188
+                        C58,192 55,195 50,195
+                        L32,195
+                        C25,195 22,190 25,180
+                        L45,125
+                        C50,95 70,75 95,70
+                        L95,62
+                        C82,58 72,45 72,30
+                        C72,12 85,0 100,0 Z" />
+
+            <!-- Inner body detail lines -->
+            <Path Stroke="{StaticResource GlassBorderBrush}"
+                  StrokeThickness="1"
+                  Opacity="0.2"
+                  Data="M100,70 L100,175
+                        M85,90 C90,100 110,100 115,90
+                        M80,130 L120,130
+                        M85,160 L115,160" />
+
+            <!-- Ribcage suggestion -->
+            <Path Stroke="{StaticResource GlassBorderBrush}"
+                  StrokeThickness="0.8"
+                  Opacity="0.15"
+                  Data="M75,95 Q100,100 125,95
+                        M73,105 Q100,112 127,105
+                        M72,115 Q100,124 128,115
+                        M73,125 Q100,135 127,125" />
+        </Canvas>
+    </Viewbox>
+
+</UserControl>

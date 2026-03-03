@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "Worn",
+  "display": "standalone",
+  "name": "Worn",
+  "short_name": "Worn",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

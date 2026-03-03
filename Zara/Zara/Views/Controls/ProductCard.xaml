@@ -1,0 +1,138 @@
+<UserControl x:Class="Zara.Views.Controls.ProductCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:Zara.Models"
+             Width="180"
+             VerticalAlignment="Top">
+
+    <Button Background="Transparent"
+            Padding="0"
+            HorizontalContentAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Click="OnProductClick">
+        <StackPanel Spacing="0" Width="180">
+            <!-- Product Image Container -->
+            <Grid Background="{StaticResource ZaraAccentGrayBrush}"
+                  Height="240"
+                  Width="180">
+                <Image Source="{x:Bind Product.ImageUrl, Mode=OneWay}"
+                       Stretch="UniformToFill"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+
+                <!-- Color/Variant Indicator (Bottom Left) -->
+                <Border Background="#80FFFFFF"
+                        CornerRadius="2"
+                        Padding="6,4"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="8">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <Rectangle Width="10"
+                                   Height="10">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{x:Bind Product.ColorIndicator, Mode=OneWay}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Text="{x:Bind Product.VariantCount, Mode=OneWay}"
+                                   FontSize="10"
+                                   Foreground="{StaticResource ZaraTextPrimaryBrush}">
+                            <Run Text="+" /><Run Text="{x:Bind Product.VariantCount, Mode=OneWay}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Size Selection Button (Bottom Right) -->
+                <Button x:Name="SizeButton"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="8"
+                        Width="28"
+                        Height="28"
+                        Background="#E6FFFFFF"
+                        CornerRadius="14"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="OnSizeButtonClick">
+                    <FontIcon Glyph="&#xE710;"
+                              FontSize="12"
+                              Foreground="{StaticResource ZaraTextPrimaryBrush}" />
+
+                    <Button.Flyout>
+                        <Flyout x:Name="SizeFlyout" Placement="Top">
+                            <StackPanel Width="200" Spacing="8">
+                                <TextBlock Text="SELECT SIZE"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource ZaraTextPrimaryBrush}"
+                                           Margin="0,0,0,8" />
+
+                                <ListView ItemsSource="{x:Bind AvailableSizes}"
+                                          SelectionMode="Single"
+                                          SelectionChanged="OnSizeSelected">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <TextBlock Text="{x:Bind}"
+                                                       FontSize="14"
+                                                       Padding="8,12"
+                                                       Foreground="{StaticResource ZaraTextPrimaryBrush}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+
+            <!-- Product Info Section -->
+            <Grid Background="White"
+                  Padding="8,12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Product Name -->
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="{x:Bind Product.Name, Mode=OneWay}"
+                           Style="{StaticResource ZaraProductNameStyle}"
+                           MaxLines="2"
+                           TextTrimming="CharacterEllipsis" />
+
+                <!-- Bookmark Icon -->
+                <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Grid.RowSpan="2"
+                        Style="{StaticResource IconButtonStyle}"
+                        VerticalAlignment="Top"
+                        Click="OnBookmarkClick">
+                    <FontIcon Glyph="&#xE734;"
+                              FontSize="16"
+                              Foreground="{StaticResource ZaraTextSecondaryBrush}" />
+                </Button>
+
+                <!-- Price -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="{x:Bind Product.FormattedPrice, Mode=OneWay}"
+                           Style="{StaticResource ZaraPriceStyle}"
+                           Margin="0,4,0,0" />
+            </Grid>
+        </StackPanel>
+    </Button>
+
+</UserControl>

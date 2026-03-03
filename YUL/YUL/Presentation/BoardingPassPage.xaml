@@ -1,0 +1,361 @@
+<Page x:Class="YUL.Presentation.BoardingPassPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:YUL.Presentation"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:YUL.Models"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <local:BoardingPassViewModel />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <Storyboard x:Name="ExpandStoryboard">
+            <DoubleAnimation x:Name="ExpandHeightAnimation"
+                             Storyboard.TargetName="CardTransform"
+                             Storyboard.TargetProperty="TranslateY"
+                             Duration="0:0:0.3"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="Overlay"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="0.5"
+                             Duration="0:0:0.3" />
+        </Storyboard>
+
+        <Storyboard x:Name="CollapseStoryboard">
+            <DoubleAnimation x:Name="CollapseHeightAnimation"
+                             Storyboard.TargetName="CardTransform"
+                             Storyboard.TargetProperty="TranslateY"
+                             Duration="0:0:0.3"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="Overlay"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.5"
+                             To="0"
+                             Duration="0:0:0.3" />
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid>
+        <!-- Dark overlay -->
+        <Rectangle x:Name="Overlay"
+                   Fill="Black"
+                   Opacity="0"
+                   Tapped="OnOverlayTapped"
+                   Visibility="Collapsed" />
+
+        <!-- Pull indicator for micro-interaction -->
+        <Border x:Name="PullIndicator"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Margin="0,8,0,0"
+                Opacity="0"
+                CornerRadius="12"
+                Background="{ThemeResource PrimaryBrush}"
+                Padding="12,6">
+            <FontIcon Glyph="&#xE70D;"
+                      FontSize="14"
+                      Foreground="White" />
+        </Border>
+
+        <!-- Boarding Pass Card -->
+        <Border x:Name="CardContainer"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                CornerRadius="0,0,20,20"
+                Margin="0"
+                Translation="0,0,32"
+                ManipulationMode="TranslateY"
+                ManipulationStarted="OnManipulationStarted"
+                ManipulationDelta="OnManipulationDelta"
+                ManipulationCompleted="OnManipulationCompleted"
+                Tapped="OnCardTapped">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="CardTransform" Y="0" />
+            </Border.RenderTransform>
+
+            <utu:AutoLayout Orientation="Vertical"
+                            Padding="0"
+                            Spacing="0">
+
+                <!-- Collapsed State Content - Frosted Glass -->
+                <Border x:Name="CollapsedContent"
+                        CornerRadius="0,0,20,20"
+                        Padding="16,12">
+                    <Border.Background>
+                        <AcrylicBrush TintColor="{ThemeResource ErrorBrush}"
+                                      TintOpacity="0.6"
+                                      FallbackColor="{ThemeResource ErrorBrush}" />
+                    </Border.Background>
+                    <utu:AutoLayout Orientation="Vertical" Spacing="4">
+
+                    <utu:AutoLayout Orientation="Horizontal"
+                                    Spacing="12"
+                                    HorizontalAlignment="Stretch">
+                        <FontIcon Glyph="&#xE709;"
+                                  FontSize="20"
+                                  Foreground="White"
+                                  VerticalAlignment="Center" />
+
+                        <utu:AutoLayout Orientation="Vertical"
+                                        Spacing="2"
+                                        HorizontalAlignment="Left">
+                            <TextBlock x:Name="CollapsedTitle"
+                                       Text="{Binding BoardingPass.Value.FlightNumber}"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Foreground="White"
+                                       TextWrapping="NoWrap" />
+                            <TextBlock x:Name="CollapsedSubtitle"
+                                       Text="{Binding BoardingPass.Value.Gate}"
+                                       Style="{StaticResource CaptionTextBlockStyle}"
+                                       Foreground="White"
+                                       Opacity="0.9"
+                                       TextWrapping="NoWrap" />
+                        </utu:AutoLayout>
+
+                    </utu:AutoLayout>
+
+                    <utu:AutoLayout Orientation="Vertical"
+                                    Spacing="2"
+                                    HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE70D;"
+                                  FontSize="16"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  Opacity="0.9" />
+                        <TextBlock Text="Pull to expand"
+                                   Style="{StaticResource CaptionTextBlockStyle}"
+                                   Foreground="White"
+                                   Opacity="0.8"
+                                   HorizontalAlignment="Center"
+                                   FontSize="10" />
+                    </utu:AutoLayout>
+                    </utu:AutoLayout>
+                </Border>
+
+                <!-- Expanded State Content - Real Boarding Pass -->
+                <Border x:Name="ExpandedContent"
+                        CornerRadius="20"
+                        Padding="0"
+                        Margin="16,60,16,40"
+                        Visibility="Collapsed"
+                        Background="White">
+                    <Border.Shadow>
+                        <ThemeShadow />
+                    </Border.Shadow>
+                    <utu:AutoLayout Orientation="Vertical"
+                                    Spacing="24"
+                                    Padding="32,24">
+
+                        <!-- Flight Route Header -->
+                        <utu:AutoLayout Orientation="Horizontal"
+                                        Spacing="16"
+                                        HorizontalAlignment="Center">
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding BoardingPass.Value.DepartureAirport}"
+                                           FontSize="48"
+                                           FontWeight="Bold"
+                                           Foreground="#1A1A1A"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding BoardingPass.Value.DepartureCity}"
+                                           FontSize="12"
+                                           Foreground="#666666"
+                                           HorizontalAlignment="Center" />
+                            </utu:AutoLayout>
+
+                            <FontIcon Glyph="&#xE72A;"
+                                      FontSize="24"
+                                      Foreground="#1A1A1A"
+                                      VerticalAlignment="Center"
+                                      Margin="8,0" />
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding BoardingPass.Value.ArrivalAirport}"
+                                           FontSize="48"
+                                           FontWeight="Bold"
+                                           Foreground="#1A1A1A"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding BoardingPass.Value.ArrivalCity}"
+                                           FontSize="12"
+                                           Foreground="#666666"
+                                           HorizontalAlignment="Center" />
+                            </utu:AutoLayout>
+                        </utu:AutoLayout>
+
+                        <!-- Dashed Divider -->
+                        <Border Height="1"
+                                Background="#DDDDDD"
+                                Margin="-32,0" />
+
+                        <!-- Passenger Info Section -->
+                        <Grid ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Passenger Name"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.PassengerName}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Flight"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.FlightNumber}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+                        </Grid>
+
+                        <!-- Boarding Time & Date Section -->
+                        <Grid ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Boarding Time"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.BoardingTime}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Date"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.Date}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+                        </Grid>
+
+                        <!-- Terminal & Gate Section -->
+                        <Grid ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Terminal"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.Terminal}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Gate"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.Gate}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+                        </Grid>
+
+                        <!-- Class & Seats Section -->
+                        <Grid ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Class"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="Business"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Orientation="Vertical"
+                                            Spacing="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left">
+                                <TextBlock Text="Seats"
+                                           FontSize="11"
+                                           Foreground="#999999" />
+                                <TextBlock Text="{Binding BoardingPass.Value.Seat}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1A1A1A" />
+                            </utu:AutoLayout>
+                        </Grid>
+
+                        <!-- Dashed Divider -->
+                        <Border Height="1"
+                                Background="#DDDDDD"
+                                Margin="-32,0" />
+
+                        <!-- Barcode -->
+                        <Image x:Name="QRCodeImage"
+                               Height="100"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center" />
+
+                    </utu:AutoLayout>
+                </Border>
+            </utu:AutoLayout>
+        </Border>
+    </Grid>
+</Page>

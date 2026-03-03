@@ -1,0 +1,283 @@
+<Page x:Class="MsnMessenger.Views.OnboardingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI">
+
+    <!-- Neo-Y2K Deep Navy Background -->
+    <Grid Background="{StaticResource BackgroundGradientBrush}">
+
+        <!-- Animated Background Orbs -->
+        <Canvas IsHitTestVisible="False">
+            <!-- Teal Orb - Top Left -->
+            <Ellipse x:Name="Circle1" Width="300" Height="300"
+                     Canvas.Left="-80" Canvas.Top="-50"
+                     Fill="{StaticResource TealOrbBrush}"
+                     Opacity="0.3">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle1Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <!-- Pink Orb - Top Right -->
+            <Ellipse x:Name="Circle2" Width="200" Height="200"
+                     Canvas.Left="280" Canvas.Top="80"
+                     Fill="{StaticResource PinkOrbBrush}"
+                     Opacity="0.25">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle2Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <!-- Purple Orb - Middle Left -->
+            <Ellipse x:Name="Circle3" Width="150" Height="150"
+                     Canvas.Left="20" Canvas.Top="400"
+                     Fill="{StaticResource PurpleOrbBrush}"
+                     Opacity="0.2">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle3Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <!-- Teal Orb - Bottom Right -->
+            <Ellipse x:Name="Circle4" Width="250" Height="250"
+                     Canvas.Left="200" Canvas.Top="600"
+                     Fill="{StaticResource TealOrbBrush}"
+                     Opacity="0.25">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle4Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <!-- Pink Orb - Bottom Left -->
+            <Ellipse x:Name="Circle5" Width="100" Height="100"
+                     Canvas.Left="40" Canvas.Top="700"
+                     Fill="{StaticResource PinkOrbBrush}"
+                     Opacity="0.2">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle5Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <!-- Amber Orb - Center -->
+            <Ellipse x:Name="Circle6" Width="180" Height="180"
+                     Canvas.Left="350" Canvas.Top="450"
+                     Fill="{StaticResource AmberOrbBrush}"
+                     Opacity="0.2">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="Circle6Transform" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <Grid Padding="24"
+                  MaxWidth="480"
+                  HorizontalAlignment="Center"
+                  utu:SafeArea.Insets="Top,Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <!-- HERO SECTION -->
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <StackPanel Grid.Row="0"
+                            Spacing="16"
+                            Margin="0,32,0,40"
+                            HorizontalAlignment="Center">
+
+                    <!-- MSN Butterfly Logo with Glow Effect -->
+                    <Grid Width="120" Height="120"
+                          HorizontalAlignment="Center">
+                        <!-- Glow behind logo -->
+                        <Ellipse Width="100" Height="100"
+                                 Fill="{StaticResource TealOrbBrush}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                        <Image Source="ms-appx:///Assets/logos/msn-butterfly-logo.png"
+                               Width="80" Height="80"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Stretch="Uniform" />
+                    </Grid>
+
+                    <!-- Title -->
+                    <TextBlock Text="MSN Messenger"
+                               FontSize="32"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center" />
+
+                    <!-- Tagline -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="8">
+                        <TextBlock Text="Your buddy list, reimagined"
+                                   FontSize="16"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center"
+                                   TextAlignment="Center" />
+                        <TextBlock Text="✨"
+                                   FontSize="16" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <!-- FEATURE CARDS -->
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <StackPanel Grid.Row="1"
+                            Spacing="16"
+                            Margin="0,0,0,32">
+
+                    <!-- Feature 1: Express Yourself -->
+                    <Border Background="{StaticResource GlassBackgroundBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="20"
+                            Translation="0,0,16">
+                        <Border.Shadow>
+                            <ThemeShadow />
+                        </Border.Shadow>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <Border Width="56" Height="56"
+                                    CornerRadius="16"
+                                    Margin="0,0,16,0"
+                                    Background="{StaticResource PinkOrbBrush}">
+                                <TextBlock Text="✏️"
+                                           FontSize="28"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Content -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                <TextBlock Text="Express Yourself"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock Text="Custom display names, personal messages, and ~*fancy text*~"
+                                           FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Feature 2: Stay Connected -->
+                    <Border Background="{StaticResource GlassBackgroundBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="20"
+                            Translation="0,0,16">
+                        <Border.Shadow>
+                            <ThemeShadow />
+                        </Border.Shadow>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <Border Width="56" Height="56"
+                                    CornerRadius="16"
+                                    Margin="0,0,16,0"
+                                    Background="{StaticResource TealOrbBrush}">
+                                <TextBlock Text="🎵"
+                                           FontSize="28"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Content -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                <TextBlock Text="Stay Connected"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock Text="See what your friends are listening to and share activities"
+                                           FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Feature 3: Classic Features -->
+                    <Border Background="{StaticResource GlassBackgroundBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="20"
+                            Translation="0,0,16">
+                        <Border.Shadow>
+                            <ThemeShadow />
+                        </Border.Shadow>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <Border Width="56" Height="56"
+                                    CornerRadius="16"
+                                    Margin="0,0,16,0"
+                                    Background="{StaticResource PurpleOrbBrush}">
+                                <TextBlock Text="👊"
+                                           FontSize="28"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Content -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                <TextBlock Text="Classic Features"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock Text="Nudges, winks, and emojis - all the nostalgia, reimagined"
+                                           FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <!-- GET STARTED BUTTON -->
+                <!-- ═══════════════════════════════════════════════════════════════════ -->
+                <StackPanel Grid.Row="2"
+                            Spacing="16"
+                            Margin="0,0,0,16">
+
+                    <Button x:Name="ContinueButton"
+                            Content="Get Started"
+                            Click="OnContinueClick"
+                            HorizontalAlignment="Stretch"
+                            Padding="20,16"
+                            Background="{StaticResource CtaGradientBrush}"
+                            Foreground="White"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            CornerRadius="25"
+                            BorderThickness="0" />
+
+                    <!-- Terms Text -->
+                    <TextBlock Text="By continuing, you agree to our Terms of Service"
+                               FontSize="12"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               TextAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

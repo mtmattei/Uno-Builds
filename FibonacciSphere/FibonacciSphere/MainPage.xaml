@@ -1,0 +1,290 @@
+<Page x:Class="FibonacciSphere.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FibonacciSphere"
+      xmlns:controls="using:FibonacciSphere.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundPrimaryBrush}">
+
+    <Page.Resources>
+        <local:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Render Canvas -->
+        <Grid Grid.Column="0" Background="{ThemeResource SurfaceContainerLowBrush}">
+            <controls:SphereCanvasElement x:Name="Canvas"
+                               PointerPressed="OnPointerPressed"
+                               PointerMoved="OnPointerMoved"
+                               PointerReleased="OnPointerReleased"
+                               PointerWheelChanged="OnPointerWheelChanged" />
+
+            <!-- Selection Info Overlay -->
+            <Border Visibility="{x:Bind ViewModel.SelectedPointInfo, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}"
+                    Style="{StaticResource DashboardCardWithBorderStyle}"
+                    Margin="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Opacity="0.95">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind ViewModel.SelectedPointInfo, Mode=OneWay}"
+                               Style="{StaticResource BodyTextStyle}" />
+                </StackPanel>
+            </Border>
+
+            <!-- FPS Counter -->
+            <TextBlock x:Name="FpsCounter"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Margin="16"
+                       Style="{StaticResource CaptionTextStyle}" />
+        </Grid>
+
+        <!-- Control Panel -->
+        <Border Grid.Column="1"
+                Background="{ThemeResource CardBackgroundBrush}"
+                BorderBrush="{ThemeResource BorderSubtleBrush}"
+                BorderThickness="1,0,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <utu:AutoLayout Padding="16" Spacing="8" Orientation="Vertical">
+
+                    <!-- Header -->
+                    <TextBlock Text="Fibonacci Sphere"
+                               Style="{StaticResource HeadlineTextStyle}" />
+
+                    <!-- Action Buttons -->
+                    <utu:AutoLayout Orientation="Horizontal" Spacing="8" Padding="0,8,0,0">
+                        <Button Content="Reset" Command="{x:Bind ViewModel.ResetCommand}" />
+                        <Button Content="Randomize" Command="{x:Bind ViewModel.RandomizeCommand}" />
+                    </utu:AutoLayout>
+
+                    <!-- SHAPE Section -->
+                    <TextBlock Text="SHAPE" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <ComboBox Header="Shape" HorizontalAlignment="Stretch"
+                              Foreground="{ThemeResource TextPrimaryBrush}"
+                              ItemsSource="{x:Bind ViewModel.ShapeOptions}"
+                              SelectedIndex="{x:Bind ViewModel.SelectedShapeIndex, Mode=TwoWay}" />
+
+                    <!-- POINTS Section -->
+                    <TextBlock Text="POINTS" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Count" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.PointCountDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="50" Maximum="1000" StepFrequency="10"
+                            Value="{x:Bind ViewModel.PointCount, Mode=TwoWay}" />
+
+                    <!-- ROTATION Section -->
+                    <TextBlock Text="ROTATION" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Speed" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.RotationSpeedDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="2" StepFrequency="0.05"
+                            Value="{x:Bind ViewModel.RotationSpeed, Mode=TwoWay}" />
+
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsRotating, Mode=TwoWay}"
+                                  Foreground="{ThemeResource TextPrimaryBrush}"
+                                  OnContent="Auto Rotate" OffContent="Manual" />
+
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RotateClockwise, Mode=TwoWay}"
+                                  Foreground="{ThemeResource TextPrimaryBrush}"
+                                  OnContent="Clockwise" OffContent="Counter-CW" />
+
+                    <ComboBox Header="Easing" HorizontalAlignment="Stretch"
+                              Foreground="{ThemeResource TextPrimaryBrush}"
+                              ItemsSource="{x:Bind ViewModel.EasingOptions}"
+                              SelectedIndex="{x:Bind ViewModel.SelectedEasingIndex, Mode=TwoWay}" />
+
+                    <!-- WOBBLE Section -->
+                    <TextBlock Text="WOBBLE" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Amplitude" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.WobbleAmplitudeDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="0.5" StepFrequency="0.01"
+                            Value="{x:Bind ViewModel.WobbleAmplitude, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Frequency" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.WobbleFrequencyDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0.5" Maximum="5" StepFrequency="0.1"
+                            Value="{x:Bind ViewModel.WobbleFrequency, Mode=TwoWay}" />
+
+                    <ComboBox Header="Wobble Axis" HorizontalAlignment="Stretch"
+                              Foreground="{ThemeResource TextPrimaryBrush}"
+                              ItemsSource="{x:Bind ViewModel.WobbleAxisOptions}"
+                              SelectedIndex="{x:Bind ViewModel.SelectedWobbleAxisIndex, Mode=TwoWay}" />
+
+                    <!-- SIZE Section -->
+                    <TextBlock Text="SIZE" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Base Size" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.BasePointSizeDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="2" Maximum="20" StepFrequency="1"
+                            Value="{x:Bind ViewModel.BasePointSize, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Variation" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.SizeVariationDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="5" StepFrequency="0.1"
+                            Value="{x:Bind ViewModel.SizeVariation, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Pulse Speed" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.PulseSpeedDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="5" StepFrequency="0.1"
+                            Value="{x:Bind ViewModel.PulseSpeed, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Pulse Amount" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.PulseAmountDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="0.5" StepFrequency="0.01"
+                            Value="{x:Bind ViewModel.PulseAmount, Mode=TwoWay}" />
+
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.DepthScaling, Mode=TwoWay}"
+                                  Foreground="{ThemeResource TextPrimaryBrush}"
+                                  OnContent="Depth Scaling" OffContent="Uniform Size" />
+
+                    <!-- TRAILS Section -->
+                    <TextBlock Text="TRAILS" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Length" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.TrailLengthDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="50" StepFrequency="1"
+                            Value="{x:Bind ViewModel.TrailLength, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Opacity" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.TrailOpacityDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="0" Maximum="1" StepFrequency="0.05"
+                            Value="{x:Bind ViewModel.TrailOpacity, Mode=TwoWay}" />
+
+                    <ComboBox Header="Trail Style" HorizontalAlignment="Stretch"
+                              Foreground="{ThemeResource TextPrimaryBrush}"
+                              ItemsSource="{x:Bind ViewModel.TrailStyleOptions}"
+                              SelectedIndex="{x:Bind ViewModel.SelectedTrailStyleIndex, Mode=TwoWay}" />
+
+                    <!-- CAMERA Section -->
+                    <TextBlock Text="CAMERA" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Distance" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.CameraDistanceDisplay, Mode=OneWay}"
+                                   Style="{StaticResource ValueDisplayStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider Minimum="1.5" Maximum="10" StepFrequency="0.1"
+                            Value="{x:Bind ViewModel.CameraDistance, Mode=TwoWay}" />
+
+                    <!-- COLORS Section -->
+                    <TextBlock Text="COLORS" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseGradientColors, Mode=TwoWay}"
+                                  Foreground="{ThemeResource TextPrimaryBrush}"
+                                  OnContent="Gradient" OffContent="Solid" />
+
+                    <!-- SELECTION Section -->
+                    <TextBlock Text="SELECTION" Style="{StaticResource SectionHeaderStyle}" />
+
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                        <Run Text="Selected: " />
+                        <Run Text="{x:Bind ViewModel.SelectedPointCount, Mode=OneWay}" />
+                        <Run Text=" points" />
+                    </TextBlock>
+
+                    <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+                        <Button Content="Clear" Command="{x:Bind ViewModel.ClearSelectionCommand}" />
+                        <Button Content="Select All" Command="{x:Bind ViewModel.SelectAllCommand}" />
+                    </utu:AutoLayout>
+
+                    <!-- Instructions -->
+                    <TextBlock Text="CONTROLS" Style="{StaticResource SectionHeaderStyle}" />
+                    <TextBlock Style="{StaticResource BodySmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               TextWrapping="Wrap">
+                        <Run Text="Drag to rotate" /><LineBreak />
+                        <Run Text="Scroll to zoom" /><LineBreak />
+                        <Run Text="Click to select point" /><LineBreak />
+                        <Run Text="Shift+Click for multi-select" />
+                    </TextBlock>
+
+                    <!-- Footer spacing -->
+                    <Border Height="32" />
+
+                </utu:AutoLayout>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>

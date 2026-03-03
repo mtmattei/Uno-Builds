@@ -1,0 +1,313 @@
+<Page x:Class="EnterpriseDashboard.Views.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uer="using:Uno.Extensions.Reactive.UI"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:mapsui="using:Mapsui.UI.WinUI"
+      xmlns:tv="using:WinUI.TableView"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Page.Resources>
+    <!-- Accent color for vendor library badges (non-monochromatic) -->
+    <SolidColorBrush x:Key="VendorBadgeBrush" Color="#FF26A69A" />
+    <SolidColorBrush x:Key="VendorBadgeBgBrush" Color="#1A26A69A" />
+
+  </Page.Resources>
+
+  <Grid Padding="16" RowSpacing="16" ColumnSpacing="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Row 0: Theme toggle bar -->
+    <Grid Grid.Row="0" Grid.ColumnSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock x:Name="ThemeLabel"
+                 Text="OBSIDIAN MONO"
+                 Style="{StaticResource LabelMedium}"
+                 Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                 VerticalAlignment="Center"
+                 CharacterSpacing="120" />
+      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+        <TextBlock Text="MONO"
+                   Style="{StaticResource LabelSmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   VerticalAlignment="Center" />
+        <ToggleSwitch x:Name="ThemeToggle"
+                      OnContent="" OffContent=""
+                      Toggled="ThemeToggle_Toggled"
+                      MinWidth="0" />
+        <TextBlock Text="TERMINAL"
+                   Style="{StaticResource LabelSmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+    </Grid>
+
+    <!-- Row 1: KPI Summary Cards (spans both columns) -->
+    <uer:FeedView x:Name="KpiPanel"
+                  Source="{Binding Kpi}"
+                  Grid.Row="1" Grid.ColumnSpan="2">
+      <uer:FeedView.ValueTemplate>
+        <DataTemplate>
+          <Grid RowSpacing="8">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- MVUX badge -->
+            <Border Grid.Row="0"
+                    Background="{StaticResource VendorBadgeBgBrush}"
+                    BorderBrush="{StaticResource VendorBadgeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="8,4"
+                    HorizontalAlignment="Left">
+              <TextBlock Text="Uno MVUX  |  FeedView + Reactive Bindings"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{StaticResource VendorBadgeBrush}" />
+            </Border>
+            <Grid Grid.Row="1" ColumnSpacing="16">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <!-- KPI 1: Total Revenue -->
+              <Border Grid.Column="0" CornerRadius="8" Padding="20"
+                      Background="{ThemeResource SurfaceBrush}"
+                      BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+                      Translation="0,0,16">
+                <Border.Shadow><ThemeShadow /></Border.Shadow>
+                <StackPanel Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE7BF;" FontSize="20"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="Total Revenue" Style="{StaticResource LabelMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </StackPanel>
+                  <TextBlock Style="{StaticResource HeadlineMedium}"
+                             Foreground="{ThemeResource OnSurfaceBrush}">
+                    <Run Text="$" /><Run Text="{Binding Data.TotalRevenue}" />
+                  </TextBlock>
+                </StackPanel>
+              </Border>
+
+              <!-- KPI 2: Total Orders -->
+              <Border Grid.Column="1" CornerRadius="8" Padding="20"
+                      Background="{ThemeResource SurfaceBrush}"
+                      BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+                      Translation="0,0,16">
+                <Border.Shadow><ThemeShadow /></Border.Shadow>
+                <StackPanel Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE719;" FontSize="20"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="Total Orders" Style="{StaticResource LabelMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </StackPanel>
+                  <TextBlock Style="{StaticResource HeadlineMedium}"
+                             Foreground="{ThemeResource OnSurfaceBrush}"
+                             Text="{Binding Data.TotalOrders}" />
+                </StackPanel>
+              </Border>
+
+              <!-- KPI 3: Avg Order Value -->
+              <Border Grid.Column="2" CornerRadius="8" Padding="20"
+                      Background="{ThemeResource SurfaceBrush}"
+                      BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+                      Translation="0,0,16">
+                <Border.Shadow><ThemeShadow /></Border.Shadow>
+                <StackPanel Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE8CB;" FontSize="20"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="Avg Order Value" Style="{StaticResource LabelMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </StackPanel>
+                  <TextBlock Style="{StaticResource HeadlineMedium}"
+                             Foreground="{ThemeResource OnSurfaceBrush}">
+                    <Run Text="$" /><Run Text="{Binding Data.AvgOrderValue}" />
+                  </TextBlock>
+                </StackPanel>
+              </Border>
+
+              <!-- KPI 4: Growth -->
+              <Border Grid.Column="3" CornerRadius="8" Padding="20"
+                      Background="{ThemeResource SurfaceBrush}"
+                      BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+                      Translation="0,0,16">
+                <Border.Shadow><ThemeShadow /></Border.Shadow>
+                <StackPanel Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE8CB;" FontSize="20"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="Growth" Style="{StaticResource LabelMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </StackPanel>
+                  <TextBlock Style="{StaticResource HeadlineMedium}"
+                             Foreground="{ThemeResource PrimaryBrush}">
+                    <Run Text="{Binding Data.GrowthPercent}" /><Run Text="%" />
+                  </TextBlock>
+                </StackPanel>
+              </Border>
+            </Grid>
+          </Grid>
+        </DataTemplate>
+      </uer:FeedView.ValueTemplate>
+      <uer:FeedView.ProgressTemplate>
+        <DataTemplate>
+          <ProgressRing IsActive="True" HorizontalAlignment="Center"
+                        Foreground="{ThemeResource PrimaryBrush}" />
+        </DataTemplate>
+      </uer:FeedView.ProgressTemplate>
+    </uer:FeedView>
+
+    <!-- Row 2, Col 0: Revenue Trend Line Chart -->
+    <Border x:Name="ChartLeftPanel"
+            Grid.Row="2" Grid.Column="0"
+            CornerRadius="8" Padding="16"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+            Translation="0,0,16">
+      <Border.Shadow><ThemeShadow /></Border.Shadow>
+      <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Vendor badge -->
+        <Border Background="{StaticResource VendorBadgeBgBrush}"
+                BorderBrush="{StaticResource VendorBadgeBrush}"
+                BorderThickness="1" CornerRadius="4" Padding="8,4"
+                HorizontalAlignment="Left">
+          <TextBlock Text="LiveCharts2  |  CartesianChart"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{StaticResource VendorBadgeBrush}" />
+        </Border>
+        <TextBlock Grid.Row="1" Text="Revenue Trend"
+                   Style="{StaticResource TitleMedium}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <lvc:CartesianChart x:Name="RevenueChart" Grid.Row="2" MinHeight="200" />
+      </Grid>
+    </Border>
+
+    <!-- Row 2, Col 1: Region Pie Chart -->
+    <Border x:Name="ChartRightPanel"
+            Grid.Row="2" Grid.Column="1"
+            CornerRadius="8" Padding="16"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+            Translation="0,0,16">
+      <Border.Shadow><ThemeShadow /></Border.Shadow>
+      <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Vendor badge -->
+        <Border Background="{StaticResource VendorBadgeBgBrush}"
+                BorderBrush="{StaticResource VendorBadgeBrush}"
+                BorderThickness="1" CornerRadius="4" Padding="8,4"
+                HorizontalAlignment="Left">
+          <TextBlock Text="LiveCharts2  |  PieChart"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{StaticResource VendorBadgeBrush}" />
+        </Border>
+        <TextBlock Grid.Row="1" Text="Revenue by Region"
+                   Style="{StaticResource TitleMedium}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <lvc:PieChart x:Name="RegionPieChart" Grid.Row="2" MinHeight="200" />
+      </Grid>
+    </Border>
+
+    <!-- Row 3, Col 0: Sales Data Table -->
+    <Border x:Name="TablePanel"
+            Grid.Row="3" Grid.Column="0"
+            CornerRadius="8" Padding="16"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+            Translation="0,0,16">
+      <Border.Shadow><ThemeShadow /></Border.Shadow>
+      <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Vendor badge -->
+        <Border Background="{StaticResource VendorBadgeBgBrush}"
+                BorderBrush="{StaticResource VendorBadgeBrush}"
+                BorderThickness="1" CornerRadius="4" Padding="8,4"
+                HorizontalAlignment="Left">
+          <TextBlock Text="WinUI.TableView  |  TableView"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{StaticResource VendorBadgeBrush}" />
+        </Border>
+        <TextBlock Grid.Row="1" Text="Sales Data"
+                   Style="{StaticResource TitleMedium}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <tv:TableView x:Name="SalesTableView" Grid.Row="2"
+                      AutoGenerateColumns="False"
+                      AlternateRowBackground="#FF111111"
+                      AlternateRowForeground="{ThemeResource OnSurfaceBrush}"
+                      Background="{ThemeResource SurfaceBrush}"
+                      Foreground="{ThemeResource OnSurfaceBrush}">
+          <tv:TableView.Columns>
+            <tv:TableViewTextColumn Header="Region" Binding="{Binding Region}" Width="*" />
+            <tv:TableViewTextColumn Header="Product" Binding="{Binding Product}" Width="*" />
+            <tv:TableViewNumberColumn Header="Revenue" Binding="{Binding Revenue}" Width="*" />
+            <tv:TableViewNumberColumn Header="Growth" Binding="{Binding Growth}" Width="80" />
+          </tv:TableView.Columns>
+        </tv:TableView>
+      </Grid>
+    </Border>
+
+    <!-- Row 3, Col 1: Region Map -->
+    <Border x:Name="MapPanel"
+            Grid.Row="3" Grid.Column="1"
+            CornerRadius="8" Padding="16"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+            Translation="0,0,16">
+      <Border.Shadow><ThemeShadow /></Border.Shadow>
+      <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Vendor badge -->
+        <Border Background="{StaticResource VendorBadgeBgBrush}"
+                BorderBrush="{StaticResource VendorBadgeBrush}"
+                BorderThickness="1" CornerRadius="4" Padding="8,4"
+                HorizontalAlignment="Left">
+          <TextBlock Text="Mapsui  |  MapControl + CARTO Dark Matter"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{StaticResource VendorBadgeBrush}" />
+        </Border>
+        <TextBlock Grid.Row="1" Text="Region Overview"
+                   Style="{StaticResource TitleMedium}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <mapsui:MapControl x:Name="RegionMap" Grid.Row="2" MinHeight="200" />
+      </Grid>
+    </Border>
+
+  </Grid>
+
+</Page>

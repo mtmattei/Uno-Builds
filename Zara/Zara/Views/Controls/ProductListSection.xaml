@@ -1,0 +1,31 @@
+<UserControl x:Class="Zara.Views.Controls.ProductListSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:Zara.Models"
+             xmlns:controls="using:Zara.Views.Controls">
+
+    <StackPanel Spacing="16"
+                Margin="0,24,0,0">
+        <!-- Section Header -->
+        <TextBlock Text="{x:Bind SectionTitle, Mode=OneWay}"
+                   Style="{StaticResource ZaraHeaderStyle}" />
+
+        <!-- Horizontal Scrollable Product List -->
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                      VerticalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{x:Bind Products, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="12" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <controls:ProductCard Product="{x:Bind Mode=OneWay}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,171 @@
+<Page x:Class="HorizontalCalendar.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:HorizontalCalendar"
+      xmlns:controls="using:HorizontalCalendar.Controls"
+      xmlns:models="using:HorizontalCalendar.Models"
+      xmlns:converters="using:HorizontalCalendar.Converters"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      Background="{StaticResource PageBackgroundGradient}">
+
+    <Page.Resources>
+        <converters:CalendarConverter x:Key="CalendarConverter" />
+    </Page.Resources>
+
+    <!-- Centered content with max-width constraint per design brief -->
+    <Grid MaxWidth="820"
+          HorizontalAlignment="Center"
+          Padding="24">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Calendar Control (now includes info bar) -->
+        <controls:HorizontalCalendar x:Name="MyCalendar"
+                                     Grid.Row="0"
+                                     x:Uid="MainPage.Calendar"
+                                     AutomationProperties.Name="Horizontal Calendar"
+                                     DateSelected="OnDateSelected" />
+
+        <!-- Events List (optional, shown below calendar) -->
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,24,0,0"
+                      Visibility="{x:Bind HasEvents, Mode=OneWay}">
+            <Grid>
+                <!-- Empty State -->
+                <StackPanel x:Name="EmptyStatePanel"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="16"
+                            Visibility="Collapsed"
+                            Margin="0,48,0,0">
+                    <FontIcon Glyph="&#xE787;"
+                              FontFamily="Segoe MDL2 Assets"
+                              FontSize="48"
+                              Foreground="{StaticResource TextMutedBrush}"
+                              HorizontalAlignment="Center" />
+                    <TextBlock Text="No events scheduled"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="16"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Select a date to view events"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontSize="13"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Events List -->
+                <ItemsRepeater x:Name="EventsRepeater"
+                               ItemsSource="{x:Bind SelectedEvents, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="{StaticResource EventCardSpacing}" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:CalendarEvent">
+                            <!-- Event Card with glass effect -->
+                            <Border Background="{StaticResource EventCardBackgroundBrush}"
+                                    BorderBrush="{StaticResource EventCardBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource EventCardCornerRadius}"
+                                    Padding="0"
+                                    AutomationProperties.Name="{x:Bind Title}">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Color indicator bar -->
+                                    <Border Grid.Column="0"
+                                            Background="{x:Bind ColorHex, Converter={StaticResource CalendarConverter}}"
+                                            CornerRadius="4,0,0,4" />
+
+                                    <!-- Time block -->
+                                    <StackPanel Grid.Column="1"
+                                                Padding="16,16,12,16"
+                                                VerticalAlignment="Center"
+                                                MinWidth="72">
+                                        <TextBlock Text="{x:Bind local:MainPage.FormatStartTime(IsAllDay, StartTime)}"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold" />
+                                        <Border Background="{StaticResource GlassFillBrush}"
+                                                CornerRadius="4"
+                                                Padding="6,2"
+                                                Margin="0,6,0,0"
+                                                HorizontalAlignment="Left"
+                                                Visibility="{x:Bind local:MainPage.ShowDuration(IsAllDay)}">
+                                            <TextBlock Text="{x:Bind local:MainPage.FormatDuration(StartTime, EndTime)}"
+                                                       Foreground="{StaticResource TextMutedBrush}"
+                                                       FontSize="11" />
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- Content area -->
+                                    <StackPanel Grid.Column="2"
+                                                Padding="4,16,16,16"
+                                                VerticalAlignment="Center"
+                                                Spacing="4">
+                                        <TextBlock Text="{x:Bind Title}"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="2" />
+
+                                        <TextBlock Text="{x:Bind Description}"
+                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   FontSize="13"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="2"
+                                                   Visibility="{x:Bind local:MainPage.HasValue(Description)}" />
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="4"
+                                                    Visibility="{x:Bind local:MainPage.HasValue(Location)}"
+                                                    Margin="0,4,0,0">
+                                            <FontIcon Glyph="&#xE81D;"
+                                                      FontFamily="Segoe MDL2 Assets"
+                                                      FontSize="12"
+                                                      Foreground="{StaticResource TextMutedBrush}" />
+                                            <TextBlock Text="{x:Bind Location}"
+                                                       Foreground="{StaticResource TextMutedBrush}"
+                                                       FontSize="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Actions -->
+                                    <Button Grid.Column="3"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            VerticalAlignment="Top"
+                                            Margin="0,8,8,0"
+                                            Opacity="0.6"
+                                            Tag="{x:Bind}"
+                                            ToolTipService.ToolTip="More options">
+                                        <Button.Flyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Delete"
+                                                                Icon="Delete"
+                                                                Click="OnDeleteEventClicked" />
+                                            </MenuFlyout>
+                                        </Button.Flyout>
+                                        <FontIcon Glyph="&#xE712;"
+                                                  FontFamily="Segoe MDL2 Assets"
+                                                  FontSize="14"
+                                                  Foreground="{StaticResource TextMutedBrush}" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,299 @@
+<UserControl
+    x:Class="HorizontalCalendar.Controls.HorizontalCalendar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HorizontalCalendar.Controls"
+    xmlns:converters="using:HorizontalCalendar.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:HorizontalCalendar.Models"
+    d:DesignHeight="280"
+    d:DesignWidth="820"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:CalendarConverter x:Key="CalendarConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!-- Calendar Container with glass effect per design brief -->
+    <Border Background="{StaticResource CardBackgroundGradient}"
+            BorderBrush="{StaticResource GlassBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="24"
+            Padding="24,20,24,16"
+            MaxWidth="820"
+            HorizontalAlignment="Stretch"
+            Translation="0,0,16">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
+
+        <Grid RowDefinitions="Auto,Auto,Auto">
+
+            <!-- Header: Month/Year Stack (Left) + Nav Buttons (Right) -->
+            <Grid Grid.Row="0" Margin="4,0,4,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Month/Year Stack (Design Brief layout) -->
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <!-- Month Name - Serif font, 36px -->
+                    <TextBlock Text="{x:Bind DisplayMonthName, Mode=OneWay}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontFamily="{StaticResource DisplayFontFamily}"
+                               FontSize="{StaticResource MonthNameFontSize}"
+                               FontWeight="Normal"
+                               CharacterSpacing="-20" />
+
+                    <!-- Year - Uppercase, letter-spaced -->
+                    <TextBlock Text="{x:Bind DisplayYear, Mode=OneWay}"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontFamily="{StaticResource UIFontFamily}"
+                               FontSize="{StaticResource YearFontSize}"
+                               FontWeight="Normal"
+                               CharacterSpacing="80" />
+                </StackPanel>
+
+                <!-- Right: Navigation Buttons -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+
+                    <!-- Today Button -->
+                    <Button x:Name="TodayButton"
+                            Style="{StaticResource TodayButtonStyle}"
+                            Click="OnTodayClicked"
+                            AutomationProperties.Name="Go to today"
+                            ToolTipService.ToolTip="Go to today">
+                        <TextBlock Text="Today"
+                                   FontSize="12"
+                                   FontWeight="Medium"
+                                   Foreground="{StaticResource TextSecondaryBrush}" />
+                    </Button>
+
+                    <!-- Previous Month Button -->
+                    <Button Style="{StaticResource NavigationButtonStyle}"
+                            Click="OnPrevMonth"
+                            x:Uid="HorizontalCalendar.PrevMonthButton"
+                            AutomationProperties.Name="Previous month"
+                            ToolTipService.ToolTip="Previous month">
+                        <TextBlock Text="&#x2190;"
+                                   FontSize="18"
+                                   Foreground="{StaticResource TextTertiaryBrush}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Button>
+
+                    <!-- Next Month Button -->
+                    <Button Style="{StaticResource NavigationButtonStyle}"
+                            Click="OnNextMonth"
+                            x:Uid="HorizontalCalendar.NextMonthButton"
+                            AutomationProperties.Name="Next month"
+                            ToolTipService.ToolTip="Next month">
+                        <TextBlock Text="&#x2192;"
+                                   FontSize="18"
+                                   Foreground="{StaticResource TextTertiaryBrush}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Days Track Container with Scroll Arrows -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Scroll Arrow -->
+                <Button x:Name="ScrollLeftButton"
+                        Grid.Column="0"
+                        Style="{StaticResource ScrollArrowButtonStyle}"
+                        Click="OnScrollLeft"
+                        VerticalAlignment="Center"
+                        Margin="0,0,4,0"
+                        AutomationProperties.Name="Scroll left"
+                        ToolTipService.ToolTip="Scroll left">
+                    <TextBlock Text="&#x2039;"
+                               FontSize="20"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,-2,0,0" />
+                </Button>
+
+                <!-- Days Track (Horizontal Scroll) -->
+                <ScrollViewer
+                    x:Name="CalendarScrollViewer"
+                    Grid.Column="1"
+                    Padding="8,8,8,8"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalScrollBarVisibility="Hidden"
+                    HorizontalScrollMode="Enabled"
+                    VerticalScrollBarVisibility="Disabled"
+                    VerticalScrollMode="Disabled"
+                    ZoomMode="Disabled"
+                    PointerWheelChanged="OnScrollViewerPointerWheelChanged"
+                    ViewChanged="OnScrollViewerViewChanged">
+
+                    <ItemsControl ItemsSource="{x:Bind Dates, Mode=OneWay}" Padding="4,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="4"
+                                            HorizontalAlignment="Left" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:CalendarDate">
+                                <Button
+                                    Click="OnDateClicked"
+                                    Style="{StaticResource CalendarDayButtonStyle}"
+                                    Tag="{x:Bind}"
+                                    AutomationProperties.Name="{x:Bind Date, Converter={StaticResource CalendarConverter}, ConverterParameter=MMMM d}">
+
+                                    <Grid MinWidth="56" Padding="8,10,8,10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Selected/Hover Background - fills entire item shape -->
+                                        <Border Grid.RowSpan="3"
+                                                CornerRadius="14"
+                                                Margin="-4,-6,-4,-6"
+                                                Background="{x:Bind local:HorizontalCalendar.GetItemBackground(IsSelected, IsToday), Mode=OneWay}"
+                                                BorderBrush="{x:Bind local:HorizontalCalendar.GetItemBorder(IsSelected, IsToday), Mode=OneWay}"
+                                                BorderThickness="1"
+                                                Translation="{x:Bind local:HorizontalCalendar.GetItemTranslation(IsSelected), Mode=OneWay}">
+                                            <Border.Shadow>
+                                                <ThemeShadow />
+                                            </Border.Shadow>
+                                        </Border>
+
+                                        <!-- Day of week label (uppercase, letter-spaced) -->
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            HorizontalAlignment="Center"
+                                            FontFamily="{StaticResource UIFontFamily}"
+                                            FontSize="10"
+                                            FontWeight="Medium"
+                                            Foreground="{x:Bind local:HorizontalCalendar.GetDayLabelForeground(IsSelected, Date), Mode=OneWay}"
+                                            Text="{x:Bind Date, Converter={StaticResource CalendarConverter}, ConverterParameter=ddd}"
+                                            CharacterSpacing="40"
+                                            Margin="0,0,0,6" />
+
+                                        <!-- Date number -->
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource UIFontFamily}"
+                                            FontSize="20"
+                                            FontWeight="SemiBold"
+                                            Foreground="{x:Bind local:HorizontalCalendar.GetDateForeground(IsSelected, IsToday), Mode=OneWay}"
+                                            Text="{x:Bind Date.Day, Mode=OneWay}" />
+
+                                        <!-- Today/Event Indicator Dot -->
+                                        <Ellipse Grid.Row="2"
+                                                 Width="4"
+                                                 Height="4"
+                                                 Fill="{x:Bind local:HorizontalCalendar.GetIndicatorColor(IsSelected, IsToday, ShowBadge), Mode=OneWay}"
+                                                 HorizontalAlignment="Center"
+                                                 Margin="0,6,0,0"
+                                                 Visibility="{x:Bind local:HorizontalCalendar.ShowIndicatorDot(IsToday, ShowBadge), Mode=OneWay}" />
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Right Scroll Arrow -->
+                <Button x:Name="ScrollRightButton"
+                        Grid.Column="2"
+                        Style="{StaticResource ScrollArrowButtonStyle}"
+                        Click="OnScrollRight"
+                        VerticalAlignment="Center"
+                        Margin="4,0,0,0"
+                        AutomationProperties.Name="Scroll right"
+                        ToolTipService.ToolTip="Scroll right">
+                    <TextBlock Text="&#x203A;"
+                               FontSize="20"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,-2,0,0" />
+                </Button>
+            </Grid>
+
+            <!-- Selected Info Bar (Design Brief) -->
+            <Border Grid.Row="2"
+                    Background="{StaticResource SurfaceSubtleColor}"
+                    BorderBrush="{StaticResource BorderSubtleColor}"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="16,12"
+                    Margin="0,12,0,0">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Label -->
+                    <TextBlock Grid.Column="0"
+                               Text="SELECTED DATE"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontFamily="{StaticResource UIFontFamily}"
+                               FontSize="{StaticResource LabelFontSize}"
+                               FontWeight="{StaticResource LabelFontWeight}"
+                               CharacterSpacing="60"
+                               VerticalAlignment="Center" />
+
+                    <!-- Selected Date Display (Serif italic) -->
+                    <TextBlock x:Name="SelectedDateDisplay"
+                               Grid.Column="1"
+                               Text="{x:Bind SelectedDateText, Mode=OneWay}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontFamily="{StaticResource DisplayFontFamily}"
+                               FontSize="{StaticResource SelectedDateDisplayFontSize}"
+                               FontStyle="Italic"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Margin="0,0,16,0" />
+
+                    <!-- Add Event Button -->
+                    <Button Grid.Column="2"
+                            Click="OnAddEventClicked"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Padding="12,8"
+                            VerticalAlignment="Center"
+                            AutomationProperties.Name="Add new event"
+                            ToolTipService.ToolTip="Add new event">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE710;"
+                                      FontFamily="Segoe MDL2 Assets"
+                                      FontSize="14" />
+                            <TextBlock Text="Add Event"
+                                       FontSize="13"
+                                       FontWeight="Medium" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,14 @@
+<Project ToolsVersion="15.0">
+  <!--
+    To update the version of Uno, you should instead update the Sdk version in the global.json file.
+
+    See https://aka.platform.uno/using-uno-sdk for more information.
+    See https://aka.platform.uno/using-uno-sdk#implicit-packages for more information regarding the Implicit Packages.
+  -->
+  <ItemGroup>
+    <PackageVersion Include="supabase-csharp" Version="0.16.2" />
+    <!-- Pin transitive JWT packages to fix GHSA-59j7-ghrg-fj52 (moderate DoS vulnerability) -->
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.1.2" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+  </ItemGroup>
+</Project>

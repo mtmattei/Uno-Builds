@@ -1,0 +1,61 @@
+<UserControl x:Class="Wellmetrix.Controls.MetricCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:Wellmetrix.Controls">
+
+    <Border Style="{StaticResource GlassCardSmallStyle}"
+            MinWidth="{StaticResource MetricCardMinWidth}"
+            MinHeight="120">
+
+        <utu:AutoLayout Orientation="Vertical"
+                       Spacing="6">
+
+            <!-- Header: Label + Trend -->
+            <utu:AutoLayout Orientation="Horizontal"
+                           Justify="SpaceBetween"
+                           PrimaryAxisAlignment="Stretch">
+                <TextBlock x:Name="LabelText"
+                          Text="Heart Rate"
+                          Style="{StaticResource MetricLabelTextStyle}"
+                          utu:AutoLayout.PrimaryAlignment="Stretch" />
+
+                <Border x:Name="TrendBadge"
+                       Background="{StaticResource GlassSurfaceBrush}"
+                       CornerRadius="4"
+                       Padding="6,2">
+                    <TextBlock x:Name="TrendText"
+                              Text="+2%"
+                              Style="{StaticResource TrendTextStyle}"
+                              Foreground="{StaticResource KidneysAccentBrush}" />
+                </Border>
+            </utu:AutoLayout>
+
+            <!-- Value + Unit -->
+            <utu:AutoLayout Orientation="Horizontal"
+                           Spacing="4"
+                           CounterAxisAlignment="End">
+                <TextBlock x:Name="ValueText"
+                          Text="72"
+                          Style="{StaticResource MetricValueTextStyle}" />
+                <TextBlock x:Name="UnitText"
+                          Text="BPM"
+                          Style="{StaticResource UnitTextStyle}"
+                          VerticalAlignment="Bottom"
+                          Margin="0,0,0,4" />
+            </utu:AutoLayout>
+
+            <!-- Sparkline Chart -->
+            <controls:Sparkline x:Name="SparklineChart"
+                               HorizontalAlignment="Stretch"
+                               Margin="0,4,0,0" />
+
+            <!-- Range -->
+            <TextBlock x:Name="RangeText"
+                      Text="Range: 60-100"
+                      Style="{StaticResource CaptionTextStyle}" />
+
+        </utu:AutoLayout>
+    </Border>
+
+</UserControl>

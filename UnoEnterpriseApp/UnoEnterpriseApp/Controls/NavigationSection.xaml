@@ -1,0 +1,27 @@
+<UserControl x:Class="UnoEnterpriseApp.Controls.NavigationSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Expander IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Stretch">
+        <Expander.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <FontIcon Glyph="{x:Bind IconGlyph}"
+                          FontSize="16"
+                          Margin="0,0,12,0"
+                          Foreground="{StaticResource PrimaryBrush}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{x:Bind Title}"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextPrimaryBrush}"/>
+            </Grid>
+        </Expander.Header>
+        <ContentPresenter Content="{x:Bind InnerContent}" 
+                          Margin="28,8,0,8"/>
+    </Expander>
+</UserControl>

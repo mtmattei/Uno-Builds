@@ -1,0 +1,46 @@
+<UserControl x:Class="SplitFlap.Controls.SplitFlapClock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:SplitFlap.Controls">
+
+    <StackPanel x:Name="ClockPanel"
+                Orientation="Horizontal"
+                Spacing="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+        <!-- Hours -->
+        <local:SplitFlapDisplay x:Name="HoursDisplay"
+                                 Length="2"
+                                 StaggerDelay="30"
+                                 PadCharacter="0"/>
+
+        <!-- Colon Separator -->
+        <TextBlock x:Name="ColonSeparator1"
+                   Text=":"
+                   FontFamily="Arial Black"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"/>
+
+        <!-- Minutes -->
+        <local:SplitFlapDisplay x:Name="MinutesDisplay"
+                                 Length="2"
+                                 StaggerDelay="30"
+                                 PadCharacter="0"/>
+
+        <!-- Colon Separator (for seconds) -->
+        <TextBlock x:Name="ColonSeparator2"
+                   Text=":"
+                   FontFamily="Arial Black"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"/>
+
+        <!-- Seconds -->
+        <local:SplitFlapDisplay x:Name="SecondsDisplay"
+                                 Length="2"
+                                 StaggerDelay="30"
+                                 PadCharacter="0"/>
+
+    </StackPanel>
+
+</UserControl>

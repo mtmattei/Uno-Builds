@@ -1,0 +1,729 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--
+        Premium Horizontal Calendar Design System
+        Refined luxury with restrained elegance - Dark theme
+        Based on design brief specifications
+    -->
+
+    <!-- === SURFACE/BACKGROUND COLORS (Design Brief) === -->
+    <Color x:Key="SurfaceBackgroundPrimaryColor">#0A0A0F</Color>
+    <Color x:Key="SurfaceBackgroundSecondaryColor">#14141F</Color>
+    <Color x:Key="SurfaceBackgroundTertiaryColor">#0D0D14</Color>
+    <Color x:Key="SurfaceCardBaseColor">#E61E1E2D</Color>
+    <Color x:Key="SurfaceCardEndColor">#F2141420</Color>
+    <Color x:Key="SurfaceSubtleColor">#05FFFFFF</Color>
+    <Color x:Key="SurfaceHoverColor">#08FFFFFF</Color>
+
+    <!-- === BORDER COLORS (Design Brief) === -->
+    <Color x:Key="BorderCardColor">#0FFFFFFF</Color>
+    <Color x:Key="BorderSubtleColor">#0DFFFFFF</Color>
+    <Color x:Key="BorderInteractiveColor">#14FFFFFF</Color>
+    <Color x:Key="BorderInteractiveHoverColor">#26FFFFFF</Color>
+    <Color x:Key="BorderDayHoverColor">#1AFFFFFF</Color>
+
+    <!-- === TEXT COLORS (Design Brief) === -->
+    <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
+    <Color x:Key="TextSecondaryColor">#D9FFFFFF</Color>
+    <Color x:Key="TextTertiaryColor">#B3FFFFFF</Color>
+    <Color x:Key="TextMutedColor">#66FFFFFF</Color>
+    <Color x:Key="TextSubtleColor">#59FFFFFF</Color>
+    <Color x:Key="TextWeekendColor">#80FFB693</Color>
+
+    <!-- === ACCENT COLORS (Design Brief) === -->
+    <Color x:Key="AccentPrimaryColor">#6366F1</Color>
+    <Color x:Key="AccentPrimaryDarkColor">#4F46E5</Color>
+    <Color x:Key="AccentSoftColor">#A5B4FC</Color>
+    <Color x:Key="AccentGlowColor">#666366F1</Color>
+    <Color x:Key="AccentBackgroundColor">#266366F1</Color>
+    <Color x:Key="AccentBackgroundSubtleColor">#146366F1</Color>
+    <Color x:Key="AccentBorderColor">#4D6366F1</Color>
+
+    <!-- === EVENT CATEGORY COLORS === -->
+    <Color x:Key="EventMeetingColor">#6366F1</Color>
+    <Color x:Key="EventStandupColor">#F59E0B</Color>
+    <Color x:Key="EventClientColor">#10B981</Color>
+    <Color x:Key="EventFocusColor">#8B5CF6</Color>
+    <Color x:Key="EventSocialColor">#F59E0B</Color>
+    <Color x:Key="EventPersonalColor">#EC4899</Color>
+    <Color x:Key="EventDeadlineColor">#EF4444</Color>
+    <Color x:Key="EventDefaultColor">#6366F1</Color>
+
+    <!-- === EVENT CARD COLORS === -->
+    <Color x:Key="EventCardBackgroundColor">#08FFFFFF</Color>
+    <Color x:Key="EventCardBorderColor">#10FFFFFF</Color>
+    <Color x:Key="EventCardHoverColor">#0FFFFFFF</Color>
+
+    <!-- === SOLID COLOR BRUSHES === -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource SurfaceBackgroundPrimaryColor}" />
+    <SolidColorBrush x:Key="GlassFillBrush" Color="{StaticResource SurfaceCardBaseColor}" />
+    <SolidColorBrush x:Key="GlassBorderBrush" Color="{StaticResource BorderCardColor}" />
+    <SolidColorBrush x:Key="GlassHoverBrush" Color="{StaticResource SurfaceHoverColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiaryColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+    <SolidColorBrush x:Key="TextSubtleBrush" Color="{StaticResource TextSubtleColor}" />
+    <SolidColorBrush x:Key="TextWeekendBrush" Color="{StaticResource TextWeekendColor}" />
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentPrimaryColor}" />
+    <SolidColorBrush x:Key="AccentDarkBrush" Color="{StaticResource AccentPrimaryDarkColor}" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="{StaticResource AccentSoftColor}" />
+    <SolidColorBrush x:Key="AccentGlowBrush" Color="{StaticResource AccentGlowColor}" />
+    <SolidColorBrush x:Key="AccentBorderBrush" Color="{StaticResource AccentBorderColor}" />
+    <SolidColorBrush x:Key="TodayGlowBrush" Color="{StaticResource AccentGlowColor}" />
+    <SolidColorBrush x:Key="SelectedGlowBrush" Color="{StaticResource AccentGlowColor}" />
+    <SolidColorBrush x:Key="HoverBackgroundBrush" Color="{StaticResource SurfaceHoverColor}" />
+
+    <!-- Event Category Brushes -->
+    <SolidColorBrush x:Key="EventMeetingBrush" Color="{StaticResource EventMeetingColor}" />
+    <SolidColorBrush x:Key="EventStandupBrush" Color="{StaticResource EventStandupColor}" />
+    <SolidColorBrush x:Key="EventClientBrush" Color="{StaticResource EventClientColor}" />
+    <SolidColorBrush x:Key="EventFocusBrush" Color="{StaticResource EventFocusColor}" />
+    <SolidColorBrush x:Key="EventSocialBrush" Color="{StaticResource EventSocialColor}" />
+    <SolidColorBrush x:Key="EventPersonalBrush" Color="{StaticResource EventPersonalColor}" />
+    <SolidColorBrush x:Key="EventDeadlineBrush" Color="{StaticResource EventDeadlineColor}" />
+    <SolidColorBrush x:Key="EventDefaultBrush" Color="{StaticResource EventDefaultColor}" />
+
+    <!-- Event Card Brushes -->
+    <SolidColorBrush x:Key="EventCardBackgroundBrush" Color="{StaticResource EventCardBackgroundColor}" />
+    <SolidColorBrush x:Key="EventCardBorderBrush" Color="{StaticResource EventCardBorderColor}" />
+    <SolidColorBrush x:Key="EventCardHoverBrush" Color="{StaticResource EventCardHoverColor}" />
+
+    <!-- === GRADIENT BRUSHES (Design Brief) === -->
+    <!-- Page Background: 145deg gradient -->
+    <LinearGradientBrush x:Key="PageBackgroundGradient" StartPoint="0,0" EndPoint="0.7,1">
+        <GradientStop Color="{StaticResource SurfaceBackgroundPrimaryColor}" Offset="0" />
+        <GradientStop Color="{StaticResource SurfaceBackgroundSecondaryColor}" Offset="0.5" />
+        <GradientStop Color="{StaticResource SurfaceBackgroundTertiaryColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Card Background: 165deg gradient -->
+    <LinearGradientBrush x:Key="CardBackgroundGradient" StartPoint="0,0" EndPoint="0.6,1">
+        <GradientStop Color="{StaticResource SurfaceCardBaseColor}" Offset="0" />
+        <GradientStop Color="{StaticResource SurfaceCardEndColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Accent Gradient: Selected state -->
+    <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0,0" EndPoint="0.6,1">
+        <GradientStop Color="{StaticResource AccentPrimaryColor}" Offset="0" />
+        <GradientStop Color="{StaticResource AccentPrimaryDarkColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Today Gradient (subtle) -->
+    <LinearGradientBrush x:Key="TodayGradientBrush" StartPoint="0,0" EndPoint="0.6,1">
+        <GradientStop Color="{StaticResource AccentBackgroundColor}" Offset="0" />
+        <GradientStop Color="{StaticResource AccentBackgroundSubtleColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Selected Gradient (solid accent) -->
+    <LinearGradientBrush x:Key="SelectedGradientBrush" StartPoint="0,0" EndPoint="0.6,1">
+        <GradientStop Color="{StaticResource AccentPrimaryColor}" Offset="0" />
+        <GradientStop Color="{StaticResource AccentPrimaryDarkColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Day Hover Overlay Gradient -->
+    <LinearGradientBrush x:Key="DayHoverOverlayBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#0FFFFFFF" Offset="0" />
+        <GradientStop Color="#05FFFFFF" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Legacy brush names for compatibility -->
+    <SolidColorBrush x:Key="CalendarBackgroundBrush" Color="{StaticResource SurfaceBackgroundPrimaryColor}" />
+    <SolidColorBrush x:Key="CalendarTodayBrush" Color="{StaticResource AccentPrimaryColor}" />
+    <SolidColorBrush x:Key="CalendarDayOfWeekBrush" Color="{StaticResource TextSubtleColor}" />
+    <SolidColorBrush x:Key="EventTextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="EventTextTertiaryBrush" Color="{StaticResource TextMutedColor}" />
+
+    <!-- === LAYOUT DIMENSIONS (Design Brief) === -->
+    <sys:Double x:Key="CalendarDayWidth">64</sys:Double>
+    <sys:Double x:Key="CalendarDayMinWidth">64</sys:Double>
+    <sys:Double x:Key="CalendarDayHeight">94</sys:Double>
+    <sys:Double x:Key="CalendarDateCircleSize">40</sys:Double>
+    <sys:Double x:Key="CalendarBadgeSize">5</sys:Double>
+    <sys:Double x:Key="CalendarCornerRadius">20</sys:Double>
+    <sys:Double x:Key="CalendarItemSpacing">6</sys:Double>
+    <sys:Double x:Key="CalendarScrollItemWidth">70</sys:Double>
+    <sys:Double x:Key="WeekStripCornerRadius">28</sys:Double>
+    <sys:Double x:Key="NavigationButtonSize">44</sys:Double>
+    <sys:Double x:Key="NavigationButtonCornerRadius">14</sys:Double>
+    <sys:Double x:Key="InfoBarCornerRadius">16</sys:Double>
+
+    <!-- Container Spacing -->
+    <sys:Double x:Key="CalendarContainerPadding">36</sys:Double>
+    <sys:Double x:Key="HeaderMarginBottom">32</sys:Double>
+    <sys:Double x:Key="DaysTrackPaddingTop">12</sys:Double>
+    <sys:Double x:Key="DaysTrackPaddingBottom">20</sys:Double>
+    <sys:Double x:Key="InfoBarMarginTop">28</sys:Double>
+
+    <!-- Event Card Dimensions -->
+    <sys:Double x:Key="EventCardCornerRadius">12</sys:Double>
+    <sys:Double x:Key="EventColorIndicatorWidth">4</sys:Double>
+    <sys:Double x:Key="EventCardSpacing">12</sys:Double>
+    <Thickness x:Key="EventCardPadding">16</Thickness>
+    <Thickness x:Key="EventCardMargin">0</Thickness>
+
+    <!-- === TYPOGRAPHY (Design Brief) === -->
+    <!-- Font Families - Serif display font (Instrument Serif style), Sans-serif UI font (DM Sans style) -->
+    <!-- Primary: Instrument Serif / DM Sans | Fallback: Georgia / Segoe UI -->
+    <FontFamily x:Key="DisplayFontFamily">Georgia, serif</FontFamily>
+    <FontFamily x:Key="UIFontFamily">DM Sans, Segoe UI, -apple-system, BlinkMacSystemFont, sans-serif</FontFamily>
+
+    <!-- Type Scale -->
+    <sys:Double x:Key="MonthNameFontSize">36</sys:Double>
+    <sys:Double x:Key="YearFontSize">14</sys:Double>
+    <sys:Double x:Key="CalendarDayOfWeekFontSize">11</sys:Double>
+    <sys:Double x:Key="CalendarDayFontSize">22</sys:Double>
+    <sys:Double x:Key="SelectedDateDisplayFontSize">16</sys:Double>
+    <sys:Double x:Key="LabelFontSize">12</sys:Double>
+    <sys:Double x:Key="MonthYearFontSize">14</sys:Double>
+    <sys:Double x:Key="CalendarNavigationIconSize">16</sys:Double>
+    <sys:Double x:Key="CalendarBadgeFontSize">10</sys:Double>
+
+    <!-- Font Weights -->
+    <FontWeight x:Key="CalendarDayFontWeight">SemiBold</FontWeight>
+    <FontWeight x:Key="CalendarDayOfWeekFontWeight">Medium</FontWeight>
+    <FontWeight x:Key="CalendarMonthFontWeight">Normal</FontWeight>
+    <FontWeight x:Key="LabelFontWeight">Medium</FontWeight>
+
+    <!-- === SPACING & PADDING === -->
+    <Thickness x:Key="CalendarContainerMargin">36</Thickness>
+    <Thickness x:Key="CalendarNavigationPadding">8,0</Thickness>
+    <Thickness x:Key="CalendarDayOfWeekMargin">0,0,0,10</Thickness>
+    <Thickness x:Key="CalendarBadgeMargin">0,4,0,0</Thickness>
+    <Thickness x:Key="CalendarNavButtonPadding">0</Thickness>
+    <Thickness x:Key="DayItemPadding">12,16,12,18</Thickness>
+    <Thickness x:Key="InfoBarPadding">24,20</Thickness>
+
+    <!-- === ANIMATIONS === -->
+    <Duration x:Key="CalendarHoverAnimationDuration">0:0:0.25</Duration>
+    <Duration x:Key="CalendarPressedAnimationDuration">0:0:0.25</Duration>
+    <Duration x:Key="DayItemTransitionDuration">0:0:0.3</Duration>
+
+    <!-- === CALENDAR DAY BUTTON STYLE (Design Brief) === -->
+    <Style x:Key="CalendarDayButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FocusVisualMargin" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid" RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TranslateTransform x:Name="HoverTranslate" Y="0" />
+                        </Grid.RenderTransform>
+
+                        <!-- Hover Background with gradient overlay - same shape as selected -->
+                        <Border
+                            x:Name="HoverBackground"
+                            Background="{StaticResource DayHoverOverlayBrush}"
+                            BorderBrush="{StaticResource BorderDayHoverColor}"
+                            BorderThickness="1"
+                            CornerRadius="16"
+                            Opacity="0"
+                            Margin="4" />
+
+                        <!-- Content -->
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <!-- Visual States -->
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverBackground"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0:0:0.2" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverTranslate"
+                                            Storyboard.TargetProperty="Y"
+                                            To="0"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverBackground"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.2" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverTranslate"
+                                            Storyboard.TargetProperty="Y"
+                                            To="-4"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverBackground"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.8"
+                                            Duration="0:0:0.1" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="HoverTranslate"
+                                            Storyboard.TargetProperty="Y"
+                                            To="-2"
+                                            Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ContentPresenter"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.4"
+                                            Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- === NAVIGATION BUTTON STYLE (Design Brief: 44x44, radius 14) === -->
+    <Style x:Key="NavigationButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#08FFFFFF"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderInteractiveColor}"/>
+        <Setter Property="Width" Value="44"/>
+        <Setter Property="Height" Value="44"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="FocusVisualMargin" Value="2"/>
+        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#14FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#26FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#14FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.4" Duration="0:0:0"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- === PRIMARY BUTTON STYLE (Filled Gradient with shadow) === -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AccentGradientBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="16,10"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            Translation="0,0,8">
+                        <Border.Shadow>
+                            <ThemeShadow />
+                        </Border.Shadow>
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.9"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.8"
+                                            Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.4"
+                                            Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- === OUTLINE BUTTON STYLE === -->
+    <Style x:Key="OutlineButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderInteractiveColor}"/>
+        <Setter Property="Padding" Value="16,10"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#14FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#26FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#0AFFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.4"
+                                            Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- === ICON BUTTON STYLE === -->
+    <Style x:Key="IconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="MinWidth" Value="36"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#0AFFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#05FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Legacy style alias -->
+    <Style x:Key="CalendarNavButtonStyle" BasedOn="{StaticResource NavigationButtonStyle}" TargetType="Button" />
+
+    <!-- === TODAY BUTTON STYLE (Subtle text button) === -->
+    <Style x:Key="TodayButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleColor}"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            Opacity="{TemplateBinding Opacity}">
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.7"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.15" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#08FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#20FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.9"
+                                            Duration="0:0:0.1" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#10FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.3"
+                                            Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- === SCROLL ARROW BUTTON STYLE (Subtle, compact) === -->
+    <Style x:Key="ScrollArrowButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Width" Value="28"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="{TemplateBinding Opacity}">
+
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.5"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.15" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#0AFFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.8"
+                                            Duration="0:0:0.1" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#14FFFFFF"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Root"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.2"
+                                            Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

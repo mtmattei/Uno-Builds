@@ -1,0 +1,104 @@
+﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- Sonar Radar Theme - Dark only (retro submarine aesthetic) -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Sonar Primary Colors -->
+      <Color x:Key="PhosphorGreen">#00FF41</Color>
+      <Color x:Key="TerminalBlack">#0A0F0A</Color>
+      <Color x:Key="DeepGreenBlack">#0D1A0D</Color>
+      <Color x:Key="VoidBlack">#081208</Color>
+      
+      <!-- Status Colors -->
+      <Color x:Key="StatusActive">#00FF41</Color>
+      <Color x:Key="StatusIdle">#FFAA00</Color>
+      <Color x:Key="StatusAway">#FF4141</Color>
+      
+      <!-- Phosphor Green Opacity Variants -->
+      <Color x:Key="PhosphorGreen100">#00FF41</Color>
+      <Color x:Key="PhosphorGreen53">#8800FF41</Color>
+      <Color x:Key="PhosphorGreen33">#5500FF41</Color>
+      <Color x:Key="PhosphorGreen27">#4400FF41</Color>
+      <Color x:Key="PhosphorGreen20">#3300FF41</Color>
+      <Color x:Key="PhosphorGreen12">#1F00FF41</Color>
+      <Color x:Key="PhosphorGreen7">#1100FF41</Color>
+      <Color x:Key="PhosphorGreen3">#0800FF41</Color>
+      
+      <!-- Material Theme Mappings -->
+      <Color x:Key="PrimaryColor">#00FF41</Color>
+      <Color x:Key="OnPrimaryColor">#0A0F0A</Color>
+      <Color x:Key="PrimaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnPrimaryContainerColor">#00FF41</Color>
+      <Color x:Key="SecondaryColor">#00FF41</Color>
+      <Color x:Key="OnSecondaryColor">#0A0F0A</Color>
+      <Color x:Key="SecondaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnSecondaryContainerColor">#00FF41</Color>
+      <Color x:Key="TertiaryColor">#00FF41</Color>
+      <Color x:Key="OnTertiaryColor">#0A0F0A</Color>
+      <Color x:Key="TertiaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnTertiaryContainerColor">#00FF41</Color>
+      <Color x:Key="ErrorColor">#FF4141</Color>
+      <Color x:Key="ErrorContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnErrorColor">#00FF41</Color>
+      <Color x:Key="OnErrorContainerColor">#FF4141</Color>
+      <Color x:Key="BackgroundColor">#0A0F0A</Color>
+      <Color x:Key="OnBackgroundColor">#00FF41</Color>
+      <Color x:Key="SurfaceColor">#0D1A0D</Color>
+      <Color x:Key="OnSurfaceColor">#00FF41</Color>
+      <Color x:Key="SurfaceVariantColor">#081208</Color>
+      <Color x:Key="OnSurfaceVariantColor">#8800FF41</Color>
+      <Color x:Key="OutlineColor">#4400FF41</Color>
+      <Color x:Key="OnSurfaceInverseColor">#0A0F0A</Color>
+      <Color x:Key="SurfaceInverseColor">#00FF41</Color>
+      <Color x:Key="PrimaryInverseColor">#0A0F0A</Color>
+      <Color x:Key="SurfaceTintColor">#00FF41</Color>
+      <Color x:Key="OutlineVariantColor">#3300FF41</Color>
+    </ResourceDictionary>
+    
+    <!-- Light theme maps to Dark for consistent sonar look -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PhosphorGreen">#00FF41</Color>
+      <Color x:Key="TerminalBlack">#0A0F0A</Color>
+      <Color x:Key="DeepGreenBlack">#0D1A0D</Color>
+      <Color x:Key="VoidBlack">#081208</Color>
+      <Color x:Key="StatusActive">#00FF41</Color>
+      <Color x:Key="StatusIdle">#FFAA00</Color>
+      <Color x:Key="StatusAway">#FF4141</Color>
+      <Color x:Key="PhosphorGreen100">#00FF41</Color>
+      <Color x:Key="PhosphorGreen53">#8800FF41</Color>
+      <Color x:Key="PhosphorGreen33">#5500FF41</Color>
+      <Color x:Key="PhosphorGreen27">#4400FF41</Color>
+      <Color x:Key="PhosphorGreen20">#3300FF41</Color>
+      <Color x:Key="PhosphorGreen12">#1F00FF41</Color>
+      <Color x:Key="PhosphorGreen7">#1100FF41</Color>
+      <Color x:Key="PhosphorGreen3">#0800FF41</Color>
+      <Color x:Key="PrimaryColor">#00FF41</Color>
+      <Color x:Key="OnPrimaryColor">#0A0F0A</Color>
+      <Color x:Key="PrimaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnPrimaryContainerColor">#00FF41</Color>
+      <Color x:Key="SecondaryColor">#00FF41</Color>
+      <Color x:Key="OnSecondaryColor">#0A0F0A</Color>
+      <Color x:Key="SecondaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnSecondaryContainerColor">#00FF41</Color>
+      <Color x:Key="TertiaryColor">#00FF41</Color>
+      <Color x:Key="OnTertiaryColor">#0A0F0A</Color>
+      <Color x:Key="TertiaryContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnTertiaryContainerColor">#00FF41</Color>
+      <Color x:Key="ErrorColor">#FF4141</Color>
+      <Color x:Key="ErrorContainerColor">#0D1A0D</Color>
+      <Color x:Key="OnErrorColor">#00FF41</Color>
+      <Color x:Key="OnErrorContainerColor">#FF4141</Color>
+      <Color x:Key="BackgroundColor">#0A0F0A</Color>
+      <Color x:Key="OnBackgroundColor">#00FF41</Color>
+      <Color x:Key="SurfaceColor">#0D1A0D</Color>
+      <Color x:Key="OnSurfaceColor">#00FF41</Color>
+      <Color x:Key="SurfaceVariantColor">#081208</Color>
+      <Color x:Key="OnSurfaceVariantColor">#8800FF41</Color>
+      <Color x:Key="OutlineColor">#4400FF41</Color>
+      <Color x:Key="OnSurfaceInverseColor">#0A0F0A</Color>
+      <Color x:Key="SurfaceInverseColor">#00FF41</Color>
+      <Color x:Key="PrimaryInverseColor">#0A0F0A</Color>
+      <Color x:Key="SurfaceTintColor">#00FF41</Color>
+      <Color x:Key="OutlineVariantColor">#3300FF41</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

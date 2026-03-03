@@ -1,0 +1,96 @@
+<Application x:Class="Caffe.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Caffè Custom Fonts -->
+      <FontFamily x:Key="CormorantGaramond">ms-appx:///Assets/Fonts/CormorantGaramond-VariableFont_wght.ttf#Cormorant Garamond</FontFamily>
+      <FontFamily x:Key="DMSans">ms-appx:///Assets/Fonts/DMSans.ttf#DM Sans</FontFamily>
+
+      <!-- Caffè Brand Colors as Brushes -->
+      <SolidColorBrush x:Key="CaffePrimaryBrush" Color="#1B4332" />
+      <SolidColorBrush x:Key="CaffePrimaryHoverBrush" Color="#14352A" />
+      <SolidColorBrush x:Key="CaffeAccentRedBrush" Color="#C1121F" />
+      <SolidColorBrush x:Key="CaffeAccentGreenBrush" Color="#2D6A4F" />
+      <SolidColorBrush x:Key="CaffeBackgroundBrush" Color="#FAFAFA" />
+      <SolidColorBrush x:Key="CaffeSurfaceBrush" Color="#FFFFFF" />
+      <SolidColorBrush x:Key="CaffeTextPrimaryBrush" Color="#1A1A1A" />
+      <SolidColorBrush x:Key="CaffeTextSecondaryBrush" Color="#888888" />
+      <SolidColorBrush x:Key="CaffeTextMutedBrush" Color="#999999" />
+      <SolidColorBrush x:Key="CaffeBorderBrush" Color="#E0E0E0" />
+      <SolidColorBrush x:Key="CaffeDisabledBrush" Color="#591B4332" />
+
+      <!-- Temperature gradient colors -->
+      <SolidColorBrush x:Key="CaffeTempRedBrush" Color="#C1121F" />
+      <SolidColorBrush x:Key="CaffeTempRedLightBrush" Color="#E07070" />
+
+      <!-- Espresso Card Style with proper click handling -->
+      <Style x:Key="EspressoCardStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource CaffeSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid x:Name="RootGrid" Translation="0,0,8">
+                <Grid.Shadow>
+                  <ThemeShadow />
+                </Grid.Shadow>
+                <Border x:Name="BackgroundBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}" />
+                <ContentPresenter x:Name="ContentPresenter"
+                                  Content="{TemplateBinding Content}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                      <VisualState.Setters>
+                        <Setter Target="RootGrid.Translation" Value="0,0,8" />
+                        <Setter Target="RootGrid.Opacity" Value="1" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="RootGrid.Translation" Value="0,-4,12" />
+                        <Setter Target="RootGrid.Opacity" Value="1" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="RootGrid.Translation" Value="0,0,4" />
+                        <Setter Target="RootGrid.Opacity" Value="0.95" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <VisualState.Setters>
+                        <Setter Target="RootGrid.Opacity" Value="0.5" />
+                      </VisualState.Setters>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

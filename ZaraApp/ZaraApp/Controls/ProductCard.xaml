@@ -1,0 +1,165 @@
+<UserControl
+    x:Class="ZaraApp.Controls.ProductCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:ZaraApp.Models"
+    Width="220">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Product Image -->
+        <Grid Grid.Row="0"
+              Height="293"
+              Background="#F5F5F5">
+
+            <Image Source="{Binding ImageUrl}"
+                   Stretch="UniformToFill"/>
+
+            <!-- Badge (bottom left) with Size Selector -->
+            <Button Width="28"
+                    Height="28"
+                    Background="White"
+                    BorderThickness="0"
+                    CornerRadius="2"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                    Margin="8"
+                    Padding="0">
+                <Button.Flyout>
+                    <Flyout Placement="Top">
+                        <StackPanel Width="200" Padding="8">
+                            <!-- Size List -->
+                            <ItemsControl ItemsSource="{Binding AvailableSizes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:SizeOption">
+                                        <Grid Height="44"
+                                              Margin="0,0,0,1"
+                                              Background="White">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="12,0">
+                                                <Button.Content>
+                                                    <Grid HorizontalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="{x:Bind Size}"
+                                                                   FontSize="14"
+                                                                   Foreground="#333333"
+                                                                   VerticalAlignment="Center"
+                                                                   HorizontalAlignment="Left"/>
+
+                                                        <!-- Coming Soon Label -->
+                                                        <StackPanel Grid.Column="1"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="6"
+                                                                    VerticalAlignment="Center"
+                                                                    Visibility="{x:Bind IsComingSoon}">
+                                                            <FontIcon Glyph="&#xE715;"
+                                                                      FontSize="12"
+                                                                      Foreground="#666666"/>
+                                                            <TextBlock Text="Coming soon"
+                                                                       FontSize="12"
+                                                                       Foreground="#666666"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Size Recommender Button -->
+                            <Border Height="1"
+                                    Background="#E5E5E5"
+                                    Margin="0,8,0,8"/>
+
+                            <Button HorizontalAlignment="Stretch"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="12,8">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="SIZE RECOMMENDER"
+                                               FontSize="12"
+                                               FontWeight="Medium"
+                                               Foreground="#8B7355"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+
+                <TextBlock Text="+"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+
+        <!-- Product Info -->
+        <Grid Grid.Row="1"
+              Background="White"
+              Padding="4,12,4,8">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Product Name -->
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal"
+                        Spacing="6">
+                <TextBlock Text="{Binding Name}"
+                           FontSize="11"
+                           Foreground="#666666"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ColorIndicator}"
+                           FontSize="11"
+                           Foreground="#999999"/>
+            </StackPanel>
+
+            <!-- Price and Bookmark -->
+            <Grid Grid.Row="1"
+                  Margin="0,6,0,0">
+
+                <TextBlock Text="{Binding Price}"
+                           FontSize="13"
+                           FontWeight="Medium"
+                           Foreground="Black"
+                           VerticalAlignment="Center"/>
+
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Width="24"
+                        Height="24"
+                        Padding="0">
+                    <FontIcon Glyph="&#xE734;"
+                              FontSize="16"
+                              Foreground="#999999"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

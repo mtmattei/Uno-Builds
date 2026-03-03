@@ -1,0 +1,270 @@
+<UserControl x:Class="Nexus.Presentation.Shell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:uen="using:Uno.Extensions.Navigation.UI"
+             xmlns:local="using:Nexus.Presentation">
+
+    <Grid Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Bar -->
+        <Border Grid.Row="0" Padding="24,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo Section -->
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <!-- Circuit Icon -->
+                    <Grid Width="24" Height="24">
+                        <Ellipse Width="4" Height="4" Fill="{ThemeResource NexusTextTertiaryBrush}"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
+                        <Ellipse Width="4" Height="4" Fill="{ThemeResource NexusTextTertiaryBrush}"
+                                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0"/>
+                        <Ellipse Width="4" Height="4" Fill="{ThemeResource NexusTextTertiaryBrush}"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Ellipse Width="4" Height="4" Fill="{ThemeResource NexusTextTertiaryBrush}"
+                                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,0,2"/>
+                        <Ellipse Width="4" Height="4" Fill="{ThemeResource NexusTextTertiaryBrush}"
+                                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"/>
+                    </Grid>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="NEXUS" Style="{ThemeResource NexusLogoStyle}"/>
+                        <TextBlock Text="INDUSTRIAL CONTROL SYSTEM"
+                                   Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusWarningBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- System Time and Status -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="SYS.TIME" Style="{ThemeResource NexusLabelMonoStyle}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ClockText" Text="00:00:00"
+                                   Style="{ThemeResource NexusBodyMonoStyle}"
+                                   Foreground="{ThemeResource NexusTextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Ellipse Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="CONNECTED" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Tab Navigation -->
+        <Border Grid.Row="1"
+                BorderBrush="{ThemeResource NexusBorderPrimaryBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="24,0">
+            <utu:TabBar x:Name="MainTabBar"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        SelectionChanged="MainTabBar_SelectionChanged">
+                <utu:TabBarItem x:Name="OverviewTab" Padding="0,12" Margin="0,0,32,0" Background="Transparent">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Ellipse x:Name="OverviewIndicator" Width="6" Height="6" Fill="{ThemeResource NexusTextPrimaryBrush}" VerticalAlignment="Center">
+                            <Ellipse.RenderTransform>
+                                <ScaleTransform x:Name="OverviewScale" ScaleX="1" ScaleY="1" CenterX="3" CenterY="3"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <TextBlock Text="OVERVIEW" Style="{ThemeResource NexusTabTextStyle}"
+                                   Foreground="{ThemeResource NexusTextPrimaryBrush}"/>
+                    </StackPanel>
+                    <utu:TabBarItem.Resources>
+                        <Storyboard x:Name="OverviewHoverIn">
+                            <DoubleAnimation Storyboard.TargetName="OverviewScale" 
+                                           Storyboard.TargetProperty="ScaleX"
+                                           To="1.5" Duration="0:0:0.2">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="OverviewScale" 
+                                           Storyboard.TargetProperty="ScaleY"
+                                           To="1.5" Duration="0:0:0.2">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="OverviewHoverOut">
+                            <DoubleAnimation Storyboard.TargetName="OverviewScale" 
+                                           Storyboard.TargetProperty="ScaleX"
+                                           To="1" Duration="0:0:0.2">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="OverviewScale" 
+                                           Storyboard.TargetProperty="ScaleY"
+                                           To="1" Duration="0:0:0.2">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </utu:TabBarItem.Resources>
+                </utu:TabBarItem>
+                <utu:TabBarItem x:Name="ProductionTab" Padding="0,12" Margin="0,0,32,0" Background="Transparent">
+                    <TextBlock x:Name="ProductionText" Text="PRODUCTION" Style="{ThemeResource NexusTabTextStyle}">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="ProductionTransform" Y="0"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <utu:TabBarItem.Resources>
+                        <Storyboard x:Name="ProductionHoverIn">
+                            <DoubleAnimation Storyboard.TargetName="ProductionTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="-2" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="ProductionHoverOut">
+                            <DoubleAnimation Storyboard.TargetName="ProductionTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="0" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </utu:TabBarItem.Resources>
+                </utu:TabBarItem>
+                <utu:TabBarItem x:Name="AnalyticsTab" Padding="0,12" Margin="0,0,32,0" Background="Transparent">
+                    <TextBlock x:Name="AnalyticsText" Text="ANALYTICS" Style="{ThemeResource NexusTabTextStyle}">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="AnalyticsTransform" Y="0"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <utu:TabBarItem.Resources>
+                        <Storyboard x:Name="AnalyticsHoverIn">
+                            <DoubleAnimation Storyboard.TargetName="AnalyticsTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="-2" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="AnalyticsHoverOut">
+                            <DoubleAnimation Storyboard.TargetName="AnalyticsTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="0" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </utu:TabBarItem.Resources>
+                </utu:TabBarItem>
+                <utu:TabBarItem x:Name="MaintenanceTab" Padding="0,12" Margin="0,0,32,0" Background="Transparent">
+                    <TextBlock x:Name="MaintenanceText" Text="MAINTENANCE" Style="{ThemeResource NexusTabTextStyle}">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="MaintenanceTransform" Y="0"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <utu:TabBarItem.Resources>
+                        <Storyboard x:Name="MaintenanceHoverIn">
+                            <DoubleAnimation Storyboard.TargetName="MaintenanceTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="-2" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="MaintenanceHoverOut">
+                            <DoubleAnimation Storyboard.TargetName="MaintenanceTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="0" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </utu:TabBarItem.Resources>
+                </utu:TabBarItem>
+                <utu:TabBarItem x:Name="SettingsTab" Padding="0,12" Margin="0,0,32,0" Background="Transparent">
+                    <TextBlock x:Name="SettingsText" Text="SETTINGS" Style="{ThemeResource NexusTabTextStyle}">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="SettingsTransform" Y="0"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <utu:TabBarItem.Resources>
+                        <Storyboard x:Name="SettingsHoverIn">
+                            <DoubleAnimation Storyboard.TargetName="SettingsTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="-2" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="SettingsHoverOut">
+                            <DoubleAnimation Storyboard.TargetName="SettingsTransform" 
+                                           Storyboard.TargetProperty="Y"
+                                           To="0" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </utu:TabBarItem.Resources>
+                </utu:TabBarItem>
+            </utu:TabBar>
+        </Border>
+
+        <!-- Content Area -->
+        <ContentPresenter x:Name="ContentArea" Grid.Row="2"/>
+
+        <!-- Footer Status Bar -->
+        <Border Grid.Row="3"
+                Background="{ThemeResource NexusBackgroundSecondaryBrush}"
+                BorderBrush="{ThemeResource NexusBorderPrimaryBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="24,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Spacing="24">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="NODE COUNT:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="847" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="LAST SYNC:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="2.4s AGO" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="LATENCY:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="12ms" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="v4.2.1" Style="{ThemeResource NexusStatusLabelStyle}"
+                           Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

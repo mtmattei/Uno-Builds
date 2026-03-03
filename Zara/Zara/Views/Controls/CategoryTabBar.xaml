@@ -1,0 +1,28 @@
+<UserControl x:Class="Zara.Views.Controls.CategoryTabBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:Zara.Models"
+             Height="45">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Disabled"
+                  Background="{StaticResource ZaraPrimaryBackgroundBrush}">
+        <ItemsControl x:Name="CategoriesItemsControl"
+                      ItemsSource="{x:Bind Categories, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="20" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:Category">
+                    <Button Content="{x:Bind Name}"
+                            Style="{StaticResource CategoryTabButtonStyle}"
+                            Click="OnCategoryClick"
+                            Tag="{x:Bind}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+
+</UserControl>

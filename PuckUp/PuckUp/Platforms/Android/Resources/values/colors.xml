@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Define any colors you need for your app here -->
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF4081</color>
+    
+    <!-- Make sure the splash color is defined here as well -->
+    <color name="uno_splash_color">#FFFFFF</color>
+</resources>

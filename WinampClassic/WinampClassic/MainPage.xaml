@@ -1,0 +1,700 @@
+<Page x:Class="WinampClassic.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:WinampClassic"
+      xmlns:controls="using:WinampClassic.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      AllowDrop="True"
+      KeyDown="OnKeyDown"
+      AutomationProperties.Name="Winamp Classic Player">
+
+    <!-- All brushes now live in WinampStyles.xaml. Only page-specific non-brush resources here. -->
+
+    <!-- Main Frame with classic Winamp brushed metal gradient -->
+    <Border Background="{StaticResource BrushedMetalBrush}"
+            BorderBrush="{StaticResource WinampLightBrush}"
+            BorderThickness="1,1,0,0"
+            CornerRadius="2">
+        <Border BorderBrush="{StaticResource WinampShadowBrush}"
+                BorderThickness="0,0,1,1"
+                CornerRadius="2">
+            <Grid RowDefinitions="22,26,*,Auto,Auto">
+
+                <!-- Region 1: Title Bar -->
+                <Border Grid.Row="0"
+                        Background="{StaticResource TitleBarBrush}"
+                        BorderBrush="{StaticResource WinampShadowBrush}"
+                        BorderThickness="0,0,0,1"
+                        PointerPressed="OnTitleBarPointerPressed"
+                        PointerMoved="OnTitleBarPointerMoved"
+                        PointerReleased="OnTitleBarPointerReleased"
+                        AutomationProperties.Name="Title bar">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <!-- Winamp Logo Text -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="W"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource WinampOrangeBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="INAMP"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource WinampLogoTextBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Window Controls -->
+                        <StackPanel Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    Spacing="2"
+                                    Margin="0,0,4,0"
+                                    VerticalAlignment="Center">
+                            <Button Width="12" Height="12"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="OnMinimizeClick"
+                                    ToolTipService.ToolTip="Minimize"
+                                    AutomationProperties.Name="Minimize">
+                                <Rectangle Width="8" Height="2" Fill="{StaticResource WinampTextBrush}" Margin="0,4,0,0" />
+                            </Button>
+                            <Button Width="12" Height="12"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="OnCloseClick"
+                                    ToolTipService.ToolTip="Close"
+                                    AutomationProperties.Name="Close">
+                                <TextBlock Text="X" FontSize="10" FontWeight="Bold" Foreground="{StaticResource WinampTextBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Region 2: Menu Bar with notch tab on right -->
+                <Grid Grid.Row="1">
+                    <Border Background="{StaticResource InsetBrush}"
+                            BorderBrush="{StaticResource WinampShadowBrush}"
+                            BorderThickness="0,0,0,1">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        Margin="4,0,0,0"
+                                        Spacing="0">
+                                <Button Background="Transparent" BorderThickness="0" Padding="8,4" MinWidth="0"
+                                        Click="OnOpenFileClick" AutomationProperties.Name="File menu">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="F" TextDecorations="Underline" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                        <TextBlock Text="ile" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Background="Transparent" BorderThickness="0" Padding="8,4" MinWidth="0"
+                                        Click="OnPlayClick" AutomationProperties.Name="Play menu">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="P" TextDecorations="Underline" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                        <TextBlock Text="lay" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Background="Transparent" BorderThickness="0" Padding="8,4" MinWidth="0"
+                                        AutomationProperties.Name="Options menu">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="O" TextDecorations="Underline" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                        <TextBlock Text="ptions" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Background="Transparent" BorderThickness="0" Padding="8,4" MinWidth="0"
+                                        AutomationProperties.Name="View menu">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="V" TextDecorations="Underline" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                        <TextBlock Text="iew" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Background="Transparent" BorderThickness="0" Padding="8,4" MinWidth="0"
+                                        AutomationProperties.Name="Help menu">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="H" TextDecorations="Underline" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                        <TextBlock Text="elp" Foreground="{StaticResource WinampTextBrush}" FontSize="16" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <!-- Notch tab -->
+                    <Border Background="{StaticResource InsetBrush}"
+                            BorderBrush="{StaticResource WinampShadowBrush}"
+                            BorderThickness="1,0,0,1"
+                            Width="28" Height="14"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,2,-12"
+                            CornerRadius="0,0,4,4">
+                        <TextBlock Text="&#x25BC;" FontSize="8" Foreground="{StaticResource WinampTextBrush}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,1" />
+                    </Border>
+                </Grid>
+
+                <!-- Region 3: LCD Display Panel with Shuffle/123 buttons on right -->
+                <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+                    <!-- LCD Display with inset border effect - flattened from 7 nesting levels to 3 -->
+                    <Grid Grid.Column="0" Margin="6,12,0,10">
+                        <!-- Outer inset frame layers (overlaid in same Grid, not nested) -->
+                        <Border Background="{StaticResource LcdInsetGradientBrush}" CornerRadius="18" />
+                        <Border Background="{StaticResource LcdInsetTopShadowBrush}" CornerRadius="18" />
+                        <Border Background="{StaticResource LcdInsetHorizontalShadowBrush}" CornerRadius="18" />
+                        <Border Background="{StaticResource LcdGlareHighlightBrush}" CornerRadius="18" />
+
+                        <!-- LCD screen itself (inset inside the frame) -->
+                        <Border Margin="3"
+                                Background="{StaticResource LcdTextureBrush}"
+                                CornerRadius="15">
+                            <!-- Inner shadow + glow border combined -->
+                            <Border CornerRadius="13"
+                                    Background="{StaticResource LcdInnerShadowBrush}"
+                                    BorderBrush="{StaticResource LcdBorderAccentBrush}"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <!-- LCD Content -->
+                                    <Grid Padding="18,0,10,0" RowDefinitions="*,Auto">
+                                        <!-- Top Row: Time, Metadata, Spectrum -->
+                                        <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*">
+
+                                            <!-- Time Display with Status -->
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8"
+                                                        AutomationProperties.Name="Playback time display">
+                                                <TextBlock x:Name="PlaybackStatusIcon"
+                                                           Text="&#x25B6;"
+                                                           FontFamily="{StaticResource LcdPixelFont}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource LcdGreenBrush}"
+                                                           VerticalAlignment="Center"
+                                                           AutomationProperties.Name="Playback status" />
+                                                <Grid Tapped="OnTimeDisplayTapped"
+                                                      AutomationProperties.Name="Toggle time display">
+                                                    <!-- Ghost segments -->
+                                                    <TextBlock Text="8:88"
+                                                               FontFamily="{StaticResource DigitalClockFont}"
+                                                               FontSize="36" FontWeight="Bold"
+                                                               Foreground="{StaticResource LcdGhostSegmentBrush}"
+                                                               VerticalAlignment="Center" />
+                                                    <!-- Active time -->
+                                                    <TextBlock x:Name="TimeDisplay"
+                                                               Text="0:00"
+                                                               FontFamily="{StaticResource DigitalClockFont}"
+                                                               FontSize="36" FontWeight="Bold"
+                                                               Foreground="{StaticResource LcdGreenBrush}"
+                                                               VerticalAlignment="Center"
+                                                               AutomationProperties.Name="Current time" />
+                                                </Grid>
+                                            </StackPanel>
+
+                                            <!-- Metadata boxes -->
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        Margin="16,0,0,0"
+                                                        Spacing="20">
+                                                <!-- KBPS + STEREO -->
+                                                <StackPanel Orientation="Vertical" Spacing="6">
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="KBPS:" FontFamily="{StaticResource LcdPixelFont}"
+                                                                   FontSize="7" Foreground="{StaticResource LcdGreenDimBrush}"
+                                                                   VerticalAlignment="Center" />
+                                                        <Border Background="{StaticResource LcdWhiteBoxBrush}" CornerRadius="2" Padding="4,1">
+                                                            <TextBlock x:Name="BitrateDisplay" Text="128"
+                                                                       FontFamily="{StaticResource LcdPixelFont}" FontSize="9"
+                                                                       Foreground="{StaticResource LcdBgBrush}" VerticalAlignment="Center"
+                                                                       AutomationProperties.Name="Bitrate" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <TextBlock Text="&#x1F4BF;" FontSize="8"
+                                                                   Foreground="{StaticResource LcdGreenDimBrush}"
+                                                                   VerticalAlignment="Center" Opacity="0.6" />
+                                                        <Border Background="{StaticResource LcdWhiteBoxBrush}" CornerRadius="2" Padding="6,2">
+                                                            <TextBlock x:Name="ChannelDisplay" Text="STEREO"
+                                                                       FontFamily="{StaticResource LcdPixelFont}" FontSize="7"
+                                                                       Foreground="{StaticResource LcdBgBrush}" VerticalAlignment="Center"
+                                                                       AutomationProperties.Name="Channel mode" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <!-- KHZ + Shuffle icon -->
+                                                <StackPanel Orientation="Vertical" Spacing="2">
+                                                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Top">
+                                                        <TextBlock Text="KHZ:" FontFamily="{StaticResource LcdPixelFont}"
+                                                                   FontSize="7" Foreground="{StaticResource LcdGreenDimBrush}"
+                                                                   VerticalAlignment="Center" />
+                                                        <Border Background="{StaticResource LcdWhiteBoxBrush}" CornerRadius="2" Padding="4,1">
+                                                            <TextBlock x:Name="SampleRateDisplay" Text="44"
+                                                                       FontFamily="{StaticResource LcdPixelFont}" FontSize="9"
+                                                                       Foreground="{StaticResource LcdBgBrush}" VerticalAlignment="Center"
+                                                                       AutomationProperties.Name="Sample rate" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <Grid x:Name="LcdShuffleIcon" Width="18" Height="18" HorizontalAlignment="Left" Opacity="0.3">
+                                                        <Path Data="M 3,13 L 13,3 M 10,3 L 13,3 L 13,6"
+                                                              Stroke="{StaticResource LcdWhiteBoxBrush}" StrokeThickness="2" />
+                                                        <Path Data="M 3,5 L 13,15 M 10,15 L 13,15 L 13,12"
+                                                              Stroke="{StaticResource LcdWhiteBoxBrush}" StrokeThickness="2" />
+                                                    </Grid>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <!-- Spectrum Analyzer -->
+                                            <Grid Grid.Column="2"
+                                                  x:Name="SpectrumAnalyzer"
+                                                  Margin="8,0" Height="58" MinWidth="160"
+                                                  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                  AutomationProperties.Name="Spectrum analyzer">
+                                                <ItemsControl x:Name="SpectrumBars">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal" Spacing="3" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                </ItemsControl>
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- Ticker -->
+                                        <Border Grid.Row="1"
+                                                Margin="-18,0,-10,0"
+                                                Background="{StaticResource TickerBgBrush}"
+                                                CornerRadius="0,0,12,12"
+                                                Height="29" VerticalAlignment="Bottom"
+                                                Padding="18,0,10,0">
+                                            <Grid VerticalAlignment="Center">
+                                                <Grid.Clip>
+                                                    <RectangleGeometry Rect="0,0,600,24" />
+                                                </Grid.Clip>
+                                                <Canvas x:Name="TickerCanvas" Height="24" VerticalAlignment="Center">
+                                                    <TextBlock x:Name="SongTitleTicker"
+                                                               Text="DJ MIKE LLAMA - LLAMA WHIPPIN'"
+                                                               FontFamily="{StaticResource BitcountFont}"
+                                                               FontSize="18"
+                                                               Foreground="{StaticResource TickerTextBrush}"
+                                                               Canvas.Top="3"
+                                                               AutomationProperties.Name="Now playing">
+                                                        <TextBlock.RenderTransform>
+                                                            <TranslateTransform x:Name="TickerTransform" />
+                                                        </TextBlock.RenderTransform>
+                                                    </TextBlock>
+                                                </Canvas>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </Grid>
+
+                    <!-- Shuffle and 123 buttons -->
+                    <StackPanel Grid.Column="1"
+                                Orientation="Vertical" Spacing="6"
+                                Margin="12,6,12,6" VerticalAlignment="Center">
+                        <!-- Shuffle Button -->
+                        <StackPanel Orientation="Horizontal" Spacing="4"
+                                    AutomationProperties.Name="Shuffle toggle">
+                            <Grid>
+                                <Ellipse Width="36" Height="36" Fill="{StaticResource DropShadowBrush}" Margin="2,2,0,0" />
+                                <Ellipse Width="36" Height="36" Fill="{StaticResource RoundButtonBrush}"
+                                         Stroke="{StaticResource ButtonStrokeBrush}" StrokeThickness="1" />
+                                <Ellipse Width="34" Height="34" Stroke="{StaticResource InnerBevelDarkBrush}"
+                                         StrokeThickness="1" Margin="1,1,0,0" />
+                                <Ellipse Width="28" Height="14" Fill="{StaticResource SpecularHighlightBrush}"
+                                         VerticalAlignment="Top" Margin="4,4,4,0" />
+                                <Grid Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Path Data="M 3,14 L 14,3 M 11,3 L 14,3 L 14,6"
+                                          Stroke="{StaticResource WinampTextBrush}" StrokeThickness="2.5" />
+                                    <Path Data="M 3,6 L 14,17 M 11,17 L 14,17 L 14,14"
+                                          Stroke="{StaticResource WinampTextBrush}" StrokeThickness="2.5" />
+                                </Grid>
+                            </Grid>
+                            <Grid Width="7" Height="7" VerticalAlignment="Center">
+                                <Ellipse Fill="{StaticResource InnerBevelDarkBrush}" Margin="0.5,0.5,0,0" />
+                                <Ellipse x:Name="ShuffleIndicator" Fill="{StaticResource ShuffleIndicatorBrush}"
+                                         Stroke="{StaticResource ShuffleIndicatorStrokeBrush}" StrokeThickness="0.5" />
+                                <Ellipse Width="4" Height="2" Fill="{StaticResource InnerBevelLightBrush}"
+                                         VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- 123 (Repeat) Button -->
+                        <StackPanel Orientation="Horizontal" Spacing="4"
+                                    AutomationProperties.Name="Repeat toggle">
+                            <Grid>
+                                <Ellipse Width="36" Height="36" Fill="{StaticResource DropShadowBrush}" Margin="2,2,0,0" />
+                                <Ellipse Width="36" Height="36" Fill="{StaticResource RoundButtonBrush}"
+                                         Stroke="{StaticResource ButtonStrokeBrush}" StrokeThickness="1" />
+                                <Ellipse Width="34" Height="34" Stroke="{StaticResource InnerBevelDarkBrush}"
+                                         StrokeThickness="1" Margin="1,1,0,0" />
+                                <Ellipse Width="28" Height="14" Fill="{StaticResource SpecularHighlightBrush}"
+                                         VerticalAlignment="Top" Margin="4,4,4,0" />
+                                <TextBlock Text="123" FontSize="10" FontWeight="Bold"
+                                           Foreground="{StaticResource WinampTextBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <Grid Width="7" Height="7" VerticalAlignment="Center">
+                                <Ellipse Fill="{StaticResource InnerBevelDarkBrush}" Margin="0.5,0.5,0,0" />
+                                <Ellipse x:Name="RepeatIndicator" Fill="{StaticResource ShuffleIndicatorBrush}"
+                                         Stroke="{StaticResource ShuffleIndicatorStrokeBrush}" StrokeThickness="0.5" />
+                                <Ellipse Width="4" Height="2" Fill="{StaticResource InnerBevelLightBrush}"
+                                         VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Region 4: Transport Controls -->
+                <Grid Grid.Row="3" Margin="6,4,6,4" RowDefinitions="Auto,Auto">
+
+                    <!-- Seek Bar with embossed handle and 3 buttons on right -->
+                    <Grid Grid.Row="0" Margin="0,2,0,6" ColumnDefinitions="*,Auto">
+                        <!-- Seek slider track -->
+                        <Grid Grid.Column="0" VerticalAlignment="Center" Height="18"
+                              AutomationProperties.Name="Seek position">
+                            <Grid Height="12" VerticalAlignment="Center">
+                                <Border Background="{StaticResource SlotInsetVerticalBrush}" CornerRadius="6" />
+                                <Border Background="{StaticResource SlotShadowHorizontalBrush}" CornerRadius="6" />
+                                <Border Background="{StaticResource SlotHighlightHorizontalBrush}" CornerRadius="6" />
+                                <Border Background="{StaticResource SlotCenterLineVerticalBrush}"
+                                        CornerRadius="3" Height="4" VerticalAlignment="Center" Margin="3,0" />
+                                <Border x:Name="SeekProgress"
+                                        Background="{StaticResource LcdGreenBrush}" CornerRadius="3"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Height="4" Margin="3,0" Width="0" />
+                            </Grid>
+                            <Canvas x:Name="SeekThumbCanvas" Height="18">
+                                <Border x:Name="SeekThumbShadow" Width="12" Height="26"
+                                        Background="{StaticResource InnerBevelDarkBrush}" CornerRadius="2"
+                                        Canvas.Left="1" Canvas.Top="-3" />
+                                <Border x:Name="SeekThumb" Width="12" Height="26"
+                                        Background="{StaticResource SliderThumbBrush}"
+                                        BorderBrush="{StaticResource WinampShadowBrush}" BorderThickness="1"
+                                        CornerRadius="2" Canvas.Left="0" Canvas.Top="-4">
+                                    <Border BorderBrush="{StaticResource InnerBevelLightBrush}"
+                                            BorderThickness="1,1,0,0" CornerRadius="1" Margin="1" />
+                                </Border>
+                            </Canvas>
+                            <Slider x:Name="SeekSlider" Minimum="0" Maximum="100" Value="0"
+                                    Background="Transparent" Foreground="Transparent" Opacity="0"
+                                    IsHitTestVisible="True" VerticalAlignment="Stretch"
+                                    ValueChanged="OnSeekValueChanged"
+                                    PointerReleased="OnSeekPointerReleased"
+                                    PointerPressed="OnSeekPointerPressed"
+                                    AutomationProperties.Name="Seek slider" />
+                        </Grid>
+
+                        <!-- Eject/PL/ML buttons -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4"
+                                    Margin="8,0,0,0" VerticalAlignment="Center">
+                            <!-- Eject -->
+                            <Grid ToolTipService.ToolTip="Open File" Tapped="OnOpenFileTapped"
+                                  AutomationProperties.Name="Open file">
+                                <Border Width="26" Height="20" Background="{StaticResource DropShadowLightBrush}"
+                                        CornerRadius="6" Margin="1,1,0,0" />
+                                <Border Width="26" Height="20" Background="{StaticResource RoundButtonBrush}"
+                                        BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1" CornerRadius="6">
+                                    <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                            CornerRadius="5" Margin="1">
+                                        <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                CornerRadius="5">
+                                            <TextBlock Text="&#x23CF;" FontSize="11"
+                                                       Foreground="{StaticResource WinampTextBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                            <!-- PL -->
+                            <Grid x:Name="PlToggle" ToolTipService.ToolTip="Playlist"
+                                  AutomationProperties.Name="Playlist">
+                                <Border Width="26" Height="20" Background="{StaticResource DropShadowLightBrush}"
+                                        CornerRadius="6" Margin="1,1,0,0" />
+                                <Border Width="26" Height="20" Background="{StaticResource RoundButtonBrush}"
+                                        BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1" CornerRadius="6">
+                                    <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                            CornerRadius="5" Margin="1">
+                                        <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                CornerRadius="5">
+                                            <TextBlock Text="PL" FontSize="9" FontWeight="Bold"
+                                                       Foreground="{StaticResource WinampTextBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                            <!-- ML -->
+                            <Grid x:Name="MlToggle" ToolTipService.ToolTip="Media Library"
+                                  AutomationProperties.Name="Media Library">
+                                <Border Width="26" Height="20" Background="{StaticResource DropShadowLightBrush}"
+                                        CornerRadius="6" Margin="1,1,0,0" />
+                                <Border Width="26" Height="20" Background="{StaticResource RoundButtonBrush}"
+                                        BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1" CornerRadius="6">
+                                    <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                            CornerRadius="5" Margin="1">
+                                        <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                CornerRadius="5">
+                                            <TextBlock Text="ML" FontSize="9" FontWeight="Bold"
+                                                       Foreground="{StaticResource WinampTextBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Transport and Volume -->
+                    <Grid Grid.Row="1" Height="48">
+
+                        <!-- Volume Section (background layer) -->
+                        <Border Background="{StaticResource InsetBrush}"
+                                BorderBrush="{StaticResource TransportStrokeBrush}" BorderThickness="1"
+                                CornerRadius="4" Margin="0,4,0,0" HorizontalAlignment="Stretch">
+                            <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="2,2,0,0"
+                                    CornerRadius="3" Margin="-1">
+                                <Border BorderBrush="{StaticResource InnerHighlightBrush}" BorderThickness="0,0,2,2"
+                                        CornerRadius="3" Margin="-1">
+                                    <Grid ColumnDefinitions="*,Auto" HorizontalAlignment="Right" Width="260">
+                                        <!-- Volume slider -->
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="2"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="VOL" FontSize="8" FontWeight="Bold"
+                                                       Foreground="{StaticResource WinampTextDimBrush}" VerticalAlignment="Center" />
+                                            <Grid VerticalAlignment="Center" Height="18" Width="110"
+                                                  AutomationProperties.Name="Volume control">
+                                                <Grid Height="12" VerticalAlignment="Center">
+                                                    <Border Background="{StaticResource SlotInsetVerticalBrush}" CornerRadius="6" />
+                                                    <Border Background="{StaticResource SlotShadowHorizontalBrush}" CornerRadius="6" />
+                                                    <Border Background="{StaticResource SlotHighlightHorizontalBrush}" CornerRadius="6" />
+                                                    <Border Background="{StaticResource SlotCenterLineVerticalBrush}"
+                                                            CornerRadius="3" Height="4" VerticalAlignment="Center" Margin="3,0" />
+                                                    <Border x:Name="VolumeProgress"
+                                                            Background="{StaticResource LcdGreenBrush}" CornerRadius="3"
+                                                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                            Height="4" Margin="3,0" Width="70" />
+                                                </Grid>
+                                                <Canvas x:Name="VolumeThumbCanvas" Height="18">
+                                                    <Border x:Name="VolumeThumbShadow" Width="10" Height="16"
+                                                            Background="{StaticResource InnerBevelDarkBrush}" CornerRadius="2"
+                                                            Canvas.Left="71" Canvas.Top="2" />
+                                                    <Border x:Name="VolumeThumb" Width="10" Height="16"
+                                                            Background="{StaticResource SliderThumbBrush}"
+                                                            BorderBrush="{StaticResource WinampShadowBrush}" BorderThickness="1"
+                                                            CornerRadius="2" Canvas.Left="70" Canvas.Top="1">
+                                                        <Border BorderBrush="{StaticResource InnerBevelLightBrush}"
+                                                                BorderThickness="1,1,0,0" CornerRadius="1" Margin="1" />
+                                                    </Border>
+                                                </Canvas>
+                                                <Slider x:Name="VolumeSlider" Minimum="0" Maximum="100" Value="75"
+                                                        Background="Transparent" Foreground="Transparent" Opacity="0.01"
+                                                        VerticalAlignment="Stretch"
+                                                        ValueChanged="OnVolumeValueChanged"
+                                                        AutomationProperties.Name="Volume slider" />
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <!-- CONFIG + lightning bolt -->
+                                        <Grid Grid.Column="1" Tapped="OnConfigClick" Background="Transparent"
+                                              VerticalAlignment="Center" Margin="0,0,8,0"
+                                              AutomationProperties.Name="Toggle equalizer">
+                                            <StackPanel Orientation="Horizontal" Spacing="2">
+                                                <TextBlock Text="CONFIG" FontSize="8" FontWeight="Bold"
+                                                           Foreground="{StaticResource WinampTextDimBrush}" VerticalAlignment="Center" />
+                                                <TextBlock x:Name="ConfigArrow" Text="&#x26A1;" FontSize="26"
+                                                           VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                                           ToolTipService.ToolTip="Toggle Equalizer">
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform x:Name="ConfigArrowRotation" Angle="25" />
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Border>
+                        </Border>
+
+                        <!-- Sound/Speaker button -->
+                        <Grid ToolTipService.ToolTip="Sound" Width="22" Height="22"
+                              VerticalAlignment="Center" HorizontalAlignment="Left" Margin="300,4,0,0"
+                              AutomationProperties.Name="Sound">
+                            <Ellipse Fill="{StaticResource DropShadowLightBrush}" Margin="1.5,1.5,0,0" />
+                            <Ellipse Fill="{StaticResource RoundButtonBrush}"
+                                     Stroke="{StaticResource TransportStrokeBrush}" StrokeThickness="1" />
+                            <Ellipse Width="20" Height="20" Stroke="{StaticResource InnerShadowBrush}"
+                                     StrokeThickness="1" Margin="1,1,0,0" />
+                            <Ellipse Width="14" Height="6" Fill="{StaticResource SpecularHighlightBrush}"
+                                     VerticalAlignment="Top" Margin="3,2,3,0" />
+                            <TextBlock Text="&#x1F50A;" FontSize="10"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Transport Section (foreground layer) -->
+                        <Grid HorizontalAlignment="Left" Width="288">
+                            <Path Fill="{StaticResource BrushedMetalBrush}"
+                                  Stroke="{StaticResource TransportStrokeBrush}" StrokeThickness="1"
+                                  IsHitTestVisible="False"
+                                  Data="M 4,0 L 264,0 Q 284,0 288,24 Q 284,48 264,48 L 4,48 C 1,48 0,47 0,44 L 0,4 C 0,1 1,0 4,0 Z" />
+                            <Path Fill="Transparent" Stroke="{StaticResource InnerBevelLightBrush}" StrokeThickness="1"
+                                  IsHitTestVisible="False"
+                                  Data="M 4,1 L 263,1 Q 283,1 286,24" />
+                            <Path Fill="Transparent" Stroke="{StaticResource InnerBevelDarkBrush}" StrokeThickness="1"
+                                  IsHitTestVisible="False"
+                                  Data="M 286,25 Q 283,47 263,47 L 4,47" />
+                            <!-- Transport buttons -->
+                            <StackPanel Orientation="Horizontal" Spacing="3"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Margin="0,0,20,0" Background="Transparent">
+                                <!-- Previous -->
+                                <Grid x:Name="PrevButton" ToolTipService.ToolTip="Previous"
+                                      Tapped="OnPreviousTapped" Background="Transparent"
+                                      PointerPressed="OnTransportButtonPressed" PointerReleased="OnTransportButtonReleased"
+                                      PointerExited="OnTransportButtonReleased"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      AutomationProperties.Name="Previous track">
+                                    <Grid.RenderTransform>
+                                        <RotateTransform Angle="25" />
+                                    </Grid.RenderTransform>
+                                    <Ellipse Width="47" Height="34" Fill="{StaticResource DropShadowBrush}"
+                                             Margin="2.5,2.5,0,0" IsHitTestVisible="False" />
+                                    <Ellipse Width="47" Height="34" Fill="{StaticResource ButtonMetalBrush}"
+                                             Stroke="{StaticResource ButtonStrokeBrush}" StrokeThickness="1" IsHitTestVisible="False" />
+                                    <Ellipse Width="44" Height="31" Stroke="{StaticResource InnerBevelDarkBrush}"
+                                             StrokeThickness="1" Margin="1.5,1.5,0,0" IsHitTestVisible="False" />
+                                    <Ellipse Width="36" Height="12" Fill="{StaticResource SpecularHighlightBrush}"
+                                             VerticalAlignment="Top" Margin="5,5,5,0" IsHitTestVisible="False" />
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                                        <StackPanel.RenderTransform>
+                                            <RotateTransform Angle="-25" />
+                                        </StackPanel.RenderTransform>
+                                        <TextBlock Text="&#x25C0;" FontSize="12" Foreground="{StaticResource WinampTextBrush}" Margin="-2,0,0,0" />
+                                        <TextBlock Text="&#x25C0;" FontSize="12" Foreground="{StaticResource WinampTextBrush}" Margin="-4,0,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                                <!-- Play -->
+                                <Grid x:Name="PlayButton" ToolTipService.ToolTip="Play"
+                                      Tapped="OnPlayTapped" Background="Transparent"
+                                      PointerPressed="OnTransportButtonPressed" PointerReleased="OnTransportButtonReleased"
+                                      PointerExited="OnTransportButtonReleased"
+                                      AutomationProperties.Name="Play">
+                                    <Border Width="38" Height="38" Background="{StaticResource DropShadowLightBrush}"
+                                            CornerRadius="19" Margin="1,1,0,0" IsHitTestVisible="False" />
+                                    <Border Width="38" Height="38" Background="{StaticResource RoundButtonBrush}"
+                                            BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1"
+                                            CornerRadius="19" IsHitTestVisible="False">
+                                        <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                                CornerRadius="18" Margin="1">
+                                            <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                    CornerRadius="18">
+                                                <TextBlock Text="&#x25B6;" FontSize="17" Foreground="{StaticResource PlayButtonForegroundBrush}"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <!-- Pause -->
+                                <Grid x:Name="PauseButton" ToolTipService.ToolTip="Pause"
+                                      Tapped="OnPauseTapped" Background="Transparent"
+                                      PointerPressed="OnTransportButtonPressed" PointerReleased="OnTransportButtonReleased"
+                                      PointerExited="OnTransportButtonReleased"
+                                      AutomationProperties.Name="Pause">
+                                    <Border Width="38" Height="38" Background="{StaticResource DropShadowLightBrush}"
+                                            CornerRadius="19" Margin="1,1,0,0" IsHitTestVisible="False" />
+                                    <Border Width="38" Height="38" Background="{StaticResource RoundButtonBrush}"
+                                            BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1"
+                                            CornerRadius="19" IsHitTestVisible="False">
+                                        <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                                CornerRadius="18" Margin="1">
+                                            <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                    CornerRadius="18">
+                                                <TextBlock Text="&#x275A;&#x275A;" FontSize="14" Foreground="{StaticResource WinampTextBrush}"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <!-- Stop -->
+                                <Grid x:Name="StopButton" ToolTipService.ToolTip="Stop"
+                                      Tapped="OnStopTapped" Background="Transparent"
+                                      PointerPressed="OnTransportButtonPressed" PointerReleased="OnTransportButtonReleased"
+                                      PointerExited="OnTransportButtonReleased"
+                                      AutomationProperties.Name="Stop">
+                                    <Border Width="38" Height="38" Background="{StaticResource DropShadowLightBrush}"
+                                            CornerRadius="19" Margin="1,1,0,0" IsHitTestVisible="False" />
+                                    <Border Width="38" Height="38" Background="{StaticResource RoundButtonBrush}"
+                                            BorderBrush="{StaticResource ButtonStrokeBrush}" BorderThickness="1"
+                                            CornerRadius="19" IsHitTestVisible="False">
+                                        <Border BorderBrush="{StaticResource InnerBevelLightBrush}" BorderThickness="1,1,0,0"
+                                                CornerRadius="18" Margin="1">
+                                            <Border BorderBrush="{StaticResource InnerBevelDarkBrush}" BorderThickness="0,0,1,1"
+                                                    CornerRadius="18">
+                                                <TextBlock Text="&#x25A0;" FontSize="17" Foreground="{StaticResource WinampTextBrush}"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <!-- Next -->
+                                <Grid x:Name="NextButton" ToolTipService.ToolTip="Next"
+                                      Tapped="OnNextTapped" Background="Transparent"
+                                      PointerPressed="OnTransportButtonPressed" PointerReleased="OnTransportButtonReleased"
+                                      PointerExited="OnTransportButtonReleased"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      AutomationProperties.Name="Next track">
+                                    <Grid.RenderTransform>
+                                        <RotateTransform Angle="-25" />
+                                    </Grid.RenderTransform>
+                                    <Ellipse Width="47" Height="34" Fill="{StaticResource DropShadowBrush}"
+                                             Margin="2.5,2.5,0,0" IsHitTestVisible="False" />
+                                    <Ellipse Width="47" Height="34" Fill="{StaticResource ButtonMetalBrush}"
+                                             Stroke="{StaticResource ButtonStrokeBrush}" StrokeThickness="1" IsHitTestVisible="False" />
+                                    <Ellipse Width="44" Height="31" Stroke="{StaticResource InnerBevelDarkBrush}"
+                                             StrokeThickness="1" Margin="1.5,1.5,0,0" IsHitTestVisible="False" />
+                                    <Ellipse Width="36" Height="12" Fill="{StaticResource SpecularHighlightBrush}"
+                                             VerticalAlignment="Top" Margin="5,5,5,0" IsHitTestVisible="False" />
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                                        <StackPanel.RenderTransform>
+                                            <RotateTransform Angle="25" />
+                                        </StackPanel.RenderTransform>
+                                        <TextBlock Text="&#x25B6;" FontSize="12" Foreground="{StaticResource WinampTextBrush}" Margin="0,0,-4,0" />
+                                        <TextBlock Text="&#x25B6;" FontSize="12" Foreground="{StaticResource WinampTextBrush}" Margin="0,0,-2,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
+                <!-- EQ Notch indicator -->
+                <Grid Grid.Row="3" HorizontalAlignment="Right" Margin="0,0,12,0" Height="8">
+                    <Path x:Name="EqNotch"
+                          Fill="{StaticResource EqNotchFillBrush}"
+                          Stroke="{StaticResource EqNotchStrokeBrush}"
+                          StrokeThickness="1"
+                          Data="M 0,0 L 50,0 L 50,4 Q 50,8 46,8 L 4,8 Q 0,8 0,4 Z"
+                          Visibility="Collapsed" />
+                </Grid>
+
+                <!-- Region 5: Equalizer Panel (Deferred with x:Load) -->
+                <controls:EqualizerPanel x:Name="EqualizerPanel"
+                                         Grid.Row="4"
+                                         x:Load="False"
+                                         Visibility="Collapsed"
+                                         HorizontalAlignment="Center"
+                                         Width="510"
+                                         Margin="0,-4,0,6"
+                                         CloseRequested="OnEqualizerCloseRequested" />
+            </Grid>
+        </Border>
+    </Border>
+</Page>

@@ -1,0 +1,97 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.StatCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FieldOpsPro.Presentation.Controls"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             PointerEntered="OnPointerEntered"
+             PointerExited="OnPointerExited">
+
+  <Border x:Name="CardBorder"
+          Background="{StaticResource BgCardBrush}"
+          BorderBrush="{StaticResource BorderColorBrush}"
+          BorderThickness="1"
+          CornerRadius="20"
+          Padding="20"
+          MinHeight="180">
+    <Border.RenderTransform>
+      <CompositeTransform x:Name="CardTransform" />
+    </Border.RenderTransform>
+
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <!-- Top Section: Icon + Label -->
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Icon -->
+        <Border x:Name="IconContainer"
+                Grid.Column="0"
+                Width="44"
+                Height="44"
+                CornerRadius="12">
+          <FontIcon x:Name="StatIcon"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+        </Border>
+
+        <!-- Label -->
+        <TextBlock x:Name="LabelText"
+                   Grid.Column="1"
+                   Style="{StaticResource CaptionStyle}"
+                   FontSize="12"
+                   Margin="12,0,0,0"
+                   VerticalAlignment="Center"
+                   TextWrapping="Wrap" />
+      </Grid>
+
+      <!-- Bottom Section: Value + Chart -->
+      <Grid Grid.Row="1" Margin="0,12,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Value and Change -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
+          <TextBlock x:Name="ValueText"
+                     Style="{StaticResource StatValueStyle}"
+                     FontSize="32" />
+
+          <StackPanel x:Name="ChangePanel"
+                      Orientation="Horizontal"
+                      Spacing="4"
+                      Margin="0,4,0,0">
+            <FontIcon x:Name="TrendIcon"
+                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="12" />
+            <TextBlock x:Name="ChangeText"
+                       FontSize="12"
+                       FontWeight="Medium" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Mini Chart -->
+        <lvc:CartesianChart x:Name="MiniChart"
+                            Grid.Column="1"
+                            Height="60"
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Bottom"
+                            TooltipPosition="Hidden"
+                            ZoomMode="None" />
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

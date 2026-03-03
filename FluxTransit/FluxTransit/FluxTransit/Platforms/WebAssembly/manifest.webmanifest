@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "FluxTransit",
+  "display": "standalone",
+  "name": "FluxTransit",
+  "short_name": "FluxTransit",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

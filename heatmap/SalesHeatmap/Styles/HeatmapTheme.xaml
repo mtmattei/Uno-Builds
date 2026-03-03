@@ -1,0 +1,158 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- DARK THEME (existing design)                -->
+        <!-- ════════════════════════════════════════════ -->
+        <ResourceDictionary x:Key="Dark">
+
+            <!-- Page -->
+            <SolidColorBrush x:Key="HeatmapPageBackgroundBrush" Color="#1A1A1E"/>
+
+            <!-- Card solid brushes -->
+            <SolidColorBrush x:Key="HeatmapPrimaryAccentBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapSecondaryAccentBrush" Color="#909090"/>
+            <SolidColorBrush x:Key="HeatmapTertiaryAccentBrush" Color="#606060"/>
+            <SolidColorBrush x:Key="HeatmapLiveIndicatorBrush" Color="#FFFFFF"/>
+
+            <!-- Text -->
+            <SolidColorBrush x:Key="HeatmapTextPrimaryBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapTextSecondaryBrush" Color="#B0FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapTextTertiaryBrush" Color="#70FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapTextMutedBrush" Color="#50FFFFFF"/>
+
+            <!-- Divider / containers -->
+            <SolidColorBrush x:Key="HeatmapDividerBrush" Color="#18FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapContainerBgBrush" Color="#40000000"/>
+            <SolidColorBrush x:Key="HeatmapGlowBrush" Color="#30FFFFFF"/>
+
+            <!-- Indicator dots -->
+            <SolidColorBrush x:Key="HeatmapMonthlyDotBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapYearlyDotBrush" Color="#808080"/>
+
+            <!-- City list -->
+            <SolidColorBrush x:Key="HeatmapCityNameBrush" Color="#BFFFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapCityValueBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapCityBorderBrush" Color="#0DFFFFFF"/>
+
+            <!-- Percentage change indicators -->
+            <SolidColorBrush x:Key="HeatmapPositiveChangeBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="HeatmapNegativeChangeBrush" Color="#646464"/>
+
+            <!-- Card gradient backgrounds -->
+            <LinearGradientBrush x:Key="HeatmapOuterGlowBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#25FFFFFF" Offset="0"/>
+                <GradientStop Color="#08FFFFFF" Offset="0.5"/>
+                <GradientStop Color="#15FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapCardBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#F0101018" Offset="0"/>
+                <GradientStop Color="#F00A0A0F" Offset="0.5"/>
+                <GradientStop Color="#F0080810" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapCardBorderBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#30FFFFFF" Offset="0"/>
+                <GradientStop Color="#10FFFFFF" Offset="0.5"/>
+                <GradientStop Color="#20FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapDividerGradientBrush" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="#1AFFFFFF" Offset="0.5"/>
+                <GradientStop Color="Transparent" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapOverlayBrush" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="Transparent" Offset="0.6"/>
+                <GradientStop Color="#800F0F19" Offset="1"/>
+            </LinearGradientBrush>
+
+            <!-- Intensity colors for converters -->
+            <Color x:Key="HeatmapLowIntensityColor">#1E1E1E</Color>
+            <Color x:Key="HeatmapHighIntensityColor">#D9D9D9</Color>
+
+        </ResourceDictionary>
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- LIGHT THEME                                 -->
+        <!-- ════════════════════════════════════════════ -->
+        <ResourceDictionary x:Key="Light">
+
+            <!-- Page -->
+            <SolidColorBrush x:Key="HeatmapPageBackgroundBrush" Color="#F0F0F4"/>
+
+            <!-- Card solid brushes -->
+            <SolidColorBrush x:Key="HeatmapPrimaryAccentBrush" Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapSecondaryAccentBrush" Color="#606070"/>
+            <SolidColorBrush x:Key="HeatmapTertiaryAccentBrush" Color="#909098"/>
+            <SolidColorBrush x:Key="HeatmapLiveIndicatorBrush" Color="#1A1A2E"/>
+
+            <!-- Text -->
+            <SolidColorBrush x:Key="HeatmapTextPrimaryBrush" Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapTextSecondaryBrush" Color="#601A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapTextTertiaryBrush" Color="#401A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapTextMutedBrush" Color="#301A1A2E"/>
+
+            <!-- Divider / containers -->
+            <SolidColorBrush x:Key="HeatmapDividerBrush" Color="#15000000"/>
+            <SolidColorBrush x:Key="HeatmapContainerBgBrush" Color="#0A000000"/>
+            <SolidColorBrush x:Key="HeatmapGlowBrush" Color="#10000000"/>
+
+            <!-- Indicator dots -->
+            <SolidColorBrush x:Key="HeatmapMonthlyDotBrush" Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapYearlyDotBrush" Color="#808090"/>
+
+            <!-- City list -->
+            <SolidColorBrush x:Key="HeatmapCityNameBrush" Color="#601A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapCityValueBrush" Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapCityBorderBrush" Color="#08000000"/>
+
+            <!-- Percentage change indicators -->
+            <SolidColorBrush x:Key="HeatmapPositiveChangeBrush" Color="#1A1A2E"/>
+            <SolidColorBrush x:Key="HeatmapNegativeChangeBrush" Color="#909098"/>
+
+            <!-- Card gradient backgrounds -->
+            <LinearGradientBrush x:Key="HeatmapOuterGlowBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#15000000" Offset="0"/>
+                <GradientStop Color="#05000000" Offset="0.5"/>
+                <GradientStop Color="#10000000" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapCardBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#F0FFFFFF" Offset="0"/>
+                <GradientStop Color="#F0FAFAFC" Offset="0.5"/>
+                <GradientStop Color="#F0F5F5FA" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapCardBorderBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#20000000" Offset="0"/>
+                <GradientStop Color="#08000000" Offset="0.5"/>
+                <GradientStop Color="#15000000" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapDividerGradientBrush" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="#15000000" Offset="0.5"/>
+                <GradientStop Color="Transparent" Offset="1"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="HeatmapOverlayBrush" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="Transparent" Offset="0"/>
+                <GradientStop Color="Transparent" Offset="0.6"/>
+                <GradientStop Color="#40F5F5FA" Offset="1"/>
+            </LinearGradientBrush>
+
+            <!-- Intensity colors for converters -->
+            <Color x:Key="HeatmapLowIntensityColor">#E0E0E4</Color>
+            <Color x:Key="HeatmapHighIntensityColor">#2A2A3E</Color>
+
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

@@ -1,0 +1,108 @@
+<UserControl
+    x:Class="Worn.Controls.DayCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid x:Name="CardRoot" Tapped="OnCardTapped"
+          AutomationProperties.AutomationId="DayCardFlip"
+          Height="200"
+          VerticalAlignment="Top"
+          RenderTransformOrigin="0.5,0.5"
+          PointerEntered="OnCardPointerEntered"
+          PointerExited="OnCardPointerExited">
+        <Grid.RenderTransform>
+            <TranslateTransform x:Name="CardLift" />
+        </Grid.RenderTransform>
+
+        <!-- FRONT FACE -->
+        <Border x:Name="FrontFace"
+                Background="{ThemeResource WornLinenBrush}"
+                CornerRadius="20"
+                Padding="16"
+                Translation="0,0,16"
+                RenderTransformOrigin="0.5,0.5">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="FrontScale" ScaleX="1" />
+            </Border.RenderTransform>
+
+            <utu:AutoLayout Orientation="Vertical" Spacing="8"
+                            HorizontalAlignment="Stretch">
+                <!-- Day abbreviation -->
+                <TextBlock x:Name="DayAbbrevText"
+                           Style="{StaticResource WornLabelStyle}"
+                           Foreground="{ThemeResource WornSlateBrush}" />
+
+                <!-- Emoji -->
+                <TextBlock x:Name="EmojiText"
+                           Style="{StaticResource WornEmojiLargeStyle}"
+                           HorizontalAlignment="Center" />
+
+                <!-- Headline -->
+                <TextBlock x:Name="HeadlineText"
+                           Style="{StaticResource WornCardTitleStyle}"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center" />
+
+                <!-- Fabrics -->
+                <TextBlock x:Name="FabricsText"
+                           Style="{StaticResource WornLabelStyle}"
+                           Foreground="{ThemeResource WornSlateBrush}"
+                           HorizontalAlignment="Center" />
+
+                <!-- Color swatch bar -->
+                <Border x:Name="SwatchBar"
+                        Height="4"
+                        CornerRadius="2"
+                        HorizontalAlignment="Stretch" />
+            </utu:AutoLayout>
+        </Border>
+
+        <!-- BACK FACE (initially hidden) -->
+        <Border x:Name="BackFace"
+                CornerRadius="20"
+                Padding="16"
+                Translation="0,0,16"
+                Opacity="0"
+                IsHitTestVisible="False"
+                RenderTransformOrigin="0.5,0.5">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="BackScale" ScaleX="0" />
+            </Border.RenderTransform>
+
+            <utu:AutoLayout Orientation="Vertical" Spacing="12"
+                            HorizontalAlignment="Stretch">
+                <!-- Back label -->
+                <TextBlock x:Name="BackLabelText"
+                           Style="{StaticResource WornLabelStyle}"
+                           Foreground="{ThemeResource WornGoldBrush}" />
+
+                <!-- Styling tip -->
+                <TextBlock x:Name="TipText"
+                           Style="{StaticResource WornCardTitleStyle}"
+                           FontStyle="Italic"
+                           TextWrapping="Wrap" />
+
+                <!-- Fabric detail -->
+                <TextBlock x:Name="BackFabricText"
+                           Style="{StaticResource WornBodyStyle}"
+                           Foreground="{ThemeResource WornSlateBrush}"
+                           TextWrapping="Wrap" />
+
+                <!-- Flip hint -->
+                <TextBlock Text="tap to flip back"
+                           Style="{StaticResource WornLabelStyle}"
+                           Foreground="{ThemeResource WornSlateBrush}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.6" />
+            </utu:AutoLayout>
+        </Border>
+    </Grid>
+</UserControl>

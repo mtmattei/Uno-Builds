@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <!-- Ice Blue Primary -->
+      <Color x:Key="PrimaryColor">#5BA4CF</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+      <Color x:Key="PrimaryContainerColor">#D4E9F5</Color>
+      <Color x:Key="OnPrimaryContainerColor">#0A2A3A</Color>
+      <!-- Warm Orange Secondary -->
+      <Color x:Key="SecondaryColor">#FF8C52</Color>
+      <Color x:Key="OnSecondaryColor">#FFFFFF</Color>
+      <Color x:Key="SecondaryContainerColor">#FFE5D9</Color>
+      <Color x:Key="OnSecondaryContainerColor">#3A1A0A</Color>
+      <!-- Teal Tertiary -->
+      <Color x:Key="TertiaryColor">#3B9B9B</Color>
+      <Color x:Key="OnTertiaryColor">#FFFFFF</Color>
+      <Color x:Key="TertiaryContainerColor">#B8E6E6</Color>
+      <Color x:Key="OnTertiaryContainerColor">#0A2525</Color>
+      <Color x:Key="ErrorColor">#D32F2F</Color>
+      <Color x:Key="ErrorContainerColor">#FFEBEE</Color>
+      <Color x:Key="OnErrorColor">#FFFFFF</Color>
+      <Color x:Key="OnErrorContainerColor">#5D0A0A</Color>
+      <Color x:Key="BackgroundColor">#F5F5F5</Color>
+      <Color x:Key="OnBackgroundColor">#1A1A1A</Color>
+      <Color x:Key="SurfaceColor">#FFFFFF</Color>
+      <Color x:Key="OnSurfaceColor">#1A1A1A</Color>
+      <Color x:Key="SurfaceVariantColor">#E8E8E8</Color>
+      <Color x:Key="OnSurfaceVariantColor">#6B6B6B</Color>
+      <Color x:Key="OutlineColor">#9E9E9E</Color>
+      <Color x:Key="OnSurfaceInverseColor">#F5F5F5</Color>
+      <Color x:Key="SurfaceInverseColor">#2A2E33</Color>
+      <Color x:Key="PrimaryInverseColor">#8BCDEE</Color>
+      <Color x:Key="SurfaceTintColor">#5BA4CF</Color>
+      <Color x:Key="OutlineVariantColor">#BDBDBD</Color>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <!-- Ice Blue Primary for Dark Mode -->
+      <Color x:Key="PrimaryColor">#7DD3FC</Color>
+      <Color x:Key="OnPrimaryColor">#0A2A3A</Color>
+      <Color x:Key="PrimaryContainerColor">#1E3A5F</Color>
+      <Color x:Key="OnPrimaryContainerColor">#7DD3FC</Color>
+      <!-- Warm Orange Secondary for Dark Mode -->
+      <Color x:Key="SecondaryColor">#FB923C</Color>
+      <Color x:Key="OnSecondaryColor">#1A1F26</Color>
+      <Color x:Key="SecondaryContainerColor">#7C2D12</Color>
+      <Color x:Key="OnSecondaryContainerColor">#FED7AA</Color>
+      <!-- Teal Tertiary for Dark Mode -->
+      <Color x:Key="TertiaryColor">#6BCECE</Color>
+      <Color x:Key="OnTertiaryColor">#0A2525</Color>
+      <Color x:Key="TertiaryContainerColor">#1E4D4D</Color>
+      <Color x:Key="OnTertiaryContainerColor">#B8E6E6</Color>
+      <Color x:Key="ErrorColor">#EF5350</Color>
+      <Color x:Key="ErrorContainerColor">#8C1D18</Color>
+      <Color x:Key="OnErrorColor">#370B0B</Color>
+      <Color x:Key="OnErrorContainerColor">#FFCCCB</Color>
+      <!-- Night Rink Background -->
+      <Color x:Key="BackgroundColor">#0C1118</Color>
+      <Color x:Key="OnBackgroundColor">#F1F5F9</Color>
+      <!-- Card Surface with subtle depth -->
+      <Color x:Key="SurfaceColor">#1E293B</Color>
+      <Color x:Key="OnSurfaceColor">#F1F5F9</Color>
+      <Color x:Key="SurfaceVariantColor">#334155</Color>
+      <Color x:Key="OnSurfaceVariantColor">#C4C7CB</Color>
+      <Color x:Key="OutlineColor">#8E9299</Color>
+      <Color x:Key="OnSurfaceInverseColor">#0F1419</Color>
+      <Color x:Key="SurfaceInverseColor">#E8EAED</Color>
+      <Color x:Key="PrimaryInverseColor">#2D5A72</Color>
+      <Color x:Key="SurfaceTintColor">#8BCDEE</Color>
+      <Color x:Key="OutlineVariantColor">#45484D</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

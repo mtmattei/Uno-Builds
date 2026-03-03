@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "ZaraApp",
+  "display": "standalone",
+  "name": "ZaraApp",
+  "short_name": "ZaraApp",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

@@ -1,0 +1,468 @@
+<Page x:Class="EnterpriseDashboard.Views.ObservatoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:controls="using:EnterpriseDashboard.Controls"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Page.Resources>
+    <SolidColorBrush x:Key="VendorBadgeBrush" Color="#FF26A69A" />
+    <SolidColorBrush x:Key="VendorBadgeBgBrush" Color="#1A26A69A" />
+    <SolidColorBrush x:Key="SkiaBadgeBrush" Color="#FF9E9E9E" />
+    <SolidColorBrush x:Key="SkiaBadgeBgBrush" Color="#1A9E9E9E" />
+  </Page.Resources>
+
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid Padding="16" RowSpacing="16" ColumnSpacing="16">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="360" />
+        <RowDefinition Height="360" />
+        <RowDefinition Height="360" />
+        <RowDefinition Height="360" />
+        <RowDefinition Height="360" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <!-- Row 0: Header -->
+      <Grid Grid.Row="0" Grid.ColumnSpan="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="PageTitle"
+                   Text="MONOCHROME OBSERVATORY"
+                   Style="{StaticResource TitleMedium}"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
+                   VerticalAlignment="Center"
+                   CharacterSpacing="200" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <TextBlock Text="MONO"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     VerticalAlignment="Center" />
+          <ToggleSwitch x:Name="ThemeToggle"
+                        OnContent="" OffContent=""
+                        Toggled="ThemeToggle_Toggled"
+                        MinWidth="0" />
+          <TextBlock Text="TERMINAL"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     VerticalAlignment="Center" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Row 1, Col 0: Signal Amplitude (Line) -->
+      <Border x:Name="Card01"
+              Grid.Row="1" Grid.Column="0"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  LineSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Signal Amplitude"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="SignalChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 1, Col 1: Monthly Throughput (Bar) -->
+      <Border x:Name="Card02"
+              Grid.Row="1" Grid.Column="1"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  ColumnSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Monthly Throughput"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="ThroughputChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 1, Col 2: Cumulative Load (Stacked Area) -->
+      <Border x:Name="Card03"
+              Grid.Row="1" Grid.Column="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  StackedAreaSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Cumulative Load"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="StackedAreaChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 2, Col 0: Correlation Matrix (Scatter) -->
+      <Border x:Name="Card04"
+              Grid.Row="2" Grid.Column="0"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  ScatterSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Correlation Matrix"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="ScatterChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 2, Col 1: Ranked Distribution (H-Bar) -->
+      <Border x:Name="Card05"
+              Grid.Row="2" Grid.Column="1"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  RowSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Ranked Distribution"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="HBarChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 2, Col 2: Performance Radar (Polar) -->
+      <Border x:Name="Card06"
+              Grid.Row="2" Grid.Column="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  PolarLineSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Performance Radar"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:PolarChart x:Name="RadarChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 3, Col 0: Temporal Heatmap (Custom SkiaSharp) -->
+      <Border x:Name="Card07"
+              Grid.Row="3" Grid.Column="0"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Temporal Heatmap"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:HeatmapChart x:Name="HeatmapCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 3, Col 1: Multi-Ring Gauge (Custom SkiaSharp) -->
+      <Border x:Name="Card08"
+              Grid.Row="3" Grid.Column="1"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Multi-Ring Gauge"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:ArcGaugeChart x:Name="ArcGaugeCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 3, Col 2: Completion Matrix (Custom SkiaSharp) -->
+      <Border x:Name="Card09"
+              Grid.Row="3" Grid.Column="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Completion Matrix"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:WaffleChart x:Name="WaffleCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 4, Col 0: System Health (Custom SkiaSharp) -->
+      <Border x:Name="Card10"
+              Grid.Row="4" Grid.Column="0"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="System Health"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:GaugeChart x:Name="GaugeCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 4, Col 1: Candlestick (LiveCharts2) -->
+      <Border x:Name="Card11"
+              Grid.Row="4" Grid.Column="1"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource VendorBadgeBgBrush}"
+                  BorderBrush="{StaticResource VendorBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="LiveCharts2  |  CandlesticksSeries"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource VendorBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Price Action"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <lvc:CartesianChart x:Name="CandlestickChart" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 4, Col 2: Network Topology (Custom SkiaSharp) -->
+      <Border x:Name="Card12"
+              Grid.Row="4" Grid.Column="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Network Topology"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:NetworkChart x:Name="NetworkCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 5, Col 0: Treemap (Custom SkiaSharp) -->
+      <Border x:Name="Card13"
+              Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Service Allocation Treemap"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:TreemapChart x:Name="TreemapCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+      <!-- Row 5, Col 2: Conversion Funnel (Custom SkiaSharp) -->
+      <Border x:Name="Card14"
+              Grid.Row="5" Grid.Column="2"
+              CornerRadius="8" Padding="16"
+              Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="1"
+              Translation="0,0,16">
+        <Border.Shadow><ThemeShadow /></Border.Shadow>
+        <Grid RowSpacing="6">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Border Background="{StaticResource SkiaBadgeBgBrush}"
+                  BorderBrush="{StaticResource SkiaBadgeBrush}"
+                  BorderThickness="1" CornerRadius="4" Padding="8,4"
+                  HorizontalAlignment="Left">
+            <TextBlock Text="SkiaSharp  |  Custom Render"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{StaticResource SkiaBadgeBrush}" />
+          </Border>
+          <TextBlock Grid.Row="1" Text="Conversion Funnel"
+                     Style="{StaticResource TitleMedium}"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <controls:FunnelChart x:Name="FunnelCanvas" Grid.Row="2" />
+        </Grid>
+      </Border>
+
+    </Grid>
+  </ScrollViewer>
+
+</Page>

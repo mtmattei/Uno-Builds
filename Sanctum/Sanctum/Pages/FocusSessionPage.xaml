@@ -1,0 +1,96 @@
+<UserControl x:Class="Sanctum.Pages.FocusSessionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Grid Background="{ThemeResource BackgroundBrush}">
+
+    <!-- Input Mode -->
+    <Grid Visibility="{x:Bind ViewModel.IsInputMode, Mode=OneWay}"
+          Padding="32">
+      <StackPanel HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Spacing="32"
+                  MaxWidth="600">
+
+        <TextBlock Text="What will you focus on?"
+                   Style="{StaticResource SectionHeaderStyle}"
+                   HorizontalAlignment="Center"/>
+
+        <TextBox x:Name="ObjectiveInput"
+                 Text="{x:Bind ViewModel.Objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PlaceholderText="Enter your single objective..."
+                 FontSize="24"
+                 TextAlignment="Center"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 HorizontalAlignment="Stretch"/>
+
+        <Button Content="Begin Session"
+                Style="{StaticResource PrimaryPillButtonStyle}"
+                Command="{x:Bind ViewModel.StartSessionCommand}"
+                HorizontalAlignment="Center"/>
+      </StackPanel>
+    </Grid>
+
+    <!-- Active Session Mode -->
+    <Grid Visibility="{x:Bind ViewModel.IsSessionActive, Mode=OneWay}"
+          Padding="32">
+      <StackPanel HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Spacing="48">
+
+        <!-- Auto-Responder Badge -->
+        <Border Background="{ThemeResource AllowedBackgroundBrush}"
+                CornerRadius="16"
+                Padding="16,8"
+                HorizontalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Ellipse Width="8" Height="8" Fill="{ThemeResource AllowedForegroundBrush}"/>
+            <TextBlock Text="Auto-Responder Active"
+                       Foreground="{ThemeResource AllowedForegroundBrush}"
+                       FontWeight="Medium"/>
+          </StackPanel>
+        </Border>
+
+        <!-- Objective Display -->
+        <TextBlock Text="{x:Bind ViewModel.Objective, Mode=OneWay}"
+                   Style="{StaticResource DisplayTextStyle}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   MaxWidth="600"/>
+
+        <!-- Timer Display -->
+        <TextBlock Text="{x:Bind ViewModel.TimerDisplay, Mode=OneWay}"
+                   FontSize="96"
+                   FontWeight="Light"
+                   HorizontalAlignment="Center"
+                   Foreground="{ThemeResource OnBackgroundBrush}"/>
+
+        <!-- Controls -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="16">
+
+          <!-- Pause/Play Button -->
+          <Button Command="{x:Bind ViewModel.TogglePauseCommand}"
+                  Width="64" Height="64"
+                  CornerRadius="32">
+            <FontIcon Glyph="{x:Bind GetPauseIcon(ViewModel.IsPaused), Mode=OneWay}"
+                      FontSize="24"/>
+          </Button>
+
+          <!-- Add Time Button -->
+          <Button Content="+10 min"
+                  Style="{StaticResource SecondaryButtonStyle}"
+                  Command="{x:Bind ViewModel.AddTimeCommand}"/>
+
+          <!-- End Session Button -->
+          <Button Content="End Session"
+                  Style="{StaticResource SecondaryButtonStyle}"
+                  Command="{x:Bind ViewModel.EndSessionCommand}"/>
+        </StackPanel>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

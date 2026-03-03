@@ -1,0 +1,29 @@
+<UserControl
+    x:Class="Worn.Controls.HeadlineTicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid x:Name="ClipHost" HorizontalAlignment="Left">
+        <Grid.Clip>
+            <RectangleGeometry x:Name="ClipRect" />
+        </Grid.Clip>
+
+        <!-- Current headline (slides out upward) -->
+        <TextBlock x:Name="CurrentText"
+                   Foreground="{ThemeResource WornTerracottaBrush}"
+                   RenderTransformOrigin="0,0.5">
+            <TextBlock.RenderTransform>
+                <TranslateTransform x:Name="CurrentTranslate" />
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <!-- Next headline (slides in from below) -->
+        <TextBlock x:Name="NextText"
+                   Foreground="{ThemeResource WornTerracottaBrush}"
+                   RenderTransformOrigin="0,0.5">
+            <TextBlock.RenderTransform>
+                <TranslateTransform x:Name="NextTranslate" />
+            </TextBlock.RenderTransform>
+        </TextBlock>
+    </Grid>
+</UserControl>

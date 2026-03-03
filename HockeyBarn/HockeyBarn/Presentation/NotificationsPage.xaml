@@ -1,0 +1,400 @@
+<Page x:Class="HockeyBarn.Presentation.NotificationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:HockeyBarn.Models"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <!-- Background gradient -->
+    <Grid.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#0C1118" Offset="0" />
+        <GradientStop Color="#1E293B" Offset="1" />
+      </LinearGradientBrush>
+    </Grid.Background>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <Border Grid.Row="0"
+            Background="{ThemeResource SurfaceColor}"
+            Padding="8,8,16,8">
+      <Grid>
+        <utu:AutoLayout Orientation="Horizontal"
+                        Spacing="12"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+          <FontIcon Glyph="&#xE8FE;"
+                    Foreground="{ThemeResource IceBlueBrush}"
+                    FontSize="28" />
+          <TextBlock Text="Activity"
+                     Style="{StaticResource MaterialHeadline6}"
+                     Foreground="{ThemeResource OnSurfaceColor}"
+                     FontWeight="Bold"
+                     VerticalAlignment="Center" />
+        </utu:AutoLayout>
+
+        <Button Background="Transparent"
+                HorizontalAlignment="Right"
+                Width="48"
+                Height="48">
+          <FontIcon Glyph="&#xE712;"
+                    FontSize="20"
+                    Foreground="{ThemeResource OnSurfaceColor}" />
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- Tabs -->
+    <Border Grid.Row="1"
+            Background="{ThemeResource SurfaceColor}"
+            BorderBrush="{ThemeResource OutlineVariantColor}"
+            BorderThickness="0,1,0,0">
+      <Grid Height="48">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Notifications Tab -->
+        <Button x:Name="NotificationsTab"
+                Grid.Column="0"
+                Background="Transparent"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="NotificationsTab_Click">
+          <Grid>
+            <TextBlock Text="Notifications"
+                       Style="{StaticResource MaterialSubtitle2}"
+                       Foreground="{ThemeResource IceBlueBrush}"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <Border x:Name="NotificationsTabIndicator"
+                    Height="3"
+                    Background="{ThemeResource IceBlueBrush}"
+                    VerticalAlignment="Bottom"
+                    CornerRadius="2,2,0,0" />
+          </Grid>
+        </Button>
+
+        <!-- Chat Tab -->
+        <Button x:Name="ChatTab"
+                Grid.Column="1"
+                Background="Transparent"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="ChatTab_Click">
+          <Grid>
+            <TextBlock Text="Chat"
+                       Style="{StaticResource MaterialSubtitle2}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <Border x:Name="ChatTabIndicator"
+                    Height="3"
+                    Background="Transparent"
+                    VerticalAlignment="Bottom"
+                    CornerRadius="2,2,0,0" />
+          </Grid>
+        </Button>
+
+      </Grid>
+    </Border>
+
+    <!-- Content -->
+    <ScrollViewer Grid.Row="2">
+      <utu:AutoLayout Orientation="Vertical"
+                      Spacing="0"
+                      Padding="0,16,0,80">
+
+        <!-- Alert Notification -->
+        <Border Background="#40FF8C52"
+                BorderBrush="{ThemeResource SecondaryColor}"
+                BorderThickness="2"
+                Margin="16,0,16,12"
+                CornerRadius="16"
+                Padding="20"
+                Translation="0,0,8">
+          <Border.Shadow>
+            <ThemeShadow />
+          </Border.Shadow>
+
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="16">
+
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="16">
+              <Border Width="56"
+                      Height="56"
+                      CornerRadius="28"
+                      Background="{ThemeResource SecondaryColor}">
+                <FontIcon Glyph="&#xE7BA;"
+                          FontSize="28"
+                          Foreground="White" />
+              </Border>
+
+              <utu:AutoLayout Orientation="Vertical"
+                              Spacing="4"
+                              PrimaryAxisAlignment="Center">
+                <TextBlock Text="ALERT: Goalie needed in 30 mins!"
+                           Style="{StaticResource MaterialSubtitle1}"
+                           Foreground="{ThemeResource OnSecondaryContainerColor}"
+                           FontWeight="Bold"
+                           TextWrapping="Wrap" />
+                <TextBlock Text="The Mighty Pucks are looking for a goalie for their game at Ice Palace."
+                           Style="{StaticResource MaterialBody2}"
+                           Foreground="{ThemeResource OnSecondaryContainerColor}"
+                           TextWrapping="Wrap"
+                           Opacity="0.9" />
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="12">
+              <Button Content="Dismiss"
+                      Background="{ThemeResource SurfaceVariantColor}"
+                      Foreground="{ThemeResource OnSurfaceColor}"
+                      CornerRadius="12"
+                      Height="44"
+                      Padding="24,0"
+                      BorderThickness="0" />
+              <Button Content="View Details"
+                      Background="{ThemeResource SecondaryColor}"
+                      Foreground="White"
+                      CornerRadius="12"
+                      Height="44"
+                      Padding="24,0"
+                      BorderThickness="0"
+                      FontWeight="SemiBold" />
+            </utu:AutoLayout>
+
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Regular Notifications -->
+        <ItemsRepeater x:Name="NotificationsList">
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="models:Notification">
+
+              <Border Background="{ThemeResource SurfaceColor}"
+                      Margin="16,0,16,12"
+                      CornerRadius="16"
+                      Padding="16"
+                      BorderBrush="{ThemeResource OutlineVariantColor}"
+                      BorderThickness="1">
+
+                <utu:AutoLayout Orientation="Horizontal"
+                                Spacing="12"
+                                Justify="SpaceBetween">
+
+                  <utu:AutoLayout Orientation="Horizontal"
+                                  Spacing="12">
+
+                    <!-- Icon -->
+                    <Border Width="48"
+                            Height="48"
+                            CornerRadius="24"
+                            Background="{Binding Type, Converter={StaticResource NotificationTypeColorConverter}}"
+                            VerticalAlignment="Top">
+                      <FontIcon Glyph="{Binding Type, Converter={StaticResource NotificationTypeIconConverter}}"
+                                FontSize="24"
+                                Foreground="{ThemeResource OnPrimaryContainerColor}" />
+                    </Border>
+
+                    <!-- Content -->
+                    <utu:AutoLayout Orientation="Vertical"
+                                    Spacing="4"
+                                    PrimaryAxisAlignment="Center">
+                      <TextBlock Text="{Binding Title}"
+                                 Style="{StaticResource MaterialSubtitle2}"
+                                 Foreground="{ThemeResource OnSurfaceColor}"
+                                 FontWeight="SemiBold"
+                                 TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding Message}"
+                                 Style="{StaticResource MaterialBody2}"
+                                 Foreground="{ThemeResource OnSurfaceVariantColor}"
+                                 TextWrapping="Wrap" />
+                    </utu:AutoLayout>
+
+                  </utu:AutoLayout>
+
+                  <!-- Badge -->
+                  <Border Width="12"
+                          Height="12"
+                          CornerRadius="6"
+                          Background="{ThemeResource IceBlueBrush}"
+                          VerticalAlignment="Center"
+                          Visibility="{Binding IsRead, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+
+                </utu:AutoLayout>
+
+              </Border>
+
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+        <!-- Chat Item Example -->
+        <Border Background="{ThemeResource SurfaceColor}"
+                Margin="16,0,16,12"
+                CornerRadius="16"
+                Padding="16"
+                BorderBrush="{ThemeResource OutlineVariantColor}"
+                BorderThickness="1">
+
+          <utu:AutoLayout Orientation="Horizontal"
+                          Spacing="12"
+                          Justify="SpaceBetween">
+
+            <utu:AutoLayout Orientation="Horizontal"
+                            Spacing="12">
+
+              <!-- Avatar -->
+              <Ellipse Width="48"
+                       Height="48">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="https://picsum.photos/80/80?random=20"
+                              Stretch="UniformToFill" />
+                </Ellipse.Fill>
+              </Ellipse>
+
+              <!-- Message Preview -->
+              <utu:AutoLayout Orientation="Vertical"
+                              Spacing="4"
+                              PrimaryAxisAlignment="Center">
+                <utu:AutoLayout Orientation="Horizontal"
+                                Spacing="8">
+                  <TextBlock Text="Mike R. (The Hawks)"
+                             Style="{StaticResource MaterialSubtitle2}"
+                             Foreground="{ThemeResource OnSurfaceColor}"
+                             FontWeight="SemiBold" />
+                  <TextBlock Text="5m ago"
+                             Style="{StaticResource MaterialCaption}"
+                             Foreground="{ThemeResource OnSurfaceVariantColor}"
+                             VerticalAlignment="Center" />
+                </utu:AutoLayout>
+                <TextBlock Text="Hey, are you still good for..."
+                           Style="{StaticResource MaterialBody2}"
+                           Foreground="{ThemeResource OnSurfaceVariantColor}" />
+              </utu:AutoLayout>
+
+            </utu:AutoLayout>
+
+            <!-- Unread Badge -->
+            <Border Width="24"
+                    Height="24"
+                    CornerRadius="12"
+                    Background="{ThemeResource IceBlueBrush}"
+                    VerticalAlignment="Center">
+              <TextBlock Text="1"
+                         FontSize="12"
+                         FontWeight="Bold"
+                         Foreground="White"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Border>
+
+          </utu:AutoLayout>
+
+        </Border>
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+
+    <!-- Bottom Navigation Bar -->
+    <Grid Grid.Row="2"
+          VerticalAlignment="Bottom"
+          Background="{ThemeResource SurfaceColor}"
+          Padding="8,4"
+          Translation="0,0,16">
+      <Grid.Shadow>
+        <ThemeShadow />
+      </Grid.Shadow>
+
+      <Grid MaxWidth="600">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Home -->
+        <Button Grid.Column="0"
+                Background="Transparent"
+                Height="60"
+                Click="NavigateToHome_Click">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE80F;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="Home"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- Find -->
+        <Button Grid.Column="1"
+                Background="Transparent"
+                Height="60"
+                Click="NavigateToFind_Click">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE721;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="Find"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- Activity -->
+        <Button Grid.Column="2"
+                Background="Transparent"
+                Height="60">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xEA8F;"
+                      FontSize="24"
+                      Foreground="{ThemeResource IceBlueBrush}" />
+            <TextBlock Text="Activity"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource IceBlueBrush}"
+                       FontWeight="SemiBold" />
+          </utu:AutoLayout>
+        </Button>
+
+        <!-- Profile -->
+        <Button Grid.Column="3"
+                Background="Transparent"
+                Height="60"
+                Click="NavigateToProfile_Click">
+          <utu:AutoLayout Orientation="Vertical"
+                          Spacing="4"
+                          HorizontalAlignment="Center">
+            <FontIcon Glyph="&#xE77B;"
+                      FontSize="24"
+                      Foreground="{ThemeResource OnSurfaceVariantColor}" />
+            <TextBlock Text="Profile"
+                       Style="{StaticResource MaterialCaption}"
+                       Foreground="{ThemeResource OnSurfaceVariantColor}" />
+          </utu:AutoLayout>
+        </Button>
+
+      </Grid>
+    </Grid>
+
+  </Grid>
+</Page>
