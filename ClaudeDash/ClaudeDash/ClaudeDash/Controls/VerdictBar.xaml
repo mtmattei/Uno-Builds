@@ -1,0 +1,27 @@
+<UserControl x:Class="ClaudeDash.Controls.VerdictBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border x:Name="RootBorder"
+            CornerRadius="6"
+            Padding="20,10"
+            BorderThickness="1">
+        <StackPanel Spacing="2" HorizontalAlignment="Center">
+            <!-- Line 1: Icon + bold title -->
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                <FontIcon x:Name="StatusIcon" FontSize="15" VerticalAlignment="Center" />
+                <TextBlock x:Name="SummaryText"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="14" FontWeight="Bold"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Line 2: Reason details -->
+            <TextBlock x:Name="ReasonsText"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10"
+                       HorizontalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+    </Border>
+</UserControl>

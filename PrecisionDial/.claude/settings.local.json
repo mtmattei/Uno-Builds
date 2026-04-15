@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill /PID 18260 /F)",
+      "Bash(powershell -Command \"Stop-Process -Name PrecisionDial -Force -ErrorAction SilentlyContinue; Write-Host ''Done''\")",
+      "Bash(powershell -Command \"Stop-Process -Name PrecisionDial -Force -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Get-Content ''C:\\\\Users\\\\Platform006\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Platform006-OneDrive---Uno-Platform-Desktop-unOS-AI-builds-PrecisionDial\\\\f03ee1f8-fefc-4be1-8320-1ce0a388fd1b\\\\tasks\\\\bfs1abrt5.output''\")",
+      "Bash(powershell -Command \"Stop-Process -Name PrecisionDial -Force -ErrorAction SilentlyContinue; exit 0\")",
+      "Bash(powershell -Command \"Get-Process | Where-Object { $_Name -match ''dotnet|MSBuild|PrecisionDial'' } | Select-Object Id, Name, CPU, WorkingSet | Format-Table -AutoSize\")",
+      "Bash(powershell -Command \"Get-Process dotnet, MSBuild, PrecisionDial -ErrorAction SilentlyContinue | Select-Object Id, Name, CPU | Format-Table -AutoSize\")",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_start",
+      "Bash(tasklist //FI \"PID eq 11152\")",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot",
+      "mcp__uno-app__uno_app_element_peer_default_action",
+      "mcp__uno-app__uno_app_pointer_click",
+      "mcp__uno-app__uno_app_close",
+      "Bash(tasklist //FI \"PID eq 21444\")",
+      "mcp__uno-app__uno_app_key_press",
+      "Bash(tasklist //FI \"imagename eq PrecisionDial.exe\")",
+      "Bash(taskkill //PID 26488 //F)",
+      "Bash(adb devices:*)",
+      "Bash(tasklist //FI \"imagename eq dotnet.exe\")",
+      "Bash(tasklist //FI \"imagename eq dotnet.exe\" //FO csv)",
+      "Bash(taskkill //IM dotnet.exe //F)",
+      "Bash(start \"\" PrecisionDial.exe)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(powershell:*)",
+      "Bash(taskkill //IM java.exe //F)"
+    ]
+  }
+}

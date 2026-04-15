@@ -1,0 +1,92 @@
+<Page x:Class="ClaudeDash.Views.SkillsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="20" MaxWidth="1400">
+
+            <!-- Header: lambda + title + summary -->
+            <StackPanel Spacing="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="Cascadia Code, Consolas, monospace"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <TextBlock Text="skills"
+                               FontFamily="Cascadia Code, Consolas, monospace"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock x:Name="SummaryText"
+                           Grid.Column="2"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}"
+                           VerticalAlignment="Center" />
+            </Grid>
+            <TextBlock Text="Claude Code skills and slash-command extensions installed on this machine."
+                       Style="{StaticResource GreetingSubtitleStyle}" />
+            </StackPanel>
+
+            <!-- 4 Stat Cards in 2x2 grid with 1px gap -->
+            <Grid Background="{StaticResource BorderSubtleBrush}" ColumnSpacing="1" RowSpacing="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:StatCard x:Name="InstalledCard" Grid.Column="0" Grid.Row="0" Label="INSTALLED" />
+                <controls:StatCard x:Name="ActiveCard" Grid.Column="1" Grid.Row="0" Label="ACTIVE" />
+                <controls:StatCard x:Name="InvocationsCard" Grid.Column="0" Grid.Row="1" Label="INVOCATIONS (30D)" />
+                <controls:StatCard x:Name="AccuracyCard" Grid.Column="1" Grid.Row="1" Label="AVG TRIGGER ACCURACY" />
+            </Grid>
+
+            <!-- Error text -->
+            <TextBlock x:Name="ErrorText"
+                       Foreground="{StaticResource AccentRedBrush}"
+                       Style="{StaticResource BodyTextStyle}"
+                       Visibility="Collapsed" />
+
+            <!-- Pipe divider: core skills -->
+            <TextBlock x:Name="CoreDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- Core skills 2-column grid -->
+            <StackPanel x:Name="CoreSkillsPanel" Spacing="0" />
+
+            <!-- Pipe divider: user skills -->
+            <TextBlock x:Name="UserDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- User skills 2-column grid -->
+            <StackPanel x:Name="UserSkillsPanel" Spacing="0" />
+
+            <!-- Pipe divider: example skills -->
+            <TextBlock x:Name="ExampleDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- Example skills 2-column grid -->
+            <StackPanel x:Name="ExampleSkillsPanel" Spacing="0" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

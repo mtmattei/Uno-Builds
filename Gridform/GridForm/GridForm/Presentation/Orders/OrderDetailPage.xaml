@@ -1,0 +1,208 @@
+<Page x:Class="GridForm.Presentation.Orders.OrderDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:GridForm.Controls"
+      xmlns:models="using:GridForm.Models"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:converters="using:GridForm.Converters"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Page.Resources>
+    <converters:StatusToColorConverter x:Key="StatusToColor" />
+    <converters:RiskToColorConverter x:Key="RiskToColor" />
+  </Page.Resources>
+
+  <ScrollViewer Padding="24,20">
+    <StackPanel Spacing="16">
+
+      <!-- Header -->
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Grid.Column="0" Spacing="6">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="{Binding Order.Id}"
+                       Style="{StaticResource HeadlineSmall}"
+                       Foreground="{ThemeResource PrimaryBrush}"
+                       FontFamily="{StaticResource MonoFontFamily}" />
+            <controls:StatusBadge Status="{Binding Order.Status}" />
+            <controls:SlaBadge Deadline="{Binding Order.SlaDeadline}" />
+          </StackPanel>
+          <TextBlock Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+            <Run Text="{Binding Order.VendorName}" />
+            <Run Text=" · " />
+            <Run Text="{Binding Order.VendorLocation}" />
+            <Run Text=" · " />
+            <Run Text="{Binding Order.Category}" />
+          </TextBlock>
+          <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}">
+            <Run Text="Requested by " />
+            <Run Text="{Binding Order.RequestedBy}" />
+            <Run Text=" (" />
+            <Run Text="{Binding Order.RequestedByRole}" />
+            <Run Text=")" />
+          </TextBlock>
+        </StackPanel>
+
+        <!-- Actions -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Top">
+          <Button Content="Approve"
+                  Style="{StaticResource AccentActionButtonStyle}"
+                  Command="{Binding Approve}" />
+          <Button Content="Reject"
+                  Style="{StaticResource DangerButtonStyle}"
+                  Command="{Binding Reject}" />
+          <Button Content="Escalate"
+                  Style="{StaticResource OutlinedButtonStyle}"
+                  Command="{Binding Escalate}"
+                  MinHeight="36" Padding="16,6" CornerRadius="6" />
+          <Button Content="← Back"
+                  Style="{StaticResource GhostButtonStyle}"
+                  Command="{Binding GoBack}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- AI Analysis -->
+      <controls:AiChip Note="{Binding Order.AiNote}" />
+
+      <!-- Content: Overview -->
+      <Grid ColumnDefinitions="*,*" ColumnSpacing="14">
+        <!-- Order Details -->
+        <Border Grid.Column="0"
+                Background="{ThemeResource SurfaceBrush}"
+                BorderBrush="{ThemeResource OutlineBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="16,18">
+          <StackPanel Spacing="12">
+            <TextBlock Text="Order Details" Style="{StaticResource TitleSmall}" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="120,*" RowSpacing="8">
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="Items" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Order.Items.Count}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="Ship Date" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Order.ShipDate}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="Terms" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Order.PaymentTerms}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Grid.Row="3" Grid.Column="0" Text="Amount" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Order.Amount}"
+                         Style="{StaticResource TitleMedium}" FontFamily="{StaticResource MonoFontFamily}" />
+            </Grid>
+          </StackPanel>
+        </Border>
+
+        <!-- Vendor Info -->
+        <Border Grid.Column="1"
+                Background="{ThemeResource SurfaceBrush}"
+                BorderBrush="{ThemeResource OutlineBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="16,18">
+          <StackPanel Spacing="12">
+            <TextBlock Text="Vendor" Style="{StaticResource TitleSmall}" />
+            <TextBlock Text="{Binding Order.VendorName}" Style="{StaticResource TitleMedium}" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="120,*" RowSpacing="8">
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="Risk" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <controls:RiskBadge Grid.Row="0" Grid.Column="1" Risk="{Binding Order.Risk}" />
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="On-Time" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource BodyLarge}">
+                <Run Text="{Binding Order.OnTimePercent}" /><Run Text="%" />
+              </TextBlock>
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="Quality" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Order.QualityGrade}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Grid.Row="3" Grid.Column="0" Text="YTD Orders" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Order.YtdOrders}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Grid.Row="4" Grid.Column="0" Text="Contract" Style="{StaticResource BodySmall}" Foreground="{ThemeResource SurfaceTintBrush}" />
+              <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Order.ContractStatus}" Style="{StaticResource BodyLarge}" />
+            </Grid>
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <!-- Line Items Table -->
+      <Border Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="16,18">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Line Items" Style="{StaticResource TitleSmall}" />
+          <Grid Padding="0,8" ColumnDefinitions="120,*,80,100,100">
+            <TextBlock Grid.Column="0" Text="SKU" Style="{StaticResource TableHeaderTextStyle}" />
+            <TextBlock Grid.Column="1" Text="DESCRIPTION" Style="{StaticResource TableHeaderTextStyle}" />
+            <TextBlock Grid.Column="2" Text="QTY" Style="{StaticResource TableHeaderTextStyle}" HorizontalAlignment="Right" />
+            <TextBlock Grid.Column="3" Text="UNIT" Style="{StaticResource TableHeaderTextStyle}" HorizontalAlignment="Right" />
+            <TextBlock Grid.Column="4" Text="TOTAL" Style="{StaticResource TableHeaderTextStyle}" HorizontalAlignment="Right" />
+          </Grid>
+          <ItemsRepeater ItemsSource="{Binding Order.Items}">
+            <ItemsRepeater.Layout>
+              <StackLayout Spacing="0" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate x:DataType="models:LineItem">
+                <Border Padding="0,8" BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="0,0,0,1">
+                  <Grid ColumnDefinitions="120,*,80,100,100">
+                    <TextBlock Grid.Column="0" Text="{Binding Sku}" Style="{StaticResource TableCellMonoStyle}" Foreground="{ThemeResource PrimaryBrush}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource TableCellTextStyle}" />
+                    <TextBlock Grid.Column="2" Text="{Binding Quantity}" Style="{StaticResource TableCellMonoStyle}" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="3" Text="{Binding UnitPrice}" Style="{StaticResource TableCellMonoStyle}" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="4" Text="{Binding Total}" Style="{StaticResource TableCellMonoStyle}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+          <Grid ColumnDefinitions="*,100" Padding="0,8">
+            <TextBlock Grid.Column="0" Text="Total" Style="{StaticResource TitleSmall}" HorizontalAlignment="Right" Margin="0,0,16,0" />
+            <TextBlock Grid.Column="1" Text="{Binding Order.Amount}" Style="{StaticResource TitleMedium}"
+                       FontFamily="{StaticResource MonoFontFamily}" HorizontalAlignment="Right" />
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- Approval Chain -->
+      <Border Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="16,18"
+              MaxWidth="500"
+              HorizontalAlignment="Left">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Approval Chain" Style="{StaticResource TitleSmall}" />
+          <controls:ApprovalChain Steps="{Binding Order.ApprovalChain}" />
+        </StackPanel>
+      </Border>
+
+      <!-- History -->
+      <Border Background="{ThemeResource SurfaceBrush}"
+              BorderBrush="{ThemeResource OutlineBrush}"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="16,18">
+        <StackPanel Spacing="12">
+          <TextBlock Text="History" Style="{StaticResource TitleSmall}" />
+          <ItemsRepeater ItemsSource="{Binding Order.History}">
+            <ItemsRepeater.Layout>
+              <StackLayout Spacing="0" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate x:DataType="models:AuditEntry">
+                <Border Padding="0,6" BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="0,0,0,1">
+                  <Grid ColumnDefinitions="140,*">
+                    <TextBlock Grid.Column="0" Text="{Binding Timestamp}"
+                               Style="{StaticResource LabelSmall}"
+                               Foreground="{ThemeResource SurfaceTintBrush}"
+                               FontFamily="{StaticResource MonoFontFamily}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Message}"
+                               Style="{StaticResource BodyMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+</Page>

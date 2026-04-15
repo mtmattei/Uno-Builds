@@ -1,0 +1,47 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>VoxelWarehouse</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.voxelwarehouse</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>VoxelWarehouse</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>GRIDFORM — Isometric voxel spatial editor powered by Uno Platform.</Description>
+
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      Serialization;
+      Localization;
+      Navigation;
+      ThemeService;
+      Skia;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" />
+    <PackageReference Include="OpenCvSharp4" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Models\*.onnx" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Models\*.bin" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

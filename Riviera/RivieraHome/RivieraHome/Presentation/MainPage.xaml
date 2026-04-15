@@ -1,0 +1,114 @@
+<Page x:Class="RivieraHome.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:RivieraHome.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{StaticResource CrtBackgroundBrush}"
+      NavigationCacheMode="Required">
+
+  <Grid uen:Region.Attached="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Top Bezel Header -->
+    <Border Grid.Row="0"
+            Background="{StaticResource BezelPrimaryBrush}"
+            BorderBrush="{StaticResource BezelEdgeBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,12">
+      <Grid>
+        <TextBlock Text="RIVIERA HOME CONTROL CENTER"
+                   Style="{StaticResource CrtHeading}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="ClockText"
+                   Style="{StaticResource CrtBody}"
+                   Foreground="{StaticResource PhosphorDimBrush}"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+
+    <!-- Content Area (CRT screen) — navigation injects pages here -->
+    <Border Grid.Row="1"
+            Background="{StaticResource CrtBackgroundDeepBrush}"
+            BorderBrush="{StaticResource BezelEdgeBrush}"
+            BorderThickness="2"
+            Margin="8,4"
+            Padding="16">
+      <Grid uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility" />
+    </Border>
+
+    <!-- Bottom TabBar (Touch Zones) -->
+    <Border Grid.Row="2"
+            Background="{StaticResource BezelPrimaryBrush}"
+            BorderBrush="{StaticResource BezelEdgeBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="8,4">
+      <utu:TabBar uen:Region.Attached="True"
+                  HorizontalAlignment="Center">
+        <utu:TabBar.Items>
+          <utu:TabBarItem uen:Region.Name="Climate"
+                          IsSelectable="True"
+                          Foreground="{StaticResource PhosphorDimBrush}">
+            <utu:TabBarItem.Icon>
+              <FontIcon Glyph="&#xE9CA;" FontSize="18" />
+            </utu:TabBarItem.Icon>
+            <utu:TabBarItem.Content>
+              <TextBlock Text="CLIMATE" Style="{StaticResource CrtLabel}" />
+            </utu:TabBarItem.Content>
+          </utu:TabBarItem>
+
+          <utu:TabBarItem uen:Region.Name="Security"
+                          IsSelectable="True"
+                          Foreground="{StaticResource PhosphorDimBrush}">
+            <utu:TabBarItem.Icon>
+              <FontIcon Glyph="&#xE72E;" FontSize="18" />
+            </utu:TabBarItem.Icon>
+            <utu:TabBarItem.Content>
+              <TextBlock Text="SECURITY" Style="{StaticResource CrtLabel}" />
+            </utu:TabBarItem.Content>
+          </utu:TabBarItem>
+
+          <utu:TabBarItem uen:Region.Name="Energy"
+                          IsSelectable="True"
+                          Foreground="{StaticResource PhosphorDimBrush}">
+            <utu:TabBarItem.Icon>
+              <FontIcon Glyph="&#xEA80;" FontSize="18" />
+            </utu:TabBarItem.Icon>
+            <utu:TabBarItem.Content>
+              <TextBlock Text="ENERGY" Style="{StaticResource CrtLabel}" />
+            </utu:TabBarItem.Content>
+          </utu:TabBarItem>
+
+          <utu:TabBarItem uen:Region.Name="Lighting"
+                          IsSelectable="True"
+                          Foreground="{StaticResource PhosphorDimBrush}">
+            <utu:TabBarItem.Icon>
+              <FontIcon Glyph="&#xEA80;" FontSize="18" />
+            </utu:TabBarItem.Icon>
+            <utu:TabBarItem.Content>
+              <TextBlock Text="LIGHTING" Style="{StaticResource CrtLabel}" />
+            </utu:TabBarItem.Content>
+          </utu:TabBarItem>
+
+          <utu:TabBarItem uen:Region.Name="Diagnostics"
+                          IsSelectable="True"
+                          Foreground="{StaticResource PhosphorDimBrush}">
+            <utu:TabBarItem.Icon>
+              <FontIcon Glyph="&#xE90F;" FontSize="18" />
+            </utu:TabBarItem.Icon>
+            <utu:TabBarItem.Content>
+              <TextBlock Text="DIAG" Style="{StaticResource CrtLabel}" />
+            </utu:TabBarItem.Content>
+          </utu:TabBarItem>
+        </utu:TabBar.Items>
+      </utu:TabBar>
+    </Border>
+  </Grid>
+</Page>

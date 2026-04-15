@@ -1,0 +1,68 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Standard card surface: Surface-1 bg, Surface-3 border, 12px radius, 20px padding -->
+  <Style x:Key="OrbitalCardStyle" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalSurface1Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalSurface3Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Padding" Value="20" />
+  </Style>
+
+  <!-- Console/inset surface: Surface-1.5 bg -->
+  <Style x:Key="OrbitalConsoleSurfaceStyle" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalSurface15Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalSurface2Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16" />
+  </Style>
+
+  <!-- Badge styles -->
+  <Style x:Key="OrbitalBadgeSuccess" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalEmerald500_15Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalEmerald500_20Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="8,2" />
+  </Style>
+
+  <Style x:Key="OrbitalBadgeWarning" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalAmber500_15Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalAmber500_20Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="8,2" />
+  </Style>
+
+  <Style x:Key="OrbitalBadgeError" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalRed500_15Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalRed400_20Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="8,2" />
+  </Style>
+
+  <Style x:Key="OrbitalBadgeMuted" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource OrbitalZinc500_10Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalZinc500_15Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="8,2" />
+  </Style>
+
+  <!-- Scrollbar styling: 6px wide, Surface-4 color, 3px radius -->
+  <Style TargetType="ScrollBar">
+    <Setter Property="MinWidth" Value="6" />
+    <Setter Property="Width" Value="6" />
+    <Setter Property="MinHeight" Value="6" />
+    <Setter Property="Height" Value="Auto" />
+  </Style>
+
+  <!-- Focus visual: 2px emerald-400 ring for accessibility -->
+  <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{ThemeResource OrbitalEmerald400}" />
+  <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="Transparent" />
+  <Thickness x:Key="FocusVisualMargin">-2</Thickness>
+
+</ResourceDictionary>

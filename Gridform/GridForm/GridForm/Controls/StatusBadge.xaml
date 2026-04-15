@@ -1,0 +1,23 @@
+<UserControl x:Class="GridForm.Controls.StatusBadge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:GridForm.Converters">
+
+  <UserControl.Resources>
+    <converters:StatusToColorConverter x:Key="StatusToColor" />
+  </UserControl.Resources>
+
+  <Border CornerRadius="4"
+          Padding="8,2"
+          Background="{x:Bind Status, Mode=OneWay, Converter={StaticResource StatusToColor}, ConverterParameter=Background}">
+    <StackPanel Orientation="Horizontal" Spacing="6">
+      <Ellipse Width="5" Height="5"
+               VerticalAlignment="Center"
+               Fill="{x:Bind Status, Mode=OneWay, Converter={StaticResource StatusToColor}}" />
+      <TextBlock Text="{x:Bind StatusText, Mode=OneWay}"
+                 Style="{StaticResource LabelSmall}"
+                 Foreground="{x:Bind Status, Mode=OneWay, Converter={StaticResource StatusToColor}}"
+                 VerticalAlignment="Center" />
+    </StackPanel>
+  </Border>
+</UserControl>

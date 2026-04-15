@@ -1,0 +1,106 @@
+﻿<Page
+    x:Class="Text_Grab.Pages.DangerSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Text_Grab.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Text_Grab.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="DangerSettings"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="20,12,40,40" Orientation="Vertical">
+        <TextBlock Style="{StaticResource TextHeader}" Text="Dangerous Options" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Shutdown Text Grab.
+        </TextBlock>
+        <controls:CollapsibleButton
+            x:Name="ShutdownButton"
+            HorizontalAlignment="Left"
+            ButtonText="Shutdown Text Grab"
+            Click="ShutdownButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Reset Tray icon.
+        </TextBlock>
+        <controls:CollapsibleButton
+            x:Name="RetrySettingTrayButton"
+            HorizontalAlignment="Left"
+            ButtonSymbol="TrayItemAdd24"
+            ButtonText="Reset Tray Icon"
+            Click="RetrySettingTrayButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Generate bug report with app diagnostic information.
+        </TextBlock>
+        <controls:CollapsibleButton
+            x:Name="ExportBugReportButton"
+            HorizontalAlignment="Left"
+            ButtonSymbol="Bug24"
+            ButtonText="Export Bug Report"
+            Click="ExportBugReportButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Export all settings and optionally history to a portable ZIP file.
+        </TextBlock>
+        <CheckBox
+            x:Name="IncludeHistoryCheckBox"
+            Margin="5,8,0,0"
+            Content="Include history (images and text)"
+            IsChecked="True" />
+        <controls:CollapsibleButton
+            x:Name="ExportSettingsButton"
+            HorizontalAlignment="Left"
+            ButtonSymbol="FolderZip24"
+            ButtonText="Export Settings"
+            Click="ExportSettingsButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Import settings and history from a previously exported ZIP file.
+        </TextBlock>
+        <controls:CollapsibleButton
+            x:Name="ImportSettingsButton"
+            HorizontalAlignment="Left"
+            ButtonSymbol="ArrowImport24"
+            ButtonText="Import Settings"
+            Click="ImportSettingsButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Check CPU Architecture before enabling Windows Local AI model features
+        </TextBlock>
+        <ui:ToggleSwitch
+            x:Name="OverrideArchCheckWinAI"
+            HorizontalAlignment="Left"
+            Click="OverrideArchCheckWinAI_Click"
+            OffContent="ARM CPU only"
+            OnContent="No CPU Arch is checked" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Reset All settings to default settings.
+        </TextBlock>
+        <controls:CollapsibleButton
+            x:Name="ResetSettingsButton"
+            HorizontalAlignment="Left"
+            Background="DarkRed"
+            ButtonSymbol="ArrowCounterclockwise24"
+            ButtonText="Reset All Settings"
+            Click="ResetSettingsButton_Click" />
+
+        <TextBlock Margin="0,12,0,0" Style="{StaticResource TextBodyNormal}">
+            Delete all history items.
+        </TextBlock>
+        <!--  Add how many history items exist to be deleted  -->
+        <controls:CollapsibleButton
+            x:Name="ClearHistoryButton"
+            HorizontalAlignment="Left"
+            Background="DarkRed"
+            ButtonSymbol="Delete24"
+            ButtonText="Clear History"
+            Click="ClearHistoryButton_Click" />
+    </StackPanel>
+</Page>

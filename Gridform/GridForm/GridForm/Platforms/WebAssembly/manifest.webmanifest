@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "GridForm",
+  "display": "standalone",
+  "name": "GridForm",
+  "short_name": "GridForm",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

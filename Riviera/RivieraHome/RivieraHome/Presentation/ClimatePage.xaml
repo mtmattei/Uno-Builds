@@ -1,0 +1,170 @@
+<Page x:Class="RivieraHome.Presentation.ClimatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:RivieraHome.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:controls="using:RivieraHome.Controls"
+      Background="Transparent"
+      NavigationCacheMode="Required">
+
+  <mvux:FeedView Source="{Binding Climate}">
+    <mvux:FeedView.ValueTemplate>
+      <DataTemplate>
+        <Grid ColumnSpacing="20" Padding="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Left Column: Temperature Display -->
+          <StackPanel Grid.Column="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Spacing="8">
+
+            <TextBlock Text="INTERIOR TEMPERATURE"
+                       Style="{StaticResource CrtLabel}"
+                       HorizontalAlignment="Center"
+                       x:Uid="ClimatePage.Label.InteriorTemp" />
+
+            <!-- Large Temperature -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="4">
+              <TextBlock Text="{Binding Data.Temp}"
+                         Style="{StaticResource CrtDisplayXL}"
+                         AutomationProperties.Name="Interior temperature" />
+              <TextBlock Text="°F"
+                         Style="{StaticResource CrtDisplayMD}"
+                         Foreground="{StaticResource PhosphorDimBrush}"
+                         VerticalAlignment="Top"
+                         Margin="0,12,0,0" />
+            </StackPanel>
+
+            <!-- Target Temperature Control -->
+            <Border BorderBrush="{StaticResource PhosphorDimBrush}"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Padding="12,8"
+                    HorizontalAlignment="Center">
+              <StackPanel Orientation="Horizontal"
+                          Spacing="16"
+                          VerticalAlignment="Center">
+                <Button Style="{StaticResource CrtButtonStyle}"
+                        Command="{Binding DecrementTemp}"
+                        MinWidth="44" MinHeight="44"
+                        AutomationProperties.Name="Decrease target temperature"
+                        x:Uid="ClimatePage.Button.DecrementTemp">
+                  <FontIcon Glyph="&#xE70D;"
+                            FontSize="16"
+                            Foreground="{StaticResource PhosphorPrimaryBrush}" />
+                </Button>
+
+                <StackPanel VerticalAlignment="Center" Spacing="2">
+                  <TextBlock Text="TARGET"
+                             Style="{StaticResource CrtLabel}"
+                             HorizontalAlignment="Center" />
+                  <TextBlock Text="{Binding Data.TargetTemp}"
+                             FontFamily="{StaticResource OrbitronFont}"
+                             FontSize="24"
+                             Foreground="{StaticResource PhosphorBrightBrush}"
+                             HorizontalAlignment="Center"
+                             AutomationProperties.Name="Target temperature" />
+                </StackPanel>
+
+                <Button Style="{StaticResource CrtButtonStyle}"
+                        Command="{Binding IncrementTemp}"
+                        MinWidth="44" MinHeight="44"
+                        AutomationProperties.Name="Increase target temperature"
+                        x:Uid="ClimatePage.Button.IncrementTemp">
+                  <FontIcon Glyph="&#xE70E;"
+                            FontSize="16"
+                            Foreground="{StaticResource PhosphorPrimaryBrush}" />
+                </Button>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+
+          <!-- Right Column: Gauges + Zone Control -->
+          <StackPanel Grid.Column="1"
+                      Spacing="16"
+                      VerticalAlignment="Center">
+
+            <!-- Gauges Row -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="16">
+              <controls:GaugeArc Value="{Binding Data.Humidity}"
+                                 Maximum="100"
+                                 Label="HUMIDITY"
+                                 Unit="% RH"
+                                 GaugeSize="105"
+                                 AutomationProperties.Name="Humidity gauge" />
+              <controls:GaugeArc Value="{Binding Data.OutsideTemp}"
+                                 Maximum="120"
+                                 Label="OUTSIDE"
+                                 Unit="°F"
+                                 GaugeSize="105"
+                                 AutomationProperties.Name="Outside temperature gauge" />
+            </StackPanel>
+
+            <!-- Divider -->
+            <Border Height="1"
+                    Background="{StaticResource PhosphorDimBrush}"
+                    Opacity="0.15"
+                    Margin="0,4" />
+
+            <!-- Zone Control -->
+            <TextBlock Text="ZONE CONTROL"
+                       Style="{StaticResource CrtLabel}"
+                       x:Uid="ClimatePage.Label.ZoneControl" />
+
+            <Grid ColumnSpacing="6" RowSpacing="6">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <controls:PhosphorToggle Grid.Row="0" Grid.Column="0"
+                                       Label="LIVING"
+                                       IsChecked="{Binding Data.Zones[LIVING], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="0" Grid.Column="1"
+                                       Label="BEDROOM"
+                                       IsChecked="{Binding Data.Zones[BEDROOM], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="1" Grid.Column="0"
+                                       Label="KITCHEN"
+                                       IsChecked="{Binding Data.Zones[KITCHEN], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="1" Grid.Column="1"
+                                       Label="GARAGE"
+                                       IsChecked="{Binding Data.Zones[GARAGE], Mode=TwoWay}" />
+            </Grid>
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </mvux:FeedView.ValueTemplate>
+
+    <mvux:FeedView.ProgressTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <ProgressRing IsActive="True" Foreground="{StaticResource PhosphorPrimaryBrush}" Width="48" Height="48" />
+          <TextBlock Text="LOADING CLIMATE DATA..." Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ProgressTemplate>
+
+    <mvux:FeedView.ErrorTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <TextBlock Text="SIGNAL LOST" Style="{StaticResource CrtHeading}" HorizontalAlignment="Center" />
+          <TextBlock Text="Climate feed offline — retry connection" Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorDimBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ErrorTemplate>
+  </mvux:FeedView>
+</Page>

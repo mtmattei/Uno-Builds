@@ -1,0 +1,58 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>PrecisionDial</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.precisiondial</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>PrecisionDial</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>PrecisionDial powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Dsp;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      HttpKiota;
+      Serialization;
+      Localization;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- browserwasm.cs is not auto-excluded by Uno.Sdk, so restrict it explicitly -->
+    <Compile Remove="Controls\PrecisionDial\Haptics\HapticService.browserwasm.cs" />
+    <Compile Condition="$(TargetFramework.Contains('browserwasm'))"
+             Include="Controls\PrecisionDial\Haptics\HapticService.browserwasm.cs" />
+  </ItemGroup>
+
+  <!-- Phosphor Icons font — let Uno.Sdk handle the default Assets/ pipeline
+       (auto-packages as Android asset, auto-copies to Desktop output bin).
+       PhosphorFont.cs loads it via AssetManager on Android and File.OpenRead
+       on Desktop/iOS/WASM — no embedded resources needed. -->
+  <ItemGroup>
+    <Content Update="Assets\Fonts\Phosphor.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

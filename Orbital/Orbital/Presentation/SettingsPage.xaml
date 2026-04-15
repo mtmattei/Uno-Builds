@@ -1,0 +1,219 @@
+<Page x:Class="Orbital.Presentation.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:Orbital.Controls"
+      Background="{ThemeResource OrbitalSurface0Brush}">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <controls:PageHeader x:Name="Header" Grid.Row="0"
+                         Title="Settings"
+                         Subtitle="Profile and preferences" />
+
+    <ScrollViewer Grid.Row="1">
+      <utu:AutoLayout Spacing="24" Padding="{utu:Responsive Narrow='16', Normal='32', Wide='32'}" PrimaryAxisAlignment="Start">
+
+        <!-- PROFILE SECTION -->
+        <Border x:Name="ProfileSection" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+          <Border.RenderTransform><TranslateTransform Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="16">
+            <TextBlock Text="PROFILE" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" />
+            <StackPanel Spacing="8">
+              <TextBlock Text="Display Name"
+                         Style="{StaticResource OrbitalMonoSmall}"
+                         Foreground="{ThemeResource OrbitalText50Brush}" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="8" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="UsernameBox"
+                         FontFamily="{StaticResource OrbitalMonoFont}"
+                         FontSize="13"
+                         PlaceholderText="Enter your name"
+                         Background="{ThemeResource OrbitalSurface1Brush}"
+                         BorderBrush="{ThemeResource OrbitalSurface3Brush}"
+                         Foreground="{ThemeResource OrbitalText85Brush}" />
+                <Button x:Name="SaveUsernameButton" Grid.Column="2"
+                        Content="Save"
+                        Style="{StaticResource OrbitalPrimaryButtonSm}" />
+              </Grid>
+              <TextBlock Text="This name appears in the homepage greeting."
+                         Style="{StaticResource OrbitalMonoSmall}"
+                         Foreground="{ThemeResource OrbitalText30Brush}" />
+            </StackPanel>
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- TWO-COLUMN LAYOUT -->
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- LEFT COLUMN -->
+          <utu:AutoLayout Grid.Column="0" Spacing="24">
+
+            <!-- ABOUT SECTION -->
+            <Border x:Name="AboutSection" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+              <Border.RenderTransform><TranslateTransform Y="8" /></Border.RenderTransform>
+              <utu:AutoLayout Spacing="16">
+                <TextBlock Text="ABOUT" Style="{StaticResource OrbitalSectionHeader}"
+                           Foreground="{ThemeResource OrbitalText38Brush}" />
+
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+
+                  <!-- Orbital logo -->
+                  <Border Grid.Column="0" Width="48" Height="48" CornerRadius="12"
+                          Background="{ThemeResource OrbitalSurface2Brush}">
+                    <Image Source="ms-appx:///Assets/Icons/Uno-logo.png"
+                           Width="32" Height="32" Stretch="Uniform"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </Border>
+
+                  <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
+                    <TextBlock Text="Orbital" Style="{StaticResource OrbitalBody}"
+                               Foreground="{ThemeResource OrbitalText85Brush}"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding VersionDisplay, FallbackValue='v0.1.0-alpha'}"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText40Brush}" />
+                  </StackPanel>
+                </Grid>
+
+                <!-- Version details -->
+                <StackPanel Spacing="8">
+                  <Grid>
+                    <TextBlock Text="Uno Platform SDK"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText50Brush}" />
+                    <TextBlock Text="{Binding EnvStatus.UnoSdkVersion, FallbackValue='...'}"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText72Brush}"
+                               HorizontalAlignment="Right" />
+                  </Grid>
+                  <Grid>
+                    <TextBlock Text=".NET Runtime"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText50Brush}" />
+                    <TextBlock Text="{Binding DotNetDisplay, FallbackValue='...'}"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText72Brush}"
+                               HorizontalAlignment="Right" />
+                  </Grid>
+                  <Grid>
+                    <TextBlock Text="Renderer"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText50Brush}" />
+                    <TextBlock Text="{Binding EnvStatus.Renderer, FallbackValue='...'}"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText72Brush}"
+                               HorizontalAlignment="Right" />
+                  </Grid>
+                  <Grid>
+                    <TextBlock Text="Platform"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText50Brush}" />
+                    <TextBlock Text="{Binding PlatformInfo, FallbackValue='...'}"
+                               Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalText72Brush}"
+                               HorizontalAlignment="Right" />
+                  </Grid>
+                </StackPanel>
+              </utu:AutoLayout>
+            </Border>
+
+          </utu:AutoLayout>
+
+          <!-- RIGHT COLUMN -->
+          <utu:AutoLayout Grid.Column="2" Spacing="24">
+
+            <!-- PATHS SECTION -->
+            <Border x:Name="PathsSection" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+              <Border.RenderTransform><TranslateTransform Y="8" /></Border.RenderTransform>
+              <utu:AutoLayout Spacing="16">
+                <TextBlock Text="PATHS" Style="{StaticResource OrbitalSectionHeader}"
+                           Foreground="{ThemeResource OrbitalText38Brush}" />
+
+                <StackPanel Spacing="8">
+                  <TextBlock Text="Project Root"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText50Brush}" />
+                  <TextBlock Text="{Binding ProjectRoot, FallbackValue='...'}"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText72Brush}"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Spacing="8">
+                  <TextBlock Text="Recent Projects Database"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText50Brush}" />
+                  <TextBlock Text="{Binding RecentsPath, FallbackValue='...'}"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText72Brush}"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Spacing="8">
+                  <TextBlock Text="Claude Code Skills"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText50Brush}" />
+                  <TextBlock Text="{Binding SkillsPath, FallbackValue='...'}"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText72Brush}"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+              </utu:AutoLayout>
+            </Border>
+
+            <!-- ACTIONS -->
+            <Border x:Name="ActionsSection" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+              <Border.RenderTransform><TranslateTransform Y="8" /></Border.RenderTransform>
+              <utu:AutoLayout Spacing="12">
+                <TextBlock Text="ACTIONS" Style="{StaticResource OrbitalSectionHeader}"
+                           Foreground="{ThemeResource OrbitalText38Brush}" />
+
+                <Button x:Name="ClearRecentsButton" Style="{StaticResource OrbitalGhostButtonSm}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE74D;" FontSize="14" />
+                    <TextBlock Text="Clear Recent Projects" />
+                  </StackPanel>
+                </Button>
+                <Button x:Name="OpenDataFolderButton" Style="{StaticResource OrbitalGhostButtonSm}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE838;" FontSize="14" />
+                    <TextBlock Text="Open Data Folder" />
+                  </StackPanel>
+                </Button>
+                <Button x:Name="OpenDocsButton" Style="{StaticResource OrbitalGhostButtonSm}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE8A5;" FontSize="14" />
+                    <TextBlock Text="Uno Platform Documentation" />
+                  </StackPanel>
+                </Button>
+              </utu:AutoLayout>
+            </Border>
+
+          </utu:AutoLayout>
+        </Grid>
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+  </Grid>
+</Page>

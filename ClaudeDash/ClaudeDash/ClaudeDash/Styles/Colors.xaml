@@ -1,0 +1,245 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================ -->
+    <!-- WARM DARK LAYERED PALETTE                                     -->
+    <!-- Three surface levels: base -> raised -> surface               -->
+    <!-- Warm tint instead of flat black                               -->
+    <!-- ============================================================ -->
+
+    <!-- Layered backgrounds (warm near-blacks) -->
+    <Color x:Key="AppBackground">#0C0C0E</Color>
+    <Color x:Key="SidebarBackground">#0F0F13</Color>
+    <Color x:Key="CardBackground">#131316</Color>
+    <Color x:Key="CardBackgroundHover">#222228</Color>
+    <Color x:Key="SurfaceBackground">#1A1A1F</Color>
+    <Color x:Key="InputBackground">#0F0F12</Color>
+    <Color x:Key="RaisedBackground">#1A1A1E</Color>
+    <Color x:Key="OverlayBackground">#26262D</Color>
+
+    <!-- Text hierarchy -->
+    <Color x:Key="TextPrimary">#F0EEEB</Color>
+    <Color x:Key="TextSecondary">#9A9898</Color>
+    <Color x:Key="TextTertiary">#5F5D5B</Color>
+    <Color x:Key="TextMuted">#454340</Color>
+
+    <!-- Mid neutrals -->
+    <Color x:Key="AccentLight">#E0E0E2</Color>
+    <Color x:Key="AccentMid">#A8A8AE</Color>
+    <Color x:Key="AccentDim">#6E6E78</Color>
+    <Color x:Key="AccentDark">#52525A</Color>
+
+    <!-- ─── Semantic status colors with bg/border/text variants ─── -->
+
+    <!-- Green (healthy, ok, active) -->
+    <Color x:Key="StatusGreen">#34D399</Color>
+    <Color x:Key="StatusGreenBg">#0D2818</Color>
+    <Color x:Key="StatusGreenBorder">#1A4D30</Color>
+
+    <!-- Red (error, problem, down) -->
+    <Color x:Key="StatusRed">#F87171</Color>
+    <Color x:Key="StatusRedBg">#2A0D0D</Color>
+    <Color x:Key="StatusRedBorder">#4D1A1A</Color>
+
+    <!-- Amber/Yellow (warning, attention) -->
+    <Color x:Key="StatusYellow">#FBBF24</Color>
+    <Color x:Key="StatusYellowBg">#2A1F0A</Color>
+    <Color x:Key="StatusYellowBorder">#4D3A14</Color>
+
+    <!-- Orange (caution, peach accent) -->
+    <Color x:Key="StatusOrange">#FB923C</Color>
+    <Color x:Key="StatusOrangeBg">#2A1A0A</Color>
+    <Color x:Key="StatusOrangeBorder">#4D3014</Color>
+
+    <!-- Purple (accent, charts, focus) -->
+    <Color x:Key="AccentPurple">#C8B4FA</Color>
+    <Color x:Key="AccentPurpleBg">#1A1528</Color>
+    <Color x:Key="AccentPurpleBorder">#2D2245</Color>
+
+    <!-- Blue (info, links) -->
+    <Color x:Key="AccentBlue">#60A5FA</Color>
+    <Color x:Key="AccentBlueBg">#0D1A2A</Color>
+    <Color x:Key="AccentBlueBorder">#1A3050</Color>
+
+    <!-- Semantic accent aliases -->
+    <Color x:Key="AccentTeal">#C8C8CC</Color>
+    <Color x:Key="AccentGreen">#34D399</Color>
+    <Color x:Key="AccentRed">#F87171</Color>
+    <Color x:Key="AccentYellow">#FBBF24</Color>
+    <Color x:Key="AccentPeach">#FB923C</Color>
+    <Color x:Key="AccentPink">#A8A8AE</Color>
+    <Color x:Key="AccentLavender">#C8B4FA</Color>
+    <Color x:Key="AccentSky">#60A5FA</Color>
+    <Color x:Key="AccentOrange">#FB923C</Color>
+
+    <!-- ─── New semantic sub-tokens (pre-composited on bg-raised) ─── -->
+
+    <!-- Green tints -->
+    <Color x:Key="GreenText">#6EE7B7</Color>
+    <Color x:Key="GreenBgTint">#162623</Color>
+    <Color x:Key="GreenBorderTint">#1B4337</Color>
+
+    <!-- Amber tints -->
+    <Color x:Key="AmberText">#FCD34D</Color>
+    <Color x:Key="AmberBgTint">#262117</Color>
+    <Color x:Key="AmberBorderTint">#413519</Color>
+
+    <!-- Red tints -->
+    <Color x:Key="RedText">#FCA5A5</Color>
+    <Color x:Key="RedBgTint">#251B1D</Color>
+    <Color x:Key="RedBorderTint">#412628</Color>
+
+    <!-- Blue tints -->
+    <Color x:Key="BlueText">#93C5FD</Color>
+    <Color x:Key="BlueBgTint">#191F28</Color>
+    <Color x:Key="BlueBorderTint">#223044</Color>
+
+    <!-- Accent dim/border -->
+    <Color x:Key="AccentDimBg">#292631</Color>
+    <Color x:Key="AccentBorderTint">#403B4F</Color>
+
+    <!-- Borders -->
+    <Color x:Key="BorderDefault">#1AFFFFFF</Color>
+    <Color x:Key="BorderSubtle">#0FFFFFFF</Color>
+    <Color x:Key="BorderEmphasis">#29FFFFFF</Color>
+    <Color x:Key="BorderAccent">#29FFFFFF</Color>
+    <Color x:Key="BorderFocus">#66C8B4FA</Color>
+
+    <!-- Nav -->
+    <Color x:Key="NavItemHover">#16161A</Color>
+    <Color x:Key="NavItemSelected">#1C1C22</Color>
+    <Color x:Key="NavGroupHeader">#52525A</Color>
+
+    <!-- ============================================================ -->
+    <!-- SOLID COLOR BRUSHES                                          -->
+    <!-- ============================================================ -->
+
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackground}" />
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="{StaticResource SidebarBackground}" />
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{StaticResource CardBackground}" />
+    <SolidColorBrush x:Key="CardBackgroundHoverBrush" Color="{StaticResource CardBackgroundHover}" />
+    <SolidColorBrush x:Key="SurfaceBackgroundBrush" Color="{StaticResource SurfaceBackground}" />
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="{StaticResource InputBackground}" />
+    <SolidColorBrush x:Key="RaisedBackgroundBrush" Color="{StaticResource RaisedBackground}" />
+    <SolidColorBrush x:Key="OverlayBackgroundBrush" Color="{StaticResource OverlayBackground}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiary}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMuted}" />
+
+    <SolidColorBrush x:Key="AccentLightBrush" Color="{StaticResource AccentLight}" />
+    <SolidColorBrush x:Key="AccentMidBrush" Color="{StaticResource AccentMid}" />
+    <SolidColorBrush x:Key="AccentDimBrush" Color="{StaticResource AccentDim}" />
+    <SolidColorBrush x:Key="AccentDarkBrush" Color="{StaticResource AccentDark}" />
+
+    <SolidColorBrush x:Key="AccentTealBrush" Color="{StaticResource AccentTeal}" />
+    <SolidColorBrush x:Key="AccentPurpleBrush" Color="{StaticResource AccentPurple}" />
+    <SolidColorBrush x:Key="AccentGreenBrush" Color="{StaticResource AccentGreen}" />
+    <SolidColorBrush x:Key="AccentRedBrush" Color="{StaticResource AccentRed}" />
+    <SolidColorBrush x:Key="AccentYellowBrush" Color="{StaticResource AccentYellow}" />
+    <SolidColorBrush x:Key="AccentPeachBrush" Color="{StaticResource AccentPeach}" />
+    <SolidColorBrush x:Key="AccentBlueBrush" Color="{StaticResource AccentBlue}" />
+    <SolidColorBrush x:Key="AccentPinkBrush" Color="{StaticResource AccentPink}" />
+    <SolidColorBrush x:Key="AccentLavenderBrush" Color="{StaticResource AccentLavender}" />
+    <SolidColorBrush x:Key="AccentSkyBrush" Color="{StaticResource AccentSky}" />
+    <SolidColorBrush x:Key="AccentOrangeBrush" Color="{StaticResource AccentOrange}" />
+
+    <SolidColorBrush x:Key="StatusGreenBrush" Color="{StaticResource StatusGreen}" />
+    <SolidColorBrush x:Key="StatusRedBrush" Color="{StaticResource StatusRed}" />
+    <SolidColorBrush x:Key="StatusYellowBrush" Color="{StaticResource StatusYellow}" />
+    <SolidColorBrush x:Key="StatusAmberBrush" Color="{StaticResource StatusYellow}" />
+    <SolidColorBrush x:Key="StatusOrangeBrush" Color="{StaticResource StatusOrange}" />
+
+    <SolidColorBrush x:Key="StatusGreenBgBrush" Color="{StaticResource StatusGreenBg}" />
+    <SolidColorBrush x:Key="StatusRedBgBrush" Color="{StaticResource StatusRedBg}" />
+    <SolidColorBrush x:Key="StatusYellowBgBrush" Color="{StaticResource StatusYellowBg}" />
+    <SolidColorBrush x:Key="StatusOrangeBgBrush" Color="{StaticResource StatusOrangeBg}" />
+
+    <SolidColorBrush x:Key="StatusGreenBorderBrush" Color="{StaticResource StatusGreenBorder}" />
+    <SolidColorBrush x:Key="StatusRedBorderBrush" Color="{StaticResource StatusRedBorder}" />
+    <SolidColorBrush x:Key="StatusYellowBorderBrush" Color="{StaticResource StatusYellowBorder}" />
+    <SolidColorBrush x:Key="StatusOrangeBorderBrush" Color="{StaticResource StatusOrangeBorder}" />
+
+    <SolidColorBrush x:Key="AccentPurpleBgBrush" Color="{StaticResource AccentPurpleBg}" />
+    <SolidColorBrush x:Key="AccentPurpleBorderBrush" Color="{StaticResource AccentPurpleBorder}" />
+    <SolidColorBrush x:Key="AccentBlueBgBrush" Color="{StaticResource AccentBlueBg}" />
+    <SolidColorBrush x:Key="AccentBlueBorderBrush" Color="{StaticResource AccentBlueBorder}" />
+
+    <!-- New semantic tint brushes -->
+    <SolidColorBrush x:Key="GreenTextBrush" Color="{StaticResource GreenText}" />
+    <SolidColorBrush x:Key="GreenBgTintBrush" Color="{StaticResource GreenBgTint}" />
+    <SolidColorBrush x:Key="GreenBorderTintBrush" Color="{StaticResource GreenBorderTint}" />
+    <SolidColorBrush x:Key="AmberTextBrush" Color="{StaticResource AmberText}" />
+    <SolidColorBrush x:Key="AmberBgTintBrush" Color="{StaticResource AmberBgTint}" />
+    <SolidColorBrush x:Key="AmberBorderTintBrush" Color="{StaticResource AmberBorderTint}" />
+    <SolidColorBrush x:Key="RedTextBrush" Color="{StaticResource RedText}" />
+    <SolidColorBrush x:Key="RedBgTintBrush" Color="{StaticResource RedBgTint}" />
+    <SolidColorBrush x:Key="RedBorderTintBrush" Color="{StaticResource RedBorderTint}" />
+    <SolidColorBrush x:Key="BlueTextBrush" Color="{StaticResource BlueText}" />
+    <SolidColorBrush x:Key="BlueBgTintBrush" Color="{StaticResource BlueBgTint}" />
+    <SolidColorBrush x:Key="BlueBorderTintBrush" Color="{StaticResource BlueBorderTint}" />
+    <SolidColorBrush x:Key="AccentDimBgBrush" Color="{StaticResource AccentDimBg}" />
+    <SolidColorBrush x:Key="AccentBorderTintBrush" Color="{StaticResource AccentBorderTint}" />
+
+    <SolidColorBrush x:Key="BorderDefaultBrush" Color="{StaticResource BorderDefault}" />
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}" />
+    <SolidColorBrush x:Key="BorderAccentBrush" Color="{StaticResource BorderAccent}" />
+    <SolidColorBrush x:Key="BorderEmphasisBrush" Color="{StaticResource BorderEmphasis}" />
+    <SolidColorBrush x:Key="BorderFocusBrush" Color="{StaticResource BorderFocus}" />
+
+    <SolidColorBrush x:Key="NavItemHoverBrush" Color="{StaticResource NavItemHover}" />
+    <SolidColorBrush x:Key="NavItemSelectedBrush" Color="{StaticResource NavItemSelected}" />
+    <SolidColorBrush x:Key="NavGroupHeaderBrush" Color="{StaticResource NavGroupHeader}" />
+
+    <!-- Legacy compatibility -->
+    <SolidColorBrush x:Key="StatusGreenDimBrush" Color="#1A3D2A" />
+    <SolidColorBrush x:Key="StatusRedDimBrush" Color="#3D1A1A" />
+
+    <!-- ============================================================ -->
+    <!-- GRADIENT BRUSHES (warm layered gradients)                    -->
+    <!-- ============================================================ -->
+
+    <LinearGradientBrush x:Key="CardGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#131316" Offset="0.0" />
+        <GradientStop Color="#0F0F12" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SidebarGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#0F0F13" Offset="0.0" />
+        <GradientStop Color="#0C0C0E" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="StatCardGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#131316" Offset="0.0" />
+        <GradientStop Color="#0C0C0E" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ChartBarGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#C8B4FA" Offset="0.0" />
+        <GradientStop Color="#5F5D5B" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HoverGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#16161A" Offset="0.0" />
+        <GradientStop Color="#131316" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DividerGradientBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="#00F0EEEB" Offset="0.0" />
+        <GradientStop Color="#20F0EEEB" Offset="0.5" />
+        <GradientStop Color="#00F0EEEB" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="TooltipGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#1A1A1F" Offset="0.0" />
+        <GradientStop Color="#131316" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="AlertGradientBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#131316" Offset="0.0" />
+        <GradientStop Color="#0F0F12" Offset="1.0" />
+    </LinearGradientBrush>
+
+</ResourceDictionary>

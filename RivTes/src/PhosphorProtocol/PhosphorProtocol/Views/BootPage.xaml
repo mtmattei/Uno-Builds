@@ -1,0 +1,85 @@
+<Page x:Class="PhosphorProtocol.Views.BootPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource VoidBrush}">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
+          MaxWidth="860" Padding="40">
+        <!-- CRT Glass -->
+        <Border x:Name="CRTGlass"
+                Background="{StaticResource CRTBrush}"
+                CornerRadius="11"
+                BorderBrush="{StaticResource ChromeBrush}"
+                BorderThickness="4"
+                Padding="32,24"
+                Opacity="0">
+            <Grid>
+                <!-- Phase A: Elegant Riviera title -->
+                <StackPanel x:Name="TitlePanel" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Spacing="4" Opacity="0">
+                    <TextBlock x:Name="TitleText" Text="Riviera"
+                               Style="{StaticResource RivieraScript}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock x:Name="SubtitleText" Text="Graphic Control Center"
+                               Style="{StaticResource RivieraScriptSubtitle}"
+                               HorizontalAlignment="Center" />
+                    <Border Height="1" Background="{StaticResource GhostBrush}" Margin="20,8,20,0" Opacity="0.6" />
+                </StackPanel>
+
+                <!-- Phase B: Vehicle status POST lines -->
+                <StackPanel x:Name="BootLines" Spacing="6" Opacity="0">
+                    <TextBlock x:Name="Line1" Text="CLIMATE CONTROL .... 72°F"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource BrightBrush}"
+                               Opacity="0" />
+                    <TextBlock x:Name="Line2" Text="DOOR STATUS ........ SECURED"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource BrightBrush}"
+                               Opacity="0" />
+                    <TextBlock x:Name="Line3" Text="FUEL LEVEL ......... 74%"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource BrightBrush}"
+                               Opacity="0" />
+                    <TextBlock x:Name="Line4" Text="FUEL ECONOMY ....... 4.2 mi/kWh"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource BrightBrush}"
+                               Opacity="0" />
+                    <TextBlock x:Name="Line5" Text="TRIP ............... 42.3 mi"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource BrightBrush}"
+                               Opacity="0" />
+                    <TextBlock x:Name="Line6" Text="SYSTEMS NOMINAL"
+                               Style="{StaticResource PhosphorBodyMedium}"
+                               Foreground="{StaticResource PeakBrush}"
+                               Opacity="0" />
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock x:Name="LineFinal" Text="ENTERING GCC ..."
+                                   Style="{StaticResource PhosphorBodyLarge}"
+                                   Foreground="{StaticResource PeakBrush}"
+                                   Opacity="0" />
+                        <TextBlock x:Name="Cursor" Text="█"
+                                   Style="{StaticResource PhosphorBodyLarge}"
+                                   Foreground="{StaticResource PeakBrush}"
+                                   Opacity="0" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- CRT Warm-up scanline overlay -->
+        <Border CornerRadius="11"
+                IsHitTestVisible="False">
+            <Border x:Name="WarmUpLine"
+                    Background="{StaticResource BrightBrush}"
+                    Height="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Opacity="0"
+                    CornerRadius="1">
+                <Border.RenderTransform>
+                    <ScaleTransform x:Name="WarmUpLineScale" ScaleY="1" />
+                </Border.RenderTransform>
+            </Border>
+        </Border>
+    </Grid>
+</Page>

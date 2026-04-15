@@ -1,0 +1,15 @@
+<UserControl x:Class="GridForm.Controls.SlaBadge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:GridForm.Converters">
+
+  <UserControl.Resources>
+    <converters:SlaToColorConverter x:Key="SlaToColor" />
+  </UserControl.Resources>
+
+  <TextBlock Text="{x:Bind SlaText, Mode=OneWay}"
+             Style="{StaticResource LabelSmall}"
+             FontFamily="{StaticResource MonoFontFamily}"
+             Foreground="{x:Bind Deadline, Mode=OneWay, Converter={StaticResource SlaToColor}}"
+             VerticalAlignment="Center" />
+</UserControl>

@@ -1,0 +1,18 @@
+<UserControl x:Class="GridForm.Controls.PipelineBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Grid Height="6" CornerRadius="3">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="{x:Bind PendingWidth, Mode=OneWay}" />
+      <ColumnDefinition Width="{x:Bind ReviewWidth, Mode=OneWay}" />
+      <ColumnDefinition Width="{x:Bind ApprovedWidth, Mode=OneWay}" />
+      <ColumnDefinition Width="{x:Bind FlaggedWidth, Mode=OneWay}" />
+    </Grid.ColumnDefinitions>
+
+    <Border Grid.Column="0" Background="{StaticResource StatusPendingBrush}" CornerRadius="3,0,0,3" />
+    <Border Grid.Column="1" Background="{StaticResource StatusReviewBrush}" />
+    <Border Grid.Column="2" Background="{StaticResource StatusApprovedBrush}" />
+    <Border Grid.Column="3" Background="{StaticResource StatusFlaggedBrush}" CornerRadius="0,3,3,0" />
+  </Grid>
+</UserControl>

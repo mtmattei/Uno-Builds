@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno-app__uno_app_start",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_element_peer_default_action",
+      "mcp__uno-app__uno_app_pointer_click",
+      "Bash(powershell -Command \"Invoke-WebRequest -Uri 'https://github.com/google/fonts/raw/main/ofl/greatvibes/GreatVibes-Regular.ttf' -OutFile 'C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\RivTes\\\\src\\\\PhosphorProtocol\\\\PhosphorProtocol\\\\Assets\\\\Fonts\\\\GreatVibes-Regular.ttf'\" 2>&1)",
+      "Bash(powershell -Command \"Get-Process -Name PhosphorProtocol -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "mcp__uno-app__uno_app_close",
+      "Bash(powershell -Command \"Get-Process -Name PhosphorProtocol -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process -Name dotnet -ErrorAction SilentlyContinue | Where-Object { $_.StartTime -gt \\(Get-Date\\).AddMinutes\\(-5\\) } | Stop-Process -Force -ErrorAction SilentlyContinue\")"
+    ]
+  }
+}

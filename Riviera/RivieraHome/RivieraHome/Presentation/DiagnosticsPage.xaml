@@ -1,0 +1,154 @@
+<Page x:Class="RivieraHome.Presentation.DiagnosticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:RivieraHome.Presentation"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:controls="using:RivieraHome.Controls"
+      Background="Transparent"
+      NavigationCacheMode="Required">
+
+  <mvux:FeedView Source="{Binding Diagnostics}">
+    <mvux:FeedView.ValueTemplate>
+      <DataTemplate>
+        <Grid ColumnSpacing="20" Padding="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Left Column: System Stats -->
+          <StackPanel Grid.Column="0" Spacing="16" VerticalAlignment="Top">
+
+            <TextBlock Text="SYSTEM STATUS"
+                       Style="{StaticResource CrtLabel}"
+                       x:Uid="DiagnosticsPage.Label.SystemStatus" />
+
+            <!-- Gauges Row -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+              <controls:GaugeArc Value="{Binding Data.CpuTemp}"
+                                 Maximum="100"
+                                 Label="CPU TEMP"
+                                 Unit="°C"
+                                 GaugeSize="105"
+                                 AutomationProperties.Name="CPU temperature gauge" />
+              <controls:GaugeArc Value="{Binding Data.MemPct}"
+                                 Maximum="100"
+                                 Label="MEMORY"
+                                 Unit="%"
+                                 GaugeSize="105"
+                                 AutomationProperties.Name="Memory usage gauge" />
+            </StackPanel>
+
+            <Border Height="1" Background="{StaticResource PhosphorDimBrush}" Opacity="0.15" />
+
+            <!-- Quick Stats -->
+            <Grid ColumnSpacing="8" RowSpacing="8">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Grid.Column="0"
+                      BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" Padding="12,8" CornerRadius="2">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="NETWORK" Style="{StaticResource CrtLabel}" />
+                  <TextBlock Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorBrightBrush}">
+                    <Run Text="●" />
+                    <Run Text=" ONLINE" />
+                  </TextBlock>
+                </StackPanel>
+              </Border>
+
+              <Border Grid.Row="0" Grid.Column="1"
+                      BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" Padding="12,8" CornerRadius="2">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="UPTIME" Style="{StaticResource CrtLabel}" />
+                  <TextBlock Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorBrightBrush}">
+                    <Run Text="{Binding Data.UptimeDays}" />
+                    <Run Text=" DAYS" />
+                  </TextBlock>
+                </StackPanel>
+              </Border>
+
+              <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                      BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" Padding="12,8" CornerRadius="2">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="CONNECTED DEVICES" Style="{StaticResource CrtLabel}" />
+                  <TextBlock Text="{Binding Data.DeviceCount}"
+                             Style="{StaticResource CrtDisplayMD}"
+                             AutomationProperties.Name="Connected device count" />
+                </StackPanel>
+              </Border>
+            </Grid>
+          </StackPanel>
+
+          <!-- Right Column: Alerts + System Log -->
+          <StackPanel Grid.Column="1" Spacing="16" VerticalAlignment="Top">
+
+            <TextBlock Text="ACTIVE ALERTS"
+                       Style="{StaticResource CrtLabel}"
+                       x:Uid="DiagnosticsPage.Label.Alerts" />
+
+            <muxc:ItemsRepeater ItemsSource="{Binding Data.Alerts}">
+              <muxc:ItemsRepeater.Layout>
+                <muxc:StackLayout Spacing="6" />
+              </muxc:ItemsRepeater.Layout>
+              <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <Border BorderBrush="{StaticResource PhosphorDimBrush}"
+                          BorderThickness="1"
+                          Background="{StaticResource PhosphorSubtleBrush}"
+                          Padding="12,8"
+                          CornerRadius="2">
+                    <TextBlock Text="{Binding}" Style="{StaticResource CrtBody}" TextWrapping="Wrap" />
+                  </Border>
+                </DataTemplate>
+              </muxc:ItemsRepeater.ItemTemplate>
+            </muxc:ItemsRepeater>
+
+            <Border Height="1" Background="{StaticResource PhosphorDimBrush}" Opacity="0.15" />
+
+            <TextBlock Text="SYSTEM LOG"
+                       Style="{StaticResource CrtLabel}"
+                       x:Uid="DiagnosticsPage.Label.SystemLog" />
+
+            <muxc:ItemsRepeater ItemsSource="{Binding Data.Log}">
+              <muxc:ItemsRepeater.Layout>
+                <muxc:StackLayout Spacing="4" />
+              </muxc:ItemsRepeater.Layout>
+              <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding}"
+                             Style="{StaticResource CrtLogEntry}" />
+                </DataTemplate>
+              </muxc:ItemsRepeater.ItemTemplate>
+            </muxc:ItemsRepeater>
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </mvux:FeedView.ValueTemplate>
+
+    <mvux:FeedView.ProgressTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <ProgressRing IsActive="True" Foreground="{StaticResource PhosphorPrimaryBrush}" Width="48" Height="48" />
+          <TextBlock Text="LOADING DIAGNOSTICS..." Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ProgressTemplate>
+
+    <mvux:FeedView.ErrorTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <TextBlock Text="DIAGNOSTICS OFFLINE" Style="{StaticResource CrtHeading}" HorizontalAlignment="Center" />
+          <TextBlock Text="Connection lost — retry" Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorDimBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ErrorTemplate>
+  </mvux:FeedView>
+</Page>

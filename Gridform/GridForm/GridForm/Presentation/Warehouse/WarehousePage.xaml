@@ -1,0 +1,107 @@
+<Page x:Class="GridForm.Presentation.Warehouse.WarehousePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:GridForm.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- Toolbar -->
+    <Border Grid.Row="0"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="16,6">
+      <utu:AutoLayout Orientation="Horizontal" Spacing="6" PrimaryAxisAlignment="Start">
+        <!-- Mode buttons -->
+        <Button x:Name="BuildBtn" Content="Build"
+                Style="{StaticResource ToolbarActiveButtonStyle}"
+                Click="OnBuildMode" />
+        <Button x:Name="ZoneBtn" Content="Zone"
+                Style="{StaticResource ToolbarButtonStyle}"
+                Click="OnZoneMode" />
+
+        <Border Width="1" Height="24" Background="{ThemeResource OutlineBrush}" Margin="4,0" />
+
+        <Button x:Name="EraseBtn" Content="Erase"
+                Style="{StaticResource ToolbarButtonStyle}"
+                Click="OnToggleErase" />
+
+        <Border Width="1" Height="24" Background="{ThemeResource OutlineBrush}" Margin="4,0" />
+
+        <!-- Asset palette -->
+        <Button Content="Pallet" Tag="Pallet" Style="{StaticResource ToolbarActiveButtonStyle}" Click="OnAssetSelected" />
+        <Button Content="Rack" Tag="Rack" Style="{StaticResource ToolbarButtonStyle}" Click="OnAssetSelected" />
+        <Button Content="Container" Tag="Container" Style="{StaticResource ToolbarButtonStyle}" Click="OnAssetSelected" />
+        <Button Content="Equipment" Tag="Equipment" Style="{StaticResource ToolbarButtonStyle}" Click="OnAssetSelected" />
+        <Button Content="Aisle" Tag="Aisle" Style="{StaticResource ToolbarButtonStyle}" Click="OnAssetSelected" />
+
+        <Border Width="1" Height="24" Background="{ThemeResource OutlineBrush}" Margin="4,0" />
+
+        <!-- Presets -->
+        <Button Content="Layout A" Style="{StaticResource GhostButtonStyle}" Click="OnLoadPresetA" />
+        <Button Content="Layout B" Style="{StaticResource GhostButtonStyle}" Click="OnLoadPresetB" />
+        <Button Content="Clear" Style="{StaticResource GhostButtonStyle}" Click="OnClearGrid"
+                Foreground="{ThemeResource ErrorBrush}" />
+      </utu:AutoLayout>
+    </Border>
+
+    <!-- Canvas + Scrubber -->
+    <Grid Grid.Row="1" ColumnDefinitions="*,40"
+          Background="{ThemeResource BackgroundBrush}">
+      <controls:IsometricCanvas x:Name="IsoCanvas"
+                                Grid.Column="0"
+                                VoxelClicked="OnVoxelClicked" />
+
+      <controls:LayerScrubber x:Name="Scrubber"
+                              Grid.Column="1"
+                              VerticalAlignment="Center"
+                              LayerChanged="OnLayerChanged" />
+
+      <!-- Keyboard hints HUD (bottom-right) -->
+      <TextBlock Grid.Column="0"
+                 Text="CLICK place · R-CLICK erase · SCROLL height · Q cycle · B/Z mode"
+                 FontSize="8"
+                 FontFamily="{StaticResource MonoFontFamily}"
+                 Foreground="{ThemeResource OutlineVariantBrush}"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 Margin="0,0,12,8" />
+    </Grid>
+
+    <!-- Metrics overlay (bottom-left) -->
+    <Border Grid.Row="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Margin="16,0,0,16"
+            Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="12,8"
+            Opacity="0.92">
+      <mvux:FeedView Source="{Binding Metrics}">
+        <mvux:FeedView.ValueTemplate>
+          <DataTemplate>
+            <StackPanel Spacing="4">
+              <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SurfaceTintBrush}" FontFamily="{StaticResource MonoFontFamily}">
+                <Run Text="FLOOR " /><Run Text="{Binding Data.FloorUtilization}" /><Run Text="%" />
+              </TextBlock>
+              <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SurfaceTintBrush}" FontFamily="{StaticResource MonoFontFamily}">
+                <Run Text="VOL   " /><Run Text="{Binding Data.VolumeUtilization}" /><Run Text="%" />
+              </TextBlock>
+              <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SurfaceTintBrush}" FontFamily="{StaticResource MonoFontFamily}">
+                <Run Text="UNITS " /><Run Text="{Binding Data.TotalUnits}" />
+              </TextBlock>
+              <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SurfaceTintBrush}" FontFamily="{StaticResource MonoFontFamily}">
+                <Run Text="PEAK  H" /><Run Text="{Binding Data.PeakHeight}" />
+              </TextBlock>
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.ValueTemplate>
+      </mvux:FeedView>
+    </Border>
+  </Grid>
+</Page>

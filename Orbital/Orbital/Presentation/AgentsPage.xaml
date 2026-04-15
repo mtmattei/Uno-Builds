@@ -1,0 +1,125 @@
+<Page x:Class="Orbital.Presentation.AgentsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:Orbital.Controls"
+      Background="{ThemeResource OrbitalSurface0Brush}">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <controls:PageHeader Grid.Row="0"
+                         Title="Agent Sessions"
+                         Subtitle="Task-based AI development workflows" />
+
+    <Grid Grid.Row="1" Padding="{utu:Responsive Narrow='16', Normal='32', Wide='32'}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="4*" />
+        <ColumnDefinition Width="24" />
+        <ColumnDefinition Width="8*" />
+      </Grid.ColumnDefinitions>
+
+      <!-- SESSION LIST (left panel) -->
+      <utu:AutoLayout x:Name="SessionListPanel" Grid.Column="0" Spacing="12" PrimaryAxisAlignment="Start" Opacity="0">
+        <!-- Header -->
+        <Grid>
+          <TextBlock Text="SESSIONS" Style="{StaticResource OrbitalSectionHeader}"
+                     Foreground="{ThemeResource OrbitalText38Brush}" VerticalAlignment="Center" />
+          <Button x:Name="NewSessionButton" Style="{StaticResource OrbitalPrimaryButtonSm}" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <FontIcon Glyph="&#xE945;" FontSize="14"
+                        Foreground="{ThemeResource OrbitalSurface0Brush}" />
+              <TextBlock Text="New" Style="{StaticResource OrbitalBody}"
+                         Foreground="{ThemeResource OrbitalSurface0Brush}" />
+            </StackPanel>
+          </Button>
+        </Grid>
+
+        <!-- Session cards -->
+        <StackPanel x:Name="SessionList" Spacing="8" />
+      </utu:AutoLayout>
+
+      <!-- SESSION DETAIL (right panel) -->
+      <ScrollViewer Grid.Column="2">
+        <utu:AutoLayout x:Name="DetailPanel" Spacing="24" PrimaryAxisAlignment="Start" Opacity="0">
+          <!-- Session info card -->
+          <Border x:Name="DetailCard" Style="{StaticResource OrbitalCardStyle}" Visibility="Collapsed">
+            <utu:AutoLayout Spacing="16">
+              <!-- Header -->
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Spacing="4">
+                  <TextBlock x:Name="DetailTitle" Style="{StaticResource OrbitalDetailTitle}" />
+                  <TextBlock x:Name="DetailGoal" Style="{StaticResource OrbitalCaption}"
+                             Foreground="{ThemeResource OrbitalText42Brush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"
+                            VerticalAlignment="Top">
+                  <Border x:Name="DetailBadge" Style="{StaticResource OrbitalBadgeSuccess}">
+                    <TextBlock x:Name="DetailBadgeText" Style="{StaticResource OrbitalMonoSmall}"
+                               Foreground="{ThemeResource OrbitalEmerald400Brush}" />
+                  </Border>
+                  <Button x:Name="ReplayButton" Content="Replay" Style="{StaticResource OrbitalSecondaryButtonSm}">
+                    <Button.ContentTemplate>
+                      <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <FontIcon Glyph="&#xE72C;" FontSize="14" />
+                          <TextBlock Text="Replay" />
+                        </StackPanel>
+                      </DataTemplate>
+                    </Button.ContentTemplate>
+                  </Button>
+                </StackPanel>
+              </Grid>
+
+              <!-- Tool Permissions -->
+              <StackPanel Spacing="8">
+                <TextBlock Text="TOOL PERMISSIONS" Style="{StaticResource OrbitalSectionSubLabel}"
+                           Foreground="{ThemeResource OrbitalText32Brush}" />
+                <StackPanel x:Name="PermissionsPanel" Orientation="Horizontal" Spacing="8">
+                  <!-- Populated in code-behind -->
+                </StackPanel>
+              </StackPanel>
+
+              <!-- Action Timeline -->
+              <StackPanel Spacing="8">
+                <TextBlock Text="ACTION TIMELINE" Style="{StaticResource OrbitalSectionSubLabel}"
+                           Foreground="{ThemeResource OrbitalText32Brush}" />
+                <StackPanel x:Name="TimelinePanel" />
+              </StackPanel>
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- Acceptance Checks card -->
+          <Border x:Name="ChecksCard" Style="{StaticResource OrbitalCardStyle}" Visibility="Collapsed">
+            <utu:AutoLayout Spacing="8">
+              <TextBlock Text="ACCEPTANCE CHECKS" Style="{StaticResource OrbitalSectionSubLabel}"
+                         Foreground="{ThemeResource OrbitalText32Brush}" Margin="0,0,0,4" />
+              <StackPanel x:Name="ChecksPanel" Spacing="8" />
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- MCP Server Health card -->
+          <Border x:Name="McpHealthCard" Style="{StaticResource OrbitalCardStyle}">
+            <utu:AutoLayout Spacing="12">
+              <Grid>
+                <TextBlock Text="MCP SERVER HEALTH" Style="{StaticResource OrbitalSectionSubLabel}"
+                           Foreground="{ThemeResource OrbitalText32Brush}" VerticalAlignment="Center" />
+                <TextBlock x:Name="McpHealthTimestamp" Style="{StaticResource OrbitalMonoMeta}"
+                           Foreground="{ThemeResource OrbitalText25Brush}"
+                           HorizontalAlignment="Right" VerticalAlignment="Center" />
+              </Grid>
+              <StackPanel x:Name="McpServersPanel" Spacing="8" />
+            </utu:AutoLayout>
+          </Border>
+        </utu:AutoLayout>
+      </ScrollViewer>
+    </Grid>
+  </Grid>
+</Page>

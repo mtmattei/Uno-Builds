@@ -1,0 +1,130 @@
+<Page x:Class="ClaudeDash.Views.ProjectsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="1400">
+
+            <!-- Header: lambda + title + summary -->
+            <StackPanel Spacing="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="projects"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock x:Name="SummaryText" Grid.Column="1"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}"
+                           VerticalAlignment="Center" />
+            </Grid>
+            <TextBlock Text="Projects discovered from ~/.claude/ with session and CLAUDE.md data."
+                       Style="{StaticResource GreetingSubtitleStyle}" />
+            </StackPanel>
+
+            <!-- 4 Stat Cards -->
+            <Grid ColumnSpacing="1"
+                  Background="{StaticResource BorderSubtleBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:StatCard x:Name="TotalCard" Grid.Column="0"
+                                   Label="TOTAL PROJECTS" />
+                <controls:StatCard x:Name="GitCard" Grid.Column="1"
+                                   Label="GIT REPOS" />
+                <controls:StatCard x:Name="ClaudeMdCard" Grid.Column="2"
+                                   Label="WITH CLAUDE.MD" />
+                <controls:StatCard x:Name="WorktreeCard" Grid.Column="3"
+                                   Label="ACTIVE WORKTREES" />
+            </Grid>
+
+            <!-- Error text -->
+            <TextBlock x:Name="ErrorText"
+                       Foreground="{StaticResource AccentRedBrush}"
+                       Style="{StaticResource BodyTextStyle}"
+                       Visibility="Collapsed" />
+
+            <!-- Pipe divider: projects -->
+            <Grid x:Name="ProjectsDivider" />
+
+            <!-- Projects table -->
+            <Border x:Name="ProjectsTableCard" Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <!-- Column headers -->
+                    <Grid Margin="12,8,12,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="STATUS"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="1" Text="PROJECT"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="2" Text="BRANCH"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="3" Text="SESSIONS"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="4" Text="WORKTREES"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="5" Text="LAST ACTIVE"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Grid.Column="6" Text="ACTIONS"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10" CharacterSpacing="80"
+                                   Foreground="{StaticResource TextTertiaryBrush}"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Border Height="1" Background="{StaticResource BorderSubtleBrush}" />
+
+                    <!-- Project rows -->
+                    <StackPanel x:Name="ProjectsPanel" Spacing="0" />
+                </StackPanel>
+            </Border>
+
+            <!-- Footer -->
+            <TextBlock x:Name="FooterText"
+                       Style="{StaticResource FooterTextStyle}"
+                       Margin="0,16,0,8" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

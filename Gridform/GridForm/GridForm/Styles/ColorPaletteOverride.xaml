@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!-- GRIDFORM — Syntax-inspired dark palette -->
+    <ResourceDictionary x:Key="Default">
+      <!-- Primary = Cursor/Amber — CTAs, focus rings, active accent -->
+      <Color x:Key="PrimaryColor">#D4A959</Color>
+      <Color x:Key="OnPrimaryColor">#131519</Color>
+      <Color x:Key="PrimaryContainerColor">#2B2518</Color>
+      <Color x:Key="OnPrimaryContainerColor">#D4A959</Color>
+
+      <!-- Secondary = Keyword/Copper — emphasis, action elements -->
+      <Color x:Key="SecondaryColor">#D4927A</Color>
+      <Color x:Key="OnSecondaryColor">#131519</Color>
+      <Color x:Key="SecondaryContainerColor">#2B1F1A</Color>
+      <Color x:Key="OnSecondaryContainerColor">#D4927A</Color>
+
+      <!-- Tertiary = Type/Blue — informational, review states -->
+      <Color x:Key="TertiaryColor">#7CAFC2</Color>
+      <Color x:Key="OnTertiaryColor">#131519</Color>
+      <Color x:Key="TertiaryContainerColor">#1A2530</Color>
+      <Color x:Key="OnTertiaryContainerColor">#7CAFC2</Color>
+
+      <!-- Error = Keyword for danger states -->
+      <Color x:Key="ErrorColor">#D4927A</Color>
+      <Color x:Key="ErrorContainerColor">#2B1F1A</Color>
+      <Color x:Key="OnErrorColor">#131519</Color>
+      <Color x:Key="OnErrorContainerColor">#D4927A</Color>
+
+      <!-- Surfaces -->
+      <Color x:Key="BackgroundColor">#131519</Color>
+      <Color x:Key="OnBackgroundColor">#DEDBD4</Color>
+      <Color x:Key="SurfaceColor">#1A1C22</Color>
+      <Color x:Key="OnSurfaceColor">#DEDBD4</Color>
+      <Color x:Key="SurfaceVariantColor">#1E2028</Color>
+      <Color x:Key="OnSurfaceVariantColor">#B8B4AD</Color>
+
+      <!-- Outline / Borders -->
+      <Color x:Key="OutlineColor">#2E3140</Color>
+      <Color x:Key="OnSurfaceInverseColor">#131519</Color>
+      <Color x:Key="SurfaceInverseColor">#DEDBD4</Color>
+      <Color x:Key="PrimaryInverseColor">#2B2518</Color>
+      <Color x:Key="SurfaceTintColor">#5C5F69</Color>
+      <Color x:Key="OutlineVariantColor">#232630</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

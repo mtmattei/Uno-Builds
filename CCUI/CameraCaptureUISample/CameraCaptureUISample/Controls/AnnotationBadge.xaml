@@ -1,0 +1,82 @@
+<UserControl x:Class="CameraCaptureUISample.Controls.AnnotationBadge"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d">
+
+	<Grid x:Name="Root"
+		  Opacity="0"
+		  MinWidth="44"
+		  MinHeight="44"
+		  RenderTransformOrigin="0.5,0.5">
+		<Grid.RenderTransform>
+			<TranslateTransform x:Name="RootTranslate" Y="8" />
+		</Grid.RenderTransform>
+
+		<!-- Pulse ring — breathing glow in the badge's own color -->
+		<Border x:Name="PulseRing"
+				CornerRadius="14"
+				BorderThickness="2"
+				Opacity="0"
+				Margin="-3"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch" />
+
+		<!-- Badge pill -->
+		<Border x:Name="BadgePill"
+				CornerRadius="12"
+				Padding="8,5,12,5"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center">
+			<StackPanel Orientation="Horizontal" Spacing="6">
+				<Border CornerRadius="9"
+						Width="18" Height="18"
+						Background="{StaticResource BadgeIconBgBrush}">
+					<FontIcon x:Name="BadgeIcon"
+							  FontSize="10"
+							  Foreground="White"
+							  HorizontalAlignment="Center"
+							  VerticalAlignment="Center" />
+				</Border>
+				<TextBlock x:Name="BadgeLabel"
+						   Style="{StaticResource LabelSmall}"
+						   Foreground="White"
+						   FontFamily="Consolas"
+						   VerticalAlignment="Center" />
+			</StackPanel>
+		</Border>
+
+		<Grid.Resources>
+			<!-- Pulse ring: 2.5s period breathing (0 → 0.3 → 0), forever -->
+			<Storyboard x:Name="PulseAnimation" RepeatBehavior="Forever">
+				<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PulseRing"
+											   Storyboard.TargetProperty="Opacity">
+					<LinearDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+					<LinearDoubleKeyFrame KeyTime="0:0:1.25" Value="0.3" />
+					<LinearDoubleKeyFrame KeyTime="0:0:2.5" Value="0" />
+				</DoubleAnimationUsingKeyFrames>
+			</Storyboard>
+
+			<!-- Entrance: Opacity 0→1 + TranslateTransform.Y 8→0, 500ms CubicEase -->
+			<Storyboard x:Name="EntranceAnimation">
+				<DoubleAnimation Storyboard.TargetName="Root"
+								 Storyboard.TargetProperty="Opacity"
+								 From="0" To="1"
+								 Duration="0:0:0.5">
+					<DoubleAnimation.EasingFunction>
+						<CubicEase EasingMode="EaseOut" />
+					</DoubleAnimation.EasingFunction>
+				</DoubleAnimation>
+				<DoubleAnimation Storyboard.TargetName="RootTranslate"
+								 Storyboard.TargetProperty="Y"
+								 From="8" To="0"
+								 Duration="0:0:0.5">
+					<DoubleAnimation.EasingFunction>
+						<CubicEase EasingMode="EaseOut" />
+					</DoubleAnimation.EasingFunction>
+				</DoubleAnimation>
+			</Storyboard>
+		</Grid.Resources>
+	</Grid>
+</UserControl>

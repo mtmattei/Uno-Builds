@@ -1,0 +1,28 @@
+<UserControl x:Class="PrecisionDial.Samples.IlluminatedReadout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Orientation="Horizontal">
+        <!-- Hundreds -->
+        <Grid>
+            <TextBlock x:Name="HundredsGlow" FontFamily="Courier New" FontSize="28"
+                       Foreground="#FFD4A959" Opacity="0" IsHitTestVisible="False" />
+            <TextBlock x:Name="HundredsText" FontFamily="Courier New" FontSize="28"
+                       Foreground="#33787878" />
+        </Grid>
+        <!-- Tens -->
+        <Grid>
+            <TextBlock x:Name="TensGlow" FontFamily="Courier New" FontSize="28"
+                       Foreground="#FFD4A959" Opacity="0" IsHitTestVisible="False" />
+            <TextBlock x:Name="TensText" FontFamily="Courier New" FontSize="28"
+                       Foreground="#33787878" />
+        </Grid>
+        <!-- Ones -->
+        <Grid>
+            <TextBlock x:Name="OnesGlow" FontFamily="Courier New" FontSize="28"
+                       Foreground="#FFD4A959" Opacity="0" IsHitTestVisible="False" />
+            <TextBlock x:Name="OnesText" FontFamily="Courier New" FontSize="28"
+                       Foreground="#33787878" />
+        </Grid>
+    </StackPanel>
+</UserControl>

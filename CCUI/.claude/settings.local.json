@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet build:*)",
+      "Bash(gh auth:*)",
+      "Bash(where:*)",
+      "Bash(winget install:*)",
+      "Bash(export:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash($ANDROID_HOME/emulator/emulator:*)",
+      "Bash(echo \"ANDROID_HOME=$ANDROID_HOME\")",
+      "Bash(echo \"ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT\")",
+      "Read(//c/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/CCUI/CameraCaptureUISample/CameraCaptureUISample/$LOCALAPPDATA/Android/Sdk/emulator/**)",
+      "Read(//c/Program Files \\(x86\\)/Android/android-sdk/emulator/**)",
+      "Read(//c/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/CCUI/CameraCaptureUISample/CameraCaptureUISample/$HOME/AppData/Local/Android/Sdk/emulator/**)",
+      "Read(//c/Users/Platform006/**)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/emulator/emulator.exe\":*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/platform-tools/adb.exe\" devices:*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/platform-tools/adb.exe\":*)",
+      "Bash(tasklist.exe:*)",
+      "Bash(\"$ADB\":*)"
+    ]
+  }
+}

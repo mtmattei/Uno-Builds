@@ -1,0 +1,59 @@
+<UserControl x:Class="CameraCaptureUISample.Controls.AnnotationOverlay"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:controls="using:CameraCaptureUISample.Controls"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 IsHitTestVisible="True">
+
+	<Grid x:Name="OverlayRoot">
+
+		<!-- AutoLayout badge — top-left of viewfinder area, near the layout container -->
+		<controls:AnnotationBadge x:Name="BadgeAutoLayout"
+								  Label="AutoLayout"
+								  IconGlyph="&#xE80A;"
+								  AnnotationKey="autoLayout"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"
+								  Margin="-240,-120,0,0"
+								  AutomationProperties.Name="AutoLayout — Uno Toolkit layout control" />
+
+		<!-- IState badge — top-right of viewfinder area, near the state-driven content -->
+		<controls:AnnotationBadge x:Name="BadgeIState"
+								  Label="IState&lt;T&gt;"
+								  IconGlyph="&#xE943;"
+								  AnnotationKey="istate"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"
+								  Margin="200,-120,0,0"
+								  AutomationProperties.Name="IState — MVUX reactive state management" />
+
+		<!-- CameraCaptureUI badge — near the capture/open button area -->
+		<controls:AnnotationBadge x:Name="BadgeCameraCaptureUI"
+								  Label="CameraCaptureUI"
+								  IconGlyph="&#xE722;"
+								  AnnotationKey="cameraCaptureUI"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"
+								  Margin="-180,140,0,0"
+								  AutomationProperties.Name="CameraCaptureUI — Native camera capture" />
+
+		<!-- BitmapImage badge — center-right of viewfinder, near the displayed image -->
+		<controls:AnnotationBadge x:Name="BadgeBitmapImage"
+								  Label="BitmapImage"
+								  IconGlyph="&#xEB9F;"
+								  AnnotationKey="bitmapImage"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"
+								  Margin="220,20,0,0"
+								  AutomationProperties.Name="BitmapImage — Image display from stream" />
+
+		<!-- Annotation detail panel — centered overlay -->
+		<controls:AnnotationPanel x:Name="DetailPanel"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"
+								  Margin="24"
+								  Visibility="Collapsed" />
+	</Grid>
+</UserControl>

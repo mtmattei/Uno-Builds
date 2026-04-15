@@ -1,0 +1,131 @@
+<Page x:Class="RivieraHome.Presentation.LightingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:RivieraHome.Presentation"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:controls="using:RivieraHome.Controls"
+      Background="Transparent"
+      NavigationCacheMode="Required">
+
+  <mvux:FeedView Source="{Binding Lighting}">
+    <mvux:FeedView.ValueTemplate>
+      <DataTemplate>
+        <Grid ColumnSpacing="20" Padding="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Left Column: Room Controls -->
+          <StackPanel Grid.Column="0" Spacing="16" VerticalAlignment="Top">
+
+            <TextBlock Text="ROOM CONTROLS"
+                       Style="{StaticResource CrtLabel}"
+                       x:Uid="LightingPage.Label.RoomControls" />
+
+            <Grid ColumnSpacing="6" RowSpacing="6">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <controls:PhosphorToggle Grid.Row="0" Grid.Column="0"
+                                       Label="LIVING"
+                                       IsChecked="{Binding Data.Lights[LIVING], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="0" Grid.Column="1"
+                                       Label="BEDROOM"
+                                       IsChecked="{Binding Data.Lights[BEDROOM], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="1" Grid.Column="0"
+                                       Label="KITCHEN"
+                                       IsChecked="{Binding Data.Lights[KITCHEN], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="1" Grid.Column="1"
+                                       Label="PORCH"
+                                       IsChecked="{Binding Data.Lights[PORCH], Mode=TwoWay}" />
+              <controls:PhosphorToggle Grid.Row="2" Grid.Column="0"
+                                       Label="GARAGE"
+                                       IsChecked="{Binding Data.Lights[GARAGE], Mode=TwoWay}" />
+            </Grid>
+          </StackPanel>
+
+          <!-- Right Column: Brightness -->
+          <StackPanel Grid.Column="1" Spacing="16" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+
+            <TextBlock Text="MASTER BRIGHTNESS"
+                       Style="{StaticResource CrtLabel}"
+                       HorizontalAlignment="Center"
+                       x:Uid="LightingPage.Label.Brightness" />
+
+            <controls:GaugeArc Value="{Binding Data.Brightness}"
+                               Maximum="100"
+                               Label="LEVEL"
+                               Unit="%"
+                               GaugeSize="130"
+                               HorizontalAlignment="Center"
+                               AutomationProperties.Name="Brightness level gauge" />
+
+            <!-- Brightness slider area -->
+            <Border BorderBrush="{StaticResource PhosphorDimBrush}"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Padding="12,8"
+                    HorizontalAlignment="Stretch">
+              <StackPanel Spacing="8">
+                <Grid>
+                  <TextBlock Text="25%" Style="{StaticResource CrtLabel}" HorizontalAlignment="Left" />
+                  <TextBlock Style="{StaticResource CrtBody}"
+                             Foreground="{StaticResource PhosphorBrightBrush}"
+                             HorizontalAlignment="Center">
+                    <Run Text="{Binding Data.Brightness}" />
+                    <Run Text="%" />
+                  </TextBlock>
+                  <TextBlock Text="100%" Style="{StaticResource CrtLabel}" HorizontalAlignment="Right" />
+                </Grid>
+                <Slider Minimum="25" Maximum="100"
+                        Value="{Binding Data.Brightness, Mode=TwoWay}"
+                        Foreground="{StaticResource PhosphorPrimaryBrush}"
+                        AutomationProperties.Name="Brightness slider" />
+              </StackPanel>
+            </Border>
+
+            <!-- Active count -->
+            <Border BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Padding="12,8"
+                    HorizontalAlignment="Stretch">
+              <TextBlock Style="{StaticResource CrtBody}"
+                         HorizontalAlignment="Center"
+                         Foreground="{StaticResource PhosphorBrightBrush}">
+                <Run Text="💡" />
+                <Run Text=" LIGHTS ACTIVE" />
+              </TextBlock>
+            </Border>
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </mvux:FeedView.ValueTemplate>
+
+    <mvux:FeedView.ProgressTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <ProgressRing IsActive="True" Foreground="{StaticResource PhosphorPrimaryBrush}" Width="48" Height="48" />
+          <TextBlock Text="LOADING LIGHTING DATA..." Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ProgressTemplate>
+
+    <mvux:FeedView.ErrorTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <TextBlock Text="LIGHTING FEED OFFLINE" Style="{StaticResource CrtHeading}" HorizontalAlignment="Center" />
+          <TextBlock Text="Connection lost — retry" Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorDimBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ErrorTemplate>
+  </mvux:FeedView>
+</Page>

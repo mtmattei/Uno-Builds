@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera\" -maxdepth 5 -type f \\\\\\( -name \"*.sln\" -o -name \"*.csproj\" -o -name \"*.cs\" -o -name \"*.xaml\" \\\\\\) 2>/dev/null | head -20)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome\" && dotnet build RivieraHome.sln -f net10.0-desktop 2>&1)",
+      "Bash(ls \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome/bin/Debug/net10.0-desktop/\"*.exe 2>/dev/null)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome\" && dotnet run --project RivieraHome/RivieraHome.csproj -f net10.0-desktop --no-launch-profile 2>&1)",
+      "mcp__uno__uno_platform_docs_fetch",
+      "mcp__uno__uno_platform_docs_search",
+      "Bash(taskkill //PID 26072 //F 2>&1)"
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+<UserControl x:Class="Orbital.Controls.TerminalControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Orbital.Controls">
+
+  <Grid Height="200">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Chat-style output area (fixed height, scrolls internally) -->
+    <ScrollViewer x:Name="OutputScroller" Grid.Row="0"
+                  VerticalScrollBarVisibility="Hidden"
+                  Padding="16,12,16,4">
+      <StackPanel x:Name="OutputPanel" Spacing="6"
+                  VerticalAlignment="Bottom" />
+    </ScrollViewer>
+
+    <!-- Chat-style input bar -->
+    <Border Grid.Row="1"
+            Background="{ThemeResource OrbitalSurface1Brush}"
+            BorderBrush="{ThemeResource OrbitalSurface3Brush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            Margin="16,4,16,12"
+            Padding="4">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Shell indicator -->
+        <Border Grid.Column="0"
+                Background="{ThemeResource OrbitalSurface2Brush}"
+                CornerRadius="8"
+                Padding="8,4"
+                Margin="4,2"
+                VerticalAlignment="Center">
+          <TextBlock x:Name="ShellBadge"
+                     Text="pwsh"
+                     FontFamily="{StaticResource OrbitalMonoFont}"
+                     FontSize="10"
+                     Foreground="{ThemeResource OrbitalEmerald400Brush}" />
+        </Border>
+
+        <!-- Input -->
+        <TextBox x:Name="InputBox" Grid.Column="1"
+                 FontFamily="{StaticResource OrbitalMonoFont}"
+                 FontSize="13"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Foreground="{ThemeResource OrbitalText85Brush}"
+                 PlaceholderText="What are we building today?"
+                 VerticalAlignment="Center"
+                 Margin="4,0" />
+
+        <!-- Send button -->
+        <Button x:Name="SendButton" Grid.Column="2"
+                MinWidth="0" MinHeight="0"
+                Padding="8,6"
+                Margin="2"
+                CornerRadius="8"
+                Background="{ThemeResource OrbitalEmerald500Brush}"
+                VerticalAlignment="Center">
+          <FontIcon Glyph="&#xE724;" FontSize="14"
+                    Foreground="{ThemeResource OrbitalSurface0Brush}" />
+        </Button>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

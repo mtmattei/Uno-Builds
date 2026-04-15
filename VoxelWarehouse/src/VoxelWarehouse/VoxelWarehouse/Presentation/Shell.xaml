@@ -1,0 +1,486 @@
+<UserControl x:Class="VoxelWarehouse.Presentation.Shell"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1400">
+
+  <Grid Background="{StaticResource GfBgBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="44" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- ═══ TOP BAR ═══ -->
+    <Border Grid.Row="0"
+            Background="{StaticResource GfPanelBrush}"
+            BorderBrush="{StaticResource GfBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="16,0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Wordmark + PROD badge -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+          <TextBlock Text="GRIDFORM" Style="{StaticResource GridFormWordmarkStyle}" />
+          <TextBlock Text="SPATIAL OPS" Style="{StaticResource GridFormSubtitleStyle}" VerticalAlignment="Center" />
+          <Border Background="{StaticResource GfAccentDimBrush}" CornerRadius="3" Padding="8,3"
+                  BorderBrush="{StaticResource GfAccentBrush}" BorderThickness="1"
+                  VerticalAlignment="Center" Margin="4,0,0,0">
+            <TextBlock Text="PROD" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="SemiBold" CharacterSpacing="150"
+                       Foreground="{StaticResource GfAccentBrush}" />
+          </Border>
+        </StackPanel>
+
+        <!-- Nav tabs -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                    Spacing="6" Margin="20,0,0,0">
+          <Button x:Name="TabWarehouse" Style="{StaticResource GfFlatButtonStyle}" Click="OnTabWarehouse"
+                  Background="{StaticResource GfAccentBrush}" BorderBrush="{StaticResource GfAccentBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <TextBlock Text="&#x25C6;" FontSize="8" Foreground="White" VerticalAlignment="Center" />
+              <TextBlock x:Name="TabWarehouseLabel" Text="WAREHOUSE"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="9" FontWeight="SemiBold" CharacterSpacing="120"
+                         Foreground="White" />
+            </StackPanel>
+          </Button>
+          <Button x:Name="TabProcurement" Style="{StaticResource GfFlatButtonStyle}" Click="OnTabProcurement">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <TextBlock Text="&#x25C6;" FontSize="8" Foreground="{StaticResource GfT3Brush}" VerticalAlignment="Center" />
+              <TextBlock x:Name="TabProcurementLabel" Text="PROCUREMENT"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="9" FontWeight="Medium" CharacterSpacing="120"
+                         Foreground="{StaticResource GfT3Brush}" />
+            </StackPanel>
+          </Button>
+        </StackPanel>
+
+        <!-- Undo / Redo / Camera -->
+        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center"
+                    HorizontalAlignment="Right" Spacing="4" Margin="0,0,16,0">
+          <Button x:Name="BtnUndo" Style="{StaticResource GfFlatButtonStyle}" Click="OnUndo"
+                  Padding="8,6" Opacity="0.3" MinWidth="44" MinHeight="44">
+            <TextBlock Text="UNDO" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                       Foreground="{StaticResource GfT2Brush}" />
+          </Button>
+          <Button x:Name="BtnRedo" Style="{StaticResource GfFlatButtonStyle}" Click="OnRedo"
+                  Padding="8,6" Opacity="0.3" MinWidth="44" MinHeight="44">
+            <TextBlock Text="REDO" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                       Foreground="{StaticResource GfT2Brush}" />
+          </Button>
+          <Border Width="1" Height="16" Background="{StaticResource GfBorderBrush}" VerticalAlignment="Center" Margin="4,0" />
+          <Button x:Name="BtnCamera" Style="{StaticResource GfFlatButtonStyle}" Click="OnToggleCamera"
+                  Padding="8,6" MinWidth="44" MinHeight="44">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <Ellipse x:Name="CameraDot" Width="6" Height="6" Fill="{StaticResource GfT4Brush}" VerticalAlignment="Center" />
+              <TextBlock Text="CAMERA" FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                         Foreground="{StaticResource GfT3Brush}" />
+            </StackPanel>
+          </Button>
+        </StackPanel>
+
+        <!-- KPI pills -->
+        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Spacing="14">
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+            <Ellipse Width="6" Height="6" Fill="{StaticResource GfAccentBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="FLOOR" Style="{StaticResource GfKpiLabelStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="KpiFloor" Text="--%" Style="{StaticResource GfKpiValueStyle}" VerticalAlignment="Center" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+            <Ellipse Width="6" Height="6" Fill="{StaticResource GfBlueBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="VOL" Style="{StaticResource GfKpiLabelStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="KpiVol" Text="--%" Style="{StaticResource GfKpiValueStyle}" VerticalAlignment="Center" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+            <Ellipse Width="6" Height="6" Fill="{StaticResource GfAmberBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="TONS" Style="{StaticResource GfKpiLabelStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="KpiTons" Text="--" Style="{StaticResource GfKpiValueStyle}" VerticalAlignment="Center" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+            <Ellipse Width="6" Height="6" Fill="{StaticResource GfRedBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="POs" Style="{StaticResource GfKpiLabelStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="KpiPOs" Text="--" Style="{StaticResource GfKpiValueStyle}" VerticalAlignment="Center" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Layout buttons -->
+        <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center"
+                    Spacing="6" Margin="16,0,0,0">
+          <Button Style="{StaticResource GfFlatButtonStyle}" Click="OnLoadPreset" Tag="A" Padding="10,6">
+            <TextBlock Text="LAYOUT A" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                       Foreground="{StaticResource GfT3Brush}" />
+          </Button>
+          <Button Style="{StaticResource GfFlatButtonStyle}" Click="OnLoadPreset" Tag="B" Padding="10,6">
+            <TextBlock Text="LAYOUT B" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                       Foreground="{StaticResource GfT3Brush}" />
+          </Button>
+          <Button Style="{StaticResource GfFlatButtonStyle}" Click="OnClearLayout" Padding="10,6">
+            <TextBlock Text="CLEAR" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="8" FontWeight="Light" CharacterSpacing="100"
+                       Foreground="{StaticResource GfT3Brush}" />
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- ═══ BODY (3-column) ═══ -->
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="220" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="240" />
+      </Grid.ColumnDefinitions>
+
+      <!-- ═══ LEFT RAIL ═══ -->
+      <Border Grid.Column="0"
+              Background="{StaticResource GfPanelBrush}"
+              BorderBrush="{StaticResource GfBorderBrush}"
+              BorderThickness="0,0,1,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel x:Name="LeftRailContent" Padding="12,12,12,16" Spacing="16">
+
+            <!-- MODE section -->
+            <StackPanel Spacing="6">
+              <TextBlock Text="MODE" Style="{StaticResource GfSectionHeaderStyle}" />
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <Button x:Name="BtnBuild" Style="{StaticResource GfFlatButtonStyle}" Click="OnSetMode" Tag="Build"
+                        Background="{StaticResource GfAccentDimBrush}" BorderBrush="{StaticResource GfAccentBrush}"
+                        Padding="12,6" MinWidth="56">
+                  <TextBlock Text="BUILD" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="9" FontWeight="SemiBold" CharacterSpacing="120"
+                             Foreground="{StaticResource GfAccentBrush}" />
+                </Button>
+                <Button x:Name="BtnZone" Style="{StaticResource GfFlatButtonStyle}" Click="OnSetMode" Tag="Zone"
+                        Padding="12,6" MinWidth="56">
+                  <TextBlock Text="ZONE" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="9" FontWeight="Light" CharacterSpacing="120"
+                             Foreground="{StaticResource GfT3Brush}" />
+                </Button>
+                <Button x:Name="BtnErase" Style="{StaticResource GfFlatButtonStyle}" Click="OnSetMode" Tag="Erase"
+                        Padding="12,6" MinWidth="56">
+                  <TextBlock Text="ERASE" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="9" FontWeight="Light" CharacterSpacing="120"
+                             Foreground="{StaticResource GfT3Brush}" />
+                </Button>
+              </StackPanel>
+            </StackPanel>
+
+            <!-- ASSETS picker section -->
+            <StackPanel Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="ASSETS" Style="{StaticResource GfSectionHeaderStyle}" />
+                <TextBlock Text="Q cycle" FontFamily="{StaticResource GridFormFontFamily}"
+                           FontSize="8" FontWeight="Light" CharacterSpacing="80"
+                           Foreground="{StaticResource GfT4Brush}" VerticalAlignment="Center" />
+              </StackPanel>
+              <StackPanel x:Name="AssetPicker" Spacing="1" />
+            </StackPanel>
+
+            <!-- UTILIZATION section -->
+            <StackPanel Spacing="6">
+              <TextBlock Text="UTILIZATION" Style="{StaticResource GfSectionHeaderStyle}" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Floor" Style="{StaticResource GfMiniMetricLabelStyle}" Foreground="{StaticResource GfAccentBrush}" />
+                <TextBlock x:Name="UtilFloor" Grid.Column="1" Text="--%" Style="{StaticResource GfMiniMetricValueStyle}" />
+              </Grid>
+              <Grid Height="3" CornerRadius="1" Background="{StaticResource GridFormProgressTrackBrush}">
+                <Border x:Name="FloorBar" CornerRadius="1" Background="{StaticResource GfAccentBrush}" Opacity="0.5" HorizontalAlignment="Left" Width="0" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Volume" Style="{StaticResource GfMiniMetricLabelStyle}" Foreground="{StaticResource GfBlueBrush}" />
+                <TextBlock x:Name="UtilVolume" Grid.Column="1" Text="--%" Style="{StaticResource GfMiniMetricValueStyle}" />
+              </Grid>
+              <Grid Height="3" CornerRadius="1" Background="{StaticResource GridFormProgressTrackBrush}">
+                <Border x:Name="VolumeBar" CornerRadius="1" Background="{StaticResource GfBlueBrush}" Opacity="0.5" HorizontalAlignment="Left" Width="0" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Weight" Style="{StaticResource GfMiniMetricLabelStyle}" Foreground="{StaticResource GfAmberBrush}" />
+                <TextBlock x:Name="UtilWeight" Grid.Column="1" Text="--t" Style="{StaticResource GfMiniMetricValueStyle}" />
+              </Grid>
+              <Grid Height="3" CornerRadius="1" Background="{StaticResource GridFormProgressTrackBrush}">
+                <Border x:Name="WeightBar" CornerRadius="1" Background="{StaticResource GfAmberBrush}" Opacity="0.5" HorizontalAlignment="Left" Width="0" />
+              </Grid>
+              <Grid Margin="0,4,0,0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Peak Height" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                <TextBlock x:Name="UtilPeak" Grid.Column="1" Text="--" Style="{StaticResource GfMiniMetricValueStyle}" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Total Units" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                <TextBlock x:Name="UtilUnits" Grid.Column="1" Text="--" Style="{StaticResource GfMiniMetricValueStyle}" />
+              </Grid>
+            </StackPanel>
+
+            <!-- ASSETS count section -->
+            <StackPanel Spacing="4">
+              <TextBlock Text="ASSETS" Style="{StaticResource GfSectionHeaderStyle}" />
+              <StackPanel x:Name="AssetCounts" Spacing="3" />
+            </StackPanel>
+
+            <!-- ZONES section -->
+            <StackPanel Spacing="4">
+              <TextBlock Text="ZONES" Style="{StaticResource GfSectionHeaderStyle}" />
+              <StackPanel x:Name="ZoneCounts" Spacing="3" />
+            </StackPanel>
+
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+
+      <!-- ═══ CENTER VIEW ═══ -->
+      <utu:ExtendedSplashScreen x:Name="Splash"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch">
+        <utu:ExtendedSplashScreen.LoadingContentTemplate>
+          <DataTemplate>
+            <Grid Background="#FF0D0E12">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <ProgressRing IsActive="True"
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Height="40" Width="40" />
+            </Grid>
+          </DataTemplate>
+        </utu:ExtendedSplashScreen.LoadingContentTemplate>
+      </utu:ExtendedSplashScreen>
+
+      <!-- ═══ RIGHT CONTEXT INSPECTOR ═══ -->
+      <Border Grid.Column="2"
+              Background="{StaticResource GfPanelBrush}"
+              BorderBrush="{StaticResource GfBorderBrush}"
+              BorderThickness="1,0,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Padding="16,14,16,16" Spacing="14">
+
+            <!-- Header -->
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="CONTEXT INSPECTOR" Style="{StaticResource GfSectionHeaderStyle}" VerticalAlignment="Center" />
+              <Button x:Name="BtnClearInspector" Grid.Column="1" Style="{StaticResource GfFlatButtonStyle}"
+                      Padding="8,3" Click="OnClearInspector">
+                <TextBlock Text="clear" FontFamily="{StaticResource GridFormFontFamily}"
+                           FontSize="7" FontWeight="Light" CharacterSpacing="80"
+                           Foreground="{StaticResource GfT3Brush}" />
+              </Button>
+            </Grid>
+
+            <!-- Coordinate -->
+            <TextBlock x:Name="InspCoord" Text="(0, 0, 0)"
+                       FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="18" FontWeight="Medium"
+                       Foreground="{StaticResource GfT1Brush}" />
+
+            <!-- POSITION section -->
+            <TextBlock Text="POSITION" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                       Foreground="{StaticResource GfKeywordBrush}" />
+            <Grid ColumnSpacing="12">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <!-- X -->
+              <Border Grid.Row="0" Grid.Column="0" BorderBrush="{StaticResource GfBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="X" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                  <TextBlock x:Name="InspX" Text="0" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="14" FontWeight="Medium" Foreground="{StaticResource GfT1Brush}" />
+                </StackPanel>
+              </Border>
+              <!-- Z -->
+              <Border Grid.Row="0" Grid.Column="1" BorderBrush="{StaticResource GfBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Z" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                  <TextBlock x:Name="InspZ" Text="0" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="14" FontWeight="Medium" Foreground="{StaticResource GfT1Brush}" />
+                </StackPanel>
+              </Border>
+              <!-- Height -->
+              <Border Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource GfBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8,0,8">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Height" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                  <TextBlock x:Name="InspHeight" Text="0" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="14" FontWeight="Medium" Foreground="{StaticResource GfT1Brush}" />
+                </StackPanel>
+              </Border>
+              <!-- Layer -->
+              <Border Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource GfBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8,0,8">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Layer" Style="{StaticResource GfMiniMetricLabelStyle}" />
+                  <TextBlock x:Name="InspLayer" Text="0/5" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="14" FontWeight="Medium" Foreground="{StaticResource GfT1Brush}" />
+                </StackPanel>
+              </Border>
+            </Grid>
+
+            <!-- ASSET section -->
+            <TextBlock Text="ASSET" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                       Foreground="{StaticResource GfKeywordBrush}" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="InspAssetName" Text="--"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="11" FontWeight="SemiBold" CharacterSpacing="80"
+                         Foreground="{StaticResource GfT1Brush}" />
+              <TextBlock x:Name="InspAssetWeight" Text=""
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="11" FontWeight="Light" CharacterSpacing="80"
+                         Foreground="{StaticResource GfT3Brush}"
+                         VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- ZONE section -->
+            <TextBlock Text="ZONE" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                       Foreground="{StaticResource GfKeywordBrush}" />
+            <TextBlock x:Name="InspZone" Text="--"
+                       FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="11" FontWeight="SemiBold" CharacterSpacing="80"
+                       Foreground="{StaticResource GfT1Brush}" />
+
+            <!-- CAPACITY section -->
+            <TextBlock Text="CAPACITY" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                       Foreground="{StaticResource GfKeywordBrush}" />
+            <Grid ColumnSpacing="10">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Grid Height="6" CornerRadius="3" Background="{StaticResource GfBorderBrush}">
+                <Border x:Name="CapacityBar" CornerRadius="3"
+                        Background="{StaticResource GfAccentBrush}"
+                        HorizontalAlignment="Left" Width="0" />
+              </Grid>
+              <TextBlock x:Name="CapacityText" Grid.Column="1" Text="0/100"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="9" FontWeight="Normal" CharacterSpacing="60"
+                         Foreground="{StaticResource GfT2Brush}" />
+            </Grid>
+
+            <!-- CONTAINED SKU section -->
+            <TextBlock Text="CONTAINED SKU" FontFamily="{StaticResource GridFormFontFamily}"
+                       FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                       Foreground="{StaticResource GfKeywordBrush}" />
+            <Border Background="{StaticResource GfRaisedBrush}" CornerRadius="4"
+                    BorderBrush="{StaticResource GfBorderBrush}" BorderThickness="1">
+              <StackPanel>
+                <Border Background="{StaticResource GfBorderBrush}" Padding="12,8">
+                  <TextBlock x:Name="InspSkuId" Text="--"
+                             FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="10" FontWeight="SemiBold" CharacterSpacing="80"
+                             Foreground="{StaticResource GfT1Brush}"
+                             Typography.SlashedZero="True"
+                             TextTrimming="CharacterEllipsis" />
+                </Border>
+                <StackPanel Padding="12,8">
+                  <TextBlock x:Name="InspSkuDesc" Text="--"
+                             FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="8" FontWeight="Light" CharacterSpacing="60"
+                             Foreground="{StaticResource GfT3Brush}" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <!-- RELATED POS section -->
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <TextBlock Text="RELATED POS" FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="7" FontWeight="Medium" CharacterSpacing="200"
+                         Foreground="{StaticResource GfKeywordBrush}" />
+              <TextBlock Text="·" FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="7" Foreground="{StaticResource GfT4Brush}" />
+              <TextBlock x:Name="InspPoCount" Text="0"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="7" FontWeight="Normal" CharacterSpacing="80"
+                         Foreground="{StaticResource GfT3Brush}" />
+            </StackPanel>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="InspPoId" Text="--"
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="11" FontWeight="Medium" CharacterSpacing="60"
+                         Foreground="{StaticResource GfT1Brush}"
+                         Typography.SlashedZero="True"
+                         TextTrimming="CharacterEllipsis" />
+              <TextBlock x:Name="InspPoPriority" Grid.Column="1" Text=""
+                         FontFamily="{StaticResource GridFormFontFamily}"
+                         FontSize="9" FontWeight="Light" CharacterSpacing="80"
+                         Foreground="{StaticResource GfT3Brush}" />
+            </Grid>
+
+            <!-- AI ANALYSIS card -->
+            <Border BorderBrush="{StaticResource GfStringBrush}" BorderThickness="2,0,0,0"
+                    Padding="12,10" Background="{StaticResource GfRaisedBrush}"
+                    CornerRadius="0,4,4,0">
+              <StackPanel Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <Ellipse Width="6" Height="6" Fill="{StaticResource GfStringBrush}" VerticalAlignment="Center" />
+                  <TextBlock Text="AI ANALYSIS" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="7" FontWeight="SemiBold" CharacterSpacing="150"
+                             Foreground="{StaticResource GfStringBrush}" />
+                  <TextBlock Text="WAREHOUSE" FontFamily="{StaticResource GridFormFontFamily}"
+                             FontSize="7" FontWeight="Light" CharacterSpacing="150"
+                             Foreground="{StaticResource GfT3Brush}" />
+                </StackPanel>
+                <TextBlock x:Name="InspAiText"
+                           Text="Select a cell to view spatial analysis."
+                           FontFamily="{StaticResource GridFormEditorialFontFamily}"
+                           FontSize="12" FontWeight="Light" FontStyle="Italic"
+                           Foreground="{StaticResource GfT2Brush}"
+                           TextWrapping="Wrap" LineHeight="18" />
+              </StackPanel>
+            </Border>
+
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

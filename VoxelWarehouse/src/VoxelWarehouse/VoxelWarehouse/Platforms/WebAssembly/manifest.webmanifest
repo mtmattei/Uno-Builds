@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "VoxelWarehouse",
+  "display": "standalone",
+  "name": "VoxelWarehouse",
+  "short_name": "VoxelWarehouse",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

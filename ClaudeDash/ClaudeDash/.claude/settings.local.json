@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(IFS= read:*)",
+      "Bash(cd C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\UnoAgent\\\\AI-builds\\\\ClaudeDash\\\\ClaudeDash\\\\ClaudeDash\\\\Views:*)",
+      "Bash(kill 4026:*)",
+      "Bash(kill 4209:*)",
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet run:*)",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(taskkill:*)",
+      "Bash(tasklist:*)",
+      "Bash(gh repo:*)",
+      "Bash(ls:*)",
+      "Bash(where gh:*)"
+    ]
+  }
+}

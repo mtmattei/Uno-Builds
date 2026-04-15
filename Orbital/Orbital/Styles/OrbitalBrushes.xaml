@@ -1,0 +1,108 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- System brush override -->
+  <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#FF0A0A0B" />
+
+  <!-- Orbital surface brushes (monochrome near-black) -->
+  <SolidColorBrush x:Key="OrbitalSurface0Brush" Color="#FF0A0A0B" />
+  <SolidColorBrush x:Key="OrbitalSurface05Brush" Color="#FF0E0E10" />
+  <SolidColorBrush x:Key="OrbitalSurface1Brush" Color="#FF141416" />
+  <SolidColorBrush x:Key="OrbitalSurface15Brush" Color="#FF0C0C0D" />
+  <SolidColorBrush x:Key="OrbitalSurface2Brush" Color="#FF1A1A1C" />
+  <SolidColorBrush x:Key="OrbitalSurface3Brush" Color="#FF212123" />
+  <SolidColorBrush x:Key="OrbitalSurface35Brush" Color="#FF262628" />
+  <SolidColorBrush x:Key="OrbitalSurface4Brush" Color="#FF2D2D30" />
+
+  <!-- Orbital accent brushes (unchanged) -->
+  <SolidColorBrush x:Key="OrbitalEmerald400Brush" Color="#FF34D399" />
+  <SolidColorBrush x:Key="OrbitalEmerald500Brush" Color="#FF10B981" />
+  <SolidColorBrush x:Key="OrbitalEmerald600Brush" Color="#FF059669" />
+  <SolidColorBrush x:Key="OrbitalTeal600Brush" Color="#FF0D9488" />
+  <SolidColorBrush x:Key="OrbitalViolet400Brush" Color="#FFA78BFA" />
+  <SolidColorBrush x:Key="OrbitalViolet500Brush" Color="#FF8B5CF6" />
+  <SolidColorBrush x:Key="OrbitalAmber400Brush" Color="#FFFBBF24" />
+  <SolidColorBrush x:Key="OrbitalRed400Brush" Color="#FFF87171" />
+  <SolidColorBrush x:Key="OrbitalRed500Brush" Color="#FFEF4444" />
+  <SolidColorBrush x:Key="OrbitalBlue400Brush" Color="#FF60A5FA" />
+  <SolidColorBrush x:Key="OrbitalZinc500Brush" Color="#FF71717A" />
+
+  <!-- Orbital text brushes (unchanged) -->
+  <SolidColorBrush x:Key="OrbitalText100Brush" Color="#FFE8EAF0" />
+  <SolidColorBrush x:Key="OrbitalText90Brush" Color="#FFE3E5EC" />
+  <SolidColorBrush x:Key="OrbitalText88Brush" Color="#FFDEE0E8" />
+  <SolidColorBrush x:Key="OrbitalText85Brush" Color="#FFD6D9E1" />
+  <SolidColorBrush x:Key="OrbitalText82Brush" Color="#FFCED1DA" />
+  <SolidColorBrush x:Key="OrbitalText80Brush" Color="#FFC9CCD6" />
+  <SolidColorBrush x:Key="OrbitalText75Brush" Color="#FFBCC0CB" />
+  <SolidColorBrush x:Key="OrbitalText72Brush" Color="#FFB5B9C5" />
+  <SolidColorBrush x:Key="OrbitalText65Brush" Color="#FFA3A8B6" />
+  <SolidColorBrush x:Key="OrbitalText55Brush" Color="#FF8A90A0" />
+  <SolidColorBrush x:Key="OrbitalText50Brush" Color="#FF7B8191" />
+  <SolidColorBrush x:Key="OrbitalText45Brush" Color="#FF6E7485" />
+  <SolidColorBrush x:Key="OrbitalText42Brush" Color="#FF676D7E" />
+  <SolidColorBrush x:Key="OrbitalText40Brush" Color="#FF626878" />
+  <SolidColorBrush x:Key="OrbitalText38Brush" Color="#FF5D6372" />
+  <SolidColorBrush x:Key="OrbitalText35Brush" Color="#FF565C6B" />
+  <SolidColorBrush x:Key="OrbitalText32Brush" Color="#FF505664" />
+  <SolidColorBrush x:Key="OrbitalText30Brush" Color="#FF4A505D" />
+  <SolidColorBrush x:Key="OrbitalText25Brush" Color="#FF3F4452" />
+
+  <!-- Opacity-variant accent brushes (unchanged) -->
+  <SolidColorBrush x:Key="OrbitalEmerald500_15Brush" Color="#FF10B981" Opacity="0.15" />
+  <SolidColorBrush x:Key="OrbitalEmerald500_20Brush" Color="#FF10B981" Opacity="0.20" />
+  <SolidColorBrush x:Key="OrbitalEmerald500_25Brush" Color="#FF10B981" Opacity="0.25" />
+  <SolidColorBrush x:Key="OrbitalEmerald500_30Brush" Color="#FF10B981" Opacity="0.30" />
+  <SolidColorBrush x:Key="OrbitalEmerald500_10Brush" Color="#FF10B981" Opacity="0.10" />
+  <SolidColorBrush x:Key="OrbitalEmerald500_5Brush" Color="#FF10B981" Opacity="0.05" />
+  <SolidColorBrush x:Key="OrbitalEmerald400_20Brush" Color="#FF34D399" Opacity="0.20" />
+  <SolidColorBrush x:Key="OrbitalViolet500_20Brush" Color="#FF8B5CF6" Opacity="0.20" />
+  <SolidColorBrush x:Key="OrbitalViolet500_30Brush" Color="#FF8B5CF6" Opacity="0.30" />
+  <SolidColorBrush x:Key="OrbitalAmber500_15Brush" Color="#FFFBBF24" Opacity="0.15" />
+  <SolidColorBrush x:Key="OrbitalAmber500_20Brush" Color="#FFFBBF24" Opacity="0.20" />
+  <SolidColorBrush x:Key="OrbitalRed500_15Brush" Color="#FFEF4444" Opacity="0.15" />
+  <SolidColorBrush x:Key="OrbitalRed400_20Brush" Color="#FFF87171" Opacity="0.20" />
+  <SolidColorBrush x:Key="OrbitalZinc500_10Brush" Color="#FF71717A" Opacity="0.10" />
+  <SolidColorBrush x:Key="OrbitalZinc500_15Brush" Color="#FF71717A" Opacity="0.15" />
+
+  <!-- Orbital Color resources (for gradients, lightweight styling) -->
+  <Color x:Key="OrbitalEmerald400">#FF34D399</Color>
+  <Color x:Key="OrbitalEmerald500">#FF10B981</Color>
+  <Color x:Key="OrbitalEmerald600">#FF059669</Color>
+  <Color x:Key="OrbitalTeal600">#FF0D9488</Color>
+  <Color x:Key="OrbitalViolet400">#FFA78BFA</Color>
+  <Color x:Key="OrbitalViolet500">#FF8B5CF6</Color>
+  <Color x:Key="OrbitalAmber400">#FFFBBF24</Color>
+  <Color x:Key="OrbitalRed400">#FFF87171</Color>
+  <Color x:Key="OrbitalRed500">#FFEF4444</Color>
+  <Color x:Key="OrbitalBlue400">#FF60A5FA</Color>
+  <Color x:Key="OrbitalZinc500">#FF71717A</Color>
+  <Color x:Key="OrbitalSurface0">#FF0A0A0B</Color>
+  <Color x:Key="OrbitalSurface05">#FF0E0E10</Color>
+  <Color x:Key="OrbitalSurface1">#FF141416</Color>
+  <Color x:Key="OrbitalSurface15">#FF0C0C0D</Color>
+  <Color x:Key="OrbitalSurface2">#FF1A1A1C</Color>
+  <Color x:Key="OrbitalSurface25">#FF171718</Color>
+  <Color x:Key="OrbitalSurface3">#FF212123</Color>
+  <Color x:Key="OrbitalSurface35">#FF262628</Color>
+  <Color x:Key="OrbitalSurface4">#FF2D2D30</Color>
+  <Color x:Key="OrbitalText100">#FFE8EAF0</Color>
+  <Color x:Key="OrbitalText90">#FFE3E5EC</Color>
+  <Color x:Key="OrbitalText88">#FFDEE0E8</Color>
+  <Color x:Key="OrbitalText85">#FFD6D9E1</Color>
+  <Color x:Key="OrbitalText82">#FFCED1DA</Color>
+  <Color x:Key="OrbitalText80">#FFC9CCD6</Color>
+  <Color x:Key="OrbitalText75">#FFBCC0CB</Color>
+  <Color x:Key="OrbitalText72">#FFB5B9C5</Color>
+  <Color x:Key="OrbitalText65">#FFA3A8B6</Color>
+  <Color x:Key="OrbitalText55">#FF8A90A0</Color>
+  <Color x:Key="OrbitalText50">#FF7B8191</Color>
+  <Color x:Key="OrbitalText45">#FF6E7485</Color>
+  <Color x:Key="OrbitalText42">#FF676D7E</Color>
+  <Color x:Key="OrbitalText40">#FF626878</Color>
+  <Color x:Key="OrbitalText38">#FF5D6372</Color>
+  <Color x:Key="OrbitalText35">#FF565C6B</Color>
+  <Color x:Key="OrbitalText32">#FF505664</Color>
+  <Color x:Key="OrbitalText30">#FF4A505D</Color>
+  <Color x:Key="OrbitalText25">#FF3F4452</Color>
+</ResourceDictionary>

@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - master
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - master
+      - feature/*
+
+stages:
+- stage: Determine_Changes
+  displayName: Determine Changes
+  jobs:
+  - template: build/stage-determine-changes.yml
+
+# TODO: Changes will be made in a following PR to fix the related errors 
+#       and enable Spell Checking and Markdown Linting
+#       Related issue: https://github.com/unoplatform/uno-private/issues/286
+#
+# - stage: Docs_Validations
+#   displayName: Docs Validations
+#   dependsOn: Determine_Changes
+#   # Trigger this stage when docs files are changed
+#   condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+#   jobs:
+#   - template: build/stage-docs-validations.yml
+
+- stage: Build_Samples
+  displayName: Build Samples
+  dependsOn: Determine_Changes
+  # Don't trigger this stage if only docs files are changed
+  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  jobs:
+    - template: build/stage-build-samples.yml

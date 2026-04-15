@@ -1,0 +1,164 @@
+<Page x:Class="RivieraHome.Presentation.SecurityPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:RivieraHome.Presentation"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      Background="Transparent"
+      NavigationCacheMode="Required">
+
+  <mvux:FeedView Source="{Binding Security}">
+    <mvux:FeedView.ValueTemplate>
+      <DataTemplate>
+        <Grid ColumnSpacing="20" Padding="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Left Column: Door Status + Cameras -->
+          <StackPanel Grid.Column="0" Spacing="16" VerticalAlignment="Top">
+
+            <TextBlock Text="DOOR STATUS"
+                       Style="{StaticResource CrtLabel}" />
+
+            <!-- Door Items as toggle buttons -->
+            <StackPanel Spacing="6">
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      CommandParameter="FRONT">
+                <Grid>
+                  <TextBlock Text="FRONT" Style="{StaticResource CrtBody}" HorizontalAlignment="Left" />
+                  <TextBlock Style="{StaticResource CrtBody}" HorizontalAlignment="Right"
+                             Foreground="{StaticResource PhosphorBrightBrush}">
+                    <Run Text="■" /> <Run Text="LOCKED" />
+                  </TextBlock>
+                </Grid>
+              </Button>
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      CommandParameter="BACK">
+                <Grid>
+                  <TextBlock Text="BACK" Style="{StaticResource CrtBody}" HorizontalAlignment="Left" />
+                  <TextBlock Style="{StaticResource CrtBody}" HorizontalAlignment="Right"
+                             Foreground="{StaticResource PhosphorBrightBrush}">
+                    <Run Text="■" /> <Run Text="LOCKED" />
+                  </TextBlock>
+                </Grid>
+              </Button>
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      Background="{StaticResource PhosphorSubtleBrush}"
+                      BorderBrush="{StaticResource PhosphorPrimaryBrush}"
+                      CommandParameter="GARAGE">
+                <Grid>
+                  <TextBlock Text="GARAGE" Style="{StaticResource CrtBody}" HorizontalAlignment="Left" />
+                  <TextBlock Style="{StaticResource CrtBody}" HorizontalAlignment="Right"
+                             Foreground="{StaticResource PhosphorDimBrush}">
+                    <Run Text="□" /> <Run Text="UNLOCKED" />
+                  </TextBlock>
+                </Grid>
+              </Button>
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      CommandParameter="SIDE">
+                <Grid>
+                  <TextBlock Text="SIDE" Style="{StaticResource CrtBody}" HorizontalAlignment="Left" />
+                  <TextBlock Style="{StaticResource CrtBody}" HorizontalAlignment="Right"
+                             Foreground="{StaticResource PhosphorBrightBrush}">
+                    <Run Text="■" /> <Run Text="LOCKED" />
+                  </TextBlock>
+                </Grid>
+              </Button>
+            </StackPanel>
+
+            <TextBlock Text="CAMERAS"
+                       Style="{StaticResource CrtLabel}" />
+
+            <!-- Camera Cards as toggle buttons -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      MinWidth="80" Padding="12,8"
+                      CommandParameter="FRONT">
+                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                  <TextBlock Text="FRONT" Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+                  <TextBlock Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorBrightBrush}" HorizontalAlignment="Center">
+                    <Run Text="●" /> <Run Text="REC" />
+                  </TextBlock>
+                </StackPanel>
+              </Button>
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      MinWidth="80" Padding="12,8"
+                      CommandParameter="BACK">
+                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                  <TextBlock Text="BACK" Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+                  <TextBlock Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorBrightBrush}" HorizontalAlignment="Center">
+                    <Run Text="●" /> <Run Text="REC" />
+                  </TextBlock>
+                </StackPanel>
+              </Button>
+              <Button Style="{StaticResource CrtButtonStyle}"
+                      MinWidth="80" Padding="12,8"
+                      CommandParameter="GARAGE">
+                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                  <TextBlock Text="GARAGE" Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+                  <TextBlock Text="○ OFF" Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorDimBrush}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </StackPanel>
+
+          <!-- Right Column: Motion Events + Event Log -->
+          <StackPanel Grid.Column="1" Spacing="16" VerticalAlignment="Top">
+
+            <TextBlock Text="MOTION EVENTS TODAY"
+                       Style="{StaticResource CrtLabel}" />
+
+            <TextBlock Text="{Binding Data.MotionEvents}"
+                       Style="{StaticResource CrtDisplayLG}"
+                       AutomationProperties.Name="Motion events today" />
+
+            <Border Height="1" Background="{StaticResource PhosphorDimBrush}" Opacity="0.15" />
+
+            <TextBlock Text="EVENT LOG"
+                       Style="{StaticResource CrtLabel}" />
+
+            <muxc:ItemsRepeater ItemsSource="{Binding Data.Log}">
+              <muxc:ItemsRepeater.Layout>
+                <muxc:StackLayout Spacing="4" />
+              </muxc:ItemsRepeater.Layout>
+              <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding}"
+                             Style="{StaticResource CrtLogEntry}" />
+                </DataTemplate>
+              </muxc:ItemsRepeater.ItemTemplate>
+            </muxc:ItemsRepeater>
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </mvux:FeedView.ValueTemplate>
+
+    <mvux:FeedView.ProgressTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <ProgressRing IsActive="True" Foreground="{StaticResource PhosphorPrimaryBrush}" Width="48" Height="48" />
+          <TextBlock Text="LOADING SECURITY DATA..." Style="{StaticResource CrtLabel}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ProgressTemplate>
+
+    <mvux:FeedView.ErrorTemplate>
+      <DataTemplate>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+          <TextBlock Text="SECURITY FEED OFFLINE" Style="{StaticResource CrtHeading}" HorizontalAlignment="Center" />
+          <TextBlock Text="Connection lost — retry" Style="{StaticResource CrtBody}" Foreground="{StaticResource PhosphorDimBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </DataTemplate>
+    </mvux:FeedView.ErrorTemplate>
+  </mvux:FeedView>
+</Page>

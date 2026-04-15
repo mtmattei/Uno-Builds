@@ -1,0 +1,194 @@
+<Page x:Class="ClaudeDash.Views.ReposPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="1400">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="repos"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="Git repositories tracked across your Claude Code projects."
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+            </StackPanel>
+
+            <!-- Stat cards -->
+            <Grid ColumnSpacing="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:StatCard Grid.Column="0"
+                                   Label="TRACKED"
+                                   IconGlyph="&#xE8B7;"
+                                   Value="{Binding TotalRepos}" />
+                <controls:StatCard Grid.Column="1"
+                                   Label="UNCOMMITTED"
+                                   IconGlyph="&#xE7BA;"
+                                   Value="{Binding UncommittedCount}" />
+                <controls:StatCard Grid.Column="2"
+                                   Label="DEP UPDATES"
+                                   IconGlyph="&#xE74C;"
+                                   Value="{Binding DepUpdateCount}" />
+                <controls:StatCard Grid.Column="3"
+                                   Label="LAST PUSH"
+                                   IconGlyph="&#xE916;"
+                                   Subtitle="{Binding LastPushMinutes}" />
+            </Grid>
+
+            <!-- Repositories list -->
+            <TextBlock Text="REPOSITORIES"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <ItemsRepeater ItemsSource="{Binding Repos}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="6" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="{Binding Name}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryBrush}" />
+                                    <TextBlock Text="{Binding TechStack}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10"
+                                               Foreground="{StaticResource TextTertiaryBrush}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="1" Text="{Binding LastBranch}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource AccentLightBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0" />
+
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4"
+                                            VerticalAlignment="Center" Margin="4,0">
+                                    <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10"
+                                               Foreground="{StaticResource AccentGreenBrush}">
+                                        <Run Text="+" /><Run Text="{Binding Additions}" />
+                                    </TextBlock>
+                                    <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10"
+                                               Foreground="{StaticResource AccentRedBrush}">
+                                        <Run Text="-" /><Run Text="{Binding Deletions}" />
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="3"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           VerticalAlignment="Center"
+                                           MinWidth="50" TextAlignment="Right">
+                                    <Run Text="{Binding SessionCount}" /><Run Text=" sess" />
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <!-- Dep Updates -->
+            <TextBlock Text="DEP UPDATES"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <ItemsRepeater ItemsSource="{Binding DepUpdates}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="6" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding PackageName}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding CurrentVersion}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,4,0" />
+                                <TextBlock Grid.Column="2" Text="&#x2192;"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource TextTertiaryBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="4,0" />
+                                <TextBlock Grid.Column="3" Text="{Binding LatestVersion}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource AccentGreenBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="4,0,12,0" />
+                                <Border Grid.Column="4"
+                                        Background="{StaticResource SurfaceBackgroundBrush}"
+                                        CornerRadius="4" Padding="6,2">
+                                    <TextBlock Text="{Binding UpdateType}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="9" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextMutedBrush}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <Border Height="32" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

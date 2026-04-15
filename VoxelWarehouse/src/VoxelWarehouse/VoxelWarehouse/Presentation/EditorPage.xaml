@@ -1,0 +1,51 @@
+<Page x:Class="VoxelWarehouse.Presentation.EditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ctrl="using:VoxelWarehouse.Controls"
+      NavigationCacheMode="Required"
+      Background="{StaticResource GridFormSurfaceBaseBrush}">
+
+  <Grid>
+    <!-- ═══ ISOMETRIC CANVAS (full bleed) ═══ -->
+    <ctrl:IsometricCanvasControl x:Name="VoxelCanvas"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch" />
+
+    <!-- ═══ LAYER CONTROL (right edge, 44px touch targets) ═══ -->
+    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,0" Spacing="3">
+      <Button Style="{StaticResource GridFormToolbarButtonStyle}" Width="44" Height="44" Padding="0"
+              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+              Click="OnLayerUp"
+              BorderBrush="{StaticResource GridFormDividerBrush}" BorderThickness="1" CornerRadius="4">
+        <TextBlock Text="&#x25B2;" FontSize="12" Foreground="{StaticResource GridFormFgMutedBrush}" HorizontalAlignment="Center" />
+      </Button>
+      <Border x:Name="Layer5" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgInvisibleBrush}" />
+      <Border x:Name="Layer4" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgInvisibleBrush}" />
+      <Border x:Name="Layer3" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgInvisibleBrush}" />
+      <Border x:Name="Layer2" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgInvisibleBrush}" />
+      <Border x:Name="Layer1" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgInvisibleBrush}" />
+      <Border x:Name="Layer0" Width="36" Height="8" CornerRadius="2" Background="{StaticResource GridFormFgTertiaryBrush}" />
+      <Button Style="{StaticResource GridFormToolbarButtonStyle}" Width="44" Height="44" Padding="0"
+              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+              Click="OnLayerDown"
+              BorderBrush="{StaticResource GridFormDividerBrush}" BorderThickness="1" CornerRadius="4">
+        <TextBlock Text="&#x25BC;" FontSize="12" Foreground="{StaticResource GridFormFgMutedBrush}" HorizontalAlignment="Center" />
+      </Button>
+      <TextBlock Text="HEIGHT" Style="{StaticResource GridFormHelpTextStyle}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+    </StackPanel>
+
+    <!-- ═══ CURSOR INFO (bottom-left) ═══ -->
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12,0,0,12" Spacing="2">
+      <TextBlock x:Name="CursorInfo" Text="POS 6,6 · H0" Style="{StaticResource GridFormHelpTextStyle}" />
+      <TextBlock x:Name="AssetInfo" Text="PALLET · PLACE" Style="{StaticResource GridFormHelpTextStyle}" />
+    </StackPanel>
+
+    <!-- ═══ HELP TEXT (bottom-right) ═══ -->
+    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,60,12" Spacing="2">
+      <TextBlock Text="CLICK PLACE · R-CLICK ERASE · SCROLL HEIGHT"
+                 Style="{StaticResource GridFormHelpTextStyle}" HorizontalAlignment="Right" />
+      <TextBlock Text="Q ASSET · B BUILD · Z ZONE · 1 ERASE · M METRICS"
+                 Style="{StaticResource GridFormHelpTextStyle}" HorizontalAlignment="Right" />
+    </StackPanel>
+  </Grid>
+</Page>

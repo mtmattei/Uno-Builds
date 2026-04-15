@@ -1,0 +1,19 @@
+<UserControl x:Class="PhosphorProtocol.Controls.PhosphorText"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <!-- Glow layer (blurred copy for phosphor glow approximation) -->
+        <TextBlock x:Name="GlowText"
+                   Opacity="0.4"
+                   IsHitTestVisible="False"
+                   Visibility="Collapsed">
+            <TextBlock.RenderTransform>
+                <CompositeTransform />
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <!-- Primary text -->
+        <TextBlock x:Name="MainText" />
+    </Grid>
+</UserControl>

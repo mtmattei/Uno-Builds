@@ -1,0 +1,86 @@
+<Page x:Class="PrecisionDial.Samples.SquareVariationsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:PrecisionDial.Controls"
+    xmlns:samples="using:PrecisionDial.Samples"
+    NavigationCacheMode="Enabled">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Controls/PrecisionDial/Theme/PrecisionDialResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Page.Background>
+        <RadialGradientBrush Center="0.5,0.4" RadiusX="0.7" RadiusY="0.7">
+            <GradientStop Color="#141416" Offset="0" />
+            <GradientStop Color="#0a0a0b" Offset="1" />
+        </RadialGradientBrush>
+    </Page.Background>
+
+    <ScrollViewer>
+        <StackPanel Padding="32" Spacing="48" HorizontalAlignment="Center">
+
+            <TextBlock Text="SQUARE VARIATIONS"
+                       Foreground="#33FFFFFF" CharacterSpacing="300"
+                       Style="{StaticResource LabelSmall}"
+                       HorizontalAlignment="Center" />
+
+            <StackPanel Orientation="Horizontal" Spacing="48" HorizontalAlignment="Center">
+
+                <!-- Compact 120dp -->
+                <StackPanel Spacing="12" HorizontalAlignment="Center">
+                    <TextBlock Text="COMPACT · 120" Foreground="#33FFFFFF"
+                               CharacterSpacing="300" Style="{StaticResource LabelSmall}"
+                               HorizontalAlignment="Center" />
+                    <controls:PrecisionSquareDial x:Name="SqCompact"
+                        Value="25" Minimum="0" Maximum="100" DetentCount="20"
+                        IsHapticEnabled="True" Width="120" Height="120"
+                        AccentBrush="{StaticResource DialAccentBrush}" />
+                    <samples:IlluminatedReadout Value="{x:Bind SqCompact.Value, Mode=OneWay}"
+                                                HorizontalAlignment="Center" />
+                    <samples:SegmentBar Value="{x:Bind SqCompact.Value, Mode=OneWay}"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Standard 200dp -->
+                <StackPanel Spacing="12" HorizontalAlignment="Center">
+                    <TextBlock Text="STANDARD · 200" Foreground="#33FFFFFF"
+                               CharacterSpacing="300" Style="{StaticResource LabelSmall}"
+                               HorizontalAlignment="Center" />
+                    <controls:PrecisionSquareDial x:Name="SqStandard"
+                        Value="62" Minimum="0" Maximum="100" DetentCount="20"
+                        IsHapticEnabled="True" Width="200" Height="200"
+                        AccentBrush="{StaticResource DialAccentBrush}" />
+                    <samples:IlluminatedReadout Value="{x:Bind SqStandard.Value, Mode=OneWay}"
+                                                HorizontalAlignment="Center" />
+                    <samples:SegmentBar Value="{x:Bind SqStandard.Value, Mode=OneWay}"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Large 280dp -->
+                <StackPanel Spacing="12" HorizontalAlignment="Center">
+                    <TextBlock Text="LARGE · 280" Foreground="#33FFFFFF"
+                               CharacterSpacing="300" Style="{StaticResource LabelSmall}"
+                               HorizontalAlignment="Center" />
+                    <controls:PrecisionSquareDial x:Name="SqLarge"
+                        Value="85" Minimum="0" Maximum="100" DetentCount="20"
+                        IsHapticEnabled="True" Width="280" Height="280"
+                        AccentBrush="{StaticResource DialAccentBrush}" />
+                    <samples:IlluminatedReadout Value="{x:Bind SqLarge.Value, Mode=OneWay}"
+                                                HorizontalAlignment="Center" />
+                    <samples:SegmentBar Value="{x:Bind SqLarge.Value, Mode=OneWay}"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <TextBlock Text="Drag up / down · Same materials as round dial, squircle shape"
+                       Foreground="#22FFFFFF" HorizontalAlignment="Center"
+                       Style="{StaticResource LabelSmall}" CharacterSpacing="200" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

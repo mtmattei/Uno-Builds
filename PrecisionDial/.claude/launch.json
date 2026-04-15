@@ -1,0 +1,31 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "PrecisionDial (Desktop)",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": [
+        "run",
+        "--project",
+        "PrecisionDial/PrecisionDial.csproj",
+        "--framework",
+        "net10.0-desktop"
+      ],
+      "port": 0
+    },
+    {
+      "name": "PrecisionDial (WebAssembly)",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": [
+        "run",
+        "--project",
+        "PrecisionDial/PrecisionDial.csproj",
+        "--framework",
+        "net10.0-browserwasm",
+        "--launch-profile",
+        "PrecisionDial (WebAssembly)"
+      ],
+      "port": 5000
+    }
+  ]
+}

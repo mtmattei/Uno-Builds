@@ -1,0 +1,41 @@
+<Page x:Class="PrecisionDial.Samples.LinearSliderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:PrecisionDial.Controls"
+    xmlns:samples="using:PrecisionDial.Samples"
+    NavigationCacheMode="Enabled"
+    Background="#0e0e0f">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Controls/PrecisionDial/Theme/PrecisionDialResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <TextBlock Text="FREQUENCY"
+                       Foreground="#33FFFFFF" CharacterSpacing="300"
+                       Style="{StaticResource LabelSmall}"
+                       HorizontalAlignment="Center" />
+
+            <samples:IlluminatedReadout x:Name="SliderReadout"
+                Value="{x:Bind FreqSlider.Value, Mode=OneWay}"
+                HorizontalAlignment="Center" />
+
+            <controls:PrecisionSlider x:Name="FreqSlider"
+                Value="60" Minimum="0" Maximum="100" DetentCount="20"
+                AccentBrush="{StaticResource DialAccentBrush}"
+                Sensitivity="1.0"
+                Width="440" Height="110" />
+
+            <TextBlock Text="Drag left / right · Segment bar illuminates with value"
+                       Foreground="#22FFFFFF" HorizontalAlignment="Center"
+                       Style="{StaticResource LabelSmall}" CharacterSpacing="200" />
+
+        </StackPanel>
+    </Grid>
+</Page>

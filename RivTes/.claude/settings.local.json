@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "DOTNET_ENVIRONMENT": "Development"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(BASE=\"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/RivTes/src/PhosphorProtocol/PhosphorProtocol\")",
+      "Bash(mkdir -p \"$BASE/Themes\" \"$BASE/Controls\" \"$BASE/SkiaControls\" \"$BASE/Views\" \"$BASE/Assets/Fonts\" \"$BASE/Assets/Lottie\")",
+      "Read(//c/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/RivTes/**)",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(taskkill /IM PhosphorProtocol.exe /F 2>&1; sleep 2 && cd \"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\RivTes\\\\src\\\\PhosphorProtocol\" && dotnet build -f net10.0-desktop 2>&1 | grep -E \"\\(error CS|Build succeeded|Error\\\\\\(s\\\\\\)\\)\" | tail -5)",
+      "Bash(powershell -Command \"Stop-Process -Name PhosphorProtocol -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; Set-Location 'C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\RivTes\\\\src\\\\PhosphorProtocol'; dotnet build -f net10.0-desktop 2>&1 | Select-String -Pattern 'error CS|Build succeeded|Error\\\\\\(s\\\\\\)'\" 2>&1)",
+      "Bash(powershell -Command \"Stop-Process -Name PhosphorProtocol -Force -ErrorAction SilentlyContinue\" 2>&1)",
+      "Bash(powershell -Command \"Stop-Process -Name PhosphorProtocol -Force -ErrorAction SilentlyContinue\")",
+      "Bash(taskkill:*)",
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__claude_ai_uno__uno_platform_agent_rules_init",
+      "mcp__claude_ai_uno__uno_platform_usage_rules_init"
+    ]
+  }
+}

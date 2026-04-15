@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "Bash(awk '{print $1, $2}')",
+      "Bash(sort -k2)",
+      "Bash(pwd -W)",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(tasklist /FI \"IMAGENAME eq ReservoomUno*\")",
+      "Bash(tasklist)",
+      "Bash(taskkill /PID 20844 /F)",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_start"
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+<Page x:Class="ClaudeDash.Views.TerminalPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="1400">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="terminal"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="Running Claude agents and process management."
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+            </StackPanel>
+
+            <!-- Stat card -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:StatCard Grid.Column="0"
+                                   Label="RUNNING AGENTS"
+                                   IconGlyph="&#xE756;"
+                                   Value="{Binding RunningCount}" />
+            </Grid>
+
+            <!-- Agents list -->
+            <TextBlock Text="ACTIVE PROCESSES"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <ItemsRepeater ItemsSource="{Binding Agents}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="6" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                        CornerRadius="4" Padding="6,2"
+                                        VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="{Binding ProcessId}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10" FontWeight="SemiBold"
+                                               Foreground="{StaticResource AccentLightBrush}" />
+                                </Border>
+
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="{Binding CommandLine}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="11"
+                                               Foreground="{StaticResource TextPrimaryBrush}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding WorkingDirectory}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10"
+                                               Foreground="{StaticResource TextTertiaryBrush}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="2" Text="{Binding Uptime}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           VerticalAlignment="Center"
+                                           MinWidth="60" TextAlignment="Right" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <Border Height="32" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

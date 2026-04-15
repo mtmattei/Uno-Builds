@@ -1,0 +1,315 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       GRIDFORM Design Tokens — Monochromatic instrument aesthetic
+       All foreground colors are white at varying alpha.
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Surface / Background -->
+  <SolidColorBrush x:Key="GridFormSurfaceBaseBrush" Color="#FF050507" />
+
+  <!-- Foreground Opacity Scale -->
+  <SolidColorBrush x:Key="GridFormFgPrimaryBrush" Color="#D9FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgSecondaryBrush" Color="#B3FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgTertiaryBrush" Color="#80FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgMutedBrush" Color="#59FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgGhostBrush" Color="#47FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgDimBrush" Color="#33FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgWhisperBrush" Color="#26FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgTraceBrush" Color="#1FFFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgFaintBrush" Color="#14FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFgInvisibleBrush" Color="#0AFFFFFF" />
+
+  <!-- Panel Glass -->
+  <SolidColorBrush x:Key="GridFormPanelGlassBrush" Color="#59000000" />
+  <SolidColorBrush x:Key="GridFormPanelGlassLightBrush" Color="#4D000000" />
+  <SolidColorBrush x:Key="GridFormPanelBorderBrush" Color="#0AFFFFFF" />
+
+  <!-- Button States -->
+  <SolidColorBrush x:Key="GridFormBtnActiveBgBrush" Color="#1AFFFFFF" />
+  <SolidColorBrush x:Key="GridFormBtnActiveFgBrush" Color="#D9FFFFFF" />
+  <SolidColorBrush x:Key="GridFormBtnRestFgBrush" Color="#47FFFFFF" />
+  <SolidColorBrush x:Key="GridFormBtnHoverFgBrush" Color="#80FFFFFF" />
+
+  <!-- Dividers -->
+  <SolidColorBrush x:Key="GridFormDividerBrush" Color="#0FFFFFFF" />
+
+  <!-- Progress -->
+  <SolidColorBrush x:Key="GridFormProgressTrackBrush" Color="#0AFFFFFF" />
+  <SolidColorBrush x:Key="GridFormProgressFloorBrush" Color="#40FFFFFF" />
+  <SolidColorBrush x:Key="GridFormProgressVolumeBrush" Color="#2EFFFFFF" />
+
+  <!-- Status -->
+  <SolidColorBrush x:Key="GridFormStatusActiveBrush" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="GridFormStatusInactiveBrush" Color="#1AFFFFFF" />
+
+  <!-- Corner Marks / Frame -->
+  <SolidColorBrush x:Key="GridFormCornerMarkBrush" Color="#14FFFFFF" />
+  <SolidColorBrush x:Key="GridFormFrameBorderBrush" Color="#05FFFFFF" />
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       Design System — Surfaces, Text, Syntax Palette
+       Colors named by syntax role, not hue.
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Surfaces -->
+  <Color x:Key="GfBgColor">#FF0D0E12</Color>
+  <Color x:Key="GfPanelColor">#FF1A1C22</Color>
+  <Color x:Key="GfRaisedColor">#FF1E2028</Color>
+  <Color x:Key="GfBorderColor">#FF232630</Color>
+  <Color x:Key="GfBorderHiColor">#FF2E3140</Color>
+  <SolidColorBrush x:Key="GfBgBrush" Color="{StaticResource GfBgColor}" />
+  <SolidColorBrush x:Key="GfPanelBrush" Color="{StaticResource GfPanelColor}" />
+  <SolidColorBrush x:Key="GfRaisedBrush" Color="{StaticResource GfRaisedColor}" />
+  <SolidColorBrush x:Key="GfBorderBrush" Color="{StaticResource GfBorderColor}" />
+  <SolidColorBrush x:Key="GfBorderHiBrush" Color="{StaticResource GfBorderHiColor}" />
+
+  <!-- Syntax Palette — brand colors by role -->
+  <!-- keyword: emphasis & action elements -->
+  <Color x:Key="GfAccentColor">#FFD4A959</Color>
+  <Color x:Key="GfKeywordColor">#FFD4927A</Color>
+  <Color x:Key="GfTypeColor">#FF7CAFC2</Color>
+  <Color x:Key="GfStringColor">#FFA0B87A</Color>
+  <Color x:Key="GfAmberColor">#FFD4A959</Color>
+  <Color x:Key="GfFunctionColor">#FFC2B57A</Color>
+  <Color x:Key="GfCommentColor">#FF4A4E59</Color>
+  <!-- cursor (#d4a959 amber) = single active accent — CTAs, focus rings, presence -->
+  <SolidColorBrush x:Key="GfAccentBrush" Color="{StaticResource GfAccentColor}" />
+  <SolidColorBrush x:Key="GfKeywordBrush" Color="{StaticResource GfKeywordColor}" />
+  <SolidColorBrush x:Key="GfTypeBrush" Color="{StaticResource GfTypeColor}" />
+  <SolidColorBrush x:Key="GfStringBrush" Color="{StaticResource GfStringColor}" />
+  <SolidColorBrush x:Key="GfAmberBrush" Color="{StaticResource GfAmberColor}" />
+  <SolidColorBrush x:Key="GfFunctionBrush" Color="{StaticResource GfFunctionColor}" />
+  <SolidColorBrush x:Key="GfCommentBrush" Color="{StaticResource GfCommentColor}" />
+  <!-- Legacy aliases for backward compat -->
+  <Color x:Key="GfRedColor">#FFD4927A</Color>
+  <Color x:Key="GfBlueColor">#FF7CAFC2</Color>
+  <Color x:Key="GfVioletColor">#FFC2B57A</Color>
+  <SolidColorBrush x:Key="GfRedBrush" Color="{StaticResource GfRedColor}" />
+  <SolidColorBrush x:Key="GfBlueBrush" Color="{StaticResource GfBlueColor}" />
+  <SolidColorBrush x:Key="GfVioletBrush" Color="{StaticResource GfVioletColor}" />
+
+  <!-- Syntax Palette — dim variants (8% opacity) -->
+  <SolidColorBrush x:Key="GfAccentDimBrush" Color="#14D4A959" />
+  <SolidColorBrush x:Key="GfKeywordDimBrush" Color="#14D4927A" />
+  <SolidColorBrush x:Key="GfTypeDimBrush" Color="#147CAFC2" />
+  <SolidColorBrush x:Key="GfStringDimBrush" Color="#14A0B87A" />
+  <SolidColorBrush x:Key="GfAmberDimBrush" Color="#14D4A959" />
+  <SolidColorBrush x:Key="GfRedDimBrush" Color="#14D4927A" />
+  <SolidColorBrush x:Key="GfBlueDimBrush" Color="#147CAFC2" />
+
+  <!-- Text Hierarchy -->
+  <SolidColorBrush x:Key="GfT1Brush" Color="#FFDEDBD4" />
+  <SolidColorBrush x:Key="GfT2Brush" Color="#FFB8B4AD" />
+  <SolidColorBrush x:Key="GfT3Brush" Color="#FF5C5F69" />
+  <SolidColorBrush x:Key="GfT4Brush" Color="#FF2E3039" />
+
+  <!-- Typography: Martian Mono primary, Cascadia Code fallback -->
+  <FontFamily x:Key="GridFormFontFamily">Martian Mono, Cascadia Code, Cascadia Mono, Consolas, monospace</FontFamily>
+  <!-- Editorial voice only — Newsreader for AI analysis prose -->
+  <FontFamily x:Key="GridFormEditorialFontFamily">Newsreader, Georgia, serif</FontFamily>
+
+  <!-- Wordmark Style: 11px / 600 / 0.22em tracking -->
+  <Style x:Key="GridFormWordmarkStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="CharacterSpacing" Value="220" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgPrimaryBrush}" />
+
+  </Style>
+
+  <!-- Subtitle Style: 8px / 300 / 0.12em -->
+  <Style x:Key="GridFormSubtitleStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="120" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgWhisperBrush}" />
+
+  </Style>
+
+  <!-- Value Style: 8-9px / 400 / 0.08em -->
+  <Style x:Key="GridFormValueStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="9" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="CharacterSpacing" Value="80" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgSecondaryBrush}" />
+
+  </Style>
+
+  <!-- Label Style: 8px / 300 / 0.08-0.15em -->
+  <Style x:Key="GridFormLabelStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="100" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgMutedBrush}" />
+
+  </Style>
+
+  <!-- Section Header Style: 7px / 500 / 0.20em -->
+  <Style x:Key="GridFormSectionHeaderStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="7" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="CharacterSpacing" Value="200" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgGhostBrush}" />
+
+  </Style>
+
+  <!-- Button Text Style: 8px / 300 / 0.12em -->
+  <Style x:Key="GridFormButtonTextStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="120" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormBtnRestFgBrush}" />
+
+  </Style>
+
+  <!-- Help Text Style: 7px / 300 / 0.08em -->
+  <Style x:Key="GridFormHelpTextStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="7" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="80" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormFgTraceBrush}" />
+
+  </Style>
+
+  <!-- HUD Panel Style (glass background) -->
+  <Style x:Key="GridFormHudPanelStyle" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource GridFormPanelGlassBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource GridFormPanelBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="3" />
+  </Style>
+
+  <!-- Toolbar Button Style -->
+  <Style x:Key="GridFormToolbarButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource GridFormBtnRestFgBrush}" />
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="120" />
+    <Setter Property="Padding" Value="6,6,12,6" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="2" />
+  </Style>
+
+  <!-- Enterprise flat button (no visual states, full control via code-behind) -->
+  <Style x:Key="GfFlatButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource GfBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="14,6" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Enterprise asset row button (full-width, left-aligned) -->
+  <Style x:Key="GfAssetRowStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Padding" Value="12,7" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="CornerRadius" Value="3" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Enterprise KPI Pill Value Style — tabular nums for column alignment -->
+  <Style x:Key="GfKpiValueStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="9" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="CharacterSpacing" Value="60" />
+    <Setter Property="Foreground" Value="{StaticResource GfT1Brush}" />
+    <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+  </Style>
+
+  <!-- Enterprise KPI Pill Label Style -->
+  <Style x:Key="GfKpiLabelStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="7" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="150" />
+    <Setter Property="Foreground" Value="{StaticResource GfT3Brush}" />
+  </Style>
+
+  <!-- Enterprise Section Header Style -->
+  <Style x:Key="GfSectionHeaderStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="CharacterSpacing" Value="200" />
+    <Setter Property="Foreground" Value="{StaticResource GfT4Brush}" />
+  </Style>
+
+  <!-- Enterprise Nav Label Style -->
+  <Style x:Key="GfNavLabelStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="9" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="CharacterSpacing" Value="150" />
+    <Setter Property="Foreground" Value="{StaticResource GfT3Brush}" />
+  </Style>
+
+  <!-- Enterprise mini metric value — tabular nums for data alignment -->
+  <Style x:Key="GfMiniMetricValueStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="CharacterSpacing" Value="60" />
+    <Setter Property="Foreground" Value="{StaticResource GfT2Brush}" />
+    <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+  </Style>
+
+  <!-- Enterprise mini metric label -->
+  <Style x:Key="GfMiniMetricLabelStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource GridFormFontFamily}" />
+    <Setter Property="FontSize" Value="8" />
+    <Setter Property="FontWeight" Value="Light" />
+    <Setter Property="CharacterSpacing" Value="150" />
+    <Setter Property="Foreground" Value="{StaticResource GfT4Brush}" />
+  </Style>
+
+</ResourceDictionary>

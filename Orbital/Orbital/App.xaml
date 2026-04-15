@@ -1,0 +1,30 @@
+<Application x:Class="Orbital.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       RequestedTheme="Dark">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml">
+          <utum:MaterialToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <FontFamily x:Key="MaterialLightFontFamily">ms-appx:///Assets/Fonts/DMSans-Variable.ttf#DM Sans</FontFamily>
+              <FontFamily x:Key="MaterialMediumFontFamily">ms-appx:///Assets/Fonts/DMSans-Variable.ttf#DM Sans</FontFamily>
+              <FontFamily x:Key="MaterialRegularFontFamily">ms-appx:///Assets/Fonts/DMSans-Variable.ttf#DM Sans</FontFamily>
+            </ResourceDictionary>
+          </utum:MaterialToolkitTheme.FontOverrideDictionary>
+        </utum:MaterialToolkitTheme>
+        <ResourceDictionary Source="ms-appx:///Styles/OrbitalBrushes.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/Surfaces.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/Buttons.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/Animations.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

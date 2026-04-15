@@ -1,0 +1,46 @@
+<UserControl x:Class="ClaudeDash.Controls.InteractiveBarChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Y-axis labels -->
+            <ColumnDefinition Width="32" />
+            <!-- Chart area -->
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!-- Chart bars -->
+            <RowDefinition Height="*" />
+            <!-- X-axis labels -->
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <!-- Y-axis value labels -->
+        <StackPanel x:Name="YAxisPanel" Grid.Column="0" Grid.Row="0"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,4,0" />
+
+        <!-- Chart canvas for bars -->
+        <Canvas x:Name="ChartCanvas" Grid.Column="1" Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+        <!-- X-axis date labels -->
+        <Canvas x:Name="XAxisPanel" Grid.Column="1" Grid.Row="1"
+                HorizontalAlignment="Stretch" />
+
+        <!-- Tooltip overlay -->
+        <Border x:Name="TooltipBorder"
+                Style="{StaticResource ChartTooltipStyle}"
+                Visibility="Collapsed"
+                Grid.Column="1" Grid.Row="0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Canvas.ZIndex="10">
+            <TextBlock x:Name="TooltipText"
+                       Style="{StaticResource TooltipTextStyle}" />
+        </Border>
+    </Grid>
+</UserControl>

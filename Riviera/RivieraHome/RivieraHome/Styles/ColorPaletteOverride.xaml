@@ -1,0 +1,67 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- CRT Phosphor theme uses Dark dictionary exclusively -->
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="PrimaryColor">#33FF66</Color>
+      <Color x:Key="OnPrimaryColor">#050A06</Color>
+      <Color x:Key="PrimaryContainerColor">#1A9940</Color>
+      <Color x:Key="OnPrimaryContainerColor">#33FF66</Color>
+      <Color x:Key="SecondaryColor">#66FFAA</Color>
+      <Color x:Key="OnSecondaryColor">#050A06</Color>
+      <Color x:Key="SecondaryContainerColor">#0D1A10</Color>
+      <Color x:Key="OnSecondaryContainerColor">#66FFAA</Color>
+      <Color x:Key="TertiaryColor">#1A9940</Color>
+      <Color x:Key="OnTertiaryColor">#050A06</Color>
+      <Color x:Key="TertiaryContainerColor">#0D1A10</Color>
+      <Color x:Key="OnTertiaryContainerColor">#1A9940</Color>
+      <Color x:Key="ErrorColor">#FF4444</Color>
+      <Color x:Key="ErrorContainerColor">#330000</Color>
+      <Color x:Key="OnErrorColor">#050A06</Color>
+      <Color x:Key="OnErrorContainerColor">#FF4444</Color>
+      <Color x:Key="BackgroundColor">#050A06</Color>
+      <Color x:Key="OnBackgroundColor">#33FF66</Color>
+      <Color x:Key="SurfaceColor">#050A06</Color>
+      <Color x:Key="OnSurfaceColor">#33FF66</Color>
+      <Color x:Key="SurfaceVariantColor">#0A140D</Color>
+      <Color x:Key="OnSurfaceVariantColor">#1A9940</Color>
+      <Color x:Key="OutlineColor">#1A9940</Color>
+      <Color x:Key="OnSurfaceInverseColor">#050A06</Color>
+      <Color x:Key="SurfaceInverseColor">#33FF66</Color>
+      <Color x:Key="PrimaryInverseColor">#050A06</Color>
+      <Color x:Key="SurfaceTintColor">#33FF66</Color>
+      <Color x:Key="OutlineVariantColor">#0D3319</Color>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Light">
+      <!-- Force CRT theme even in light mode -->
+      <Color x:Key="PrimaryColor">#33FF66</Color>
+      <Color x:Key="OnPrimaryColor">#050A06</Color>
+      <Color x:Key="PrimaryContainerColor">#1A9940</Color>
+      <Color x:Key="OnPrimaryContainerColor">#33FF66</Color>
+      <Color x:Key="SecondaryColor">#66FFAA</Color>
+      <Color x:Key="OnSecondaryColor">#050A06</Color>
+      <Color x:Key="SecondaryContainerColor">#0D1A10</Color>
+      <Color x:Key="OnSecondaryContainerColor">#66FFAA</Color>
+      <Color x:Key="TertiaryColor">#1A9940</Color>
+      <Color x:Key="OnTertiaryColor">#050A06</Color>
+      <Color x:Key="TertiaryContainerColor">#0D1A10</Color>
+      <Color x:Key="OnTertiaryContainerColor">#1A9940</Color>
+      <Color x:Key="ErrorColor">#FF4444</Color>
+      <Color x:Key="ErrorContainerColor">#330000</Color>
+      <Color x:Key="OnErrorColor">#050A06</Color>
+      <Color x:Key="OnErrorContainerColor">#FF4444</Color>
+      <Color x:Key="BackgroundColor">#050A06</Color>
+      <Color x:Key="OnBackgroundColor">#33FF66</Color>
+      <Color x:Key="SurfaceColor">#050A06</Color>
+      <Color x:Key="OnSurfaceColor">#33FF66</Color>
+      <Color x:Key="SurfaceVariantColor">#0A140D</Color>
+      <Color x:Key="OnSurfaceVariantColor">#1A9940</Color>
+      <Color x:Key="OutlineColor">#1A9940</Color>
+      <Color x:Key="OnSurfaceInverseColor">#050A06</Color>
+      <Color x:Key="SurfaceInverseColor">#33FF66</Color>
+      <Color x:Key="PrimaryInverseColor">#050A06</Color>
+      <Color x:Key="SurfaceTintColor">#33FF66</Color>
+      <Color x:Key="OutlineVariantColor">#0D3319</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

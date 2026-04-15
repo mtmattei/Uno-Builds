@@ -1,0 +1,42 @@
+<UserControl x:Class="GridForm.Controls.ApprovalChain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:GridForm.Models">
+
+  <ItemsRepeater x:Name="StepsList"
+                 ItemsSource="{x:Bind Steps, Mode=OneWay}">
+    <ItemsRepeater.Layout>
+      <StackLayout Spacing="0" />
+    </ItemsRepeater.Layout>
+    <ItemsRepeater.ItemTemplate>
+      <DataTemplate x:DataType="models:ApprovalStep">
+        <Grid ColumnDefinitions="40,*" MinHeight="56">
+          <!-- Step indicator column -->
+          <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+            <!-- Circle -->
+            <Border Width="28" Height="28" CornerRadius="14"
+                    Background="Transparent"
+                    BorderThickness="2"
+                    HorizontalAlignment="Center">
+              <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Style="{StaticResource LabelSmall}" />
+            </Border>
+            <!-- Connecting line -->
+            <Border Width="2" Height="28"
+                    HorizontalAlignment="Center" />
+          </StackPanel>
+
+          <!-- Content column -->
+          <StackPanel Grid.Column="1" VerticalAlignment="Top" Padding="12,4,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="{Binding Name}" Style="{StaticResource BodyLarge}" />
+              <TextBlock Text="{Binding Role}"
+                         Style="{StaticResource BodySmall}"
+                         Foreground="{ThemeResource SurfaceTintBrush}" />
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </ItemsRepeater.ItemTemplate>
+  </ItemsRepeater>
+</UserControl>

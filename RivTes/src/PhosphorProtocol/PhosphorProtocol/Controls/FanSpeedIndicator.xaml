@@ -1,0 +1,6 @@
+<UserControl x:Class="PhosphorProtocol.Controls.FanSpeedIndicator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel x:Name="BarPanel" Orientation="Horizontal" Spacing="2" VerticalAlignment="Bottom" />
+</UserControl>

@@ -1,0 +1,33 @@
+<UserControl x:Class="PhosphorProtocol.Controls.SeatHeaterButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border x:Name="OuterBorder"
+            BorderThickness="1.5"
+            CornerRadius="7"
+            Padding="6,3"
+            Background="Transparent">
+        <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <!-- Seat icon (simplified geometric lines) -->
+            <Canvas Width="16" Height="18">
+                <!-- Seat back -->
+                <Line x:Name="SeatBack" X1="4" Y1="16" X2="4" Y2="4" StrokeThickness="1.5" />
+                <!-- Seat curve top -->
+                <Line x:Name="SeatTop" X1="4" Y1="4" X2="12" Y2="4" StrokeThickness="1.5" />
+                <!-- Seat front -->
+                <Line x:Name="SeatFront" X1="12" Y1="4" X2="12" Y2="16" StrokeThickness="1.5" />
+                <!-- Seat base -->
+                <Line x:Name="SeatBase" X1="4" Y1="16" X2="12" Y2="16" StrokeThickness="1.5" />
+
+                <!-- Heat waves (vertical lines inside seat) -->
+                <Line x:Name="Wave1" X1="6" Y1="10" X2="6" Y2="6" StrokeThickness="0.8" Visibility="Collapsed" />
+                <Line x:Name="Wave2" X1="8" Y1="11" X2="8" Y2="7" StrokeThickness="0.8" Visibility="Collapsed" />
+                <Line x:Name="Wave3" X1="10" Y1="10" X2="10" Y2="6" StrokeThickness="0.8" Visibility="Collapsed" />
+            </Canvas>
+            <!-- Level text -->
+            <TextBlock x:Name="LevelText"
+                       FontSize="7"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+    </Border>
+</UserControl>

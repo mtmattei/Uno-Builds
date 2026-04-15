@@ -1,0 +1,413 @@
+<Page x:Class="Orbital.Presentation.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uer="using:Uno.Extensions.Reactive.UI"
+      xmlns:controls="using:Orbital.Controls"
+      Background="{ThemeResource OrbitalSurface0Brush}">
+
+  <ScrollViewer>
+    <utu:AutoLayout Spacing="0" PrimaryAxisAlignment="Start">
+
+      <!-- GREETING HERO -->
+      <Grid x:Name="HeroSection" Padding="{utu:Responsive Narrow='16,16,16,8', Normal='32,32,32,8', Wide='32,32,32,8'}" Opacity="0">
+        <Grid.RenderTransform>
+          <TranslateTransform x:Name="HeroTranslate" Y="8" />
+        </Grid.RenderTransform>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left: Avatar + Greeting -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16">
+          <!-- Avatar Orb -->
+          <Grid x:Name="AvatarOrb" Width="48" Height="48">
+            <Grid.RenderTransform>
+              <CompositeTransform x:Name="OrbTransform" />
+            </Grid.RenderTransform>
+            <Grid.RenderTransformOrigin>0.5,0.5</Grid.RenderTransformOrigin>
+            <Border CornerRadius="16">
+              <Border.Background>
+                <LinearGradientBrush x:Name="OrbGradient" StartPoint="0,0" EndPoint="1,1">
+                  <GradientStop Color="{ThemeResource OrbitalEmerald400}" Offset="0" />
+                  <GradientStop Color="{ThemeResource OrbitalEmerald500}" Offset="0.5" />
+                  <GradientStop Color="{ThemeResource OrbitalTeal600}" Offset="1" />
+                </LinearGradientBrush>
+              </Border.Background>
+              <TextBlock Text="{Binding AvatarInitial}"
+                         FontFamily="{StaticResource OrbitalSansFont}"
+                         FontSize="18" FontWeight="Bold"
+                         Foreground="{ThemeResource OrbitalSurface0Brush}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Border>
+            <!-- Online dot -->
+            <Ellipse Width="14" Height="14"
+                     Fill="{ThemeResource OrbitalEmerald400Brush}"
+                     Stroke="{ThemeResource OrbitalSurface0Brush}"
+                     StrokeThickness="2"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Bottom" />
+          </Grid>
+          <!-- Text stack -->
+          <StackPanel VerticalAlignment="Center" Spacing="4">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="{Binding Greeting}"
+                         Style="{StaticResource OrbitalHeroTitle}" />
+              <TextBlock Text="{Binding UserName}"
+                         Style="{StaticResource OrbitalHeroTitle}" />
+            </StackPanel>
+            <TextBlock Text="{Binding DateDisplay}"
+                       Style="{StaticResource OrbitalSubtitle}"
+                       Foreground="{ThemeResource OrbitalText42Brush}" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Right: Clock + Status -->
+        <StackPanel x:Name="ClockSection" Grid.Column="1" HorizontalAlignment="Right" Spacing="16"
+                    Opacity="0">
+          <StackPanel.RenderTransform>
+            <TranslateTransform x:Name="ClockTranslate" Y="8" />
+          </StackPanel.RenderTransform>
+          <TextBlock Text="{Binding ClockDisplay}"
+                     Style="{StaticResource OrbitalClockHero}"
+                     HorizontalAlignment="Right" />
+          <!-- System status pill -->
+          <Border Background="{ThemeResource OrbitalSurface1Brush}"
+                  BorderBrush="{ThemeResource OrbitalSurface3Brush}"
+                  BorderThickness="1" CornerRadius="6"
+                  Padding="10,4" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <controls:StatusDot Status="ok" DotSize="6" VerticalAlignment="Center" />
+              <TextBlock Text="All systems nominal"
+                         Style="{StaticResource OrbitalMonoMeta}"
+                         Foreground="{ThemeResource OrbitalText45Brush}" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+
+      <!-- VERSION STRIP -->
+      <Grid x:Name="VersionStrip" Padding="{utu:Responsive Narrow='16,8,16,4', Normal='32,16,32,4', Wide='32,16,32,4'}" Opacity="0">
+        <Grid.RenderTransform>
+          <TranslateTransform x:Name="VersionTranslate" Y="8" />
+        </Grid.RenderTransform>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+          <controls:VersionPill Label="Orbital" Value="{Binding VersionDisplay}" />
+          <controls:VersionPill Label="LLM" Value="{Binding LlmDisplay}" />
+          <controls:VersionPill Label="MCP" Value="{Binding McpDisplay}" />
+        </StackPanel>
+        <controls:DataStream Grid.Column="1" VerticalAlignment="Center"
+                            Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible, Wide=Visible}" />
+      </Grid>
+
+      <!-- TERMINAL / COMMAND PROMPT -->
+      <Grid x:Name="TerminalSection" Padding="{utu:Responsive Narrow='16,8,16,0', Normal='32,12,32,0', Wide='32,12,32,0'}" Opacity="0">
+        <Grid.RenderTransform>
+          <TranslateTransform x:Name="TerminalTranslate" Y="8" />
+        </Grid.RenderTransform>
+        <Border Style="{StaticResource OrbitalCardStyle}" Padding="0"
+                MaxWidth="1080" HorizontalAlignment="Center">
+          <controls:TerminalControl x:Name="HomeTerminal" />
+        </Border>
+      </Grid>
+
+      <!-- Gradient divider -->
+      <Border Height="1" Margin="32,4">
+        <Border.Background>
+          <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Color="Transparent" Offset="0" />
+            <GradientStop Color="{ThemeResource OrbitalSurface35}" Offset="0.5" />
+            <GradientStop Color="Transparent" Offset="1" />
+          </LinearGradientBrush>
+        </Border.Background>
+      </Border>
+
+      <!-- STATUS CARDS -->
+      <Grid Padding="{utu:Responsive Narrow='16,8,16,0', Normal='32,16,32,0', Wide='32,16,32,0'}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Uno Platform Card -->
+        <Border x:Name="Card0" Grid.Column="0" Style="{StaticResource OrbitalCardStyle}" Margin="0,0,8,0" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="Card0Translate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="4">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="36" Height="36" CornerRadius="8"
+                      Background="{ThemeResource OrbitalSurface2Brush}">
+                <FontIcon Glyph="&#xE950;" FontSize="16"
+                          Foreground="{ThemeResource OrbitalText50Brush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <controls:PulsingBars BarCount="4" BarColor="emerald" />
+                <controls:StatusDot Status="ok" DotSize="10" />
+              </StackPanel>
+            </Grid>
+            <TextBlock Text="UNO PLATFORM" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" Margin="0,8,0,0" />
+            <TextBlock Text="{Binding UnoVersion}"
+                       Style="{StaticResource OrbitalCardValue}" />
+            <TextBlock Text="{Binding UnoDetail}"
+                       Style="{StaticResource OrbitalMonoSmall}" Margin="0,4,0,0" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- .NET SDK Card -->
+        <Border x:Name="Card1" Grid.Column="1" Style="{StaticResource OrbitalCardStyle}" Margin="8,0,8,0" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="Card1Translate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="4">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="36" Height="36" CornerRadius="8"
+                      Background="{ThemeResource OrbitalSurface2Brush}">
+                <FontIcon Glyph="&#xE943;" FontSize="16"
+                          Foreground="{ThemeResource OrbitalText50Brush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <controls:PulsingBars BarCount="4" BarColor="blue" />
+                <controls:StatusDot Status="ok" DotSize="10" />
+              </StackPanel>
+            </Grid>
+            <TextBlock Text=".NET SDK" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" Margin="0,8,0,0" />
+            <TextBlock Text="{Binding DotNetVersion}"
+                       Style="{StaticResource OrbitalCardValue}" />
+            <TextBlock Text="{Binding DotNetDetail}"
+                       Style="{StaticResource OrbitalMonoSmall}" Margin="0,4,0,0" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Studio Card -->
+        <Border x:Name="Card2" Grid.Column="2" Style="{StaticResource OrbitalCardStyle}" Margin="8,0,8,0" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="Card2Translate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="4">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="36" Height="36" CornerRadius="8"
+                      Background="{ThemeResource OrbitalSurface2Brush}">
+                <FontIcon Glyph="&#xE8D7;" FontSize="16"
+                          Foreground="{ThemeResource OrbitalText50Brush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <controls:PulsingBars BarCount="4" BarColor="violet" />
+                <controls:StatusDot Status="ok" DotSize="10" />
+              </StackPanel>
+            </Grid>
+            <TextBlock Text="STUDIO" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" Margin="0,8,0,0" />
+            <TextBlock Text="{Binding StudioVersion}"
+                       Style="{StaticResource OrbitalCardValue}" />
+            <TextBlock Text="{Binding StudioDetail}"
+                       Style="{StaticResource OrbitalMonoSmall}" Margin="0,4,0,0" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Agent Runtime Card -->
+        <Border x:Name="Card3" Grid.Column="3" Style="{StaticResource OrbitalCardStyle}" Margin="8,0,0,0" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="Card3Translate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="4">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="36" Height="36" CornerRadius="8"
+                      Background="{ThemeResource OrbitalSurface2Brush}">
+                <FontIcon Glyph="&#xE968;" FontSize="16"
+                          Foreground="{ThemeResource OrbitalText50Brush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <controls:PulsingBars BarCount="4" BarColor="emerald" />
+                <controls:StatusDot Status="ok" DotSize="10" />
+              </StackPanel>
+            </Grid>
+            <TextBlock Text="AGENT RUNTIME" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" Margin="0,8,0,0" />
+            <TextBlock Text="Online"
+                       Style="{StaticResource OrbitalCardValue}" />
+            <TextBlock Text="1 active · 2 queued"
+                       Style="{StaticResource OrbitalMonoSmall}" Margin="0,4,0,0" />
+          </utu:AutoLayout>
+        </Border>
+      </Grid>
+
+      <!-- ACTIONS + SESSION ROW -->
+      <Grid Padding="{utu:Responsive Narrow='16,8,16,0', Normal='32,16,32,0', Wide='32,16,32,0'}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="16" />
+          <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Quick Actions -->
+        <Border x:Name="ActionsPanel" Grid.Column="0" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="ActionsPanelTranslate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="8">
+            <TextBlock Text="QUICK ACTIONS" Style="{StaticResource OrbitalSectionHeader}"
+                       Foreground="{ThemeResource OrbitalText38Brush}" Margin="0,0,0,4" />
+            <Button x:Name="QuickRunUnoCheck" Style="{StaticResource OrbitalSecondaryButtonSm}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    AutomationProperties.Name="Run Uno Check">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE9D9;" FontSize="14" />
+                <TextBlock Text="Run Uno Check" />
+              </StackPanel>
+            </Button>
+            <Button x:Name="QuickNewProject" Style="{StaticResource OrbitalSecondaryButtonSm}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    AutomationProperties.Name="New Project">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE8F4;" FontSize="14" />
+                <TextBlock Text="New Project" />
+              </StackPanel>
+            </Button>
+            <Button x:Name="QuickBuildRun" Style="{StaticResource OrbitalPrimaryButtonSm}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    AutomationProperties.Name="Build and Run">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE768;" FontSize="14" />
+                <TextBlock Text="Build + Run" />
+              </StackPanel>
+            </Button>
+            <Button x:Name="QuickOpenDocs" Style="{StaticResource OrbitalGhostButtonSm}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    AutomationProperties.Name="Open Documentation">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE8A5;" FontSize="14" />
+                <TextBlock Text="Open Docs" />
+              </StackPanel>
+            </Button>
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Active Session -->
+        <Border x:Name="SessionPanel" Grid.Column="2" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+          <Border.RenderTransform><TranslateTransform x:Name="SessionPanelTranslate" Y="8" /></Border.RenderTransform>
+          <utu:AutoLayout Spacing="16">
+            <!-- Header -->
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <TextBlock Text="ACTIVE SESSION" Style="{StaticResource OrbitalSectionHeader}"
+                           Foreground="{ThemeResource OrbitalText38Brush}" VerticalAlignment="Center" />
+                <controls:PulsingBars x:Name="SessionPulse" BarCount="3" BarColor="violet" VerticalAlignment="Center" />
+              </StackPanel>
+              <Border x:Name="SessionStatusBadge" Grid.Column="1" Style="{StaticResource OrbitalBadgeSuccess}">
+                <TextBlock x:Name="SessionStatusText" Text="..." Style="{StaticResource OrbitalMonoSmall}"
+                           Foreground="{ThemeResource OrbitalEmerald400Brush}" />
+              </Border>
+            </Grid>
+
+            <!-- Session info -->
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <!-- Agent icon -->
+              <Border Width="40" Height="40" CornerRadius="8">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#338B5CF6" Offset="0" />
+                    <GradientStop Color="#1A7C3AED" Offset="1" />
+                  </LinearGradientBrush>
+                </Border.Background>
+                <FontIcon Glyph="&#xE99A;" FontSize="18"
+                          Foreground="{ThemeResource OrbitalViolet400Brush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel VerticalAlignment="Center" Spacing="4">
+                <TextBlock x:Name="SessionName"
+                           Text="Loading..."
+                           Style="{StaticResource OrbitalSessionName}"
+                           Foreground="{ThemeResource OrbitalText85Brush}" />
+                <TextBlock x:Name="SessionMeta"
+                           Text=""
+                           Style="{StaticResource OrbitalMonoConsole}"
+                           Foreground="{ThemeResource OrbitalText40Brush}" />
+              </StackPanel>
+            </StackPanel>
+
+            <!-- Timeline preview -->
+            <StackPanel x:Name="SessionTimeline" />
+          </utu:AutoLayout>
+        </Border>
+      </Grid>
+
+      <!-- RECENT PROJECTS -->
+      <Grid x:Name="ProjectsSection" Padding="{utu:Responsive Narrow='16,8,16,16', Normal='32,16,32,32', Wide='32,16,32,32'}" Opacity="0">
+        <Grid.RenderTransform>
+          <TranslateTransform x:Name="ProjectsTranslate" Y="8" />
+        </Grid.RenderTransform>
+        <Border Style="{StaticResource OrbitalCardStyle}">
+          <utu:AutoLayout Spacing="12">
+            <!-- Header -->
+            <Grid Margin="0,0,0,4">
+              <TextBlock Text="RECENT PROJECTS" Style="{StaticResource OrbitalSectionHeader}"
+                         Foreground="{ThemeResource OrbitalText38Brush}" VerticalAlignment="Center" />
+              <Button x:Name="BrowseAllButton" Content="Browse All" Style="{StaticResource OrbitalGhostButtonSm}"
+                      HorizontalAlignment="Right" />
+            </Grid>
+
+            <!-- Dynamic project rows -->
+            <StackPanel x:Name="RecentProjectsContainer" Spacing="0" />
+
+          </utu:AutoLayout>
+        </Border>
+      </Grid>
+
+    </utu:AutoLayout>
+  </ScrollViewer>
+
+  <Page.Resources>
+    <!-- Orb float: translateY 0 -> -6 -> 3 -> 0 + subtle scale, 5s loop -->
+    <Storyboard x:Name="OrbFloatAnimation" RepeatBehavior="Forever">
+      <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OrbTransform"
+                                      Storyboard.TargetProperty="TranslateY">
+        <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+        <SplineDoubleKeyFrame KeyTime="0:0:1.25" Value="-6" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="0" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:3.75" Value="3" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" />
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OrbTransform"
+                                      Storyboard.TargetProperty="ScaleX">
+        <SplineDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:1.25" Value="1.02" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="1" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:3.75" Value="0.98" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:5" Value="1" KeySpline="0.42,0,0.58,1" />
+      </DoubleAnimationUsingKeyFrames>
+      <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OrbTransform"
+                                      Storyboard.TargetProperty="ScaleY">
+        <SplineDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:1.25" Value="1.02" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="1" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:3.75" Value="0.98" KeySpline="0.42,0,0.58,1" />
+        <SplineDoubleKeyFrame KeyTime="0:0:5" Value="1" KeySpline="0.42,0,0.58,1" />
+      </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+  </Page.Resources>
+</Page>

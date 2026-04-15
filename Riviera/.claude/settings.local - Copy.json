@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno__uno_platform_docs_search",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet --version 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\Riviera\\\\RivieraHome\\\\RivieraHome\" && dotnet build -f net10.0-desktop 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\Riviera\\\\RivieraHome\\\\RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -5)",
+      "Bash(cd \"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\Riviera\\\\RivieraHome\\\\RivieraHome\" && mkdir -p Controls Services Themes Assets/Fonts)",
+      "Bash(cd \"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\Riviera\\\\RivieraHome\\\\RivieraHome\\\\Assets\\\\Fonts\" && curl -sL \"https://github.com/google/fonts/raw/main/ofl/sharetechmono/ShareTechMono-Regular.ttf\" -o ShareTechMono-Regular.ttf && curl -sL \"https://github.com/google/fonts/raw/main/ofl/orbitron/Orbitron%5Bwght%5D.ttf\" -o \"Orbitron-Variable.ttf\" && ls -la)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -60)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -40)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -30)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -10)",
+      "Bash(tasklist | grep -i RivieraHome)",
+      "Bash(tasklist | grep -i Riviera)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet run -f net10.0-desktop 2>&1 | head -60)",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet build -f net10.0-desktop 2>&1 | tail -15)",
+      "Bash(sleep 12 && tasklist | grep -i Riviera)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet run -f net10.0-desktop --no-launch-profile 2>&1 | head -100)",
+      "Bash(sleep 5 && wc -l \"C:/Users/PLATFO~1/AppData/Local/Temp/claude/C--Users-Platform006-OneDrive---Uno-Platform-Desktop-unOS-AI-builds-Riviera/tasks/bqyjmedxp.output\" 2>/dev/null && cat \"C:/Users/PLATFO~1/AppData/Local/Temp/claude/C--Users-Platform006-OneDrive---Uno-Platform-Desktop-unOS-AI-builds-Riviera/tasks/bqyjmedxp.output\" 2>/dev/null && tasklist | grep -i Riviera)",
+      "Bash(\"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome/bin/Debug/net10.0-desktop/RivieraHome.exe\" 2>&1 | head -50)",
+      "Bash(cd \"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/Riviera/RivieraHome/RivieraHome\" && dotnet run -f net10.0-desktop --no-launch-profile 2>&1)",
+      "Bash(sleep 15 && tasklist | grep -i Riviera && echo \"---RUNNING---\" || echo \"---NOT RUNNING---\")",
+      "Bash(tasklist)"
+    ]
+  }
+}

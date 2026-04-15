@@ -1,0 +1,92 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Terminal-style card: 1px border, rounded -->
+    <Style x:Key="DashboardCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CardGradientBrush}" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <!-- Stat card: 1px border, rounded -->
+    <Style x:Key="ElevatedCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource StatCardGradientBrush}" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <!-- Alert: left-border accent, no radius -->
+    <Style x:Key="AlertBannerStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}" />
+        <Setter Property="BorderThickness" Value="2,0,0,0" />
+    </Style>
+
+    <!-- Nav item button -->
+    <Style x:Key="NavItemButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Sidebar -->
+    <Style x:Key="SidebarStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SidebarGradientBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+    </Style>
+
+    <!-- Badge: subtle surface, fine border -->
+    <Style x:Key="RepoBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="6,2" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <!-- Status badge (UP/DOWN/SLOW) with semantic bg + border -->
+    <Style x:Key="StatusUpBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource StatusGreenBgBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource StatusGreenBorderBrush}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style x:Key="StatusDownBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource StatusRedBgBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource StatusRedBorderBrush}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style x:Key="StatusSlowBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource StatusOrangeBgBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource StatusOrangeBorderBrush}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <!-- Chart tooltip -->
+    <Style x:Key="ChartTooltipStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource TooltipGradientBrush}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+</ResourceDictionary>

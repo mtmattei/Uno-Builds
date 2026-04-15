@@ -1,0 +1,33 @@
+<UserControl x:Class="GridForm.Controls.BulkActionBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+  <Border Background="{ThemeResource SurfaceVariantBrush}"
+          BorderBrush="{ThemeResource OutlineBrush}"
+          BorderThickness="1"
+          CornerRadius="8"
+          Padding="16,8"
+          Visibility="{x:Bind IsVisible, Mode=OneWay}">
+    <utu:AutoLayout Orientation="Horizontal" Spacing="12"
+                    PrimaryAxisAlignment="Center">
+      <TextBlock Style="{StaticResource BodyLarge}"
+                 VerticalAlignment="Center">
+        <Run Text="{x:Bind SelectedCount, Mode=OneWay}" />
+        <Run Text=" selected" />
+      </TextBlock>
+
+      <Border Width="1" Height="20" Background="{ThemeResource OutlineBrush}" />
+
+      <Button Content="Bulk Approve"
+              Style="{StaticResource AccentActionButtonStyle}"
+              Command="{x:Bind ApproveCommand, Mode=OneWay}" />
+      <Button Content="Export"
+              Style="{StaticResource GhostButtonStyle}"
+              Command="{x:Bind ExportCommand, Mode=OneWay}" />
+      <Button Content="Clear"
+              Style="{StaticResource GhostButtonStyle}"
+              Command="{x:Bind ClearCommand, Mode=OneWay}" />
+    </utu:AutoLayout>
+  </Border>
+</UserControl>

@@ -1,0 +1,210 @@
+<UserControl x:Class="PhosphorProtocol.Views.ControlsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrl="using:PhosphorProtocol.Controls">
+    <ScrollViewer>
+        <StackPanel Padding="14,16,18,20" Spacing="0">
+
+            <!-- ═══ CONTROLS ════════════════════════════════════════════ -->
+            <TextBlock Text="CONTROLS"
+                       Style="{StaticResource PhosphorLabelSmall}"
+                       Foreground="{StaticResource DimBrush}"
+                       Margin="0,0,0,8" />
+
+            <!-- Toggle Cards: Door Locks / Fold Mirrors -->
+            <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Door Locks — active state (DoorsLocked=true) -->
+                <Border Grid.Column="0"
+                        Background="{StaticResource OffBrush}"
+                        CornerRadius="8"
+                        BorderBrush="{StaticResource BrightBrush}"
+                        BorderThickness="1"
+                        MinHeight="56"
+                        Padding="12,10,12,10">
+                    <Grid VerticalAlignment="Center">
+                        <TextBlock Text="DOOR LOCKS"
+                                   Style="{StaticResource PhosphorBodyMedium}"
+                                   Foreground="{StaticResource PeakBrush}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left" />
+                        <ToggleSwitch IsOn="{Binding DoorsLocked, Mode=TwoWay}"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Fold Mirrors — inactive state -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource OffBrush}"
+                        CornerRadius="8"
+                        BorderBrush="{StaticResource GhostBrush}"
+                        BorderThickness="1"
+                        MinHeight="56"
+                        Padding="12,10,12,10">
+                    <Grid VerticalAlignment="Center">
+                        <TextBlock Text="FOLD MIRRORS"
+                                   Style="{StaticResource PhosphorBodyMedium}"
+                                   Foreground="{StaticResource DimBrush}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left" />
+                        <ToggleSwitch IsOn="{Binding MirrorsFolded, Mode=TwoWay}"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- ═══ HEADLIGHTS ══════════════════════════════════════════ -->
+            <TextBlock Text="HEADLIGHTS"
+                       Style="{StaticResource PhosphorLabelSmall}"
+                       Foreground="{StaticResource DimBrush}"
+                       Margin="0,18,0,8" />
+
+            <!-- Four headlight buttons evenly distributed -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ctrl:GCCButton Grid.Column="0" Label="OFF"  HorizontalAlignment="Stretch" />
+                <ctrl:GCCButton Grid.Column="2" Label="PARK" HorizontalAlignment="Stretch" />
+                <ctrl:GCCButton Grid.Column="4" Label="AUTO" IsActive="True" HorizontalAlignment="Stretch" />
+                <ctrl:GCCButton Grid.Column="6" Label="ON"   HorizontalAlignment="Stretch" />
+            </Grid>
+
+            <!-- ═══ OPENINGS ════════════════════════════════════════════ -->
+            <TextBlock Text="OPENINGS"
+                       Style="{StaticResource PhosphorLabelSmall}"
+                       Foreground="{StaticResource DimBrush}"
+                       Margin="0,18,0,8" />
+
+            <!-- Trunk / Frunk — tall GCCButtons with status label below -->
+            <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Trunk -->
+                <StackPanel Grid.Column="0" Spacing="5">
+                    <ctrl:GCCButton Label="TRUNK"
+                                    Command="{Binding ToggleTrunk}"
+                                    HorizontalAlignment="Stretch"
+                                    MinHeight="44" />
+                    <TextBlock Text="CLOSED"
+                               Style="{StaticResource PhosphorLabelSmall}"
+                               Foreground="{StaticResource DimBrush}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Frunk -->
+                <StackPanel Grid.Column="1" Spacing="5">
+                    <ctrl:GCCButton Label="FRUNK"
+                                    Command="{Binding ToggleFrunk}"
+                                    HorizontalAlignment="Stretch"
+                                    MinHeight="44" />
+                    <TextBlock Text="CLOSED"
+                               Style="{StaticResource PhosphorLabelSmall}"
+                               Foreground="{StaticResource DimBrush}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+
+            <!-- ═══ VEHICLE INFO ═════════════════════════════════════════ -->
+            <TextBlock Text="VEHICLE INFO"
+                       Style="{StaticResource PhosphorLabelSmall}"
+                       Foreground="{StaticResource DimBrush}"
+                       Margin="0,18,0,8" />
+
+            <Border Background="{StaticResource OffBrush}"
+                    CornerRadius="8"
+                    BorderBrush="{StaticResource GhostBrush}"
+                    BorderThickness="1">
+
+                <StackPanel>
+                    <!-- MODEL -->
+                    <Border BorderBrush="{StaticResource GhostBorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="12,10">
+                        <Grid>
+                            <TextBlock Text="MODEL"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource DimBrush}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="Model 3 Long Range"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource BrightBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- VIN -->
+                    <Border BorderBrush="{StaticResource GhostBorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="12,10">
+                        <Grid>
+                            <TextBlock Text="VIN"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource DimBrush}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="5YJ3E1EA7PF"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource BrightBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- FIRMWARE -->
+                    <Border BorderBrush="{StaticResource GhostBorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="12,10">
+                        <Grid>
+                            <TextBlock Text="FW"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource DimBrush}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="2026.8.3"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource BrightBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- ODOMETER — no bottom separator on last row -->
+                    <Border Padding="12,10">
+                        <Grid>
+                            <TextBlock Text="ODO"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource DimBrush}"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="24,187 mi"
+                                       Style="{StaticResource PhosphorBodyMedium}"
+                                       Foreground="{StaticResource BrightBrush}"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

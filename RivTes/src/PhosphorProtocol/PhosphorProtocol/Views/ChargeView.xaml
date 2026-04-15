@@ -1,0 +1,124 @@
+<UserControl x:Class="PhosphorProtocol.Views.ChargeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:uer="using:Uno.Extensions.Reactive.UI"
+             xmlns:ctrl="using:PhosphorProtocol.Controls">
+
+    <uer:FeedView Source="{Binding Charge}">
+        <DataTemplate>
+            <Grid Padding="20,14,24,14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  ColumnSpacing="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Vertical battery bar -->
+                <Border Grid.Column="0" Background="{StaticResource OffBrush}"
+                        BorderBrush="{StaticResource DimBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="10,8"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center">
+                    <ctrl:BatteryIndicator Percent="{Binding Data.BatteryPercent}" SegmentCount="40"
+                                           IsCharging="{Binding Data.IsCharging}"
+                                           Orientation="Vertical"
+                                           VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+                </Border>
+
+                <!-- Right: Info -->
+                <StackPanel Grid.Column="1" Spacing="14" VerticalAlignment="Center">
+                    <!-- Big Percentage -->
+                    <TextBlock Style="{StaticResource HeroBatteryLarge}"
+                               Foreground="{StaticResource PeakBrush}"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding Data.BatteryPercent}" /><Run Text="%" />
+                    </TextBlock>
+
+                    <!-- Stats -->
+                    <Grid ColumnSpacing="28" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="RANGE" Style="{StaticResource PhosphorLabelSmall}" HorizontalAlignment="Center" />
+                            <TextBlock Style="{StaticResource HeroChargeStats}" HorizontalAlignment="Center">
+                                <Run Text="{Binding Data.RangeMiles}" />
+                            </TextBlock>
+                            <TextBlock Text="mi" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource DimBrush}" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="RATE" Style="{StaticResource PhosphorLabelSmall}" HorizontalAlignment="Center" />
+                            <TextBlock Style="{StaticResource HeroChargeStats}"
+                                       Foreground="{StaticResource DimBrush}" HorizontalAlignment="Center">
+                                <Run Text="{Binding Data.ChargeRateKw}" />
+                            </TextBlock>
+                            <TextBlock Text="kW" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource DimBrush}" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="LIMIT" Style="{StaticResource PhosphorLabelSmall}" HorizontalAlignment="Center" />
+                            <TextBlock Style="{StaticResource HeroChargeStats}" HorizontalAlignment="Center">
+                                <Run Text="{Binding Data.ChargeLimitPercent}" />
+                            </TextBlock>
+                            <TextBlock Text="%" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource DimBrush}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Nearby Superchargers -->
+                    <StackPanel MaxWidth="340" Spacing="0">
+                        <TextBlock Text="NEARBY SUPERCHARGERS" Style="{StaticResource PhosphorLabelSmall}"
+                                   Foreground="{StaticResource DimBrush}" Margin="0,0,0,8" />
+
+                        <Border BorderBrush="{StaticResource GhostBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8">
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Montreal SC" Style="{StaticResource PhosphorLabelMedium}" Foreground="{StaticResource BrightBrush}" />
+                                    <TextBlock Text="2.1 mi" Style="{StaticResource PhosphorLabelSmall}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="0">
+                                    <TextBlock Text="6" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource GlowBrush}" />
+                                    <TextBlock Text="/12" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border BorderBrush="{StaticResource GhostBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8">
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Longueuil SC" Style="{StaticResource PhosphorLabelMedium}" Foreground="{StaticResource BrightBrush}" />
+                                    <TextBlock Text="5.7 mi" Style="{StaticResource PhosphorLabelSmall}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="0">
+                                    <TextBlock Text="8" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource GlowBrush}" />
+                                    <TextBlock Text="/10" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border BorderBrush="{StaticResource GhostBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8">
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Laval SC" Style="{StaticResource PhosphorLabelMedium}" Foreground="{StaticResource BrightBrush}" />
+                                    <TextBlock Text="8.4 mi" Style="{StaticResource PhosphorLabelSmall}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="0">
+                                    <TextBlock Text="4" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource AmberBrush}" />
+                                    <TextBlock Text="/8" Style="{StaticResource PhosphorBodyMedium}" Foreground="{StaticResource DimBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </uer:FeedView>
+</UserControl>

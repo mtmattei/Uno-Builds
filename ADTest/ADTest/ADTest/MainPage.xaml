@@ -1,0 +1,211 @@
+<Page x:Class="ADTest.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ADTest"
+      xmlns:models="using:ADTest.Models"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uer="using:Uno.Extensions.Reactive.UI"
+      Background="{StaticResource TimelinePageBgBrush}">
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="56" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Left Icon Sidebar Rail -->
+    <Border Grid.Column="0"
+            Background="{StaticResource TimelinePageBgBrush}"
+            Padding="0,16,0,16">
+      <StackPanel Spacing="8"
+                  HorizontalAlignment="Center">
+
+        <!-- App Logo -->
+        <Button Style="{StaticResource SidebarIconStyle}" Margin="0,0,0,16">
+          <FontIcon Glyph="&#xE80F;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconActiveBrush}" />
+        </Button>
+
+        <!-- Timeline (active) -->
+        <Button Style="{StaticResource SidebarIconActiveStyle}"
+                AutomationProperties.Name="Timeline"
+                Translation="0,0,8">
+          <Button.Shadow>
+            <ThemeShadow />
+          </Button.Shadow>
+          <FontIcon Glyph="&#xE81C;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconActiveBrush}" />
+        </Button>
+
+        <!-- Grid/Dashboard -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="Dashboard">
+          <FontIcon Glyph="&#xE80A;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+
+        <!-- Analytics -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="Analytics">
+          <FontIcon Glyph="&#xE9D2;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+
+        <!-- Files -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="Files">
+          <FontIcon Glyph="&#xE838;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+
+        <!-- Documents -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="Documents">
+          <FontIcon Glyph="&#xE8A5;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+
+        <!-- AI/Magic -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="AI Assistant">
+          <FontIcon Glyph="&#xE945;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+
+        <!-- Integrations -->
+        <Button Style="{StaticResource SidebarIconStyle}"
+                AutomationProperties.Name="Integrations">
+          <FontIcon Glyph="&#xE71B;" FontSize="20"
+                    Foreground="{StaticResource TimelineIconDefaultBrush}" />
+        </Button>
+      </StackPanel>
+    </Border>
+
+    <!-- Main Content Area -->
+    <Grid Grid.Column="1"
+          Padding="48,24,48,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <!-- Header: Title + Segmented Control -->
+      <Grid Grid.Row="0" Margin="0,0,0,24">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0"
+                   x:Uid="TimelinePage.Title"
+                   Text="Timeline"
+                   Style="{StaticResource TitleLargeTextBlockStyle}"
+                   Foreground="{StaticResource TimelineTextPrimaryBrush}"
+                   VerticalAlignment="Center" />
+
+        <!-- Segmented Control (Day / Week / Month) -->
+        <Border Grid.Column="1"
+                Background="{StaticResource TimelineHoverBrush}"
+                CornerRadius="8"
+                Padding="4"
+                VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="2">
+            <RadioButton Content="Day"
+                         GroupName="TimeFilter"
+                         IsChecked="True"
+                         Style="{StaticResource SegmentButtonStyle}"
+                         x:Uid="TimelinePage.Filter.Day"
+                         AutomationProperties.Name="Filter by day" />
+            <RadioButton Content="Week"
+                         GroupName="TimeFilter"
+                         Style="{StaticResource SegmentButtonStyle}"
+                         x:Uid="TimelinePage.Filter.Week"
+                         AutomationProperties.Name="Filter by week" />
+            <RadioButton Content="Month"
+                         GroupName="TimeFilter"
+                         Style="{StaticResource SegmentButtonStyle}"
+                         x:Uid="TimelinePage.Filter.Month"
+                         AutomationProperties.Name="Filter by month" />
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <!-- Timeline Content -->
+      <uer:FeedView Grid.Row="1"
+                    Source="{Binding Groups}">
+        <DataTemplate x:DataType="models:DateGroupedConversations">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsRepeater ItemsSource="{Binding Data}">
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="models:DateGroupedConversations">
+                  <StackPanel Margin="0,0,0,8">
+                    <!-- Date Group Header -->
+                    <Grid Margin="24,24,0,12">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <Ellipse Grid.Column="0"
+                               Width="10" Height="10"
+                               Fill="{StaticResource TimelineDotBrush}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,16,0" />
+                      <TextBlock Grid.Column="1"
+                                 Text="{Binding DateLabel}"
+                                 Style="{StaticResource TitleMediumTextBlockStyle}"
+                                 Foreground="{StaticResource TimelineTextPrimaryBrush}" />
+                    </Grid>
+
+                    <!-- Conversation Items within this date group -->
+                    <ItemsRepeater ItemsSource="{Binding Items}">
+                      <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:ConversationItem">
+                          <Grid Margin="0,0,0,0"
+                                Padding="24,14,16,14"
+                                CornerRadius="8"
+                                Background="Transparent"
+                                AutomationProperties.Name="{Binding Summary}">
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="Auto" />
+                              <ColumnDefinition Width="Auto" />
+                              <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Connector line segment -->
+                            <Grid Grid.Column="0"
+                                  Width="10"
+                                  Margin="0,-14,0,-14">
+                              <Rectangle Width="1.5"
+                                         Fill="{StaticResource TimelineConnectorBrush}"
+                                         HorizontalAlignment="Center" />
+                            </Grid>
+
+                            <!-- Timeline dot -->
+                            <Ellipse Grid.Column="1"
+                                     Width="8" Height="8"
+                                     Fill="{StaticResource TimelineDotBrush}"
+                                     VerticalAlignment="Center"
+                                     Margin="8,0,16,0" />
+
+                            <!-- Summary text -->
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Summary}"
+                                       Style="{StaticResource BodyLargeTextBlockStyle}"
+                                       Foreground="{StaticResource TimelineTextSecondaryBrush}"
+                                       VerticalAlignment="Center"
+                                       MaxLines="1"
+                                       TextTrimming="CharacterEllipsis" />
+                          </Grid>
+                        </DataTemplate>
+                      </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </ScrollViewer>
+        </DataTemplate>
+      </uer:FeedView>
+    </Grid>
+  </Grid>
+</Page>

@@ -1,0 +1,102 @@
+<Page x:Class="ClaudeDash.Views.HooksPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="0" MaxWidth="1400">
+
+            <!-- One-liner -->
+            <TextBlock Text="Shell commands that run in response to Claude Code events (tool calls, notifications)."
+                       Style="{StaticResource GreetingSubtitleStyle}"
+                       Margin="0,0,0,8" />
+
+            <!-- ├─── hooks — .unodash/hooks.toml ───┤ -->
+            <TextBlock x:Name="HooksDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- Section header: ↵ ACTIVE HOOKS ... 4 configured -->
+            <Grid Margin="0,12,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="SectionTitle"
+                           Grid.Column="0"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10"
+                           CharacterSpacing="80"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+                <TextBlock x:Name="ConfiguredCount"
+                           Grid.Column="1"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10"
+                           CharacterSpacing="80"
+                           Foreground="{StaticResource TextMutedBrush}" />
+            </Grid>
+
+            <!-- Column headers -->
+            <Grid Margin="12,0,12,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="Auto" MinWidth="70" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="HOOK"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10" CharacterSpacing="80"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+                <TextBlock Grid.Column="1" Text="TRIGGER"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10" CharacterSpacing="80"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+                <TextBlock Grid.Column="2" Text="ACTION"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10" CharacterSpacing="80"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+                <TextBlock Grid.Column="3" Text="STATUS"
+                           FontFamily="Cascadia Code, Consolas, monospace"
+                           FontSize="10" CharacterSpacing="80"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+            </Grid>
+
+            <!-- Thin separator under headers -->
+            <Border Height="1" Margin="0,0,0,4"
+                    Background="{StaticResource BorderSubtleBrush}" />
+
+            <!-- Hook rows -->
+            <StackPanel x:Name="HooksPanel" Spacing="0" />
+
+            <!-- ├─── allowed domains — network egress ───┤ -->
+            <TextBlock x:Name="DomainsDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- Domain pills -->
+            <StackPanel x:Name="DomainsPanel" Spacing="8" Margin="0,8,0,0" />
+
+            <!-- ├─── config preview — ~/.unodash/config.toml ───┤ -->
+            <TextBlock x:Name="ConfigDivider"
+                       Style="{StaticResource PipeDividerStyle}" />
+
+            <!-- Config preview card -->
+            <Border Style="{StaticResource DashboardCardStyle}" Margin="0,8,0,0">
+                <StackPanel x:Name="ConfigPanel" Spacing="0" />
+            </Border>
+
+            <!-- Footer -->
+            <TextBlock x:Name="FooterText"
+                       HorizontalAlignment="Center"
+                       Margin="0,24,0,16"
+                       FontFamily="Cascadia Code, Consolas, monospace"
+                       FontSize="11"
+                       Foreground="{StaticResource TextMutedBrush}" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

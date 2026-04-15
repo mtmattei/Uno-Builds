@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "ClaudeDash",
+  "display": "standalone",
+  "name": "ClaudeDash",
+  "short_name": "ClaudeDash",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

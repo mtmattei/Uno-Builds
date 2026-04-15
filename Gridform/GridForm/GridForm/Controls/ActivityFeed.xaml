@@ -1,0 +1,41 @@
+<UserControl x:Class="GridForm.Controls.ActivityFeed"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:GridForm.Models"
+             xmlns:converters="using:GridForm.Converters">
+
+  <UserControl.Resources>
+    <converters:EventTypeToColorConverter x:Key="EventTypeToColor" />
+  </UserControl.Resources>
+
+  <ItemsRepeater x:Name="EventsList"
+                 ItemsSource="{x:Bind Events, Mode=OneWay}">
+    <ItemsRepeater.Layout>
+      <StackLayout Spacing="0" />
+    </ItemsRepeater.Layout>
+    <ItemsRepeater.ItemTemplate>
+      <DataTemplate x:DataType="models:ActivityEvent">
+        <Border Padding="0,8" BorderBrush="{ThemeResource OutlineBrush}" BorderThickness="0,0,0,1">
+          <Grid ColumnDefinitions="48,Auto,*">
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Timestamp}"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource SurfaceTintBrush}"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       VerticalAlignment="Center" />
+            <Ellipse Grid.Column="1" Width="5" Height="5"
+                     Fill="{Binding Type, Converter={StaticResource EventTypeToColor}}"
+                     VerticalAlignment="Center"
+                     Margin="0,0,8,0" />
+            <TextBlock Grid.Column="2"
+                       Text="{Binding Message}"
+                       Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+          </Grid>
+        </Border>
+      </DataTemplate>
+    </ItemsRepeater.ItemTemplate>
+  </ItemsRepeater>
+</UserControl>

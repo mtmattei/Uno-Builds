@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot"
+    ]
+  }
+}

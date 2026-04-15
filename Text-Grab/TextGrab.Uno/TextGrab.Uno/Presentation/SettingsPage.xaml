@@ -1,0 +1,24 @@
+<Page x:Class="TextGrab.Presentation.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      NavigationCacheMode="Required">
+
+  <NavigationView x:Name="SettingsNavView"
+                  PaneDisplayMode="Top"
+                  IsBackButtonVisible="Collapsed"
+                  IsSettingsVisible="False"
+                  SelectionChanged="SettingsNav_SelectionChanged">
+
+    <NavigationView.MenuItems>
+      <NavigationViewItem Content="General" Tag="GeneralSettings" />
+      <NavigationViewItem Content="Fullscreen" Tag="FullscreenGrabSettings" />
+      <NavigationViewItem Content="Languages" Tag="LanguageSettings" />
+      <NavigationViewItem Content="Keys" Tag="KeysSettings" />
+      <NavigationViewItem Content="Tesseract" Tag="TesseractSettings" />
+      <NavigationViewItem Content="Danger" Tag="DangerSettings" />
+    </NavigationView.MenuItems>
+
+    <Frame x:Name="SettingsFrame" />
+
+  </NavigationView>
+</Page>

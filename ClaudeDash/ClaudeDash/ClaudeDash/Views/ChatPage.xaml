@@ -1,0 +1,175 @@
+<Page x:Class="ClaudeDash.Views.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Top bar -->
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceBackgroundBrush}"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="assistant"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="Ask about your sessions, projects, configs, or hygiene issues."
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10"
+                               Foreground="{StaticResource TextTertiaryBrush}"
+                               VerticalAlignment="Center"
+                               Margin="8,0,0,0" />
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Style="{StaticResource DashGhostButtonStyle}"
+                        Padding="8,4"
+                        Command="{Binding ClearHistory}"
+                        ToolTipService.ToolTip="Clear conversation">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE74D;" FontSize="11"
+                                  Foreground="{StaticResource TextTertiaryBrush}" />
+                        <TextBlock Text="clear"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextTertiaryBrush}" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Messages area -->
+        <ScrollViewer Grid.Row="1"
+                      x:Name="MessagesScroller"
+                      VerticalScrollBarVisibility="Auto"
+                      Padding="24,16">
+            <ItemsRepeater ItemsSource="{Binding Messages}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="8" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderSubtleBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Padding="12,8"
+                                HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{Binding Role}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="9" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           CharacterSpacing="60" />
+                                <TextBlock Text="{Binding Text}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+
+        <!-- API key setup panel (shown when not configured) -->
+        <ScrollViewer x:Name="ApiKeyPanel"
+                      Grid.Row="1"
+                      Visibility="Collapsed"
+                      VerticalScrollBarVisibility="Auto">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource SurfaceBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="32,24"
+                    Margin="24"
+                    MaxWidth="440">
+                <StackPanel Spacing="16" HorizontalAlignment="Center">
+                    <TextBlock Text="API Key Required"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="14" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Enter your Anthropic API key to enable the assistant.&#x0a;You can also set ANTHROPIC_API_KEY as an environment variable."
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10"
+                               Foreground="{StaticResource TextTertiaryBrush}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
+                    <TextBox x:Name="ApiKeyBox"
+                             PlaceholderText="sk-ant-..."
+                             FontFamily="{StaticResource MonoFontFamily}"
+                             FontSize="11"
+                             MaxWidth="360"
+                             HorizontalAlignment="Stretch" />
+                    <Button HorizontalAlignment="Center"
+                            Padding="24,10"
+                            Click="SetApiKey_Click">
+                        <TextBlock Text="Connect"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold" />
+                    </Button>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <!-- Input bar -->
+        <Border Grid.Row="2"
+                Background="{StaticResource SurfaceBackgroundBrush}"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="20,12">
+            <Grid ColumnSpacing="8" MaxWidth="900"
+                  HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="InputBox"
+                         Grid.Column="0"
+                         FontFamily="{StaticResource MonoFontFamily}"
+                         FontSize="11"
+                         PlaceholderText="Ask about your environment, sessions, projects..."
+                         AcceptsReturn="False"
+                         KeyDown="InputBox_KeyDown" />
+
+                <Button x:Name="SendButton"
+                        Grid.Column="1"
+                        Style="{StaticResource DashOutlineButtonStyle}"
+                        Padding="12,6"
+                        Click="Send_Click"
+                        ToolTipService.ToolTip="Send (Enter)">
+                    <FontIcon Glyph="&#xE724;"
+                              FontSize="14"
+                              Foreground="{StaticResource AccentGreenBrush}" />
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

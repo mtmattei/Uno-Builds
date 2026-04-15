@@ -1,0 +1,149 @@
+<UserControl x:Class="PhosphorProtocol.Views.AutopilotView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:skia="using:PhosphorProtocol.SkiaControls"
+             xmlns:ctrl="using:PhosphorProtocol.Controls"
+             xmlns:uen="using:Uno.Extensions.Navigation.UI"
+             xmlns:uer="using:Uno.Extensions.Reactive.UI">
+
+    <Grid Background="{StaticResource CRTBrush}">
+        <!-- AI Perception Canvas (full bleed) -->
+        <skia:AutopilotPerceptionCanvas x:Name="PerceptionCanvas" />
+
+        <!-- Overlay HUD -->
+        <uer:FeedView Source="{Binding Autopilot}">
+            <DataTemplate>
+                <Grid>
+                    <!-- Top-left: Mode + Status -->
+                    <Border HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="14,14"
+                            Background="#ED020707"
+                            BorderBrush="{StaticResource BrightBrush}" BorderThickness="1.5"
+                            CornerRadius="10" Padding="12,8,16,10">
+                        <StackPanel Spacing="4">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <!-- Pulsing AI indicator dot -->
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource PeakBrush}"
+                                         VerticalAlignment="Center">
+                                    <Ellipse.OpacityTransition>
+                                        <ScalarTransition Duration="0:0:0.6" />
+                                    </Ellipse.OpacityTransition>
+                                </Ellipse>
+                                <TextBlock Text="{Binding Data.Mode}"
+                                           FontFamily="{StaticResource ShareTechMonoFont}"
+                                           FontSize="13" CharacterSpacing="140"
+                                           Foreground="{StaticResource PeakBrush}" />
+                            </StackPanel>
+                            <TextBlock FontFamily="{StaticResource ShareTechMonoFont}"
+                                       FontSize="9" CharacterSpacing="100"
+                                       Foreground="{StaticResource BrightBrush}">
+                                <Run Text="STATUS: " /><Run Text="{Binding Data.InterventionStatus}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Top-right: Detection summary -->
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="0,14,14,0"
+                            Background="#ED020707"
+                            BorderBrush="{StaticResource BrightBrush}" BorderThickness="1.5"
+                            CornerRadius="10" Padding="12,8">
+                        <Grid ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0"
+                                       Text="OBJECTS" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource GlowBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Grid.Row="1"
+                                       Text="{Binding Data.DetectedObjects}"
+                                       FontFamily="{StaticResource OrbitronFont}" FontSize="18" FontWeight="Medium"
+                                       Foreground="{StaticResource PeakBrush}" HorizontalAlignment="Center" />
+
+                            <TextBlock Grid.Column="1" Grid.Row="0"
+                                       Text="VEHICLES" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource GlowBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Grid.Row="1"
+                                       Text="{Binding Data.TrackedVehicles}"
+                                       FontFamily="{StaticResource OrbitronFont}" FontSize="18" FontWeight="Medium"
+                                       Foreground="{StaticResource PeakBrush}" HorizontalAlignment="Center" />
+
+                            <TextBlock Grid.Column="2" Grid.Row="0"
+                                       Text="PEDS" Style="{StaticResource PhosphorLabelSmall}"
+                                       Foreground="{StaticResource GlowBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Grid.Row="1"
+                                       Text="{Binding Data.TrackedPedestrians}"
+                                       FontFamily="{StaticResource OrbitronFont}" FontSize="18" FontWeight="Medium"
+                                       Foreground="{StaticResource PeakBrush}" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Bottom-right: Vehicle controls -->
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Margin="0,0,14,14"
+                            Background="#ED020707"
+                            BorderBrush="{StaticResource BrightBrush}" BorderThickness="1.5"
+                            CornerRadius="10" Padding="12,8">
+                        <StackPanel Spacing="6">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <StackPanel>
+                                    <TextBlock Text="STEER" Style="{StaticResource PhosphorLabelSmall}"
+                                               Foreground="{StaticResource GlowBrush}" HorizontalAlignment="Center" />
+                                    <TextBlock FontFamily="{StaticResource OrbitronFont}" FontSize="14" FontWeight="Medium"
+                                               Foreground="{StaticResource PeakBrush}" HorizontalAlignment="Center">
+                                        <Run Text="{Binding Data.SteeringAngle, Converter={x:Null}}" /><Run Text="°" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <Border Width="1" Height="24" Background="{StaticResource GhostBorderBrush}" />
+                                <StackPanel>
+                                    <TextBlock Text="THROTTLE" Style="{StaticResource PhosphorLabelSmall}"
+                                               Foreground="{StaticResource GlowBrush}" HorizontalAlignment="Center" />
+                                    <TextBlock FontFamily="{StaticResource OrbitronFont}" FontSize="14" FontWeight="Medium"
+                                               Foreground="{StaticResource BrightBrush}" HorizontalAlignment="Center">
+                                        <Run Text="{Binding Data.ThrottlePercent, Converter={x:Null}}" /><Run Text="%" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
+                                <TextBlock Text="NEXT:" Style="{StaticResource PhosphorLabelSmall}"
+                                           Foreground="{StaticResource DimBrush}" VerticalAlignment="Center" />
+                                <TextBlock FontFamily="{StaticResource ShareTechMonoFont}" FontSize="10"
+                                           CharacterSpacing="80" Foreground="{StaticResource BrightBrush}"
+                                           VerticalAlignment="Center">
+                                    <Run Text="{Binding Data.NextManeuver}" />
+                                    <Run Text=" " />
+                                    <Run Text="{Binding Data.ManeuverDistance}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Bottom-left: Confidence label -->
+                    <Border HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                            Margin="14,0,0,14"
+                            Background="#B0020707"
+                            CornerRadius="8" Padding="6,4">
+                        <TextBlock Text="AI PERCEPTION"
+                                   Style="{StaticResource PhosphorLabelSmall}"
+                                   Foreground="{StaticResource GlowBrush}" />
+                    </Border>
+
+                </Grid>
+            </DataTemplate>
+        </uer:FeedView>
+
+        <!-- EXIT AUTOPILOT button -->
+        <ctrl:GCCButton Label="✕ EXIT AUTOPILOT"
+                        IsActive="True"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                        Margin="0,0,0,14"
+                        Click="OnExitAutopilotClick" />
+    </Grid>
+</UserControl>

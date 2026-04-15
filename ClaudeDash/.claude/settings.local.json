@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(wc:*)",
+      "Bash(find:*)",
+      "WebSearch",
+      "WebFetch(domain:www.mecachrome.com)",
+      "WebFetch(domain:www.howmet.com)",
+      "WebFetch(domain:www.wajax.com)",
+      "WebFetch(domain:novabus.com)",
+      "WebFetch(domain:megatelcnc.com)",
+      "WebFetch(domain:www.portailconstructo.com)",
+      "WebFetch(domain:produitsneptune.com)",
+      "WebFetch(domain:www.canadianplanet.net)",
+      "WebFetch(domain:www.saputo.com)",
+      "WebFetch(domain:www.companylisting.ca)",
+      "WebFetch(domain:www.ctidirectory.com)",
+      "WebFetch(domain:www.actionstainless.com)",
+      "WebFetch(domain:mptools.ca)",
+      "WebFetch(domain:pleper.com)",
+      "WebFetch(domain:daltonluka.com)",
+      "WebFetch(domain:platform.uno)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(dotnet build:*)",
+      "Bash(powershell:*)",
+      "Bash(DOTNET_MODIFIABLE_ASSEMBLIES=debug dotnet run:*)",
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "Bash(taskkill:*)",
+      "Bash(export:*)",
+      "Bash(\"C:/Users/Platform006/OneDrive - Uno Platform/Desktop/unOS/AI-builds/ClaudeDash/ClaudeDash/ClaudeDash/bin/Debug/net10.0-desktop/ClaudeDash.exe\":*)",
+      "Bash(xargs grep:*)",
+      "Bash(ls:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(dotnet tool:*)",
+      "Bash(dotnet-ildasm:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "uno-app",
+    "figma",
+    "uno"
+  ]
+}

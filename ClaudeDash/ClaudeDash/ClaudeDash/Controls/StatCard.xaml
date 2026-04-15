@@ -1,0 +1,56 @@
+<UserControl x:Class="ClaudeDash.Controls.StatCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource ElevatedCardStyle}" Padding="0">
+        <Grid>
+            <!-- 1px gradient accent bar (left-to-transparent) -->
+            <Border x:Name="AccentBar"
+                    Height="1"
+                    VerticalAlignment="Top"
+                    CornerRadius="14,14,0,0" />
+
+            <!-- Card content -->
+            <Grid Padding="16,14,16,12" Margin="0,1,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: label, value, trend -->
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <!-- Label + dot row -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Name="LabelText"
+                                   Style="{StaticResource StatLabelStyle}" />
+                        <Ellipse x:Name="StatusDot"
+                                 Width="6" Height="6"
+                                 VerticalAlignment="Center" />
+                    </StackPanel>
+                    <!-- Large number -->
+                    <TextBlock x:Name="ValueText"
+                               Style="{StaticResource StatNumberStyle}" />
+                    <!-- Trend + subtitle on same line -->
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Name="TrendText"
+                                   FontFamily="Cascadia Code, Consolas, monospace"
+                                   FontSize="10"
+                                   Visibility="Collapsed" />
+                        <TextBlock x:Name="SubtitleText"
+                                   Style="{StaticResource CodeTextStyle}"
+                                   TextWrapping="NoWrap"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Right: icon -->
+                <FontIcon x:Name="CardIcon" Grid.Column="1"
+                          FontSize="20"
+                          Foreground="{StaticResource TextMutedBrush}"
+                          VerticalAlignment="Top"
+                          Margin="8,0,0,0"
+                          Visibility="Collapsed" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

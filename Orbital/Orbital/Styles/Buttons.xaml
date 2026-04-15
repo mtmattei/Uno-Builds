@@ -1,0 +1,229 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Primary Button: Emerald bg, dark text. Hover: lift + lighter emerald. Pressed: scale(0.97) -->
+  <Style x:Key="OrbitalPrimaryButton" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource OrbitalEmerald500Brush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OrbitalSurface0Brush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontFamily" Value="{StaticResource OrbitalSansFont}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="RootBorder"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <CompositeTransform x:Name="BtnTransform" ScaleX="1" ScaleY="1" TranslateY="0" />
+            </Border.RenderTransform>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-2" Duration="0:0:0.15">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalEmerald400Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleX"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleY"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-1" Duration="0:0:0.1" />
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalEmerald400Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Opacity" Value="0.4" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Foreground="{TemplateBinding Foreground}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Secondary Button: Surface bg. Hover: lift + Surface-3.5 bg. Pressed: scale(0.97) -->
+  <Style x:Key="OrbitalSecondaryButton" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource OrbitalSurface2Brush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OrbitalText80Brush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource OrbitalSurface35Brush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontFamily" Value="{StaticResource OrbitalSansFont}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="RootBorder"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <CompositeTransform x:Name="BtnTransform" ScaleX="1" ScaleY="1" TranslateY="0" />
+            </Border.RenderTransform>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-2" Duration="0:0:0.15">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalSurface35Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleX"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleY"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-1" Duration="0:0:0.1" />
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalSurface3Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Opacity" Value="0.4" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Foreground="{TemplateBinding Foreground}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Ghost Button: Transparent bg. Hover: lift + text brightens, Surface-2 bg. Pressed: scale(0.97) -->
+  <Style x:Key="OrbitalGhostButton" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource OrbitalText55Brush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontFamily" Value="{StaticResource OrbitalSansFont}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="RootBorder"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <CompositeTransform x:Name="BtnTransform" ScaleX="1" ScaleY="1" TranslateY="0" />
+            </Border.RenderTransform>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-2" Duration="0:0:0.15">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalSurface2Brush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OrbitalText80Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleX"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="ScaleY"
+                                     To="0.97" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="BtnTransform" Storyboard.TargetProperty="TranslateY"
+                                     To="-1" Duration="0:0:0.1" />
+                  </Storyboard>
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Background" Value="{ThemeResource OrbitalSurface2Brush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OrbitalText80Brush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="RootBorder.Opacity" Value="0.4" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter x:Name="ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Foreground="{TemplateBinding Foreground}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Small variants -->
+  <Style x:Key="OrbitalPrimaryButtonSm" TargetType="Button" BasedOn="{StaticResource OrbitalPrimaryButton}">
+    <Setter Property="Padding" Value="12,6" />
+  </Style>
+  <Style x:Key="OrbitalSecondaryButtonSm" TargetType="Button" BasedOn="{StaticResource OrbitalSecondaryButton}">
+    <Setter Property="Padding" Value="12,6" />
+  </Style>
+  <Style x:Key="OrbitalGhostButtonSm" TargetType="Button" BasedOn="{StaticResource OrbitalGhostButton}">
+    <Setter Property="Padding" Value="12,6" />
+  </Style>
+
+</ResourceDictionary>

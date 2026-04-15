@@ -1,0 +1,307 @@
+<Page x:Class="ClaudeDash.Views.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      xmlns:local="using:ClaudeDash.Views"
+      xmlns:vm="using:ClaudeDash.ViewModels"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Main scrollable content -->
+        <ScrollViewer Grid.Row="0"
+                      VerticalScrollBarVisibility="Auto" Padding="24,16">
+            <StackPanel Spacing="0" MaxWidth="1400" HorizontalAlignment="Stretch">
+
+                <!-- Greeting -->
+                <TextBlock Text="{Binding Greeting}"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="18" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,16" />
+
+                <!-- Primary CTA -->
+                <Button Style="{StaticResource DashPrimaryButtonStyle}"
+                        Padding="24,12"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,24"
+                        uen:Navigation.Request="sessions">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE768;" FontSize="13" />
+                        <TextBlock Text="Start Next Task"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="13" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Metric cards row - bound to Metrics feed -->
+                <Grid ColumnSpacing="12" Margin="0,0,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:StatCard Grid.Column="0"
+                                       Label="TOTAL SESSIONS"
+                                       IconGlyph="&#xE756;"
+                                       Value="{Binding Metrics.ActiveSessions}" />
+                    <controls:StatCard Grid.Column="1"
+                                       Label="TRACKED REPOS"
+                                       IconGlyph="&#xE945;"
+                                       Value="{Binding Metrics.TrackedRepos}" />
+                    <controls:StatCard Grid.Column="2"
+                                       Label="MCP SERVERS"
+                                       IconGlyph="&#xE8B7;"
+                                       Value="{Binding Metrics.McpServers}" />
+                    <controls:StatCard Grid.Column="3"
+                                       Label="HYGIENE"
+                                       IconGlyph="&#xE73E;"
+                                       Value="{Binding Metrics.HygieneIssues}" />
+                </Grid>
+
+                <!-- Projects + Terminal Chat side by side -->
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Recent Projects -->
+                    <StackPanel Grid.Column="0" Spacing="0">
+                        <!-- Projects header -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="RECENT PROJECTS"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10" FontWeight="SemiBold"
+                                       CharacterSpacing="80"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Project list via ItemsRepeater with data binding -->
+                        <ItemsRepeater ItemsSource="{Binding RecentProjects}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="4" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource CardBackgroundBrush}"
+                                            BorderBrush="{StaticResource BorderDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6"
+                                            Padding="14,12"
+                                            Tapped="ProjectCard_Tapped">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <FontIcon Grid.Column="0" Glyph="&#xE8B7;" FontSize="20"
+                                                      Foreground="{StaticResource TextTertiaryBrush}"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0,0,12,0" />
+
+                                            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontFamily="{StaticResource MonoFontFamily}"
+                                                           FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                                <TextBlock Text="{Binding CurrentBranch}"
+                                                           FontFamily="{StaticResource MonoFontFamily}"
+                                                           FontSize="10"
+                                                           Foreground="{StaticResource TextMutedBrush}" />
+                                            </StackPanel>
+
+                                            <FontIcon Grid.Column="2"
+                                                      Glyph="&#xE76C;" FontSize="12"
+                                                      Foreground="{StaticResource TextMutedBrush}"
+                                                      VerticalAlignment="Center"
+                                                      Margin="8,0,0,0" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+
+                    <!-- Right: Terminal Chat -->
+                    <Border Grid.Column="1"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource BorderDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            MinHeight="400" MaxHeight="520">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Terminal header -->
+                            <Border Grid.Row="0"
+                                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="14,10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Ellipse Width="10" Height="10" Fill="{StaticResource StatusRedBrush}" />
+                                        <Ellipse Width="10" Height="10" Fill="{StaticResource StatusAmberBrush}" />
+                                        <Ellipse Width="10" Height="10" Fill="{StaticResource StatusGreenBrush}" />
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="orbital - claude-code bridge"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="11"
+                                               Foreground="{StaticResource TextTertiaryBrush}"
+                                               Margin="12,0,0,0"
+                                               VerticalAlignment="Center" />
+
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                                        <Ellipse Width="6" Height="6"
+                                                 Fill="{StaticResource StatusGreenBrush}"
+                                                 VerticalAlignment="Center" />
+                                        <TextBlock Text="LIVE"
+                                                   FontFamily="{StaticResource MonoFontFamily}"
+                                                   FontSize="10" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource StatusGreenBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Status line -->
+                            <TextBlock Grid.Row="1"
+                                       Text="&#x2299; Orbital v1.0 - Claude Code bridge active."
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       Padding="14,8"
+                                       TextWrapping="Wrap" />
+
+                            <!-- Chat messages list -->
+                            <ListView Grid.Row="2"
+                                      ItemsSource="{Binding TerminalMessages}"
+                                      SelectionMode="None"
+                                      Padding="14,4">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,2"
+                                                Padding="8,6"
+                                                CornerRadius="6"
+                                                Background="{StaticResource SurfaceBackgroundBrush}">
+                                            <TextBlock Text="{Binding Text}"
+                                                       FontFamily="{StaticResource MonoFontFamily}"
+                                                       FontSize="11"
+                                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                                       TextWrapping="Wrap" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                            <!-- Input bar -->
+                            <Border Grid.Row="3"
+                                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                                    BorderThickness="0,1,0,0"
+                                    Padding="10,8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="&#x276F;"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="13" FontWeight="Bold"
+                                               Foreground="{StaticResource AccentLightBrush}"
+                                               VerticalAlignment="Center"
+                                               Margin="4,0,8,0" />
+
+                                    <TextBox x:Name="TermInput" Grid.Column="1"
+                                             PlaceholderText="Type a command or ask Claude..."
+                                             FontFamily="{StaticResource MonoFontFamily}"
+                                             FontSize="12"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             VerticalAlignment="Center" />
+
+                                    <Button x:Name="TermSendBtn" Grid.Column="2"
+                                            Style="{StaticResource DashGhostButtonStyle}"
+                                            Padding="8,6"
+                                            Click="TermSend_Click">
+                                        <FontIcon Glyph="&#xE724;" FontSize="14"
+                                                  Foreground="{StaticResource TextTertiaryBrush}" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer -->
+        <Border Grid.Row="1"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="0,8,0,8">
+            <StackPanel HorizontalAlignment="Center" Spacing="2">
+                <StackPanel Orientation="Horizontal" Spacing="0"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="UNO PLATFORM"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               CharacterSpacing="60"
+                               VerticalAlignment="Center" />
+                    <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               VerticalAlignment="Center">
+                        <Run Text=" V" /><Run Text="{Binding Toolchain.UnoSdkVersion}" />
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="10"
+                           Foreground="{StaticResource TextMutedBrush}"
+                           HorizontalAlignment="Center">
+                    <Run Text="sessions: " /><Run Text="{Binding Metrics.TotalRecentSessionCount}" />
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

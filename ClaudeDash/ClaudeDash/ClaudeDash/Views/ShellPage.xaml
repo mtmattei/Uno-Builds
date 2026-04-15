@@ -1,0 +1,402 @@
+<Page x:Class="ClaudeDash.Views.ShellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ClaudeDash.Views"
+      xmlns:models="using:ClaudeDash.Models"
+      xmlns:controls="using:ClaudeDash.Controls"
+      xmlns:converters="using:ClaudeDash.Converters"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      Background="{StaticResource AppBackgroundBrush}"
+      KeyDown="Page_KeyDown">
+
+    <Page.Resources>
+        <converters:StatusToColorConverter x:Key="StatusToColor" />
+    </Page.Resources>
+
+    <Grid utu:SafeArea.Insets="All">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Style="{StaticResource SidebarStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Top: brand -->
+                <Border Grid.Row="0" Padding="14,14,14,6">
+                    <StackPanel Spacing="2">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="&#x26A1;"
+                                       FontSize="18"
+                                       Foreground="{StaticResource AccentPeachBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="unodash"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="AI DEV COMMAND"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="8" FontWeight="Medium"
+                                   CharacterSpacing="120"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Search button -->
+                <Button Grid.Row="1"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource BorderDefaultBrush}"
+                        BorderThickness="1"
+                        HorizontalAlignment="Stretch"
+                        Margin="10,4,10,8"
+                        Padding="8,6"
+                        CornerRadius="4"
+                        ToolTipService.ToolTip="Search (Ctrl+K)"
+                        Click="SearchButton_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE721;"
+                                  FontSize="14"
+                                  Foreground="{StaticResource TextMutedBrush}" />
+                        <TextBlock Text="search..."
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Nav items - data-bound ListView instead of imperative code -->
+                <ListView Grid.Row="2"
+                          ItemsSource="{Binding NavItems}"
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                          SelectionMode="Single"
+                          SelectionChanged="NavList_SelectionChanged"
+                          Padding="6,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="8,7" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Grid.Column="0"
+                                          Glyph="{Binding Icon}"
+                                          FontSize="15"
+                                          Foreground="{StaticResource TextMutedBrush}" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Label}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="13"
+                                           Foreground="{StaticResource TextTertiaryBrush}"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Key}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10" FontWeight="SemiBold"
+                                               Foreground="{StaticResource NavGroupHeaderBrush}"
+                                               Margin="12,12,12,6"
+                                               CharacterSpacing="60" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="0,1" />
+                            <Setter Property="CornerRadius" Value="4" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid x:Name="RootGrid" Background="Transparent">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal" />
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="RootGrid.Background" Value="{StaticResource SurfaceBackgroundBrush}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Pressed">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="RootGrid.Background" Value="{StaticResource SurfaceBackgroundBrush}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Selected">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+                                                            <Setter Target="RootGrid.Background" Value="{StaticResource StatusOrangeBgBrush}" />
+                                                            <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentPeachBrush}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOverSelected">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+                                                            <Setter Target="RootGrid.Background" Value="{StaticResource StatusOrangeBgBrush}" />
+                                                            <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentPeachBrush}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PressedSelected">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="SelectionIndicator.Visibility" Value="Visible" />
+                                                            <Setter Target="RootGrid.Background" Value="{StaticResource StatusOrangeBgBrush}" />
+                                                            <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentPeachBrush}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+
+                                            <!-- Vertical orange selection indicator -->
+                                            <Border x:Name="SelectionIndicator"
+                                                    Width="3" CornerRadius="2"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Stretch"
+                                                    Margin="0,4"
+                                                    Background="{StaticResource AccentPeachBrush}"
+                                                    Visibility="Collapsed" />
+
+                                            <ContentPresenter x:Name="ContentPresenter"
+                                                              Content="{TemplateBinding Content}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              Margin="6,0,0,0" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+
+                <!-- Bottom: env info (data-bound) -->
+                <StackPanel Grid.Row="3" Padding="14,8" Spacing="6">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Ellipse Width="6" Height="6"
+                                 Fill="{StaticResource StatusGreenBrush}"
+                                 VerticalAlignment="Center" />
+                        <TextBlock Text="scanner active"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="v0.4"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10"
+                               Foreground="{StaticResource TextMutedBrush}" />
+
+                    <Border Height="1"
+                            Background="{StaticResource BorderSubtleBrush}"
+                            Margin="0,2,0,2" />
+
+                    <!-- Environment info rows bound to EnvironmentInfo feed -->
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Ellipse Width="5" Height="5"
+                                     Fill="{StaticResource StatusGreenBrush}"
+                                     VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding EnvironmentInfo.DotNetVersion}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Ellipse Width="5" Height="5"
+                                     Fill="{StaticResource StatusGreenBrush}"
+                                     VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding EnvironmentInfo.UnoSdkVersion}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Ellipse Width="5" Height="5"
+                                     Fill="{StaticResource StatusGreenBrush}"
+                                     VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding EnvironmentInfo.StudioVersion}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Content area with header bar -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Top header bar -->
+            <Border Grid.Row="0"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="16,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: page title -->
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding PageTitle}"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="13" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+
+                    <!-- Right: quick actions + verdict + connection + time -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12"
+                                VerticalAlignment="Center">
+
+                        <!-- Quick action buttons using Navigation.Request -->
+                        <Button Style="{StaticResource DashGhostButtonStyle}"
+                                Padding="6,4"
+                                ToolTipService.ToolTip="Uno Check"
+                                uen:Navigation.Request="uno-platform">
+                            <TextBlock Text="&#x1F50D;" FontSize="11" />
+                        </Button>
+                        <Button Style="{StaticResource DashGhostButtonStyle}"
+                                Padding="6,4"
+                                ToolTipService.ToolTip="Docs"
+                                Click="OpenDocs_Click">
+                            <TextBlock Text="&#x1F4C1;" FontSize="11" />
+                        </Button>
+                        <Button Style="{StaticResource DashGhostButtonStyle}"
+                                Padding="6,4"
+                                ToolTipService.ToolTip="New Project"
+                                uen:Navigation.Request="uno-platform">
+                            <TextBlock Text="&#x2728;" FontSize="11" />
+                        </Button>
+
+                        <Border Width="1" Height="16"
+                                Background="{StaticResource BorderSubtleBrush}" />
+
+                        <!-- Verdict pill (bound to Verdict state) -->
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource StatusGreenBrush}"
+                                BorderThickness="1" CornerRadius="12"
+                                Padding="10,4">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <Ellipse Width="6" Height="6"
+                                         Fill="{StaticResource StatusGreenBrush}"
+                                         VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Verdict.Summary}"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10" FontWeight="Medium"
+                                           Foreground="{StaticResource StatusGreenBrush}"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Width="1" Height="16"
+                                Background="{StaticResource BorderSubtleBrush}" />
+
+                        <!-- Claude CLI connection (bound) -->
+                        <StackPanel Orientation="Horizontal" Spacing="5"
+                                    VerticalAlignment="Center">
+                            <Ellipse Width="6" Height="6"
+                                     Fill="{StaticResource TextMutedBrush}"
+                                     VerticalAlignment="Center" />
+                            <TextBlock Text="Claude CLI"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding ClaudeConnection.StatusText}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <Border Width="1" Height="16"
+                                Background="{StaticResource BorderSubtleBrush}" />
+
+                        <!-- License badge (bound) -->
+                        <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   VerticalAlignment="Center">
+                            <Run Text="Studio " /><Run Text="{Binding EnvironmentInfo.License.Tier}" />
+                        </TextBlock>
+
+                        <!-- Time (bound) -->
+                        <TextBlock Text="{Binding CurrentTime}"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Navigation content frame -->
+            <Frame x:Name="ContentFrame" Grid.Row="1"
+                   uen:Region.Attached="True" />
+        </Grid>
+
+        <!-- Slide-over panel -->
+        <controls:SlideOverPanel Grid.Column="1" x:Name="SlideOverControl" />
+
+        <!-- Search overlay -->
+        <controls:SearchOverlay Grid.ColumnSpan="2"
+                                x:Name="SearchOverlayControl" />
+
+        <!-- Toast notification -->
+        <Border x:Name="ToastBorder"
+                Grid.ColumnSpan="2"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,12,20,0"
+                Background="{StaticResource SurfaceBackgroundBrush}"
+                BorderBrush="{StaticResource BorderDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Padding="14,8"
+                MaxWidth="360">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="6" Height="6"
+                         Fill="{StaticResource AccentGreenBrush}"
+                         VerticalAlignment="Center" />
+                <TextBlock x:Name="ToastText"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           TextTrimming="CharacterEllipsis"
+                           MaxLines="1" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

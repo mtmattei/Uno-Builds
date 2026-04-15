@@ -1,0 +1,383 @@
+<Page x:Class="ClaudeDash.Views.RalphLoopsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="1400">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="ralph loop"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="From idea to shipped app — PRD generation, design, scaffolding, validation, and output."
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+            </StackPanel>
+
+            <!-- Pipeline navigation -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="8" Padding="12,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Style="{StaticResource DashOutlineButtonStyle}"
+                            Padding="10,4"
+                            Command="{Binding PreviousStage}">
+                        <TextBlock Text="&#x2190; back"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" />
+                    </Button>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                Spacing="6" HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="0 idea"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="1 prd"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="2 design"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="3 scaffold"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="4 validate"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="5 test"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                CornerRadius="4" Padding="8,3">
+                            <TextBlock Text="6 ship"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                    </StackPanel>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource DashOutlineButtonStyle}"
+                            Padding="10,4"
+                            Command="{Binding NextStage}">
+                        <TextBlock Text="next &#x2192;"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- IDEA INPUT section -->
+            <TextBlock Text="IDEA INPUT"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="project name"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10" Foreground="{StaticResource TextMutedBrush}" />
+                    <TextBox Text="{Binding ProjectName, Mode=TwoWay}"
+                             FontFamily="{StaticResource MonoFontFamily}"
+                             FontSize="12"
+                             PlaceholderText="MyUnoApp" />
+
+                    <TextBlock Text="describe your idea"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10" Foreground="{StaticResource TextMutedBrush}" />
+                    <TextBox Text="{Binding IdeaInput, Mode=TwoWay}"
+                             FontFamily="{StaticResource MonoFontFamily}"
+                             FontSize="12"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             MinHeight="80"
+                             PlaceholderText="A cross-platform dashboard that..." />
+
+                    <Button Style="{StaticResource DashOutlineButtonStyle}"
+                            Padding="12,6"
+                            Command="{Binding GeneratePrdFromIdea}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE768;" FontSize="12" />
+                            <TextBlock Text="generate prd &#x2192;"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- SUGGESTED TAGS -->
+            <TextBlock Text="SUGGESTED TAGS"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <ItemsRepeater ItemsSource="{Binding SuggestedTags}">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout MinItemWidth="120"
+                                       MinItemHeight="28"
+                                       MinColumnSpacing="4"
+                                       MinRowSpacing="4" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource SurfaceBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="4" Padding="8,4">
+                            <TextBlock Text="{Binding}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource AccentLightBrush}"
+                                       HorizontalAlignment="Center" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <!-- PRD section -->
+            <TextBlock Text="PRD"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="10">
+                    <TextBox Text="{Binding PrdInput, Mode=TwoWay}"
+                             FontFamily="{StaticResource MonoFontFamily}"
+                             FontSize="11"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             MinHeight="120"
+                             PlaceholderText="PRD will appear here after generation, or paste your own..." />
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Style="{StaticResource DashOutlineButtonStyle}"
+                                Padding="12,6"
+                                Command="{Binding ValidatePrd}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon Glyph="&#xE73E;" FontSize="12" />
+                                <TextBlock Text="validate prd"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- VALIDATION RESULTS -->
+            <TextBlock Text="{Binding ValidationStatus}"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="11"
+                       Foreground="{StaticResource AccentLightBrush}"
+                       Margin="0,4,0,0" />
+
+            <ItemsRepeater ItemsSource="{Binding ValidationResults}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="4" Padding="12,6">
+                            <TextBlock Text="{Binding}"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       TextWrapping="Wrap" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <!-- SCAFFOLD CONFIG -->
+            <TextBlock Text="SCAFFOLD CONFIG"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="target platforms"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="10" Foreground="{StaticResource TextMutedBrush}" />
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <CheckBox Content="Desktop"
+                                  IsChecked="{Binding PlatformDesktop, Mode=TwoWay}"
+                                  FontFamily="{StaticResource MonoFontFamily}"
+                                  FontSize="11" />
+                        <CheckBox Content="Wasm"
+                                  IsChecked="{Binding PlatformWasm, Mode=TwoWay}"
+                                  FontFamily="{StaticResource MonoFontFamily}"
+                                  FontSize="11" />
+                        <CheckBox Content="iOS"
+                                  IsChecked="{Binding PlatformIos, Mode=TwoWay}"
+                                  FontFamily="{StaticResource MonoFontFamily}"
+                                  FontSize="11" />
+                        <CheckBox Content="Android"
+                                  IsChecked="{Binding PlatformAndroid, Mode=TwoWay}"
+                                  FontFamily="{StaticResource MonoFontFamily}"
+                                  FontSize="11" />
+                        <CheckBox Content="Mac Catalyst"
+                                  IsChecked="{Binding PlatformMacCatalyst, Mode=TwoWay}"
+                                  FontFamily="{StaticResource MonoFontFamily}"
+                                  FontSize="11" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- GENERATE OUTPUT -->
+            <TextBlock Text="GENERATE"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Style="{StaticResource DashOutlineButtonStyle}"
+                        Padding="12,6"
+                        Command="{Binding GenerateTruthFile}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE8A5;" FontSize="12" />
+                        <TextBlock Text="generate truth file"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource DashOutlineButtonStyle}"
+                        Padding="12,6"
+                        Command="{Binding GeneratePrompt}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE943;" FontSize="12" />
+                        <TextBlock Text="generate prompt"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!-- TRUTH FILE OUTPUT -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="TRUTH FILE"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   CharacterSpacing="60"
+                                   VerticalAlignment="Center" />
+                        <Button Grid.Column="1"
+                                Style="{StaticResource DashOutlineButtonStyle}"
+                                Padding="8,3"
+                                Command="{Binding CopyTruthFile}">
+                            <TextBlock Text="copy"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" />
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding GeneratedTruthFile}"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- PROMPT OUTPUT -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderDefaultBrush}"
+                    BorderThickness="1" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="PROMPT"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="10" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   CharacterSpacing="60"
+                                   VerticalAlignment="Center" />
+                        <Button Grid.Column="1"
+                                Style="{StaticResource DashOutlineButtonStyle}"
+                                Padding="8,3"
+                                Command="{Binding CopyPrompt}">
+                            <TextBlock Text="copy"
+                                       FontFamily="{StaticResource MonoFontFamily}"
+                                       FontSize="9" />
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding GeneratedPrompt}"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="11"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <Border Height="32" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

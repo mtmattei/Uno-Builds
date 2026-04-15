@@ -1,0 +1,86 @@
+<Page x:Class="Orbital.Presentation.DiagnosticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:Orbital.Controls"
+      Background="{ThemeResource OrbitalSurface0Brush}">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <controls:PageHeader x:Name="Header" Grid.Row="0"
+                         Title="Diagnostics"
+                         Subtitle="{Binding HeaderSubtitle, FallbackValue='Environment verification, dependency checks, and runtime tools'}" />
+
+    <ScrollViewer Grid.Row="1">
+      <utu:AutoLayout Spacing="24" Padding="{utu:Responsive Narrow='16', Normal='32', Wide='32'}" PrimaryAxisAlignment="Start">
+
+        <!-- UNO CHECK SECTION -->
+        <Border x:Name="UnoCheckCard" Style="{StaticResource OrbitalCardStyle}" Opacity="0">
+          <utu:AutoLayout Spacing="16">
+            <!-- Header -->
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                <TextBlock Text="UNO CHECK" Style="{StaticResource OrbitalSectionHeader}"
+                           Foreground="{ThemeResource OrbitalText38Brush}" VerticalAlignment="Center" />
+                <controls:PulsingBars BarCount="4" BarColor="amber" VerticalAlignment="Center" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <Border Style="{StaticResource OrbitalBadgeWarning}" VerticalAlignment="Center">
+                  <TextBlock Text="{Binding CheckSummary, FallbackValue='checking...'}"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalAmber400Brush}" />
+                </Border>
+                <Button x:Name="RerunButton" Content="Re-run" Style="{StaticResource OrbitalSecondaryButtonSm}"
+                        VerticalAlignment="Center" AutomationProperties.Name="Re-run Uno Check" />
+              </StackPanel>
+            </Grid>
+
+            <!-- Console output -->
+            <controls:ConsoleBlock x:Name="UnoCheckConsole" Title="uno-check → desktop, web" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- DEPENDENCIES SECTION -->
+        <utu:AutoLayout x:Name="DepsSection" Spacing="12" PrimaryAxisAlignment="Start" Opacity="0">
+          <TextBlock Text="DEPENDENCIES" Style="{StaticResource OrbitalSectionHeader}"
+                     Foreground="{ThemeResource OrbitalText38Brush}" />
+          <Grid x:Name="DepsGrid">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+          </Grid>
+        </utu:AutoLayout>
+
+        <!-- RUNTIME VERIFICATION SECTION -->
+        <utu:AutoLayout x:Name="ToolsSection" Spacing="12" PrimaryAxisAlignment="Start" Opacity="0">
+          <TextBlock Text="RUNTIME VERIFICATION" Style="{StaticResource OrbitalSectionHeader}"
+                     Foreground="{ThemeResource OrbitalText38Brush}" />
+          <Grid x:Name="ToolsGrid">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+          </Grid>
+        </utu:AutoLayout>
+
+        <!-- PLATFORM TARGETS SECTION -->
+        <utu:AutoLayout x:Name="PlatformsSection" Spacing="12" PrimaryAxisAlignment="Start" Opacity="0">
+          <TextBlock Text="PLATFORM TARGETS" Style="{StaticResource OrbitalSectionHeader}"
+                     Foreground="{ThemeResource OrbitalText38Brush}" />
+          <StackPanel x:Name="PlatformsStrip" Orientation="Horizontal" Spacing="8" />
+        </utu:AutoLayout>
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+  </Grid>
+</Page>

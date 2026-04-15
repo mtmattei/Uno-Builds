@@ -1,0 +1,142 @@
+<Page x:Class="ClaudeDash.Views.McpSkillsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:ClaudeDash.Controls"
+      Background="{StaticResource AppBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="1400">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="&#x03BB;"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource AccentLightBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="mcp &amp; skills"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="MCP servers, installed skills, and sub-agents across your projects."
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="11"
+                           Foreground="{StaticResource TextTertiaryBrush}" />
+            </StackPanel>
+
+            <!-- Stat cards -->
+            <Grid ColumnSpacing="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:StatCard Grid.Column="0"
+                                   Label="SERVERS"
+                                   IconGlyph="&#xE968;"
+                                   Value="{Binding TotalServers}" />
+                <controls:StatCard Grid.Column="1"
+                                   Label="ONLINE"
+                                   IconGlyph="&#xE73E;"
+                                   Value="{Binding OnlineCount}" />
+                <controls:StatCard Grid.Column="2"
+                                   Label="DEGRADED"
+                                   IconGlyph="&#xE7BA;"
+                                   Value="{Binding DegradedCount}" />
+                <controls:StatCard Grid.Column="3"
+                                   Label="DOWN"
+                                   IconGlyph="&#xE711;"
+                                   Value="{Binding DownCount}" />
+            </Grid>
+
+            <!-- Summary -->
+            <TextBlock Text="{Binding SummaryText}"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="11"
+                       Foreground="{StaticResource TextTertiaryBrush}" />
+
+            <!-- MCP Servers list -->
+            <TextBlock Text="MCP SERVERS"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="10" FontWeight="SemiBold"
+                       CharacterSpacing="80"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       Margin="0,8,0,4" />
+
+            <ItemsRepeater ItemsSource="{Binding Servers}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource BorderDefaultBrush}"
+                                BorderThickness="1" CornerRadius="6" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse Grid.Column="0" Width="8" Height="8"
+                                         Fill="{StaticResource StatusGreenBrush}"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,10,0" />
+
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="{Binding Name}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="12" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryBrush}" />
+                                    <TextBlock Text="{Binding StatusDetail}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="10"
+                                               Foreground="{StaticResource TextTertiaryBrush}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+
+                                <Border Grid.Column="2"
+                                        Background="{StaticResource SurfaceBackgroundBrush}"
+                                        CornerRadius="4" Padding="6,2"
+                                        VerticalAlignment="Center" Margin="8,0">
+                                    <TextBlock Text="{Binding Transport}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="9" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextMutedBrush}" />
+                                </Border>
+
+                                <TextBlock Grid.Column="3"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="4,0">
+                                    <Run Text="{Binding ToolCount}" /><Run Text=" tools" />
+                                </TextBlock>
+
+                                <Border Grid.Column="4"
+                                        Background="{StaticResource SurfaceBackgroundBrush}"
+                                        CornerRadius="4" Padding="8,3"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding HealthStatus}"
+                                               FontFamily="{StaticResource MonoFontFamily}"
+                                               FontSize="9" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextMutedBrush}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <Border Height="32" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,70 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Phosphor Luminance Ramp -->
+    <Color x:Key="VoidColor">#010404</Color>
+    <Color x:Key="CRTColor">#020707</Color>
+    <Color x:Key="OffColor">#051212</Color>
+    <Color x:Key="GhostColor">#0A2222</Color>
+    <Color x:Key="DimColor">#143838</Color>
+    <Color x:Key="GlowColor">#247070</Color>
+    <Color x:Key="BrightColor">#3AABA6</Color>
+    <Color x:Key="PeakColor">#6FFCF6</Color>
+    <Color x:Key="HotColor">#9EFFFA</Color>
+    <Color x:Key="BloomColor">#C8FFFC</Color>
+
+    <!-- Functional Accent Colors -->
+    <Color x:Key="AmberColor">#D4A832</Color>
+    <Color x:Key="AmberDimColor">#6A5418</Color>
+    <Color x:Key="RedColor">#EE4040</Color>
+    <Color x:Key="RedDimColor">#551818</Color>
+
+    <!-- Physical Material Colors -->
+    <Color x:Key="LeatherColor">#0B0908</Color>
+    <Color x:Key="LeatherMidColor">#100D0B</Color>
+    <Color x:Key="LeatherHiColor">#161210</Color>
+    <Color x:Key="WalnutColor">#1A1410</Color>
+    <Color x:Key="WalnutHiColor">#261C14</Color>
+    <Color x:Key="ChromeColor">#343028</Color>
+    <Color x:Key="ChromeMidColor">#484038</Color>
+    <Color x:Key="ChromeLitColor">#5C5448</Color>
+    <Color x:Key="ChromeHotColor">#706860</Color>
+
+    <!-- SolidColorBrushes - Phosphor Ramp -->
+    <SolidColorBrush x:Key="VoidBrush" Color="{StaticResource VoidColor}" />
+    <SolidColorBrush x:Key="CRTBrush" Color="{StaticResource CRTColor}" />
+    <SolidColorBrush x:Key="OffBrush" Color="{StaticResource OffColor}" />
+    <SolidColorBrush x:Key="GhostBrush" Color="{StaticResource GhostColor}" />
+    <SolidColorBrush x:Key="DimBrush" Color="{StaticResource DimColor}" />
+    <SolidColorBrush x:Key="GlowBrush" Color="{StaticResource GlowColor}" />
+    <SolidColorBrush x:Key="BrightBrush" Color="{StaticResource BrightColor}" />
+    <SolidColorBrush x:Key="PeakBrush" Color="{StaticResource PeakColor}" />
+    <SolidColorBrush x:Key="HotBrush" Color="{StaticResource HotColor}" />
+    <SolidColorBrush x:Key="BloomBrush" Color="{StaticResource BloomColor}" />
+
+    <!-- SolidColorBrushes - Accents -->
+    <SolidColorBrush x:Key="AmberBrush" Color="{StaticResource AmberColor}" />
+    <SolidColorBrush x:Key="AmberDimBrush" Color="{StaticResource AmberDimColor}" />
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}" />
+    <SolidColorBrush x:Key="RedDimBrush" Color="{StaticResource RedDimColor}" />
+
+    <!-- SolidColorBrushes - Physical Materials -->
+    <SolidColorBrush x:Key="LeatherBrush" Color="{StaticResource LeatherColor}" />
+    <SolidColorBrush x:Key="LeatherMidBrush" Color="{StaticResource LeatherMidColor}" />
+    <SolidColorBrush x:Key="LeatherHiBrush" Color="{StaticResource LeatherHiColor}" />
+    <SolidColorBrush x:Key="WalnutBrush" Color="{StaticResource WalnutColor}" />
+    <SolidColorBrush x:Key="WalnutHiBrush" Color="{StaticResource WalnutHiColor}" />
+    <SolidColorBrush x:Key="ChromeBrush" Color="{StaticResource ChromeColor}" />
+    <SolidColorBrush x:Key="ChromeMidBrush" Color="{StaticResource ChromeMidColor}" />
+    <SolidColorBrush x:Key="ChromeLitBrush" Color="{StaticResource ChromeLitColor}" />
+    <SolidColorBrush x:Key="ChromeHotBrush" Color="{StaticResource ChromeHotColor}" />
+
+    <!-- Semi-transparent brushes for overlays -->
+    <SolidColorBrush x:Key="GhostBorderBrush" Color="#550A2222" />
+    <SolidColorBrush x:Key="PeakGlowBrush" Color="#0D6FFCF6" />
+    <SolidColorBrush x:Key="PeakSubtleGlowBrush" Color="#076FFCF6" />
+    <SolidColorBrush x:Key="TextGlowBrush" Color="#186FFCF6" />
+    <SolidColorBrush x:Key="TextGlowStrongBrush" Color="#306FFCF6" />
+
+</ResourceDictionary>

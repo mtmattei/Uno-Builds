@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<!-- Capture — Warm neutral Material 3 palette -->
+
+	<!-- Background / Surface -->
+	<Color x:Key="BackgroundColor">#F5F2ED</Color>
+	<Color x:Key="SurfaceColor">#EFECE6</Color>
+	<Color x:Key="BorderColor">#E2DED6</Color>
+	<Color x:Key="OnSurfaceColor">#2C2926</Color>
+	<Color x:Key="OnSurfaceVariantColor">#8A8580</Color>
+
+	<!-- Primary accent -->
+	<Color x:Key="PrimaryColor">#4A7C6F</Color>
+	<Color x:Key="PrimaryContainerColor">#E8F0EC</Color>
+	<Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+
+	<!-- Brushes -->
+	<SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+	<SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
+	<SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+	<SolidColorBrush x:Key="OnSurfaceBrush" Color="{StaticResource OnSurfaceColor}" />
+	<SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="{StaticResource OnSurfaceVariantColor}" />
+	<SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+	<SolidColorBrush x:Key="PrimaryContainerBrush" Color="{StaticResource PrimaryContainerColor}" />
+	<SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}" />
+
+	<!-- Material 3 overrides for Light theme -->
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource BackgroundColor}" />
+			<SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{StaticResource SurfaceColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>
