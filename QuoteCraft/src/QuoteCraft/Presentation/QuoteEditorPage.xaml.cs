@@ -4,6 +4,9 @@ namespace QuoteCraft.Presentation;
 
 public sealed partial class QuoteEditorPage : Page
 {
+    /// <summary>Access the underlying MVUX model from the generated ViewModel DataContext.</summary>
+    private QuoteEditorModel? Model => MvuxHelper.GetModel<QuoteEditorModel>(DataContext);
+
     public QuoteEditorPage()
     {
         this.InitializeComponent();
@@ -14,7 +17,8 @@ public sealed partial class QuoteEditorPage : Page
     private async void BackButton_Click(object sender, RoutedEventArgs e)
     {
         bool hasChanges = false;
-        if (DataContext is QuoteEditorModel model)
+        var model = Model;
+        if (model is not null)
             hasChanges = await model.HasUnsavedChangesAsync();
 
         if (hasChanges)
@@ -31,8 +35,9 @@ public sealed partial class QuoteEditorPage : Page
                 return;
         }
 
-        if (DataContext is QuoteEditorModel m)
-            await m.GoBack(CancellationToken.None);
+        model = Model;
+        if (model is not null)
+            await model.GoBack(CancellationToken.None);
     }
 
     // -- Line Item Dialog -------------------------------------------------------
@@ -45,7 +50,8 @@ public sealed partial class QuoteEditorPage : Page
 
         if (result == ContentDialogResult.Primary && dialog.Result is not null)
         {
-            if (DataContext is QuoteEditorModel model)
+            var model = Model;
+            if (model is not null)
                 await model.SaveLineItem(dialog.Result, CancellationToken.None);
         }
     }
@@ -60,12 +66,14 @@ public sealed partial class QuoteEditorPage : Page
 
             if (result == ContentDialogResult.Primary && dialog.Result is not null)
             {
-                if (DataContext is QuoteEditorModel model)
+                var model = Model;
+                if (model is not null)
                     await model.SaveLineItem(dialog.Result, CancellationToken.None);
             }
             else if (result == ContentDialogResult.Secondary && dialog.WasDeleted)
             {
-                if (DataContext is QuoteEditorModel model)
+                var model = Model;
+                if (model is not null)
                     await model.DeleteLineItem(new LineItemEntity { Id = dialog.EditingItemId ?? string.Empty }, CancellationToken.None);
             }
         }
@@ -76,7 +84,8 @@ public sealed partial class QuoteEditorPage : Page
     private async void OpenCatalogBrowser_Click(object sender, RoutedEventArgs e)
     {
         List<CatalogItemEntity>? items = null;
-        if (DataContext is QuoteEditorModel model)
+        var model = Model;
+        if (model is not null)
             items = await model.GetCatalogItemsAsync();
 
         if (items is null || items.Count == 0) return;
@@ -85,7 +94,8 @@ public sealed partial class QuoteEditorPage : Page
         dialog.LoadItems(items);
         dialog.ItemAdded += async catalogItem =>
         {
-            if (DataContext is QuoteEditorModel m)
+            var m = Model;
+            if (m is not null)
                 await m.AddFromCatalog(catalogItem, CancellationToken.None);
         };
         await dialog.ShowAsync();
@@ -96,7 +106,7 @@ public sealed partial class QuoteEditorPage : Page
     private async void AddPhoto_Click(object sender, RoutedEventArgs e)
     {
         var photoService = App.Services.GetRequiredService<IPhotoService>();
-        var quoteId = (DataContext as QuoteEditorModel)?.QuoteId ?? string.Empty;
+        var quoteId = Model?.QuoteId ?? string.Empty;
         var existing = photoService.GetPhotos(quoteId);
         if (existing.Count >= photoService.MaxPhotos)
         {
@@ -125,7 +135,8 @@ public sealed partial class QuoteEditorPage : Page
         var file = await picker.PickSingleFileAsync();
         if (file is not null)
         {
-            if (DataContext is QuoteEditorModel model)
+            var model = Model;
+            if (model is not null)
                 await model.AddPhotoFromPath(file.Path, CancellationToken.None);
         }
     }
@@ -144,7 +155,8 @@ public sealed partial class QuoteEditorPage : Page
             }
 
             List<string>? suggestions = null;
-            if (DataContext is QuoteEditorModel model)
+            var model = Model;
+            if (model is not null)
                 suggestions = await model.SearchClientNamesAsync(query);
 
             sender.ItemsSource = suggestions;

@@ -6,6 +6,9 @@ public sealed partial class CatalogPage : Page
 {
     private ICatalogItemRepository? _catalogRepo;
 
+    /// <summary>Access the underlying MVUX model from the generated ViewModel DataContext.</summary>
+    private CatalogModel? Model => MvuxHelper.GetModel<CatalogModel>(DataContext);
+
     public CatalogPage()
     {
         this.InitializeComponent();
@@ -18,8 +21,12 @@ public sealed partial class CatalogPage : Page
 
     private async void CategoryCard_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: CatalogCategoryCard card } && DataContext is CatalogModel model)
-            await model.SelectCategoryCard(card, CancellationToken.None);
+        if (sender is FrameworkElement { DataContext: CatalogCategoryCard card })
+        {
+            var model = Model;
+            if (model is not null)
+                await model.SelectCategoryCard(card, CancellationToken.None);
+        }
     }
 
     // -- Item Editing -----------------------------------------------------------
@@ -43,9 +50,10 @@ public sealed partial class CatalogPage : Page
     {
         // Pre-fill category with the currently selected category
         var entity = new CatalogItemEntity();
-        if (DataContext is CatalogModel model)
+        var catalogModel = Model;
+        if (catalogModel is not null)
         {
-            var category = await model.SelectedCategory;
+            var category = await catalogModel.SelectedCategory;
             if (!string.IsNullOrEmpty(category))
                 entity.Category = category;
         }
@@ -168,7 +176,8 @@ public sealed partial class CatalogPage : Page
 
     private void RefreshCatalog()
     {
-        if (DataContext is CatalogModel model)
+        var model = Model;
+        if (model is not null)
             _ = model.RefreshList(CancellationToken.None);
     }
 }

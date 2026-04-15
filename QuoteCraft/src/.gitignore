@@ -487,3 +487,6 @@ $RECYCLE.BIN/
 solution-config.props
 # Publish Profiles
 !**/Properties/PublishProfiles/*.pubxml
+
+# Loose screenshots at repo root (keep /screenshots folder)
+/screenshot*.png

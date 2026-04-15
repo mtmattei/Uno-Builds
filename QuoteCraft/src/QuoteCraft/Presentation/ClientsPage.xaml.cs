@@ -7,6 +7,9 @@ public sealed partial class ClientsPage : Page
     private IClientRepository? _clientRepo;
     private ClientEntity? _selectedClientEntity;
 
+    /// <summary>Access the underlying MVUX model from the generated ViewModel DataContext.</summary>
+    private ClientsModel? Model => MvuxHelper.GetModel<ClientsModel>(DataContext);
+
     public ClientsPage()
     {
         this.InitializeComponent();
@@ -17,10 +20,12 @@ public sealed partial class ClientsPage : Page
 
     private async void ClientCard_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: ClientDisplayItem client } && DataContext is ClientsModel model)
+        if (sender is FrameworkElement { DataContext: ClientDisplayItem client })
         {
             _selectedClientEntity = client.Entity;
-            await model.SelectClient(client, CancellationToken.None);
+            var model = Model;
+            if (model is not null)
+                await model.SelectClient(client, CancellationToken.None);
         }
     }
 
@@ -40,7 +45,7 @@ public sealed partial class ClientsPage : Page
             return;
         }
 
-        await ShowClientEditorDialog(new ClientEntity());
+        await ShowClientEditorDialog(new ClientEntity(), isNew: true);
     }
 
     private async void EditClient_Click(object sender, RoutedEventArgs e)
@@ -50,13 +55,11 @@ public sealed partial class ClientsPage : Page
         // Re-fetch to get latest data
         var fresh = await ClientRepo.GetByIdAsync(_selectedClientEntity.Id);
         if (fresh is not null)
-            await ShowClientEditorDialog(fresh);
+            await ShowClientEditorDialog(fresh, isNew: false);
     }
 
-    private async Task ShowClientEditorDialog(ClientEntity entity)
+    private async Task ShowClientEditorDialog(ClientEntity entity, bool isNew = false)
     {
-        var isNew = string.IsNullOrEmpty(entity.Id);
-
         var nameBox = new TextBox
         {
             Header = "Name",
@@ -128,13 +131,15 @@ public sealed partial class ClientsPage : Page
 
     private void RefreshClients()
     {
-        if (DataContext is ClientsModel model)
+        var model = Model;
+        if (model is not null)
             _ = model.RefreshList(CancellationToken.None);
     }
 
     private async void DeleteClient_Click(object sender, RoutedEventArgs e)
     {
-        if (DataContext is not ClientsModel model) return;
+        var model = Model;
+        if (model is null) return;
 
         var dialog = Helpers.DialogHelper.BuildBannerDialog(
             this.XamlRoot,
@@ -154,7 +159,17 @@ public sealed partial class ClientsPage : Page
 
     private async void NewQuoteForClient_Click(object sender, RoutedEventArgs e)
     {
-        if (DataContext is ClientsModel model)
+        var model = Model;
+        if (model is not null)
             await model.CreateQuoteForClient(CancellationToken.None);
+    }
+
+    private async void QuoteRow_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { DataContext: QuoteEntity quote })
+        {
+            var navigator = App.Services.GetRequiredService<INavigator>();
+            await navigator.NavigateRouteAsync(this, "QuoteEditor", data: quote);
+        }
     }
 }

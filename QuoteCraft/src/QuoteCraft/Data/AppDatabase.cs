@@ -6,6 +6,7 @@ public class AppDatabase
 {
     private readonly string _connectionString;
     private readonly SemaphoreSlim _initLock = new(1, 1);
+    private SqliteConnection? _sharedConnection;
     private bool _initialized;
 
     public AppDatabase()
@@ -50,17 +51,38 @@ public class AppDatabase
     }
 #endif
 
-    public async Task InitializeAsync()
+    /// <summary>
+    /// Returns the shared persistent connection. Opens and initializes on first call.
+    /// Do NOT dispose the returned connection — it is shared across the app lifetime.
+    /// </summary>
+    public async Task<SqliteConnection> GetConnectionAsync()
     {
-        if (_initialized) return;
+        if (_initialized && _sharedConnection is { State: System.Data.ConnectionState.Open })
+            return _sharedConnection;
 
         await _initLock.WaitAsync();
         try
         {
-            if (_initialized) return;
+            if (_initialized && _sharedConnection is { State: System.Data.ConnectionState.Open })
+                return _sharedConnection;
 
-            await InitializeCoreAsync();
-            _initialized = true;
+            // Open persistent connection
+            _sharedConnection?.Dispose();
+            _sharedConnection = new SqliteConnection(_connectionString);
+            await _sharedConnection.OpenAsync();
+
+            // PRAGMAs — set once on the persistent connection
+            var pragmaCmd = _sharedConnection.CreateCommand();
+            pragmaCmd.CommandText = "PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;";
+            await pragmaCmd.ExecuteNonQueryAsync();
+
+            if (!_initialized)
+            {
+                await InitializeCoreAsync(_sharedConnection);
+                _initialized = true;
+            }
+
+            return _sharedConnection;
         }
         finally
         {
@@ -68,10 +90,29 @@ public class AppDatabase
         }
     }
 
-    private async Task InitializeCoreAsync()
+    // Keep for backward compat during init — creates a temporary connection
+    [Obsolete("Use GetConnectionAsync() instead")]
+    public async Task InitializeAsync()
     {
-        using var connection = await CreateConnectionAsync();
+        await GetConnectionAsync();
+    }
 
+    // Keep for backward compat — but callers should migrate to GetConnectionAsync()
+    [Obsolete("Use GetConnectionAsync() instead")]
+    public async Task<SqliteConnection> CreateConnectionAsync()
+    {
+        var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var fkCmd = connection.CreateCommand();
+        fkCmd.CommandText = "PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;";
+        await fkCmd.ExecuteNonQueryAsync();
+
+        return connection;
+    }
+
+    private static async Task InitializeCoreAsync(SqliteConnection connection)
+    {
         // Enable WAL mode for better concurrent read performance
         var walCmd = connection.CreateCommand();
         walCmd.CommandText = "PRAGMA journal_mode=WAL;";
@@ -158,16 +199,6 @@ public class AppDatabase
             await SeedCatalogItemsAsync(connection);
         }
 
-        // Seed demo quotes and clients if tables are empty
-        var quoteCountCmd = connection.CreateCommand();
-        quoteCountCmd.CommandText = "SELECT COUNT(*) FROM quotes";
-        var quoteCount = Convert.ToInt32(await quoteCountCmd.ExecuteScalarAsync());
-
-        if (quoteCount == 0)
-        {
-            await SeedDemoDataAsync(connection);
-        }
-
         // Run migrations
         await RunMigrationsAsync(connection);
     }
@@ -179,16 +210,47 @@ public class AppDatabase
         versionCmd.CommandText = "SELECT COALESCE(MAX(version), 0) FROM schema_version";
         var currentVersion = Convert.ToInt32(await versionCmd.ExecuteScalarAsync());
 
-        // Define migrations: version -> SQL to execute
-        // Add new migrations here as the schema evolves:
-        //   { 2, "ALTER TABLE quotes ADD COLUMN discount REAL NOT NULL DEFAULT 0;" },
-        //   { 3, "CREATE INDEX idx_quotes_client_id ON quotes(client_id);" },
         var migrations = new SortedDictionary<int, string>
         {
-            // Version 1 is the initial schema (tables created above)
-            // Migration 2 was: ADD COLUMN default_markup, but it already exists in the initial CREATE TABLE.
-            // Kept as empty string so the version is still recorded for databases that already ran it.
             { 2, "" },
+
+            { 3, """
+                ALTER TABLE quotes ADD COLUMN synced_at TEXT;
+                ALTER TABLE quotes ADD COLUMN share_token TEXT;
+                ALTER TABLE clients ADD COLUMN synced_at TEXT;
+                ALTER TABLE line_items ADD COLUMN synced_at TEXT;
+                ALTER TABLE business_profile ADD COLUMN synced_at TEXT;
+                ALTER TABLE catalog_items ADD COLUMN synced_at TEXT;
+
+                CREATE TABLE IF NOT EXISTS status_history (
+                    id TEXT PRIMARY KEY,
+                    quote_id TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    changed_at TEXT NOT NULL,
+                    changed_by TEXT,
+                    FOREIGN KEY (quote_id) REFERENCES quotes(id)
+                );
+
+                CREATE TABLE IF NOT EXISTS notifications (
+                    id TEXT PRIMARY KEY,
+                    type TEXT NOT NULL,
+                    title TEXT NOT NULL,
+                    message TEXT NOT NULL,
+                    quote_id TEXT,
+                    is_read INTEGER NOT NULL DEFAULT 0,
+                    created_at TEXT NOT NULL,
+                    synced_at TEXT
+                );
+
+                CREATE INDEX IF NOT EXISTS idx_status_history_quote_id ON status_history(quote_id);
+                CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications(is_read);
+                CREATE INDEX IF NOT EXISTS idx_quotes_share_token ON quotes(share_token);
+                """ },
+
+            { 4, """
+                ALTER TABLE business_profile ADD COLUMN website TEXT;
+                ALTER TABLE business_profile ADD COLUMN business_number TEXT;
+                """ },
         };
 
         foreach (var (version, sql) in migrations)
@@ -332,118 +394,5 @@ public class AppDatabase
             cmd.Parameters.AddWithValue("@updated_at", now);
             await cmd.ExecuteNonQueryAsync();
         }
-    }
-
-    private static async Task SeedDemoDataAsync(SqliteConnection connection)
-    {
-        var now = DateTimeOffset.UtcNow;
-
-        // Seed clients
-        var clients = new (string id, string name, string email, string phone, string address)[]
-        {
-            ("c1", "Bob Johnson", "bob@johnson.com", "(555) 234-5678", "123 Main St, Portland"),
-            ("c2", "Sarah Williams", "sarah@williams.com", "(555) 345-6789", "456 Oak Ave, Seattle"),
-            ("c3", "Mike Chen", "mike@chen.com", "(555) 456-7890", "789 Elm Blvd, Denver"),
-            ("c4", "Lisa Martinez", "lisa@martinez.com", "(555) 567-8901", "321 Pine Rd, Austin"),
-        };
-
-        foreach (var (id, name, email, phone, address) in clients)
-        {
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = """
-                INSERT INTO clients (id, name, email, phone, address, updated_at, is_deleted)
-                VALUES (@id, @name, @email, @phone, @address, @updated_at, 0)
-                """;
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@name", name);
-            cmd.Parameters.AddWithValue("@email", email);
-            cmd.Parameters.AddWithValue("@phone", phone);
-            cmd.Parameters.AddWithValue("@address", address);
-            cmd.Parameters.AddWithValue("@updated_at", now.ToString("O"));
-            await cmd.ExecuteNonQueryAsync();
-        }
-
-        // Seed quotes with varying statuses and dates
-        var quotes = new (string id, string title, string clientId, string clientName, string status, double taxRate, string qNum, DateTimeOffset created)[]
-        {
-            ("q1", "Kitchen Renovation", "c1", "Bob Johnson", "Accepted", 13.0, "QC-2026-0001", now.AddDays(-12)),
-            ("q2", "Bathroom Remodel", "c2", "Sarah Williams", "Sent", 13.0, "QC-2026-0002", now.AddDays(-3)),
-            ("q3", "Emergency Pipe Repair", "c3", "Mike Chen", "Draft", 13.0, "QC-2026-0003", now.AddDays(-1)),
-            ("q4", "Water Heater Install", "c4", "Lisa Martinez", "Declined", 13.0, "QC-2026-0004", now.AddDays(-20)),
-            ("q5", "Office Plumbing Fit-out", "c1", "Bob Johnson", "Viewed", 13.0, "QC-2026-0005", now.AddHours(-5)),
-            ("q6", "Drain Cleaning Service", "c2", "Sarah Williams", "Draft", 13.0, "QC-2026-0006", now),
-        };
-
-        foreach (var (id, title, clientId, clientName, status, taxRate, qNum, created) in quotes)
-        {
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = """
-                INSERT INTO quotes (id, title, client_id, client_name, notes, tax_rate, status, quote_number, created_at, sent_at, valid_until, updated_at, is_deleted)
-                VALUES (@id, @title, @client_id, @client_name, NULL, @tax_rate, @status, @quote_number, @created_at, NULL, @valid_until, @updated_at, 0)
-                """;
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@title", title);
-            cmd.Parameters.AddWithValue("@client_id", clientId);
-            cmd.Parameters.AddWithValue("@client_name", clientName);
-            cmd.Parameters.AddWithValue("@tax_rate", taxRate);
-            cmd.Parameters.AddWithValue("@status", status);
-            cmd.Parameters.AddWithValue("@quote_number", qNum);
-            cmd.Parameters.AddWithValue("@created_at", created.ToString("O"));
-            cmd.Parameters.AddWithValue("@valid_until", created.AddDays(30).ToString("O"));
-            cmd.Parameters.AddWithValue("@updated_at", now.ToString("O"));
-            await cmd.ExecuteNonQueryAsync();
-        }
-
-        // Seed line items for each quote
-        var lineItems = new (string quoteId, string desc, double price, int qty)[]
-        {
-            ("q1", "Sink Installation", 350.00, 1),
-            ("q1", "Faucet Replacement", 150.00, 2),
-            ("q1", "Copper Pipe (per ft)", 12.50, 40),
-            ("q1", "Standard Labor (per hr)", 95.00, 8),
-            ("q2", "Toilet Installation", 275.00, 1),
-            ("q2", "Pipe Fittings (set)", 35.00, 3),
-            ("q2", "Standard Labor (per hr)", 95.00, 6),
-            ("q3", "Pipe Leak Repair", 200.00, 1),
-            ("q3", "Emergency Labor (per hr)", 150.00, 2),
-            ("q4", "Water Heater Installation", 850.00, 1),
-            ("q4", "Standard Labor (per hr)", 95.00, 4),
-            ("q5", "Dishwasher Hookup", 225.00, 3),
-            ("q5", "PVC Pipe (per ft)", 4.50, 60),
-            ("q5", "Standard Labor (per hr)", 95.00, 12),
-            ("q6", "Drain Cleaning", 175.00, 2),
-            ("q6", "Sealant / Adhesive", 18.00, 4),
-        };
-
-        var sortOrder = 0;
-        foreach (var (quoteId, desc, price, qty) in lineItems)
-        {
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = """
-                INSERT INTO line_items (id, quote_id, description, unit_price, quantity, sort_order, updated_at)
-                VALUES (@id, @quote_id, @description, @unit_price, @quantity, @sort_order, @updated_at)
-                """;
-            cmd.Parameters.AddWithValue("@id", Guid.NewGuid().ToString());
-            cmd.Parameters.AddWithValue("@quote_id", quoteId);
-            cmd.Parameters.AddWithValue("@description", desc);
-            cmd.Parameters.AddWithValue("@unit_price", price);
-            cmd.Parameters.AddWithValue("@quantity", qty);
-            cmd.Parameters.AddWithValue("@sort_order", sortOrder++);
-            cmd.Parameters.AddWithValue("@updated_at", now.ToString("O"));
-            await cmd.ExecuteNonQueryAsync();
-        }
-    }
-
-    public async Task<SqliteConnection> CreateConnectionAsync()
-    {
-        var connection = new SqliteConnection(_connectionString);
-        await connection.OpenAsync();
-
-        // PRAGMA foreign_keys must be set per-connection (not persisted across connections)
-        var fkCmd = connection.CreateCommand();
-        fkCmd.CommandText = "PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;";
-        await fkCmd.ExecuteNonQueryAsync();
-
-        return connection;
     }
 }

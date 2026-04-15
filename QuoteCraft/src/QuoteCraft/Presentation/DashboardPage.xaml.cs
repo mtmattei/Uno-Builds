@@ -6,6 +6,7 @@ namespace QuoteCraft.Presentation;
 public sealed partial class DashboardPage : Page
 {
     private Border? _selectedQuoteCard;
+    private Uno.Toolkit.UI.Chip[] _filterChips = [];
 
     private static SolidColorBrush AlternateRowBrush =>
         (SolidColorBrush)Application.Current.Resources["AlternateRowBrush"];
@@ -32,28 +33,50 @@ public sealed partial class DashboardPage : Page
         set => SetValue(EditingNotesProperty, value);
     }
 
+    /// <summary>Access the underlying MVUX model from the generated ViewModel DataContext.</summary>
+    private DashboardModel? Model => MvuxHelper.GetModel<DashboardModel>(DataContext);
+
     public DashboardPage()
     {
         this.InitializeComponent();
         this.Loaded += DashboardPage_Loaded;
+
+        _filterChips = [FilterAll, FilterDraft, FilterSent, FilterViewed, FilterAccepted, FilterDeclined, FilterExpired];
+    }
+
+    private async void FilterChip_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Uno.Toolkit.UI.Chip clickedChip) return;
+
+        // Enforce single selection: uncheck all others
+        foreach (var chip in _filterChips)
+            chip.IsChecked = chip == clickedChip;
+
+        var filter = clickedChip.Content as string;
+        if (string.IsNullOrEmpty(filter)) return;
+
+        var model = Model;
+        if (model is not null)
+            await model.SelectedFilter.UpdateAsync(_ => filter, CancellationToken.None);
     }
 
     private async void DashboardPage_Loaded(object sender, RoutedEventArgs e)
     {
         // Auto-expire overdue quotes on dashboard load
-        if (DataContext is DashboardModel model)
+        var model = Model;
+        if (model is not null)
             await model.ExpireOverdueQuotes(CancellationToken.None);
     }
 
     // -- Quote Card Selection ---------------------------------------------------
 
-    private async void QuoteCard_Tapped(object sender, TappedRoutedEventArgs e)
+    private void QuoteCard_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (sender is Border tappedCard && tappedCard.DataContext is QuoteEntity quote)
+        if (sender is Border tappedCard)
         {
             IsEditMode = false;
 
-            // Clear previous selection
+            // Clear previous selection visual
             if (_selectedQuoteCard is not null)
             {
                 _selectedQuoteCard.Background = (SolidColorBrush)Application.Current.Resources["SurfaceBrush"];
@@ -65,9 +88,7 @@ public sealed partial class DashboardPage : Page
             tappedCard.BorderBrush = (SolidColorBrush)Application.Current.Resources["PrimaryBrush"];
             _selectedQuoteCard = tappedCard;
 
-            // Invoke model command
-            if (DataContext is DashboardModel model)
-                await model.OpenQuote(quote, CancellationToken.None);
+            // Model command is invoked via CommandExtensions.Command on the ItemsRepeater
         }
     }
 
@@ -76,14 +97,16 @@ public sealed partial class DashboardPage : Page
     private async void EditQuote_Click(object sender, RoutedEventArgs e)
     {
         IsEditMode = true;
-        if (DataContext is DashboardModel model)
+        var model = Model;
+        if (model is not null)
             EditingNotes = await model.GetSelectedQuoteNotesAsync();
     }
 
     private async void DoneEditing_Click(object sender, RoutedEventArgs e)
     {
         IsEditMode = false;
-        if (DataContext is DashboardModel model)
+        var model = Model;
+        if (model is not null)
             await model.SaveInlineNotes(EditingNotes, CancellationToken.None);
     }
 
@@ -100,7 +123,8 @@ public sealed partial class DashboardPage : Page
         var result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            if (DataContext is DashboardModel model)
+            var model = Model;
+            if (model is not null)
                 await model.DeleteQuote(CancellationToken.None);
         }
     }
@@ -134,7 +158,8 @@ public sealed partial class DashboardPage : Page
 
         if (result == ContentDialogResult.Primary && dialog.Result is not null)
         {
-            if (DataContext is DashboardModel model)
+            var model = Model;
+            if (model is not null)
                 await model.SaveInlineLineItem(dialog.Result, CancellationToken.None);
         }
     }
@@ -150,12 +175,14 @@ public sealed partial class DashboardPage : Page
 
             if (result == ContentDialogResult.Primary && dialog.Result is not null)
             {
-                if (DataContext is DashboardModel model)
+                var model = Model;
+                if (model is not null)
                     await model.SaveInlineLineItem(dialog.Result, CancellationToken.None);
             }
             else if (result == ContentDialogResult.Secondary && dialog.WasDeleted)
             {
-                if (DataContext is DashboardModel model)
+                var model = Model;
+                if (model is not null)
                     await model.DeleteInlineLineItem(dialog.EditingItemId ?? string.Empty, CancellationToken.None);
             }
         }
@@ -183,13 +210,32 @@ public sealed partial class DashboardPage : Page
         var titleBox = new TextBox
         {
             Header = "Quote Title",
-            Text = "New Quote",
+            Text = string.Empty,
             PlaceholderText = "e.g. Kitchen Renovation",
         };
-        var clientBox = new TextBox
+
+        var clientRepo = App.Services.GetRequiredService<IClientRepository>();
+        var allClients = await clientRepo.GetAllAsync();
+        var clientNames = allClients.Select(c => c.Name).ToList();
+
+        var clientBox = new AutoSuggestBox
         {
             Header = "Client Name (optional)",
             PlaceholderText = "Start typing a client name...",
+        };
+        clientBox.TextChanged += (s, args) =>
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var query = s.Text?.Trim() ?? string.Empty;
+                s.ItemsSource = string.IsNullOrEmpty(query)
+                    ? null
+                    : clientNames.Where(n => n.Contains(query, StringComparison.OrdinalIgnoreCase)).Take(8).ToList();
+            }
+        };
+        clientBox.SuggestionChosen += (s, args) =>
+        {
+            s.Text = args.SelectedItem as string ?? string.Empty;
         };
 
         var fieldsPanel = new StackPanel { Spacing = 16 };
@@ -221,7 +267,6 @@ public sealed partial class DashboardPage : Page
             var profileRepo = App.Services.GetRequiredService<IBusinessProfileRepository>();
             var quoteRepo = App.Services.GetRequiredService<IQuoteRepository>();
             var quoteNumGen = App.Services.GetRequiredService<QuoteNumberGenerator>();
-            var clientRepo = App.Services.GetRequiredService<IClientRepository>();
             var navigator = App.Services.GetRequiredService<INavigator>();
 
             var profile = await profileRepo.GetAsync();
@@ -241,8 +286,7 @@ public sealed partial class DashboardPage : Page
             if (!string.IsNullOrEmpty(clientName))
             {
                 quote.ClientName = clientName;
-                var clients = await clientRepo.GetAllAsync();
-                var match = clients.FirstOrDefault(c =>
+                var match = allClients.FirstOrDefault(c =>
                     c.Name.Equals(clientName, StringComparison.OrdinalIgnoreCase));
                 if (match is not null)
                     quote.ClientId = match.Id;
@@ -253,12 +297,133 @@ public sealed partial class DashboardPage : Page
         }
     }
 
+    // -- Send Quote via Email ---------------------------------------------------
+
+    private async void SendQuote_Click(object sender, RoutedEventArgs e)
+    {
+        var model = Model;
+        if (model is null) return;
+
+        var quote = await model.SelectedQuote;
+        if (quote is null) return;
+
+        var quoteRepo = App.Services.GetRequiredService<IQuoteRepository>();
+        var freshQuote = await quoteRepo.GetByIdAsync(quote.Id);
+        if (freshQuote is null) return;
+
+        // Resolve client email
+        var clientEmail = string.Empty;
+        if (!string.IsNullOrEmpty(freshQuote.ClientId))
+        {
+            var clientRepo = App.Services.GetRequiredService<IClientRepository>();
+            var client = await clientRepo.GetByIdAsync(freshQuote.ClientId);
+            clientEmail = client?.Email ?? string.Empty;
+        }
+
+        // Resolve business profile for email template
+        var profileRepo = App.Services.GetRequiredService<IBusinessProfileRepository>();
+        var profile = await profileRepo.GetAsync();
+        var businessName = profile.BusinessName ?? "Our Company";
+
+        // Build email fields
+        var recipientBox = new TextBox
+        {
+            Header = "Recipient Email",
+            Text = clientEmail,
+            PlaceholderText = "client@example.com",
+        };
+        var subjectBox = new TextBox
+        {
+            Header = "Subject",
+            Text = $"Quote {freshQuote.QuoteNumber} - {freshQuote.Title}",
+        };
+        var bodyBox = new TextBox
+        {
+            Header = "Message",
+            Text = $"Hi {freshQuote.ClientName ?? "there"},\n\nPlease find attached quote {freshQuote.QuoteNumber} for \"{freshQuote.Title}\".\n\nThe quote is valid until {freshQuote.ValidUntil?.ToString("MMMM d, yyyy") ?? "further notice"}.\n\nPlease don't hesitate to reach out with any questions.\n\nBest regards,\n{businessName}",
+            AcceptsReturn = true,
+            TextWrapping = TextWrapping.Wrap,
+            MinHeight = 140,
+        };
+        var infoBanner = new Border
+        {
+            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["TertiaryContainerBrush"],
+            CornerRadius = new CornerRadius(8),
+            Padding = new Thickness(12, 8, 12, 8),
+            Child = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Spacing = 8,
+                Children =
+                {
+                    new FontIcon
+                    {
+                        Glyph = "\uE946",
+                        FontSize = 14,
+                        Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OnTertiaryContainerBrush"],
+                        VerticalAlignment = VerticalAlignment.Center,
+                    },
+                    new TextBlock
+                    {
+                        Text = "The PDF will be downloaded. Please attach it to the email.",
+                        Style = (Style)Application.Current.Resources["BodySmall"],
+                        Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OnTertiaryContainerBrush"],
+                        TextWrapping = TextWrapping.Wrap,
+                        VerticalAlignment = VerticalAlignment.Center,
+                    },
+                },
+            },
+        };
+
+        var fieldsPanel = new StackPanel { Spacing = 12 };
+        fieldsPanel.Children.Add(recipientBox);
+        fieldsPanel.Children.Add(subjectBox);
+        fieldsPanel.Children.Add(bodyBox);
+        fieldsPanel.Children.Add(infoBanner);
+
+        var dialog = Helpers.DialogHelper.BuildBannerDialogWithContent(
+            this.XamlRoot,
+            "\uE724",
+            "Send Quote",
+            $"Send {freshQuote.QuoteNumber} to {freshQuote.ClientName ?? "client"}",
+            fieldsPanel,
+            primaryButtonText: "Send via Email",
+            closeButtonText: "Cancel");
+
+        dialog.SecondaryButtonText = "Download PDF Only";
+
+        var result = await dialog.ShowAsync();
+
+        var shareService = App.Services.GetRequiredService<Services.IShareService>();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            // Download PDF + launch email client + mark as sent
+            await shareService.GenerateAndDownloadPdfAsync(freshQuote);
+
+            var emailService = App.Services.GetRequiredService<Services.IEmailLauncherService>();
+            await emailService.ComposeEmailAsync(
+                recipientBox.Text?.Trim() ?? string.Empty,
+                subjectBox.Text?.Trim() ?? string.Empty,
+                bodyBox.Text?.Trim() ?? string.Empty);
+
+            await shareService.MarkAsSentAsync(freshQuote);
+            await model.RefreshDetail(CancellationToken.None);
+        }
+        else if (result == ContentDialogResult.Secondary)
+        {
+            // Download PDF only
+            await shareService.GenerateAndDownloadPdfAsync(freshQuote);
+        }
+    }
+
     // -- Inline Catalog Browser -------------------------------------------------
 
     private async void InlineCatalogBrowser_Click(object sender, RoutedEventArgs e)
     {
         List<CatalogItemEntity>? items = null;
-        if (DataContext is DashboardModel model)
+        var model = Model;
+        if (model is not null)
             items = await model.GetCatalogItemsAsync();
 
         if (items is null || items.Count == 0) return;
@@ -267,7 +432,8 @@ public sealed partial class DashboardPage : Page
         dialog.LoadItems(items);
         dialog.ItemAdded += async catalogItem =>
         {
-            if (DataContext is DashboardModel m)
+            var m = Model;
+            if (m is not null)
                 await m.AddInlineFromCatalog(catalogItem, CancellationToken.None);
         };
         await dialog.ShowAsync();

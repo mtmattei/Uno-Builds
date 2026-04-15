@@ -8,9 +8,11 @@ public partial record QuoteEditorModel
     private readonly IQuoteRepository _quoteRepo;
     private readonly IClientRepository _clientRepo;
     private readonly ICatalogItemRepository _catalogRepo;
+    private readonly IBusinessProfileRepository _profileRepo;
     private readonly IShareService _shareService;
     private readonly string _quoteId;
     private readonly IPhotoService _photoService;
+    private readonly IStatusHistoryRepository _statusHistoryRepo;
 
     // Track initial values for unsaved changes detection
     private readonly string _initialTitle;
@@ -24,15 +26,19 @@ public partial record QuoteEditorModel
         IQuoteRepository quoteRepo,
         IClientRepository clientRepo,
         ICatalogItemRepository catalogRepo,
+        IBusinessProfileRepository profileRepo,
         IShareService shareService,
-        IPhotoService photoService)
+        IPhotoService photoService,
+        IStatusHistoryRepository statusHistoryRepo)
     {
         _navigator = navigator;
         _quoteRepo = quoteRepo;
         _clientRepo = clientRepo;
         _catalogRepo = catalogRepo;
+        _profileRepo = profileRepo;
         _shareService = shareService;
         _photoService = photoService;
+        _statusHistoryRepo = statusHistoryRepo;
         _quoteId = quote.Id;
 
         _initialTitle = quote.Title;
@@ -92,11 +98,17 @@ public partial record QuoteEditorModel
 
     public async ValueTask AddFromCatalog(CatalogItemEntity catalogItem, CancellationToken ct)
     {
+        var profile = await _profileRepo.GetAsync();
+        var markup = profile.DefaultMarkup;
+        var effectivePrice = markup > 0
+            ? catalogItem.UnitPrice * (1 + markup / 100m)
+            : catalogItem.UnitPrice;
+
         var item = new LineItemEntity
         {
             QuoteId = _quoteId,
             Description = catalogItem.Description,
-            UnitPrice = catalogItem.UnitPrice,
+            UnitPrice = Math.Round(effectivePrice, 2),
             Quantity = 1,
             SortOrder = (await _quoteRepo.GetLineItemsAsync(_quoteId)).Count,
         };
@@ -182,6 +194,34 @@ public partial record QuoteEditorModel
         await _shareService.ShareQuotePdfAsync(quote);
     }
 
+    public async ValueTask CopyShareLink(CancellationToken ct)
+    {
+        await PersistEditsAsync();
+
+        var quote = await _quoteRepo.GetByIdAsync(_quoteId);
+        if (quote is null) return;
+
+        await _shareService.CopyShareLinkAsync(quote);
+    }
+
+    public async ValueTask SendShareLink(CancellationToken ct)
+    {
+        await PersistEditsAsync();
+
+        var quote = await _quoteRepo.GetByIdAsync(_quoteId);
+        if (quote is null) return;
+
+        var link = await _shareService.GenerateShareLinkAsync(quote);
+
+        // Open email with link
+        var subject = $"Quote #{quote.QuoteNumber} - {quote.Title}";
+        var body = $"Please review your quote at: {link}";
+        var mailto = $"mailto:{Uri.EscapeDataString(quote.ClientName ?? "")}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
+        await Windows.System.Launcher.LaunchUriAsync(new Uri(mailto));
+
+        await _shareService.MarkAsSentAsync(quote);
+    }
+
     public async Task<bool> HasUnsavedChangesAsync()
     {
         return await Title != _initialTitle ||
@@ -224,6 +264,11 @@ public partial record QuoteEditorModel
         await _quoteRepo.SaveAsync(existing);
     }
 
+    public IListFeed<StatusHistoryEntry> StatusHistory => LineItemsVersion
+        .SelectAsync(async (_, ct) =>
+            (IImmutableList<StatusHistoryEntry>)(await _statusHistoryRepo.GetByQuoteIdAsync(_quoteId)).ToImmutableList())
+        .AsListFeed();
+
     private async Task UpdateStatus(QuoteStatus status)
     {
         var existing = await _quoteRepo.GetByIdAsync(_quoteId);
@@ -235,6 +280,10 @@ public partial record QuoteEditorModel
 
         existing.UpdatedAt = DateTimeOffset.UtcNow;
         await _quoteRepo.SaveAsync(existing);
+
+        // Record status history
+        await _statusHistoryRepo.RecordAsync(_quoteId, status.ToString(), "user");
+
         await _navigator.NavigateBackAsync(this);
     }
 }
