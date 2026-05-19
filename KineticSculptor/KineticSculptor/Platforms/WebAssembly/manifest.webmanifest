@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "KineticSculptor",
+  "display": "standalone",
+  "name": "KineticSculptor",
+  "short_name": "KineticSculptor",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

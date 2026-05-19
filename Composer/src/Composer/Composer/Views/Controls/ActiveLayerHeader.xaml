@@ -1,0 +1,49 @@
+<UserControl x:Class="Composer.Views.Controls.ActiveLayerHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <utu:AutoLayout Orientation="Vertical" Spacing="6">
+
+        <!-- Recap line — italic ↳, max-width 560, only rendered for
+             non-cold-launch layers (Stack returns null and the row collapses).
+             Per docs/ARCHITECTURE-BRIEF-from-scratch.md §9 every non-Stack
+             layer carries a one-line recap of what was just decided. -->
+        <utu:AutoLayout x:Name="RecapRow"
+                        Orientation="Horizontal"
+                        Spacing="6"
+                        Visibility="Collapsed">
+            <TextBlock Text="↳"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="{StaticResource TypeBodySmallSize}"
+                       Foreground="{ThemeResource Ink4Brush}"
+                       VerticalAlignment="Top" />
+            <TextBlock x:Name="RecapText"
+                       FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                       FontSize="{StaticResource TypeBodySmallSize}"
+                       Foreground="{ThemeResource Ink3Brush}"
+                       TextWrapping="Wrap"
+                       MaxWidth="560"
+                       LineHeight="20" />
+        </utu:AutoLayout>
+
+        <!-- Eyebrow row removed — the ProgressIndicator at the top of the
+             canvas already shows the layer label + counter, so the dot
+             "● 01 · INTENT" row was redundant. State badge stays as a
+             standalone line so EDITED / PREVIEW status still surfaces. -->
+        <TextBlock x:Name="StateBadgeText"
+                   FontFamily="{StaticResource MonoFontFamily}"
+                   FontSize="{StaticResource TypeEyebrowSize}"
+                   CharacterSpacing="160"
+                   Foreground="{ThemeResource AmberBrush}"
+                   Visibility="Collapsed" />
+        <!-- LayerLabelText kept off-screen so existing code-behind references
+             compile; the row above renders the badge directly. -->
+        <TextBlock x:Name="LayerLabelText" Visibility="Collapsed" />
+        <!-- Title + subtitle hidden per user 2026-05-12 — they now render
+             INSIDE the glass container on Intent (other canvases will get
+             the same treatment when their glass wraps land). Kept off-tree
+             so existing code-behind assignments compile. -->
+        <TextBlock x:Name="TitleText"    Visibility="Collapsed" />
+        <TextBlock x:Name="SubtitleText" Visibility="Collapsed" />
+    </utu:AutoLayout>
+</UserControl>

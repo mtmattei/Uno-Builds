@@ -1,0 +1,31 @@
+<UserControl x:Class="Composer.Views.Controls.AppTitleRow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <!-- Per docs/ARCHITECTURE-BRIEF-from-scratch.md §7.1 — sits between
+         ProgressIndicator and LockedContextCards. Body 18px weight-500
+         showing the live project name from Intent.AppType. Reset link in
+         the right column appears only after the first lock per audit §1.2. -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"
+                   x:Name="ProjectNameText"
+                   FontFamily="{StaticResource SansFontFamily}"
+                   FontSize="18"
+                   FontWeight="Medium"
+                   Foreground="{ThemeResource InkBrush}"
+                   VerticalAlignment="Center"
+                   TextWrapping="NoWrap" />
+        <Button Grid.Column="1"
+                x:Name="ResetButton"
+                Style="{StaticResource LinkButtonStyle}"
+                Content="Reset"
+                VerticalAlignment="Center"
+                Visibility="Collapsed"
+                AutomationProperties.Name="Reset composition"
+                Click="OnResetClick" />
+    </Grid>
+</UserControl>

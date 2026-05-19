@@ -1,0 +1,46 @@
+<Page x:Class="KineticSculptor.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:sculptor="using:KineticSculptor.Sculptor"
+      Background="#07090F">
+    <Grid>
+        <sculptor:SculptorSurface x:Name="Surface" />
+
+        <!-- Vignette overlay (off the per-frame hot path). -->
+        <Border IsHitTestVisible="False">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5"
+                                     RadiusX="0.7"
+                                     RadiusY="0.7">
+                    <GradientStop Offset="0.5" Color="#00000000" />
+                    <GradientStop Offset="1.0" Color="#8C000000" />
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Faint title — fades on first interaction. -->
+        <TextBlock x:Name="TitleMark"
+                   Text="Kinetic · Sculptor"
+                   FontFamily="Cambria, serif"
+                   FontStyle="Italic"
+                   FontSize="22"
+                   Foreground="#8CEFE6D2"
+                   Margin="32,28,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   IsHitTestVisible="False" />
+
+        <!-- Hint at bottom-right, mirrors the JS prototype. -->
+        <TextBlock x:Name="HintMark"
+                   Text="drift · push · tap · hold"
+                   FontFamily="Cambria, serif"
+                   FontStyle="Italic"
+                   FontSize="14"
+                   CharacterSpacing="180"
+                   Foreground="#52EFE6D2"
+                   Margin="0,0,32,28"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"
+                   IsHitTestVisible="False" />
+    </Grid>
+</Page>

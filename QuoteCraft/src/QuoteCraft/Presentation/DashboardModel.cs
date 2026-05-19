@@ -53,7 +53,9 @@ public partial record DashboardModel
         return _cachedQuotes;
     }
 
-    public IListFeed<QuoteEntity> Quotes =>
+    private IListFeed<QuoteEntity>? _quotesFeed;
+
+    public IListFeed<QuoteEntity> Quotes => _quotesFeed ??=
         Feed.Combine(SelectedFilter, SearchText, DetailVersion)
             .SelectAsync(async (inputs, ct) =>
             {

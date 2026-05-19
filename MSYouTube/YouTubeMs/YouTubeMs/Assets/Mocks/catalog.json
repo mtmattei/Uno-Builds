@@ -1,0 +1,54 @@
+{
+  "channels": [
+    { "name": "Microsoft", "slug": "microsoft", "initials": "MS", "verified": true, "accentTop": "#0AA5B6", "accentBottom": "#0A1D2A" },
+    { "name": "GitHub", "slug": "github", "initials": "GH", "verified": true, "accentTop": "#3FA9F5", "accentBottom": "#0A1D2A" },
+    { "name": "DotNet", "slug": "dotnet", "initials": ".N", "verified": true, "accentTop": "#5C2D91", "accentBottom": "#0E1A33" },
+    { "name": "Visual Studio", "slug": "visual-studio", "initials": "VS", "verified": true, "accentTop": "#5946D2", "accentBottom": "#0A1D2A" },
+    { "name": "Azure", "slug": "azure", "initials": "AZ", "verified": true, "accentTop": "#1F8DDB", "accentBottom": "#0A1D2A" },
+    { "name": "DevRel Studio", "slug": "devrel-studio", "initials": "DR", "verified": false, "accentTop": "#2EE0E0", "accentBottom": "#0F2A30" },
+    { "name": "Surface", "slug": "surface", "initials": "SF", "verified": true, "accentTop": "#0AA5B6", "accentBottom": "#142E3A" },
+    { "name": "Xbox", "slug": "xbox", "initials": "XB", "verified": true, "accentTop": "#107C10", "accentBottom": "#0A1D2A" },
+    { "name": "Microsoft 365", "slug": "m365", "initials": "M3", "verified": true, "accentTop": "#D83B01", "accentBottom": "#1A0F2D" }
+  ],
+  "featured": {
+    "id": "feat-001",
+    "youtubeId": "5Ys1qpw_eEU",
+    "badgeText": "Microsoft Featured",
+    "title": "Microsoft Build 2024 Keynote",
+    "description": "Satya Nadella opens Microsoft Build 2024 with the latest on Copilot+ PCs, AI infrastructure, and what's next for developers building with Microsoft platforms.",
+    "channelSlug": "microsoft",
+    "durationSeconds": 7200
+  },
+  "forYou": [
+    { "id": "fy-001", "youtubeId": "dQw4w9WgXcQ", "title": "Inside the Uno Platform Skia renderer: what changed in 5.x", "channelSlug": "microsoft", "durationSeconds": 942, "viewCount": 2100000, "daysAgo": 1 },
+    { "id": "fy-002", "youtubeId": "9bZkp7q19f0", "title": "C# 13 features developers actually want", "channelSlug": "dotnet", "durationSeconds": 1380, "viewCount": 815000, "daysAgo": 3 },
+    { "id": "fy-003", "youtubeId": "kJQP7kiw5Fk", "title": "GitHub Copilot Workspace: a hands-on walkthrough", "channelSlug": "github", "durationSeconds": 1790, "viewCount": 4500000, "daysAgo": 5 },
+    { "id": "fy-004", "youtubeId": "JGwWNGJdvx8", "title": "Build a media app with MVUX in 30 minutes", "channelSlug": "devrel-studio", "durationSeconds": 1840, "viewCount": 124000, "daysAgo": 8 },
+    { "id": "fy-005", "youtubeId": "RgKAFK5djSk", "title": "Visual Studio 2026 Preview tour", "channelSlug": "visual-studio", "durationSeconds": 720, "viewCount": 612000, "daysAgo": 12 },
+    { "id": "fy-006", "youtubeId": "OPf0YbXqDm0", "title": "Azure SDK for .NET: AI-first design patterns", "channelSlug": "azure", "durationSeconds": 1980, "viewCount": 287000, "daysAgo": 15 },
+    { "id": "fy-007", "youtubeId": "fJ9rUzIMcZQ", "title": "Surface Studio: production set-up for creators", "channelSlug": "surface", "durationSeconds": 540, "viewCount": 990000, "daysAgo": 22 },
+    { "id": "fy-008", "youtubeId": "L_jWHffIx5E", "title": "Inside Xbox: scaling cross-play to a billion sessions", "channelSlug": "xbox", "durationSeconds": 1260, "viewCount": 3200000, "daysAgo": 30 }
+  ],
+  "trending": [
+    { "id": "tr-001", "youtubeId": "60ItHLz5WEA", "rank": 1, "title": "AI in your IDE: real workflows, real numbers", "channelSlug": "github", "durationSeconds": 1505, "viewCount": 7400000, "daysAgo": 2 },
+    { "id": "tr-002", "youtubeId": "y6120QOlsfU", "rank": 2, "title": "Uno Platform 6.0: the ergonomics upgrade", "channelSlug": "microsoft", "durationSeconds": 1890, "viewCount": 2900000, "daysAgo": 4 },
+    { "id": "tr-003", "youtubeId": "_OBlgSz8sSM", "rank": 3, "title": ".NET cross-platform: where the lines blur", "channelSlug": "dotnet", "durationSeconds": 2100, "viewCount": 1850000, "daysAgo": 6 },
+    { "id": "tr-004", "youtubeId": "jNQXAC9IVRw", "rank": 4, "title": "Power Platform meets full-stack code", "channelSlug": "m365", "durationSeconds": 1320, "viewCount": 1100000, "daysAgo": 10 },
+    { "id": "tr-005", "youtubeId": "QH2-TGUlwu4", "rank": 5, "title": "Building offline-first cloud apps", "channelSlug": "azure", "durationSeconds": 980, "viewCount": 740000, "daysAgo": 14 },
+    { "id": "tr-006", "youtubeId": "i_AC1gK_QSY", "rank": 6, "title": "Designing for low-end devices", "channelSlug": "devrel-studio", "durationSeconds": 1170, "viewCount": 220000, "daysAgo": 19 }
+  ],
+  "rail": [
+    { "id": "rl-001", "youtubeId": "dQw4w9WgXcQ", "title": "Picking your first Uno screen layout", "channelSlug": "devrel-studio" },
+    { "id": "rl-002", "youtubeId": "9bZkp7q19f0", "title": "Reactive UIs without the boilerplate", "channelSlug": "microsoft" },
+    { "id": "rl-003", "youtubeId": "kJQP7kiw5Fk", "title": "Theming a Material app end-to-end", "channelSlug": "visual-studio" },
+    { "id": "rl-004", "youtubeId": "JGwWNGJdvx8", "title": "Region navigation in 10 minutes", "channelSlug": "dotnet" }
+  ],
+  "subscriptions": [
+    { "channelSlug": "microsoft", "hasNew": true },
+    { "channelSlug": "github", "hasNew": true },
+    { "channelSlug": "dotnet", "hasNew": false },
+    { "channelSlug": "visual-studio", "hasNew": true },
+    { "channelSlug": "azure", "hasNew": false },
+    { "channelSlug": "xbox", "hasNew": false }
+  ]
+}

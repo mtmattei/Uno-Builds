@@ -1,0 +1,339 @@
+<UserControl x:Class="UnoToolkit.Bench.Demos.TabBarDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource RowStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Spec column -->
+            <Border Grid.Column="0" Style="{StaticResource SpecPanelStyle}">
+                <StackPanel VerticalAlignment="Center" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <TextBlock Style="{StaticResource SpecNumStyle}" Text="02" />
+                        <TextBlock Style="{StaticResource SpecNameStyle}">
+                            <Run Foreground="{StaticResource Fg5Brush}" Text="utu:" />
+                            <Run Text="TabBar" />
+                        </TextBlock>
+                    </StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border Style="{StaticResource MotionTagPillStyle}">
+                            <TextBlock Style="{StaticResource MotionTagStyle}" Text="IDENTITY MORPH" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="HOME" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="SEARCH" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="LIBRARY" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="PROFILE" />
+                        </Border>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Stage column -->
+            <Border Grid.Column="1" Style="{StaticResource StagePanelStyle}">
+                <Grid>
+                    <Border Style="{StaticResource CrosshairTopLeftStyle}" />
+                    <Border Style="{StaticResource CrosshairBottomRightStyle}" />
+
+                    <Border Width="260" Height="318"
+                            Background="{StaticResource Bg2GradientBrush}"
+                            BorderBrush="{StaticResource RuleBrush}"
+                            BorderThickness="1"
+                            CornerRadius="22"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="60" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Canvas -->
+                            <Border Grid.Row="0">
+                                <TextBlock x:Name="CanvasLabel"
+                                           Style="{StaticResource CanvasLabelStyle}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="A quiet home." />
+                            </Border>
+
+                            <!-- Tab bar -->
+                            <Border Grid.Row="1"
+                                    Background="{StaticResource Bg1Brush}"
+                                    BorderBrush="{StaticResource RuleBrush}"
+                                    BorderThickness="0,1,0,0"
+                                    CornerRadius="0,0,21,21">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- ============ Home ============ -->
+                                    <Border x:Name="Tab0" Grid.Column="0" Background="Transparent" Tapped="OnTabTapped" Tag="0">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="4">
+                                            <Grid x:Name="IconHome" Width="22" Height="22">
+                                                <Grid.RenderTransform>
+                                                    <CompositeTransform CenterX="11" CenterY="11" ScaleX="1" ScaleY="1" />
+                                                </Grid.RenderTransform>
+                                                <!-- ====== Home icon ======
+                                                     XAML defaults = inactive state. Initial selection of Home is set
+                                                     via CommitHomeState(true) in Loaded, which writes local DP values.
+                                                     This keeps Stop()-revert behavior consistent with other tabs. -->
+
+                                                <!-- Inactive outline: gray pentagon -->
+                                                <Path x:Name="HomeRest"
+                                                      Stroke="{StaticResource Fg4Brush}"
+                                                      StrokeThickness="1.6"
+                                                      Data="M 4,20 L 4,10 L 12,4 L 20,10 L 20,20 L 4,20 Z" />
+
+                                                <!-- Active outline: white pentagon with carved doorway -->
+                                                <Path x:Name="HomeActive"
+                                                      Stroke="{StaticResource Fg1Brush}"
+                                                      StrokeThickness="1.6"
+                                                      Data="M 4,20 L 4,10 L 12,4 L 20,10 L 20,20 L 14,20 L 14,13 L 10,13 L 10,20 L 4,20 Z"
+                                                      Opacity="0" />
+
+                                                <!-- Ink dot: drops on the closed pentagon with bounce, then fades.
+                                                     Centered on the door area (12, 16.5). -->
+                                                <Ellipse x:Name="HomeDot"
+                                                         Width="4" Height="4"
+                                                         Fill="{StaticResource AccentBrush}"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                         Margin="10,14.5,0,0"
+                                                         Opacity="0">
+                                                    <Ellipse.RenderTransform>
+                                                        <CompositeTransform x:Name="HomeDotT" CenterX="2" CenterY="2" ScaleX="0" ScaleY="0" TranslateY="-15" />
+                                                    </Ellipse.RenderTransform>
+                                                </Ellipse>
+
+                                                <!-- Door panel: 4×7 white rectangle, grows up from the floor
+                                                     (CenterY=7 = bottom edge of element). -->
+                                                <Rectangle x:Name="HomeDoor"
+                                                           Width="4" Height="7"
+                                                           Fill="{StaticResource AccentBrush}"
+                                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                           Margin="10,13,0,0"
+                                                           Opacity="0">
+                                                    <Rectangle.RenderTransform>
+                                                        <CompositeTransform x:Name="HomeDoorT" CenterX="2" CenterY="7" ScaleX="1" ScaleY="0" />
+                                                    </Rectangle.RenderTransform>
+                                                </Rectangle>
+                                            </Grid>
+                                            <TextBlock x:Name="LabelHome"
+                                                       Style="{StaticResource TabLabelStyle}"
+                                                       Foreground="{StaticResource Fg1Brush}"
+                                                       Text="HOME" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- ============ Search ============ -->
+                                    <Border x:Name="Tab1" Grid.Column="1" Background="Transparent" Tapped="OnTabTapped" Tag="1">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="4">
+                                            <Grid x:Name="IconSearch" Width="22" Height="22">
+                                                <Grid.RenderTransform>
+                                                    <CompositeTransform CenterX="11" CenterY="11" ScaleX="1" ScaleY="1" />
+                                                </Grid.RenderTransform>
+                                                <!-- Loop + ink dot share a 12×12 sub-grid so the ink lands centered. -->
+                                                <Grid Width="12" Height="12"
+                                                      HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                      Margin="5,5,0,0">
+                                                    <Ellipse x:Name="SearchLoop"
+                                                             Stroke="{StaticResource Fg4Brush}"
+                                                             StrokeThickness="1.6">
+                                                        <Ellipse.RenderTransform>
+                                                            <CompositeTransform x:Name="SearchLoopTransform" CenterX="6" CenterY="6" ScaleX="1" ScaleY="1" />
+                                                        </Ellipse.RenderTransform>
+                                                    </Ellipse>
+                                                    <Ellipse x:Name="SearchInkDot"
+                                                             Width="7.2" Height="7.2"
+                                                             Fill="{StaticResource AccentBrush}"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"
+                                                             Opacity="0">
+                                                        <Ellipse.RenderTransform>
+                                                            <CompositeTransform x:Name="SearchInkDotTransform" CenterX="3.6" CenterY="3.6" ScaleX="0" ScaleY="0" TranslateY="-14" />
+                                                        </Ellipse.RenderTransform>
+                                                    </Ellipse>
+                                                </Grid>
+                                                <!-- Handle: lifts up + fades on activate -->
+                                                <Path x:Name="SearchHandle"
+                                                      Stroke="{StaticResource Fg4Brush}"
+                                                      StrokeThickness="1.6"
+                                                      Data="M 13.5,15.5 L 18,20">
+                                                    <Path.RenderTransform>
+                                                        <CompositeTransform x:Name="SearchHandleTransform" TranslateY="0" />
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <!-- Search bar: grows in horizontally after the loop morphs -->
+                                                <Rectangle x:Name="SearchBar"
+                                                           Width="18" Height="7"
+                                                           RadiusX="3.5" RadiusY="3.5"
+                                                           Fill="{StaticResource AccentBrush}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Opacity="0">
+                                                    <Rectangle.RenderTransform>
+                                                        <CompositeTransform x:Name="SearchBarTransform" CenterX="9" CenterY="3.5" ScaleX="0" ScaleY="0.4" />
+                                                    </Rectangle.RenderTransform>
+                                                </Rectangle>
+                                            </Grid>
+                                            <TextBlock x:Name="LabelSearch"
+                                                       Style="{StaticResource TabLabelStyle}"
+                                                       Foreground="{StaticResource Fg4Brush}"
+                                                       Text="SEARCH" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- ============ Library ============ -->
+                                    <Border x:Name="Tab2" Grid.Column="2" Background="Transparent" Tapped="OnTabTapped" Tag="2">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="4">
+                                            <Grid x:Name="IconLibrary" Width="22" Height="22">
+                                                <Grid.RenderTransform>
+                                                    <CompositeTransform CenterX="11" CenterY="11" ScaleX="1" ScaleY="1" />
+                                                </Grid.RenderTransform>
+                                                <!-- 4 blocks. Each is a 7×7 cell with an outlined-square layer and a
+                                                     filled-stripe layer; on activate the cell translates+scales+spins 360°
+                                                     to its target stripe footprint, crossfading outline → fill. -->
+                                                <Grid x:Name="LibItem1" Width="7" Height="7"
+                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,4,0,0">
+                                                    <Grid.RenderTransform>
+                                                        <CompositeTransform x:Name="LibItem1Transform" CenterX="3.5" CenterY="3.5" />
+                                                    </Grid.RenderTransform>
+                                                    <Rectangle x:Name="LibItem1Outline"
+                                                               Stroke="{StaticResource Fg4Brush}" StrokeThickness="1.6" />
+                                                    <Rectangle x:Name="LibItem1Fill"
+                                                               Fill="{StaticResource Fg1Brush}" RadiusX="0.5" RadiusY="0.5"
+                                                               Opacity="0" />
+                                                </Grid>
+                                                <Grid x:Name="LibItem2" Width="7" Height="7"
+                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,4,0,0">
+                                                    <Grid.RenderTransform>
+                                                        <CompositeTransform x:Name="LibItem2Transform" CenterX="3.5" CenterY="3.5" />
+                                                    </Grid.RenderTransform>
+                                                    <Rectangle x:Name="LibItem2Outline"
+                                                               Stroke="{StaticResource Fg4Brush}" StrokeThickness="1.6" />
+                                                    <Rectangle x:Name="LibItem2Fill"
+                                                               Fill="{StaticResource Fg1Brush}" RadiusX="0.5" RadiusY="0.5"
+                                                               Opacity="0" />
+                                                </Grid>
+                                                <Grid x:Name="LibItem3" Width="7" Height="7"
+                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,14,0,0">
+                                                    <Grid.RenderTransform>
+                                                        <CompositeTransform x:Name="LibItem3Transform" CenterX="3.5" CenterY="3.5" />
+                                                    </Grid.RenderTransform>
+                                                    <Rectangle x:Name="LibItem3Outline"
+                                                               Stroke="{StaticResource Fg4Brush}" StrokeThickness="1.6" />
+                                                    <Rectangle x:Name="LibItem3Fill"
+                                                               Fill="{StaticResource Fg1Brush}" RadiusX="0.5" RadiusY="0.5"
+                                                               Opacity="0" />
+                                                </Grid>
+                                                <Grid x:Name="LibItem4" Width="7" Height="7"
+                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,14,0,0">
+                                                    <Grid.RenderTransform>
+                                                        <CompositeTransform x:Name="LibItem4Transform" CenterX="3.5" CenterY="3.5" />
+                                                    </Grid.RenderTransform>
+                                                    <Rectangle x:Name="LibItem4Outline"
+                                                               Stroke="{StaticResource Fg4Brush}" StrokeThickness="1.6" />
+                                                    <Rectangle x:Name="LibItem4Fill"
+                                                               Fill="{StaticResource Fg1Brush}" RadiusX="0.5" RadiusY="0.5"
+                                                               Opacity="0" />
+                                                </Grid>
+                                            </Grid>
+                                            <TextBlock x:Name="LabelLibrary"
+                                                       Style="{StaticResource TabLabelStyle}"
+                                                       Foreground="{StaticResource Fg4Brush}"
+                                                       Text="LIBRARY" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- ============ Profile ============ -->
+                                    <Border x:Name="Tab3" Grid.Column="3" Background="Transparent" Tapped="OnTabTapped" Tag="3">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="4">
+                                            <Grid x:Name="IconProfile" Width="22" Height="22">
+                                                <Grid.RenderTransform>
+                                                    <CompositeTransform CenterX="11" CenterY="11" ScaleX="1" ScaleY="1" />
+                                                </Grid.RenderTransform>
+                                                <!-- Rest: outlined head + body -->
+                                                <Ellipse x:Name="ProfileHead"
+                                                         Width="8" Height="8"
+                                                         Stroke="{StaticResource Fg4Brush}"
+                                                         StrokeThickness="1.6"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                         Margin="7,4,0,0" />
+                                                <Path x:Name="ProfileBody"
+                                                      Stroke="{StaticResource Fg4Brush}"
+                                                      StrokeThickness="1.6"
+                                                      Data="M 4,21 C 4,16.6 7.6,13 12,13 C 16.4,13 20,16.6 20,21" />
+                                                <!-- Active: filled head + accent body curve, both opacity 0 at rest -->
+                                                <Ellipse x:Name="ProfileHeadFill"
+                                                         Width="8" Height="8"
+                                                         Fill="{StaticResource AccentBrush}"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                         Margin="7,4,0,0"
+                                                         Opacity="0"
+                                                         RenderTransformOrigin="0.5,0.5">
+                                                    <Ellipse.RenderTransform>
+                                                        <CompositeTransform x:Name="ProfileHeadFillTransform" CenterX="4" CenterY="4" ScaleX="0.5" ScaleY="0.5" />
+                                                    </Ellipse.RenderTransform>
+                                                </Ellipse>
+                                                <Path x:Name="ProfileBodyActive"
+                                                      Stroke="{StaticResource AccentBrush}"
+                                                      StrokeThickness="1.8"
+                                                      Data="M 4,21 C 4,16.6 7.6,13 12,13 C 16.4,13 20,16.6 20,21"
+                                                      Opacity="0" />
+                                                <!-- Status ring backdrop -->
+                                                <Ellipse x:Name="ProfileStatusRing"
+                                                         Width="6.4" Height="6.4"
+                                                         Fill="{StaticResource Bg1Brush}"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                         Margin="13.3,1.8,0,0"
+                                                         Opacity="0">
+                                                    <Ellipse.RenderTransform>
+                                                        <CompositeTransform x:Name="ProfileRingTransform" CenterX="3.2" CenterY="3.2" ScaleX="0" ScaleY="0" />
+                                                    </Ellipse.RenderTransform>
+                                                </Ellipse>
+                                                <!-- Status dot (accent) — pops with overshoot -->
+                                                <Ellipse x:Name="ProfileStatusDot"
+                                                         Width="4.4" Height="4.4"
+                                                         Fill="{StaticResource AccentBrush}"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                         Margin="14.3,2.8,0,0"
+                                                         Opacity="0">
+                                                    <Ellipse.RenderTransform>
+                                                        <CompositeTransform x:Name="ProfileDotTransform" CenterX="2.2" CenterY="2.2" ScaleX="0" ScaleY="0" />
+                                                    </Ellipse.RenderTransform>
+                                                </Ellipse>
+                                            </Grid>
+                                            <TextBlock x:Name="LabelProfile"
+                                                       Style="{StaticResource TabLabelStyle}"
+                                                       Foreground="{StaticResource Fg4Brush}"
+                                                       Text="PROFILE" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

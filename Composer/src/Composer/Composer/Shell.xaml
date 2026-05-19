@@ -1,0 +1,117 @@
+﻿<Page x:Class="Composer.Shell"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Composer"
+      xmlns:views="using:Composer.Views"
+      xmlns:controls="using:Composer.Views.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource GlassBackdropBrush}"
+      RequestedTheme="Light">
+
+    <Page.Resources>
+        <!-- Brief 03 §2 — rail reveal/hide. Column widths snap (Grid columns
+             don't smoothly re-measure under DoubleAnimation on Skia desktop)
+             but the rail content slides in from -40/+40 px and fades up
+             over 320ms with a 160ms delay so the rails read as "opening". -->
+        <Storyboard x:Key="RailsRevealStoryboard">
+            <DoubleAnimation Storyboard.TargetName="LeftRailTransform"
+                             Storyboard.TargetProperty="X"
+                             To="0"
+                             Duration="0:0:0.48">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="LeftRailContainer"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             BeginTime="0:0:0.16"
+                             Duration="0:0:0.32" />
+            <DoubleAnimation Storyboard.TargetName="RightRailTransform"
+                             Storyboard.TargetProperty="X"
+                             To="0"
+                             Duration="0:0:0.48">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="RightRailContainer"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             BeginTime="0:0:0.16"
+                             Duration="0:0:0.32" />
+        </Storyboard>
+
+        <Storyboard x:Key="RailsHideStoryboard">
+            <DoubleAnimation Storyboard.TargetName="LeftRailTransform"
+                             Storyboard.TargetProperty="X"
+                             To="-40"
+                             Duration="0:0:0.32">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="LeftRailContainer"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0:0:0.24" />
+            <DoubleAnimation Storyboard.TargetName="RightRailTransform"
+                             Storyboard.TargetProperty="X"
+                             To="40"
+                             Duration="0:0:0.32">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="RightRailContainer"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0:0:0.24" />
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          utu:SafeArea.Insets="VisibleBounds">
+
+        <!-- Workspace shell. Rails are 0px wide on the very first screen
+             (Stack canvas, ActiveIndex=0, no locks); on first lock the
+             columns snap to 280px and the rail content slides+fades in.
+             Code-behind toggles ColumnDefinition.Width to keep first-screen
+             focus mode honest. Per ENGINEERING-BRIEF-page-and-flow-breakdown
+             §2.1 the center column will become a uen:Region.Attached
+             navigation surface; this Shell is the pre-decomposition
+             single-page host that still embeds ActiveCanvas inline. -->
+        <Grid x:Name="WorkspaceRoot">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftRailColumn"  Width="0" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition x:Name="RightRailColumn" Width="0" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    x:Name="LeftRailContainer"
+                    Opacity="0">
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="LeftRailTransform" X="-40" />
+                </Border.RenderTransform>
+                <controls:CompositionStack />
+            </Border>
+
+            <!-- M6: ActiveCanvas no longer takes a Header DP. The inner
+                 ActiveLayerHeader binds its six discrete DPs directly to
+                 ShellModel's ActiveLayer* feeds. -->
+            <controls:ActiveCanvas Grid.Column="1"
+                                   x:Name="CenterCanvas" />
+
+            <Border Grid.Column="2"
+                    x:Name="RightRailContainer"
+                    Opacity="0">
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="RightRailTransform" X="40" />
+                </Border.RenderTransform>
+                <controls:FilesRail />
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

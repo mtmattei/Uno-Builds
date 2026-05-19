@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "DOTNET_ENVIRONMENT": "Development"
+  },
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "Bash(Out-String)",
+      "Bash(tasklist /FI \"IMAGENAME eq UnoToolkit.Bench.exe\")",
+      "Bash(taskkill /PID 12740 /F)",
+      "Bash(powershell -Command \"Stop-Process -Id 12740 -Force -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Get-Process UnoToolkit.Bench -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(Select-Object -Last 30)",
+      "Bash(tasklist //FI \"IMAGENAME eq UnoToolkit.Bench.exe\")",
+      "Bash(tasklist //FI \"IMAGENAME eq dotnet.exe\")",
+      "Bash(tasklist *)"
+    ]
+  }
+}

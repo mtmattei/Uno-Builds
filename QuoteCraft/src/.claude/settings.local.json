@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(claude mcp:*)",
+      "Bash(powershell:*)",
+      "Bash(dotnet build:*)",
+      "Bash(DOTNET_MODIFIABLE_ASSEMBLIES=debug dotnet run:*)",
+      "mcp__uno-app__uno_app_start",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot",
+      "mcp__uno-app__uno_app_element_peer_default_action",
+      "mcp__uno-app__uno_app_pointer_click",
+      "mcp__uno-app__uno_app_close",
+      "mcp__uno-app__uno_app_key_press",
+      "Bash(grep:*)",
+      "mcp__uno-app__uno_app_get_element_datacontext",
+      "Bash(taskkill:*)",
+      "Bash(tasklist:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet remove:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(dotnet run:*)",
+      "Bash(powershell.exe:*)",
+      "mcp__uno-app__uno_app_type_text",
+      "Read(//c/Users/Platform006/AppData/Local/Temp/**)"
+    ]
+  }
+}

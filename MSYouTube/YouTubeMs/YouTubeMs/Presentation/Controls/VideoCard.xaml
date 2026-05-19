@@ -1,0 +1,208 @@
+<UserControl x:Class="YouTubeMs.Presentation.Controls.VideoCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:anim="using:Microsoft.UI.Xaml.Media.Animation"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             x:Name="Self">
+
+    <Button x:Name="ClickHost"
+            Style="{StaticResource FlatItemButtonStyle}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            MinWidth="240"
+            MinHeight="44"
+            RenderTransformOrigin="0.5,0.5"
+            Command="{x:Bind Command, Mode=OneWay}"
+            CommandParameter="{x:Bind Video, Mode=OneWay}"
+            AutomationProperties.Name="{x:Bind Video.Title, Mode=OneWay, FallbackValue=''}">
+        <Button.RenderTransform>
+            <CompositeTransform x:Name="CardTransform" />
+        </Button.RenderTransform>
+
+        <utu:AutoLayout Orientation="Vertical" Spacing="10">
+
+            <!-- Thumbnail -->
+            <Border x:Name="ThumbBorder"
+                    CornerRadius="12"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="1"
+                    Background="{ThemeResource SurfaceVariantBrush}">
+                <Grid Height="160">
+                    <!-- Layer 1: channel-tinted gradient (fallback when image fails) -->
+                    <Border x:Name="ThumbFill" />
+
+                    <!-- Layer 2: real image (subtle scale on hover) -->
+                    <Image x:Name="ThumbImage"
+                           Source="{x:Bind Video.ThumbnailUrl, Mode=OneWay, FallbackValue=''}"
+                           Stretch="UniformToFill"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <ScaleTransform x:Name="ThumbImageScale" ScaleX="1" ScaleY="1" />
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <!-- Layer 3: bottom darken overlay for legibility -->
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0.55" />
+                                <GradientStop Color="#66000000" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Duration pill -->
+                    <Border HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,8,8"
+                            CornerRadius="6"
+                            Padding="6,2"
+                            Background="#B3000000">
+                        <TextBlock Text="{x:Bind Video.DurationLabel, Mode=OneWay, FallbackValue='0:00'}"
+                                   Style="{StaticResource LabelMediumTextBlockStyle}"
+                                   Foreground="#FFFFFF" />
+                    </Border>
+
+                    <!-- Thumbnail zoom transform target -->
+                    <!-- Hover play disc (scales in via spring) -->
+                    <Border x:Name="PlayDisc"
+                            Width="56" Height="56"
+                            CornerRadius="28"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="#2EE0E0"
+                            Opacity="0"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform x:Name="PlayDiscScale" ScaleX="0.7" ScaleY="0.7" />
+                        </Border.RenderTransform>
+                        <FontIcon Glyph="&#xE768;"
+                                  FontSize="20"
+                                  Foreground="#03252A" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Title block: items hug each other, extra space falls to the bottom of the card -->
+            <StackPanel Height="84" Spacing="4" VerticalAlignment="Top">
+                <TextBlock Text="{x:Bind Video.Title, Mode=OneWay, FallbackValue=''}"
+                           FontSize="14"
+                           Foreground="#F3F8FB"
+                           TextWrapping="Wrap"
+                           MaxLines="2"
+                           LineHeight="20"
+                           TextTrimming="CharacterEllipsis"
+                           FontWeight="SemiBold" />
+
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{x:Bind Video.Channel.Name, Mode=OneWay, FallbackValue=''}"
+                               FontSize="13"
+                               Foreground="#8FA1AB"
+                               VerticalAlignment="Center" />
+                    <FontIcon x:Name="VerifiedIcon"
+                              Glyph="&#xE73E;"
+                              FontSize="12"
+                              Foreground="#2EE0E0"
+                              Visibility="{x:Bind VerifiedVisibility, Mode=OneWay}"
+                              VerticalAlignment="Center"
+                              RenderTransformOrigin="0.5,0.5"
+                              AutomationProperties.AccessibilityView="Raw">
+                        <FontIcon.RenderTransform>
+                            <ScaleTransform x:Name="VerifiedIconScale" ScaleX="0" ScaleY="0" />
+                        </FontIcon.RenderTransform>
+                    </FontIcon>
+                </StackPanel>
+
+                <TextBlock Text="{x:Bind Video.MetaLabel, Mode=OneWay, FallbackValue=''}"
+                           FontSize="12"
+                           Foreground="#8FA1AB" />
+            </StackPanel>
+        </utu:AutoLayout>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="PlayDisc"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0" Duration="0:0:0.18">
+                            <DoubleAnimation.EasingFunction>
+                                <QuadraticEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="PlayDiscScale"
+                                         Storyboard.TargetProperty="ScaleX"
+                                         To="0.7" Duration="0:0:0.18" />
+                        <DoubleAnimation Storyboard.TargetName="PlayDiscScale"
+                                         Storyboard.TargetProperty="ScaleY"
+                                         To="0.7" Duration="0:0:0.18" />
+                        <DoubleAnimation Storyboard.TargetName="CardTransform"
+                                         Storyboard.TargetProperty="TranslateY"
+                                         To="0" Duration="0:0:0.18" />
+                        <DoubleAnimation Storyboard.TargetName="ThumbImageScale"
+                                         Storyboard.TargetProperty="ScaleX"
+                                         To="1" Duration="0:0:0.18" />
+                        <DoubleAnimation Storyboard.TargetName="ThumbImageScale"
+                                         Storyboard.TargetProperty="ScaleY"
+                                         To="1" Duration="0:0:0.18" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="PlayDisc"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0.95" Duration="0:0:0.18">
+                            <DoubleAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="PlayDiscScale"
+                                         Storyboard.TargetProperty="ScaleX"
+                                         To="1" Duration="0:0:0.22">
+                            <DoubleAnimation.EasingFunction>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.3" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="PlayDiscScale"
+                                         Storyboard.TargetProperty="ScaleY"
+                                         To="1" Duration="0:0:0.22">
+                            <DoubleAnimation.EasingFunction>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.3" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="CardTransform"
+                                         Storyboard.TargetProperty="TranslateY"
+                                         To="-3" Duration="0:0:0.18">
+                            <DoubleAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ThumbImageScale"
+                                         Storyboard.TargetProperty="ScaleX"
+                                         To="1.04" Duration="0:0:0.18">
+                            <DoubleAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ThumbImageScale"
+                                         Storyboard.TargetProperty="ScaleY"
+                                         To="1.04" Duration="0:0:0.18">
+                            <DoubleAnimation.EasingFunction>
+                                <QuarticEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Target="PlayDisc.Opacity" Value="1" />
+                        <Setter Target="CardTransform.TranslateY" Value="-1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Button>
+</UserControl>

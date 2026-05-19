@@ -1,0 +1,167 @@
+<UserControl x:Class="UnoToolkit.Bench.Demos.LoadingViewDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource RowStyle}" BorderThickness="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource SpecPanelStyle}">
+                <StackPanel VerticalAlignment="Center" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <TextBlock Style="{StaticResource SpecNumStyle}" Text="05" />
+                        <TextBlock Style="{StaticResource SpecNameStyle}">
+                            <Run Foreground="{StaticResource Fg5Brush}" Text="utu:" />
+                            <Run Text="LoadingView" />
+                        </TextBlock>
+                    </StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border Style="{StaticResource MotionTagPillStyle}">
+                            <TextBlock Style="{StaticResource MotionTagStyle}" Text="HONEST TIMER" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="IDLE" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="RUNNING" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="DONE" />
+                        </Border>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource StagePanelStyle}">
+                <Grid>
+                    <Border Style="{StaticResource CrosshairTopLeftStyle}" />
+                    <Border Style="{StaticResource CrosshairBottomRightStyle}" />
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16" MaxWidth="380" Width="380">
+
+                        <Border x:Name="Pane"
+                                Background="{StaticResource Bg2GradientBrush}"
+                                BorderBrush="{StaticResource RuleBrush}"
+                                BorderThickness="1"
+                                CornerRadius="2"
+                                MinHeight="140"
+                                Padding="18,18,18,32">
+                            <Grid>
+                                <!-- Idle -->
+                                <StackPanel x:Name="IdlePanel"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Spacing="10"
+                                            MinHeight="92">
+                                    <Rectangle Width="18" Height="1" Fill="{StaticResource RuleBrush}" HorizontalAlignment="Center" />
+                                    <TextBlock Style="{StaticResource CanvasLabelStyle}" Text="Awaiting source." HorizontalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Running -->
+                                <StackPanel x:Name="RunningPanel"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            MinHeight="92"
+                                            Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="2" VerticalAlignment="Center">
+                                        <!-- Width pinned so 50Hz Text updates don't propagate
+                                             measure dirty up the tree (Consolas digits are
+                                             monospace so the visible width is stable anyway). -->
+                                        <TextBlock x:Name="ElapsedReadout"
+                                                   Style="{StaticResource TimerReadoutStyle}"
+                                                   Width="92"
+                                                   TextAlignment="Center"
+                                                   Text="0.000" />
+                                        <TextBlock Style="{StaticResource TimerUnitStyle}" Text="s" VerticalAlignment="Bottom" Margin="4,0,0,4" />
+                                    </StackPanel>
+                                    <TextBlock Style="{StaticResource RunningLabelStyle}" Text="FETCHING" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                                </StackPanel>
+
+                                <!-- Loaded -->
+                                <StackPanel x:Name="LoadedPanel"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Spacing="6"
+                                            MinHeight="92"
+                                            Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Style="{StaticResource LoadedHeadlineStyle}" Text="FetchAsync resolved in" />
+                                        <TextBlock x:Name="LoadedNum"
+                                                   Style="{StaticResource LoadedHeadlineStyle}"
+                                                   FontFamily="{StaticResource FontMono}"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource AccentBrush}"
+                                                   Text="0.000s" />
+                                    </StackPanel>
+                                    <TextBlock Style="{StaticResource LoadedBodyStyle}"
+                                               Text="The pane committed to the work and reported it. The line drew itself in real time." />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Ellipse Width="6" Height="6" Fill="{StaticResource OkBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Style="{StaticResource LoadedMetaStyle}" Text="ok · 12.4 kb · gzip" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Progress line + faint halo. Both stretch to the full pane
+                                     interior via Margin -18,..,-18 so they fill regardless of
+                                     pane width. ScaleX 0→1 grows from the left edge. -->
+                                <Grid x:Name="ProgressLine"
+                                      Height="2"
+                                      VerticalAlignment="Bottom"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="-18,0,-18,-32"
+                                      Background="{StaticResource AccentBrush}">
+                                    <Grid.RenderTransform>
+                                        <CompositeTransform x:Name="ProgressTransform" ScaleX="0" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="ProgressGlow"
+                                      Height="6"
+                                      Background="{StaticResource AccentBrush}"
+                                      Opacity="0.18"
+                                      VerticalAlignment="Bottom"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="-18,0,-18,-34">
+                                    <Grid.RenderTransform>
+                                        <CompositeTransform x:Name="ProgressGlowTransform" ScaleX="0" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <!-- Controls row -->
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ActionButton"
+                                    Grid.Column="0"
+                                    Style="{StaticResource BenchButtonStyle}"
+                                    Click="OnActionClick"
+                                    Content="Run task" />
+                            <Border x:Name="StatePill"
+                                    Grid.Column="2"
+                                    Style="{StaticResource StatePillStyle}">
+                                <TextBlock x:Name="StatePillText"
+                                           FontFamily="{StaticResource FontMono}"
+                                           FontSize="10"
+                                           CharacterSpacing="80"
+                                           Foreground="{StaticResource Fg4Brush}"
+                                           Text="IDLE" />
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno-app__uno_app_start",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot",
+      "mcp__uno-app__uno_app_close",
+      "Bash(Select-Object -Last 50)",
+      "Bash(tasklist *)",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno-app__uno_app_pointer_click",
+      "Bash(\"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\" \"obj/Debug/net10.0-windows10.0.19041/input.json\" \"obj/Debug/net10.0-windows10.0.19041/output.json\")",
+      "Bash(\"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\input.json\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\output.json\")",
+      "Bash(cmd //c '\"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\input.json\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\output.json\"')",
+      "Bash(cmd //c \"\\\\\"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\\\\\" \\\\\"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\input.json\\\\\" \\\\\"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\output.json\\\\\" 2>&1\")",
+      "Bash(err\")",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(XAMLCOMPILER_BUILDTASK_LOG=1 \"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\input.json\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\output.json\")",
+      "Bash(COMPlus_TraceCompilation=1 DOTNET_TRACE=1 \"C:\\\\Users\\\\Platform006\\\\.nuget\\\\packages\\\\microsoft.windowsappsdk\\\\1.7.250909003\\\\tools\\\\net472\\\\XamlCompiler.exe\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\input.json\" \"obj\\\\Debug\\\\net10.0-windows10.0.19041\\\\output.json\")",
+      "mcp__mslearn__microsoft_docs_search",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" YouTubeMs.csproj -t:restore -p:TargetFramework=net10.0-windows10.0.19041)",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" YouTubeMs.csproj -t:build -p:TargetFramework=net10.0-windows10.0.19041 -v:minimal)",
+      "Bash(taskkill //PID 24536 //F)",
+      "Bash(taskkill *)",
+      "Bash(\"C:\\\\Users\\\\Platform006\\\\OneDrive - Uno Platform\\\\Desktop\\\\unOS\\\\AI-builds\\\\MSYouTube\\\\YouTubeMs\\\\YouTubeMs\\\\bin\\\\Debug\\\\net10.0-windows10.0.19041\\\\YouTubeMs.exe\")",
+      "Bash(npx skills *)",
+      "mcp__uno-app__uno_app_type_text"
+    ]
+  }
+}

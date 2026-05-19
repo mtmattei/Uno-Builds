@@ -1,0 +1,658 @@
+<Page x:Class="YouTubeMs.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:catalog="using:YouTubeMs.Models.Catalog"
+      xmlns:controls="using:YouTubeMs.Presentation.Controls"
+      xmlns:home="using:YouTubeMs.Presentation.Home"
+      xmlns:stubs="using:YouTubeMs.Presentation.Stubs"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      SizeChanged="OnPageSizeChanged"
+      NavigationCacheMode="Required">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds" Padding="0,32,0,0">
+        <!-- Layer 1: full-page mesh background -->
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0E2D3A" Offset="0.0" />
+                    <GradientStop Color="#0A1D2A" Offset="0.5" />
+                    <GradientStop Color="#050F1A" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <!-- Teal spotlight in upper-center -->
+            <Ellipse Width="900" Height="900"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Margin="0,-450,0,0"
+                     Opacity="0.35">
+                <Ellipse.Fill>
+                    <RadialGradientBrush Center="0.5,0.5"
+                                         RadiusX="0.5"
+                                         RadiusY="0.5">
+                        <GradientStop Color="#2EE0E0" Offset="0.0" />
+                        <GradientStop Color="#00000000" Offset="1.0" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Grid>
+
+        <!-- Layer 2: shell -->
+        <Grid uen:Region.Attached="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="SidebarColumn" Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- ============ Top bar (spans content area) ============ -->
+            <Grid Grid.Row="0" Grid.Column="1"
+                  Padding="{utu:Responsive Narrow='12,12,12,8', Normal='32,18,32,12'}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{utu:Responsive Narrow=Auto, Normal=*}" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=*, Normal=540}" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=Auto, Normal=*}" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Hamburger (Narrow only) -->
+                <Button Grid.Column="0"
+                        x:Name="MenuButton"
+                        Click="OnMenuClicked"
+                        Style="{StaticResource FlatItemButtonStyle}"
+                        Width="44" Height="44"
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        Visibility="{utu:Responsive Narrow=Visible, Normal=Collapsed}"
+                        AutomationProperties.Name="Menu">
+                    <FontIcon Glyph="&#xE700;" FontSize="18" Foreground="#F3F8FB" />
+                </Button>
+
+                <!-- Search pill (transparent w/ focus glow) -->
+                <Grid Grid.Column="1" VerticalAlignment="Center">
+                    <!-- Focus glow halo (Border behind the TextBox) -->
+                    <Border x:Name="SearchGlow"
+                            CornerRadius="22"
+                            Background="#332EE0E0"
+                            Margin="-6"
+                            Opacity="0" />
+                    <TextBox x:Name="SearchTextBox"
+                             PlaceholderText="Search videos, channels, topics…"
+                             Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource SearchPillTextBoxStyle}"
+                             Foreground="#F3F8FB"
+                             Padding="44,8,16,8"
+                             TextChanged="OnSearchTextChanged"
+                             GotFocus="OnSearchFocus"
+                             LostFocus="OnSearchBlur"
+                             AutomationProperties.Name="Search" />
+                    <FontIcon x:Name="SearchIcon"
+                              Glyph="&#xE721;"
+                              FontSize="16"
+                              Margin="20,0,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Foreground="#8FA1AB"
+                              IsHitTestVisible="False"
+                              Opacity="0.7"
+                              AutomationProperties.AccessibilityView="Raw" />
+                </Grid>
+
+                <!-- Right slot: bell + avatar -->
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="16"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                    <Button x:Name="BellButton"
+                            Click="OnBellClicked"
+                            Style="{StaticResource FlatItemButtonStyle}"
+                            Width="44" Height="44"
+                            VerticalAlignment="Center"
+                            Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible}"
+                            AutomationProperties.Name="Notifications">
+                        <Grid>
+                            <FontIcon x:Name="BellIcon"
+                                      Glyph="&#xEA8F;"
+                                      FontSize="20"
+                                      Foreground="#F3F8FB"
+                                      RenderTransformOrigin="0.5,0">
+                                <FontIcon.RenderTransform>
+                                    <RotateTransform x:Name="BellRotate" Angle="0" />
+                                </FontIcon.RenderTransform>
+                            </FontIcon>
+                            <!-- Notification dot with pulse -->
+                            <Ellipse x:Name="NotifDot"
+                                     Width="8" Height="8"
+                                     Fill="#2EE0E0"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Margin="0,8,8,0"
+                                     RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <ScaleTransform x:Name="NotifDotScale" ScaleX="1" ScaleY="1" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Grid>
+                    </Button>
+
+                    <!-- Avatar = two ellipses + layered glow halo (breathing) -->
+                    <Grid Width="80" Height="80" VerticalAlignment="Center" AutomationProperties.Name="Account">
+                        <!-- Outer diffuse glow -->
+                        <Ellipse x:Name="AvatarHalo"
+                                 Width="80" Height="80"
+                                 Opacity="0.55">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                    <GradientStop Color="#882EE0E0" Offset="0.0" />
+                                    <GradientStop Color="#552EE0E0" Offset="0.4" />
+                                    <GradientStop Color="#002EE0E0" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!-- Inner core glow -->
+                        <Ellipse Width="58" Height="58" Opacity="0.85">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                    <GradientStop Color="#CC2EE0E0" Offset="0.0" />
+                                    <GradientStop Color="#552EE0E0" Offset="0.7" />
+                                    <GradientStop Color="#002EE0E0" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!-- Outer ring ellipse (rotates) -->
+                        <Ellipse x:Name="AvatarRing"
+                                 Width="48" Height="48"
+                                 StrokeThickness="2"
+                                 RenderTransformOrigin="0.5,0.5">
+                            <Ellipse.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#9EFFFF" Offset="0.0" />
+                                    <GradientStop Color="#FFFFFF" Offset="0.5" />
+                                    <GradientStop Color="#2EE0E0" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Ellipse.Stroke>
+                            <Ellipse.RenderTransform>
+                                <RotateTransform x:Name="AvatarRingRotate" Angle="0" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <!-- Inner filled ellipse with user photo -->
+                        <Ellipse Width="38" Height="38">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="ms-appx:///Assets/Avatar/me.jpg"
+                                            Stretch="UniformToFill"
+                                            AlignmentX="Center"
+                                            AlignmentY="Center" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!-- ============ Sidebar (full height, flat) ============ -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="0,0,1,0"
+                    Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible, Wide=Visible}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Vertical" Spacing="4" Padding="16,18,16,24">
+
+                        <!-- Brand row -->
+                        <StackPanel Orientation="Horizontal" Spacing="10" Padding="6,4,6,12">
+                            <Grid Width="28" Height="28" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Row="0" Grid.Column="0" Fill="#50E6FF" Margin="0,0,1,1" />
+                                <Rectangle Grid.Row="0" Grid.Column="1" Fill="#00BCF2" Margin="1,0,0,1" />
+                                <Rectangle Grid.Row="1" Grid.Column="0" Fill="#0078D4" Margin="0,1,1,0" />
+                                <Rectangle Grid.Row="1" Grid.Column="1" Fill="#003E7E" Margin="1,1,0,0" />
+                            </Grid>
+                            <StackPanel Orientation="Vertical" Spacing="0" VerticalAlignment="Center">
+                                <TextBlock Text="YouTube"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="#F3F8FB"
+                                           TextWrapping="NoWrap" />
+                                <TextBlock Text="Powered by Microsoft"
+                                           FontSize="10"
+                                           Foreground="#8FA1AB"
+                                           TextWrapping="NoWrap" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Primary nav (sliding pill behind both TabBars) -->
+                        <Grid x:Name="SidebarTabsHost">
+                            <!-- Sliding selection pill (single element animated by translation) -->
+                            <Border x:Name="SidebarPill"
+                                    Height="44"
+                                    CornerRadius="12"
+                                    Background="{StaticResource SidebarSelectedGradientBrush}"
+                                    BorderBrush="#33FFFFFF"
+                                    BorderThickness="1"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Top"
+                                    IsHitTestVisible="False"
+                                    Opacity="0">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="SidebarPillTranslate" Y="0" />
+                                </Border.RenderTransform>
+                            </Border>
+
+                            <StackPanel Orientation="Vertical" Spacing="0">
+                        <utu:TabBar x:Name="PrimaryNavTabBar"
+                                    uen:Region.Attached="True"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch">
+                            <utu:TabBar.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="2" />
+                                </ItemsPanelTemplate>
+                            </utu:TabBar.ItemsPanel>
+                            <utu:TabBarItem uen:Region.Name="Home" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Home" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                            <utu:TabBarItem uen:Region.Name="Explore" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Explore" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                            <utu:TabBarItem uen:Region.Name="Subscriptions" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Subscriptions" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                        </utu:TabBar>
+
+                        <Border Height="1" Margin="6,12" Background="{ThemeResource OutlineVariantBrush}" />
+
+                        <utu:TabBar x:Name="LibraryTabBar"
+                                    uen:Region.Attached="True"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch">
+                            <utu:TabBar.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="2" />
+                                </ItemsPanelTemplate>
+                            </utu:TabBar.ItemsPanel>
+                            <utu:TabBarItem uen:Region.Name="Library" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Library" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                            <utu:TabBarItem uen:Region.Name="History" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="History" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                            <utu:TabBarItem uen:Region.Name="WatchLater" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Watch Later" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                            <utu:TabBarItem uen:Region.Name="Liked" Style="{StaticResource SidebarTabBarItemStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                    <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="#F3F8FB" />
+                                    <TextBlock Text="Liked Videos" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </utu:TabBarItem>
+                        </utu:TabBar>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Subscriptions"
+                                   Style="{StaticResource SidebarSectionHeaderStyle}"
+                                   Foreground="#8FA1AB"
+                                   Margin="6,16,0,4" />
+
+                        <ItemsRepeater ItemsSource="{Binding Subscriptions}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Orientation="Vertical" Spacing="2" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="catalog:SubscriptionItem">
+                                    <Grid Padding="6,6" MinHeight="40">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <Border Width="28" Height="28" CornerRadius="14">
+                                                <Image Source="{x:Bind Channel.AvatarUrl}"
+                                                       Stretch="UniformToFill" />
+                                            </Border>
+                                            <TextBlock Text="{x:Bind Channel.Name}"
+                                                       FontSize="14"
+                                                       Foreground="#F3F8FB"
+                                                       VerticalAlignment="Center" />
+                                            <Ellipse Width="6" Height="6"
+                                                     Fill="#2EE0E0"
+                                                     VerticalAlignment="Center"
+                                                     Visibility="{x:Bind HasNew}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <Button Style="{StaticResource FlatItemButtonStyle}"
+                                Margin="0,8,0,0"
+                                Padding="6,8"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE70D;" FontSize="14" Foreground="#8FA1AB" />
+                                <TextBlock Text="Show More"
+                                           FontSize="14"
+                                           Foreground="#8FA1AB"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- ============ Routed content ============ -->
+            <Grid x:Name="ShellContent"
+                  Grid.Row="1" Grid.Column="1"
+                  uen:Region.Navigator="Visibility">
+                <home:HomePage uen:Region.Name="Home" Visibility="Visible" />
+                <stubs:ExplorePage uen:Region.Name="Explore" Visibility="Collapsed" />
+                <stubs:SubscriptionsPage uen:Region.Name="Subscriptions" Visibility="Collapsed" />
+                <stubs:LibraryPage uen:Region.Name="Library" Visibility="Collapsed" />
+                <stubs:HistoryPage uen:Region.Name="History" Visibility="Collapsed" />
+                <stubs:WatchLaterPage uen:Region.Name="WatchLater" Visibility="Collapsed" />
+                <stubs:LikedPage uen:Region.Name="Liked" Visibility="Collapsed" />
+
+                <!-- Search results overlay (covers content when query non-empty) -->
+                <Grid x:Name="SearchResultsHost"
+                      Background="{ThemeResource BackgroundBrush}"
+                      Visibility="Collapsed">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" Spacing="20" Padding="32,24,32,48">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="2">
+                                    <TextBlock Text="Results" Style="{StaticResource SectionHeaderTextStyle}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <TextBlock Text="for &quot;" FontSize="13" Foreground="#8FA1AB" />
+                                        <TextBlock Text="{Binding Query}" FontSize="13" Foreground="#F3F8FB" FontWeight="SemiBold" />
+                                        <TextBlock Text="&quot;" FontSize="13" Foreground="#8FA1AB" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Grid.Column="1"
+                                        Click="OnClearSearchClick"
+                                        Style="{StaticResource FlatItemButtonStyle}"
+                                        Padding="10,6"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="Clear search">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon Glyph="&#xE894;" FontSize="11" Foreground="#F3F8FB" />
+                                        <TextBlock Text="Clear" FontSize="12" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <mvux:FeedView Source="{Binding SearchResults}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <ItemsRepeater ItemsSource="{Binding Data}">
+                                            <ItemsRepeater.Layout>
+                                                <UniformGridLayout MinItemWidth="280"
+                                                                   MinRowSpacing="20"
+                                                                   MinColumnSpacing="20"
+                                                                   ItemsStretch="None" />
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="catalog:Video">
+                                                    <controls:VideoCard Video="{x:Bind}" Width="280" />
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.NoneTemplate>
+                                    <DataTemplate>
+                                        <controls:EmptyState Headline="No matches"
+                                                             Helper="Try a different search." />
+                                    </DataTemplate>
+                                </mvux:FeedView.NoneTemplate>
+                            </mvux:FeedView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- ============ Mobile nav drawer ============ -->
+        <Grid x:Name="MobileNavHost" Visibility="Collapsed">
+            <!-- Backdrop -->
+            <Border x:Name="MobileNavBackdrop"
+                    Background="#CC050F1A"
+                    Opacity="0"
+                    Tapped="OnMobileNavBackdropTapped" />
+
+            <!-- Slide-in panel -->
+            <Border x:Name="MobileNavPanel"
+                    Width="280"
+                    HorizontalAlignment="Left"
+                    Background="#061522"
+                    BorderBrush="{ThemeResource OutlineVariantBrush}"
+                    BorderThickness="0,0,1,0"
+                    RenderTransformOrigin="0,0.5">
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="MobileNavTranslate" X="-280" />
+                </Border.RenderTransform>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Vertical" Spacing="4" Padding="16,18,16,24">
+                        <!-- Brand row + close -->
+                        <Grid Padding="6,4,6,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="YouTube" FontSize="20" FontWeight="SemiBold" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            <Button Grid.Column="1"
+                                    Click="OnMobileNavBackdropTapped"
+                                    Style="{StaticResource FlatItemButtonStyle}"
+                                    Width="36" Height="36"
+                                    AutomationProperties.Name="Close menu">
+                                <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="#F3F8FB" />
+                            </Button>
+                        </Grid>
+
+                        <Button Tag="Home" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Home" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Tag="Explore" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Explore" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Tag="Subscriptions" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Subscriptions" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <Border Height="1" Margin="6,12" Background="{ThemeResource OutlineVariantBrush}" />
+
+                        <Button Tag="Library" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Library" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Tag="History" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="History" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Tag="WatchLater" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Watch Later" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Tag="Liked" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="#F3F8FB" />
+                                <TextBlock Text="Liked Videos" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- ============ Video player modal overlay ============ -->
+        <Grid x:Name="VideoOverlayHost"
+              Visibility="Collapsed"
+              Background="Transparent">
+            <!-- Backdrop -->
+            <Border x:Name="OverlayBackdrop"
+                    Background="#CC050F1A"
+                    Opacity="0"
+                    Tapped="OnBackdropTapped" />
+
+            <!-- Modal card -->
+            <Border x:Name="OverlayCard"
+                    Width="960" Height="600"
+                    MaxWidth="1100" MaxHeight="720"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    CornerRadius="16"
+                    Background="#0A1D2A"
+                    BorderBrush="#552EE0E0"
+                    BorderThickness="1"
+                    Opacity="0"
+                    RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <CompositeTransform x:Name="OverlayCardTransform" ScaleX="0.92" ScaleY="0.92" />
+                </Border.RenderTransform>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <Grid Grid.Row="0" Padding="20,14,12,14" Background="#142E3A">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock x:Name="OverlayTitle"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#F3F8FB"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="OverlayChannel"
+                                       FontSize="12"
+                                       Foreground="#8FA1AB"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                x:Name="OverlayCloseButton"
+                                Width="40" Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="0"
+                                CornerRadius="20"
+                                Click="OnCloseOverlayClick"
+                                AutomationProperties.Name="Close video">
+                            <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="#F3F8FB" />
+                        </Button>
+                    </Grid>
+
+                    <!-- Player area: WebView2 on Wasm/Windows/Android; poster + external launch on Skia -->
+                    <Grid Grid.Row="1" x:Name="PlayerHost">
+                        <WebView2 x:Name="OverlayWebView" />
+
+                        <!-- Skia fallback: poster image + Watch on YouTube -->
+                        <Grid x:Name="ExternalPlayerPanel" Visibility="Collapsed">
+                            <Image x:Name="PosterImage" Stretch="UniformToFill" />
+                            <Border>
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#80000000" Offset="0" />
+                                        <GradientStop Color="#CC050F1A" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <StackPanel Orientation="Vertical"
+                                        Spacing="16"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        MaxWidth="420">
+                                <Border Width="80" Height="80"
+                                        CornerRadius="40"
+                                        Background="#2EE0E0"
+                                        HorizontalAlignment="Center">
+                                    <FontIcon Glyph="&#xE768;" FontSize="32" Foreground="#03252A" />
+                                </Border>
+                                <TextBlock Text="Open this video on YouTube"
+                                           FontSize="18"
+                                           FontWeight="SemiBold"
+                                           Foreground="#F3F8FB"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center" />
+                                <TextBlock Text="In-app playback isn't available on this build target."
+                                           FontSize="13"
+                                           Foreground="#8FA1AB"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <Button x:Name="WatchExternalButton"
+                                        Click="OnWatchExternalClick"
+                                        Background="#2EE0E0"
+                                        Foreground="#03252A"
+                                        BorderThickness="0"
+                                        CornerRadius="22"
+                                        MinHeight="44"
+                                        Padding="20,8"
+                                        HorizontalAlignment="Center"
+                                        AutomationProperties.Name="Watch on YouTube">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="Watch on YouTube"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" />
+                                        <FontIcon Glyph="&#xE8A7;" FontSize="14" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Composer.Views.Layers.ArchitectureBlueprint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:Composer.Views.Controls">
+    <utu:AutoLayout Orientation="Vertical" Spacing="14">
+
+        <!-- ==== Blueprint canvas card ==== -->
+        <Border Background="{ThemeResource PaperBrush}"
+                BorderBrush="{ThemeResource HairlineBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="0">
+            <utu:AutoLayout Orientation="Vertical" Spacing="0">
+
+                <!-- Header: BLUEPRINT.SVG · LOCKED CONTEXT  +  ↻ Regenerate diagram -->
+                <Grid Padding="28,18,28,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Prototype ArchitectureCanvas jsx 1386: "blueprint.svg ·
+                         LOCKED CONTEXT". Filename is mono-label (12px, tight
+                         tracking, ink); meta is mono-eyebrow (10px, looser
+                         tracking, ink3). Code-behind fills MetaText with
+                         live "·  N MODULES · N EDGES" once a blueprint loads. -->
+                    <utu:AutoLayout Grid.Column="0" Orientation="Horizontal" Spacing="0" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeLabelSize}"
+                                   FontWeight="Medium"
+                                   CharacterSpacing="-10"
+                                   Foreground="{ThemeResource InkBrush}"
+                                   VerticalAlignment="Center"
+                                   Text="blueprint.svg" />
+                        <TextBlock x:Name="MetaText"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeEyebrowSize}"
+                                   CharacterSpacing="160"
+                                   Foreground="{ThemeResource Ink3Brush}"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0" />
+                    </utu:AutoLayout>
+                    <Button Grid.Column="1"
+                            x:Name="RegenerateButton"
+                            Style="{StaticResource LinkButtonStyle}"
+                            Click="OnRegenerateClick"
+                            VerticalAlignment="Center"
+                            Content="↻ REGENERATE DIAGRAM"
+                            AutomationProperties.Name="Regenerate diagram" />
+                </Grid>
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <Canvas x:Name="BoardCanvas"
+                        Background="{ThemeResource Paper2Brush}"
+                        Width="780" Height="340"
+                        HorizontalAlignment="Center"
+                        Margin="20" />
+
+                <!-- Hover detail panel — populated when the user hovers a module. -->
+                <Border x:Name="HoverDetailPanel"
+                        Background="{ThemeResource Paper2Brush}"
+                        BorderBrush="{ThemeResource HairlineBrush}"
+                        BorderThickness="0,1,0,0"
+                        Padding="28,12,28,16"
+                        Visibility="Collapsed">
+                    <utu:AutoLayout Orientation="Vertical" Spacing="4">
+                        <TextBlock x:Name="HoverModuleLabel"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeEyebrowSize}"
+                                   CharacterSpacing="160"
+                                   FontWeight="SemiBold"
+                                   Foreground="{ThemeResource InkBrush}" />
+                        <TextBlock x:Name="HoverModuleDescription"
+                                   FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                                   FontSize="{StaticResource TypeBodySmallSize}"
+                                   Foreground="{ThemeResource Ink2Brush}"
+                                   TextWrapping="Wrap" />
+                    </utu:AutoLayout>
+                </Border>
+            </utu:AutoLayout>
+        </Border>
+
+        <!-- ==== Solution tree as printed appendix (light theme) ==== -->
+        <controls:GeneratedFromBlock x:Name="SolutionTreeBlock" />
+
+        <!-- ==== Annotations: rationale + agent guidance ====
+             Surface the reasoning the layer ships in architecture.md so
+             the user sees WHY this shape was chosen + what rule the agent
+             will follow downstream. Spec: design brief §8 + §4.3. -->
+        <utu:AutoLayout Orientation="Vertical" Spacing="14" Padding="0,4,0,0">
+            <controls:Annotation Eyebrow="WHY THIS FITS"
+                                 Voice="rationale"
+                                 Body="{Binding WhyThisArchitectureBody, Mode=OneWay}" />
+            <controls:Annotation Eyebrow="AGENT PROMPT"
+                                 Voice="quote"
+                                 Body="{Binding AgentPromptArchitectureBody, Mode=OneWay}" />
+        </utu:AutoLayout>
+
+    </utu:AutoLayout>
+</UserControl>

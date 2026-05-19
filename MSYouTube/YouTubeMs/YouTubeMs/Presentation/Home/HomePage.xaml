@@ -1,0 +1,214 @@
+<Page x:Class="YouTubeMs.Presentation.Home.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:catalog="using:YouTubeMs.Models.Catalog"
+      xmlns:controls="using:YouTubeMs.Presentation.Controls"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="0">
+        <StackPanel Orientation="Vertical"
+                    Spacing="{utu:Responsive Narrow=20, Normal=32}"
+                    Padding="{utu:Responsive Narrow='16,16,16,32', Normal='32,24,32,48'}">
+
+            <!-- Hero + Rail row (rail collapses on narrow) -->
+            <Grid x:Name="HeroRailRow" ColumnSpacing="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=0, Normal=320}" />
+                </Grid.ColumnDefinitions>
+
+                <controls:HeroFeatured Grid.Column="0"
+                                       Featured="{Binding Featured}"
+                                       Command="{Binding PlayFeatured}" />
+
+                <ItemsRepeater Grid.Column="1"
+                              x:Name="RailRepeater"
+                              ItemsSource="{Binding Recommendations}"
+                              VerticalAlignment="Top"
+                              ElementPrepared="OnRailElementPrepared"
+                              ElementClearing="OnRailElementClearing"
+                              Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="Vertical" Spacing="12" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="catalog:RailVideo">
+                            <controls:RailItem Item="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+
+            <!-- For You -->
+            <StackPanel x:Name="ForYouSection"
+                        Orientation="Vertical"
+                        Spacing="16"
+                        Opacity="0"
+                        AutomationProperties.LiveSetting="Polite"
+                        AutomationProperties.Name="For You section loaded">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="For You"
+                               Style="{StaticResource SectionHeaderTextStyle}"
+                               VerticalAlignment="Center" />
+                    <Border Grid.Column="1"
+                            CornerRadius="12"
+                            Padding="10,4"
+                            Background="#0E3438"
+                            BorderBrush="#332EE0E0"
+                            BorderThickness="1"
+                            VerticalAlignment="Center"
+                            Margin="0,0,40,0">
+                        <TextBlock Text="See All"
+                                   FontSize="12"
+                                   Foreground="#9EFFFF"
+                                   FontWeight="SemiBold" />
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="ForYouCarousel"
+                      PointerEntered="OnCarouselPointerEntered"
+                      PointerExited="OnCarouselPointerExited">
+                    <ScrollViewer x:Name="ForYouScroller"
+                                  HorizontalScrollMode="Enabled"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  Padding="0,0,0,8">
+                        <mvux:FeedView Source="{Binding ForYou}">
+                            <mvux:FeedView.ValueTemplate>
+                                <DataTemplate>
+                                    <ItemsRepeater ItemsSource="{Binding Data}">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Orientation="Horizontal" Spacing="20" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="catalog:Video">
+                                                <controls:VideoCard Video="{x:Bind}" Width="280" />
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </DataTemplate>
+                            </mvux:FeedView.ValueTemplate>
+                            <mvux:FeedView.UndefinedTemplate>
+                                <DataTemplate>
+                                    <utu:AutoLayout Orientation="Horizontal" Spacing="20">
+                                        <controls:VideoCardSkeleton Width="280" />
+                                        <controls:VideoCardSkeleton Width="280" />
+                                        <controls:VideoCardSkeleton Width="280" />
+                                    </utu:AutoLayout>
+                                </DataTemplate>
+                            </mvux:FeedView.UndefinedTemplate>
+                            <mvux:FeedView.NoneTemplate>
+                                <DataTemplate>
+                                    <controls:EmptyState Headline="No recommendations yet"
+                                                         Helper="Watch some videos to get personalized picks." />
+                                </DataTemplate>
+                            </mvux:FeedView.NoneTemplate>
+                            <mvux:FeedView.ErrorTemplate>
+                                <DataTemplate>
+                                    <controls:ErrorState />
+                                </DataTemplate>
+                            </mvux:FeedView.ErrorTemplate>
+                        </mvux:FeedView>
+                    </ScrollViewer>
+
+                    <!-- Left chevron — centered on thumbnail (~80px from top) -->
+                    <Button x:Name="ForYouLeftChevron"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Width="36" Height="36"
+                            CornerRadius="18"
+                            Background="#CC0A1D2A"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Padding="0"
+                            Margin="-4,62,0,0"
+                            Opacity="0"
+                            IsHitTestVisible="False"
+                            Click="OnForYouScrollLeft"
+                            AutomationProperties.Name="Scroll left">
+                        <FontIcon Glyph="&#xE76B;" FontSize="14" Foreground="#F3F8FB" />
+                    </Button>
+
+                    <!-- Right chevron — centered on thumbnail -->
+                    <Button x:Name="ForYouRightChevron"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Width="36" Height="36"
+                            CornerRadius="18"
+                            Background="#CC0A1D2A"
+                            BorderBrush="#33FFFFFF"
+                            BorderThickness="1"
+                            Padding="0"
+                            Margin="0,62,-4,0"
+                            Opacity="0"
+                            IsHitTestVisible="False"
+                            Click="OnForYouScrollRight"
+                            AutomationProperties.Name="Scroll right">
+                        <FontIcon Glyph="&#xE76C;" FontSize="14" Foreground="#F3F8FB" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <!-- Trending -->
+            <StackPanel x:Name="TrendingSection"
+                        Orientation="Vertical"
+                        Spacing="16"
+                        Opacity="0"
+                        AutomationProperties.LiveSetting="Polite"
+                        AutomationProperties.Name="Trending section loaded">
+                <TextBlock Text="Trending"
+                           Style="{StaticResource SectionHeaderTextStyle}" />
+                <mvux:FeedView Source="{Binding Trending}">
+                    <mvux:FeedView.ValueTemplate>
+                        <DataTemplate>
+                            <ItemsRepeater ItemsSource="{Binding Data}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout MinItemWidth="280"
+                                                       MinRowSpacing="20"
+                                                       MinColumnSpacing="20"
+                                                       ItemsStretch="None" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="catalog:Video">
+                                        <controls:VideoCard Video="{x:Bind}" Width="280" />
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </DataTemplate>
+                    </mvux:FeedView.ValueTemplate>
+                    <mvux:FeedView.UndefinedTemplate>
+                        <DataTemplate>
+                            <utu:AutoLayout Orientation="Horizontal" Spacing="20">
+                                <controls:VideoCardSkeleton Width="280" />
+                                <controls:VideoCardSkeleton Width="280" />
+                                <controls:VideoCardSkeleton Width="280" />
+                            </utu:AutoLayout>
+                        </DataTemplate>
+                    </mvux:FeedView.UndefinedTemplate>
+                    <mvux:FeedView.NoneTemplate>
+                        <DataTemplate>
+                            <controls:EmptyState Headline="Nothing trending right now"
+                                                 Helper="Check back in a bit." />
+                        </DataTemplate>
+                    </mvux:FeedView.NoneTemplate>
+                    <mvux:FeedView.ErrorTemplate>
+                        <DataTemplate>
+                            <controls:ErrorState />
+                        </DataTemplate>
+                    </mvux:FeedView.ErrorTemplate>
+                </mvux:FeedView>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

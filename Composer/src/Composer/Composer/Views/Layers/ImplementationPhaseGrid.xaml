@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Composer.Views.Layers.ImplementationPhaseGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:Composer.Views.Controls">
+    <utu:AutoLayout Orientation="Vertical" Spacing="14">
+
+        <Border Background="{ThemeResource PaperBrush}"
+                BorderBrush="{ThemeResource HairlineBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="0">
+            <utu:AutoLayout Orientation="Vertical" Spacing="0">
+                <!-- Prototype ImplementationCanvas jsx 2040: "implementation-plan.md
+                     · N PHASES". Filename mono-label tight, meta mono-eyebrow
+                     loose with dot prefix, dynamic from code-behind. -->
+                <Grid Padding="28,18,28,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeLabelSize}"
+                               FontWeight="Medium"
+                               CharacterSpacing="-10"
+                               Foreground="{ThemeResource InkBrush}"
+                               VerticalAlignment="Center"
+                               Text="implementation-plan.md" />
+                    <TextBlock Grid.Column="1"
+                               x:Name="MetaText"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeEyebrowSize}"
+                               CharacterSpacing="160"
+                               Foreground="{ThemeResource Ink3Brush}"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
+                </Grid>
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <utu:AutoLayout x:Name="PhaseStack"
+                                Orientation="Vertical"
+                                Spacing="0"
+                                Padding="28,12,28,18" />
+            </utu:AutoLayout>
+        </Border>
+
+        <!-- ==== Annotations: rationale + agent guidance.
+             Prototype ImplementationCanvas surrounds the phase grid with
+             phase-level agent prompts. The canvas-level pair here matches
+             the pattern other canvases share. -->
+        <utu:AutoLayout Orientation="Vertical" Spacing="14" Padding="0,4,0,0">
+            <controls:Annotation Eyebrow="WHY THIS PLAN"
+                                 Voice="rationale"
+                                 Body="{Binding WhyThisPlanBody, Mode=OneWay}" />
+            <controls:Annotation Eyebrow="AGENT PROMPT"
+                                 Voice="quote"
+                                 Body="{Binding AgentPromptPlanBody, Mode=OneWay}" />
+        </utu:AutoLayout>
+
+    </utu:AutoLayout>
+</UserControl>

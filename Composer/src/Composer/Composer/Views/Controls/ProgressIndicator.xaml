@@ -1,0 +1,40 @@
+<UserControl x:Class="Composer.Views.Controls.ProgressIndicator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <!-- Per docs/ARCHITECTURE-BRIEF-from-scratch.md §7.1 slot 1 and Brief 03
+         §4: 1px hairline track + amber fill at `(activeIndex+1)/total` *
+         control-width + 10px gap to the eyebrow/counter row below.
+         Animation: 480ms QuinticEase on width changes via SizeChanged-driven
+         re-measure. -->
+    <utu:AutoLayout Orientation="Vertical" Spacing="10">
+        <Grid x:Name="TrackRoot" SizeChanged="OnTrackSizeChanged">
+            <Border Height="1"
+                    Background="{ThemeResource HairlineBrush}"
+                    HorizontalAlignment="Stretch" />
+            <Border x:Name="ProgressFill"
+                    Height="1"
+                    Background="{ThemeResource AmberBrush}"
+                    HorizontalAlignment="Left"
+                    Width="0" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       x:Name="LabelText"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="{StaticResource TypeEyebrowSize}"
+                       CharacterSpacing="160"
+                       Foreground="{ThemeResource Ink3Brush}" />
+            <TextBlock Grid.Column="1"
+                       x:Name="CounterText"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="{StaticResource TypeEyebrowSize}"
+                       CharacterSpacing="160"
+                       Foreground="{ThemeResource Ink4Brush}" />
+        </Grid>
+    </utu:AutoLayout>
+</UserControl>

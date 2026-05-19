@@ -1,0 +1,331 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+      Typeface stack — Inter + JetBrains Mono per docs/DESIGN-BRIEF.md §4.1.
+        Inter            — display, body, every prose surface. Open-source,
+                            commonly installed; falls back to Bahnschrift /
+                            Segoe UI Variable on systems without it.
+        Fraunces Italic  — bundled italic serif used for Annotation marginalia
+                            and locked-card summary prose ("voice"). Loaded as
+                            ms-appx:/// so it renders identically across hosts.
+        JetBrains Mono   — eyebrows, labels, code, metadata, numeric data,
+                            file rows.
+
+      The existing Serif* keys are kept as aliases so older consumers that
+      reference them (e.g. CompositionStack, FilesRail captions) keep
+      compiling. SerifLightItalicFontFamily now resolves to the bundled
+      Fraunces Italic variable face — italic-serif voice has a real face
+      again instead of synthesizing italics on a sans family.
+    -->
+    <FontFamily x:Key="SansFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="SansLightFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift Light, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="SansMediumFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift SemiBold, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif</FontFamily>
+
+    <FontFamily x:Key="SerifFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="SerifLightFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift Light, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif</FontFamily>
+    <!-- Serif voice removed per v11 brief — italic body is Inter italic now.
+         The bundled Fraunces TTFs stay in Assets/Fonts/Fraunces/ unused but
+         harmless; the "Serif" keys remain as backwards-compat aliases that
+         resolve to Inter Italic so no consumer breaks. -->
+    <FontFamily x:Key="SerifItalicFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable-Italic.ttf#Inter, Bahnschrift, Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="SerifLightItalicFontFamily">ms-appx:///Assets/Fonts/Inter/InterVariable-Italic.ttf#Inter, Bahnschrift, Segoe UI, sans-serif</FontFamily>
+
+    <!-- Single variable font drives every JetBrains Mono weight (100-800).
+         FontWeight on the consuming TextBlock selects the rendered axis. -->
+    <FontFamily x:Key="MonoFontFamily">ms-appx:///Assets/Fonts/JetBrains_Mono/JetBrainsMono-VariableFont.ttf#JetBrains Mono, Cascadia Mono, Consolas, monospace</FontFamily>
+    <FontFamily x:Key="MonoLightFontFamily">ms-appx:///Assets/Fonts/JetBrains_Mono/JetBrainsMono-VariableFont.ttf#JetBrains Mono, Cascadia Mono, Consolas, monospace</FontFamily>
+
+    <!-- ========================================================== -->
+    <!-- Modular type scale (ratio ~1.25)                            -->
+    <!-- Anchor: 11px (eyebrow). Every FontSize across the app should-->
+    <!-- pull from this scale. Single source — bump in one place,    -->
+    <!-- the whole interface re-tunes consistently.                  -->
+    <!-- ========================================================== -->
+    <x:Double x:Key="TypeEyebrowMicroSize">10</x:Double>
+    <x:Double x:Key="TypeEyebrowSize">11</x:Double>
+    <x:Double x:Key="TypeLabelSize">12</x:Double>
+    <x:Double x:Key="TypeBodySmallSize">14</x:Double>
+    <x:Double x:Key="TypeBodySize">16</x:Double>
+    <x:Double x:Key="TypeSubheadingSize">19</x:Double>
+    <x:Double x:Key="TypeTitleSize">24</x:Double>
+    <x:Double x:Key="TypeDisplaySize">32</x:Double>
+
+    <!-- Three-weight strategy. Light for display + body, Regular for
+         small body, Medium for mono labels and emphasized labels. The
+         skill's rule: "don't use more than 3-4 weights". -->
+
+    <!-- ========================================================== -->
+    <!-- Mono styles (chrome — eyebrows, labels, files, code)         -->
+    <!-- ========================================================== -->
+
+    <Style x:Key="MonoEyebrow" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeEyebrowSize}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="180" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+        <Setter Property="LineHeight" Value="13" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+
+    <Style x:Key="LiveBuildEyebrow" TargetType="TextBlock" BasedOn="{StaticResource MonoEyebrow}">
+        <Setter Property="FontSize" Value="{StaticResource TypeBodySmallSize}" />
+        <Setter Property="LineHeight" Value="15" />
+    </Style>
+
+    <Style x:Key="MonoLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeLabelSize}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="140" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="LineHeight" Value="14" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+
+    <Style x:Key="MonoCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeBodySmallSize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="LineHeight" Value="19" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+        <Setter Property="Typography.SlashedZero" Value="True" />
+    </Style>
+
+    <Style x:Key="MonoMicro" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeEyebrowMicroSize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="CharacterSpacing" Value="180" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink4Brush}" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+
+    <!-- ========================================================== -->
+    <!-- Sans content styles (the new semantic scale)                -->
+    <!-- ========================================================== -->
+
+    <!-- Display — top of page, hero "What are we building?", scaffold
+         "The bundle is ready." Reserved for the single highest-priority
+         line on a surface.
+         Weight reads SemiBold per the design brief mockups (heavy enough
+         to anchor the page; the prior Light read as too whispery against
+         the fact-table chrome below it). -->
+    <Style x:Key="DisplayTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeDisplaySize}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="38" />
+    </Style>
+
+    <!-- Title — section sub-titles, summary card app name. -->
+    <Style x:Key="SectionTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansLightFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeTitleSize}" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="30" />
+    </Style>
+
+    <!-- Subheading — locked-card summary, ux flow screen names. -->
+    <Style x:Key="Subheading" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeSubheadingSize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Body — every prose surface (subtitles, descriptions).
+         Oldstyle figures blend into descender lines so digits in
+         prose don't read as data. -->
+    <Style x:Key="Body" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeBodySize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="LineHeight" Value="24" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Typography.NumeralStyle" Value="OldStyle" />
+    </Style>
+
+    <!-- Body small — captions, supplementary copy where Body is too loud. -->
+    <Style x:Key="BodySmall" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TypeBodySmallSize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Typography.NumeralStyle" Value="OldStyle" />
+    </Style>
+
+    <!-- ========================================================== -->
+    <!-- Legacy serif styles — kept so existing consumers compile.   -->
+    <!-- New code should use the semantic styles above.              -->
+    <!-- ========================================================== -->
+
+    <Style x:Key="SerifBody" TargetType="TextBlock" BasedOn="{StaticResource Body}">
+        <Setter Property="FontFamily" Value="{StaticResource SansLightFontFamily}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="27" />
+    </Style>
+
+    <Style x:Key="SerifSuggestion" TargetType="TextBlock" BasedOn="{StaticResource Subheading}">
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+
+    <Style x:Key="SerifPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource BodySmall}">
+        <Setter Property="Foreground" Value="{ThemeResource Ink4Brush}" />
+        <Setter Property="LineHeight" Value="21" />
+    </Style>
+
+    <Style x:Key="SerifTitle" TargetType="TextBlock" BasedOn="{StaticResource SectionTitle}">
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+
+    <!-- ========================================================== -->
+    <!-- v11 brief — fifteen-style type scale.                        -->
+    <!-- Display / Heading / Body / Eyebrow / Mono tiers, all using   -->
+    <!-- Inter (sans) or JetBrains Mono. Older keys above remain as   -->
+    <!-- backwards-compat aliases.                                    -->
+    <!-- ========================================================== -->
+
+    <!-- Display — top-of-page hero text. Reserved for the single        -->
+    <!-- highest-priority line on a surface.                              -->
+    <Style x:Key="DisplayLargeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="CharacterSpacing" Value="-15" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="38" />
+    </Style>
+    <Style x:Key="DisplayMediumTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="-15" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="32" />
+    </Style>
+
+    <!-- Heading — section sub-titles, summary card app name. -->
+    <Style x:Key="HeadingLargeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="28" />
+    </Style>
+    <Style x:Key="HeadingMediumTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="26" />
+    </Style>
+    <Style x:Key="HeadingSmallTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{ThemeResource InkBrush}" />
+        <Setter Property="LineHeight" Value="22" />
+    </Style>
+
+    <!-- Body — paragraph prose. -->
+    <Style x:Key="BodyLargeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="LineHeight" Value="22" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style x:Key="BodyMediumTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style x:Key="BodySmallTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+        <Setter Property="LineHeight" Value="18" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <!-- Body italic — editorial marginalia voice. Inter italic now
+         (serif voice retired per v11 brief). -->
+    <Style x:Key="BodyItalicTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SerifItalicFontFamily}" />
+        <Setter Property="FontStyle" Value="Italic" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Eyebrow — caps metadata labels. Always uppercase, 0.04em tracking
+         (~40 CharacterSpacing units). -->
+    <Style x:Key="EyebrowLargeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="40" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+    </Style>
+    <Style x:Key="EyebrowSmallTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="40" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink3Brush}" />
+    </Style>
+    <Style x:Key="EyebrowTinyTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SansFontFamily}" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="CharacterSpacing" Value="40" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink4Brush}" />
+    </Style>
+
+    <!-- Mono — code / hex / file paths / kbd. Always JetBrains Mono.
+         -0.01em tracking (~-10 CharacterSpacing) keeps tabular density. -->
+    <Style x:Key="MonoLargeTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="CharacterSpacing" Value="-10" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+    <Style x:Key="MonoMediumTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="CharacterSpacing" Value="-10" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+    <Style x:Key="MonoSmallTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="CharacterSpacing" Value="-10" />
+        <Setter Property="Foreground" Value="{ThemeResource Ink2Brush}" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Composer.Views.Controls.GeneratedFromBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <!--
+      Light-themed code reference block. Reads as printed appendix material
+      (paper bg, ink2 code, italic ink3 comments) — distinct from the
+      dark-themed code panels elsewhere that read as editor windows.
+      Spec: docs/update-context-engine-04-architecture.md §5.
+      Usage: call Apply(fileLabel, sourceLabel, code, language) from code-behind.
+    -->
+    <Border x:Name="OuterBorder"
+            Background="{ThemeResource Paper2Brush}"
+            BorderBrush="{ThemeResource HairlineBrush}"
+            BorderThickness="1"
+            CornerRadius="4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header strip -->
+            <Border Grid.Row="0"
+                    x:Name="HeaderStrip"
+                    Background="{ThemeResource Paper3Brush}"
+                    Padding="14,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               x:Name="FileLabelText"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeEyebrowSize}"
+                               CharacterSpacing="160"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource InkBrush}" />
+                    <TextBlock Grid.Column="1"
+                               x:Name="SourceLabelText"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeEyebrowMicroSize}"
+                               CharacterSpacing="160"
+                               Foreground="{ThemeResource Ink3Brush}" />
+                </Grid>
+            </Border>
+
+            <!-- Hairline divider -->
+            <Border Grid.Row="1" Height="1" Background="{ThemeResource HairlineBrush}" />
+
+            <!-- Code body -->
+            <ScrollViewer Grid.Row="2"
+                          HorizontalScrollMode="Auto"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Disabled">
+                <utu:AutoLayout x:Name="LinesStack"
+                                Orientation="Vertical"
+                                Spacing="0"
+                                Padding="14,12,14,14" />
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Composer.Views.Controls.FuturePreviewCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             IsHitTestVisible="False">
+
+    <!--
+      Future preview card — design brief §2.4. Flat, no background fill,
+      dashed hairline outline. Renders the upcoming layer's label + hint
+      so the user sees the cumulative composition stack below the active
+      canvas at progressively decreasing opacity.
+    -->
+    <Grid Padding="20,14">
+        <!-- Dashed outline. WinUI/Uno's Border.BorderBrush doesn't support
+             stroke-dash, so we lay a Rectangle with StrokeDashArray below
+             the content. -->
+        <Rectangle Stroke="{ThemeResource HairlineBrush}"
+                   StrokeThickness="1"
+                   StrokeDashArray="3,3"
+                   RadiusX="4"
+                   RadiusY="4"
+                   Fill="Transparent" />
+        <utu:AutoLayout Orientation="Vertical" Spacing="3">
+            <TextBlock x:Name="HeaderText"
+                       FontFamily="{StaticResource MonoFontFamily}"
+                       FontSize="{StaticResource TypeEyebrowSize}"
+                       CharacterSpacing="160"
+                       Foreground="{ThemeResource Ink3Brush}" />
+            <TextBlock x:Name="HintText"
+                       FontFamily="{StaticResource SerifItalicFontFamily}"
+                       FontStyle="Italic"
+                       FontSize="{StaticResource TypeBodySmallSize}"
+                       Foreground="{ThemeResource Ink3Brush}"
+                       TextWrapping="Wrap" />
+        </utu:AutoLayout>
+    </Grid>
+</UserControl>

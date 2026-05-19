@@ -1,0 +1,67 @@
+<UserControl x:Class="UnoToolkit.Bench.Demos.ChipGroupDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrl="using:UnoToolkit.Bench.Controls">
+
+    <Border Style="{StaticResource RowStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource SpecPanelStyle}">
+                <StackPanel VerticalAlignment="Center" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <TextBlock Style="{StaticResource SpecNumStyle}" Text="03" />
+                        <TextBlock Style="{StaticResource SpecNameStyle}">
+                            <Run Foreground="{StaticResource Fg5Brush}" Text="utu:" />
+                            <Run Text="ChipGroup" />
+                        </TextBlock>
+                    </StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border Style="{StaticResource MotionTagPillStyle}">
+                            <TextBlock Style="{StaticResource MotionTagStyle}" Text="COIN FLIP" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="ALL" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="FILTERS" />
+                        </Border>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource StagePanelStyle}">
+                <Grid>
+                    <Border Style="{StaticResource CrosshairTopLeftStyle}" />
+                    <Border Style="{StaticResource CrosshairBottomRightStyle}" />
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="18" MaxWidth="380">
+                        <ItemsControl x:Name="ChipsHost">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <TextBlock x:Name="Readout"
+                                   FontFamily="{StaticResource FontMono}"
+                                   FontSize="11"
+                                   CharacterSpacing="40"
+                                   Foreground="{StaticResource Fg2Brush}"
+                                   HorizontalAlignment="Center"
+                                   Text="Selected: All" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

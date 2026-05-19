@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "Bash(Select-Object -First 30)"
+    ]
+  }
+}

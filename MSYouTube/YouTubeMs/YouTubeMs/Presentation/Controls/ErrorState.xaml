@@ -1,0 +1,33 @@
+<UserControl x:Class="YouTubeMs.Presentation.Controls.ErrorState"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Self">
+    <StackPanel Orientation="Vertical"
+                Spacing="12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="24"
+                MaxWidth="360">
+        <FontIcon Glyph="&#xE783;"
+                  FontSize="32"
+                  Foreground="#FFB4AB"
+                  HorizontalAlignment="Center" />
+        <TextBlock Text="{x:Bind Message, Mode=OneWay, FallbackValue='Something went wrong loading this section.'}"
+                   FontSize="14"
+                   Foreground="#FFB4AB"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+        <Button x:Name="RetryButton"
+                Content="Try again"
+                Background="Transparent"
+                Foreground="#F3F8FB"
+                BorderBrush="#33FFFFFF"
+                BorderThickness="1"
+                CornerRadius="20"
+                MinHeight="36"
+                Padding="16,6"
+                HorizontalAlignment="Center"
+                Command="{x:Bind RetryCommand, Mode=OneWay}" />
+    </StackPanel>
+</UserControl>

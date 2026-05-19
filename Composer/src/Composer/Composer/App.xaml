@@ -1,0 +1,26 @@
+<Application x:Class="Composer.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- WinUI baseline -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <!-- Material theme with monochromatic colour overrides -->
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+        <!-- Composer design tokens (load AFTER Material so they win) -->
+        <ResourceDictionary Source="ms-appx:///Themes/Tokens.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/Typography.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/Icons.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/ChipStyles.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/PlatformChip.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/RuntimeChip.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/ContextEngineStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

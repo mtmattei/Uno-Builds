@@ -1,0 +1,121 @@
+<UserControl x:Class="UnoToolkit.Bench.Demos.NavigationBarDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:ctrl="using:UnoToolkit.Bench.Controls">
+
+    <Border Style="{StaticResource RowStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Spec column -->
+            <Border Grid.Column="0" Style="{StaticResource SpecPanelStyle}">
+                <StackPanel VerticalAlignment="Center" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <TextBlock Style="{StaticResource SpecNumStyle}" Text="01" />
+                        <TextBlock Style="{StaticResource SpecNameStyle}">
+                            <Run Foreground="{StaticResource Fg5Brush}" Text="utu:" />
+                            <Run Text="NavigationBar" />
+                        </TextBlock>
+                    </StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border Style="{StaticResource MotionTagPillStyle}">
+                            <TextBlock Style="{StaticResource MotionTagStyle}" Text="SPLIT-FLAP" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="TITLE" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="BACK" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="FORWARD" />
+                        </Border>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Stage column -->
+            <Border Grid.Column="1" Style="{StaticResource StagePanelStyle}">
+                <Grid>
+                    <Border Style="{StaticResource CrosshairTopLeftStyle}" />
+                    <Border Style="{StaticResource CrosshairBottomRightStyle}" />
+
+                    <!-- Width (not MaxWidth) so the frame's measured width is stable
+                         regardless of body text wrap differences between pages. -->
+                    <Border Width="640"
+                            Background="{StaticResource Bg2GradientBrush}"
+                            BorderBrush="{StaticResource RuleBrush}"
+                            BorderThickness="1"
+                            CornerRadius="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="52" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Bar -->
+                            <Border Grid.Row="0"
+                                    Background="{StaticResource Bg3LidGradientBrush}"
+                                    BorderBrush="{StaticResource RuleBrush}"
+                                    BorderThickness="0,0,0,1">
+                                <Grid Padding="6,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0"
+                                            Style="{StaticResource GhostButtonStyle}"
+                                            Click="OnBackClick"
+                                            IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE0E2;" FontSize="16" />
+                                    </Button>
+
+                                    <ctrl:SplitFlapText x:Name="TitleFlap"
+                                                        Grid.Column="1"
+                                                        Width="140"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center" />
+
+                                    <Button Grid.Column="2"
+                                            Style="{StaticResource GhostButtonStyle}"
+                                            Click="OnForwardClick"
+                                            IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE0E3;" FontSize="16" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Body — fixed height so the frame doesn't resize when the
+                                 paragraph swaps between pages of different lengths. -->
+                            <Border Grid.Row="1"
+                                    Background="{StaticResource Bg2GradientBrush}"
+                                    Padding="24,24,24,28"
+                                    Height="160">
+                                <StackPanel x:Name="BodyHost" VerticalAlignment="Top">
+                                    <TextBlock Style="{StaticResource NavBodySmallStyle}"
+                                               Text="{x:Bind ViewModel.PageMeta, Mode=OneWay}"
+                                               Margin="0,0,0,6" />
+                                    <TextBlock Style="{StaticResource NavBodyStyle}"
+                                               Text="{x:Bind ViewModel.PageBody, Mode=OneWay}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

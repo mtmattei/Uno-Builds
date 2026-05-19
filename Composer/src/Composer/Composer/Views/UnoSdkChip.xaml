@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Composer.Views.UnoSdkChip"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border BorderThickness="1"
+            BorderBrush="{ThemeResource UnoBrandBrush}"
+            Background="Transparent"
+            CornerRadius="8"
+            Padding="12,6"
+            VerticalAlignment="Center">
+        <TextBlock x:Name="Label"
+                   FontFamily="{StaticResource MonoFontFamily}"
+                   FontSize="{StaticResource TypeLabelSize}"
+                   FontWeight="Medium"
+                   CharacterSpacing="140"
+                   Foreground="{ThemeResource UnoBrandBrush}"
+                   VerticalAlignment="Center" />
+        <ToolTipService.ToolTip>
+            <TextBlock x:Name="Tooltip" FontSize="{StaticResource TypeLabelSize}" />
+        </ToolTipService.ToolTip>
+    </Border>
+</UserControl>

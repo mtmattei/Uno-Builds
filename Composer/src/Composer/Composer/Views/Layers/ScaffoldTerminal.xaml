@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="Composer.Views.Layers.ScaffoldTerminal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <Border Background="{ThemeResource PaperBrush}"
+            BorderBrush="{ThemeResource HairlineBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="0">
+        <utu:AutoLayout Orientation="Vertical" Spacing="0">
+            <!-- Prototype ScaffoldCanvas jsx 2149: "scaffold.command · READY".
+                 Code-behind swaps StageEyebrow/StageMeta as the user steps
+                 through terminal → summary → download. -->
+            <Grid Padding="28,18,28,14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           x:Name="StageEyebrow"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="{StaticResource TypeLabelSize}"
+                           FontWeight="Medium"
+                           CharacterSpacing="-10"
+                           Foreground="{ThemeResource InkBrush}"
+                           VerticalAlignment="Center"
+                           Text="scaffold.command" />
+                <TextBlock Grid.Column="1"
+                           x:Name="StageBadge"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="{StaticResource TypeEyebrowSize}"
+                           CharacterSpacing="160"
+                           Foreground="{ThemeResource Ink3Brush}"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0"
+                           Text="·  READY" />
+                <TextBlock Grid.Column="3"
+                           x:Name="StageMeta"
+                           FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                           FontSize="{StaticResource TypeLabelSize}"
+                           Foreground="{ThemeResource Ink3Brush}"
+                           VerticalAlignment="Center"
+                           Text="9 files · ready to ship" />
+            </Grid>
+            <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+            <!-- Stage 1: terminal command + Continue → -->
+            <utu:AutoLayout x:Name="TerminalStage"
+                            Orientation="Vertical"
+                            Spacing="20"
+                            Padding="28,20,28,24">
+                <Border Background="#0F0F12"
+                        BorderBrush="{ThemeResource Ink2Brush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="20,18">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   x:Name="CommandText"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeBodySmallSize}"
+                                   Foreground="#E5E5E7"
+                                   TextWrapping="Wrap" />
+                        <Button Grid.Column="1"
+                                x:Name="CopyButton"
+                                Style="{StaticResource LinkButtonStyle}"
+                                Foreground="#A1A1AA"
+                                Content="[Copy]"
+                                Click="OnCopyClick"
+                                VerticalAlignment="Top" />
+                    </Grid>
+                </Border>
+
+                <utu:AutoLayout Orientation="Horizontal" Spacing="14" HorizontalAlignment="Right">
+                    <TextBlock FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                               FontSize="{StaticResource TypeBodySmallSize}"
+                               Foreground="{ThemeResource Ink3Brush}"
+                               VerticalAlignment="Center"
+                               Text="every layer locked. ready to review." />
+                    <Button Style="{StaticResource InkButtonStyle}"
+                            Click="OnContinueToSummaryClick"
+                            Content="Continue  →" />
+                </utu:AutoLayout>
+            </utu:AutoLayout>
+
+            <!-- Stage 2: composition summary + Accept ✓ -->
+            <utu:AutoLayout x:Name="SummaryStage"
+                            Orientation="Vertical"
+                            Spacing="18"
+                            Padding="28,24,28,28"
+                            Visibility="Collapsed">
+                <utu:AutoLayout Orientation="Vertical" Spacing="6">
+                    <TextBlock Style="{StaticResource MonoEyebrow}" Text="COMPOSITION SUMMARY" />
+                    <TextBlock x:Name="SummaryAppName"
+                               FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                               FontSize="{StaticResource TypeDisplaySize}"
+                               Foreground="{ThemeResource InkBrush}" />
+                    <TextBlock x:Name="SummaryDescription"
+                               FontFamily="{StaticResource SerifFontFamily}"
+                               FontSize="{StaticResource TypeBodySize}"
+                               LineHeight="22"
+                               Foreground="{ThemeResource Ink2Brush}"
+                               TextWrapping="Wrap" />
+                </utu:AutoLayout>
+
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <Grid x:Name="SummaryFactsGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                </Grid>
+
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <utu:AutoLayout Orientation="Horizontal" Spacing="14" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource LinkButtonStyle}"
+                            Padding="6,10"
+                            VerticalAlignment="Center"
+                            Click="OnBackToTerminalClick"
+                            Content="← Back to scaffold" />
+                    <Button Style="{StaticResource InkButtonStyle}"
+                            VerticalAlignment="Center"
+                            Click="OnAcceptSummaryClick"
+                            Content="Accept ✓" />
+                </utu:AutoLayout>
+            </utu:AutoLayout>
+
+            <!-- Stage 3: ready-to-download confirmation -->
+            <utu:AutoLayout x:Name="DownloadStage"
+                            Orientation="Vertical"
+                            Spacing="20"
+                            Padding="28,28,28,32"
+                            Visibility="Collapsed">
+                <utu:AutoLayout Orientation="Vertical" Spacing="6">
+                    <TextBlock Style="{StaticResource MonoEyebrow}"
+                               Foreground="{ThemeResource AmberBrush}"
+                               Text="✓ COMPOSITION ACCEPTED" />
+                    <TextBlock FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                               FontSize="{StaticResource TypeTitleSize}"
+                               Foreground="{ThemeResource InkBrush}"
+                               TextWrapping="Wrap"
+                               Text="The bundle is ready." />
+                    <TextBlock FontFamily="{StaticResource SerifFontFamily}"
+                               FontSize="{StaticResource TypeBodySmallSize}"
+                               LineHeight="22"
+                               Foreground="{ThemeResource Ink3Brush}"
+                               TextWrapping="Wrap"
+                               Text="Download the ZIP — each layer's file is a separate entry. Drop it next to your repo and the agent reads from prompt-context.md." />
+                </utu:AutoLayout>
+
+                <utu:AutoLayout Orientation="Horizontal" Spacing="14" HorizontalAlignment="Left">
+                    <Button Style="{StaticResource InkButtonStyle}"
+                            Click="OnDownloadClick"
+                            Content="Download bundle ↓" />
+                    <TextBlock FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                               FontSize="{StaticResource TypeBodySmallSize}"
+                               Foreground="{ThemeResource Ink3Brush}"
+                               VerticalAlignment="Center"
+                               Margin="12,0,0,0"
+                               Text="the composition is, for now, complete." />
+                </utu:AutoLayout>
+            </utu:AutoLayout>
+        </utu:AutoLayout>
+    </Border>
+</UserControl>

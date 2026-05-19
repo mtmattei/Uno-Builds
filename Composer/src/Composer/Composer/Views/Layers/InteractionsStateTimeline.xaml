@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Composer.Views.Layers.InteractionsStateTimeline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:Composer.Views.Controls">
+    <utu:AutoLayout Orientation="Vertical" Spacing="14">
+
+        <Border Background="{ThemeResource PaperBrush}"
+                BorderBrush="{ThemeResource HairlineBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="0">
+            <utu:AutoLayout Orientation="Vertical" Spacing="0">
+                <!-- Header: filename / badge on the left, flow tabs in the action
+                     slot on the right (brief 06 §2). -->
+                <Grid Padding="28,18,28,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Prototype InteractionsCanvas jsx 1804: "interaction-states.md
+                         · N FLOWS · 6 STATES". Filename mono-label tight, meta
+                         mono-eyebrow loose. Code-behind keeps writing the
+                         dot-prefixed counter so the runtime numbers stay live. -->
+                    <utu:AutoLayout Grid.Column="0" Orientation="Horizontal" Spacing="0" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeLabelSize}"
+                                   FontWeight="Medium"
+                                   CharacterSpacing="-10"
+                                   Foreground="{ThemeResource InkBrush}"
+                                   VerticalAlignment="Center"
+                                   Text="interaction-states.md" />
+                        <TextBlock x:Name="MetaText"
+                                   FontFamily="{StaticResource MonoFontFamily}"
+                                   FontSize="{StaticResource TypeEyebrowSize}"
+                                   CharacterSpacing="160"
+                                   Foreground="{ThemeResource Ink3Brush}"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0" />
+                    </utu:AutoLayout>
+                    <utu:AutoLayout Grid.Column="1"
+                                    x:Name="FlowTabsRow"
+                                    Orientation="Horizontal"
+                                    Spacing="4"
+                                    VerticalAlignment="Center" />
+                </Grid>
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <utu:AutoLayout Orientation="Vertical" Spacing="14" Padding="28,20,28,24">
+                    <!-- Six pills with 18×1 hairline divider segments between them
+                         so the row reads as a timeline (states in canonical order)
+                         instead of a chip group. Brief 06 §2. -->
+                    <utu:AutoLayout x:Name="StatePillsRow" Orientation="Horizontal" Spacing="0" />
+                    <Border Background="{ThemeResource Paper2Brush}"
+                            BorderBrush="{ThemeResource HairlineBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="14,12">
+                        <utu:AutoLayout x:Name="DetailPanelStack" Orientation="Vertical" Spacing="6">
+                            <TextBlock x:Name="StateLabelText"
+                                       Style="{StaticResource MonoEyebrow}"
+                                       Text="DEFAULT STATE" />
+                            <TextBlock x:Name="StateDescriptionText"
+                                       FontFamily="{StaticResource SerifFontFamily}"
+                                       FontSize="{StaticResource TypeBodySmallSize}"
+                                       Foreground="{ThemeResource Ink2Brush}"
+                                       TextWrapping="Wrap"
+                                       Text="—" />
+                        </utu:AutoLayout>
+                    </Border>
+                </utu:AutoLayout>
+            </utu:AutoLayout>
+        </Border>
+
+        <!-- ==== Annotations: rationale + agent guidance per brief §11. -->
+        <utu:AutoLayout Orientation="Vertical" Spacing="14" Padding="0,4,0,0">
+            <controls:Annotation Eyebrow="WHY THIS FITS"
+                                 Voice="rationale"
+                                 Body="{Binding WhyThisInteractionsBody, Mode=OneWay}" />
+            <controls:Annotation Eyebrow="AGENT PROMPT"
+                                 Voice="quote"
+                                 Body="{Binding AgentPromptInteractionsBody, Mode=OneWay}" />
+        </utu:AutoLayout>
+
+    </utu:AutoLayout>
+</UserControl>

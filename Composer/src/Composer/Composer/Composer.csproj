@@ -1,0 +1,55 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Composer</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.composer</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Composer</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Composer powered by Uno Platform.</Description>
+
+    <!--
+      User secrets ID — enables `dotnet user-secrets set "Anthropic:ApiKey" "..."`
+      so the Anthropic key never lands in source control. The host wires
+      .AddUserSecrets<App>() in development; production reads from the
+      embedded appsettings.json (which ships with an empty key).
+    -->
+    <UserSecretsId>composer-anthropic-2026</UserSecretsId>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      HttpRefit;
+      Serialization;
+      Localization;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SKXamlCanvas provider for the CompositionStackLoader bundle-save animation
+         (version pinned in Directory.Packages.props per CPM) -->
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+
+    <!-- Enables AddUserSecrets<App>() in App.xaml.cs (dev only). -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+  </ItemGroup>
+
+</Project>

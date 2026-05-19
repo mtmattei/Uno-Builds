@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="Composer.Views.Controls.CompositionStack"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:models="using:Composer.Models">
+    <Border Background="{ThemeResource Paper2Brush}"
+            BorderBrush="{ThemeResource HairlineBrush}"
+            BorderThickness="0,0,1,0"
+            Padding="20,28">
+        <utu:AutoLayout Orientation="Vertical" Spacing="14">
+            <TextBlock Style="{StaticResource MonoEyebrow}"
+                       Text="COMPOSITION STACK" />
+            <TextBlock FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                       FontSize="{StaticResource TypeBodySmallSize}"
+                       Foreground="{ThemeResource Ink3Brush}"
+                       TextWrapping="Wrap"
+                       Text="A conversation that crystallizes into a build system." />
+
+            <Border Height="1"
+                    Background="{ThemeResource HairlineBrush}"
+                    Margin="0,4,0,4" />
+
+            <ItemsRepeater x:Name="LayerRows"
+                           ItemsSource="{Binding Layers}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Orientation="Vertical" Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource StackRowButtonStyle}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Tag="{Binding}"
+                                Click="OnLayerRowClick">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        Width="2"
+                                        Background="{Binding LeftBorderBrush}"
+                                        VerticalAlignment="Stretch"
+                                        Margin="0,2,10,2" />
+
+                                <utu:AutoLayout Grid.Column="1"
+                                                Orientation="Vertical"
+                                                Spacing="2"
+                                                Padding="0,8,0,8"
+                                                Opacity="{Binding Opacity}">
+                                    <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+                                        <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                                   FontSize="{StaticResource TypeEyebrowSize}"
+                                                   CharacterSpacing="160"
+                                                   Foreground="{ThemeResource Ink3Brush}"
+                                                   Text="{Binding IndexLabel}" />
+                                        <TextBlock FontFamily="{StaticResource MonoFontFamily}"
+                                                   FontSize="{StaticResource TypeEyebrowSize}"
+                                                   CharacterSpacing="160"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{ThemeResource InkBrush}"
+                                                   Text="{Binding LabelUpper}" />
+                                    </utu:AutoLayout>
+                                    <TextBlock FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                                               FontSize="{StaticResource TypeLabelSize}"
+                                               Foreground="{ThemeResource Ink3Brush}"
+                                               TextWrapping="Wrap"
+                                               Text="{Binding Hint}" />
+                                </utu:AutoLayout>
+
+                                <TextBlock Grid.Column="2"
+                                           FontFamily="{StaticResource MonoFontFamily}"
+                                           FontSize="{StaticResource TypeLabelSize}"
+                                           Foreground="{ThemeResource InkBrush}"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0"
+                                           Text="{Binding Glyph}" />
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </utu:AutoLayout>
+    </Border>
+</UserControl>

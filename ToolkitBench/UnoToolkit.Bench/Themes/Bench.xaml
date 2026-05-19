@@ -1,0 +1,227 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Stationary surfaces: flat solids alias the gradient brush keys so the
+         demo XAMLs don't need to change. Gradients with the original wide range
+         showed visible banding on dark, so they're flattened here. -->
+    <SolidColorBrush x:Key="Bg1GradientBrush" Color="#232323" />
+    <SolidColorBrush x:Key="Bg2GradientBrush" Color="#2A2A2A" />
+
+    <!-- Nav bar "lid" — subtle 4-unit gradient so it reads slightly brighter
+         than the body without producing a visible line. -->
+    <LinearGradientBrush x:Key="Bg3LidGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#2E2E2E" />
+        <GradientStop Offset="1" Color="#2A2A2A" />
+    </LinearGradientBrush>
+
+    <!-- Drawer panel — horizontal gradient retained because the motion needs the
+         leading-edge light cue. Range tightened to avoid banding. -->
+    <LinearGradientBrush x:Key="DrawerPanelGradientBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#2F2F2F" />
+        <GradientStop Offset="1" Color="#2A2A2A" />
+    </LinearGradientBrush>
+
+    <!-- Drawer pull-tab — same family as the panel, slightly brighter top. -->
+    <LinearGradientBrush x:Key="DrawerTabGradientBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="#2F2F2F" />
+        <GradientStop Offset="1" Color="#2A2A2A" />
+    </LinearGradientBrush>
+
+    <!-- ============ Row layout ============ -->
+
+    <!-- Each row wraps a 2-column grid (240 + 1fr). Border below to separate rows. -->
+    <Style x:Key="RowStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="MinHeight" Value="240" />
+    </Style>
+
+    <!-- Spec column (left) — narrower, tighter padding -->
+    <Style x:Key="SpecPanelStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Bg1GradientBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Padding" Value="24,28,20,28" />
+    </Style>
+
+    <!-- Stage column (right) — flat Bg0 -->
+    <Style x:Key="StagePanelStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Bg0Brush}" />
+        <Setter Property="Padding" Value="24,24" />
+    </Style>
+
+    <!-- ============ Tag pills ============ -->
+
+    <Style x:Key="IdentityTagPillStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Bg2Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="9,3" />
+    </Style>
+
+    <Style x:Key="MotionTagPillStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentSoftBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="9,3" />
+    </Style>
+
+    <!-- ============ Crosshairs ============ -->
+
+    <Style x:Key="CrosshairTopLeftStyle" TargetType="Border">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="BorderThickness" Value="1,1,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="CrosshairBottomRightStyle" TargetType="Border">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!-- ============ Buttons ============ -->
+
+    <!-- BenchButtonStyle: Fg1 background, Bg0 foreground, hover → AccentBrush bg -->
+    <Style x:Key="BenchButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Fg1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource Bg0Brush}" />
+        <Setter Property="FontFamily" Value="{StaticResource FontSans}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="14,8" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="MinWidth" Value="120" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="UseSystemFocusVisuals" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}"
+                          CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="{TemplateBinding Padding}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                            To="#FFFFFF" Duration="0:0:0.18" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                            To="#C8C8C8" Duration="0:0:0.06" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.45" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Ghost button (nav arrows): transparent fg, hover Bg3, pressed Bg4 -->
+    <Style x:Key="GhostButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource Fg2Brush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="MinWidth" Value="44" />
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="UseSystemFocusVisuals" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}"
+                          CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="{TemplateBinding Foreground}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                            To="#333333" Duration="0:0:0.12" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                            To="#3D3D3D" Duration="0:0:0.06" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="RootGrid"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.25" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- StatePillStyle (idle/running/done) -->
+    <Style x:Key="StatePillStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Bg1Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="Composer.Views.Controls.ActiveCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Composer.Views.Controls"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <ScrollViewer x:Name="CanvasScrollHost"
+                  HorizontalScrollMode="Disabled"
+                  VerticalScrollMode="Auto"
+                  VerticalScrollBarVisibility="Hidden"
+                  Padding="32,28,32,40">
+        <utu:AutoLayout x:Name="CanvasColumn"
+                        Orientation="Vertical"
+                        Spacing="20"
+                        MinWidth="640"
+                        MaxWidth="720"
+                        HorizontalAlignment="Center">
+
+            <!-- Slot 1 per brief §7.1 / Brief 03 §4 — extracted control. -->
+            <controls:ProgressIndicator x:Name="ProgressRegion"
+                                        Fraction="{Binding ProgressFraction, Mode=OneWay}"
+                                        Label="{Binding ProgressLabel, Mode=OneWay}"
+                                        Counter="{Binding ProgressCounter, Mode=OneWay}" />
+
+            <!-- AppTitleRow hidden per user 2026-05-12 — the project name
+                 isn't needed as a duplicate header above each canvas now
+                 that the title moves inside the glass container. Reset
+                 affordance will resurface elsewhere when needed. -->
+            <controls:AppTitleRow x:Name="TitleRow"
+                                  Visibility="Collapsed"
+                                  ProjectName="{Binding ProjectName, Mode=OneWay}"
+                                  ShowReset="{Binding HasLockedLayers, Mode=OneWay}" />
+
+            <!-- Six discrete DPs per brief §12.1 — ShellModel projects each
+                 from ActiveLayer / LayerStates / Recaps so this control stays
+                 dumb. Replaces the old single-Header LayerHeaderModel binding. -->
+            <controls:ActiveLayerHeader x:Name="HeaderRegion"
+                                        LayerIndex="{Binding ActiveLayerIndex, Mode=OneWay}"
+                                        LayerLabel="{Binding ActiveLayerLabel, Mode=OneWay}"
+                                        LayerState="{Binding ActiveLayerLayerState, Mode=OneWay}"
+                                        Recap="{Binding ActiveLayerRecap, Mode=OneWay}"
+                                        Title="{Binding ActiveLayerTitle, Mode=OneWay}"
+                                        Subtitle="{Binding ActiveLayerSubtitle, Mode=OneWay}" />
+
+            <!-- Locked-context-card stack (above active canvas, brief 01 §4) -->
+            <utu:AutoLayout x:Name="LockedStack"
+                            Orientation="Vertical"
+                            Spacing="10" />
+
+            <!-- Active canvas slot — code-behind swaps between layer canvases
+                 via CreateCanvas. M3b's Region.Attached host wasn't placing
+                 pages inside it (likely because the region is nested several
+                 levels below Shell); reverted to direct hosting so canvases
+                 render. Pages + RouteMap stay as scaffolding for a future
+                 navigation pass that correctly resolves the region. -->
+            <ContentControl x:Name="CanvasSlot"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            MinHeight="480" />
+
+            <!-- Composer footer sits directly under the current canvas so the
+                 user's primary action (refine + lock) is anchored to the
+                 surface they're looking at — the faded upcoming cards then
+                 hint at what comes next. -->
+            <controls:ComposerFooter x:Name="FooterRegion" />
+
+            <!-- Brief 03 §3 — future-preview card stack rendered below the
+                 composer footer at progressively decreasing opacity. -->
+            <utu:AutoLayout x:Name="FutureStack"
+                            Orientation="Vertical"
+                            Spacing="8" />
+
+        </utu:AutoLayout>
+    </ScrollViewer>
+</UserControl>

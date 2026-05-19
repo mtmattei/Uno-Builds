@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Composer.Views.Layers.DataContractGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:Composer.Views.Controls">
+    <utu:AutoLayout Orientation="Vertical" Spacing="14">
+
+        <Border Background="{ThemeResource PaperBrush}"
+                BorderBrush="{ThemeResource HairlineBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="0">
+            <utu:AutoLayout Orientation="Vertical" Spacing="0">
+                <!-- Prototype DataCanvas jsx 1980: "data-contracts.md · N RECORDS".
+                     Code-behind keeps writing the dot-prefixed counter live. -->
+                <Grid Padding="28,18,28,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeLabelSize}"
+                               FontWeight="Medium"
+                               CharacterSpacing="-10"
+                               Foreground="{ThemeResource InkBrush}"
+                               VerticalAlignment="Center"
+                               Text="data-contracts.md" />
+                    <TextBlock Grid.Column="1"
+                               x:Name="MetaText"
+                               FontFamily="{StaticResource MonoFontFamily}"
+                               FontSize="{StaticResource TypeEyebrowSize}"
+                               CharacterSpacing="160"
+                               Foreground="{ThemeResource Ink3Brush}"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
+                </Grid>
+                <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+                <ScrollViewer HorizontalScrollMode="Auto"
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollMode="Disabled"
+                              Padding="20,18,20,18">
+                    <StackPanel x:Name="EntityRow" Orientation="Horizontal" Spacing="14" />
+                </ScrollViewer>
+            </utu:AutoLayout>
+        </Border>
+
+        <!-- ==== Annotations: rationale + agent guidance.
+             Prototype DataCanvas jsx 2014–2022 — WhyThis + AgentPrompt pair,
+             quote voice so the agent reads the prompt verbatim. -->
+        <utu:AutoLayout Orientation="Vertical" Spacing="14" Padding="0,4,0,0">
+            <controls:Annotation Eyebrow="WHY THIS SHAPE"
+                                 Voice="rationale"
+                                 Body="{Binding WhyThisDataBody, Mode=OneWay}" />
+            <controls:Annotation Eyebrow="AGENT PROMPT"
+                                 Voice="quote"
+                                 Body="{Binding AgentPromptDataBody, Mode=OneWay}" />
+        </utu:AutoLayout>
+
+    </utu:AutoLayout>
+</UserControl>

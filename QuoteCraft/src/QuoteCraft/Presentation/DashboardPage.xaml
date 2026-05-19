@@ -295,7 +295,7 @@
             <!-- Status count badges -->
             <mvux:FeedView Source="{Binding StatusCounts}">
               <DataTemplate>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollMode="Auto"
                               Margin="0,0,0,4">

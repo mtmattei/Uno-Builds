@@ -1,0 +1,135 @@
+<UserControl x:Class="Composer.Views.Controls.ComposerFooter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+    <Border Background="{ThemeResource Paper2Brush}"
+            BorderBrush="{ThemeResource HairlineBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="20,18">
+        <utu:AutoLayout Orientation="Vertical" Spacing="14">
+
+            <!-- Eyebrow — COMPOSER · {REFINING/LISTENING/PROPOSING} -->
+            <TextBlock x:Name="EyebrowText"
+                       Style="{StaticResource MonoEyebrow}"
+                       Text="COMPOSER · REFINING" />
+
+            <!-- Lead question — per-layer prompt from ShellModel.ActiveLeadQuestion.
+                 Sits between the eyebrow and the textarea; this is the line the
+                 prototype uses to frame what the user can refine. -->
+            <TextBlock x:Name="LeadQuestionText"
+                       FontFamily="{StaticResource SansFontFamily}"
+                       FontSize="{StaticResource TypeBodySize}"
+                       Foreground="{ThemeResource Ink2Brush}"
+                       TextWrapping="Wrap"
+                       LineHeight="22" />
+
+            <!-- Acknowledgment line — visible only in the Previewing state.
+                 Italic Inter behind a 1px amber left rule. Brief §6. -->
+            <Border x:Name="AckLine"
+                    BorderBrush="{ThemeResource AmberBrush}"
+                    BorderThickness="2,0,0,0"
+                    Padding="12,2,0,2"
+                    Visibility="Collapsed">
+                <TextBlock x:Name="AckText"
+                           FontFamily="{StaticResource SerifItalicFontFamily}"
+                           FontStyle="Italic"
+                           FontSize="13"
+                           Foreground="{ThemeResource Ink2Brush}"
+                           TextWrapping="Wrap" />
+            </Border>
+
+            <!-- Prompt textarea -->
+            <TextBox x:Name="PromptInput"
+                     Style="{StaticResource ChatInputTextBoxStyle}"
+                     PlaceholderText="Refine, or accept what's drawn…"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     MinHeight="68"
+                     AutomationProperties.Name="Composer prompt"
+                     KeyDown="OnPromptKeyDown"
+                     TextChanged="OnPromptTextChanged" />
+
+            <!-- TRY label + suggestion chips on the left; kbd hint on the right.
+                 Per prototype: chips appear BELOW the textarea, not above. -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="{StaticResource TypeEyebrowSize}"
+                           FontWeight="Medium"
+                           CharacterSpacing="160"
+                           Foreground="{ThemeResource Ink3Brush}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"
+                           Text="TRY" />
+                <utu:AutoLayout Grid.Column="1"
+                                x:Name="ChipsRow"
+                                Orientation="Horizontal"
+                                Spacing="8"
+                                VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2"
+                           x:Name="KbdHint"
+                           FontFamily="{StaticResource MonoFontFamily}"
+                           FontSize="{StaticResource TypeEyebrowMicroSize}"
+                           CharacterSpacing="180"
+                           Foreground="{ThemeResource Ink4Brush}"
+                           VerticalAlignment="Center"
+                           Text="⌘  ↵  TO SUBMIT" />
+            </Grid>
+
+            <!-- Action row — primary on the left, italic hint to the right,
+                 discard links flow on the right edge. Per prototype the
+                 italic hint reframes the primary action ("accepting the
+                 recommendation" in Clean state). -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        x:Name="PrimaryButton"
+                        Style="{StaticResource InkButtonStyle}"
+                        Content="Lock and continue →"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Lock and continue"
+                        Click="OnPrimaryClick" />
+                <TextBlock Grid.Column="1"
+                           x:Name="PrimaryHintText"
+                           FontFamily="{StaticResource SerifLightItalicFontFamily}"
+                           FontSize="{StaticResource TypeBodySmallSize}"
+                           Foreground="{ThemeResource Ink3Brush}"
+                           VerticalAlignment="Center"
+                           Margin="14,0,0,0"
+                           Text="accepting the recommendation" />
+                <utu:AutoLayout Grid.Column="3"
+                                Orientation="Horizontal"
+                                Spacing="14"
+                                HorizontalAlignment="Right">
+                    <Button x:Name="DiscardEditsButton"
+                            Style="{StaticResource LinkButtonStyle}"
+                            Content="Discard edits"
+                            Padding="6,10"
+                            VerticalAlignment="Center"
+                            Visibility="Collapsed"
+                            AutomationProperties.Name="Discard edits"
+                            Click="OnDiscardEditsClick" />
+                    <Button x:Name="DiscardPreviewButton"
+                            Style="{StaticResource LinkButtonStyle}"
+                            Content="← Discard preview"
+                            Padding="6,10"
+                            VerticalAlignment="Center"
+                            Visibility="Collapsed"
+                            AutomationProperties.Name="Discard preview"
+                            Click="OnDiscardPreviewClick" />
+                </utu:AutoLayout>
+            </Grid>
+        </utu:AutoLayout>
+    </Border>
+</UserControl>

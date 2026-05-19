@@ -1,0 +1,24 @@
+<Application x:Class="UnoToolkit.Bench.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- WinUI baseline -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <!-- Material baseline (provides ToolkitResources transitively) -->
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+        <!-- Bench tokens (palette, easings, type styles) -->
+        <ResourceDictionary Source="ms-appx:///Themes/Tokens.xaml" />
+        <!-- Bench composite styles (cells, masthead, buttons) -->
+        <ResourceDictionary Source="ms-appx:///Themes/Bench.xaml" />
+        <!-- Custom controls -->
+        <ResourceDictionary Source="ms-appx:///Themes/FlipChip.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

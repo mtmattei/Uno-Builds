@@ -1,0 +1,278 @@
+<UserControl x:Class="UnoToolkit.Bench.Demos.DrawerControlDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource RowStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource SpecPanelStyle}">
+                <StackPanel VerticalAlignment="Center" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="14">
+                        <TextBlock Style="{StaticResource SpecNumStyle}" Text="04" />
+                        <TextBlock Style="{StaticResource SpecNameStyle}">
+                            <Run Foreground="{StaticResource Fg5Brush}" Text="utu:" />
+                            <Run Text="DrawerControl" />
+                        </TextBlock>
+                    </StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Border Style="{StaticResource MotionTagPillStyle}">
+                            <TextBlock Style="{StaticResource MotionTagStyle}" Text="PULL &amp; SNAP" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="TAB" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="PANEL" />
+                        </Border>
+                        <Border Style="{StaticResource IdentityTagPillStyle}">
+                            <TextBlock Style="{StaticResource SpecTagStyle}" Text="RUBBER" />
+                        </Border>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource StagePanelStyle}">
+                <Grid>
+                    <Border Style="{StaticResource CrosshairTopLeftStyle}" />
+                    <Border Style="{StaticResource CrosshairBottomRightStyle}" />
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="360" Spacing="14">
+
+                        <!-- App-shell frame -->
+                        <Border x:Name="DrawerFrame"
+                                Width="360" Height="200"
+                                Background="{StaticResource Bg2GradientBrush}"
+                                BorderBrush="{StaticResource RuleBrush}"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.Clip>
+                                <RectangleGeometry Rect="0,0,360,200" />
+                            </Border.Clip>
+                            <Grid>
+                                <!-- Main content underneath -->
+                                <StackPanel Padding="18,20"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0"
+                                                   FontFamily="{StaticResource FontMono}"
+                                                   FontSize="10"
+                                                   CharacterSpacing="120"
+                                                   Foreground="{StaticResource Fg5Brush}"
+                                                   VerticalAlignment="Top"
+                                                   Text="APP · WORKSPACE" />
+                                        <TextBlock Grid.Row="1"
+                                                   FontFamily="{StaticResource FontSerif}"
+                                                   FontSize="13"
+                                                   FontWeight="Light"
+                                                   FontStyle="Italic"
+                                                   LineHeight="20"
+                                                   MaxWidth="220"
+                                                   Foreground="{StaticResource Fg4Brush}"
+                                                   VerticalAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Text="Quiet shell. The drawer remains the only thing that moves." />
+                                        <TextBlock Grid.Row="2"
+                                                   FontFamily="{StaticResource FontMono}"
+                                                   FontSize="10"
+                                                   CharacterSpacing="60"
+                                                   Foreground="{StaticResource Fg5Brush}"
+                                                   VerticalAlignment="Bottom"
+                                                   Text="3 unread · synced 02:14" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Drawer + tab assembly -->
+                                <Grid x:Name="DrawerWithTab"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Stretch">
+                                    <Grid.RenderTransform>
+                                        <CompositeTransform x:Name="DrawerTransform" TranslateX="280" />
+                                    </Grid.RenderTransform>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="22" />
+                                        <ColumnDefinition Width="280" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Pull tab -->
+                                    <Border Grid.Column="0"
+                                            x:Name="PullTab"
+                                            Width="22" Height="56"
+                                            VerticalAlignment="Center"
+                                            CornerRadius="4,0,0,4"
+                                            Background="{StaticResource DrawerTabGradientBrush}"
+                                            BorderBrush="{StaticResource RuleBrush}"
+                                            BorderThickness="1,1,0,1"
+                                            ManipulationMode="TranslateX"
+                                            PointerPressed="OnTabPressed"
+                                            PointerMoved="OnTabMoved"
+                                            PointerReleased="OnTabReleased"
+                                            PointerCanceled="OnTabReleased"
+                                            PointerCaptureLost="OnTabReleased">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="3">
+                                            <Ellipse x:Name="GripDot1" Width="3" Height="3" Fill="{StaticResource Fg4Brush}" />
+                                            <Ellipse x:Name="GripDot2" Width="3" Height="3" Fill="{StaticResource Fg4Brush}" />
+                                            <Ellipse x:Name="GripDot3" Width="3" Height="3" Fill="{StaticResource Fg4Brush}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Drawer panel -->
+                                    <Border Grid.Column="1"
+                                            x:Name="DrawerPanel"
+                                            Background="{StaticResource DrawerPanelGradientBrush}"
+                                            BorderBrush="{StaticResource RuleBrush}"
+                                            BorderThickness="1,0,0,0">
+                                        <StackPanel Padding="16,18,22,16" Spacing="6">
+                                            <TextBlock Style="{StaticResource DrawerEyebrowStyle}"
+                                                       Text="WORKSPACE"
+                                                       Margin="0,0,0,8" />
+
+                                            <Grid Padding="0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource AccentBrush}"
+                                                           Text="◧" />
+                                                <TextBlock Grid.Column="1"
+                                                           Style="{StaticResource DrawerListItemStyle}"
+                                                           Foreground="{StaticResource AccentBrush}"
+                                                           Text="Inbox" />
+                                                <TextBlock Grid.Column="2"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="10"
+                                                           Foreground="{StaticResource Fg5Brush}"
+                                                           VerticalAlignment="Center"
+                                                           Text="3" />
+                                            </Grid>
+
+                                            <Grid Padding="0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource Fg4Brush}"
+                                                           Text="◇" />
+                                                <TextBlock Grid.Column="1"
+                                                           Style="{StaticResource DrawerListItemStyle}"
+                                                           Text="Projects" />
+                                                <TextBlock Grid.Column="2"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="10"
+                                                           Foreground="{StaticResource Fg5Brush}"
+                                                           VerticalAlignment="Center"
+                                                           Text="12" />
+                                            </Grid>
+
+                                            <Grid Padding="0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource Fg4Brush}"
+                                                           Text="◐" />
+                                                <TextBlock Grid.Column="1"
+                                                           Style="{StaticResource DrawerListItemStyle}"
+                                                           Text="Recent" />
+                                                <TextBlock Grid.Column="2"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="10"
+                                                           Foreground="{StaticResource Fg5Brush}"
+                                                           VerticalAlignment="Center"
+                                                           Text="—" />
+                                            </Grid>
+
+                                            <Grid Padding="0,4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource Fg4Brush}"
+                                                           Text="✦" />
+                                                <TextBlock Grid.Column="1"
+                                                           Style="{StaticResource DrawerListItemStyle}"
+                                                           Text="Settings" />
+                                                <TextBlock Grid.Column="2"
+                                                           FontFamily="{StaticResource FontMono}"
+                                                           FontSize="10"
+                                                           Foreground="{StaticResource Fg5Brush}"
+                                                           VerticalAlignment="Center"
+                                                           Text="⌘," />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <!-- Hint progress bar -->
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Style="{StaticResource DrawerHintStyle}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0"
+                                       Text="← drag" />
+                            <Border Grid.Column="1"
+                                    Height="1"
+                                    Background="{StaticResource RuleBrush}"
+                                    VerticalAlignment="Center">
+                                <Rectangle x:Name="ProgressFill"
+                                           Height="1"
+                                           Fill="{StaticResource AccentBrush}"
+                                           HorizontalAlignment="Stretch"
+                                           RenderTransformOrigin="0,0.5">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform x:Name="ProgressFillTransform" ScaleX="0" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Border>
+                            <TextBlock x:Name="StateLabel"
+                                       Grid.Column="2"
+                                       Style="{StaticResource DrawerHintStyle}"
+                                       Foreground="{StaticResource Fg2Brush}"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Margin="12,0,0,0"
+                                       Text="closed" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

@@ -251,6 +251,15 @@ public class AppDatabase
                 ALTER TABLE business_profile ADD COLUMN website TEXT;
                 ALTER TABLE business_profile ADD COLUMN business_number TEXT;
                 """ },
+
+            { 5, $$"""
+                UPDATE quotes SET status='Sent',     valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Drain Cleaning Service';
+                UPDATE quotes SET status='Viewed',   valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Office Plumbing Fit-out';
+                UPDATE quotes SET status='Draft',    valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Emergency Pipe Repair';
+                UPDATE quotes SET status='Sent',     valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Bathroom Remodel';
+                UPDATE quotes SET valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Kitchen Renovation';
+                UPDATE quotes SET valid_until='{{DateTimeOffset.UtcNow.AddDays(14):O}}', updated_at='{{DateTimeOffset.UtcNow:O}}' WHERE title='Water Heater Install';
+                """ },
         };
 
         foreach (var (version, sql) in migrations)

@@ -1,0 +1,28 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/Generated/
+**/.vs/
+**/.vscode/
+**/.idea/
+
+# IDE / user files
+*.user
+*.suo
+*.userprefs
+*.DS_Store
+
+# Local secrets
+.env
+.env.local
+*.local.json
+
+# Wasm/Skia caches
+.uno/
+**/wasm-cache/
+
+# Test/screenshot artifacts
+docs/composer-screenshot.png
+
+# Logs
+*.log

@@ -1,0 +1,284 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Theme-aware tokens.
+        ===================
+        Per Uno Platform / WinUI conventions, every theme-aware Color and Brush
+        lives inside a ThemeDictionary so the system can switch palettes when
+        the OS theme flips. Consumers reach these via {ThemeResource X}, never
+        {StaticResource X}, so the runtime can re-resolve on theme change.
+
+        Theme-INVARIANT tokens (spacing, radii, type sizes, easings, durations)
+        live at the root of this dictionary — they don't change with theme.
+        -->
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <!-- ========================================================== -->
+        <!-- LIGHT THEME (Default)                                       -->
+        <!-- The editorial monochromatic palette Composer ships with.   -->
+        <!-- Paper-on-ink, no Material-style state overlays — state     -->
+        <!-- shifts step along the lightness ramp via InkHover/Pressed. -->
+        <!-- ========================================================== -->
+        <ResourceDictionary x:Key="Default">
+
+            <Color x:Key="PaperColor">#FFFFFF</Color>
+            <Color x:Key="Paper2Color">#FAFAFA</Color>
+            <Color x:Key="Paper3Color">#F4F4F5</Color>
+            <!-- Paper4 is the dark-code surface (always dark — even on light
+                 theme code blocks need an editor-window look). Brief §4.2. -->
+            <Color x:Key="Paper4Color">#0A0A0A</Color>
+
+            <!-- Editorial ink ramp per design brief §1.3 — desaturated, more
+                 paper-print than Material baseline. Ink lifts to #1A1A1A so
+                 prose has weight without reading as black-on-white shock. -->
+            <Color x:Key="InkColor">#1A1A1A</Color>
+            <Color x:Key="InkHoverColor">#2A2A2A</Color>
+            <Color x:Key="InkPressedColor">#0E0E0E</Color>
+
+            <Color x:Key="Ink2Color">#3A3A3A</Color>
+            <Color x:Key="Ink3Color">#737373</Color>
+            <Color x:Key="Ink4Color">#A3A3A3</Color>
+            <!-- Ink5 — very low-emphasis chrome (BlockHandle drag affordance). -->
+            <Color x:Key="Ink5Color">#D4D4D4</Color>
+
+            <Color x:Key="HairlineColor">#ECECEC</Color>
+            <Color x:Key="Hairline2Color">#F0F0F0</Color>
+            <Color x:Key="HairlineDkColor">#1F1F1F</Color>
+
+            <Color x:Key="ErrorBgColor">#FEE2E2</Color>
+            <Color x:Key="ErrorBorderColor">#DC2626</Color>
+            <Color x:Key="ErrorTextColor">#7F1D1D</Color>
+
+            <Color x:Key="CheckGreenColor">#16A34A</Color>
+            <Color x:Key="UnoBrandColor">#3D3DFF</Color>
+            <!-- Amber — editorial gold per brief, not Material orange.
+                 Active marker + dirty/preview badge — ONLY usage. -->
+            <Color x:Key="AmberColor">#C89C3F</Color>
+            <Color x:Key="AmberSoftColor">#FDF8EF</Color>
+            <Color x:Key="IndigoColor">#3D3DFF</Color>
+
+            <SolidColorBrush x:Key="PaperBrush"  Color="{StaticResource PaperColor}" />
+            <SolidColorBrush x:Key="Paper2Brush" Color="{StaticResource Paper2Color}" />
+            <SolidColorBrush x:Key="Paper3Brush" Color="{StaticResource Paper3Color}" />
+            <SolidColorBrush x:Key="Paper4Brush" Color="{StaticResource Paper4Color}" />
+
+            <!-- Glass surface treatment — soft pale-blue / cream gradient
+                 behind a translucent white panel. The backdrop gives the
+                 panel something to filter through; the panel reads as glass
+                 because it sits at ~78% white over the gradient. Subtle
+                 white-on-white border softens the panel edge. -->
+            <LinearGradientBrush x:Key="GlassBackdropBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFE3ECF7" Offset="0.0" />
+                <GradientStop Color="#FFF1F4F9" Offset="0.5" />
+                <GradientStop Color="#FFFAF8F1" Offset="1.0" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="GlassPanelBrush"         Color="#C8FFFFFF" />
+            <SolidColorBrush x:Key="GlassPanelBorderBrush"   Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="GlassPanelHairlineBrush" Color="#1A000000" />
+
+            <SolidColorBrush x:Key="InkBrush"        Color="{StaticResource InkColor}" />
+            <SolidColorBrush x:Key="InkHoverBrush"   Color="{StaticResource InkHoverColor}" />
+            <SolidColorBrush x:Key="InkPressedBrush" Color="{StaticResource InkPressedColor}" />
+            <SolidColorBrush x:Key="Ink2Brush"       Color="{StaticResource Ink2Color}" />
+            <SolidColorBrush x:Key="Ink3Brush"       Color="{StaticResource Ink3Color}" />
+            <SolidColorBrush x:Key="Ink4Brush"       Color="{StaticResource Ink4Color}" />
+            <SolidColorBrush x:Key="Ink5Brush"       Color="{StaticResource Ink5Color}" />
+
+            <SolidColorBrush x:Key="HairlineBrush"   Color="{StaticResource HairlineColor}" />
+            <SolidColorBrush x:Key="Hairline2Brush"  Color="{StaticResource Hairline2Color}" />
+            <SolidColorBrush x:Key="HairlineDkBrush" Color="{StaticResource HairlineDkColor}" />
+
+            <SolidColorBrush x:Key="ErrorBgBrush"     Color="{StaticResource ErrorBgColor}" />
+            <SolidColorBrush x:Key="ErrorBorderBrush" Color="{StaticResource ErrorBorderColor}" />
+            <SolidColorBrush x:Key="ErrorTextBrush"   Color="{StaticResource ErrorTextColor}" />
+
+            <SolidColorBrush x:Key="CheckGreenBrush" Color="{StaticResource CheckGreenColor}" />
+            <SolidColorBrush x:Key="UnoBrandBrush"   Color="{StaticResource UnoBrandColor}" />
+            <SolidColorBrush x:Key="AmberBrush"      Color="{StaticResource AmberColor}" />
+            <SolidColorBrush x:Key="AmberSoftBrush"  Color="{StaticResource AmberSoftColor}" />
+            <SolidColorBrush x:Key="IndigoBrush"     Color="{StaticResource IndigoColor}" />
+
+        </ResourceDictionary>
+
+        <!-- ========================================================== -->
+        <!-- DARK THEME                                                  -->
+        <!-- Paper/Ink invert. Soft-black surfaces (not #000000 — the   -->
+        <!-- design.md §1.4 rule about OLED comfort applies here too).  -->
+        <!-- ========================================================== -->
+        <ResourceDictionary x:Key="Dark">
+
+            <Color x:Key="PaperColor">#141418</Color>
+            <Color x:Key="Paper2Color">#1B1B1F</Color>
+            <Color x:Key="Paper3Color">#26262B</Color>
+            <!-- Paper4 stays dark — it's the code-block surface in both
+                 themes (editor-window look is theme-invariant). -->
+            <Color x:Key="Paper4Color">#0A0A0A</Color>
+
+            <Color x:Key="InkColor">#FAFAFA</Color>
+            <Color x:Key="InkHoverColor">#E4E2E6</Color>
+            <Color x:Key="InkPressedColor">#FFFFFF</Color>
+
+            <!-- On dark surfaces the secondary tones fade toward Ink, not
+                 darken — same role (lower contrast than primary) but the
+                 direction is inverted. -->
+            <Color x:Key="Ink2Color">#C7C5D0</Color>
+            <Color x:Key="Ink3Color">#918F9A</Color>
+            <Color x:Key="Ink4Color">#777680</Color>
+            <Color x:Key="Ink5Color">#5C5C66</Color>
+
+            <Color x:Key="HairlineColor">#393940</Color>
+            <Color x:Key="Hairline2Color">#2E2E33</Color>
+            <Color x:Key="HairlineDkColor">#1F1F1F</Color>
+
+            <Color x:Key="ErrorBgColor">#3F1414</Color>
+            <Color x:Key="ErrorBorderColor">#F87171</Color>
+            <Color x:Key="ErrorTextColor">#FCA5A5</Color>
+
+            <!-- Brand colors stay constant across themes — they're identity,
+                 not surface chrome. Amber gets a small bump in saturation so
+                 it remains visible against the dark Paper. -->
+            <Color x:Key="CheckGreenColor">#34D399</Color>
+            <Color x:Key="UnoBrandColor">#A8B0F4</Color>
+            <Color x:Key="AmberColor">#F59E0B</Color>
+            <!-- AmberSoft on dark theme — darker amber-tint so the proposed
+                 backdrop reads against the dark surface without overwhelming. -->
+            <Color x:Key="AmberSoftColor">#3F2D14</Color>
+            <Color x:Key="IndigoColor">#A8B0F4</Color>
+
+            <SolidColorBrush x:Key="PaperBrush"  Color="{StaticResource PaperColor}" />
+            <SolidColorBrush x:Key="Paper2Brush" Color="{StaticResource Paper2Color}" />
+            <SolidColorBrush x:Key="Paper3Brush" Color="{StaticResource Paper3Color}" />
+            <SolidColorBrush x:Key="Paper4Brush" Color="{StaticResource Paper4Color}" />
+
+            <SolidColorBrush x:Key="InkBrush"        Color="{StaticResource InkColor}" />
+            <SolidColorBrush x:Key="InkHoverBrush"   Color="{StaticResource InkHoverColor}" />
+            <SolidColorBrush x:Key="InkPressedBrush" Color="{StaticResource InkPressedColor}" />
+            <SolidColorBrush x:Key="Ink2Brush"       Color="{StaticResource Ink2Color}" />
+            <SolidColorBrush x:Key="Ink3Brush"       Color="{StaticResource Ink3Color}" />
+            <SolidColorBrush x:Key="Ink4Brush"       Color="{StaticResource Ink4Color}" />
+            <SolidColorBrush x:Key="Ink5Brush"       Color="{StaticResource Ink5Color}" />
+
+            <SolidColorBrush x:Key="HairlineBrush"   Color="{StaticResource HairlineColor}" />
+            <SolidColorBrush x:Key="Hairline2Brush"  Color="{StaticResource Hairline2Color}" />
+            <SolidColorBrush x:Key="HairlineDkBrush" Color="{StaticResource HairlineDkColor}" />
+
+            <SolidColorBrush x:Key="ErrorBgBrush"     Color="{StaticResource ErrorBgColor}" />
+            <SolidColorBrush x:Key="ErrorBorderBrush" Color="{StaticResource ErrorBorderColor}" />
+            <SolidColorBrush x:Key="ErrorTextBrush"   Color="{StaticResource ErrorTextColor}" />
+
+            <SolidColorBrush x:Key="CheckGreenBrush" Color="{StaticResource CheckGreenColor}" />
+            <SolidColorBrush x:Key="UnoBrandBrush"   Color="{StaticResource UnoBrandColor}" />
+            <SolidColorBrush x:Key="AmberBrush"      Color="{StaticResource AmberColor}" />
+            <SolidColorBrush x:Key="AmberSoftBrush"  Color="{StaticResource AmberSoftColor}" />
+            <SolidColorBrush x:Key="IndigoBrush"     Color="{StaticResource IndigoColor}" />
+
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+    <!-- ============================================================== -->
+    <!-- Theme-INVARIANT tokens                                         -->
+    <!-- Stay at the root — they don't switch with theme.               -->
+    <!-- ============================================================== -->
+
+    <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+
+    <!-- ========================================================== -->
+    <!-- Phase tints (Implementation canvas only)                    -->
+    <!-- Brand-stable across themes per design brief §1.3.           -->
+    <!-- ========================================================== -->
+    <SolidColorBrush x:Key="PhaseRedBrush"    Color="#B04534" />  <!-- SCAFFOLD -->
+    <SolidColorBrush x:Key="PhaseBlueBrush"   Color="#3D6F9A" />  <!-- SHELL -->
+    <SolidColorBrush x:Key="PhasePurpleBrush" Color="#7D4FA0" />  <!-- DOMAIN -->
+    <SolidColorBrush x:Key="PhasePinkBrush"   Color="#B4567D" />  <!-- SCREENS -->
+    <SolidColorBrush x:Key="PhaseGreenBrush"  Color="#6F8068" />  <!-- STATES -->
+    <SolidColorBrush x:Key="PhaseAmberBrush"  Color="#C89C3F" />  <!-- POLISH -->
+
+    <!-- Phase1-6 numeric aliases per the v11 brief. Both naming schemes
+         are valid; the legacy color-name keys are preserved so existing
+         consumers keep compiling. -->
+    <SolidColorBrush x:Key="Phase1Brush" Color="#B04534" />
+    <SolidColorBrush x:Key="Phase2Brush" Color="#3D6F9A" />
+    <SolidColorBrush x:Key="Phase3Brush" Color="#7D4FA0" />
+    <SolidColorBrush x:Key="Phase4Brush" Color="#B4567D" />
+    <SolidColorBrush x:Key="Phase5Brush" Color="#6F8068" />
+    <SolidColorBrush x:Key="Phase6Brush" Color="#C89C3F" />
+
+    <!-- ========================================================== -->
+    <!-- State tints (Interactions canvas only)                      -->
+    <!-- Per the canonical 6-state contract from design brief §1.3.  -->
+    <!-- StateColor* are the brief's keys; the legacy *Brush keys     -->
+    <!-- stay as aliases.                                            -->
+    <!-- ========================================================== -->
+    <SolidColorBrush x:Key="StateLoadingBrush" Color="#3D3DFF" />  <!-- system-working indigo -->
+    <SolidColorBrush x:Key="StateSuccessBrush" Color="#7A9B6E" />  <!-- sage -->
+    <SolidColorBrush x:Key="StateErrorBrush"   Color="#B04534" />  <!-- coral -->
+    <SolidColorBrush x:Key="StateOfflineBrush" Color="#C89C3F" />  <!-- amber -->
+
+    <SolidColorBrush x:Key="StateColorDefault" Color="#1A1A1A" />
+    <SolidColorBrush x:Key="StateColorLoading" Color="#3D3DFF" />
+    <SolidColorBrush x:Key="StateColorEmpty"   Color="#737373" />
+    <SolidColorBrush x:Key="StateColorError"   Color="#B04534" />
+    <SolidColorBrush x:Key="StateColorSuccess" Color="#7A9B6E" />
+    <SolidColorBrush x:Key="StateColorOffline" Color="#C89C3F" />
+
+    <!-- Spacing scale (Thickness for Margin/Padding) -->
+    <Thickness x:Key="Space2">2</Thickness>
+    <Thickness x:Key="Space4">4</Thickness>
+    <Thickness x:Key="Space6">6</Thickness>
+    <Thickness x:Key="Space8">8</Thickness>
+    <Thickness x:Key="Space10">10</Thickness>
+    <Thickness x:Key="Space12">12</Thickness>
+    <Thickness x:Key="Space14">14</Thickness>
+    <Thickness x:Key="Space16">16</Thickness>
+    <Thickness x:Key="Space20">20</Thickness>
+    <Thickness x:Key="Space24">24</Thickness>
+    <Thickness x:Key="Space32">32</Thickness>
+    <Thickness x:Key="Space40">40</Thickness>
+    <Thickness x:Key="Space48">48</Thickness>
+
+    <!-- Numeric spacing constants for AutoLayout.Spacing (double) -->
+    <x:Double x:Key="Spacing4">4</x:Double>
+    <x:Double x:Key="Spacing6">6</x:Double>
+    <x:Double x:Key="Spacing8">8</x:Double>
+    <x:Double x:Key="Spacing10">10</x:Double>
+    <x:Double x:Key="Spacing12">12</x:Double>
+    <x:Double x:Key="Spacing14">14</x:Double>
+    <x:Double x:Key="Spacing16">16</x:Double>
+    <x:Double x:Key="Spacing20">20</x:Double>
+    <x:Double x:Key="Spacing24">24</x:Double>
+    <x:Double x:Key="Spacing32">32</x:Double>
+
+    <!-- Corner radii — chips/buttons reduced another 25% (from 10 → 8). -->
+    <CornerRadius x:Key="Corner3">3</CornerRadius>
+    <CornerRadius x:Key="Corner6">6</CornerRadius>
+    <CornerRadius x:Key="CornerPill">8</CornerRadius>
+
+    <!-- ========================================================== -->
+    <!-- Motion — durations + easings                                -->
+    <!-- Per design.md §7.3 / §7.4. Use Duration.* on every          -->
+    <!-- animation so the whole motion system retunes from one place.-->
+    <!-- ========================================================== -->
+    <Duration x:Key="Duration.Quick">0:0:0.15</Duration>
+    <Duration x:Key="Duration.Standard">0:0:0.25</Duration>
+    <Duration x:Key="Duration.Expressive">0:0:0.4</Duration>
+    <Duration x:Key="Duration.Slow">0:0:0.6</Duration>
+
+    <!-- Curve-name keys (kept as aliases). -->
+    <CubicEase       x:Key="EaseOutCubic"   EasingMode="EaseOut" />
+    <ExponentialEase x:Key="EaseOutExpo"    EasingMode="EaseOut" Exponent="6" />
+    <QuinticEase     x:Key="EaseInOutQuint" EasingMode="EaseInOut" />
+
+    <!-- Semantic-intent keys (per design.md §7.4). The cubic-bezier
+         control points called out in the design system aren't directly
+         supported by Storyboard easings, so each key uses the closest
+         built-in approximation. -->
+    <ExponentialEase x:Key="EaseStandard"   EasingMode="EaseOut" Exponent="6" />
+    <CubicEase       x:Key="EaseDecelerate" EasingMode="EaseOut" />
+    <CubicEase       x:Key="EaseAccelerate" EasingMode="EaseIn" />
+    <BackEase        x:Key="EaseEmphasized" EasingMode="EaseOut" Amplitude="0.3" />
+
+</ResourceDictionary>

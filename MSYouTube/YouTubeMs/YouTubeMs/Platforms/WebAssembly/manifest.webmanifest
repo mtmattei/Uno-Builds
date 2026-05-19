@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "YouTubeMs",
+  "display": "standalone",
+  "name": "YouTubeMs",
+  "short_name": "YouTubeMs",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
