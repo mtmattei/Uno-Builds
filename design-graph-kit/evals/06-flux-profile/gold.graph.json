@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "graphId": "eval.flux-profile",
   "name": "FluxTransit Profile",
-  "description": "Gold graph for the FluxTransit ProfilePage (source-backed: XAML + MVUX model + FluxStyles). Kit v0.4 altitude.",
+  "description": "Gold graph for the FluxTransit ProfilePage (source-backed: XAML + MVUX model + FluxStyles). Kit v0.4 altitude. Gold v1.1: canonical renamed glass-panel -> card per the kit's own Pass-8 vocabulary (defect found by blind runs).",
   "sourceSummary": [
     {
       "type": "xaml",
@@ -122,9 +122,9 @@
       }
     },
     {
-      "id": "component.glass-panel",
+      "id": "component.card",
       "type": "component",
-      "name": "Glass panel section",
+      "name": "Section card (glass)",
       "role": "card",
       "properties": {
         "uno": {
@@ -143,7 +143,7 @@
       }
     },
     {
-      "id": "component.glass-panel.opus",
+      "id": "component.card.opus",
       "type": "component",
       "name": "OPUS card section",
       "semanticRole": "opusSection",
@@ -157,7 +157,7 @@
       }
     },
     {
-      "id": "component.glass-panel.routes",
+      "id": "component.card.routes",
       "type": "component",
       "name": "Saved routes section",
       "semanticRole": "routesSection",
@@ -171,7 +171,7 @@
       }
     },
     {
-      "id": "component.glass-panel.settings",
+      "id": "component.card.settings",
       "type": "component",
       "name": "Settings section",
       "semanticRole": "settingsSection",
@@ -1286,7 +1286,7 @@
     {
       "from": "screen.profile",
       "relation": "contains",
-      "to": "component.glass-panel.opus",
+      "to": "component.card.opus",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1299,7 +1299,7 @@
     {
       "from": "screen.profile",
       "relation": "contains",
-      "to": "component.glass-panel.routes",
+      "to": "component.card.routes",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1312,7 +1312,7 @@
     {
       "from": "screen.profile",
       "relation": "contains",
-      "to": "component.glass-panel.settings",
+      "to": "component.card.settings",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1362,9 +1362,9 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "instance-of",
-      "to": "component.glass-panel",
+      "to": "component.card",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1376,9 +1376,9 @@
       }
     },
     {
-      "from": "component.glass-panel.routes",
+      "from": "component.card.routes",
       "relation": "instance-of",
-      "to": "component.glass-panel",
+      "to": "component.card",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1390,9 +1390,9 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "instance-of",
-      "to": "component.glass-panel",
+      "to": "component.card",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1404,7 +1404,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "content.opus.section-title",
       "evidence": {
@@ -1417,7 +1417,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "component.opus-card",
       "evidence": {
@@ -1430,7 +1430,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "content.opus.balance-label",
       "evidence": {
@@ -1443,7 +1443,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "content.opus.balance-value",
       "evidence": {
@@ -1456,7 +1456,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "content.opus.refresh-hint",
       "evidence": {
@@ -1469,7 +1469,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "contains",
       "to": "control.opus.update",
       "evidence": {
@@ -1482,7 +1482,7 @@
       }
     },
     {
-      "from": "component.glass-panel.routes",
+      "from": "component.card.routes",
       "relation": "contains",
       "to": "content.routes.section-title",
       "evidence": {
@@ -1495,7 +1495,7 @@
       }
     },
     {
-      "from": "component.glass-panel.routes",
+      "from": "component.card.routes",
       "relation": "contains",
       "to": "component.route-item.home-work",
       "evidence": {
@@ -1508,7 +1508,7 @@
       }
     },
     {
-      "from": "component.glass-panel.routes",
+      "from": "component.card.routes",
       "relation": "contains",
       "to": "component.route-item.downtown-loop",
       "evidence": {
@@ -1521,7 +1521,7 @@
       }
     },
     {
-      "from": "component.glass-panel.routes",
+      "from": "component.card.routes",
       "relation": "contains",
       "to": "control.routes.add",
       "evidence": {
@@ -1562,7 +1562,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.section-title",
       "evidence": {
@@ -1575,7 +1575,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.api-label",
       "evidence": {
@@ -1588,7 +1588,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "control.settings.api-key",
       "evidence": {
@@ -1601,7 +1601,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.api-helper",
       "evidence": {
@@ -1614,7 +1614,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.language-label",
       "evidence": {
@@ -1627,7 +1627,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "control.settings.language",
       "evidence": {
@@ -1640,7 +1640,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.alerts-label",
       "evidence": {
@@ -1653,7 +1653,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "content.settings.alerts-helper",
       "evidence": {
@@ -1666,7 +1666,7 @@
       }
     },
     {
-      "from": "component.glass-panel.settings",
+      "from": "component.card.settings",
       "relation": "contains",
       "to": "control.settings.alerts",
       "evidence": {
@@ -1679,7 +1679,7 @@
       }
     },
     {
-      "from": "component.glass-panel.opus",
+      "from": "component.card.opus",
       "relation": "has-state",
       "to": "state.opus.refreshing",
       "evidence": {
@@ -1767,7 +1767,7 @@
       }
     },
     {
-      "from": "component.glass-panel",
+      "from": "component.card",
       "relation": "uses-token",
       "to": "token.color.glass-panel",
       "properties": {
@@ -1784,7 +1784,7 @@
       }
     },
     {
-      "from": "component.glass-panel",
+      "from": "component.card",
       "relation": "uses-token",
       "to": "token.color.border-subtle",
       "properties": {
@@ -1801,7 +1801,7 @@
       }
     },
     {
-      "from": "component.glass-panel",
+      "from": "component.card",
       "relation": "uses-token",
       "to": "token.radius.24",
       "properties": {
@@ -1818,7 +1818,7 @@
       }
     },
     {
-      "from": "component.glass-panel",
+      "from": "component.card",
       "relation": "uses-token",
       "to": "token.spacing.16",
       "properties": {

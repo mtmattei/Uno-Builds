@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.2 — 2026-08-12
+
+- `SKILL.md` Pass 8 vocabulary (from eval-06 blind findings): `card` now
+  explicitly covers any bordered/rounded grouping container regardless of
+  visual treatment; new list-row entry (`<content>-item`, fallback
+  `list-item`). Eval-06 gold v1.1 renamed `component.glass-panel` →
+  `component.card` to obey the kit's own rule (blind runs that followed the
+  vocabulary re-score higher: run3 macro 0.47 → 0.53).
+- New eval `07-caffe-main`: third architecture — **MVVM**
+  (CommunityToolkit ObservableObject / RelayCommand / x:Bind) on a
+  composed-custom-controls dashboard with two interacting screen states.
+- Packaged as a repo-level Claude Code skill:
+  `.claude/skills/design-graph/SKILL.md` (generate / implement / score
+  modes wrapping the kit).
+
 ## 0.4.1 — 2026-08-12
 
 - Eval 05 gold v1.4 — **consensus calibration**: adopted the blind-v4

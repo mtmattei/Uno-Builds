@@ -258,7 +258,12 @@ ID grammar (binding — repeated blind runs drift exactly where this is loose):
 
 Naming vocabulary (use these; do not coin synonyms):
 
-- a bordered/rounded grouping container → `card`;
+- a bordered/rounded grouping container → `card` — **regardless of its
+  visual treatment** (glass, elevated, outlined section panels are all
+  `card`; the treatment lives in tokens/styles, not the name);
+- a repeated row representing one entry of a collection →
+  `<content>-item` (`route-item`, `order-item`; generic fallback
+  `list-item`);
 - a horizontal label + value pair → `info-row`;
 - a stacked label over value → `field` (qualify by content: `path-field`);
 - an icon + text low-emphasis button → `action-button`;
