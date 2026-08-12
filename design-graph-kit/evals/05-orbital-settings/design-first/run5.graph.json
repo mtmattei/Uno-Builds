@@ -1,0 +1,807 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "orbital-settings-design-first-run5",
+  "name": "Orbital Settings (design-first)",
+  "description": "Design Graph of the 'Orbital' Settings screen, generated solely from a written visual specification of a static dark-theme desktop mock (populated state). No application source was available; all behavior is unknown and the properties.uno layer is a proposed realization.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "id": "brief",
+      "path": "design-graph-kit/experiments/ab-orbital-settings/brief.md",
+      "label": "Written mock description (design brief) standing in for a static screenshot of the populated state; no source code available"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "name": "Settings",
+      "role": "settings page",
+      "properties": {
+        "theme": "dark",
+        "formFactor": "desktop-first",
+        "uno": { "type": "Page" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Screen and title 'Settings' are described in the brief (observed); the Uno mapping (Page) is a proposed realization for a design-only input."
+      }
+    },
+    {
+      "id": "region.settings.header",
+      "type": "region",
+      "name": "Header",
+      "role": "page header",
+      "properties": {
+        "layout": "full-width bar; title block left, search pill right",
+        "padding": "32 horizontal, 20 vertical",
+        "borderBottom": "1px #1A1A1C",
+        "uno": { "type": "Grid" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Header region and its layout are described in the brief (observed); the Uno mapping (Grid) is a proposed realization."
+      }
+    },
+    {
+      "id": "region.settings.content",
+      "type": "region",
+      "name": "Content area",
+      "role": "scrollable content region",
+      "properties": {
+        "scrollable": true,
+        "padding": 32,
+        "cardGap": 24,
+        "layout": "full-width PROFILE card, then a two-column row (16 gutter): ABOUT left; PATHS above ACTIONS (24 gap) right",
+        "uno": { "type": "ScrollViewer" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Scrollable content area with padding 32 and 24 card gap is described in the brief (observed); the Uno mapping (ScrollViewer) is a proposed realization."
+      }
+    },
+    {
+      "id": "content.header.title",
+      "type": "content",
+      "name": "Page title",
+      "text": "Settings",
+      "semanticRole": "pageTitle",
+      "properties": {
+        "fontFamily": "display",
+        "fontSize": 28,
+        "emphasis": "high",
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Title text and treatment observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "content.header.subtitle",
+      "type": "content",
+      "name": "Page subtitle",
+      "text": "Profile and preferences",
+      "semanticRole": "pageSubtitle",
+      "properties": {
+        "fontSize": 13,
+        "emphasis": "faint",
+        "gapAboveFromTitle": 4,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Subtitle text and treatment observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "control.header.search",
+      "type": "control",
+      "name": "Search pill",
+      "text": "Search or run command...",
+      "properties": {
+        "appearance": "pill: background #141416, 1px border #212123, radius 8, padding 12x8",
+        "leadingIcon": "search glyph",
+        "placeholderStyle": "mono ~12, faint",
+        "shortcutBadge": "Ctrl+K keycap (background #1A1A1C, radius 4, mono ~10)",
+        "uno": { "type": "Button" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.75,
+        "rationale": "The pill with search glyph, placeholder-style text and Ctrl+K keycap is observed in the brief; whether it is a live text input or a command-palette trigger is not knowable from a static mock, so the Uno mapping (Button opening a palette) is a proposed realization — see unresolved.search-behavior."
+      }
+    },
+    {
+      "id": "component.card",
+      "type": "component",
+      "name": "Settings card",
+      "role": "section card",
+      "properties": {
+        "parts": ["section-title", "body"],
+        "sectionTitleTreatment": "mono ~11, uppercase, faint #5D6372; 16 gap to body",
+        "appearance": "background #141416, 1px border #212123, radius 12, padding 20",
+        "uno": { "type": "Border" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Four cards (PROFILE, ABOUT, PATHS, ACTIONS) share identical container treatment and an uppercase mono section header, indicating one reusable card concept; the Uno mapping (Border) is a proposed realization."
+      }
+    },
+    {
+      "id": "component.card.profile",
+      "type": "component",
+      "name": "PROFILE card",
+      "properties": {
+        "sectionTitle": "PROFILE",
+        "placement": "full width, first card"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Card 1 with section header PROFILE is described in the brief."
+      }
+    },
+    {
+      "id": "component.card.about",
+      "type": "component",
+      "name": "ABOUT card",
+      "properties": {
+        "sectionTitle": "ABOUT",
+        "placement": "two-column row, left column"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Card 2 with section header ABOUT is described in the brief."
+      }
+    },
+    {
+      "id": "component.card.paths",
+      "type": "component",
+      "name": "PATHS card",
+      "properties": {
+        "sectionTitle": "PATHS",
+        "placement": "two-column row, right column, top"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Card 3 with section header PATHS is described in the brief."
+      }
+    },
+    {
+      "id": "component.card.actions",
+      "type": "component",
+      "name": "ACTIONS card",
+      "properties": {
+        "sectionTitle": "ACTIONS",
+        "placement": "two-column row, right column, 24 below PATHS",
+        "bodyLayout": "three quiet buttons stacked 12 apart, 12 below section header"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Card 4 with section header ACTIONS is described in the brief."
+      }
+    },
+    {
+      "id": "content.profile.display-name-label",
+      "type": "content",
+      "name": "Display Name label",
+      "text": "Display Name",
+      "semanticRole": "fieldLabel",
+      "properties": {
+        "fontFamily": "mono",
+        "fontSize": 11,
+        "emphasis": "muted",
+        "gapBelowToInput": 8,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Label text and treatment observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "control.profile.display-name-input",
+      "type": "control",
+      "name": "Display name input",
+      "role": "textbox",
+      "properties": {
+        "placeholder": "Enter your name",
+        "appearance": "background #141416, 1px border #212123, mono ~13",
+        "uno": { "type": "TextBox" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Text input with placeholder 'Enter your name' observed in the brief; the Uno mapping (TextBox) is a proposed realization."
+      }
+    },
+    {
+      "id": "control.profile.save",
+      "type": "control",
+      "name": "Save button",
+      "role": "button",
+      "text": "Save",
+      "semanticRole": "primaryAction",
+      "properties": {
+        "appearance": "compact filled: emerald #10B981 background, dark text, radius 8, padding 12x6, ~13 medium",
+        "gapLeftFromInput": 8,
+        "uno": { "type": "Button" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "rationale": "Button and label observed in the brief; primaryAction is inferred because it is the only filled accent button on the screen; the Uno mapping (Button) is a proposed realization. Its actual behavior is unknown — see unresolved.save-behavior."
+      }
+    },
+    {
+      "id": "content.profile.helper",
+      "type": "content",
+      "name": "Display name helper text",
+      "text": "This name appears in the homepage greeting.",
+      "semanticRole": "helperText",
+      "properties": {
+        "fontFamily": "mono",
+        "fontSize": 11,
+        "emphasis": "faint",
+        "gapAbove": 8,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Helper text observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "asset.about.logo",
+      "type": "asset",
+      "name": "Product logo",
+      "role": "logo",
+      "geometry": { "width": 32, "height": 32, "unit": "px" },
+      "properties": {
+        "container": "48x48 tile, background #1A1A1C, radius 12",
+        "uno": { "type": "Image" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "32x32 product logo inside a 48x48 tile observed in the brief; the Uno mapping (Image) is a proposed realization — no asset path is declared anywhere in the input."
+      }
+    },
+    {
+      "id": "content.about.app-name",
+      "type": "content",
+      "name": "App name",
+      "text": "Orbital",
+      "properties": {
+        "fontSize": 13,
+        "fontWeight": "semibold",
+        "emphasis": "high",
+        "gapLeftFromTile": 16,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "App name text and treatment observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "content.about.version",
+      "type": "content",
+      "name": "App version",
+      "text": "v0.1.0-alpha",
+      "properties": {
+        "fontFamily": "mono",
+        "fontSize": 11,
+        "emphasis": "faint",
+        "gapAboveFromName": 4,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Version text and treatment observed in the brief; the Uno mapping (TextBlock) is a proposed realization."
+      }
+    },
+    {
+      "id": "component.info-row",
+      "type": "component",
+      "name": "Info row",
+      "role": "label/value row",
+      "properties": {
+        "parts": ["label", "value"],
+        "labelTreatment": "left, mono ~11, muted #7B8191",
+        "valueTreatment": "right-aligned, mono ~11, medium #B5B9C5",
+        "stackGap": 8,
+        "uno": { "type": "Grid" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Four rows in the ABOUT card share identical label-left/value-right structure and treatment, indicating one reusable row concept; the Uno mapping (Grid) is a proposed realization."
+      }
+    },
+    {
+      "id": "component.info-row.uno-platform-sdk",
+      "type": "component",
+      "properties": { "label": "Uno Platform SDK", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.info-row.dotnet-runtime",
+      "type": "component",
+      "properties": { "label": ".NET Runtime", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.info-row.renderer",
+      "type": "component",
+      "properties": { "label": "Renderer", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.info-row.platform",
+      "type": "component",
+      "properties": { "label": "Platform", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.path-field",
+      "type": "component",
+      "name": "Path field",
+      "role": "stacked label/value field",
+      "properties": {
+        "parts": ["label", "value"],
+        "labelTreatment": "mono ~11, muted #7B8191",
+        "valueTreatment": "wrapping line 8 below label, mono ~11, medium #B5B9C5",
+        "stackGap": 16,
+        "uno": { "type": "StackPanel" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Three field groups in the PATHS card share identical stacked label-over-wrapping-value structure and treatment, indicating one reusable field concept; the Uno mapping (StackPanel) is a proposed realization."
+      }
+    },
+    {
+      "id": "component.path-field.project-root",
+      "type": "component",
+      "properties": { "label": "Project Root", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.path-field.recent-projects-database",
+      "type": "component",
+      "properties": { "label": "Recent Projects Database", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.path-field.claude-code-skills",
+      "type": "component",
+      "properties": { "label": "Claude Code Skills", "value": "..." },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field label and placeholder value observed in the brief."
+      }
+    },
+    {
+      "id": "component.action-button",
+      "type": "component",
+      "name": "Action button",
+      "role": "quiet icon+label button",
+      "properties": {
+        "parts": ["icon", "label"],
+        "appearance": "full-width, left-aligned, transparent background, radius 8, padding 12x6, ~13 medium-muted text, small leading icon",
+        "uno": { "type": "Button" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Three buttons in the ACTIONS card share identical quiet icon+label structure and treatment, indicating one reusable button concept; the Uno mapping (Button) is a proposed realization."
+      }
+    },
+    {
+      "id": "component.action-button.clear-recent-projects",
+      "type": "component",
+      "properties": { "icon": "🗑", "label": "Clear Recent Projects" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button icon and label observed in the brief."
+      }
+    },
+    {
+      "id": "component.action-button.open-data-folder",
+      "type": "component",
+      "properties": { "icon": "📁", "label": "Open Data Folder" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button icon and label observed in the brief."
+      }
+    },
+    {
+      "id": "component.action-button.uno-docs",
+      "type": "component",
+      "properties": { "icon": "📖", "label": "Uno Platform Documentation" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button icon and label observed in the brief."
+      }
+    },
+    {
+      "id": "state.about.loading",
+      "type": "state",
+      "name": "About values loading",
+      "properties": {
+        "presentation": "all four info-row values read '...'"
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.7,
+        "rationale": "The brief states the ABOUT values 'read `...` (still loading)', implying an async-populated presentation; only this one frame is shown, so the populated presentation is unknown — see unresolved.loading-populated."
+      }
+    },
+    {
+      "id": "state.paths.loading",
+      "type": "state",
+      "name": "Paths values loading",
+      "properties": {
+        "presentation": "all three path-field values read '...'"
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.7,
+        "rationale": "The brief states the PATHS values 'read `...`', matching the ABOUT card's still-loading placeholder convention; the populated presentation is unknown — see unresolved.loading-populated."
+      }
+    },
+    {
+      "id": "token.color.background",
+      "type": "token",
+      "category": "color",
+      "name": "Page background",
+      "value": "#0A0A0B",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the page background." }
+    },
+    {
+      "id": "token.color.surface1",
+      "type": "token",
+      "category": "color",
+      "name": "Card/input surface",
+      "value": "#141416",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief as card, search pill, and text input background." }
+    },
+    {
+      "id": "token.color.surface2",
+      "type": "token",
+      "category": "color",
+      "name": "Raised tile / divider tone",
+      "value": "#1A1A1C",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief as header bottom border, keycap badge background, and logo tile background." }
+    },
+    {
+      "id": "token.color.border",
+      "type": "token",
+      "category": "color",
+      "name": "Hairline border",
+      "value": "#212123",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief as the 1px border of cards, search pill, and text input." }
+    },
+    {
+      "id": "token.color.text-high",
+      "type": "token",
+      "category": "color",
+      "name": "High-emphasis text",
+      "value": "#D6D9E1",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the high-emphasis text color." }
+    },
+    {
+      "id": "token.color.text-medium",
+      "type": "token",
+      "category": "color",
+      "name": "Medium-emphasis text",
+      "value": "#B5B9C5",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the medium-emphasis text color (values)." }
+    },
+    {
+      "id": "token.color.text-muted",
+      "type": "token",
+      "category": "color",
+      "name": "Muted text",
+      "value": "#7B8191",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the muted text color (labels)." }
+    },
+    {
+      "id": "token.color.text-faint",
+      "type": "token",
+      "category": "color",
+      "name": "Faint text",
+      "value": "#5D6372",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the faint text color (section headers, helper text, subtitle)." }
+    },
+    {
+      "id": "token.color.accent",
+      "type": "token",
+      "category": "color",
+      "name": "Emerald accent",
+      "value": "#10B981",
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief as the sparingly used emerald accent with dark text on it." }
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "category": "radius",
+      "value": 12,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: card corner radius and logo tile radius." }
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "category": "radius",
+      "value": 8,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: search pill, Save button, and action buttons." }
+    },
+    {
+      "id": "token.radius.4",
+      "type": "token",
+      "category": "radius",
+      "value": 4,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Declared in the brief for the Ctrl+K keycap badge." }
+    },
+    {
+      "id": "token.spacing.8",
+      "type": "token",
+      "category": "spacing",
+      "value": 8,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: label-to-input gap, input-to-Save gap, helper gap, info-row stack, path label-to-value gap." }
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "category": "spacing",
+      "value": 12,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: pill/button horizontal padding, ACTIONS stack gap and header gap." }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "value": 16,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: column gutter, section-header-to-content gap, identity-row gaps, PATHS field stack." }
+    },
+    {
+      "id": "token.spacing.20",
+      "type": "token",
+      "category": "spacing",
+      "value": 20,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: card padding and header vertical padding." }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "category": "spacing",
+      "value": 24,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: vertical gap between cards, including PATHS-to-ACTIONS." }
+    },
+    {
+      "id": "token.spacing.32",
+      "type": "token",
+      "category": "spacing",
+      "value": 32,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief: content-area padding and header horizontal padding." }
+    },
+    {
+      "id": "token.typography.display",
+      "type": "token",
+      "category": "typography",
+      "name": "Display/sans face",
+      "value": { "family": "geometric display/sans (family not named in the brief)" },
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "The brief declares a geometric display/sans face for titles and body; the concrete family is not named — see unresolved.font-families." }
+    },
+    {
+      "id": "token.typography.mono",
+      "type": "token",
+      "category": "typography",
+      "name": "Monospace face",
+      "value": { "family": "monospace (family not named in the brief)" },
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "The brief declares a monospace face for labels, values, and small text; the concrete family is not named — see unresolved.font-families." }
+    },
+    {
+      "id": "token.font-size.11",
+      "type": "token",
+      "category": "typography",
+      "value": 11,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief (~11): section headers, field labels, helper text, info-row and path-field text, version." }
+    },
+    {
+      "id": "token.font-size.13",
+      "type": "token",
+      "category": "typography",
+      "value": 13,
+      "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Recurs in the brief (~13): subtitle, input text, Save button, app name, action-button labels." }
+    }
+  ],
+  "edges": [
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.header", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Header described as full width at top of the screen." } },
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.content", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Scrollable content area described below the header." } },
+    { "from": "region.settings.header", "relation": "contains", "to": "content.header.title", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Title 'Settings' described at header left." } },
+    { "from": "region.settings.header", "relation": "contains", "to": "content.header.subtitle", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Subtitle described 4 below the title." } },
+    { "from": "region.settings.header", "relation": "contains", "to": "control.header.search", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Search pill described at header right." } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.profile", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card 1 (PROFILE) described full width in the content area." } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.about", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card 2 (ABOUT) described in the two-column row, left column." } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.paths", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card 3 (PATHS) described in the two-column row, right column." } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.actions", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card 4 (ACTIONS) described 24 below PATHS in the right column." } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.display-name-label", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field label described inside the PROFILE card." } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.display-name-input", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Text input described 8 below the label." } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.save", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Save button described 8 right of the input." } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.helper", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Helper text described 8 below the input row." } },
+    { "from": "component.card.about", "relation": "contains", "to": "asset.about.logo", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Logo tile described in the ABOUT identity row." } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.app-name", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "App name described right of the tile." } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.version", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Version described stacked 4 below the app name." } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.uno-platform-sdk", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row described in the ABOUT card." } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.dotnet-runtime", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row described in the ABOUT card." } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.renderer", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row described in the ABOUT card." } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.platform", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row described in the ABOUT card." } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.project-root", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field group described in the PATHS card." } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.recent-projects-database", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field group described in the PATHS card." } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.claude-code-skills", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field group described in the PATHS card." } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.clear-recent-projects", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Button described in the ACTIONS card." } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.open-data-folder", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Button described in the ACTIONS card." } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.uno-docs", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Button described in the ACTIONS card." } },
+    { "from": "component.card.profile", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the common card container and section-header treatment." } },
+    { "from": "component.card.about", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the common card container and section-header treatment." } },
+    { "from": "component.card.paths", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the common card container and section-header treatment." } },
+    { "from": "component.card.actions", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the common card container and section-header treatment." } },
+    { "from": "component.info-row.uno-platform-sdk", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four rows sharing identical label/value structure and treatment." } },
+    { "from": "component.info-row.dotnet-runtime", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four rows sharing identical label/value structure and treatment." } },
+    { "from": "component.info-row.renderer", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four rows sharing identical label/value structure and treatment." } },
+    { "from": "component.info-row.platform", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four rows sharing identical label/value structure and treatment." } },
+    { "from": "component.path-field.project-root", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three field groups sharing identical stacked label/value structure." } },
+    { "from": "component.path-field.recent-projects-database", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three field groups sharing identical stacked label/value structure." } },
+    { "from": "component.path-field.claude-code-skills", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three field groups sharing identical stacked label/value structure." } },
+    { "from": "component.action-button.clear-recent-projects", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three buttons sharing identical quiet icon+label structure." } },
+    { "from": "component.action-button.open-data-folder", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three buttons sharing identical quiet icon+label structure." } },
+    { "from": "component.action-button.uno-docs", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three buttons sharing identical quiet icon+label structure." } },
+    { "from": "component.card.about", "relation": "has-state", "to": "state.about.loading", "evidence": { "kind": "inferred", "confidence": 0.7, "rationale": "The brief describes the ABOUT values as '...' (still loading); only this frame is shown." } },
+    { "from": "component.card.paths", "relation": "has-state", "to": "state.paths.loading", "evidence": { "kind": "inferred", "confidence": 0.7, "rationale": "The brief describes the PATHS values as '...', matching the still-loading placeholder convention." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.background", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Page background declared in the brief." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.32", "properties": { "appliesTo": "page padding (content area, header horizontal)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "32 padding declared for content area and header." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.typography.display", "properties": { "appliesTo": "titles and body text" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Display/sans face declared for titles and body." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "labels, values, small text" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Monospace face declared for labels, values, and small text." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.text-high", "properties": { "appliesTo": "high-emphasis text (page title, app name)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Emphasis ramp declared in the brief." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.text-medium", "properties": { "appliesTo": "medium-emphasis text (values)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Emphasis ramp declared in the brief." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "muted text (labels)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Emphasis ramp declared in the brief." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "faint text (subtitle, section headers, helper, version)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Emphasis ramp declared in the brief." } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "bottom border (1px)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Header bottom border 1px #1A1A1C declared in the brief." } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "vertical padding" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Header padding 20 vertical declared in the brief." } },
+    { "from": "region.settings.content", "relation": "uses-token", "to": "token.spacing.24", "properties": { "appliesTo": "vertical gap between cards" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "24 gap between cards declared in the brief." } },
+    { "from": "region.settings.content", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "two-column gutter" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "16 gutter declared for the two-column row." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card background declared in the brief." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border (1px)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card border declared in the brief." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card corner radius 12 declared in the brief." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "padding" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Card padding 20 declared in the brief." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "section-title color" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Section headers declared faint #5D6372." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.font-size.11", "properties": { "appliesTo": "section-title size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Section headers declared mono ~11." } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "section-title to content gap" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "16 gap to content declared for the PROFILE header treatment shared by all cards." } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "label color" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row labels declared muted #7B8191." } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text-medium", "properties": { "appliesTo": "value color" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Row values declared medium #B5B9C5." } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.font-size.11", "properties": { "appliesTo": "label and value size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Rows declared mono ~11." } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "label color" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field labels declared muted." } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.color.text-medium", "properties": { "appliesTo": "value color" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Field values declared medium." } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.font-size.11", "properties": { "appliesTo": "label and value size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Fields declared mono ~11." } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "label to value gap" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Value declared 8 below its label." } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Action buttons declared radius 8." } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.font-size.13", "properties": { "appliesTo": "label size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Action buttons declared ~13." } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "horizontal padding (12x6)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Action buttons declared padding 12x6." } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Save button declared emerald #10B981 background." } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Save button declared radius 8." } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.font-size.13", "properties": { "appliesTo": "label size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Save button declared ~13 medium." } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "horizontal padding (12x6)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Save button declared padding 12x6." } },
+    { "from": "control.profile.display-name-input", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Input declared background #141416." } },
+    { "from": "control.profile.display-name-input", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border (1px)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Input declared 1px border #212123." } },
+    { "from": "control.profile.display-name-input", "relation": "uses-token", "to": "token.font-size.13", "properties": { "appliesTo": "text size" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Input declared mono ~13." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Search pill declared background #141416." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border (1px)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Search pill declared 1px border #212123." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Search pill declared radius 8." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "horizontal padding (12x8)" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Search pill declared padding 12x8." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "keycap badge background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Keycap badge declared background #1A1A1C." } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "keycap badge cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Keycap badge declared radius 4." } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "tile background" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Logo tile declared background #1A1A1C." } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "tile cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "Logo tile declared radius 12." } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.search-behavior",
+      "question": "Is the header search pill a live text input or a button that opens a search/command palette, and what does Ctrl+K do?",
+      "relatedIds": ["control.header.search"],
+      "possibleValues": ["TextBox/AutoSuggestBox live input", "Button opening a command palette overlay"],
+      "reason": "The mock is static; the placeholder 'Search or run command...' plus a keycap badge is consistent with both realizations. The proposed uno.type Button is only one plausible realization."
+    },
+    {
+      "id": "unresolved.save-behavior",
+      "question": "What does the Save button do when clicked (persistence target, validation, any confirmation feedback)?",
+      "relatedIds": ["control.profile.save", "control.profile.display-name-input"],
+      "reason": "No behavior is observable in a static mock; the helper text implies the name feeds a homepage greeting, but persistence and feedback are unknown, so no triggers edge is asserted."
+    },
+    {
+      "id": "unresolved.action-behaviors",
+      "question": "What do the three ACTIONS buttons do (e.g. does Clear Recent Projects confirm before a destructive clear; does Open Data Folder open a file manager; does Uno Platform Documentation open an external browser)?",
+      "relatedIds": [
+        "component.action-button.clear-recent-projects",
+        "component.action-button.open-data-folder",
+        "component.action-button.uno-docs"
+      ],
+      "reason": "Labels and icons suggest intent (the trash icon hints at a destructive action) but the mock is static, so no triggers or navigates-to edges are asserted."
+    },
+    {
+      "id": "unresolved.loading-populated",
+      "question": "How do the ABOUT and PATHS values present once loaded, and is '...' the intended loading treatment (vs. skeleton/spinner)?",
+      "relatedIds": ["component.card.about", "component.card.paths", "state.about.loading", "state.paths.loading"],
+      "reason": "The brief says values 'read ... (still loading)' but shows only this single frame; the populated presentation and the loading mechanism are unknown."
+    },
+    {
+      "id": "unresolved.action-text-color",
+      "question": "Which exact text color do the ACTIONS buttons use?",
+      "relatedIds": ["component.action-button", "token.color.text-medium", "token.color.text-muted"],
+      "possibleValues": ["#B5B9C5 (medium)", "#7B8191 (muted)"],
+      "reason": "The brief says 'medium-muted text', which is ambiguous between the two declared emphasis levels, so no uses-token color edge is asserted for the action-button label."
+    },
+    {
+      "id": "unresolved.font-families",
+      "question": "Which concrete font families realize the geometric display/sans face and the monospace face?",
+      "relatedIds": ["token.typography.display", "token.typography.mono"],
+      "reason": "The brief declares two families by role only; no family names or font resources are given, so no FontFamily resource is proposed."
+    },
+    {
+      "id": "unresolved.action-label-face",
+      "question": "Do the ACTIONS button labels use the mono or the sans face?",
+      "relatedIds": ["component.action-button", "token.typography.mono", "token.typography.display"],
+      "possibleValues": ["mono", "sans"],
+      "reason": "The brief says 'mono/sans ~13', leaving the face ambiguous."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md v0.4, design-first pilot (brief-only input)",
+    "generatedAt": "2026-08-12",
+    "inputs": ["experiments/ab-orbital-settings/brief.md"],
+    "notes": "Static mock: no triggers or navigates-to edges asserted; interaction intent recorded in unresolved. properties.uno layer is a proposed realization (inferred); no x:Name, styleKey, class, or resourceKey emitted because none are declared in the input."
+  }
+}
