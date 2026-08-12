@@ -240,6 +240,31 @@ blind-v3 runs (agnostic v0.3 rules) are archived unscored in
 `evals/05-orbital-settings/blind-v3/`; the next validation round runs under
 v0.4 and scores mapping-layer recovery in addition to the semantic layer.
 
+## v0.4 blind validation — the Uno-first format holds
+
+Full analysis: `evals/05-orbital-settings/blind-v4/README.md`.
+
+| Metric | v0.1 | v0.2 | **v0.4** |
+|---|---:|---:|---:|
+| mean pairwise macro F1 | 0.497 | 0.563 | **0.758** |
+| mean pairwise node-id F1 | 0.707 | 0.814 | **0.929** |
+| drift tail (singleton ids) | 72 | 30 | **9** |
+| hallucinations (20 blind runs) | 0 | 0 | **0** |
+
+Five blind runs now produce near-clone graphs, and the new mapping layer
+transports declared Uno identity almost losslessly: verbatim value recall
+of resource keys / x:Names / style keys / control types is **0.86–0.90**
+(strict triple F1 0.64–0.66; the difference is classification variance,
+not loss).
+
+The residual vs-gold gap changed character: the five runs *agree with each
+other* (pairwise edge F1 up to 0.95) on a token-wiring altitude richer than
+gold's (~53 `uses-token` edges vs 11, including the text-emphasis brushes).
+That is now a **consensus-vs-answer-key calibration decision** — adopt the
+consensus into gold v1.4, or pin typography tokens to canonical
+style-consumer concepts by rule — to be made explicitly, not ruled away.
+Small true gaps: icon-glyph capture (0/5), one run dropped one trigger.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical
