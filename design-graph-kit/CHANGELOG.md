@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.5.0 — 2026-08-12
+
+Consensus calibration round from eval-07's unanimous blind findings, plus
+the design-first pilot:
+
+- `SKILL.md` Pass 8: screen-slug rule (generic page names take the app
+  prefix: `screen.caffe-main`); source-declared reusable controls
+  (UserControls) are always `component`, with interactivity in `role`.
+- `references/ontology.md`: condition-vs-presentation rule (one logical
+  condition driving several nodes → one state per affected node, named for
+  its local presentation, linked via `properties.uno.member`); trigger
+  attachment rule (canonical component when instances trigger identically).
+- Eval-07 gold v1.1 recalibrated to the 5/5 consensus on all four points +
+  token breadth; blind runs re-score macro 0.370 → **0.521**, node-id F1
+  0.55–0.59 → **0.80–0.86**.
+- Design-first pilot: `evals/05-orbital-settings/design-first/` — five
+  blind runs generating graphs from the visual brief alone (no source),
+  measuring structural recall, behavior honesty, and mapping-layer
+  fabrication discipline. Results in its README.
+
 ## 0.4.2 — 2026-08-12
 
 - `SKILL.md` Pass 8 vocabulary (from eval-06 blind findings): `card` now

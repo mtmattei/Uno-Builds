@@ -123,6 +123,20 @@ section that swaps content owns its state; only whole-screen conditions
 attach to the screen. The `triggers` edge, when supported, points from the
 initiating control to the state or component it produces.
 
+Condition-vs-presentation rule (v0.5, from eval-07 5/5 consensus): when one
+logical condition (e.g. a ViewModel's `HasSelection`) drives presentation
+changes at **multiple** nodes, create a state per affected node, each named
+for its **local presentation** (`state.espresso-card.selected`,
+`state.brew-button.disabled`, `state.selection-overview.hidden`); reserve a
+single screen-level state for conditions that swap whole-screen presentation
+(`state.caffe-main.brewing`). Record the shared driving condition in each
+state's `properties.uno.member` so the linkage stays machine-readable.
+
+Trigger attachment rule (v0.5): when every instance of a canonical component
+triggers identically, attach the `triggers` edge **once, from the
+canonical**; per-instance trigger edges only when instances genuinely
+differ. (Mirrors the `uses-token` once-per-concept rule.)
+
 ## Relationship types
 
 ### `contains`

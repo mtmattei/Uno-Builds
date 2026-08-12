@@ -252,9 +252,18 @@ ID grammar (binding — repeated blind runs drift exactly where this is loose):
   segments, where scope is the screen slug or a section/region slug
   (`control.profile.save`, `content.about.version`, `state.profile.saved`,
   `token.spacing.16`, `token.color.surface1`).
-- **Screen:** `screen.<slug>`.
+- **Screen:** `screen.<slug>` — the slug is the declared page name,
+  slugified, minus a trailing "Page"; when that result is generic
+  (`main`, `home`, `index`, `shell`), prefix the app slug
+  (`MainPage` in the Caffe app → `screen.caffe-main`). Scope slugs in
+  other ids follow the same choice.
 - When the source declares a name (`x:Name`, Figma component name), slugify
   it for the element slug instead of inventing a synonym.
+- A **source-declared reusable control** (UserControl / custom control) is
+  always a `component` — even when interactive; its interactive nature goes
+  in `role` (`component.brew-button` with `role: button`). The `control`
+  type is for framework-primitive interactive elements (Button, TextBox,
+  ToggleSwitch…) used directly.
 
 Naming vocabulary (use these; do not coin synonyms):
 

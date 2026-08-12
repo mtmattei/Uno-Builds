@@ -61,6 +61,22 @@ kit's own precedent (v1.4 calibration), evidence against the gold:
   when instances differ.
 - Gold v1.1 calibration to the consensus on all four points, then re-score.
 
+## Post-calibration (gold v1.1, kit v0.5 rules)
+
+All four queued decisions were adopted — screen-slug app-prefix rule,
+UserControl ⇒ component, condition-vs-presentation state decomposition,
+canonical trigger attachment, token breadth — codified in SKILL.md Pass 8
+and ontology.md, and gold was recalibrated. Re-scored against gold v1.1:
+
+| Metric | vs gold v1.0 | **vs gold v1.1** |
+|---|---:|---:|
+| mean macro F1 | 0.370 | **0.521** |
+| node-id F1 | 0.55–0.59 | **0.80–0.86** |
+| uno_mapping F1 | 0.56–0.58 | **0.78–0.79** |
+| edge F1 | 0.23–0.26 | **0.53–0.65** |
+
+The consensus reading was right on all four counts.
+
 ## Verdict
 
 **MVVM: validated.** Third architecture, zero hallucinations, the

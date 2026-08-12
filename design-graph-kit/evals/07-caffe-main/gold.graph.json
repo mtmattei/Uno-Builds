@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "graphId": "eval.caffe-main",
   "name": "Caffe Main",
-  "description": "Gold graph for the Caffe MainPage (source-backed MVVM: CommunityToolkit ObservableObject/RelayCommand, x:Bind). Kit v0.4.2 altitude.",
+  "description": "Gold graph for the Caffe MainPage (source-backed MVVM: CommunityToolkit ObservableObject/RelayCommand, x:Bind). Kit v0.5 altitude. Gold v1.1: calibrated to the eval-07 5/5 blind consensus (screen slug, UserControl=component, per-site states, canonical trigger attachment, token breadth).",
   "sourceSummary": [
     {
       "type": "xaml",
@@ -31,7 +31,7 @@
   ],
   "nodes": [
     {
-      "id": "screen.main",
+      "id": "screen.caffe-main",
       "type": "screen",
       "name": "Caffe main (brew)",
       "properties": {
@@ -163,7 +163,7 @@
       }
     },
     {
-      "id": "region.main.menu",
+      "id": "region.caffe-main.menu",
       "type": "region",
       "name": "Espresso menu",
       "evidence": {
@@ -291,7 +291,7 @@
       }
     },
     {
-      "id": "region.main.parameters",
+      "id": "region.caffe-main.parameters",
       "type": "region",
       "name": "Brew parameters",
       "evidence": {
@@ -305,8 +305,8 @@
       }
     },
     {
-      "id": "control.parameters.temperature",
-      "type": "control",
+      "id": "component.temperature-gauge",
+      "type": "component",
       "name": "Temperature",
       "role": "gauge",
       "semanticRole": "temperatureInput",
@@ -328,8 +328,8 @@
       }
     },
     {
-      "id": "control.parameters.extraction",
-      "type": "control",
+      "id": "component.extraction-arc",
+      "type": "component",
       "name": "Extraction time",
       "role": "dial",
       "semanticRole": "extractionTimeInput",
@@ -351,8 +351,8 @@
       }
     },
     {
-      "id": "control.parameters.grind",
-      "type": "control",
+      "id": "component.grind-selector",
+      "type": "component",
       "name": "Grind level",
       "role": "selector",
       "semanticRole": "grindLevelInput",
@@ -409,8 +409,8 @@
       }
     },
     {
-      "id": "control.main.brew",
-      "type": "control",
+      "id": "component.brew-button",
+      "type": "component",
       "name": "Brew",
       "role": "button",
       "semanticRole": "primaryAction",
@@ -434,10 +434,52 @@
       }
     },
     {
-      "id": "state.main.selected",
+      "id": "state.espresso-card.selected",
       "type": "state",
-      "name": "Espresso selected",
+      "name": "Card selected",
       "semanticRole": "selected",
+      "properties": {
+        "uno": {
+          "mechanism": "binding",
+          "member": "HasSelection / IsSelected"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "Selected card gets IsSelected visual via code-behind sync."
+      }
+    },
+    {
+      "id": "state.brew-button.disabled",
+      "type": "state",
+      "name": "Brew disabled",
+      "semanticRole": "disabled",
+      "properties": {
+        "uno": {
+          "mechanism": "binding",
+          "member": "HasSelection (RelayCommand CanExecute)"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "BrewCommand CanExecute=HasSelection; button disabled until a card is selected."
+      }
+    },
+    {
+      "id": "state.selection-overview.hidden",
+      "type": "state",
+      "name": "Overview hidden",
+      "semanticRole": "hidden",
       "properties": {
         "uno": {
           "mechanism": "binding",
@@ -451,11 +493,11 @@
           "type": "csharp",
           "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
         },
-        "rationale": "SelectedEspresso != null: shows overview, enables Brew, sets card IsSelected + button text."
+        "rationale": "Overview Visibility bound to HasSelection; hidden until selection."
       }
     },
     {
-      "id": "state.main.brewing",
+      "id": "state.caffe-main.brewing",
       "type": "state",
       "name": "Brewing",
       "semanticRole": "busy",
@@ -881,6 +923,160 @@
       }
     },
     {
+      "id": "token.typography.button",
+      "type": "token",
+      "name": "Button type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "ButtonTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.grind-hint",
+      "type": "token",
+      "name": "Grind hint type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "GrindHintTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.overview-label",
+      "type": "token",
+      "name": "Overview label type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OverviewLabelTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.overview-value",
+      "type": "token",
+      "name": "Overview value type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OverviewValueTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.brewing-title",
+      "type": "token",
+      "name": "Brewing title type",
+      "category": "typography",
+      "value": {
+        "family": "Cormorant"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "BrewingTitleTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "name": "Body type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "BodyTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.typography.arc-label",
+      "type": "token",
+      "name": "Arc label type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "ArcLabelTextStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
       "id": "token.radius.14",
       "type": "token",
       "name": "14 radius",
@@ -902,7 +1098,7 @@
   ],
   "edges": [
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "contains",
       "to": "component.caffe-header",
       "evidence": {
@@ -954,9 +1150,9 @@
       }
     },
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "contains",
-      "to": "region.main.menu",
+      "to": "region.caffe-main.menu",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -967,9 +1163,9 @@
       }
     },
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "contains",
-      "to": "region.main.parameters",
+      "to": "region.caffe-main.parameters",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -980,9 +1176,9 @@
       }
     },
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "contains",
-      "to": "control.main.brew",
+      "to": "component.brew-button",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -993,7 +1189,7 @@
       }
     },
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "contains",
       "to": "component.caffe-footer",
       "evidence": {
@@ -1006,9 +1202,9 @@
       }
     },
     {
-      "from": "region.main.parameters",
+      "from": "region.caffe-main.parameters",
       "relation": "contains",
-      "to": "control.parameters.temperature",
+      "to": "component.temperature-gauge",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1019,9 +1215,9 @@
       }
     },
     {
-      "from": "region.main.parameters",
+      "from": "region.caffe-main.parameters",
       "relation": "contains",
-      "to": "control.parameters.extraction",
+      "to": "component.extraction-arc",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1032,9 +1228,9 @@
       }
     },
     {
-      "from": "region.main.parameters",
+      "from": "region.caffe-main.parameters",
       "relation": "contains",
-      "to": "control.parameters.grind",
+      "to": "component.grind-selector",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1045,9 +1241,9 @@
       }
     },
     {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "has-state",
-      "to": "state.main.selected",
+      "to": "state.caffe-main.brewing",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1058,34 +1254,59 @@
       }
     },
     {
-      "from": "screen.main",
-      "relation": "has-state",
-      "to": "state.main.brewing",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
-        }
-      }
-    },
-    {
-      "from": "state.main.selected",
+      "from": "screen.caffe-main",
       "relation": "contains",
       "to": "component.selection-overview",
       "evidence": {
-        "kind": "declared",
+        "kind": "observed",
         "confidence": 1.0,
         "source": {
           "type": "xaml",
           "path": "Caffe/Caffe/MainPage.xaml"
-        },
-        "rationale": "Visibility bound to HasSelection."
+        }
       }
     },
     {
-      "from": "state.main.brewing",
+      "from": "component.espresso-card",
+      "relation": "has-state",
+      "to": "state.espresso-card.selected",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        }
+      }
+    },
+    {
+      "from": "component.brew-button",
+      "relation": "has-state",
+      "to": "state.brew-button.disabled",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        }
+      }
+    },
+    {
+      "from": "component.selection-overview",
+      "relation": "has-state",
+      "to": "state.selection-overview.hidden",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        }
+      }
+    },
+    {
+      "from": "state.caffe-main.brewing",
       "relation": "contains",
       "to": "component.brewing-screen",
       "evidence": {
@@ -1099,9 +1320,9 @@
       }
     },
     {
-      "from": "control.main.brew",
+      "from": "component.brew-button",
       "relation": "triggers",
-      "to": "state.main.brewing",
+      "to": "state.caffe-main.brewing",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1113,7 +1334,21 @@
       }
     },
     {
-      "from": "region.main.menu",
+      "from": "component.espresso-card",
+      "relation": "triggers",
+      "to": "state.espresso-card.selected",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/MainPage.xaml.cs"
+        },
+        "rationale": "Every card's Tapped handler selects its espresso (canonical attachment; instances identical)."
+      }
+    },
+    {
+      "from": "region.caffe-main.menu",
       "relation": "contains",
       "to": "component.espresso-card.espresso",
       "evidence": {
@@ -1139,21 +1374,7 @@
       }
     },
     {
-      "from": "component.espresso-card.espresso",
-      "relation": "triggers",
-      "to": "state.main.selected",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Caffe/Caffe/MainPage.xaml.cs"
-        },
-        "rationale": "Tapped handler sets ViewModel.SelectedEspresso to this item."
-      }
-    },
-    {
-      "from": "region.main.menu",
+      "from": "region.caffe-main.menu",
       "relation": "contains",
       "to": "component.espresso-card.doppio",
       "evidence": {
@@ -1179,21 +1400,7 @@
       }
     },
     {
-      "from": "component.espresso-card.doppio",
-      "relation": "triggers",
-      "to": "state.main.selected",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Caffe/Caffe/MainPage.xaml.cs"
-        },
-        "rationale": "Tapped handler sets ViewModel.SelectedEspresso to this item."
-      }
-    },
-    {
-      "from": "region.main.menu",
+      "from": "region.caffe-main.menu",
       "relation": "contains",
       "to": "component.espresso-card.ristretto",
       "evidence": {
@@ -1219,21 +1426,7 @@
       }
     },
     {
-      "from": "component.espresso-card.ristretto",
-      "relation": "triggers",
-      "to": "state.main.selected",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Caffe/Caffe/MainPage.xaml.cs"
-        },
-        "rationale": "Tapped handler sets ViewModel.SelectedEspresso to this item."
-      }
-    },
-    {
-      "from": "region.main.menu",
+      "from": "region.caffe-main.menu",
       "relation": "contains",
       "to": "component.espresso-card.lungo",
       "evidence": {
@@ -1259,21 +1452,7 @@
       }
     },
     {
-      "from": "component.espresso-card.lungo",
-      "relation": "triggers",
-      "to": "state.main.selected",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Caffe/Caffe/MainPage.xaml.cs"
-        },
-        "rationale": "Tapped handler sets ViewModel.SelectedEspresso to this item."
-      }
-    },
-    {
-      "from": "screen.main",
+      "from": "screen.caffe-main",
       "relation": "uses-token",
       "to": "token.color.background",
       "properties": {
@@ -1528,7 +1707,7 @@
       }
     },
     {
-      "from": "control.parameters.temperature",
+      "from": "component.temperature-gauge",
       "relation": "uses-token",
       "to": "token.color.surface",
       "properties": {
@@ -1545,7 +1724,7 @@
       }
     },
     {
-      "from": "control.parameters.temperature",
+      "from": "component.temperature-gauge",
       "relation": "uses-token",
       "to": "token.typography.parameter-value",
       "properties": {
@@ -1562,7 +1741,7 @@
       }
     },
     {
-      "from": "control.parameters.temperature",
+      "from": "component.temperature-gauge",
       "relation": "uses-token",
       "to": "token.typography.parameter-label",
       "properties": {
@@ -1579,7 +1758,7 @@
       }
     },
     {
-      "from": "control.parameters.extraction",
+      "from": "component.extraction-arc",
       "relation": "uses-token",
       "to": "token.color.surface",
       "properties": {
@@ -1596,7 +1775,7 @@
       }
     },
     {
-      "from": "control.parameters.extraction",
+      "from": "component.extraction-arc",
       "relation": "uses-token",
       "to": "token.typography.parameter-value",
       "properties": {
@@ -1613,7 +1792,7 @@
       }
     },
     {
-      "from": "control.parameters.extraction",
+      "from": "component.extraction-arc",
       "relation": "uses-token",
       "to": "token.typography.parameter-label",
       "properties": {
@@ -1630,7 +1809,7 @@
       }
     },
     {
-      "from": "control.parameters.extraction",
+      "from": "component.extraction-arc",
       "relation": "uses-token",
       "to": "token.color.accent-green",
       "properties": {
@@ -1647,7 +1826,7 @@
       }
     },
     {
-      "from": "control.parameters.grind",
+      "from": "component.grind-selector",
       "relation": "uses-token",
       "to": "token.color.surface",
       "properties": {
@@ -1664,7 +1843,7 @@
       }
     },
     {
-      "from": "control.parameters.grind",
+      "from": "component.grind-selector",
       "relation": "uses-token",
       "to": "token.typography.parameter-value",
       "properties": {
@@ -1681,7 +1860,7 @@
       }
     },
     {
-      "from": "control.parameters.grind",
+      "from": "component.grind-selector",
       "relation": "uses-token",
       "to": "token.typography.parameter-label",
       "properties": {
@@ -1732,7 +1911,7 @@
       }
     },
     {
-      "from": "control.main.brew",
+      "from": "component.brew-button",
       "relation": "uses-token",
       "to": "token.color.primary",
       "properties": {
@@ -1749,7 +1928,7 @@
       }
     },
     {
-      "from": "control.main.brew",
+      "from": "component.brew-button",
       "relation": "uses-token",
       "to": "token.radius.14",
       "properties": {
@@ -1832,6 +2011,125 @@
         },
         "rationale": "Audited StaticResource consumption in the page/controls."
       }
+    },
+    {
+      "from": "component.brew-button",
+      "relation": "uses-token",
+      "to": "token.typography.button",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.grind-selector",
+      "relation": "uses-token",
+      "to": "token.typography.grind-hint",
+      "properties": {
+        "appliesTo": "hintFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.selection-overview",
+      "relation": "uses-token",
+      "to": "token.typography.overview-label",
+      "properties": {
+        "appliesTo": "labelFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.selection-overview",
+      "relation": "uses-token",
+      "to": "token.typography.overview-value",
+      "properties": {
+        "appliesTo": "valueFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.brewing-screen",
+      "relation": "uses-token",
+      "to": "token.typography.brewing-title",
+      "properties": {
+        "appliesTo": "titleFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.brewing-screen",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "properties": {
+        "appliesTo": "bodyFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.extraction-arc",
+      "relation": "uses-token",
+      "to": "token.typography.arc-label",
+      "properties": {
+        "appliesTo": "labelFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
     }
   ],
   "unresolved": [
@@ -1839,7 +2137,7 @@
       "id": "unresolved.menu.data-source",
       "question": "Is the four-espresso menu fixed, or intended to become data-driven?",
       "relatedIds": [
-        "region.main.menu"
+        "region.caffe-main.menu"
       ],
       "possibleValues": [
         "fixed product menu",
