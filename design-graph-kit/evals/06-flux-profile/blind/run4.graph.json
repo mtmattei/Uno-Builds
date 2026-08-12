@@ -1,0 +1,1507 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "flux-transit-profile",
+  "name": "FluxTransit Profile Screen",
+  "description": "Design Graph of the FluxTransit Profile screen (OPUS card balance, saved routes, settings), generated from XAML + MVUX model + style dictionary source.",
+  "sourceSummary": [
+    {
+      "type": "xaml",
+      "path": "FluxTransit/Presentation/ProfilePage.xaml",
+      "label": "Profile page markup"
+    },
+    {
+      "type": "csharp",
+      "path": "FluxTransit/Presentation/ProfileModel.cs",
+      "label": "MVUX presentation model"
+    },
+    {
+      "type": "csharp",
+      "path": "FluxTransit/Presentation/ProfilePage.xaml.cs",
+      "label": "Page code-behind (InitializeComponent only)"
+    },
+    {
+      "type": "design-system",
+      "path": "FluxTransit/Styles/FluxStyles.xaml",
+      "label": "Flux style/token dictionary"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.profile",
+      "type": "screen",
+      "name": "Profile",
+      "semanticRole": "settingsProfileScreen",
+      "properties": {
+        "scrollable": true,
+        "maxContentWidth": 600,
+        "navigationCacheMode": "Required",
+        "safeArea": "utu:SafeArea.Insets=VisibleBounds",
+        "uno": {
+          "type": "Page",
+          "class": "FluxTransit.Presentation.ProfilePage"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "1-15" }
+      }
+    },
+    {
+      "id": "region.profile.header",
+      "type": "region",
+      "name": "Header",
+      "semanticRole": "pageHeader",
+      "properties": {
+        "uno": { "type": "Grid" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "18-36" }
+      }
+    },
+    {
+      "id": "control.profile.back",
+      "type": "control",
+      "name": "Back button",
+      "role": "button",
+      "semanticRole": "backNavigation",
+      "properties": {
+        "command": "GoBack",
+        "commandBehavior": "INavigator.GoBack (declared in ProfileModel.GoBack)",
+        "icon": { "glyph": "E72B", "fontSize": 20 },
+        "uno": {
+          "type": "Button",
+          "styleKey": "FluxIconButtonStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "24-28" }
+      }
+    },
+    {
+      "id": "content.header.title",
+      "type": "content",
+      "name": "Page title",
+      "text": "Profile",
+      "semanticRole": "pageTitle",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxHeadingLarge" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "31-32" }
+      }
+    },
+    {
+      "id": "content.header.subtitle",
+      "type": "content",
+      "name": "Page subtitle",
+      "text": "Manage your transit settings",
+      "semanticRole": "pageSubtitle",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "33-34" }
+      }
+    },
+    {
+      "id": "component.glass-panel",
+      "type": "component",
+      "name": "Glass panel section",
+      "semanticRole": "sectionCard",
+      "properties": {
+        "parts": ["section-title", "body"],
+        "sectionTitleTreatment": "uppercase micro label (FluxMicro)",
+        "contentSpacing": 16,
+        "uno": {
+          "type": "Border",
+          "styleKey": "FluxGlassPanelStyle"
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Three sections share the identical structure: Border with FluxGlassPanelStyle containing a StackPanel (Spacing=16) whose first child is a FluxMicro uppercase section title. The container style is source-declared."
+      }
+    },
+    {
+      "id": "component.glass-panel.opus-card",
+      "type": "component",
+      "name": "OPUS Card section",
+      "properties": {
+        "sectionTitle": "OPUS CARD"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "39-94" }
+      }
+    },
+    {
+      "id": "component.glass-panel.saved-routes",
+      "type": "component",
+      "name": "Saved Routes section",
+      "properties": {
+        "sectionTitle": "SAVED ROUTES"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "97-168" }
+      }
+    },
+    {
+      "id": "component.glass-panel.settings",
+      "type": "component",
+      "name": "Settings section",
+      "properties": {
+        "sectionTitle": "SETTINGS"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "171-228" }
+      }
+    },
+    {
+      "id": "region.opus.card-visual",
+      "type": "region",
+      "name": "OPUS card visual",
+      "semanticRole": "cardVisual",
+      "geometry": { "width": 120, "height": 80, "unit": "dip" },
+      "properties": {
+        "cornerRadius": 12,
+        "note": "One-off literal CornerRadius=12; text inside uses literal White foreground",
+        "uno": { "type": "Border" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "46-61" }
+      }
+    },
+    {
+      "id": "content.opus.brand",
+      "type": "content",
+      "name": "Card brand",
+      "text": "OPUS",
+      "properties": {
+        "fontWeight": "Bold",
+        "fontSize": 16,
+        "foreground": "White (literal)",
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "52-55" }
+      }
+    },
+    {
+      "id": "content.opus.card-number",
+      "type": "content",
+      "name": "Card number",
+      "semanticRole": "maskedCardNumber",
+      "properties": {
+        "binding": "CardNumber",
+        "declaredValue": "**** 4521",
+        "fontSize": 12,
+        "foreground": "White (literal)",
+        "opacity": 0.7,
+        "uno": { "type": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "56-59" }
+      }
+    },
+    {
+      "id": "content.opus.balance-label",
+      "type": "content",
+      "name": "Balance label",
+      "text": "Current Balance",
+      "semanticRole": "label",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "65-66" }
+      }
+    },
+    {
+      "id": "content.opus.balance-value",
+      "type": "content",
+      "name": "Balance value",
+      "semanticRole": "currencyValue",
+      "properties": {
+        "binding": "OpusBalance",
+        "prefix": "$",
+        "declaredInitialValue": 18.5,
+        "uno": { "type": "TextBlock", "styleKey": "FluxHeadingLarge" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "67-70" }
+      }
+    },
+    {
+      "id": "content.opus.refresh-hint",
+      "type": "content",
+      "name": "Refresh hint",
+      "text": "Tap to refresh",
+      "semanticRole": "helperText",
+      "properties": {
+        "opacity": 0.6,
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "71-73" }
+      }
+    },
+    {
+      "id": "control.opus.update-balance",
+      "type": "control",
+      "name": "Update Balance button",
+      "role": "button",
+      "text": "Update Balance",
+      "semanticRole": "primaryAction",
+      "properties": {
+        "command": "UpdateBalance",
+        "commandBehavior": "Sets IsRefreshing, simulates 1s fetch, updates OpusBalance (declared in ProfileModel.UpdateBalance)",
+        "visibleWhen": "!IsRefreshing",
+        "visibilityConverter": "BoolToVisibilityConverter (ConverterParameter=Inverse)",
+        "uno": {
+          "type": "Button",
+          "styleKey": "FluxPrimaryButtonStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "78-82" }
+      }
+    },
+    {
+      "id": "state.opus.refreshing",
+      "type": "state",
+      "name": "Refreshing balance",
+      "properties": {
+        "condition": "IsRefreshing == true",
+        "shows": ["ProgressRing 20x20 (IsActive)", "'Updating...' text (FluxBody)"],
+        "hides": ["Update Balance button"],
+        "uno": {
+          "mechanism": "Visibility bindings",
+          "converter": "BoolToVisibilityConverter"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "77-92" },
+        "rationale": "IsRefreshing IState<bool> declared in ProfileModel; XAML swaps the button for a ProgressRing + 'Updating...' row via complementary Visibility bindings."
+      }
+    },
+    {
+      "id": "component.route-card",
+      "type": "component",
+      "name": "Saved route card",
+      "semanticRole": "listItemCard",
+      "properties": {
+        "parts": ["icon", "title", "subtitle", "chevron"],
+        "iconGlyph": "E80F",
+        "iconSize": 20,
+        "chevronGlyph": "E76C",
+        "chevronSize": 16,
+        "overrides": { "background": "Transparent", "padding": 12 },
+        "uno": {
+          "type": "Border",
+          "styleKey": "FluxTransitCardStyle"
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Two route items share identical structure (FluxTransitCardStyle Border, map icon, bold title over body subtitle, chevron), differing only in text. The container style is source-declared."
+      }
+    },
+    {
+      "id": "component.route-card.home-work",
+      "type": "component",
+      "name": "Home to Work route",
+      "properties": {
+        "title": "Home → Work",
+        "subtitle": "Berri-UQAM → McGill"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "103-128" }
+      }
+    },
+    {
+      "id": "component.route-card.downtown-loop",
+      "type": "component",
+      "name": "Downtown Loop route",
+      "properties": {
+        "title": "Downtown Loop",
+        "subtitle": "Place-des-Arts → Mont-Royal"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "131-156" }
+      }
+    },
+    {
+      "id": "control.routes.add-route",
+      "type": "control",
+      "name": "Add New Route button",
+      "role": "button",
+      "text": "Add New Route",
+      "semanticRole": "secondaryAction",
+      "properties": {
+        "icon": { "glyph": "E710", "fontSize": 16 },
+        "background": "Transparent",
+        "uno": { "type": "Button" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "158-166" }
+      }
+    },
+    {
+      "id": "content.settings.api-key-label",
+      "type": "content",
+      "name": "API key label",
+      "text": "Gemini API Key (for AI features)",
+      "semanticRole": "label",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "178-179" }
+      }
+    },
+    {
+      "id": "control.settings.api-key-input",
+      "type": "control",
+      "name": "API key input",
+      "role": "textbox",
+      "semanticRole": "apiKeyInput",
+      "properties": {
+        "placeholder": "Enter your Gemini API key",
+        "binding": "GeminiApiKey",
+        "bindingMode": "TwoWay",
+        "declaredInitialValue": "",
+        "uno": { "type": "TextBox" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "180-183" }
+      }
+    },
+    {
+      "id": "content.settings.api-key-helper",
+      "type": "content",
+      "name": "API key helper",
+      "text": "Get your API key from ai.google.dev",
+      "semanticRole": "helperText",
+      "properties": {
+        "opacity": 0.6,
+        "fontSizeOverride": 12,
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "184-187" }
+      }
+    },
+    {
+      "id": "content.settings.language-label",
+      "type": "content",
+      "name": "Language label",
+      "text": "Language",
+      "semanticRole": "label",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "196-198" }
+      }
+    },
+    {
+      "id": "control.settings.language-chips",
+      "type": "control",
+      "name": "Language chip group",
+      "role": "chip-group",
+      "semanticRole": "languageSelector",
+      "properties": {
+        "selectionMode": "Single",
+        "chips": [
+          { "content": "EN", "isChecked": true },
+          { "content": "FR" }
+        ],
+        "note": "IsChecked=True on EN is a XAML literal; no binding to the model's SelectedLanguage state exists in markup.",
+        "uno": {
+          "type": "utu:ChipGroup",
+          "styleKey": "FilterChipGroupStyle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "199-204" }
+      }
+    },
+    {
+      "id": "content.settings.alerts-label",
+      "type": "content",
+      "name": "Service alerts label",
+      "text": "Service Alerts",
+      "semanticRole": "label",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "214-216" }
+      }
+    },
+    {
+      "id": "content.settings.alerts-description",
+      "type": "content",
+      "name": "Service alerts description",
+      "text": "Receive notifications about delays",
+      "semanticRole": "helperText",
+      "properties": {
+        "opacity": 0.6,
+        "fontSizeOverride": 12,
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "217-220" }
+      }
+    },
+    {
+      "id": "control.settings.alerts-toggle",
+      "type": "control",
+      "name": "Service alerts toggle",
+      "role": "toggle-switch",
+      "semanticRole": "notificationsToggle",
+      "properties": {
+        "isOn": true,
+        "onContent": "",
+        "offContent": "",
+        "note": "IsOn=True is a XAML literal; no binding declared.",
+        "uno": { "type": "ToggleSwitch" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "222-225" }
+      }
+    },
+    {
+      "id": "region.profile.app-info",
+      "type": "region",
+      "name": "App info footer",
+      "semanticRole": "footer",
+      "properties": {
+        "opacity": 0.5,
+        "uno": { "type": "StackPanel" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "231-238" }
+      }
+    },
+    {
+      "id": "content.app-info.version",
+      "type": "content",
+      "name": "App version",
+      "text": "Flux Transit v1.0",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "232-234" }
+      }
+    },
+    {
+      "id": "content.app-info.credit",
+      "type": "content",
+      "name": "Platform credit",
+      "text": "Built with Uno Platform",
+      "properties": {
+        "uno": { "type": "TextBlock", "styleKey": "FluxBody" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "ProfilePage.xaml", "lines": "235-237" }
+      }
+    },
+    {
+      "id": "token.color.background",
+      "type": "token",
+      "category": "color",
+      "name": "Background",
+      "value": "#0f172a",
+      "properties": {
+        "uno": { "resourceKey": "FluxBackgroundBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "17,37" }
+      }
+    },
+    {
+      "id": "token.color.surface",
+      "type": "token",
+      "category": "color",
+      "name": "Surface",
+      "value": "#1e293b",
+      "properties": {
+        "uno": { "resourceKey": "FluxSurfaceBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "18,38" }
+      }
+    },
+    {
+      "id": "token.color.glass-panel",
+      "type": "token",
+      "category": "color",
+      "name": "Glass panel",
+      "value": "#1e293b66",
+      "properties": {
+        "uno": { "resourceKey": "FluxGlassPanelBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "19,39" }
+      }
+    },
+    {
+      "id": "token.color.border-subtle",
+      "type": "token",
+      "category": "color",
+      "name": "Border subtle",
+      "value": "#ffffff0d",
+      "properties": {
+        "uno": { "resourceKey": "FluxBorderSubtleBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "21,41" }
+      }
+    },
+    {
+      "id": "token.color.border-light",
+      "type": "token",
+      "category": "color",
+      "name": "Border light",
+      "value": "#ffffff1a",
+      "properties": {
+        "uno": { "resourceKey": "FluxBorderLightBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "22,42" }
+      }
+    },
+    {
+      "id": "token.color.primary",
+      "type": "token",
+      "category": "color",
+      "name": "Primary",
+      "value": "#818cf8",
+      "properties": {
+        "uno": { "resourceKey": "FluxPrimaryBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "25,45" }
+      }
+    },
+    {
+      "id": "token.color.primary-strong",
+      "type": "token",
+      "category": "color",
+      "name": "Primary strong",
+      "value": "#4f46e5",
+      "properties": {
+        "uno": { "resourceKey": "FluxPrimaryStrongBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "26,46" }
+      }
+    },
+    {
+      "id": "token.color.success",
+      "type": "token",
+      "category": "color",
+      "name": "Success",
+      "value": "#34d399",
+      "properties": {
+        "uno": { "resourceKey": "FluxSuccessBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "27,47" }
+      }
+    },
+    {
+      "id": "token.color.text-primary",
+      "type": "token",
+      "category": "color",
+      "name": "Text primary",
+      "value": "#ffffff",
+      "properties": {
+        "uno": { "resourceKey": "FluxTextPrimaryBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "32,52" }
+      }
+    },
+    {
+      "id": "token.color.text-secondary",
+      "type": "token",
+      "category": "color",
+      "name": "Text secondary",
+      "value": "#94a3b8",
+      "properties": {
+        "uno": { "resourceKey": "FluxTextSecondaryBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "33,53" }
+      }
+    },
+    {
+      "id": "token.color.text-muted",
+      "type": "token",
+      "category": "color",
+      "name": "Text muted",
+      "value": "#64748b",
+      "properties": {
+        "uno": { "resourceKey": "FluxTextMutedBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "34,54" }
+      }
+    },
+    {
+      "id": "token.typography.heading-large",
+      "type": "token",
+      "category": "typography",
+      "name": "Heading large",
+      "value": {
+        "fontSize": 36,
+        "fontWeight": "Bold",
+        "characterSpacing": -20,
+        "foreground": "token.color.text-primary"
+      },
+      "properties": {
+        "uno": { "styleKey": "FluxHeadingLarge", "targetType": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "73-78" }
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "category": "typography",
+      "name": "Body",
+      "value": {
+        "fontSize": 14,
+        "foreground": "token.color.text-secondary"
+      },
+      "properties": {
+        "uno": { "styleKey": "FluxBody", "targetType": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "95-98" }
+      }
+    },
+    {
+      "id": "token.typography.body-bold",
+      "type": "token",
+      "category": "typography",
+      "name": "Body bold",
+      "value": {
+        "fontSize": 14,
+        "fontWeight": "Bold",
+        "foreground": "token.color.text-primary"
+      },
+      "properties": {
+        "uno": { "styleKey": "FluxBodyBold", "targetType": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "101-105" }
+      }
+    },
+    {
+      "id": "token.typography.micro",
+      "type": "token",
+      "category": "typography",
+      "name": "Micro label",
+      "value": {
+        "fontSize": 10,
+        "fontWeight": "Bold",
+        "characterSpacing": 80,
+        "foreground": "token.color.text-muted"
+      },
+      "properties": {
+        "uno": { "styleKey": "FluxMicro", "targetType": "TextBlock" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "108-113" }
+      }
+    },
+    {
+      "id": "token.radius.large",
+      "type": "token",
+      "category": "radius",
+      "name": "Corner radius large",
+      "value": 24,
+      "properties": {
+        "uno": { "resourceKey": "FluxCornerRadiusLarge", "resourceType": "CornerRadius" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "67" }
+      }
+    },
+    {
+      "id": "token.radius.medium",
+      "type": "token",
+      "category": "radius",
+      "name": "Corner radius medium",
+      "value": 16,
+      "properties": {
+        "uno": { "resourceKey": "FluxCornerRadiusMedium", "resourceType": "CornerRadius" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "66" }
+      }
+    },
+    {
+      "id": "token.radius.full",
+      "type": "token",
+      "category": "radius",
+      "name": "Corner radius full",
+      "value": 9999,
+      "properties": {
+        "uno": { "resourceKey": "FluxCornerRadiusFull", "resourceType": "CornerRadius" }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "locator": { "file": "FluxStyles.xaml", "lines": "68" }
+      }
+    },
+    {
+      "id": "token.spacing.4",
+      "type": "token",
+      "category": "spacing",
+      "name": "Spacing 4",
+      "value": 4,
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "rationale": "Literal 4 recurs (route-card text stack, alerts label stack). XAML uses literals, not the declared FluxSpacingXS resource, so no resource key is asserted."
+      }
+    },
+    {
+      "id": "token.spacing.8",
+      "type": "token",
+      "category": "spacing",
+      "name": "Spacing 8",
+      "value": 8,
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "rationale": "Literal 8 recurs (header text stack, balance stack, API-key stack, footer, add-route content). XAML uses literals, not the declared FluxSpacingS resource, so no resource key is asserted."
+      }
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "category": "spacing",
+      "name": "Spacing 12",
+      "value": 12,
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "rationale": "Literal 12 recurs (route-card padding, header/route text margins, refreshing row spacing). No declared FluxSpacing resource matches 12."
+      }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "name": "Spacing 16",
+      "value": 16,
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "rationale": "Literal 16 recurs (page padding, section content spacing, OPUS row spacing, card-visual padding). XAML uses literals, not the declared FluxSpacingM resource, so no resource key is asserted."
+      }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "category": "spacing",
+      "name": "Spacing 24",
+      "value": 24,
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "rationale": "Literal 24 recurs (page stack spacing; FluxGlassPanelStyle Padding=24). XAML uses literals, not the declared FluxSpacingL resource, so no resource key is asserted."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "region.profile.header",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "contains",
+      "to": "control.profile.back",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "contains",
+      "to": "content.header.title",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "contains",
+      "to": "content.header.subtitle",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "component.glass-panel.opus-card",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "component.glass-panel.saved-routes",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "component.glass-panel.settings",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "region.profile.app-info",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "instance-of",
+      "to": "component.glass-panel",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Uses FluxGlassPanelStyle with the shared section structure."
+      }
+    },
+    {
+      "from": "component.glass-panel.saved-routes",
+      "relation": "instance-of",
+      "to": "component.glass-panel",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Uses FluxGlassPanelStyle with the shared section structure."
+      }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "instance-of",
+      "to": "component.glass-panel",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Uses FluxGlassPanelStyle with the shared section structure."
+      }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "contains",
+      "to": "region.opus.card-visual",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.opus.card-visual",
+      "relation": "contains",
+      "to": "content.opus.brand",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.opus.card-visual",
+      "relation": "contains",
+      "to": "content.opus.card-number",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "contains",
+      "to": "content.opus.balance-label",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "contains",
+      "to": "content.opus.balance-value",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "contains",
+      "to": "content.opus.refresh-hint",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "contains",
+      "to": "control.opus.update-balance",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.opus-card",
+      "relation": "has-state",
+      "to": "state.opus.refreshing",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "rationale": "The section's action row swaps between the Update Balance button and a progress row based on IsRefreshing."
+      }
+    },
+    {
+      "from": "control.opus.update-balance",
+      "relation": "triggers",
+      "to": "state.opus.refreshing",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "rationale": "ProfileModel.UpdateBalance sets IsRefreshing=true for the duration of the simulated refresh."
+      }
+    },
+    {
+      "from": "component.glass-panel.saved-routes",
+      "relation": "contains",
+      "to": "component.route-card.home-work",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.saved-routes",
+      "relation": "contains",
+      "to": "component.route-card.downtown-loop",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.saved-routes",
+      "relation": "contains",
+      "to": "control.routes.add-route",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card.home-work",
+      "relation": "instance-of",
+      "to": "component.route-card",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Identical structure to the second route item; differs only in text."
+      }
+    },
+    {
+      "from": "component.route-card.downtown-loop",
+      "relation": "instance-of",
+      "to": "component.route-card",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Identical structure to the first route item; differs only in text."
+      }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "content.settings.api-key-label",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "control.settings.api-key-input",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "content.settings.api-key-helper",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "content.settings.language-label",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "control.settings.language-chips",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "content.settings.alerts-label",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "content.settings.alerts-description",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel.settings",
+      "relation": "contains",
+      "to": "control.settings.alerts-toggle",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.app-info",
+      "relation": "contains",
+      "to": "content.app-info.version",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.app-info",
+      "relation": "contains",
+      "to": "content.app-info.credit",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "uses-token",
+      "to": "token.color.background",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": { "appliesTo": "contentPadding" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "screen.profile",
+      "relation": "uses-token",
+      "to": "token.spacing.24",
+      "properties": { "appliesTo": "sectionSpacing" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.profile.back",
+      "relation": "uses-token",
+      "to": "token.color.glass-panel",
+      "properties": { "appliesTo": "background", "via": "FluxIconButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.profile.back",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "properties": { "appliesTo": "border", "via": "FluxIconButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.profile.back",
+      "relation": "uses-token",
+      "to": "token.color.text-primary",
+      "properties": { "appliesTo": "foreground", "via": "FluxIconButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.profile.back",
+      "relation": "uses-token",
+      "to": "token.radius.full",
+      "properties": { "appliesTo": "cornerRadius", "via": "FluxIconButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.header.title",
+      "relation": "uses-token",
+      "to": "token.typography.heading-large",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.header.subtitle",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "properties": { "appliesTo": "titleStackSpacing" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.color.glass-panel",
+      "properties": { "appliesTo": "background", "via": "FluxGlassPanelStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "properties": { "appliesTo": "border", "via": "FluxGlassPanelStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.radius.large",
+      "properties": { "appliesTo": "cornerRadius", "via": "FluxGlassPanelStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.spacing.24",
+      "properties": { "appliesTo": "padding", "via": "FluxGlassPanelStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": { "appliesTo": "contentSpacing" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.glass-panel",
+      "relation": "uses-token",
+      "to": "token.typography.micro",
+      "properties": { "appliesTo": "sectionTitle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.opus.card-visual",
+      "relation": "uses-token",
+      "to": "token.color.primary-strong",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.opus.balance-label",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.opus.balance-value",
+      "relation": "uses-token",
+      "to": "token.typography.heading-large",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.opus.balance-value",
+      "relation": "uses-token",
+      "to": "token.color.success",
+      "properties": { "appliesTo": "foreground", "note": "overrides the style foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.opus.refresh-hint",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.opus.update-balance",
+      "relation": "uses-token",
+      "to": "token.color.primary",
+      "properties": { "appliesTo": "background", "via": "FluxPrimaryButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.opus.update-balance",
+      "relation": "uses-token",
+      "to": "token.color.background",
+      "properties": { "appliesTo": "foreground", "via": "FluxPrimaryButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.opus.update-balance",
+      "relation": "uses-token",
+      "to": "token.radius.full",
+      "properties": { "appliesTo": "cornerRadius", "via": "FluxPrimaryButtonStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "properties": { "appliesTo": "border", "via": "FluxTransitCardStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.radius.medium",
+      "properties": { "appliesTo": "cornerRadius", "via": "FluxTransitCardStyle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.color.primary",
+      "properties": { "appliesTo": "icon foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "properties": { "appliesTo": "chevron foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.typography.body-bold",
+      "properties": { "appliesTo": "title" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "properties": { "appliesTo": "subtitle" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.spacing.12",
+      "properties": { "appliesTo": "padding (instance override of style Padding=16)" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "component.route-card",
+      "relation": "uses-token",
+      "to": "token.spacing.4",
+      "properties": { "appliesTo": "text stack spacing" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.routes.add-route",
+      "relation": "uses-token",
+      "to": "token.color.border-light",
+      "properties": { "appliesTo": "border" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.routes.add-route",
+      "relation": "uses-token",
+      "to": "token.color.text-primary",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.settings.api-key-input",
+      "relation": "uses-token",
+      "to": "token.color.surface",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "control.settings.api-key-input",
+      "relation": "uses-token",
+      "to": "token.color.border-light",
+      "properties": { "appliesTo": "border" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.settings.api-key-label",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.settings.api-key-helper",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.settings.language-label",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.settings.alerts-label",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.settings.alerts-description",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "region.profile.app-info",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "properties": { "appliesTo": "stackSpacing" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.app-info.version",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "from": "content.app-info.credit",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.add-route-behavior",
+      "question": "What does the 'Add New Route' button do? No Command, Click handler, or navigation attribute is declared.",
+      "relatedIds": ["control.routes.add-route"],
+      "reason": "The button is fully styled in XAML but nothing is bound; inventing a command or destination would be speculation."
+    },
+    {
+      "id": "unresolved.language-selection-binding",
+      "question": "Is the language chip group meant to drive ProfileModel.SelectedLanguage? The model declares an IState<string> SelectedLanguage (default \"EN\") but the ChipGroup has no binding; EN's IsChecked=True is a XAML literal.",
+      "relatedIds": ["control.settings.language-chips"],
+      "possibleValues": ["intended TwoWay binding to SelectedLanguage not yet wired", "static placeholder UI"],
+      "reason": "Model state and UI default coincide, but no declared binding connects them."
+    },
+    {
+      "id": "unresolved.alerts-toggle-binding",
+      "question": "What state backs the Service Alerts ToggleSwitch? IsOn=True is a XAML literal and no model property or binding exists for notifications.",
+      "relatedIds": ["control.settings.alerts-toggle"],
+      "reason": "No binding, handler, or model state is declared for this control."
+    },
+    {
+      "id": "unresolved.save-settings-uninvoked",
+      "question": "How is ProfileModel.SaveSettings invoked? The model declares a SaveSettings command (reads GeminiApiKey and SelectedLanguage) but no XAML element binds to it.",
+      "relatedIds": ["screen.profile", "control.settings.api-key-input", "control.settings.language-chips"],
+      "possibleValues": ["missing Save button", "auto-save intended", "dead code"],
+      "reason": "Declared model behavior with no declared UI trigger."
+    },
+    {
+      "id": "unresolved.tap-to-refresh",
+      "question": "Does tapping the balance area refresh the balance, as the 'Tap to refresh' hint implies? No tap/click handler or command is attached to the balance area; only the Update Balance button invokes UpdateBalance.",
+      "relatedIds": ["content.opus.refresh-hint", "component.glass-panel.opus-card"],
+      "reason": "Hint text implies a gesture the markup does not declare."
+    },
+    {
+      "id": "unresolved.routes-static-or-dynamic",
+      "question": "Are the saved routes intended to be a data-driven list? Both route cards are static XAML literals (no ItemsControl or collection binding), yet the section is titled 'SAVED ROUTES' and has an 'Add New Route' button.",
+      "relatedIds": ["component.route-card.home-work", "component.route-card.downtown-loop", "control.routes.add-route"],
+      "possibleValues": ["placeholder for a future bound list", "intentionally static demo content"],
+      "reason": "Static markup coexists with affordances that imply dynamic data."
+    },
+    {
+      "id": "unresolved.spacing-resource-link",
+      "question": "Do the page's literal spacing values (4/8/16/24) intentionally realize the declared FluxSpacingXS/S/M/L resources? The XAML uses numeric literals rather than {StaticResource} references.",
+      "relatedIds": ["token.spacing.4", "token.spacing.8", "token.spacing.16", "token.spacing.24"],
+      "reason": "Values match the declared scale but consumption via the resources is not declared, so the resource keys are not asserted on the spacing tokens."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md v0.4",
+    "run": "blind run4",
+    "notes": "Interaction visuals (PointerOver/Pressed) and unused style-dictionary resources (FluxWarning, FluxError, badge/pill/divider/progress styles, ColorPaletteOverride material palette) are deliberately excluded per token scoping and state-altitude rules."
+  }
+}
