@@ -26,3 +26,8 @@ timestamp,eval_case,run,model,model_version,input_type,prompt_or_skill_version,s
 2026-08-12,07-caffe-main,3,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3672,,0,4,0,"56n/96e, uno 0.577"
 2026-08-12,07-caffe-main,4,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3722,,0,4,0,"54n/78e, uno 0.577"
 2026-08-12,07-caffe-main,5,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3586,,0,4,0,"52n/80e, uno 0.556. Fleet: best pairwise stability ever (mean 0.7303, node-id 0.88-0.99); 5/5 unanimous consensus vs gold on screen slug, state decomposition, trigger attachment, token breadth -> calibration queued"
+2026-08-12,05-orbital-settings,13,claude,fable-5,design-only-brief,SKILL.md v0.5 (design-first blind),0.1.0,true,0.1766,,0,7,0,"Design-first run1. 59n/96e. 0 behavioral edges, 0 fabricated identifiers"
+2026-08-12,05-orbital-settings,14,claude,fable-5,design-only-brief,SKILL.md v0.5 (design-first blind),0.1.0,true,0.2118,,0,7,0,"Design-first run2. 51n/77e, clean"
+2026-08-12,05-orbital-settings,15,claude,fable-5,design-only-brief,SKILL.md v0.5 (design-first blind),0.1.0,true,0.1970,,0,9,0,"Design-first run3. 54n/91e, clean"
+2026-08-12,05-orbital-settings,16,claude,fable-5,design-only-brief,SKILL.md v0.5 (design-first blind),0.1.0,true,0.1855,,0,6,0,"Design-first run4. 55n/107e, clean"
+2026-08-12,05-orbital-settings,17,claude,fable-5,design-only-brief,SKILL.md v0.5 (design-first blind),0.1.0,true,0.2251,,0,7,0,"Design-first run5. 55n/86e, clean. Fleet: 5/5 honesty perfect; identical structural skeletons (26 contains + 14 instance-of = gold's consolidation); pairwise macro 0.6562; vs-gold gap = information a static mock cannot know"

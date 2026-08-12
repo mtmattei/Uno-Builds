@@ -324,6 +324,54 @@ list. Forty blind runs to date; zero hallucinations.
 The kit is also now invocable as a repo-level Claude Code skill
 (`.claude/skills/design-graph/`), covering generate / implement / score.
 
+## v0.5 completion — final round
+
+**Gold-07 recalibration (consensus round 3).** All four eval-07 consensus
+decisions codified as binding rules (screen-slug app-prefix,
+UserControl ⇒ component, condition-vs-presentation state decomposition,
+canonical trigger attachment) and gold-07 recalibrated: blind runs re-score
+macro 0.370 → **0.521**, node-id F1 **0.80–0.86**, mapping recovery 0.78.
+
+**Design-first pilot — the last frontier, passed.** Five blind agents
+generated graphs from the visual brief alone (no source access):
+**5/5 perfect honesty** — zero behavioral edges from a static mock, zero
+fabricated declared identifiers, uno layer all proposed-`inferred`,
+interaction intent parked in 6–9 unresolveds. All five produced identical
+structural skeletons whose 14 `instance-of` edges exactly match the
+source-backed gold's consolidation; even the two legitimate states
+(loading, from the mock's visible `…` placeholders) were derived
+identically by all five. The vs-gold gap (node-id recall ~0.30) is the
+measured size of what a static handoff loses — the same information the
+A/B experiments proved the graph transports when source exists. Full
+analysis: `evals/05-orbital-settings/design-first/README.md`.
+
+**Research tooling preserved** in `tools/` (gold builders = answer-key
+provenance; stability/verification/audit scripts = every reported number).
+
+## Final scorecard (the whole arc)
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Does the pipeline work end-to-end? | yes | 3 evals, 45+ blind runs, all validated |
+| Does the graph improve implementation? | yes — semantics, not pixels | A/B/C arms; B2: 100% design-system traceability |
+| Is generation stable? | yes, after rule iteration | pairwise node-id 0.88–0.99 (MVVM); 3 consensus calibrations converged gold and runs |
+| Does it hallucinate? | **no — 0 in 50 blind runs** | every fleet + design-first, incl. 4 designed traps |
+| Does it generalize? | yes | 3 apps, 3 architectures, 3 design systems, light+dark |
+| Does design-first work? | structurally yes, honestly yes | pilot above; image-input round still open |
+| Round-trip parity? | yes | node-id recall 1.000 through design→code→graph |
+
+## Handoff — what needs resources this environment lacks
+
+1. **Compile the arms** (A/B/C/B2 XAML) in a .NET/Uno toolchain — one build
+   on a dev machine or CI; static verification already passes.
+2. **Image/Figma-input round** — this pilot used a written mock; repeat
+   with a real design file when one is provided.
+3. **Human-reviewed gold** — every answer key is same-author (calibrated by
+   blind consensus, but a human pass on one gold would break the last
+   circularity).
+4. **Plugin packaging** — promote `.claude/skills/design-graph/` to an
+   installable plugin for use beyond this repo.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical

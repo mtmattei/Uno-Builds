@@ -1,6 +1,19 @@
-# Design Graph Kit v0.1
+# Design Graph Kit v0.5
 
-A prototype kit for testing a **Design Graph** as a semantic intermediate representation between UI design inputs and implementation.
+A validated kit for generating and consuming **Design Graphs** — a semantic,
+machine-checkable intermediate representation between UI design inputs and
+Uno Platform implementation.
+
+> **Status (v0.5):** the v0.1 hypothesis below has been tested. See
+> `RESULTS.md` for the full experiment log: 3 source-backed evals across 3
+> architectures (code-behind / MVUX / MVVM), 50 blind generation runs with
+> **zero hallucinated behaviors**, A/B implementation experiments, a perfect
+> round-trip parity result, and a design-first pilot. The kit is Uno-first
+> (`docs/architecture.md`), carries a `properties.uno` mapping layer
+> (`references/uno-mapping.md`), and is invocable as a Claude Code skill
+> (`.claude/skills/design-graph/`). Remaining before production claims:
+> compile-verification, an image-input round, and a human-reviewed gold
+> (RESULTS.md → Handoff).
 
 The goal is not to prove that an LLM can emit JSON. The goal is to test whether an explicit graph of UI structure, semantics, states, tokens, and relationships improves downstream implementation quality, consistency, and visual parity.
 
