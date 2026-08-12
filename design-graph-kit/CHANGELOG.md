@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.1 — 2026-08-12
+
+- Eval 05 gold v1.4 — **consensus calibration**: adopted the blind-v4
+  five-run consensus token-wiring altitude (the open decision recorded in
+  blind-v4/README.md). Adds 9 declared tokens (six text-emphasis colors,
+  emerald accent, page-title/body typography) and 30 `uses-token` edges
+  wiring typography/color to their resting-surface consumers (gold: 19
+  tokens / 41 token edges). Blind-v4 re-scored: `uno_mapping` F1 rose to
+  0.75–0.77 (was 0.64–0.66).
+- Scorer 0.3.0: new `uno_mapping` dimension — exact recovery of
+  (node type, uno key, uno value) triples from `properties.uno`, measuring
+  the copy-don't-coin contract independent of node ids.
+- New eval `06-flux-profile`: second real source-backed case (FluxTransit
+  ProfilePage — MVUX model, Toolkit controls, glass design system, four
+  honesty traps), gold at the calibrated v0.4 altitude.
+
 ## 0.4.0 — 2026-08-12 — Uno-first pivot
 
 Product decision: the Design Graph targets Uno Platform now; a

@@ -29,8 +29,11 @@ This eval models **screen semantics**, not the design system:
   dictionaries' internals;
 - style-level interaction visuals (hover/pressed/disabled) are NOT `state`
   nodes here;
-- tokens are limited to values this screen consumes (13 in gold), not the
-  full palette;
+- tokens are limited to values this screen consumes (19 in gold v1.4), not
+  the full palette. Gold v1.4 adopted the blind-v4 five-run **consensus
+  wiring**: resting-surface text-emphasis/accent/typography tokens wired to
+  their consumers (41 `uses-token` edges) — an explicit answer-key
+  calibration, recorded in the CHANGELOG;
 - ids follow the v0.2 grammar in SKILL.md Pass 8 (three segments max;
   canonical components two);
 - `has-state` attaches to the smallest node whose presentation changes

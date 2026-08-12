@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "graphId": "eval.orbital-settings",
   "name": "Orbital Settings",
-  "description": "Gold graph for the Orbital SettingsPage (source-backed: XAML + code-behind + styles). v1.3 adds the properties.uno mapping layer.",
+  "description": "Gold graph for the Orbital SettingsPage (source-backed: XAML + code-behind + styles). v1.4: consensus-calibrated token wiring (blind-v4) + properties.uno mapping layer.",
   "sourceSummary": [
     {
       "type": "xaml",
@@ -1005,6 +1005,209 @@
           "fontResourceKey": "OrbitalMonoFont"
         }
       }
+    },
+    {
+      "id": "token.color.text-30",
+      "type": "token",
+      "name": "Text 30% emphasis",
+      "category": "color",
+      "value": "#FF4A505D",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText30Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.text-38",
+      "type": "token",
+      "name": "Text 38% emphasis",
+      "category": "color",
+      "value": "#FF5D6372",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText38Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.text-40",
+      "type": "token",
+      "name": "Text 40% emphasis",
+      "category": "color",
+      "value": "#FF626878",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText40Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.text-50",
+      "type": "token",
+      "name": "Text 50% emphasis",
+      "category": "color",
+      "value": "#FF7B8191",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText50Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.text-72",
+      "type": "token",
+      "name": "Text 72% emphasis",
+      "category": "color",
+      "value": "#FFB5B9C5",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText72Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.text-85",
+      "type": "token",
+      "name": "Text 85% emphasis",
+      "category": "color",
+      "value": "#FFD6D9E1",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalText85Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.color.emerald-500",
+      "type": "token",
+      "name": "Emerald 500 (primary accent)",
+      "category": "color",
+      "value": "#FF10B981",
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalEmerald500Brush",
+          "resourceType": "SolidColorBrush"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Declared brush resource consumed by the resting screen."
+      }
+    },
+    {
+      "id": "token.typography.page-title",
+      "type": "token",
+      "name": "Page title type",
+      "category": "typography",
+      "value": {
+        "family": "Space Grotesk",
+        "size": 28,
+        "weight": "SemiBold"
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OrbitalPageTitle"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "OrbitalPageTitle style (display face, 28)."
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "name": "Body type",
+      "category": "typography",
+      "value": {
+        "family": "Space Grotesk",
+        "size": 13
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OrbitalBody"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "OrbitalBody style (display face, 13)."
+      }
     }
   ],
   "edges": [
@@ -1800,6 +2003,516 @@
           "type": "design-system",
           "label": "Orbital Styles/*.xaml"
         }
+      }
+    },
+    {
+      "from": "content.settings.title",
+      "relation": "uses-token",
+      "to": "token.typography.page-title",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.settings.subtitle",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.settings.subtitle",
+      "relation": "uses-token",
+      "to": "token.color.text-40",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.section-title",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-38",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.section-title",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-38",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.paths.section-title",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.paths.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-38",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.actions.section-title",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.actions.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-38",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.name-label",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.name-label",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "properties": {
+        "appliesTo": "labelColor"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "properties": {
+        "appliesTo": "valueColor"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "properties": {
+        "appliesTo": "labelColor"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "properties": {
+        "appliesTo": "valueColor"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.name-helper",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.profile.name-helper",
+      "relation": "uses-token",
+      "to": "token.color.text-30",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.app-name",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.app-name",
+      "relation": "uses-token",
+      "to": "token.color.text-85",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.version",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "content.about.version",
+      "relation": "uses-token",
+      "to": "token.color.text-40",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.surface1",
+      "properties": {
+        "appliesTo": "background"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.surface3",
+      "properties": {
+        "appliesTo": "borderBrush"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.text-85",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "uses-token",
+      "to": "token.color.emerald-500",
+      "properties": {
+        "appliesTo": "background"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface1",
+      "properties": {
+        "appliesTo": "background"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface3",
+      "properties": {
+        "appliesTo": "borderBrush"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
+      }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": {
+        "appliesTo": "cornerRadius"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "Consensus calibration: declared style/brush consumption on the resting screen."
       }
     }
   ],
