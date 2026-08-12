@@ -1,134 +1,137 @@
 # Design Graph Kit — Test Run Results
 
-Run date: 2026-08-12 · Model: Claude (claude-opus-4-8) · Kit: v0.1
+Run date: 2026-08-12 · Models: Claude Opus 4.8 (run 1), Claude Fable 5 (review, run 2, A/B) · Kit: v0.1 → v0.1.1
 
 This document records the first execution of the Design Graph workflow against
 a **real** Uno Platform screen from this repository, following `START-HERE.md`
-and `docs/first-test.md`.
+and `docs/first-test.md`, plus the holistic review that followed and the
+Stage-4/Stage-5 experiments.
 
-## What was done
+## Progress against START-HERE
 
 | START-HERE step | Status | Evidence |
 |---|---|---|
 | 1. Read `docs/first-test.md` | ✅ | — |
-| 2. `python scripts/run_all.py` (verify kit) | ✅ | 4/4 gold graphs pass |
+| 2. `python scripts/run_all.py` (verify kit) | ✅ | 4/4 bundled gold graphs pass |
 | 3. Pick one simple real UI design | ✅ | `Orbital/Orbital/Presentation/SettingsPage.xaml` |
-| 4. Hand-author the gold graph | ✅ | `evals/05-orbital-settings/gold.graph.json` (45 nodes / 56 edges / 2 unresolved) |
-| 5. Generate via `prompts/design-understanding.md` | ✅ | `evals/05-orbital-settings/generated.graph.json` (40 / 51 / 1) |
-| 6. Validate + score | ✅ | validate PASS; macro F1 **0.4907** |
-| 7. Repeat 5× for stability | ⏳ | see *Limitations* — one pass done, protocol documented |
-| 8. Test `SKILL.md` | ⏳ | next, after stability |
-| 9. Value test (Design → Uno vs Design → Graph → Uno) | ⏳ | protocol in *Next step* below |
+| 4. Hand-author the gold graph | ✅ | `evals/05-orbital-settings/gold.graph.json` (v1.1: 47 nodes / 58 edges / 3 unresolved) |
+| 5. Generate via `prompts/design-understanding.md` | ✅ | run 1: `generated.graph.json`, macro F1 **0.6051** |
+| 6. Validate + score | ✅ | all graphs validate; see log |
+| 7. Repeat 5× for stability | ⏳ | not yet meaningful — see *Contamination*, below |
+| 8. Test `SKILL.md` | ✅ | run 2: `skill.graph.json`, macro F1 **0.9742**, human avg 4.6 |
+| 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/` — see `ab-results.md` |
+| 10. Productize decision | ⏳ | pending A/B verdict + a genuinely blind replication |
 
 ## Why this design was chosen
 
-`SettingsPage` is the kit's recommended first shape (a settings/profile screen)
-but with a crucial upgrade: it ships with **full source** — XAML, code-behind,
-and style dictionaries. That lets the graph exercise capabilities evals 01–04
-can only simulate:
+`SettingsPage` is the kit's recommended first shape (a settings/profile
+screen) with a crucial upgrade: full source — XAML, code-behind, a reusable
+`PageHeader` control, and style dictionaries. That lets the graph exercise
+what evals 01–04 only simulate: tokens from **declared** style resources,
+**source-backed behavior** (`triggers` edges, entrance/confirmation states),
+and a real consolidation problem (4 cards, 4 info-rows, 3 path-fields,
+3 ghost buttons). It is the bridge from "understand a picture" to "understand
+an application" — the direction `docs/architecture.md` points.
 
-- tokens pulled from **declared** style resources (`OrbitalCardStyle`,
-  `OrbitalPrimaryButtonSm`, brush/type dictionaries) instead of guessed pixels;
-- **source-backed behavior** — a `triggers` edge (`Save → Saved!`) and an
-  entrance state (`FadeUp`), honestly `declared`/`csharp` rather than invented;
-- a real consolidation problem (four cards, four info-rows, three path-fields,
-  three ghost buttons) to test `instance-of`.
+## Holistic review → adjustments (v0.1.1)
 
-It is the bridge from "understand a picture" to "understand an application,"
-the direction `docs/architecture.md` points the graph.
+A review pass over run 1 produced three corrections, all committed:
+
+1. **Answer-key recall defects (gold v1.1).** Gold had been authored from
+   `SettingsPage.xaml` without expanding the `controls:PageHeader` reference.
+   The header is a *declared reusable component* (not a plain region), and it
+   renders a search / command-palette affordance (`Search or run command...`,
+   Ctrl+K) that both gold and run 1 missed. Gold also omitted the
+   code-behind-declared "Cleared" `ContentDialog` triggered by *Clear Recent
+   Projects*. Both fixes are **source-driven** (the eval's own inputs prove
+   them), which is the legitimate kind of answer-key correction —
+   `first-test.md` forbids bending gold toward model output, not fixing it
+   against the source. Lesson recorded: *hand-authored gold graphs need a
+   completeness pass that expands every source-backed component reference.*
+2. **Scorer fix (v0.1.1).** `unresolved` items were matched by exact
+   `(question, relatedIds)` tuple, so two runs flagging the same ambiguity in
+   different words scored 0.0 — a repeated failure across runs.
+   `score_graph.py` now matches on sorted `relatedIds`. Run 1 was re-scored:
+   macro F1 0.4907 → **0.6051**.
+3. **Methodology honesty.** Run 1's "generated" graph was authored in the same
+   session as gold with deliberately chosen divergences — useful for exercising
+   the scorer, but it measures scorer sensitivity, not model behavior. This is
+   now stated plainly here and in the scorecard.
 
 ## Results
 
-### Deterministic score (generated vs gold)
+### Run 1 — manual prompt (`design-understanding.md`)
 
-| Dimension | F1 | Note |
-|---|---:|---|
-| node_id | 0.68 | naming mostly aligned; drift on merged rows + neutral color names |
-| node_signature | 0.68 | same set; types/roles consistent |
-| edge | 0.60 | containment tracks the node drift |
-| unresolved | 0.00 | equivalent uncertainty, different wording → exact-tuple miss |
-| **macro_f1** | **0.49** | pulled down hard by the 0.00 unresolved row |
+Macro F1 **0.6051** vs gold v1.1 (nodes 0.67 / edges 0.59 / unresolved 0.50).
+Human rubric 4.0/5, zero hallucinated behavior. Missed: the header-as-component,
+the search affordance, the Cleared dialog, the entrance state.
 
-`severe_hallucination_proxy: false` — no unsupported behavior edge.
+### Run 2 — Stage 4, `SKILL.md`
 
-### Human rubric (see `evals/05-orbital-settings/scorecard.md`)
+Macro F1 **0.9742** (nodes 0.97 / edges 0.96 / unresolved 1.00). Human rubric
+4.6/5, zero hallucinated behavior, `severe_hallucination_proxy: false`.
+The skill's pass structure (inventory → expand source references → consolidate
+→ states → tokens) recovered everything run 1 missed. Its only precision
+misses are three *extra declared tokens* (emerald-500 accent, two text-emphasis
+colors) plus their `uses-token` edges — defensible under `token-rules.md`,
+flagged as a coverage-calibration question rather than an error.
 
-Average **4.0 / 5**, no severe hallucinations → **passing** by the prototype
-threshold (avg ≥ 4.0, no severe hallucination, schema + integrity pass).
+**Stage-4 exit criterion met:** skill (0.974) ≥ manual prompt (0.605).
+
+### Contamination caveat (applies to both runs)
+
+Gold and both generated graphs were authored by the same agent lineage. Run 2's
+near-perfect score is an **upper bound demonstrating the pipeline works
+end-to-end**, not evidence of blind stability. The 5-run stability protocol
+(START-HERE step 7) only becomes meaningful with genuinely independent
+generation — fresh sessions with no access to gold. That is the first thing to
+do next.
+
+### Stage 5 — A/B value experiment
+
+Protocol and outputs in `experiments/ab-orbital-settings/` (see its README for
+the full design). Two isolated one-shot agents implemented the screen from the
+same visual-only brief; arm B additionally received `skill.graph.json` +
+`prompts/design-implement.md`. Verdict and measurements: `ab-results.md`.
 
 ## Findings
 
-1. **The kit runs end-to-end on a real Uno screen.** Schema validation,
-   graph-integrity checks (duplicate ids/edges, missing endpoints, inferred
-   items missing a rationale), and scoring all work. The integrity check
-   actually caught a real defect during authoring (an `inferred` edge with no
-   rationale), which is exactly its job.
-
+1. **The kit runs end-to-end on a real Uno screen.** Validation, integrity
+   checks, and scoring all work; the integrity check caught a real authoring
+   defect (inferred edge missing a rationale) during the very first run.
 2. **Source-backed input changes the honesty profile.** With code-behind
-   available, behavior that eval 04 must leave `unresolved` becomes a
-   legitimate `triggers` edge. The graph got measurably more useful *without*
-   inventing anything — the distinction the ontology cares about.
-
-3. **The deterministic scorer is dominated by exact string identity.** Two
-   defensible graphs of the same screen land at macro F1 0.49. Most of the gap
-   is not disagreement about the UI — it is:
-   - `unresolved` matched by exact `(question, relatedIds)` tuple → 0.00 even
-     though both graphs flag real uncertainty;
-   - one canonical-name / consolidation choice (merging info-rows and
-     path-fields) cascading through every child id and edge.
-
-   This is a property of the score, not a defect in either graph. Treat
-   `macro_f1` as a **regression/drift tripwire**, and lean on the human rubric
-   for quality — which the kit's own docs already say.
-
-4. **No ontology change is warranted yet.** Every divergence was representable
-   in v0.1. Per `docs/testing-plan.md`, the ontology should only grow on a
-   *repeated* representational failure. One candidate to watch across future
-   runs: distinguishing a token sourced from a **declared style resource** from
-   a **derived** value — source-backed runs keep hitting it.
-
-## Limitations (read before trusting the numbers)
-
-- **Not blinded.** `gold` and `generated` were authored by the same agent in
-  one session. This measures the scorer's sensitivity and the prompt's internal
-  consistency — **not** independent model stability. The 5-run protocol
-  (START-HERE step 7) is still required.
-- **One screen, one domain.** A dark, mono-typographic developer-tool settings
-  page. Broader shapes (lists, forms with validation, navigation) untested.
-- **Value not yet demonstrated.** Generating a good graph is table stakes. The
-  kit's own thesis (README) is that the graph must *improve downstream
-  implementation*. That is the next experiment, below.
-
-## Next step — the value experiment (Stage 5)
-
-This is the test that decides whether the graph is worth productizing. Protocol,
-ready to run against the same screen:
-
-- **Baseline A** — give the model a plain design brief of the settings screen
-  (no graph) and `mcp__uno` docs access; ask for a fresh Uno `SettingsPage`.
-- **Treatment B** — same brief + `generated.graph.json` as the semantic source
-  of truth, using `prompts/design-implement.md`.
-- **Hold constant:** model, target framework (Uno), design brief, implementation
-  instructions, iteration budget. Only the graph's presence changes.
-- **Score:** visual parity, component reuse (did B reuse one card/row/button
-  style where A copy-pasted?), token consistency, state coverage, unsupported
-  behavior, and number of correction prompts. Log a row per arm in
-  `evals/experiment-log.csv`.
-- **Decision rule:** productize only if B shows a *material* downstream
-  advantage (README step 7 / testing-plan Stage 5). Generating valid JSON is
-  not the bar.
-
-Run `SKILL.md` against this same eval first (Stage 4) so the A/B uses the
-skill-orchestrated graph rather than the hand-run prompt.
+   available, behavior that eval 04 must leave `unresolved` becomes legitimate
+   `triggers`/`has-state` structure — more useful *without* inventing anything.
+3. **Answer keys rot the same way code does.** The gold graph itself had two
+   recall defects until the review expanded every source reference. Gold
+   authoring needs its own checklist, not just model evaluation.
+4. **Exact-string scoring needs one more normalization step** (fixed for
+   `unresolved` in v0.1.1). Canonical-name drift on one consolidation choice
+   still cascades through child ids and edges by design — acceptable for a
+   drift tripwire, but don't read macro F1 as quality. The human rubric is the
+   quality instrument.
+5. **No ontology expansion is warranted yet.** Every divergence so far was
+   representable in v0.1. Watch item: distinguishing tokens sourced from
+   *declared style resources* vs *derived* values, and where declared-resource
+   token extraction should stop.
 
 ## How to reproduce
 
 ```bash
 cd design-graph-kit
 python -m pip install -r requirements.txt
-python scripts/run_all.py                 # validates 5 gold graphs + scores the generated one
-python scripts/validate_graph.py evals/05-orbital-settings/gold.graph.json
+python scripts/run_all.py    # validates all gold graphs + scores generated.graph.json
+python scripts/validate_graph.py evals/05-orbital-settings/skill.graph.json
 python scripts/score_graph.py \
   evals/05-orbital-settings/gold.graph.json \
-  evals/05-orbital-settings/generated.graph.json --json
+  evals/05-orbital-settings/skill.graph.json --json
 ```
+
+## Next steps
+
+1. **Blind replication** — regenerate the graph in fresh sessions (no gold
+   access), 5×, and measure stability for real (START-HERE step 7).
+2. Act on the A/B verdict (`experiments/ab-orbital-settings/ab-results.md`):
+   productize only on a material downstream advantage.
+3. If Stage 5 holds up, run Stage 6 round-trip parity: implementation → Graph B
+   → compare with Graph A.

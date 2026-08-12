@@ -40,7 +40,11 @@ def edge_signature(e):
 
 
 def unresolved_signature(u):
-    return (u.get("question"), tuple(sorted(u.get("relatedIds", []))))
+    # Match on the canonical node ids the uncertainty attaches to, not the
+    # prose. Two runs that flag the same ambiguity always word the question
+    # differently, and exact question matching scored semantically identical
+    # unresolved items at 0.0 in repeated runs.
+    return tuple(sorted(u.get("relatedIds", [])))
 
 
 def round4(x):

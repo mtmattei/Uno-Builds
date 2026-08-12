@@ -13,6 +13,14 @@
       "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
     },
     {
+      "type": "xaml",
+      "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+    },
+    {
+      "type": "csharp",
+      "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs"
+    },
+    {
       "type": "design-system",
       "label": "Orbital Styles/*.xaml"
     }
@@ -32,17 +40,38 @@
       }
     },
     {
-      "id": "region.settings.header",
-      "type": "region",
+      "id": "component.page-header",
+      "type": "component",
       "name": "Page header",
+      "role": "pageHeader",
       "evidence": {
-        "kind": "observed",
+        "kind": "declared",
         "confidence": 1.0,
         "source": {
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
-        "rationale": "controls:PageHeader with Title/Subtitle."
+        "rationale": "controls:PageHeader is a reusable UserControl (Orbital.Controls) instantiated with Title/Subtitle."
+      }
+    },
+    {
+      "id": "control.header.search",
+      "type": "control",
+      "name": "Search / command palette",
+      "role": "button",
+      "semanticRole": "searchTrigger",
+      "properties": {
+        "placeholder": "Search or run command...",
+        "shortcutHint": "Ctrl+K"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        },
+        "rationale": "SearchBorder: tappable search affordance with Ctrl+K badge."
       }
     },
     {
@@ -537,6 +566,27 @@
       }
     },
     {
+      "id": "component.dialog.recents-cleared",
+      "type": "component",
+      "name": "Cleared dialog",
+      "role": "dialog",
+      "semanticRole": "confirmationDialog",
+      "properties": {
+        "title": "Cleared",
+        "body": "Recent projects list has been cleared.",
+        "closeText": "OK"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "ContentDialog shown after clearing recent projects."
+      }
+    },
+    {
       "id": "state.settings.entering",
       "type": "state",
       "name": "Entering",
@@ -752,7 +802,7 @@
     {
       "from": "screen.settings",
       "relation": "contains",
-      "to": "region.settings.header",
+      "to": "component.page-header",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -763,7 +813,7 @@
       }
     },
     {
-      "from": "region.settings.header",
+      "from": "component.page-header",
       "relation": "contains",
       "to": "content.settings.title",
       "evidence": {
@@ -776,7 +826,7 @@
       }
     },
     {
-      "from": "region.settings.header",
+      "from": "component.page-header",
       "relation": "contains",
       "to": "content.settings.subtitle",
       "evidence": {
@@ -785,6 +835,19 @@
         "source": {
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "control.header.search",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
         }
       }
     },
@@ -1340,6 +1403,20 @@
       }
     },
     {
+      "from": "control.actions.clear-recents",
+      "relation": "triggers",
+      "to": "component.dialog.recents-cleared",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "ClearRecentsButton handler clears recents then shows the Cleared dialog."
+      }
+    },
+    {
       "from": "screen.settings",
       "relation": "uses-token",
       "to": "token.color.surface0",
@@ -1517,6 +1594,19 @@
     }
   ],
   "unresolved": [
+    {
+      "id": "unresolved.header.search-target",
+      "question": "What UI does the header search / command palette open?",
+      "relatedIds": [
+        "control.header.search"
+      ],
+      "possibleValues": [
+        "global command palette",
+        "search overlay",
+        "unknown"
+      ],
+      "reason": "PageHeader raises a static SearchRequested event; the handler and resulting UI are outside the supplied source."
+    },
     {
       "id": "unresolved.settings.rowfield-consolidation",
       "question": "Are the ABOUT info-rows and the PATHS fields one reusable key/value component or two?",

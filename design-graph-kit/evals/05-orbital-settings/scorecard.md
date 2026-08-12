@@ -1,4 +1,62 @@
-# Manual Run Scorecard — 05-orbital-settings
+# Run Scorecards — 05-orbital-settings
+
+> Run 1 was re-scored after the gold v1.1 answer-key fixes and the scorer
+> 0.1.1 `unresolved` matching change: macro F1 0.4907 → **0.6051**. The
+> narrative below predates the re-score; the CSV log carries the current
+> numbers.
+
+# Run 2 (Stage 4) — SKILL.md pass
+
+## Run metadata
+
+- Eval: 05-orbital-settings
+- Run number: 2
+- Model: Claude (Fable 5)
+- Input source: full source — `SettingsPage.xaml` + `.xaml.cs` + `PageHeader.xaml(.cs)` + Orbital style dictionaries
+- Prompt/Skill version: `SKILL.md` v0.1
+- Schema version: 0.1.0
+- Generated file: `evals/05-orbital-settings/skill.graph.json`
+
+## Deterministic score (vs gold v1.1, scorer 0.1.1)
+
+| Dimension | Precision | Recall | F1 | gold / gen |
+|---|---:|---:|---:|---|
+| node_id | 0.940 | 1.000 | 0.969 | 47 / 50 |
+| node_signature | 0.940 | 1.000 | 0.969 | 47 / 50 |
+| edge | 0.921 | 1.000 | 0.959 | 58 / 63 |
+| unresolved | 1.000 | 1.000 | 1.000 | 3 / 3 |
+| **macro_f1** | | | **0.9742** | |
+
+`severe_hallucination_proxy`: **false**.
+
+## Scores (0–5)
+
+| Dimension | Score | Notes |
+|---|---:|---|
+| Structure | 5 | Full recall including the expanded `PageHeader` (search affordance) that run 1 missed. |
+| Semantics | 5 | All controls/content classified and roled correctly. |
+| Consolidation | 5 | All four repeated structures consolidated; row/field kept distinct with the merge question flagged. |
+| State modeling | 5 | Entrance + transient Saved states; Cleared dialog as triggered component. |
+| Token normalization | 4 | Everything in gold plus 3 extra *declared* tokens (emerald-500, text-50/72). Not wrong — a token-rules coverage-calibration question (where does declared-resource extraction stop?). |
+| Relationships | 5 | All gold edges recovered; both `triggers` edges source-backed. |
+| Uncertainty discipline | 5 | Three unresolved items matching gold's, including the search target. |
+| Stability | 4* | *vs gold only; same-author contamination applies (below). |
+
+**Average: 4.6** — passing; Stage-4 exit criterion met (skill 0.974 ≥ manual 0.605).
+
+## Methodology caveat (read first)
+
+Gold, run 1, and run 2 were all authored by the same agent (different model
+versions, same session lineage). Run 2's near-perfect score is therefore an
+**upper bound demonstrating the pipeline**, not evidence of blind cross-run
+stability. What run 2 *does* legitimately show: following SKILL.md's
+pass structure (notably Pass 1's "expand source-backed references") caught
+everything the looser manual pass missed — the reusable header component, its
+search affordance, the Cleared dialog, and the entrance state.
+
+---
+
+# Run 1 — manual prompt pass
 
 ## Run metadata
 

@@ -10,7 +10,8 @@ screenshot alone could never support.
 ## Source
 
 - `Orbital/Orbital/Presentation/SettingsPage.xaml` — layout & controls
-- `Orbital/Orbital/Presentation/SettingsPage.xaml.cs` — behavior (button wiring, entrance animation, transient "Saved!" state)
+- `Orbital/Orbital/Presentation/SettingsPage.xaml.cs` — behavior (button wiring, entrance animation, transient "Saved!" state, "Cleared" dialog)
+- `Orbital/Orbital/Controls/PageHeader.xaml` + `.xaml.cs` — the reusable page header (title/subtitle **and a search / command-palette affordance** with a Ctrl+K hint; raises a `SearchRequested` event whose handler is outside this source set)
 - `Orbital/Orbital/Styles/Surfaces.xaml` — `OrbitalCardStyle` (radius 12, padding 20, border 1, Surface1 bg, Surface3 border)
 - `Orbital/Orbital/Styles/Buttons.xaml` — `OrbitalPrimaryButtonSm` / `OrbitalGhostButtonSm` (radius 8, font 13, padding 12,6)
 - `Orbital/Orbital/Styles/TextBlock.xaml` — mono/display type styles (`OrbitalSectionHeader`, `OrbitalMonoSmall`, `OrbitalBody`)
@@ -18,7 +19,7 @@ screenshot alone could never support.
 
 ## Visible / declared structure
 
-- **Page header** — Title `Settings`, Subtitle `Profile and preferences`.
+- **Page header** (reusable `PageHeader` control) — Title `Settings`, Subtitle `Profile and preferences`, and a search / command-palette entry (`Search or run command...`, `Ctrl+K` badge) on the right.
 - **PROFILE** card — `Display Name` label, a name textbox (placeholder `Enter your name`), a prominent `Save` button, helper text `This name appears in the homepage greeting.`
 - **ABOUT** card — Uno logo asset, app name `Orbital`, a version line, then four repeated label/value rows: `Uno Platform SDK`, `.NET Runtime`, `Renderer`, `Platform`.
 - **PATHS** card — three repeated label + wrapping-value fields: `Project Root`, `Recent Projects Database`, `Claude Code Skills`.
