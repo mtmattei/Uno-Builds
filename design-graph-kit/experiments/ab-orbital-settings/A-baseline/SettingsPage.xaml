@@ -1,0 +1,305 @@
+<Page
+    x:Class="AbExperiment.A.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource PageBackgroundBrush}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///A-baseline/Tokens.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ================= Header ================= -->
+        <Border
+            Grid.Row="0"
+            Padding="32,20"
+            BorderBrush="{StaticResource HeaderDividerBrush}"
+            BorderThickness="0,0,0,1">
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Title + subtitle -->
+                <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                    <TextBlock
+                        Text="Settings"
+                        FontFamily="{StaticResource DisplayFontFamily}"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource TextHighBrush}" />
+                    <TextBlock
+                        Text="Profile and preferences"
+                        FontFamily="{StaticResource DisplayFontFamily}"
+                        FontSize="13"
+                        Foreground="{StaticResource TextFaintBrush}" />
+                </StackPanel>
+
+                <!-- Search pill -->
+                <Border
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="12,8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon
+                            FontFamily="{StaticResource IconFontFamily}"
+                            Glyph="&#xE721;"
+                            FontSize="12"
+                            Foreground="{StaticResource TextFaintBrush}"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            Text="Search or run command..."
+                            FontFamily="{StaticResource MonoFontFamily}"
+                            FontSize="12"
+                            Foreground="{StaticResource TextFaintBrush}"
+                            VerticalAlignment="Center" />
+                        <Border
+                            Background="{StaticResource SubtleFillBrush}"
+                            CornerRadius="4"
+                            Padding="6,2"
+                            VerticalAlignment="Center">
+                            <TextBlock
+                                Text="Ctrl+K"
+                                FontFamily="{StaticResource MonoFontFamily}"
+                                FontSize="10"
+                                Foreground="{StaticResource TextMutedBrush}" />
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ================= Content ================= -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Padding="32" Spacing="24">
+
+                <!-- Card 1: PROFILE -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="PROFILE" Style="{StaticResource SectionHeaderTextStyle}" />
+
+                        <TextBlock
+                            Text="Display Name"
+                            Style="{StaticResource FieldLabelTextStyle}"
+                            Margin="0,16,0,0" />
+
+                        <Grid Margin="0,8,0,0" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                x:Name="DisplayNameBox"
+                                Grid.Column="0"
+                                Style="{StaticResource SettingsTextBoxStyle}"
+                                PlaceholderText="Enter your name" />
+                            <Button
+                                Grid.Column="1"
+                                Content="Save"
+                                Style="{StaticResource AccentFilledButtonStyle}"
+                                VerticalAlignment="Stretch"
+                                Click="OnSaveDisplayName" />
+                        </Grid>
+
+                        <TextBlock
+                            Text="This name appears in the homepage greeting."
+                            Style="{StaticResource HelperTextStyle}"
+                            Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Two-column row -->
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Card 2: ABOUT -->
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}" VerticalAlignment="Top">
+                        <StackPanel>
+                            <TextBlock Text="ABOUT" Style="{StaticResource SectionHeaderTextStyle}" />
+
+                            <!-- Identity row -->
+                            <Grid Margin="0,16,0,0" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Logo tile: 48x48 with a 32x32 drawn "orbit" mark (asset stand-in) -->
+                                <Border
+                                    Grid.Column="0"
+                                    Width="48"
+                                    Height="48"
+                                    Background="{StaticResource SubtleFillBrush}"
+                                    CornerRadius="12">
+                                    <Grid Width="32" Height="32">
+                                        <Ellipse
+                                            Width="10"
+                                            Height="10"
+                                            Fill="{StaticResource TextHighBrush}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        <Ellipse
+                                            Width="30"
+                                            Height="13"
+                                            Stroke="{StaticResource AccentBrush}"
+                                            StrokeThickness="1.5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <RotateTransform Angle="-24" />
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+                                        <Ellipse
+                                            Width="4"
+                                            Height="4"
+                                            Fill="{StaticResource AccentBrush}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,6,2,0" />
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                                    <TextBlock
+                                        Text="Orbital"
+                                        FontFamily="{StaticResource DisplayFontFamily}"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource TextHighBrush}" />
+                                    <TextBlock
+                                        Text="v0.1.0-alpha"
+                                        FontFamily="{StaticResource MonoFontFamily}"
+                                        FontSize="11"
+                                        Foreground="{StaticResource TextFaintBrush}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Environment rows -->
+                            <StackPanel Margin="0,16,0,0" Spacing="8">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Uno Platform SDK" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <TextBlock Grid.Column="1" x:Name="UnoSdkValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextAlignment="Right" />
+                                </Grid>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text=".NET Runtime" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <TextBlock Grid.Column="1" x:Name="DotnetRuntimeValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextAlignment="Right" />
+                                </Grid>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Renderer" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <TextBlock Grid.Column="1" x:Name="RendererValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextAlignment="Right" />
+                                </Grid>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Platform" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <TextBlock Grid.Column="1" x:Name="PlatformValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextAlignment="Right" />
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right column: PATHS + ACTIONS -->
+                    <StackPanel Grid.Column="1" Spacing="24">
+
+                        <!-- Card 3: PATHS -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="PATHS" Style="{StaticResource SectionHeaderTextStyle}" />
+
+                                <StackPanel Margin="0,16,0,0" Spacing="16">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="Project Root" Style="{StaticResource FieldLabelTextStyle}" />
+                                        <TextBlock x:Name="ProjectRootValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="Recent Projects Database" Style="{StaticResource FieldLabelTextStyle}" />
+                                        <TextBlock x:Name="RecentDbValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="Claude Code Skills" Style="{StaticResource FieldLabelTextStyle}" />
+                                        <TextBlock x:Name="SkillsPathValue" Text="..." Style="{StaticResource MonoValueTextStyle}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Card 4: ACTIONS -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="ACTIONS" Style="{StaticResource SectionHeaderTextStyle}" />
+
+                                <StackPanel Margin="0,12,0,0" Spacing="12">
+                                    <Button Style="{StaticResource QuietActionButtonStyle}" Click="OnClearRecentProjects">
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <FontIcon
+                                                FontFamily="{StaticResource IconFontFamily}"
+                                                Glyph="&#xE74D;"
+                                                FontSize="14"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock Text="Clear Recent Projects" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Style="{StaticResource QuietActionButtonStyle}" Click="OnOpenDataFolder">
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <FontIcon
+                                                FontFamily="{StaticResource IconFontFamily}"
+                                                Glyph="&#xE838;"
+                                                FontSize="14"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock Text="Open Data Folder" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Style="{StaticResource QuietActionButtonStyle}" Click="OnOpenDocumentation">
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <FontIcon
+                                                FontFamily="{StaticResource IconFontFamily}"
+                                                Glyph="&#xE736;"
+                                                FontSize="14"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock Text="Uno Platform Documentation" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
