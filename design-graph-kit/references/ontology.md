@@ -100,7 +100,21 @@ Examples:
 - populated;
 - error;
 - disabled;
-- selected.
+- selected;
+- entering (an entrance animation the source defines);
+- a transient confirmation (e.g. a button label flipping to "Saved!").
+
+Scope rule (v0.2): `state` covers **presentation conditions of the modeled
+screen or its components**. Style-level interaction visuals — PointerOver,
+Pressed, Focused, a control template's Disabled visual — are design-system
+internals and must not appear as `state` nodes in a screen graph. (Blind
+evals showed generators reliably over-producing these.)
+
+Attachment rule (v0.2): connect `has-state` from the **smallest node whose
+presentation changes**. A button that flips its own label owns that state; a
+section that swaps content owns its state; only whole-screen conditions
+attach to the screen. The `triggers` edge, when supported, points from the
+initiating control to the state or component it produces.
 
 ## Relationship types
 

@@ -1376,7 +1376,7 @@
       }
     },
     {
-      "from": "component.settings-card.profile",
+      "from": "control.profile.save",
       "relation": "has-state",
       "to": "state.profile.saved",
       "evidence": {
@@ -1385,7 +1385,8 @@
         "source": {
           "type": "csharp",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
-        }
+        },
+        "rationale": "v0.2 attachment rule: the Save button is the smallest node whose presentation changes."
       }
     },
     {

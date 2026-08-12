@@ -1,5 +1,8 @@
 # Skill: Generate Design Graph
 
+Version: 0.2 (adds a binding ID grammar, state-altitude rules, and token
+scoping — all driven by blind-replication eval failures; see CHANGELOG).
+
 ## Purpose
 
 Analyze a UI design, runtime UI, design document, or source-backed application and produce a **Design Graph**: a semantic, machine-readable representation of the design's structure, reusable components, controls, states, design tokens, and relationships.
@@ -103,6 +106,18 @@ When multiple presentations represent the same conceptual UI under different con
 - create `state` nodes;
 - connect using `has-state`.
 
+State altitude (binding): model only screen/component **presentation
+conditions** (loading, empty, populated, error, saved, entering, disabled at
+the component level). Do **not** create `state` nodes for style-level
+interaction visuals — PointerOver, Pressed, Focused, or a control template's
+Disabled visual belong to the design system's style definitions, not to a
+screen graph.
+
+Attach `has-state` to the **smallest node whose presentation actually
+changes**: a button whose label flips to "Saved!" owns that state; a section
+that swaps to a skeleton owns its loading state; only whole-screen conditions
+attach to the screen.
+
 Examples:
 
 - loading;
@@ -117,6 +132,11 @@ Use `variant-of` when two components are stable variants of the same component c
 ### Pass 5: Normalize candidate design tokens
 
 Use `references/token-rules.md`.
+
+Scope (binding): create tokens only for values the modeled surface actually
+consumes (directly or via a style it uses). Never enumerate an entire style
+dictionary or palette — a full design-system inventory belongs in a separate
+design-system graph, not a screen graph.
 
 Create `token` nodes for recurring or explicitly declared values such as:
 
@@ -183,14 +203,33 @@ IDs should be:
 - lowercase where practical;
 - source-independent when the concept is source-independent.
 
-Preferred patterns:
+ID grammar (binding — repeated blind runs drift exactly where this is loose):
 
-- `screen.settings`
-- `region.settings.account`
-- `component.metric-card`
-- `control.settings.save`
-- `state.orders.loading`
-- `token.spacing.16`
+- Segments are separated by dots; multi-word slugs use hyphens **within** a
+  segment, never extra dots. `component.settings.about.row.platform` is
+  wrong; `component.info-row.platform` is right.
+- **Canonical component:** `component.<slug>` — two segments, no screen
+  prefix (`component.info-row`, `component.metric-card`).
+- **Component instance:** `component.<canonical-slug>.<instance-slug>` —
+  three segments (`component.info-row.platform`).
+- **Every other node:** `<type>.<scope-slug>.<element-slug>` — exactly three
+  segments, where scope is the screen slug or a section/region slug
+  (`control.profile.save`, `content.about.version`, `state.profile.saved`,
+  `token.spacing.16`, `token.color.surface1`).
+- **Screen:** `screen.<slug>`.
+- When the source declares a name (`x:Name`, Figma component name), slugify
+  it for the element slug instead of inventing a synonym.
+
+Naming vocabulary (use these; do not coin synonyms):
+
+- a bordered/rounded grouping container → `card`;
+- a horizontal label + value pair → `info-row`;
+- a stacked label over value → `field` (qualify by content: `path-field`);
+- an icon + text low-emphasis button → `action-button`;
+- an uppercase small group heading → `section-title` (content node,
+  `semanticRole: sectionHeader`).
+
+Extend this vocabulary through eval review, not per-run invention.
 
 Avoid random IDs unless the source has no useful semantic identity.
 

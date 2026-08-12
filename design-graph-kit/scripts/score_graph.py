@@ -8,7 +8,10 @@ It measures exact/canonical overlap so regressions and stability drift are visib
 from __future__ import annotations
 import argparse
 import json
+import re
 from pathlib import Path
+
+SCORER_VERSION = "0.2.0"
 
 
 def load(path: Path):
@@ -33,6 +36,20 @@ def node_signature(n):
         n.get("semanticRole"),
         n.get("category"),
     )
+
+
+def _tokens(n):
+    """Lowercased word tokens of a node's human identity (text, else name,
+    else last id segment). Basis for drift-tolerant matching (v0.2)."""
+    base = n.get("text") or n.get("name") or str(n.get("id", "")).split(".")[-1]
+    return frozenset(t for t in re.split(r"[^a-z0-9]+", base.lower()) if t)
+
+
+def node_concept(n):
+    """Normalized concept signature: survives id spelling drift.
+    Blind replication showed id-level F1 collapsing on synonyms while the
+    underlying concepts agreed; this dimension measures the concepts."""
+    return (n.get("type"), _tokens(n))
 
 
 def edge_signature(e):
@@ -72,6 +89,10 @@ def main():
             {node_signature(n) for n in gold.get("nodes", [])},
             {node_signature(n) for n in pred.get("nodes", [])},
         ),
+        "node_concept": (
+            {node_concept(n) for n in gold.get("nodes", [])},
+            {node_concept(n) for n in pred.get("nodes", [])},
+        ),
         "edge": (
             {edge_signature(e) for e in gold.get("edges", [])},
             {edge_signature(e) for e in pred.get("edges", [])},
@@ -96,24 +117,56 @@ def main():
 
     metrics["macro_f1"] = round4(sum(f1s) / len(f1s))
 
-    # A simple hallucination proxy: behavioral edges absent from gold.
-    gold_behavior = {
-        edge_signature(e) for e in gold.get("edges", [])
-        if e.get("relation") in {"navigates-to", "triggers"}
-    }
-    pred_behavior = {
-        edge_signature(e) for e in pred.get("edges", [])
-        if e.get("relation") in {"navigates-to", "triggers"}
-    }
-    unsupported_behavior = sorted(pred_behavior - gold_behavior)
+    # Hallucination proxy (v0.2): a generated behavioral edge is *supported*
+    # when gold has an edge with the same relation whose endpoints share
+    # identity tokens with the generated endpoints. Exact-triple matching
+    # (v0.1) false-flagged every renamed-but-real behavior in blind runs.
+    def stems(tokens):
+        # Light suffix-stemming so morphological variants match
+        # ("Save" vs "Saved", "Clear" vs "Cleared").
+        out = set(tokens)
+        for t in tokens:
+            if t.endswith("ing") and len(t) > 4:
+                out.add(t[:-3])
+            if t.endswith("ed") and len(t) > 3:
+                out.add(t[:-2])
+                out.add(t[:-1])
+            if t.endswith("s") and len(t) > 3:
+                out.add(t[:-1])
+        return frozenset(out)
+
+    def behavior_edges(graph):
+        nodes = {n.get("id"): n for n in graph.get("nodes", []) if isinstance(n, dict)}
+        out = []
+        for e in graph.get("edges", []):
+            if e.get("relation") in {"navigates-to", "triggers"}:
+                out.append((
+                    e.get("relation"),
+                    stems(_tokens(nodes.get(e.get("from"), {"id": e.get("from")}))),
+                    stems(_tokens(nodes.get(e.get("to"), {"id": e.get("to")}))),
+                    edge_signature(e),
+                ))
+        return out
+
+    gold_behavior = behavior_edges(gold)
+    unsupported_behavior = []
+    for rel, ftok, ttok, sig in behavior_edges(pred):
+        supported = any(
+            rel == grel and (ftok & gftok) and (ttok & gttok)
+            for grel, gftok, gttok, _ in gold_behavior
+        )
+        if not supported:
+            unsupported_behavior.append(sig)
+    unsupported_behavior.sort()
     metrics["unsupported_behavior_edges"] = unsupported_behavior
     metrics["severe_hallucination_proxy"] = bool(unsupported_behavior)
+    metrics["scorer_version"] = SCORER_VERSION
 
     if args.json:
         print(json.dumps(metrics, indent=2))
     else:
         print(f"Macro F1: {metrics['macro_f1']:.4f}")
-        for name in ("node_id", "node_signature", "edge", "unresolved"):
+        for name in ("node_id", "node_signature", "node_concept", "edge", "unresolved"):
             m = metrics[name]
             print(
                 f"{name:16} "

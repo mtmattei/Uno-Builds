@@ -25,6 +25,16 @@ Create a token when at least one is true:
 
 Do not tokenise every one-off measurement.
 
+## Scope (v0.2 — binding)
+
+A screen graph's tokens are limited to values the modeled surface **actually
+consumes**, directly or through a style it uses. Criterion 1 above is
+necessary but not sufficient: a declared resource that the modeled screen
+never references does not belong in the screen's graph. Do not enumerate
+whole style dictionaries or palettes — a complete design-system inventory is
+a separate design-system graph. (Blind evals showed generators emitting
+~3× the consumed token set by walking the full dictionary.)
+
 ## Naming
 
 Prefer declared semantic names:

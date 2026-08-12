@@ -21,6 +21,23 @@ python scripts/validate_graph.py evals/05-orbital-settings/generated.graph.json
 python scripts/score_graph.py evals/05-orbital-settings/gold.graph.json evals/05-orbital-settings/generated.graph.json
 ```
 
+## Granularity altitude (v0.2 — read before authoring or generating)
+
+This eval models **screen semantics**, not the design system:
+
+- nodes represent what this screen shows and does — not the style
+  dictionaries' internals;
+- style-level interaction visuals (hover/pressed/disabled) are NOT `state`
+  nodes here;
+- tokens are limited to values this screen consumes (13 in gold), not the
+  full palette;
+- ids follow the v0.2 grammar in SKILL.md Pass 8 (three segments max;
+  canonical components two);
+- `has-state` attaches to the smallest node whose presentation changes
+  (gold v1.2: the Save button owns `state.profile.saved`).
+
+Blind v0.1 runs drifted on exactly these axes; they are now binding rules.
+
 ## Why source-backed matters
 
 Because we have the real source, behavior that a screenshot would force into

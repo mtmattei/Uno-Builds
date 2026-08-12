@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.2.0 — 2026-08-12
+
+Driven by the blind 5× replication of eval 05 (semantics stable, lexical
+stability failing the kit's own exit criteria — see
+`evals/05-orbital-settings/blind/README.md`):
+
+- `SKILL.md` Pass 8: binding ID grammar (three dot-segments max; canonical
+  components `component.<slug>`; source-declared names slugified, never
+  re-synonymized) plus a fixed naming vocabulary (card / info-row / field /
+  action-button / section-title). Pass 4: state-altitude rule (no style-level
+  hover/pressed/disabled states in screen graphs) and smallest-changing-node
+  `has-state` attachment. Pass 5: tokens scoped to values the modeled surface
+  consumes.
+- `references/ontology.md`: `state` scope + attachment rules formalized.
+- `references/token-rules.md`: screen-scoped token extraction made binding;
+  whole-dictionary enumeration belongs to a separate design-system graph.
+- `scripts/score_graph.py` (scorer 0.2.0): new `node_concept` dimension
+  (type + name/text word tokens) that survives id-spelling drift and now
+  counts toward macro F1; hallucination proxy rewritten from exact-triple
+  matching to relation + stemmed-endpoint-token matching — all five blind
+  runs' real behaviors clear it, while an injected fake `navigates-to` is
+  still caught. Macro F1 values are not comparable across scorer versions.
+- Eval 05 gold v1.2: `state.profile.saved` re-attached from the profile card
+  to the Save button per the new attachment rule; granularity-altitude
+  contract recorded in the eval README.
+
 ## 0.1.1 — 2026-08-12
 
 - `score_graph.py`: `unresolved` items now match on sorted `relatedIds` instead
