@@ -265,6 +265,38 @@ consensus into gold v1.4, or pin typography tokens to canonical
 style-consumer concepts by rule — to be made explicitly, not ruled away.
 Small true gaps: icon-glyph capture (0/5), one run dropped one trigger.
 
+## Steps 1–2–3 (post-v0.4): calibration, generalization, and B2
+
+**1. Calibration (gold v1.4).** The open consensus-vs-answer-key decision
+was resolved by adopting the blind-v4 consensus: gold now carries 19 tokens
+and 41 consumer-wired `uses-token` edges. Re-scored, the blind-v4 runs'
+`uno_mapping` F1 rose to 0.75–0.77 — the runs had been right.
+
+**2. Generalization (eval 06 — FluxTransit Profile).** Five blind runs on a
+first-contact screen (different app, MVUX architecture, Toolkit controls,
+glass design system, four designed honesty traps) **beat the home-turf
+numbers**: mean vs-gold macro 0.43 (eval 05: 0.34), node-id 0.56,
+`uno_mapping` 0.71–0.89, zero hallucinations — every trap held, and runs
+surfaced more honest unresolveds than gold. Residual drift is narrowly two
+missing Pass-8 vocabulary entries (section container, list row) — including
+one place where **gold itself violated the kit's own vocabulary rule**
+(`glass-panel` instead of `card`). Full analysis:
+`evals/06-flux-profile/blind/README.md`.
+
+**3. Arm B2 (implementation from a blind v0.4 graph).** Same protocol as
+arm B, graph upgraded to a blind-generated v0.4 artifact. Independently
+audited: **18/18 real Orbital resource/style keys and 10/10 x:Names adopted
+verbatim** (B: 13/18, 8/10), all states/triggers implemented, zero invented
+behavior. The mapping layer makes implementations drop-in reconcilable with
+the source design system. Details: `experiments/ab-orbital-settings/ab-results.md`,
+Follow-up 4.
+
+**Open decisions for the next iteration (explicit, per protocol):** rename
+eval-06 gold's canonical to `component.card` to obey the kit's own
+vocabulary; add a list-row entry (`route`/`list-item`) to the Pass-8
+vocabulary; then the remaining scale question is a third eval + compiling
+the arms in a toolchain-equipped environment.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical

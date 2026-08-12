@@ -16,3 +16,8 @@ timestamp,eval_case,run,model,model_version,input_type,prompt_or_skill_version,s
 2026-08-12,05-orbital-settings,15,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.3060,,0,4,0,"Blind-v4 run3. 61n/94e. uno 0.641, value recall 0.881"
 2026-08-12,05-orbital-settings,16,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.3124,,0,3,0,"Blind-v4 run4. 60n/97e. uno 0.647, value recall 0.881"
 2026-08-12,05-orbital-settings,17,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.3150,,0,3,0,"Blind-v4 run5. 60n/95e. uno 0.660, value recall 0.905; dropped clear-recents trigger (4/5 carried both). Pairwise: macro 0.758, node-id 0.929, singletons 9. Residual vs gold = consensus token-wiring altitude (calibration decision pending)"
+2026-08-12,06-flux-profile,1,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4213,,0,8,0,"Eval-06 first contact. 54n/68e, uno F1 0.729. All four honesty traps held"
+2026-08-12,06-flux-profile,2,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.3742,,0,6,0,"55n/67e, uno 0.707"
+2026-08-12,06-flux-profile,3,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4738,,0,9,0,"52n/80e, uno 0.814"
+2026-08-12,06-flux-profile,4,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4501,,0,7,0,"55n/79e, uno 0.814"
+2026-08-12,06-flux-profile,5,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4252,,0,7,0,"48n/69e, uno 0.886. Suite: mean vs-gold macro 0.4289 (beats home-turf 0.34); drift = two missing vocabulary entries (card/glass-panel, route row) incl. one gold naming defect"

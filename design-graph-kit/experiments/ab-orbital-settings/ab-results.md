@@ -156,6 +156,36 @@ graph-as-structured-IR position — none of it is possible with prose notes.
 
 ---
 
+# Follow-up 4 — Arm B2: implementation from a blind v0.4 graph
+
+After the Uno-first pivot, the treatment was re-run as **B2**: same brief,
+same isolation and one-shot budget as arm B, but the graph is now a
+**blind-generated v0.4 graph** (`blind-v4/run4.graph.json` — a pipeline
+artifact, deliberately *not* the answer key) carrying the `properties.uno`
+mapping layer. No MCP tools, matching B's tooling exactly, so the only
+delta vs B is the graph version.
+
+**Result — the mapping layer closes the traceability gap to 100%:**
+
+| Measure (independently audited vs the real Orbital source) | B (pre-uno graph) | **B2 (v0.4 graph)** |
+|---|---:|---:|
+| Real Orbital resource/style keys adopted verbatim | 13/18 | **18/18** |
+| Real x:Names adopted verbatim | 8/10 | **10/10** |
+| Declared states/triggers implemented | 3/3 | **3/3** (+ SearchRequested event raised, target honored as unresolved) |
+| Docs URI / dialog copy exact | yes | yes |
+| Invented behavior | 0 | 0 |
+| Static verification | pass | pass |
+
+B2's page defines its ResourceDictionary with the *original app's* key names
+(`OrbitalSurface1Brush`, `OrbitalCardStyle`, `OrbitalPrimaryButtonSm`, …)
+and element names, none of which appear in the brief — they traveled
+design → blind graph → implementation intact. That makes the output
+drop-in reconcilable with the source design system and makes Stage-6
+round-trip diffs exact by construction. Notable detail: where the brief
+and the graph disagreed (title size), B2 followed the graph's declared
+design-system value and documented the conflict — the graph functioning
+as the source of truth, as `design-implement.md` intends.
+
 # Follow-up 3 — Static verification of all arms
 
 No .NET SDK exists in this environment, so the arms were not compiled.
