@@ -1,0 +1,3680 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "orbital.settings",
+  "name": "Orbital Settings screen",
+  "description": "Design Graph of the Orbital SettingsPage and the PageHeader instance it renders, generated from XAML, code-behind, and the Orbital style dictionaries.",
+  "sourceSummary": [
+    {
+      "type": "xaml",
+      "path": "Orbital/Orbital/Presentation/SettingsPage.xaml",
+      "label": "Settings page markup"
+    },
+    {
+      "type": "csharp",
+      "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs",
+      "label": "Settings page code-behind"
+    },
+    {
+      "type": "xaml",
+      "path": "Orbital/Orbital/Controls/PageHeader.xaml",
+      "label": "PageHeader user control markup"
+    },
+    {
+      "type": "csharp",
+      "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs",
+      "label": "PageHeader code-behind"
+    },
+    {
+      "type": "design-system",
+      "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml",
+      "label": "Orbital color brushes"
+    },
+    {
+      "type": "design-system",
+      "path": "Orbital/Orbital/Styles/TextBlock.xaml",
+      "label": "Orbital typography styles"
+    },
+    {
+      "type": "design-system",
+      "path": "Orbital/Orbital/Styles/Surfaces.xaml",
+      "label": "Orbital surface/card styles"
+    },
+    {
+      "type": "design-system",
+      "path": "Orbital/Orbital/Styles/Buttons.xaml",
+      "label": "Orbital button styles"
+    },
+    {
+      "type": "design-system",
+      "path": "Orbital/Orbital/Styles/Animations.xaml",
+      "label": "Shared animation timing constants"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Settings",
+      "role": "page",
+      "properties": {
+        "xamlClass": "Orbital.Presentation.SettingsPage",
+        "layout": "header row (Auto) + scrollable content row (*)"
+      }
+    },
+    {
+      "id": "region.settings.content",
+      "type": "region",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Settings content",
+      "role": "scrollable content region",
+      "properties": {
+        "scrollable": true,
+        "layout": "vertical AutoLayout, Spacing=24",
+        "padding": {
+          "narrow": 16,
+          "normal": 32,
+          "wide": 32
+        },
+        "responsive": "Uno Toolkit Responsive markup extension"
+      }
+    },
+    {
+      "id": "region.settings.column-left",
+      "type": "region",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Left column of the two-column grid (equal star widths with 16px gap column)"
+      },
+      "name": "Left column",
+      "role": "layout column",
+      "properties": {
+        "layout": "vertical AutoLayout, Spacing=24"
+      }
+    },
+    {
+      "id": "region.settings.column-right",
+      "type": "region",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Right column of the two-column grid"
+      },
+      "name": "Right column",
+      "role": "layout column",
+      "properties": {
+        "layout": "vertical AutoLayout, Spacing=24"
+      }
+    },
+    {
+      "id": "component.page-header",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "PageHeader",
+      "role": "page header bar",
+      "properties": {
+        "xamlClass": "Orbital.Controls.PageHeader",
+        "dependencyProperties": [
+          "Title",
+          "Subtitle"
+        ],
+        "border": "1px bottom hairline (OrbitalSurface2Brush)",
+        "padding": "32,20"
+      }
+    },
+    {
+      "id": "component.settings.header",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Settings page header",
+      "role": "page header instance",
+      "properties": {
+        "Title": "Settings",
+        "Subtitle": "Profile and preferences",
+        "xName": "Header"
+      }
+    },
+    {
+      "id": "content.page-header.title",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Page title",
+      "role": "title",
+      "properties": {
+        "style": "OrbitalPageTitle",
+        "boundTo": "PageHeader.Title dependency property"
+      }
+    },
+    {
+      "id": "content.page-header.subtitle",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Page subtitle",
+      "role": "subtitle",
+      "properties": {
+        "style": "OrbitalBody",
+        "fontWeightOverride": "Normal",
+        "boundTo": "PageHeader.Subtitle dependency property"
+      }
+    },
+    {
+      "id": "control.page-header.search",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Search bar",
+      "role": "button (tappable border)",
+      "semanticRole": "searchTrigger",
+      "properties": {
+        "xName": "SearchBorder",
+        "automationName": "Search or run command",
+        "raisesEvent": "PageHeader.SearchRequested (static event) on Tapped",
+        "padding": "12,8"
+      }
+    },
+    {
+      "id": "asset.page-header.search-icon",
+      "type": "asset",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Search icon",
+      "role": "icon",
+      "properties": {
+        "glyph": "E721",
+        "fontSize": 14
+      }
+    },
+    {
+      "id": "content.page-header.search-placeholder",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Search placeholder",
+      "role": "placeholder text",
+      "text": "Search or run command...",
+      "properties": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": 12
+      }
+    },
+    {
+      "id": "content.page-header.search-shortcut",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "Keyboard shortcut badge",
+      "role": "keyboard shortcut hint",
+      "text": "Ctrl+K",
+      "properties": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": 10,
+        "padding": "6,2"
+      }
+    },
+    {
+      "id": "component.card",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "name": "OrbitalCardStyle card",
+      "role": "card surface",
+      "properties": {
+        "styleKey": "OrbitalCardStyle",
+        "background": "OrbitalSurface1Brush",
+        "border": "1px OrbitalSurface3Brush",
+        "cornerRadius": 12,
+        "padding": 20
+      }
+    },
+    {
+      "id": "component.section-label",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "name": "Section header label",
+      "role": "section heading",
+      "properties": {
+        "styleKey": "OrbitalSectionHeader",
+        "convention": "uppercase mono 11px with wide letter spacing",
+        "occurrencesOnScreen": 4
+      }
+    },
+    {
+      "id": "component.button.primary",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "Primary button",
+      "role": "button",
+      "semanticRole": "primaryAction",
+      "properties": {
+        "styleKey": "OrbitalPrimaryButton",
+        "background": "OrbitalEmerald500Brush",
+        "foreground": "OrbitalSurface0Brush",
+        "padding": "16,8",
+        "motion": {
+          "hover": "translateY -2 (150ms ease-out), bg -> emerald-400",
+          "pressed": "scale 0.97, translateY -1 (100ms)",
+          "disabled": "opacity 0.4"
+        }
+      }
+    },
+    {
+      "id": "component.button.primary-sm",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "Primary button (small)",
+      "role": "button",
+      "properties": {
+        "styleKey": "OrbitalPrimaryButtonSm",
+        "basedOn": "OrbitalPrimaryButton",
+        "padding": "12,6"
+      }
+    },
+    {
+      "id": "component.button.ghost",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "Ghost button",
+      "role": "button",
+      "semanticRole": "tertiaryAction",
+      "properties": {
+        "styleKey": "OrbitalGhostButton",
+        "background": "Transparent",
+        "foreground": "OrbitalText55Brush",
+        "padding": "16,8",
+        "motion": {
+          "hover": "translateY -2 (150ms ease-out), bg -> surface-2, text -> text-80",
+          "pressed": "scale 0.97, translateY -1 (100ms)",
+          "disabled": "opacity 0.4"
+        }
+      }
+    },
+    {
+      "id": "component.button.ghost-sm",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "Ghost button (small)",
+      "role": "button",
+      "properties": {
+        "styleKey": "OrbitalGhostButtonSm",
+        "basedOn": "OrbitalGhostButton",
+        "padding": "12,6"
+      }
+    },
+    {
+      "id": "component.settings.profile-card",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Profile section card",
+      "role": "settings section",
+      "properties": {
+        "initialPresentation": "Opacity=0, TranslateTransform Y=8 (entrance animation start)",
+        "xName": "ProfileSection",
+        "innerSpacing": 16,
+        "entranceDelayMs": 0
+      }
+    },
+    {
+      "id": "component.settings.about-card",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "About section card",
+      "role": "settings section",
+      "properties": {
+        "initialPresentation": "Opacity=0, TranslateTransform Y=8 (entrance animation start)",
+        "xName": "AboutSection",
+        "innerSpacing": 16,
+        "entranceDelayMs": 100
+      }
+    },
+    {
+      "id": "component.settings.paths-card",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Paths section card",
+      "role": "settings section",
+      "properties": {
+        "initialPresentation": "Opacity=0, TranslateTransform Y=8 (entrance animation start)",
+        "xName": "PathsSection",
+        "innerSpacing": 16,
+        "entranceDelayMs": 200
+      }
+    },
+    {
+      "id": "component.settings.actions-card",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Actions section card",
+      "role": "settings section",
+      "properties": {
+        "initialPresentation": "Opacity=0, TranslateTransform Y=8 (entrance animation start)",
+        "xName": "ActionsSection",
+        "innerSpacing": 12,
+        "entranceDelayMs": 300
+      }
+    },
+    {
+      "id": "content.settings.profile.heading",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Profile heading",
+      "role": "section heading",
+      "text": "PROFILE"
+    },
+    {
+      "id": "content.settings.profile.display-name-label",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Display name label",
+      "role": "field label",
+      "text": "Display Name"
+    },
+    {
+      "id": "control.settings.username-input",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Username textbox",
+      "role": "textbox",
+      "semanticRole": "textInput",
+      "properties": {
+        "xName": "UsernameBox",
+        "placeholder": "Enter your name",
+        "fontFamily": "JetBrains Mono",
+        "fontSize": 13,
+        "initialValue": "loaded from SettingsService.GetStoredUsername() on page Loaded"
+      }
+    },
+    {
+      "id": "control.settings.save-username",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Save button",
+      "role": "button",
+      "semanticRole": "primaryAction",
+      "text": "Save",
+      "properties": {
+        "xName": "SaveUsernameButton",
+        "clickBehavior": "saves trimmed textbox value via SettingsService.SaveUsername"
+      }
+    },
+    {
+      "id": "content.settings.profile.helper",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Display name helper",
+      "role": "helper text",
+      "text": "This name appears in the homepage greeting."
+    },
+    {
+      "id": "content.settings.about.heading",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "About heading",
+      "role": "section heading",
+      "text": "ABOUT"
+    },
+    {
+      "id": "asset.settings.about.logo",
+      "type": "asset",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Orbital logo",
+      "role": "app logo",
+      "properties": {
+        "source": "ms-appx:///Assets/Icons/Uno-logo.png",
+        "imageSize": "32x32 uniform",
+        "tile": "48x48, CornerRadius 12, OrbitalSurface2Brush"
+      }
+    },
+    {
+      "id": "content.settings.about.app-name",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "App name",
+      "role": "title",
+      "text": "Orbital",
+      "properties": {
+        "style": "OrbitalBody",
+        "fontWeightOverride": "SemiBold"
+      }
+    },
+    {
+      "id": "content.settings.about.version",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "App version",
+      "role": "value",
+      "properties": {
+        "binding": "VersionDisplay",
+        "fallbackValue": "v0.1.0-alpha"
+      }
+    },
+    {
+      "id": "component.version-row",
+      "type": "component",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Four consecutive rows share identical structure: overlay Grid with a left mono-small label (text-50) and a right-aligned bound mono-small value (text-72)"
+      },
+      "name": "Version detail row",
+      "role": "key-value row (label left, value right)"
+    },
+    {
+      "id": "component.settings.about.row.uno-sdk",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Uno Platform SDK row",
+      "role": "key-value row",
+      "properties": {
+        "label": "Uno Platform SDK",
+        "valueBinding": "EnvStatus.UnoSdkVersion",
+        "fallbackValue": "..."
+      }
+    },
+    {
+      "id": "component.settings.about.row.dotnet-runtime",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": ".NET Runtime row",
+      "role": "key-value row",
+      "properties": {
+        "label": ".NET Runtime",
+        "valueBinding": "DotNetDisplay",
+        "fallbackValue": "..."
+      }
+    },
+    {
+      "id": "component.settings.about.row.renderer",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Renderer row",
+      "role": "key-value row",
+      "properties": {
+        "label": "Renderer",
+        "valueBinding": "EnvStatus.Renderer",
+        "fallbackValue": "..."
+      }
+    },
+    {
+      "id": "component.settings.about.row.platform",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Platform row",
+      "role": "key-value row",
+      "properties": {
+        "label": "Platform",
+        "valueBinding": "PlatformInfo",
+        "fallbackValue": "..."
+      }
+    },
+    {
+      "id": "content.settings.paths.heading",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Paths heading",
+      "role": "section heading",
+      "text": "PATHS"
+    },
+    {
+      "id": "component.path-entry",
+      "type": "component",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Three consecutive StackPanels share identical structure: mono-small label (text-50) above a wrapped bound mono-small path value (text-72), Spacing=8"
+      },
+      "name": "Path entry",
+      "role": "stacked label + wrapped path value"
+    },
+    {
+      "id": "component.settings.paths.project-root",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Project Root entry",
+      "role": "path entry",
+      "properties": {
+        "label": "Project Root",
+        "valueBinding": "ProjectRoot",
+        "fallbackValue": "...",
+        "textWrapping": "Wrap"
+      }
+    },
+    {
+      "id": "component.settings.paths.recents-database",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Recent Projects Database entry",
+      "role": "path entry",
+      "properties": {
+        "label": "Recent Projects Database",
+        "valueBinding": "RecentsPath",
+        "fallbackValue": "...",
+        "textWrapping": "Wrap"
+      }
+    },
+    {
+      "id": "component.settings.paths.skills-path",
+      "type": "component",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Claude Code Skills entry",
+      "role": "path entry",
+      "properties": {
+        "label": "Claude Code Skills",
+        "valueBinding": "SkillsPath",
+        "fallbackValue": "...",
+        "textWrapping": "Wrap"
+      }
+    },
+    {
+      "id": "content.settings.actions.heading",
+      "type": "content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Actions heading",
+      "role": "section heading",
+      "text": "ACTIONS"
+    },
+    {
+      "id": "control.settings.clear-recents",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Clear Recent Projects button",
+      "role": "button",
+      "semanticRole": "action",
+      "text": "Clear Recent Projects",
+      "properties": {
+        "xName": "ClearRecentsButton",
+        "iconGlyph": "E74D",
+        "iconSize": 14,
+        "layout": "stretched, left-aligned content",
+        "clickBehavior": "removes all recent projects via IProjectContext, then shows a 'Cleared' ContentDialog"
+      }
+    },
+    {
+      "id": "control.settings.open-data-folder",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Open Data Folder button",
+      "role": "button",
+      "semanticRole": "action",
+      "text": "Open Data Folder",
+      "properties": {
+        "xName": "OpenDataFolderButton",
+        "iconGlyph": "E838",
+        "iconSize": 14,
+        "layout": "stretched, left-aligned content",
+        "clickBehavior": "creates and opens %LocalAppData%/Orbital in the OS shell"
+      }
+    },
+    {
+      "id": "control.settings.open-docs",
+      "type": "control",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "name": "Uno Platform Documentation button",
+      "role": "button",
+      "semanticRole": "externalLink",
+      "text": "Uno Platform Documentation",
+      "properties": {
+        "xName": "OpenDocsButton",
+        "iconGlyph": "E8A5",
+        "iconSize": 14,
+        "layout": "stretched, left-aligned content",
+        "clickBehavior": "launches https://platform.uno/docs/articles/intro.html via Windows.System.Launcher"
+      }
+    },
+    {
+      "id": "state.button.primary.pointer-over",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "primary button hover",
+      "role": "pointer-over visual state"
+    },
+    {
+      "id": "state.button.primary.pressed",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "primary button pressed",
+      "role": "pressed visual state"
+    },
+    {
+      "id": "state.button.primary.disabled",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "primary button disabled",
+      "role": "disabled visual state",
+      "properties": {
+        "opacity": 0.4
+      }
+    },
+    {
+      "id": "state.button.ghost.pointer-over",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "ghost button hover",
+      "role": "pointer-over visual state"
+    },
+    {
+      "id": "state.button.ghost.pressed",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "ghost button pressed",
+      "role": "pressed visual state"
+    },
+    {
+      "id": "state.button.ghost.disabled",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "ghost button disabled",
+      "role": "disabled visual state",
+      "properties": {
+        "opacity": 0.4
+      }
+    },
+    {
+      "id": "state.settings.save.saved",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      },
+      "name": "Save confirmation",
+      "role": "transient confirmation state",
+      "properties": {
+        "content": "Saved!",
+        "durationMs": 1500,
+        "behavior": "button content reverts to 'Save' after 1.5s"
+      }
+    },
+    {
+      "id": "state.page-header.search.hover",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs"
+        }
+      },
+      "name": "Search bar hover",
+      "role": "pointer-over state",
+      "properties": {
+        "borderBrush": "OrbitalEmerald500_20Brush",
+        "background": "OrbitalSurface15Brush",
+        "revertsOnPointerExit": true
+      }
+    },
+    {
+      "id": "state.settings.recents-cleared",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      },
+      "name": "Recents cleared dialog",
+      "role": "confirmation dialog state",
+      "properties": {
+        "dialog": {
+          "title": "Cleared",
+          "content": "Recent projects list has been cleared.",
+          "closeButtonText": "OK"
+        }
+      }
+    },
+    {
+      "id": "state.settings.entering",
+      "type": "state",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      },
+      "name": "Entrance animation",
+      "role": "entrance state",
+      "properties": {
+        "mechanism": "AnimationHelper.FadeUp on Loaded",
+        "initial": "Opacity 0, TranslateY 8",
+        "staggerMs": [
+          0,
+          100,
+          200,
+          300
+        ],
+        "order": [
+          "ProfileSection",
+          "AboutSection",
+          "PathsSection",
+          "ActionsSection"
+        ]
+      }
+    },
+    {
+      "id": "token.color.surface-0",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalSurface0",
+      "category": "color",
+      "value": "#FF0A0A0B"
+    },
+    {
+      "id": "token.color.surface-1",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalSurface1",
+      "category": "color",
+      "value": "#FF141416"
+    },
+    {
+      "id": "token.color.surface-15",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalSurface15",
+      "category": "color",
+      "value": "#FF0C0C0D"
+    },
+    {
+      "id": "token.color.surface-2",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalSurface2",
+      "category": "color",
+      "value": "#FF1A1A1C"
+    },
+    {
+      "id": "token.color.surface-3",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalSurface3",
+      "category": "color",
+      "value": "#FF212123"
+    },
+    {
+      "id": "token.color.emerald-500",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalEmerald500",
+      "category": "color",
+      "value": "#FF10B981"
+    },
+    {
+      "id": "token.color.emerald-400",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalEmerald400",
+      "category": "color",
+      "value": "#FF34D399"
+    },
+    {
+      "id": "token.color.emerald-500-20",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalEmerald500_20",
+      "category": "color",
+      "value": {
+        "color": "#FF10B981",
+        "opacity": 0.2
+      }
+    },
+    {
+      "id": "token.color.text-90",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText90",
+      "category": "color",
+      "value": "#FFE3E5EC"
+    },
+    {
+      "id": "token.color.text-85",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText85",
+      "category": "color",
+      "value": "#FFD6D9E1"
+    },
+    {
+      "id": "token.color.text-80",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText80",
+      "category": "color",
+      "value": "#FFC9CCD6"
+    },
+    {
+      "id": "token.color.text-72",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText72",
+      "category": "color",
+      "value": "#FFB5B9C5"
+    },
+    {
+      "id": "token.color.text-55",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText55",
+      "category": "color",
+      "value": "#FF8A90A0"
+    },
+    {
+      "id": "token.color.text-50",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText50",
+      "category": "color",
+      "value": "#FF7B8191"
+    },
+    {
+      "id": "token.color.text-40",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText40",
+      "category": "color",
+      "value": "#FF626878"
+    },
+    {
+      "id": "token.color.text-38",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText38",
+      "category": "color",
+      "value": "#FF5D6372"
+    },
+    {
+      "id": "token.color.text-35",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText35",
+      "category": "color",
+      "value": "#FF565C6B"
+    },
+    {
+      "id": "token.color.text-30",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml"
+        }
+      },
+      "name": "OrbitalText30",
+      "category": "color",
+      "value": "#FF4A505D"
+    },
+    {
+      "id": "token.typography.page-title",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "name": "OrbitalPageTitle",
+      "category": "typography",
+      "value": {
+        "family": "Space Grotesk",
+        "size": 20,
+        "weight": "SemiBold",
+        "characterSpacing": -25
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "name": "OrbitalBody",
+      "category": "typography",
+      "value": {
+        "family": "Space Grotesk",
+        "size": 13,
+        "weight": "Medium"
+      }
+    },
+    {
+      "id": "token.typography.section-header",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "name": "OrbitalSectionHeader",
+      "category": "typography",
+      "value": {
+        "family": "JetBrains Mono",
+        "size": 11,
+        "weight": "Medium",
+        "characterSpacing": 80
+      }
+    },
+    {
+      "id": "token.typography.mono-small",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "name": "OrbitalMonoSmall",
+      "category": "typography",
+      "value": {
+        "family": "JetBrains Mono",
+        "size": 11,
+        "weight": "Normal"
+      }
+    },
+    {
+      "id": "token.typography.button-label",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "name": "Button label type",
+      "category": "typography",
+      "value": {
+        "family": "DM Sans",
+        "size": 13,
+        "weight": "Medium"
+      }
+    },
+    {
+      "id": "token.spacing.4",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Title/subtitle gap in PageHeader; about identity stack spacing"
+      },
+      "name": "spacing 4",
+      "category": "spacing",
+      "value": 4
+    },
+    {
+      "id": "token.spacing.8",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Label/value stack spacing, icon-text gaps, save-button gutter column"
+      },
+      "name": "spacing 8",
+      "category": "spacing",
+      "value": 8
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Actions card inner spacing; small button padding; search bar padding"
+      },
+      "name": "spacing 12",
+      "category": "spacing",
+      "value": 12
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Card inner spacing, column gap, narrow page padding, logo gutter"
+      },
+      "name": "spacing 16",
+      "category": "spacing",
+      "value": 16
+    },
+    {
+      "id": "token.spacing.20",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Card padding (OrbitalCardStyle); PageHeader vertical padding"
+      },
+      "name": "spacing 20",
+      "category": "spacing",
+      "value": 20
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Page section gap and column stack spacing"
+      },
+      "name": "spacing 24",
+      "category": "spacing",
+      "value": 24
+    },
+    {
+      "id": "token.spacing.32",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Page padding (normal/wide); PageHeader horizontal padding"
+      },
+      "name": "spacing 32",
+      "category": "spacing",
+      "value": 32
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "name": "radius 12",
+      "category": "radius",
+      "value": 12
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "Recurs across button styles (Buttons.xaml) and the PageHeader search bar"
+      },
+      "name": "radius 8",
+      "category": "radius",
+      "value": 8
+    },
+    {
+      "id": "token.radius.4",
+      "type": "token",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "name": "radius 4",
+      "category": "radius",
+      "value": 4
+    },
+    {
+      "id": "token.border.1",
+      "type": "token",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        },
+        "rationale": "1px hairline border recurs on cards, search bar, header bottom rule, textbox"
+      },
+      "name": "hairline border",
+      "category": "border",
+      "value": 1
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "component.settings.header",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "region.settings.content",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "component.settings.profile-card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "region.settings.column-left",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "region.settings.column-right",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.column-left",
+      "relation": "contains",
+      "to": "component.settings.about-card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.column-right",
+      "relation": "contains",
+      "to": "component.settings.paths-card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings.column-right",
+      "relation": "contains",
+      "to": "component.settings.actions-card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "contains",
+      "to": "content.settings.profile.heading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "contains",
+      "to": "content.settings.profile.display-name-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "contains",
+      "to": "control.settings.username-input",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "contains",
+      "to": "control.settings.save-username",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "contains",
+      "to": "content.settings.profile.helper",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "content.settings.about.heading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "asset.settings.about.logo",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "content.settings.about.app-name",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "content.settings.about.version",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "component.settings.about.row.uno-sdk",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "component.settings.about.row.dotnet-runtime",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "component.settings.about.row.renderer",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "contains",
+      "to": "component.settings.about.row.platform",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.paths-card",
+      "relation": "contains",
+      "to": "content.settings.paths.heading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.paths-card",
+      "relation": "contains",
+      "to": "component.settings.paths.project-root",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.paths-card",
+      "relation": "contains",
+      "to": "component.settings.paths.recents-database",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.paths-card",
+      "relation": "contains",
+      "to": "component.settings.paths.skills-path",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "contains",
+      "to": "content.settings.actions.heading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "contains",
+      "to": "control.settings.clear-recents",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "contains",
+      "to": "control.settings.open-data-folder",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "contains",
+      "to": "control.settings.open-docs",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "content.page-header.title",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "content.page-header.subtitle",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "control.page-header.search",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "contains",
+      "to": "asset.page-header.search-icon",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "contains",
+      "to": "content.page-header.search-placeholder",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "contains",
+      "to": "content.page-header.search-shortcut",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.header",
+      "relation": "instance-of",
+      "to": "component.page-header",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.settings.profile-card",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Border uses StaticResource OrbitalCardStyle"
+      }
+    },
+    {
+      "from": "component.settings.about-card",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Border uses StaticResource OrbitalCardStyle"
+      }
+    },
+    {
+      "from": "component.settings.paths-card",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Border uses StaticResource OrbitalCardStyle"
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Border uses StaticResource OrbitalCardStyle"
+      }
+    },
+    {
+      "from": "content.settings.profile.heading",
+      "relation": "instance-of",
+      "to": "component.section-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "TextBlock uses StaticResource OrbitalSectionHeader"
+      }
+    },
+    {
+      "from": "content.settings.about.heading",
+      "relation": "instance-of",
+      "to": "component.section-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "TextBlock uses StaticResource OrbitalSectionHeader"
+      }
+    },
+    {
+      "from": "content.settings.paths.heading",
+      "relation": "instance-of",
+      "to": "component.section-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "TextBlock uses StaticResource OrbitalSectionHeader"
+      }
+    },
+    {
+      "from": "content.settings.actions.heading",
+      "relation": "instance-of",
+      "to": "component.section-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "TextBlock uses StaticResource OrbitalSectionHeader"
+      }
+    },
+    {
+      "from": "control.settings.save-username",
+      "relation": "instance-of",
+      "to": "component.button.primary-sm",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Style OrbitalPrimaryButtonSm"
+      }
+    },
+    {
+      "from": "control.settings.clear-recents",
+      "relation": "instance-of",
+      "to": "component.button.ghost-sm",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Style OrbitalGhostButtonSm"
+      }
+    },
+    {
+      "from": "control.settings.open-data-folder",
+      "relation": "instance-of",
+      "to": "component.button.ghost-sm",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Style OrbitalGhostButtonSm"
+      }
+    },
+    {
+      "from": "control.settings.open-docs",
+      "relation": "instance-of",
+      "to": "component.button.ghost-sm",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Style OrbitalGhostButtonSm"
+      }
+    },
+    {
+      "from": "component.settings.about.row.uno-sdk",
+      "relation": "instance-of",
+      "to": "component.version-row",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical grid structure and styles across the four version rows"
+      }
+    },
+    {
+      "from": "component.settings.about.row.dotnet-runtime",
+      "relation": "instance-of",
+      "to": "component.version-row",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical grid structure and styles across the four version rows"
+      }
+    },
+    {
+      "from": "component.settings.about.row.renderer",
+      "relation": "instance-of",
+      "to": "component.version-row",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical grid structure and styles across the four version rows"
+      }
+    },
+    {
+      "from": "component.settings.about.row.platform",
+      "relation": "instance-of",
+      "to": "component.version-row",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical grid structure and styles across the four version rows"
+      }
+    },
+    {
+      "from": "component.settings.paths.project-root",
+      "relation": "instance-of",
+      "to": "component.path-entry",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical stacked label/value structure and styles across the three path entries"
+      }
+    },
+    {
+      "from": "component.settings.paths.recents-database",
+      "relation": "instance-of",
+      "to": "component.path-entry",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical stacked label/value structure and styles across the three path entries"
+      }
+    },
+    {
+      "from": "component.settings.paths.skills-path",
+      "relation": "instance-of",
+      "to": "component.path-entry",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Identical stacked label/value structure and styles across the three path entries"
+      }
+    },
+    {
+      "from": "component.button.primary-sm",
+      "relation": "variant-of",
+      "to": "component.button.primary",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "BasedOn OrbitalPrimaryButton, only padding changes"
+      }
+    },
+    {
+      "from": "component.button.ghost-sm",
+      "relation": "variant-of",
+      "to": "component.button.ghost",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "BasedOn OrbitalGhostButton, only padding changes"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "has-state",
+      "to": "state.button.primary.pointer-over",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "has-state",
+      "to": "state.button.primary.pressed",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "has-state",
+      "to": "state.button.primary.disabled",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "has-state",
+      "to": "state.button.ghost.pointer-over",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "has-state",
+      "to": "state.button.ghost.pressed",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "has-state",
+      "to": "state.button.ghost.disabled",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        },
+        "rationale": "VisualState in control template"
+      }
+    },
+    {
+      "from": "control.settings.save-username",
+      "relation": "has-state",
+      "to": "state.settings.save.saved",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "has-state",
+      "to": "state.page-header.search.hover",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs"
+        },
+        "rationale": "PointerEntered/PointerExited handlers swap brushes"
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "has-state",
+      "to": "state.settings.recents-cleared",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "has-state",
+      "to": "state.settings.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "FadeUp stagger on Loaded; XAML declares initial Opacity 0 / TranslateY 8"
+      }
+    },
+    {
+      "from": "control.settings.save-username",
+      "relation": "triggers",
+      "to": "state.settings.save.saved",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "Click handler saves username then swaps button content to 'Saved!' for 1500ms"
+      }
+    },
+    {
+      "from": "control.settings.clear-recents",
+      "relation": "triggers",
+      "to": "state.settings.recents-cleared",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "Click handler clears recents then shows the 'Cleared' ContentDialog"
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "uses-token",
+      "to": "token.color.surface-0",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.24",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "sectionGap"
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.32",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "padding (normal/wide)"
+      }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "padding (narrow) and column gap"
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.color.surface-1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.color.surface-3",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "borderBrush"
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.border.1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "borderThickness"
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.radius.12",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "cornerRadius"
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.spacing.20",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Surfaces.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "padding"
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.color.surface-2",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "bottom border"
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.border.1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "bottom borderThickness"
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.spacing.32",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "horizontal padding"
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.spacing.20",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "vertical padding"
+      }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.spacing.4",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "title/subtitle gap"
+      }
+    },
+    {
+      "from": "content.page-header.title",
+      "relation": "uses-token",
+      "to": "token.typography.page-title",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.page-header.title",
+      "relation": "uses-token",
+      "to": "token.color.text-90",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground (via OrbitalPageTitle)"
+      }
+    },
+    {
+      "from": "content.page-header.subtitle",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.page-header.subtitle",
+      "relation": "uses-token",
+      "to": "token.color.text-40",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface-1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface-3",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "borderBrush"
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "cornerRadius"
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "uses-token",
+      "to": "token.border.1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "borderThickness"
+      }
+    },
+    {
+      "from": "control.page-header.search",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "inner item spacing"
+      }
+    },
+    {
+      "from": "asset.page-header.search-icon",
+      "relation": "uses-token",
+      "to": "token.color.text-35",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "content.page-header.search-placeholder",
+      "relation": "uses-token",
+      "to": "token.color.text-30",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "content.page-header.search-shortcut",
+      "relation": "uses-token",
+      "to": "token.color.surface-2",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "content.page-header.search-shortcut",
+      "relation": "uses-token",
+      "to": "token.radius.4",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "cornerRadius"
+      }
+    },
+    {
+      "from": "content.page-header.search-shortcut",
+      "relation": "uses-token",
+      "to": "token.color.text-35",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "component.section-label",
+      "relation": "uses-token",
+      "to": "token.typography.section-header",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "component.section-label",
+      "relation": "uses-token",
+      "to": "token.color.text-38",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/TextBlock.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "uses-token",
+      "to": "token.color.emerald-500",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "uses-token",
+      "to": "token.color.surface-0",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "cornerRadius"
+      }
+    },
+    {
+      "from": "component.button.primary",
+      "relation": "uses-token",
+      "to": "token.typography.button-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "uses-token",
+      "to": "token.color.text-55",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "cornerRadius"
+      }
+    },
+    {
+      "from": "component.button.ghost",
+      "relation": "uses-token",
+      "to": "token.typography.button-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "component.button.primary-sm",
+      "relation": "uses-token",
+      "to": "token.spacing.12",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "horizontal padding"
+      }
+    },
+    {
+      "from": "component.button.ghost-sm",
+      "relation": "uses-token",
+      "to": "token.spacing.12",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "horizontal padding"
+      }
+    },
+    {
+      "from": "state.button.primary.pointer-over",
+      "relation": "uses-token",
+      "to": "token.color.emerald-400",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "hover background"
+      }
+    },
+    {
+      "from": "state.button.ghost.pointer-over",
+      "relation": "uses-token",
+      "to": "token.color.surface-2",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "hover background"
+      }
+    },
+    {
+      "from": "state.button.ghost.pointer-over",
+      "relation": "uses-token",
+      "to": "token.color.text-80",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Styles/Buttons.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "hover foreground"
+      }
+    },
+    {
+      "from": "state.page-header.search.hover",
+      "relation": "uses-token",
+      "to": "token.color.emerald-500-20",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs"
+        }
+      },
+      "properties": {
+        "appliesTo": "hover borderBrush"
+      }
+    },
+    {
+      "from": "state.page-header.search.hover",
+      "relation": "uses-token",
+      "to": "token.color.surface-15",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs"
+        }
+      },
+      "properties": {
+        "appliesTo": "hover background"
+      }
+    },
+    {
+      "from": "control.settings.username-input",
+      "relation": "uses-token",
+      "to": "token.color.surface-1",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "background"
+      }
+    },
+    {
+      "from": "control.settings.username-input",
+      "relation": "uses-token",
+      "to": "token.color.surface-3",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "borderBrush"
+      }
+    },
+    {
+      "from": "control.settings.username-input",
+      "relation": "uses-token",
+      "to": "token.color.text-85",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "component.version-row",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "label and value text style"
+      }
+    },
+    {
+      "from": "component.version-row",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "label foreground"
+      }
+    },
+    {
+      "from": "component.version-row",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "value foreground"
+      }
+    },
+    {
+      "from": "component.path-entry",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "label and value text style"
+      }
+    },
+    {
+      "from": "component.path-entry",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "label foreground"
+      }
+    },
+    {
+      "from": "component.path-entry",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "value foreground"
+      }
+    },
+    {
+      "from": "component.path-entry",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "label/value gap"
+      }
+    },
+    {
+      "from": "content.settings.profile.display-name-label",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.settings.profile.display-name-label",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "content.settings.profile.helper",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.settings.profile.helper",
+      "relation": "uses-token",
+      "to": "token.color.text-30",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "content.settings.about.app-name",
+      "relation": "uses-token",
+      "to": "token.typography.body",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.settings.about.app-name",
+      "relation": "uses-token",
+      "to": "token.color.text-85",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "content.settings.about.version",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "text style"
+      }
+    },
+    {
+      "from": "content.settings.about.version",
+      "relation": "uses-token",
+      "to": "token.color.text-40",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "foreground"
+      }
+    },
+    {
+      "from": "asset.settings.about.logo",
+      "relation": "uses-token",
+      "to": "token.radius.12",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "logo tile cornerRadius"
+      }
+    },
+    {
+      "from": "asset.settings.about.logo",
+      "relation": "uses-token",
+      "to": "token.color.surface-2",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "logo tile background"
+      }
+    },
+    {
+      "from": "component.settings.actions-card",
+      "relation": "uses-token",
+      "to": "token.spacing.12",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "appliesTo": "inner item spacing"
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.search-requested-target",
+      "question": "What UI does the PageHeader search bar (and its Ctrl+K hint) open when tapped?",
+      "relatedIds": [
+        "control.page-header.search"
+      ],
+      "possibleValues": [
+        "a command palette / search overlay handled by a shell listening to PageHeader.SearchRequested"
+      ],
+      "reason": "The control raises the static SearchRequested event, but its subscriber lives outside the analyzed sources, so no navigates-to/triggers target can be asserted."
+    },
+    {
+      "id": "unresolved.row-component-consolidation",
+      "question": "Are component.version-row and component.path-entry two forms of one label/value component concept?",
+      "relatedIds": [
+        "component.version-row",
+        "component.path-entry"
+      ],
+      "possibleValues": [
+        "one component with horizontal/stacked variants",
+        "two distinct components"
+      ],
+      "reason": "They share label/value semantics and identical text styles but differ in layout (overlay right-aligned value vs stacked wrapped value); no shared source declaration exists."
+    },
+    {
+      "id": "unresolved.binding-context",
+      "question": "What DataContext/viewmodel supplies VersionDisplay, EnvStatus.*, DotNetDisplay, PlatformInfo, ProjectRoot, RecentsPath and SkillsPath?",
+      "relatedIds": [
+        "content.settings.about.version",
+        "component.settings.about.row.uno-sdk",
+        "component.settings.about.row.dotnet-runtime",
+        "component.settings.about.row.renderer",
+        "component.settings.about.row.platform",
+        "component.settings.paths.project-root",
+        "component.settings.paths.recents-database",
+        "component.settings.paths.skills-path"
+      ],
+      "reason": "Binding paths are declared in XAML, but no DataContext assignment appears in the analyzed files; runtime values and the owning type are unknown."
+    },
+    {
+      "id": "unresolved.entrance-animation-parameters",
+      "question": "Do the settings entrance animations use the timing constants declared in Styles/Animations.xaml (OrbitalFadeUpDuration=350 etc.)?",
+      "relatedIds": [
+        "state.settings.entering"
+      ],
+      "reason": "AnimationHelper.FadeUp is called with explicit per-section delays (0/100/200/300ms), but AnimationHelper's implementation is outside the analyzed sources, so duration/easing cannot be confirmed."
+    },
+    {
+      "id": "unresolved.icon-action-row-pattern",
+      "question": "Is the icon+label horizontal StackPanel inside the three action buttons a reusable sub-component?",
+      "relatedIds": [
+        "control.settings.clear-recents",
+        "control.settings.open-data-folder",
+        "control.settings.open-docs"
+      ],
+      "reason": "The pattern repeats three times within one card but is not declared as a component; only the glyph and label differ, so it may be incidental composition."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md 10-pass procedure",
+    "scope": "SettingsPage plus rendered PageHeader instance",
+    "generatedAt": "2026-08-12"
+  }
+}

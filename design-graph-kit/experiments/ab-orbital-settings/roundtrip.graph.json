@@ -1,0 +1,1626 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "roundtrip.ab-orbital-settings.b-graph",
+  "name": "Orbital Settings (round-trip extraction)",
+  "description": "Design Graph extracted from the implemented B-graph settings page (SettingsPage.xaml, SettingsPage.xaml.cs, Tokens.xaml). One screen with a page header and four section cards: Profile, About, Paths, Actions.",
+  "sourceSummary": [
+    {
+      "type": "xaml",
+      "id": "src.settings-xaml",
+      "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml",
+      "label": "SettingsPage markup"
+    },
+    {
+      "type": "csharp",
+      "id": "src.settings-cs",
+      "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs",
+      "label": "SettingsPage code-behind"
+    },
+    {
+      "type": "design-system",
+      "id": "src.tokens",
+      "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml",
+      "label": "Orbital tokens and canonical component styles"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "name": "Settings",
+      "semanticRole": "settings",
+      "properties": {
+        "xamlClass": "AbExperiment.B.SettingsPage",
+        "layout": "header row over scrollable content"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Page class AbExperiment.B.SettingsPage; header comment names it screen.settings."
+      }
+    },
+    {
+      "id": "component.page-header",
+      "type": "component",
+      "name": "Page header",
+      "role": "header",
+      "properties": {
+        "note": "Modeled as a reusable component per the source's own documentation; realized inline in this single page as a delimited block with a 1px bottom rule."
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Source comment explicitly delimits the block as component.page-header."
+      }
+    },
+    {
+      "id": "region.settings.content",
+      "type": "region",
+      "name": "Content area",
+      "role": "content",
+      "properties": {
+        "scrollable": true,
+        "layout": "vertical stack; Profile card full width, then a two-column grid (About left; Paths over Actions right) with a 16 gutter"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "ScrollViewer in Grid.Row=1 labeled 'Content area' containing the section cards."
+      }
+    },
+    {
+      "id": "component.settings-card",
+      "type": "component",
+      "name": "Settings card",
+      "role": "card",
+      "properties": {
+        "styleKey": "OrbitalCardStyle",
+        "background": "surface1",
+        "border": "1px surface3",
+        "cornerRadius": 12,
+        "padding": 20,
+        "innerGap": 16
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "OrbitalCardStyle documented as 'component.settings-card (canonical)'; all four section cards use it."
+      }
+    },
+    {
+      "id": "component.settings-card.profile",
+      "type": "component",
+      "name": "Profile card",
+      "role": "card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Border x:Name=ProfileSection annotated as component.settings-card.profile (instance-of settings-card)."
+      }
+    },
+    {
+      "id": "component.settings-card.about",
+      "type": "component",
+      "name": "About card",
+      "role": "card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Border x:Name=AboutSection annotated as component.settings-card.about (instance-of settings-card)."
+      }
+    },
+    {
+      "id": "component.settings-card.paths",
+      "type": "component",
+      "name": "Paths card",
+      "role": "card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Border x:Name=PathsSection annotated as component.settings-card.paths (instance-of settings-card)."
+      }
+    },
+    {
+      "id": "component.settings-card.actions",
+      "type": "component",
+      "name": "Actions card",
+      "role": "card",
+      "properties": {
+        "innerGap": 12
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Border x:Name=ActionsSection annotated as component.settings-card.actions (instance-of settings-card); uses OrbitalSpacing12 as inner gap."
+      }
+    },
+    {
+      "id": "component.info-row",
+      "type": "component",
+      "name": "Info row",
+      "role": "labelValueRow",
+      "properties": {
+        "structure": "muted label left, right-aligned value",
+        "labelColor": "text-50",
+        "valueColor": "text-72",
+        "typography": "mono-small"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Source comment documents component.info-row's canonical structure; four instances in the About card."
+      }
+    },
+    {
+      "id": "component.info-row.uno-sdk",
+      "type": "component",
+      "name": "Uno Platform SDK row",
+      "text": "Uno Platform SDK",
+      "properties": { "value": "...", "valueElementName": "UnoSdkValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.info-row.uno-sdk; label 'Uno Platform SDK', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.info-row.dotnet",
+      "type": "component",
+      "name": ".NET Runtime row",
+      "text": ".NET Runtime",
+      "properties": { "value": "...", "valueElementName": "DotNetValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.info-row.dotnet; label '.NET Runtime', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.info-row.renderer",
+      "type": "component",
+      "name": "Renderer row",
+      "text": "Renderer",
+      "properties": { "value": "...", "valueElementName": "RendererValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.info-row.renderer; label 'Renderer', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.info-row.platform",
+      "type": "component",
+      "name": "Platform row",
+      "text": "Platform",
+      "properties": { "value": "...", "valueElementName": "PlatformValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.info-row.platform; label 'Platform', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.path-field",
+      "type": "component",
+      "name": "Path field",
+      "role": "labelValueField",
+      "properties": {
+        "structure": "label over a wrapping value",
+        "labelColor": "text-50",
+        "valueColor": "text-72",
+        "typography": "mono-small",
+        "labelValueGap": 8
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Source comment documents component.path-field's canonical structure, kept distinct from info-row; three instances in the Paths card."
+      }
+    },
+    {
+      "id": "component.path-field.project-root",
+      "type": "component",
+      "name": "Project Root field",
+      "text": "Project Root",
+      "properties": { "value": "...", "valueElementName": "ProjectRootValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.path-field.project-root; label 'Project Root', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.path-field.recents-db",
+      "type": "component",
+      "name": "Recent Projects Database field",
+      "text": "Recent Projects Database",
+      "properties": { "value": "...", "valueElementName": "RecentsPathValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.path-field.recents-db; label 'Recent Projects Database', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.path-field.skills",
+      "type": "component",
+      "name": "Claude Code Skills field",
+      "text": "Claude Code Skills",
+      "properties": { "value": "...", "valueElementName": "SkillsPathValue" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated component.path-field.skills; label 'Claude Code Skills', value placeholder '...'."
+      }
+    },
+    {
+      "id": "component.action-button",
+      "type": "component",
+      "name": "Action button",
+      "role": "button",
+      "properties": {
+        "styleKey": "OrbitalGhostButtonSmStyle",
+        "structure": "ghost icon+label button",
+        "background": "transparent",
+        "cornerRadius": 8,
+        "padding": "12,6",
+        "alignment": "stretched, left-aligned content",
+        "hoverBackground": "surface2"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "OrbitalGhostButtonSmStyle documented as 'component.action-button (canonical)'; control.actions.* are instance-of this style."
+      }
+    },
+    {
+      "id": "component.dialog.recents-cleared",
+      "type": "component",
+      "name": "Recents cleared dialog",
+      "role": "dialog",
+      "properties": {
+        "title": "Cleared",
+        "body": "Recent projects list has been cleared.",
+        "closeButtonText": "OK",
+        "controlType": "ContentDialog"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" },
+        "rationale": "ContentDialog constructed in OnClearRecentsClick; comments name it dialog.recents-cleared / component.dialog.recents-cleared."
+      }
+    },
+    {
+      "id": "control.header.search",
+      "type": "control",
+      "name": "Search pill",
+      "role": "button",
+      "semanticRole": "searchInput",
+      "text": "Search or run command...",
+      "properties": {
+        "elementName": "SearchButton",
+        "automationName": "Search or run command",
+        "shortcutHint": "Ctrl+K",
+        "icon": "search glyph E721",
+        "clickWired": false
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated control.header.search: 'tappable search / command palette affordance'; no Click handler is wired because its target is unresolved."
+      }
+    },
+    {
+      "id": "control.profile.username",
+      "type": "control",
+      "role": "textbox",
+      "name": "Display name input",
+      "properties": {
+        "elementName": "UsernameBox",
+        "placeholderText": "Enter your name",
+        "styleKey": "OrbitalTextBoxStyle",
+        "focusBorder": "emerald-500"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBox x:Name=UsernameBox annotated as control.profile.username."
+      }
+    },
+    {
+      "id": "control.profile.save",
+      "type": "control",
+      "role": "button",
+      "semanticRole": "primaryAction",
+      "name": "Save button",
+      "text": "Save",
+      "properties": {
+        "elementName": "SaveButton",
+        "styleKey": "OrbitalPrimaryButtonSmStyle",
+        "clickHandler": "OnSaveClick"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Button x:Name=SaveButton annotated as control.profile.save; filled primary style; Click=OnSaveClick."
+      }
+    },
+    {
+      "id": "control.actions.clear-recents",
+      "type": "control",
+      "role": "button",
+      "name": "Clear Recent Projects",
+      "text": "Clear Recent Projects",
+      "properties": {
+        "elementName": "ClearRecentsButton",
+        "icon": "delete glyph E74D",
+        "clickHandler": "OnClearRecentsClick"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated control.actions.clear-recents (instance-of action-button); triggers the recents-cleared dialog."
+      }
+    },
+    {
+      "id": "control.actions.open-data-folder",
+      "type": "control",
+      "role": "button",
+      "name": "Open Data Folder",
+      "text": "Open Data Folder",
+      "properties": {
+        "elementName": "OpenDataFolderButton",
+        "icon": "folder glyph E8B7",
+        "clickHandler": "OnOpenDataFolderClick",
+        "handlerIsStub": true
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Annotated control.actions.open-data-folder (instance-of action-button); handler is a documented stub with no target path."
+      }
+    },
+    {
+      "id": "control.actions.open-docs",
+      "type": "control",
+      "role": "button",
+      "semanticRole": "externalLink",
+      "name": "Uno Platform Documentation",
+      "text": "Uno Platform Documentation",
+      "properties": {
+        "elementName": "OpenDocsButton",
+        "icon": "link glyph E736",
+        "clickHandler": "OnOpenDocsClick",
+        "uri": "https://platform.uno/docs/articles/intro.html",
+        "launchMechanism": "Launcher.LaunchUriAsync"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" },
+        "rationale": "Annotated control.actions.open-docs with semanticRole externalLink; code launches DocsUri via Launcher.LaunchUriAsync."
+      }
+    },
+    {
+      "id": "content.settings.title",
+      "type": "content",
+      "role": "title",
+      "text": "Settings",
+      "properties": { "styleKey": "OrbitalPageTitleStyle", "fontSize": 28, "fontWeight": "SemiBold" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.settings.title with text 'Settings'."
+      }
+    },
+    {
+      "id": "content.settings.subtitle",
+      "type": "content",
+      "role": "subtitle",
+      "text": "Profile and preferences",
+      "properties": { "styleKey": "OrbitalPageSubtitleStyle", "fontSize": 13 },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.settings.subtitle with text 'Profile and preferences'."
+      }
+    },
+    {
+      "id": "content.profile.section-title",
+      "type": "content",
+      "role": "sectionHeader",
+      "text": "PROFILE",
+      "properties": { "styleKey": "OrbitalSectionHeaderStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.profile.section-title with text 'PROFILE'."
+      }
+    },
+    {
+      "id": "content.profile.name-label",
+      "type": "content",
+      "role": "label",
+      "text": "Display Name",
+      "properties": { "styleKey": "OrbitalFieldLabelStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.profile.name-label with text 'Display Name'."
+      }
+    },
+    {
+      "id": "content.profile.name-helper",
+      "type": "content",
+      "role": "helperText",
+      "text": "This name appears in the homepage greeting.",
+      "properties": { "styleKey": "OrbitalHelperTextStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.profile.name-helper."
+      }
+    },
+    {
+      "id": "content.about.section-title",
+      "type": "content",
+      "role": "sectionHeader",
+      "text": "ABOUT",
+      "properties": { "styleKey": "OrbitalSectionHeaderStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.about.section-title with text 'ABOUT'."
+      }
+    },
+    {
+      "id": "content.about.app-name",
+      "type": "content",
+      "role": "title",
+      "text": "Orbital",
+      "properties": { "fontSize": 13, "fontWeight": "SemiBold", "fontFamily": "display" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.about.app-name with text 'Orbital'."
+      }
+    },
+    {
+      "id": "content.about.version",
+      "type": "content",
+      "role": "value",
+      "text": "v0.1.0-alpha",
+      "properties": {
+        "elementName": "VersionText",
+        "note": "Static fallback text; source comment says it is the FallbackValue for a VersionDisplay binding in the host app."
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.about.version with text 'v0.1.0-alpha'."
+      }
+    },
+    {
+      "id": "content.paths.section-title",
+      "type": "content",
+      "role": "sectionHeader",
+      "text": "PATHS",
+      "properties": { "styleKey": "OrbitalSectionHeaderStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.paths.section-title with text 'PATHS'."
+      }
+    },
+    {
+      "id": "content.actions.section-title",
+      "type": "content",
+      "role": "sectionHeader",
+      "text": "ACTIONS",
+      "properties": { "styleKey": "OrbitalSectionHeaderStyle" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "TextBlock annotated content.actions.section-title with text 'ACTIONS'."
+      }
+    },
+    {
+      "id": "asset.about.logo",
+      "type": "asset",
+      "name": "Uno logo",
+      "role": "logo",
+      "properties": {
+        "source": "ms-appx:///Assets/Icons/Uno-logo.png",
+        "imageSize": 32,
+        "tile": "48x48 surface2 container with radius 12"
+      },
+      "geometry": { "width": 32, "height": 32, "unit": "dip" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" },
+        "rationale": "Image annotated asset.about.logo with verbatim source path."
+      }
+    },
+    {
+      "id": "state.settings.entering",
+      "type": "state",
+      "name": "Entering",
+      "properties": {
+        "animation": "staggered fade-up of the four section cards on Loaded",
+        "staggerMs": 100,
+        "durationMs": 350,
+        "riseDistance": 16,
+        "easing": "CubicEase EaseOut",
+        "order": ["ProfileSection", "AboutSection", "PathsSection", "ActionsSection"]
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" },
+        "rationale": "OnLoaded implements state.settings.entering: fade-up per card with 0/100/200/300 ms stagger."
+      }
+    },
+    {
+      "id": "state.profile.saved",
+      "type": "state",
+      "name": "Saved",
+      "properties": {
+        "presentation": "Save button content becomes 'Saved!' for 1.5 s, then reverts",
+        "durationSeconds": 1.5
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" },
+        "rationale": "OnSaveClick implements state.profile.saved: 'Saved!' flash for SavedFlashDuration (1.5 s)."
+      }
+    },
+    {
+      "id": "token.color.surface0",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalSurface0Color",
+      "value": "#0A0A0B",
+      "properties": { "usage": "page background; also dark text on the accent (OrbitalOnEmeraldBrush aliases it)" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.surface0 : page background."
+      }
+    },
+    {
+      "id": "token.color.surface1",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalSurface1Color",
+      "value": "#141416",
+      "properties": { "usage": "card / input background" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.surface1 : card / input background."
+      }
+    },
+    {
+      "id": "token.color.surface2",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalSurface2Color",
+      "value": "#1A1A1C",
+      "properties": { "usage": "header rule, keycap badge, logo tile, ghost-button hover" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource; source comment notes it was promoted to a token because the value recurs."
+      }
+    },
+    {
+      "id": "token.color.surface3",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalSurface3Color",
+      "value": "#212123",
+      "properties": { "usage": "card / input 1px border" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.surface3 : card / input 1px border."
+      }
+    },
+    {
+      "id": "token.color.surface4",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalSurface4Color",
+      "value": "#2E2E31",
+      "properties": { "usage": "derived interaction shade: focused/hovered input border, pressed ghost button" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource documented as a derived interaction shade."
+      }
+    },
+    {
+      "id": "token.color.emerald-500",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalEmerald500Color",
+      "value": "#10B981",
+      "properties": { "usage": "primary accent" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.emerald-500 : primary accent."
+      }
+    },
+    {
+      "id": "token.color.emerald-400",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalEmerald400Brush",
+      "value": "#34D399",
+      "properties": { "usage": "derived hover shade of the accent" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource documented as a derived hover/pressed shade of the accent."
+      }
+    },
+    {
+      "id": "token.color.emerald-600",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalEmerald600Brush",
+      "value": "#059669",
+      "properties": { "usage": "derived pressed shade of the accent; declared but not referenced by any style in these sources" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource documented as a derived shade of the accent."
+      }
+    },
+    {
+      "id": "token.color.text-high",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalTextHighBrush",
+      "value": "#D6D9E1",
+      "properties": { "usage": "high-emphasis text: page title, app name, input text" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource in the documented text emphasis ramp (high / medium / muted / faint)."
+      }
+    },
+    {
+      "id": "token.color.text-72",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalText72Brush",
+      "value": "#B5B9C5",
+      "properties": { "usage": "row/field values, ghost button foreground" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.text-72 : row/field values."
+      }
+    },
+    {
+      "id": "token.color.text-50",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalText50Brush",
+      "value": "#7B8191",
+      "properties": { "usage": "field/row labels, keycap text" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.color.text-50 : field/row labels."
+      }
+    },
+    {
+      "id": "token.color.text-35",
+      "type": "token",
+      "category": "color",
+      "name": "OrbitalText35Brush",
+      "value": "#5D6372",
+      "properties": { "usage": "faint text: section headers, helper text, placeholders, search pill" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource documented as the faint step of the text emphasis ramp."
+      }
+    },
+    {
+      "id": "token.typography.display",
+      "type": "token",
+      "category": "typography",
+      "name": "OrbitalDisplayFontFamily",
+      "value": { "family": "Segoe UI" },
+      "properties": { "note": "stand-in for the geometric sans in the mock" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared font family resource documented as the display face stand-in."
+      }
+    },
+    {
+      "id": "token.typography.mono-small",
+      "type": "token",
+      "category": "typography",
+      "name": "OrbitalMonoFontFamily + OrbitalMonoSmallSize",
+      "value": { "family": "Consolas", "size": 11 },
+      "properties": { "note": "JetBrains Mono in the mock; Consolas stand-in. Used by section headers, labels, values, helper text." },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resources annotated token.typography.mono-small family and size."
+      }
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "category": "radius",
+      "name": "OrbitalRadius12",
+      "value": 12,
+      "properties": { "usage": "cards, logo tile" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.radius.12 : cards, logo tile."
+      }
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "category": "radius",
+      "name": "OrbitalRadius8",
+      "value": 8,
+      "properties": { "usage": "buttons, inputs, search pill" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.radius.8 : buttons, inputs, search pill."
+      }
+    },
+    {
+      "id": "token.radius.4",
+      "type": "token",
+      "category": "radius",
+      "name": "OrbitalRadius4",
+      "value": 4,
+      "properties": { "usage": "keycap badge" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated for the keycap badge."
+      }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalSpacing24",
+      "value": 24,
+      "properties": { "usage": "gap between cards (sectionGap)" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.spacing.24 : gap between cards."
+      }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalSpacing16",
+      "value": 16,
+      "properties": { "usage": "card inner gap, column gutter" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.spacing.16 : card inner gap, column gutter."
+      }
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalSpacing12",
+      "value": 12,
+      "properties": { "usage": "actions card inner gap" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.spacing.12 : actions card inner gap."
+      }
+    },
+    {
+      "id": "token.spacing.8",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalSpacing8",
+      "value": 8,
+      "properties": { "usage": "label/value gap, icon/text gap" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared resource annotated token.spacing.8 : label/value gap, icon/text gap."
+      }
+    },
+    {
+      "id": "token.spacing.page-padding",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalPagePadding",
+      "value": 32,
+      "properties": { "usage": "content area padding" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared Thickness resource OrbitalPagePadding = 32."
+      }
+    },
+    {
+      "id": "token.spacing.header-padding",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalHeaderPadding",
+      "value": "32,20",
+      "properties": { "usage": "page header padding" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared Thickness resource OrbitalHeaderPadding = 32,20."
+      }
+    },
+    {
+      "id": "token.spacing.card-padding",
+      "type": "token",
+      "category": "spacing",
+      "name": "OrbitalCardPadding",
+      "value": 20,
+      "properties": { "usage": "settings-card padding" },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" },
+        "rationale": "Declared Thickness resource OrbitalCardPadding = 20, consumed by OrbitalCardStyle."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "component.page-header",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Header block in Grid.Row=0." }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "region.settings.content",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ScrollViewer content area in Grid.Row=1." }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "content.settings.title",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Title TextBlock inside the header block." }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "content.settings.subtitle",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Subtitle TextBlock inside the header block." }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "contains",
+      "to": "control.header.search",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "SearchButton in the header's right column." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "component.settings-card.profile",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ProfileSection is the first child of the content stack." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "component.settings-card.about",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "AboutSection sits in the left column of the two-column row." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "component.settings-card.paths",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "PathsSection sits at the top of the right column." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "contains",
+      "to": "component.settings-card.actions",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ActionsSection sits below PathsSection in the right column." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "contains",
+      "to": "content.profile.section-title",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "PROFILE header inside ProfileSection." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "contains",
+      "to": "content.profile.name-label",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Display Name label inside ProfileSection." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "contains",
+      "to": "control.profile.username",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "UsernameBox inside ProfileSection." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "contains",
+      "to": "control.profile.save",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "SaveButton beside the username input." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "contains",
+      "to": "content.profile.name-helper",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Helper text below the name field." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "content.about.section-title",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ABOUT header inside AboutSection." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "asset.about.logo",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Logo tile in the identity row." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "content.about.app-name",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "App name in the identity row." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "content.about.version",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Version text in the identity row." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "component.info-row.uno-sdk",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Info row inside AboutSection." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "component.info-row.dotnet",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Info row inside AboutSection." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "component.info-row.renderer",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Info row inside AboutSection." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "contains",
+      "to": "component.info-row.platform",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Info row inside AboutSection." }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "contains",
+      "to": "content.paths.section-title",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "PATHS header inside PathsSection." }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "contains",
+      "to": "component.path-field.project-root",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Path field inside PathsSection." }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "contains",
+      "to": "component.path-field.recents-db",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Path field inside PathsSection." }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "contains",
+      "to": "component.path-field.skills",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Path field inside PathsSection." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "contains",
+      "to": "content.actions.section-title",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ACTIONS header inside ActionsSection." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "contains",
+      "to": "control.actions.clear-recents",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "ClearRecentsButton inside ActionsSection." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "contains",
+      "to": "control.actions.open-data-folder",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "OpenDataFolderButton inside ActionsSection." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "contains",
+      "to": "control.actions.open-docs",
+      "evidence": { "kind": "observed", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "OpenDocsButton inside ActionsSection." }
+    },
+    {
+      "from": "component.settings-card.profile",
+      "relation": "instance-of",
+      "to": "component.settings-card",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated 'instance-of settings-card'; uses OrbitalCardStyle." }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "instance-of",
+      "to": "component.settings-card",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated 'instance-of settings-card'; uses OrbitalCardStyle." }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "instance-of",
+      "to": "component.settings-card",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated 'instance-of settings-card'; uses OrbitalCardStyle." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "instance-of",
+      "to": "component.settings-card",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated 'instance-of settings-card'; uses OrbitalCardStyle." }
+    },
+    {
+      "from": "component.info-row.uno-sdk",
+      "relation": "instance-of",
+      "to": "component.info-row",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.info-row instance." }
+    },
+    {
+      "from": "component.info-row.dotnet",
+      "relation": "instance-of",
+      "to": "component.info-row",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.info-row instance." }
+    },
+    {
+      "from": "component.info-row.renderer",
+      "relation": "instance-of",
+      "to": "component.info-row",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.info-row instance." }
+    },
+    {
+      "from": "component.info-row.platform",
+      "relation": "instance-of",
+      "to": "component.info-row",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.info-row instance." }
+    },
+    {
+      "from": "component.path-field.project-root",
+      "relation": "instance-of",
+      "to": "component.path-field",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.path-field instance." }
+    },
+    {
+      "from": "component.path-field.recents-db",
+      "relation": "instance-of",
+      "to": "component.path-field",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.path-field instance." }
+    },
+    {
+      "from": "component.path-field.skills",
+      "relation": "instance-of",
+      "to": "component.path-field",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated as a component.path-field instance." }
+    },
+    {
+      "from": "control.actions.clear-recents",
+      "relation": "instance-of",
+      "to": "component.action-button",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated '(instance-of action-button)'; uses OrbitalGhostButtonSmStyle." }
+    },
+    {
+      "from": "control.actions.open-data-folder",
+      "relation": "instance-of",
+      "to": "component.action-button",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated '(instance-of action-button)'; uses OrbitalGhostButtonSmStyle." }
+    },
+    {
+      "from": "control.actions.open-docs",
+      "relation": "instance-of",
+      "to": "component.action-button",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Annotated '(instance-of action-button)'; uses OrbitalGhostButtonSmStyle." }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "has-state",
+      "to": "state.settings.entering",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" }, "rationale": "Code-behind documents and implements state.settings.entering on Loaded." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "has-state",
+      "to": "state.profile.saved",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" }, "rationale": "The 'Saved!' flash is a presentation state of the Save button, implemented in OnSaveClick." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "triggers",
+      "to": "state.profile.saved",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" }, "rationale": "Source comments state 'control.profile.save : triggers state.profile.saved'; Click=OnSaveClick performs it." }
+    },
+    {
+      "from": "control.actions.clear-recents",
+      "relation": "triggers",
+      "to": "component.dialog.recents-cleared",
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml.cs" }, "rationale": "OnClearRecentsClick shows the recents-cleared ContentDialog; comments declare the triggers relation." }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "uses-token",
+      "to": "token.color.surface0",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Page Background=OrbitalSurface0Brush; comment 'uses-token: token.color.surface0 -> page background'." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.24",
+      "properties": { "appliesTo": "sectionGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Comment 'uses-token: token.spacing.24 -> sectionGap'; StackPanel Spacing=OrbitalSpacing24." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.page-padding",
+      "properties": { "appliesTo": "padding" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Content StackPanel Padding=OrbitalPagePadding." }
+    },
+    {
+      "from": "region.settings.content",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": { "appliesTo": "columnGutter" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Two-column row uses ColumnSpacing=16, the declared column gutter value." }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.color.surface2",
+      "properties": { "appliesTo": "bottomBorder" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Header Border BorderBrush=OrbitalSurface2Brush with 0,0,0,1 thickness." }
+    },
+    {
+      "from": "component.page-header",
+      "relation": "uses-token",
+      "to": "token.spacing.header-padding",
+      "properties": { "appliesTo": "padding" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Header Border Padding=OrbitalHeaderPadding." }
+    },
+    {
+      "from": "component.settings-card",
+      "relation": "uses-token",
+      "to": "token.color.surface1",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalCardStyle Background=OrbitalSurface1Brush." }
+    },
+    {
+      "from": "component.settings-card",
+      "relation": "uses-token",
+      "to": "token.color.surface3",
+      "properties": { "appliesTo": "border" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalCardStyle BorderBrush=OrbitalSurface3Brush, 1px." }
+    },
+    {
+      "from": "component.settings-card",
+      "relation": "uses-token",
+      "to": "token.radius.12",
+      "properties": { "appliesTo": "cornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalCardStyle CornerRadius=OrbitalRadius12." }
+    },
+    {
+      "from": "component.settings-card",
+      "relation": "uses-token",
+      "to": "token.spacing.card-padding",
+      "properties": { "appliesTo": "padding" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalCardStyle Padding=OrbitalCardPadding." }
+    },
+    {
+      "from": "component.settings-card",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": { "appliesTo": "innerGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Profile, About and Paths cards use Spacing=OrbitalSpacing16 as their inner stack gap." }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "uses-token",
+      "to": "token.spacing.12",
+      "properties": { "appliesTo": "innerGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Comment 'uses-token: token.spacing.12 -> innerGap' on the Actions card." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface1",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalSearchPillStyle Background=OrbitalSurface1Brush." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface3",
+      "properties": { "appliesTo": "border" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalSearchPillStyle BorderBrush=OrbitalSurface3Brush, 1px." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": { "appliesTo": "cornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalSearchPillStyle CornerRadius=OrbitalRadius8." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.radius.4",
+      "properties": { "appliesTo": "shortcutHintCornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Ctrl+K keycap badge uses CornerRadius=OrbitalRadius4." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.surface2",
+      "properties": { "appliesTo": "shortcutHintBackground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Ctrl+K keycap badge Background=OrbitalSurface2Brush." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.color.text-35",
+      "properties": { "appliesTo": "placeholderForeground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Search icon and placeholder text use OrbitalText35Brush." }
+    },
+    {
+      "from": "control.header.search",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": { "appliesTo": "typography" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Placeholder and keycap text use OrbitalMonoFontFamily." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.surface1",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalTextBoxStyle Background=OrbitalSurface1Brush." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.surface3",
+      "properties": { "appliesTo": "border" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalTextBoxStyle BorderBrush=OrbitalSurface3Brush, 1px." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": { "appliesTo": "cornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalTextBoxStyle CornerRadius=OrbitalRadius8." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.emerald-500",
+      "properties": { "appliesTo": "focusedBorder" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Focused visual state sets BorderBrush=OrbitalEmerald500Brush; also SelectionHighlightColor." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.surface4",
+      "properties": { "appliesTo": "hoverBorder" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "PointerOver visual state sets BorderBrush=OrbitalSurface4Brush." }
+    },
+    {
+      "from": "control.profile.username",
+      "relation": "uses-token",
+      "to": "token.color.text-high",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalTextBoxStyle Foreground=OrbitalTextHighBrush." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "uses-token",
+      "to": "token.color.emerald-500",
+      "properties": { "appliesTo": "background" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Comment 'uses-token: emerald-500 (background)' on OrbitalPrimaryButtonSmStyle." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": { "appliesTo": "cornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Comment 'uses-token: ... radius.8 (cornerRadius)' on OrbitalPrimaryButtonSmStyle." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "uses-token",
+      "to": "token.color.surface0",
+      "properties": { "appliesTo": "foreground", "note": "dark text on accent via OrbitalOnEmeraldBrush alias" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalOnEmeraldBrush aliases OrbitalSurface0Color; used as Foreground." }
+    },
+    {
+      "from": "control.profile.save",
+      "relation": "uses-token",
+      "to": "token.color.emerald-400",
+      "properties": { "appliesTo": "hoverBackground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Tag carries OrbitalEmerald400Brush as the hover brush consumed by OrbitalButtonTemplate." }
+    },
+    {
+      "from": "component.action-button",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": { "appliesTo": "cornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalGhostButtonSmStyle CornerRadius=OrbitalRadius8." }
+    },
+    {
+      "from": "component.action-button",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalGhostButtonSmStyle Foreground=OrbitalText72Brush." }
+    },
+    {
+      "from": "component.action-button",
+      "relation": "uses-token",
+      "to": "token.color.surface2",
+      "properties": { "appliesTo": "hoverBackground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Tag carries OrbitalSurface2Brush as the hover brush consumed by OrbitalButtonTemplate." }
+    },
+    {
+      "from": "component.action-button",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "properties": { "appliesTo": "iconTextGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "All three action buttons use Spacing=OrbitalSpacing8 between icon and label." }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "properties": { "appliesTo": "labelColor" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalFieldLabelStyle (label half of info-row) uses OrbitalText50Brush." }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "properties": { "appliesTo": "valueColor" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalValueTextStyle (value half of info-row) uses OrbitalText72Brush." }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": { "appliesTo": "typography" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Both label and value styles use OrbitalMonoFontFamily at OrbitalMonoSmallSize." }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.color.text-50",
+      "properties": { "appliesTo": "labelColor" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalFieldLabelStyle (label half of path-field) uses OrbitalText50Brush." }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.color.text-72",
+      "properties": { "appliesTo": "valueColor" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalValueTextStyle (value half of path-field) uses OrbitalText72Brush." }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": { "appliesTo": "typography" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "Both label and value styles use OrbitalMonoFontFamily at OrbitalMonoSmallSize." }
+    },
+    {
+      "from": "component.path-field",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "properties": { "appliesTo": "labelValueGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Each path-field StackPanel uses Spacing=OrbitalSpacing8." }
+    },
+    {
+      "from": "component.info-row",
+      "relation": "uses-token",
+      "to": "token.spacing.8",
+      "properties": { "appliesTo": "rowGap" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Info-row group stack uses Spacing=OrbitalSpacing8; each row's label/value grid uses ColumnSpacing=8." }
+    },
+    {
+      "from": "content.settings.title",
+      "relation": "uses-token",
+      "to": "token.typography.display",
+      "properties": { "appliesTo": "fontFamily" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalPageTitleStyle uses OrbitalDisplayFontFamily." }
+    },
+    {
+      "from": "content.settings.title",
+      "relation": "uses-token",
+      "to": "token.color.text-high",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalPageTitleStyle Foreground=OrbitalTextHighBrush." }
+    },
+    {
+      "from": "content.settings.subtitle",
+      "relation": "uses-token",
+      "to": "token.color.text-35",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalPageSubtitleStyle Foreground=OrbitalText35Brush." }
+    },
+    {
+      "from": "content.profile.name-helper",
+      "relation": "uses-token",
+      "to": "token.color.text-35",
+      "properties": { "appliesTo": "foreground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/Tokens.xaml" }, "rationale": "OrbitalHelperTextStyle Foreground=OrbitalText35Brush." }
+    },
+    {
+      "from": "content.about.version",
+      "relation": "uses-token",
+      "to": "token.typography.mono-small",
+      "properties": { "appliesTo": "typography" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "VersionText uses OrbitalMonoFontFamily at OrbitalMonoSmallSize." }
+    },
+    {
+      "from": "asset.about.logo",
+      "relation": "uses-token",
+      "to": "token.radius.12",
+      "properties": { "appliesTo": "tileCornerRadius" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "48x48 logo tile Border uses CornerRadius=OrbitalRadius12." }
+    },
+    {
+      "from": "asset.about.logo",
+      "relation": "uses-token",
+      "to": "token.color.surface2",
+      "properties": { "appliesTo": "tileBackground" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "design-graph-kit/experiments/ab-orbital-settings/B-graph/SettingsPage.xaml" }, "rationale": "Logo tile Border Background=OrbitalSurface2Brush." }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.header.search-target",
+      "question": "What UI does the header search pill open when activated?",
+      "relatedIds": ["control.header.search"],
+      "possibleValues": ["global command palette", "search overlay"],
+      "reason": "The source explicitly leaves the target unresolved: no Click handler is wired, and the code-behind comments name unresolved.header.search-target with these two candidate interpretations."
+    },
+    {
+      "id": "unresolved.settings.rowfield-consolidation",
+      "question": "Should component.info-row and component.path-field be consolidated into a single label/value component?",
+      "relatedIds": ["component.info-row", "component.path-field"],
+      "possibleValues": ["two distinct components", "one shared label-value component"],
+      "reason": "They share label/value colors and mono-small typography (both label halves even share OrbitalFieldLabelStyle) but differ in layout (horizontal right-aligned value vs stacked wrapping value). The source keeps them distinct and names this open question."
+    },
+    {
+      "id": "unresolved.actions.open-data-folder-target",
+      "question": "What folder path or launch target does 'Open Data Folder' open?",
+      "relatedIds": ["control.actions.open-data-folder"],
+      "reason": "The control is declared but OnOpenDataFolderClick is an intentional stub; no path or URI exists in these sources (the host app supplies the folder)."
+    },
+    {
+      "id": "unresolved.settings.data-bindings",
+      "question": "What runtime data populates the info-row and path-field values (currently the '...' placeholder) and the version text?",
+      "relatedIds": [
+        "component.info-row.uno-sdk",
+        "component.info-row.dotnet",
+        "component.info-row.renderer",
+        "component.info-row.platform",
+        "component.path-field.project-root",
+        "component.path-field.recents-db",
+        "component.path-field.skills",
+        "content.about.version"
+      ],
+      "possibleValues": ["EnvStatus.*", "DotNetDisplay", "PlatformInfo", "ProjectRoot", "RecentsPath", "SkillsPath", "VersionDisplay"],
+      "reason": "Comments name host-app binding sources, but no bindings are implemented in this isolated page; values render the static placeholder '...'."
+    },
+    {
+      "id": "unresolved.profile.username-persistence",
+      "question": "How is the display name persisted when Save is clicked?",
+      "relatedIds": ["control.profile.username", "control.profile.save"],
+      "possibleValues": ["SettingsService (host app)"],
+      "reason": "Comments say the value round-trips through the app's SettingsService in the real app, but persistence is explicitly out of scope for this isolated page; only the 'Saved!' flash is implemented."
+    }
+  ],
+  "metadata": {
+    "extractionMode": "round-trip from implemented source",
+    "generatedAt": "2026-08-12",
+    "notes": "Node ids follow the annotations the source author left in comments; comment text was treated as declared documentation evidence."
+  }
+}

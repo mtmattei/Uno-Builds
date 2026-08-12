@@ -17,10 +17,11 @@ Stage-4/Stage-5 experiments.
 | 4. Hand-author the gold graph | ✅ | `evals/05-orbital-settings/gold.graph.json` (v1.1: 47 nodes / 58 edges / 3 unresolved) |
 | 5. Generate via `prompts/design-understanding.md` | ✅ | run 1: `generated.graph.json`, macro F1 **0.6051** |
 | 6. Validate + score | ✅ | all graphs validate; see log |
-| 7. Repeat 5× for stability | ⏳ | not yet meaningful — see *Contamination*, below |
-| 8. Test `SKILL.md` | ✅ | run 2: `skill.graph.json`, macro F1 **0.9742**, human avg 4.6 |
-| 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/ab-results.md` — **B materially better on semantics** |
-| 10. Productize decision | ⏳ | pilot says continue to Stage 6; blind replication + arm C required first |
+| 7. Repeat 5× for stability | ✅ | `evals/05-orbital-settings/blind/` — **semantics stable, ids not**; vs-gold macro F1 mean 0.069 |
+| 8. Test `SKILL.md` | ✅ | run 2: `skill.graph.json`, macro F1 **0.9742** (same-author; blind runs correct this — see below) |
+| 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/ab-results.md` — B ≫ A on semantics; **arm C matched B** |
+| 9b. Stage 6 round-trip parity | ✅ | node-id recall **1.000**; real parity findings (12 implementation-introduced tokens, state-attachment drift) |
+| 10. Productize decision | ✅ | **Do not productize v0.1.** Ship the v0.2 revisions first (id grammar, state altitude, token scoping, scorer normalization), then re-run blind. |
 
 ## Why this design was chosen
 
@@ -78,14 +79,33 @@ flagged as a coverage-calibration question rather than an error.
 
 **Stage-4 exit criterion met:** skill (0.974) ≥ manual prompt (0.605).
 
-### Contamination caveat (applies to both runs)
+### Contamination caveat (applies to runs 1–2) — now quantified
 
 Gold and both generated graphs were authored by the same agent lineage. Run 2's
 near-perfect score is an **upper bound demonstrating the pipeline works
-end-to-end**, not evidence of blind stability. The 5-run stability protocol
-(START-HERE step 7) only becomes meaningful with genuinely independent
-generation — fresh sessions with no access to gold. That is the first thing to
-do next.
+end-to-end**, not evidence of blind stability. The blind replication then
+measured the contamination effect directly: same skill, same source, same
+model, fresh contexts with no gold access → macro F1 fell from **0.9742 to a
+mean of 0.069**. Same-author evaluation numbers for this kit are essentially
+meaningless as stability evidence.
+
+### Blind replication (5×, fresh contexts) — the decisive stability test
+
+Full analysis: `evals/05-orbital-settings/blind/README.md`.
+
+- **Semantic stability is genuinely good:** all five runs assert exactly the
+  two source-backed behaviors under `triggers` (zero hallucination — the
+  scorer's proxy flagged all five, but every flagged edge is a real behavior
+  under a drifted id, a proxy defect); 48 core concepts appear identically in
+  all five runs; sizes cluster tightly (85–90 nodes); consolidation and
+  unresolved discipline repeat every time.
+- **Lexical/granularity stability fails the kit's own criteria:** id spelling
+  drifts (72 singleton ids, almost all synonyms of shared concepts), 4/5 runs
+  modeled style-level hover/pressed/disabled visuals as screen `state` nodes,
+  and token extraction enumerated entire style dictionaries (37–38 tokens vs
+  gold's screen-scoped 13). Two of `docs/testing-plan.md`'s explicit failure
+  signals are hit. **v0.1 does not meet its own Stage-3/4 naming-stability
+  exit criteria under blind conditions.**
 
 ### Stage 5 — A/B value experiment
 
@@ -138,13 +158,39 @@ python scripts/score_graph.py \
   evals/05-orbital-settings/skill.graph.json --json
 ```
 
-## Next steps
+## Where this lands (after all follow-ups)
 
-1. **Blind replication** — regenerate the graph in fresh sessions (no gold
-   access), 5×, and measure stability for real (START-HERE step 7).
-2. **Arm C** (brief + free-prose behavior notes) to separate "graph as
-   structured IR" from "more information" — the pilot's main open confound.
-3. **Stage 6 round-trip parity** — re-extract a graph from arm B's
-   implementation and diff it against `skill.graph.json`; B's graph-id
-   traceability was built for exactly this.
-4. Compile/render both arms before trusting the visual-parity tie.
+The three follow-up experiments together give a clear, three-part answer:
+
+1. **The graph's one-shot codegen advantage is about information, not
+   structure.** Arm C (prose notes with the same facts) matched arm B on every
+   semantic measure. The Stage-5 win was really "the handoff carried behavior"
+   vs "it didn't."
+2. **The structure earns its keep in the machinery around generation.**
+   Round-trip parity (node-id recall 1.000, actionable drift findings, honest
+   new unresolveds) is impossible with prose — that, plus validation and
+   deterministic drift scoring, is the graph's real product surface.
+3. **v0.1 is not stable enough to productize.** Blind replication shows
+   excellent semantic agreement but failing lexical/granularity stability.
+   The failure modes are systematic and fixable, and the data names the fixes.
+
+## Next steps (v0.2 work list — evidence-backed)
+
+1. **SKILL.md Pass 8:** binding id grammar (`<type>.<screen>.<slug>`, flat;
+   canonical components unprefixed) + small naming thesaurus. The five blind
+   runs disagree exactly where the grammar is silent.
+2. **Ontology `state`:** scope to screen/component presentation conditions;
+   exclude style-level hover/pressed/disabled from screen graphs (4/5 runs
+   added them). Add a rule for which node owns a transient state (the
+   round-trip surfaced card-vs-button attachment drift).
+3. **token-rules.md:** extract only tokens the modeled surface consumes;
+   whole-dictionary enumeration belongs to a separate design-system graph.
+4. **Scorer:** endpoint-role matching for the hallucination proxy (all 5
+   blind runs were false-flagged); add a normalized-signature dimension
+   (type + text + role) that survives id drift.
+5. **Gold checklist:** expand every source-backed component reference; record
+   the intended granularity altitude in the eval README.
+6. Re-run the blind 5× protocol against v0.2; proceed toward product
+   integration only if lexical stability joins the already-good semantic
+   stability. Then compile/render the arms in a toolchain-equipped
+   environment for true visual parity.

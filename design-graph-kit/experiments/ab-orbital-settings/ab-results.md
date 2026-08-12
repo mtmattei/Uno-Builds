@@ -83,3 +83,85 @@ agent edits"): **continue to Stage 6**, with the caveats below resolved first.
 | State coverage | **B** (3/3 vs 0/3) |
 | Unsupported behavior | **B** (0 vs 1) |
 | Correction prompts | tie (0 by design; A would need corrections to reach behavioral parity) |
+
+---
+
+# Follow-up 1 — Arm C: brief + free-prose notes
+
+Arm C received `brief.md` plus `notes.md` — the graph's semantic delta
+transcribed into unstructured prose (same states/timings, dialog copy, docs
+URI, naming and reuse conventions, same "don't wire" unknowns). Same
+isolation, same one-shot budget.
+
+**Result: C matched B on every semantic measure.**
+
+| Dimension | B (graph) | C (prose notes) |
+|---|---|---|
+| Hardcoded hex in page | 0 | 0 |
+| Repeated-structure consolidation | full | full (same style-reuse counts: 8/7/4/4/3) |
+| State coverage | 3/3 | 3/3 (stagger 0/100/200/300 ms, 350 ms ease-out; "Saved!" 1.5 s; "Cleared" dialog verbatim) |
+| Invented behavior | 0 | 0 (search + data-folder left unwired, documented) |
+| Real developer names | yes (via graph) | yes (via notes) |
+| Static verification (well-formed, resources, handlers) | pass | pass |
+
+**Interpretation — this reframes the Stage-5 verdict.** The A-vs-B gap was
+never about the graph's *structure*; it was about whether the handoff carried
+behavioral semantics at all. Any faithful carrier (graph or careful prose)
+closes the gap for a single screen implemented by a strong model in one shot.
+
+What prose cannot do — and where the graph's structure actually earns its
+keep — is everything *around* the one-shot generation: schema validation,
+integrity checking, deterministic drift scoring, querying, and round-trip
+diffing (below). Prose notes cannot be validated, diffed, or re-extracted;
+`notes.md` was itself hand-derived *from* the graph. The honest claim for the
+graph is therefore: **structured semantic transport with machine-checkable
+provenance** — not "better codegen than good notes."
+
+---
+
+# Follow-up 2 — Stage 6: round-trip semantic parity
+
+An isolated agent re-extracted a Design Graph from arm B's implementation
+(the three B-graph files as sole source; `roundtrip.graph.json`), which was
+then diffed against the original `skill.graph.json`.
+
+**Headline: node-id recall 1.000.** Every one of the original graph's 50
+concepts survived design → graph → implementation → graph with its identity
+intact — the graph-id comments and stable x:Names in B's code made the
+implementation *semantically traceable*. All four behavioral relationships
+survived; the extractor also independently re-discovered the same
+`unresolved` questions (search target, row/field consolidation) plus honest
+new ones (data bindings, persistence).
+
+Real parity findings the diff surfaced (the purpose of Stage 6):
+
+1. **Implementation-introduced tokens (12):** interaction shades
+   (emerald-400/600, surface2/4), keycap radius 4, padding values, a display
+   typography token — the implementation legitimately needed values the
+   design graph never modeled. In a live system these would flow back as
+   candidate design-system additions.
+2. **State attachment drift:** the original attaches `state.profile.saved`
+   to the profile card; the round-trip attaches it to the Save button
+   (`control.profile.save -has-state->`), which is arguably *more* precise.
+   Ontology gap: no rule for which node owns a transient state.
+3. **Scorer brittleness (again):** deterministic macro F1 was only 0.63
+   despite perfect concept recall, because `node_signature` compares
+   role/semanticRole strings verbatim and the extractor chose near-synonyms.
+   Signature matching needs normalization before round-trip diffs can be
+   automated.
+
+**Verdict:** the round-trip mechanism works and produces actionable parity
+findings rather than noise. It is the strongest evidence so far for the
+graph-as-structured-IR position — none of it is possible with prose notes.
+
+---
+
+# Follow-up 3 — Static verification of all arms
+
+No .NET SDK exists in this environment, so the arms were not compiled.
+Maximum available static verification was applied to all three arms
+(XML well-formedness of every XAML file; every `StaticResource`/
+`ThemeResource` reference resolves to a key defined in the arm's own files;
+every event handler named in XAML exists in the code-behind):
+**A, B, and C all pass all checks.** Compilation and pixel-level parity
+remain open until run in an environment with the Uno toolchain.
