@@ -1,9 +1,21 @@
 # Skill: Generate Design Graph
 
-Version: 0.3 (0.2 added a binding ID grammar, state-altitude rules, and token
-scoping; 0.3 adds canonical-internals, token-edge attachment, and
-variant-folding rules — all driven by blind-replication eval failures; see
-CHANGELOG).
+Version: 0.4 (0.2 added a binding ID grammar, state-altitude rules, and token
+scoping; 0.3 added canonical-internals, token-edge attachment, and
+variant-folding rules; 0.4 makes the graph **Uno-first** — every node may
+carry a `properties.uno` mapping layer per `references/uno-mapping.md`. See
+CHANGELOG.)
+
+## Target framework
+
+The Design Graph targets **Uno Platform** (WinUI XAML, Uno Toolkit,
+Uno Themes). Alongside the semantic fields, populate the `properties.uno`
+mapping layer following `references/uno-mapping.md`: exact control types,
+`x:Name`s, style keys, and resource keys when the source declares them
+(copied verbatim, never re-coined), or a proposed realization marked
+`inferred` when the input is design-only. When an Uno Platform docs MCP
+server is available, use it to resolve control identity and Toolkit/Themes
+idioms for this layer. Omit a `uno` field rather than invent one.
 
 ## Purpose
 
@@ -35,6 +47,7 @@ Before generating a graph, follow:
 2. `references/ontology.md`
 3. `references/inference-rules.md`
 4. `references/token-rules.md`
+5. `references/uno-mapping.md`
 
 ## Output
 

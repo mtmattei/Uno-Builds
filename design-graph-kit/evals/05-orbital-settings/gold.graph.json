@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "graphId": "eval.orbital-settings",
   "name": "Orbital Settings",
-  "description": "Gold graph for the Orbital SettingsPage (source-backed: XAML + code-behind + styles).",
+  "description": "Gold graph for the Orbital SettingsPage (source-backed: XAML + code-behind + styles). v1.3 adds the properties.uno mapping layer.",
   "sourceSummary": [
     {
       "type": "xaml",
@@ -37,6 +37,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Orbital.Presentation.SettingsPage"
+        }
       }
     },
     {
@@ -52,6 +58,12 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "controls:PageHeader is a reusable UserControl (Orbital.Controls) instantiated with Title/Subtitle."
+      },
+      "properties": {
+        "uno": {
+          "type": "UserControl",
+          "class": "Orbital.Controls.PageHeader"
+        }
       }
     },
     {
@@ -62,7 +74,11 @@
       "semanticRole": "searchTrigger",
       "properties": {
         "placeholder": "Search or run command...",
-        "shortcutHint": "Ctrl+K"
+        "shortcutHint": "Ctrl+K",
+        "uno": {
+          "type": "Border",
+          "xName": "SearchBorder"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -87,6 +103,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalPageTitle"
+        }
       }
     },
     {
@@ -101,6 +123,12 @@
         "source": {
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalBody"
         }
       }
     },
@@ -117,6 +145,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "All four section containers use OrbitalCardStyle (radius 12, padding 20, Surface1 bg, Surface3 border)."
+      },
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "styleKey": "OrbitalCardStyle"
+        }
       }
     },
     {
@@ -132,6 +166,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=ProfileSection."
+      },
+      "properties": {
+        "uno": {
+          "xName": "ProfileSection"
+        }
       }
     },
     {
@@ -147,6 +186,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=AboutSection."
+      },
+      "properties": {
+        "uno": {
+          "xName": "AboutSection"
+        }
       }
     },
     {
@@ -162,6 +206,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=PathsSection."
+      },
+      "properties": {
+        "uno": {
+          "xName": "PathsSection"
+        }
       }
     },
     {
@@ -177,6 +226,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=ActionsSection."
+      },
+      "properties": {
+        "uno": {
+          "xName": "ActionsSection"
+        }
       }
     },
     {
@@ -191,6 +245,12 @@
         "source": {
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalSectionHeader"
         }
       }
     },
@@ -207,6 +267,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalMonoSmall"
+        }
       }
     },
     {
@@ -216,7 +282,11 @@
       "role": "textbox",
       "semanticRole": "nameInput",
       "properties": {
-        "placeholder": "Enter your name"
+        "placeholder": "Enter your name",
+        "uno": {
+          "type": "TextBox",
+          "xName": "UsernameBox"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -243,6 +313,13 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=SaveUsernameButton, OrbitalPrimaryButtonSm (only high-emphasis action)."
+      },
+      "properties": {
+        "uno": {
+          "type": "Button",
+          "styleKey": "OrbitalPrimaryButtonSm",
+          "xName": "SaveUsernameButton"
+        }
       }
     },
     {
@@ -257,6 +334,12 @@
         "source": {
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalMonoSmall"
         }
       }
     },
@@ -273,6 +356,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalSectionHeader"
+        }
       }
     },
     {
@@ -281,7 +370,11 @@
       "name": "Orbital logo",
       "role": "image",
       "properties": {
-        "source": "ms-appx:///Assets/Icons/Uno-logo.png"
+        "source": "ms-appx:///Assets/Icons/Uno-logo.png",
+        "uno": {
+          "type": "Image",
+          "source": "ms-appx:///Assets/Icons/Uno-logo.png"
+        }
       },
       "semanticRole": "appLogo",
       "evidence": {
@@ -306,6 +399,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalBody"
+        }
       }
     },
     {
@@ -322,6 +421,12 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "Bound VersionDisplay, FallbackValue v0.1.0-alpha."
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalMonoSmall"
+        }
       }
     },
     {
@@ -337,6 +442,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "Four label/value grids with identical structure inside ABOUT."
+      },
+      "properties": {
+        "uno": {
+          "type": "Grid"
+        }
       }
     },
     {
@@ -416,6 +526,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalSectionHeader"
+        }
       }
     },
     {
@@ -431,6 +547,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "Three label + wrapping-value stacks with identical structure inside PATHS."
+      },
+      "properties": {
+        "uno": {
+          "type": "StackPanel"
+        }
       }
     },
     {
@@ -494,6 +615,12 @@
           "type": "xaml",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         }
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalSectionHeader"
+        }
       }
     },
     {
@@ -509,6 +636,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "Three OrbitalGhostButtonSm buttons, each an icon glyph + label, stretched."
+      },
+      "properties": {
+        "uno": {
+          "type": "Button",
+          "styleKey": "OrbitalGhostButtonSm"
+        }
       }
     },
     {
@@ -526,6 +659,13 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=ClearRecentsButton."
+      },
+      "properties": {
+        "uno": {
+          "type": "Button",
+          "xName": "ClearRecentsButton",
+          "iconGlyph": "E74D"
+        }
       }
     },
     {
@@ -543,6 +683,13 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "x:Name=OpenDataFolderButton."
+      },
+      "properties": {
+        "uno": {
+          "type": "Button",
+          "xName": "OpenDataFolderButton",
+          "iconGlyph": "E838"
+        }
       }
     },
     {
@@ -553,7 +700,12 @@
       "text": "Uno Platform Documentation",
       "semanticRole": "externalLink",
       "properties": {
-        "uri": "https://platform.uno/docs/articles/intro.html"
+        "uri": "https://platform.uno/docs/articles/intro.html",
+        "uno": {
+          "type": "Button",
+          "xName": "OpenDocsButton",
+          "iconGlyph": "E8A5"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -574,7 +726,10 @@
       "properties": {
         "title": "Cleared",
         "body": "Recent projects list has been cleared.",
-        "closeText": "OK"
+        "closeText": "OK",
+        "uno": {
+          "type": "ContentDialog"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -599,6 +754,12 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
         },
         "rationale": "AnimationHelper.FadeUp animates all four sections in on Loaded."
+      },
+      "properties": {
+        "uno": {
+          "mechanism": "code-behind",
+          "member": "AnimationHelper.FadeUp"
+        }
       }
     },
     {
@@ -614,6 +775,11 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
         },
         "rationale": "Save sets button content to 'Saved!' for 1.5s after SettingsService.SaveUsername."
+      },
+      "properties": {
+        "uno": {
+          "mechanism": "code-behind"
+        }
       }
     },
     {
@@ -630,6 +796,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "OrbitalSurface0Brush; page Background."
+      },
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalSurface0Brush",
+          "resourceType": "SolidColorBrush"
+        }
       }
     },
     {
@@ -646,6 +818,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "OrbitalSurface1Brush; OrbitalCardStyle Background."
+      },
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalSurface1Brush",
+          "resourceType": "SolidColorBrush"
+        }
       }
     },
     {
@@ -662,6 +840,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "OrbitalSurface3Brush; OrbitalCardStyle BorderBrush."
+      },
+      "properties": {
+        "uno": {
+          "resourceKey": "OrbitalSurface3Brush",
+          "resourceType": "SolidColorBrush"
+        }
       }
     },
     {
@@ -671,7 +855,11 @@
       "category": "radius",
       "value": 12,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "styleKey": "OrbitalCardStyle",
+          "property": "CornerRadius"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -690,7 +878,10 @@
       "category": "radius",
       "value": 8,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "property": "CornerRadius"
+        }
       },
       "evidence": {
         "kind": "declared",
@@ -709,7 +900,10 @@
       "category": "spacing",
       "value": 24,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "property": "Spacing"
+        }
       },
       "evidence": {
         "kind": "observed",
@@ -728,7 +922,10 @@
       "category": "spacing",
       "value": 16,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "property": "Spacing"
+        }
       },
       "evidence": {
         "kind": "observed",
@@ -747,7 +944,10 @@
       "category": "spacing",
       "value": 12,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "property": "Spacing"
+        }
       },
       "evidence": {
         "kind": "observed",
@@ -766,7 +966,10 @@
       "category": "spacing",
       "value": 8,
       "properties": {
-        "unit": "px"
+        "unit": "px",
+        "uno": {
+          "property": "Spacing"
+        }
       },
       "evidence": {
         "kind": "observed",
@@ -795,6 +998,12 @@
           "label": "Orbital Styles/*.xaml"
         },
         "rationale": "OrbitalMonoSmall / OrbitalSectionHeader (mono, 11)."
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OrbitalMonoSmall",
+          "fontResourceKey": "OrbitalMonoFont"
+        }
       }
     }
   ],

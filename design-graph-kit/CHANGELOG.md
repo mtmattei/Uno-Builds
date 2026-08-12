@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0 — 2026-08-12 — Uno-first pivot
+
+Product decision: the Design Graph targets Uno Platform now; a
+framework-agnostic IR is explicitly deferred (`docs/architecture.md`).
+
+- New `references/uno-mapping.md`: binding `properties.uno` convention —
+  exact WinUI/Toolkit control types, `x:Name`s, style keys, and declared
+  resource keys carried per node (copy-don't-coin; omission over invention).
+  No JSON Schema change (`properties` is open).
+- `SKILL.md` 0.4: Target-framework section; generators populate the mapping
+  layer and use the Uno Platform docs MCP to resolve control identity and
+  Themes/resource idioms for it. Semantic-layer rules from 0.2/0.3 unchanged.
+- `docs/uno-mcp-integration.md`: verdict revised — the MCP is now part of
+  graph generation (mapping layer), not just implementation arms.
+- Eval 05 gold v1.3: Uno mapping retrofitted onto 40/47 nodes from verified
+  source facts.
+- Blind-v3 (agnostic v0.3 rules) archived unscored; run reports show sizes
+  converging to 61–64 nodes and `uses-token` down to 51–60 (was 66–71).
+  Next validation round runs under v0.4 and scores mapping-layer recovery.
+
 ## 0.3.0 — 2026-08-12
 
 Driven by the blind-v2 replication (naming and state altitude fixed; residual

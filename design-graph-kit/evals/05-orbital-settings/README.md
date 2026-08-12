@@ -34,7 +34,10 @@ This eval models **screen semantics**, not the design system:
 - ids follow the v0.2 grammar in SKILL.md Pass 8 (three segments max;
   canonical components two);
 - `has-state` attaches to the smallest node whose presentation changes
-  (gold v1.2: the Save button owns `state.profile.saved`).
+  (gold v1.2: the Save button owns `state.profile.saved`);
+- gold v1.3 carries the **Uno mapping layer** (`properties.uno`, see
+  `references/uno-mapping.md`) on every node where the source declares a
+  type/x:Name/style/resource key — mapping-layer recovery is scored exactly.
 
 Blind v0.1 runs drifted on exactly these axes; they are now binding rules.
 

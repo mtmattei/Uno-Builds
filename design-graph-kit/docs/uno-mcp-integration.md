@@ -4,17 +4,24 @@ Assessed 2026-08-12 against the live `uno` MCP server
 (`uno_platform_agent_rules_init`, `uno_platform_usage_rules_init`,
 `uno_platform_docs_search`/`_fetch`).
 
-## Not for the Design Graph rules
+> **v0.4 revision.** The kit is now deliberately **Uno-first**
+> (`docs/architecture.md`): the graph carries a `properties.uno` mapping
+> layer (`references/uno-mapping.md`), and the MCP is part of the graph
+> generation loop for that layer — resolving control identity, Toolkit
+> component names, and Themes/resource idioms. The paragraph below records
+> the earlier framework-agnostic reasoning for the deferred agnostic IR; it
+> no longer gates graph-side MCP use.
 
-The rules that drive graph quality (ID grammar, naming vocabulary, state
-altitude, token scoping, `uses-token` attachment) are kit-internal semantic
-conventions — no framework documentation defines them, so the MCP cannot
-ground them. More fundamentally, `docs/architecture.md` requires the Design
-Graph layer to stay implementation-agnostic; anchoring its ontology to Uno
-control taxonomy or Uno Themes resources would couple the design IR to one
-framework. Framework knowledge belongs to the future **Implementation Graph**
-(concept → XAML type / style / resource mapping) — when that layer is built,
-the MCP is the right grounding source for it.
+## The kit-internal semantic rules still aren't MCP territory
+
+The rules that drive graph *semantic* quality (ID grammar, naming
+vocabulary, state altitude, token scoping, `uses-token` attachment) are
+kit-internal conventions — no framework documentation defines them, so the
+MCP cannot ground them. What the MCP grounds is the **`uno` mapping layer**:
+which real control a concept is, which style/resource key realizes a token,
+which Toolkit component matches a pattern. Semantic layer = evidence from
+the design source; mapping layer = evidence from the source plus MCP-grounded
+Uno knowledge.
 
 ## Yes, for implementation (design-implement.md consumers)
 

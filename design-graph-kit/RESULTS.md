@@ -227,6 +227,19 @@ and MCP-grounded review is the sanctioned static verification when no
 compiler is available. The MCP is the right grounding source for the future
 Implementation Graph layer, not for this one.
 
+## v0.4 — Uno-first pivot (product decision)
+
+Direction set by the user: the graph is **Uno-specific now**; a
+framework-agnostic IR is deferred until the Uno-specific graph proves
+product value. This supersedes the agnostic half of the MCP assessment
+above — the Uno docs MCP is now in the graph-generation loop for the new
+`properties.uno` mapping layer (`references/uno-mapping.md`): exact control
+types, x:Names, style keys, and declared resource keys carried per node.
+Gold v1.3 is the exemplar (40/47 nodes mapped from verified source). The
+blind-v3 runs (agnostic v0.3 rules) are archived unscored in
+`evals/05-orbital-settings/blind-v3/`; the next validation round runs under
+v0.4 and scores mapping-layer recovery in addition to the semantic layer.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical
