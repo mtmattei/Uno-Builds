@@ -19,8 +19,8 @@ Stage-4/Stage-5 experiments.
 | 6. Validate + score | ✅ | all graphs validate; see log |
 | 7. Repeat 5× for stability | ⏳ | not yet meaningful — see *Contamination*, below |
 | 8. Test `SKILL.md` | ✅ | run 2: `skill.graph.json`, macro F1 **0.9742**, human avg 4.6 |
-| 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/` — see `ab-results.md` |
-| 10. Productize decision | ⏳ | pending A/B verdict + a genuinely blind replication |
+| 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/ab-results.md` — **B materially better on semantics** |
+| 10. Productize decision | ⏳ | pilot says continue to Stage 6; blind replication + arm C required first |
 
 ## Why this design was chosen
 
@@ -92,7 +92,18 @@ do next.
 Protocol and outputs in `experiments/ab-orbital-settings/` (see its README for
 the full design). Two isolated one-shot agents implemented the screen from the
 same visual-only brief; arm B additionally received `skill.graph.json` +
-`prompts/design-implement.md`. Verdict and measurements: `ab-results.md`.
+`prompts/design-implement.md`. Full measurements: `ab-results.md`.
+
+**Outcome: tie on visuals, decisive graph win on semantics.** Both arms
+produced clean, fully tokenized, well-consolidated XAML (0 hardcoded hex in
+either page; same style-reuse counts) — a good brief was sufficient for
+pixels. But arm B implemented **3/3** source-backed behaviors (entrance
+stagger matching the real app's timings, the 1.5 s "Saved!" flash, the
+"Cleared" dialog with verbatim-identical copy) with **0** invented behaviors,
+while arm A implemented **0/3** and **invented one** — it wired the docs
+button to a guessed (wrong) URL. B's x:Names and 41 graph-id comments also
+make Stage-6 round-trip parity tractable. The graph's value is semantic
+transport across the handoff, not prettier XAML.
 
 ## Findings
 
@@ -131,7 +142,9 @@ python scripts/score_graph.py \
 
 1. **Blind replication** — regenerate the graph in fresh sessions (no gold
    access), 5×, and measure stability for real (START-HERE step 7).
-2. Act on the A/B verdict (`experiments/ab-orbital-settings/ab-results.md`):
-   productize only on a material downstream advantage.
-3. If Stage 5 holds up, run Stage 6 round-trip parity: implementation → Graph B
-   → compare with Graph A.
+2. **Arm C** (brief + free-prose behavior notes) to separate "graph as
+   structured IR" from "more information" — the pilot's main open confound.
+3. **Stage 6 round-trip parity** — re-extract a graph from arm B's
+   implementation and diff it against `skill.graph.json`; B's graph-id
+   traceability was built for exactly this.
+4. Compile/render both arms before trusting the visual-parity tie.
