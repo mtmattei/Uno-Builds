@@ -11,7 +11,7 @@ import json
 import re
 from pathlib import Path
 
-SCORER_VERSION = "0.2.0"
+SCORER_VERSION = "0.3.0"
 
 
 def load(path: Path):
@@ -50,6 +50,21 @@ def node_concept(n):
     Blind replication showed id-level F1 collapsing on synonyms while the
     underlying concepts agreed; this dimension measures the concepts."""
     return (n.get("type"), _tokens(n))
+
+
+def uno_mapping_triples(graph):
+    """v0.4 Uno mapping layer (references/uno-mapping.md): every
+    (node type, uno key, uno value) fact. Values are exact declared strings
+    (resource keys, x:Names, control types), so exact-match scoring measures
+    the copy-don't-coin contract directly, independent of node ids."""
+    out = set()
+    for n in graph.get("nodes", []):
+        if not isinstance(n, dict):
+            continue
+        uno = (n.get("properties") or {}).get("uno") or {}
+        for k, v in uno.items():
+            out.add((n.get("type"), k, str(v)))
+    return out
 
 
 def edge_signature(e):
@@ -92,6 +107,10 @@ def main():
         "node_concept": (
             {node_concept(n) for n in gold.get("nodes", [])},
             {node_concept(n) for n in pred.get("nodes", [])},
+        ),
+        "uno_mapping": (
+            uno_mapping_triples(gold),
+            uno_mapping_triples(pred),
         ),
         "edge": (
             {edge_signature(e) for e in gold.get("edges", [])},
@@ -166,7 +185,7 @@ def main():
         print(json.dumps(metrics, indent=2))
     else:
         print(f"Macro F1: {metrics['macro_f1']:.4f}")
-        for name in ("node_id", "node_signature", "node_concept", "edge", "unresolved"):
+        for name in ("node_id", "node_signature", "node_concept", "uno_mapping", "edge", "unresolved"):
             m = metrics[name]
             print(
                 f"{name:16} "
