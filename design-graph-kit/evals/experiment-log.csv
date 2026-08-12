@@ -1,0 +1,2 @@
+timestamp,eval_case,run,model,model_version,input_type,prompt_or_skill_version,schema_version,validation_pass,macro_f1,human_avg,severe_hallucinations,unresolved_count,correction_prompts,notes
+2026-08-12,05-orbital-settings,1,claude,opus-4.8,xaml+csharp+design-system,design-understanding.md v0.1,0.1.0,true,0.4907,4.0,0,1,0,"First real source-backed eval (Orbital SettingsPage); drift concentrated in row/field consolidation + header region + entrance state + neutral token names; unresolved F1=0 from exact-tuple matching"

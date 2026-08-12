@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "eval.orders-states",
+  "name": "Orders states",
+  "description": "Gold graph for a single Orders screen across four presentation states.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "label": "Four synthetic state descriptions"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.orders",
+      "type": "screen",
+      "name": "Orders",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "region.orders.content",
+      "type": "region",
+      "name": "Orders content",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "state.orders.loading",
+      "type": "state",
+      "name": "Loading",
+      "semanticRole": "loading",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "state.orders.empty",
+      "type": "state",
+      "name": "Empty",
+      "semanticRole": "empty",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "state.orders.populated",
+      "type": "state",
+      "name": "Populated",
+      "semanticRole": "populated",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "state.orders.error",
+      "type": "state",
+      "name": "Error",
+      "semanticRole": "error",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.orders-list",
+      "type": "component",
+      "name": "Orders list",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.empty-state",
+      "type": "component",
+      "name": "Empty state",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.error-state",
+      "type": "component",
+      "name": "Error state",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "control.orders.retry",
+      "type": "control",
+      "name": "Retry",
+      "role": "button",
+      "text": "Retry",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.orders",
+      "relation": "contains",
+      "to": "region.orders.content",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "screen.orders",
+      "relation": "has-state",
+      "to": "state.orders.loading",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.98,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "The fixtures depict the same Orders screen under loading condition."
+      }
+    },
+    {
+      "from": "screen.orders",
+      "relation": "has-state",
+      "to": "state.orders.empty",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.98,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "The fixtures depict the same Orders screen with no items."
+      }
+    },
+    {
+      "from": "screen.orders",
+      "relation": "has-state",
+      "to": "state.orders.populated",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.98,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "The fixtures depict the same Orders screen with list content."
+      }
+    },
+    {
+      "from": "screen.orders",
+      "relation": "has-state",
+      "to": "state.orders.error",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.98,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "The fixtures depict the same Orders screen under an error condition."
+      }
+    },
+    {
+      "from": "state.orders.populated",
+      "relation": "contains",
+      "to": "component.orders-list",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "state.orders.empty",
+      "relation": "contains",
+      "to": "component.empty-state",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "state.orders.error",
+      "relation": "contains",
+      "to": "component.error-state",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.error-state",
+      "relation": "contains",
+      "to": "control.orders.retry",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.orders.retry-behavior",
+      "question": "What exact operation does Retry invoke?",
+      "relatedIds": [
+        "control.orders.retry"
+      ],
+      "possibleValues": [
+        "reload orders",
+        "retry failed request",
+        "unknown"
+      ],
+      "reason": "The visual state only exposes the label and control role."
+    }
+  ]
+}

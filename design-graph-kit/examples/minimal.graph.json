@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "example.minimal",
+  "name": "Minimal example",
+  "sourceSummary": [
+    {
+      "type": "user",
+      "label": "Minimal hand-authored example"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.home",
+      "type": "screen",
+      "name": "Home",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "user"
+        }
+      }
+    },
+    {
+      "id": "control.home.continue",
+      "type": "control",
+      "name": "Continue",
+      "role": "button",
+      "text": "Continue",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "user"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.home",
+      "relation": "contains",
+      "to": "control.home.continue",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "user"
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.home.continue",
+      "question": "What does Continue do?",
+      "relatedIds": [
+        "control.home.continue"
+      ],
+      "reason": "No interaction behavior was supplied."
+    }
+  ]
+}
