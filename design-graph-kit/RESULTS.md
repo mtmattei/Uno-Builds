@@ -297,6 +297,33 @@ vocabulary; add a list-row entry (`route`/`list-item`) to the Pass-8
 vocabulary; then the remaining scale question is a third eval + compiling
 the arms in a toolchain-equipped environment.
 
+## v0.4.2 + eval 07 — architecture matrix complete (MVVM)
+
+The vocabulary fixes shipped (card scope, list-row entry; eval-06 gold
+renamed to obey the kit's own rule — vocabulary-following runs re-score
+higher). Then eval 07 validated the third architecture: the Caffe MainPage
+(CommunityToolkit MVVM, 9 composed custom UserControls, two interacting
+screen states).
+
+| Architecture | Eval | Pairwise stability (node-id) | Hallucinations |
+|---|---|---|---|
+| code-behind | 05 Orbital | 0.76–0.90 | 0 |
+| MVUX | 06 FluxTransit | 0.60–0.86 | 0 |
+| **MVVM** | **07 Caffe** | **0.88–0.99** (best measured) | **0** |
+
+MVVM's explicit bindings made extraction nearly deterministic — runs 2–5
+produced essentially identical graphs (identical states, identical
+behavioral edges). The vs-gold score (0.37) is low for a now-proven
+reason: **all five runs unanimously out-voted the answer key** on four
+rule-ambiguity points (screen slug for generic page names, one-condition-
+many-presentations state modeling, trigger attachment canonical-vs-instance,
+token breadth). Per the v1.4 precedent, these are queued as explicit
+calibration decisions — `evals/07-caffe-main/blind/README.md` has the
+list. Forty blind runs to date; zero hallucinations.
+
+The kit is also now invocable as a repo-level Claude Code skill
+(`.claude/skills/design-graph/`), covering generate / implement / score.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical

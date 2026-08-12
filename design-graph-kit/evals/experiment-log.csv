@@ -21,3 +21,8 @@ timestamp,eval_case,run,model,model_version,input_type,prompt_or_skill_version,s
 2026-08-12,06-flux-profile,3,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4738,,0,9,0,"52n/80e, uno 0.814"
 2026-08-12,06-flux-profile,4,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4501,,0,7,0,"55n/79e, uno 0.814"
 2026-08-12,06-flux-profile,5,claude,fable-5,xaml+csharp-mvux+design-system,SKILL.md v0.4 (blind),0.1.0,true,0.4252,,0,7,0,"48n/69e, uno 0.886. Suite: mean vs-gold macro 0.4289 (beats home-turf 0.34); drift = two missing vocabulary entries (card/glass-panel, route row) incl. one gold naming defect"
+2026-08-12,07-caffe-main,1,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3702,,0,5,0,"Eval-07 MVVM. 55n/96e, uno 0.566"
+2026-08-12,07-caffe-main,2,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3819,,0,3,0,"53n/91e, uno 0.571"
+2026-08-12,07-caffe-main,3,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3672,,0,4,0,"56n/96e, uno 0.577"
+2026-08-12,07-caffe-main,4,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3722,,0,4,0,"54n/78e, uno 0.577"
+2026-08-12,07-caffe-main,5,claude,fable-5,xaml+csharp-mvvm+design-system,SKILL.md v0.4.2 (blind),0.1.0,true,0.3586,,0,4,0,"52n/80e, uno 0.556. Fleet: best pairwise stability ever (mean 0.7303, node-id 0.88-0.99); 5/5 unanimous consensus vs gold on screen slug, state decomposition, trigger attachment, token breadth -> calibration queued"
