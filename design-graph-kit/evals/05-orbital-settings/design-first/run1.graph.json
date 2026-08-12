@@ -1,0 +1,938 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "orbital-settings-design-first-run1",
+  "name": "Orbital Settings",
+  "description": "Design Graph of the 'Orbital' settings screen, generated design-first from a written visual specification of a static dark-theme desktop mock (populated frame; system-info and path values shown still loading). No application source was available: all Uno mappings are proposed realizations and no interaction behavior is asserted.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "id": "brief",
+      "path": "design-graph-kit/experiments/ab-orbital-settings/brief.md",
+      "label": "Written mock description standing in for a screenshot: a textual visual specification of a single static design mock (dark theme, populated state). No source code, no Figma file, no declared resource keys or x:Names."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "name": "Settings",
+      "role": "settings",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Screen, its title 'Settings' and overall layout are observed in the written mock; the Uno realization (Page) is a proposed mapping, not source-declared."
+      },
+      "properties": {
+        "theme": "dark",
+        "layout": "header on top (full width), scrollable content below",
+        "uno": { "type": "Page" }
+      }
+    },
+    {
+      "id": "region.settings.header",
+      "type": "region",
+      "name": "Header",
+      "role": "pageHeader",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Full-width top header with title, subtitle and search pill is observed; Grid realization is proposed."
+      },
+      "properties": {
+        "borderBottom": "1px #1A1A1C",
+        "padding": "32 horizontal, 20 vertical",
+        "titleSubtitleGap": 4,
+        "uno": { "type": "Grid" }
+      }
+    },
+    {
+      "id": "region.settings.content",
+      "type": "region",
+      "name": "Content",
+      "role": "contentRegion",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Scrollable content area with padding 32 and 24 vertical gap between cards is observed ('Scrollable' stated in the mock description); ScrollViewer realization is proposed."
+      },
+      "properties": {
+        "scrollable": true,
+        "padding": 32,
+        "cardGap": 24,
+        "columns": "PROFILE card full width; below it a two-column row (16 gutter): ABOUT left; PATHS then ACTIONS (24 apart) right",
+        "uno": { "type": "ScrollViewer" }
+      }
+    },
+    {
+      "id": "content.header.title",
+      "type": "content",
+      "text": "Settings",
+      "semanticRole": "pageTitle",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Title text, ~28 display face, high emphasis observed; TextBlock realization proposed."
+      },
+      "properties": {
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "content.header.subtitle",
+      "type": "content",
+      "text": "Profile and preferences",
+      "semanticRole": "pageSubtitle",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Subtitle text, ~13, faint emphasis, 4 below title observed; TextBlock realization proposed."
+      },
+      "properties": {
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "control.header.search",
+      "type": "control",
+      "name": "Search pill",
+      "role": "searchbox",
+      "semanticRole": "searchInput",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.75,
+        "rationale": "A pill containing a search glyph, placeholder-style mono text 'Search or run command...' and a Ctrl+K keycap is observed; that it is a search/command input is inferred from these affordances. The mock is static, so whether it is a text input or a command-palette trigger button is unknown (see unresolved). No Uno type is proposed because the input-vs-button ambiguity would make any type a guess."
+      },
+      "properties": {
+        "padding": "12x8",
+        "parts": ["icon", "placeholder", "shortcut-badge"]
+      }
+    },
+    {
+      "id": "asset.header.search-icon",
+      "type": "asset",
+      "name": "Search glyph",
+      "role": "icon",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "rationale": "A small search glyph inside the pill is observed; FontIcon realization proposed (glyph code unknown, not fabricated)."
+      },
+      "properties": {
+        "uno": { "type": "FontIcon" }
+      }
+    },
+    {
+      "id": "content.header.search-placeholder",
+      "type": "content",
+      "text": "Search or run command...",
+      "semanticRole": "placeholder",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Placeholder-style mono text ~12, faint, observed inside the search pill; TextBlock realization proposed."
+      },
+      "properties": {
+        "fontSize": 12,
+        "fontSizeApprox": true,
+        "family": "mono",
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "content.header.search-shortcut",
+      "type": "content",
+      "text": "Ctrl+K",
+      "semanticRole": "keyboardShortcutBadge",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Keycap badge (background #1A1A1C, radius 4, mono ~10) with text 'Ctrl+K' observed; Border-wrapped TextBlock realization proposed."
+      },
+      "properties": {
+        "fontSize": 10,
+        "fontSizeApprox": true,
+        "family": "mono",
+        "uno": { "type": "Border" }
+      }
+    },
+    {
+      "id": "component.card",
+      "type": "component",
+      "name": "Section card",
+      "role": "card",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Four containers share identical treatment (background #141416, 1px border #212123, radius 12, padding 20) and the same uppercase mono section-title pattern with 16 gap to body — clearly one reusable card concept. utu:CardContentControl realization proposed per Uno Toolkit guidance (docs recommend CardContentControl over Border for card-like UI)."
+      },
+      "properties": {
+        "parts": ["section-title", "body"],
+        "sectionTitleStyle": "mono ~11, uppercase, faint #5D6372",
+        "titleToBodyGap": 16,
+        "uno": { "type": "utu:CardContentControl" }
+      }
+    },
+    {
+      "id": "component.card.profile",
+      "type": "component",
+      "name": "PROFILE card",
+      "role": "card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Full-width first card with section title 'PROFILE'."
+      },
+      "properties": {
+        "title": "PROFILE",
+        "placement": "full width, first",
+        "bodyGaps": "label-to-input 8, input-to-save 8 (horizontal), input-row-to-helper 8"
+      }
+    },
+    {
+      "id": "component.card.about",
+      "type": "component",
+      "name": "ABOUT card",
+      "role": "card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Left column card of the two-column row, section title 'ABOUT'."
+      },
+      "properties": {
+        "title": "ABOUT",
+        "placement": "two-column row, left",
+        "bodyGaps": "identity row to info rows 16; info rows stacked 8 apart; tile-to-text 16; name-to-version 4"
+      }
+    },
+    {
+      "id": "component.card.paths",
+      "type": "component",
+      "name": "PATHS card",
+      "role": "card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Right column upper card, section title 'PATHS'."
+      },
+      "properties": {
+        "title": "PATHS",
+        "placement": "two-column row, right, above ACTIONS (24 gap)",
+        "bodyGaps": "field groups stacked 16 apart"
+      }
+    },
+    {
+      "id": "component.card.actions",
+      "type": "component",
+      "name": "ACTIONS card",
+      "role": "card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Right column lower card, section title 'ACTIONS'. Title-to-body gap is 12 (overrides the canonical 16); buttons stacked 12 apart."
+      },
+      "properties": {
+        "title": "ACTIONS",
+        "placement": "two-column row, right, 24 below PATHS",
+        "titleToBodyGap": 12,
+        "bodyGaps": "buttons stacked 12 apart"
+      }
+    },
+    {
+      "id": "content.profile.field-label",
+      "type": "content",
+      "text": "Display Name",
+      "semanticRole": "fieldLabel",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Field label (mono ~11, muted) above the text input observed; TextBlock realization proposed."
+      },
+      "properties": {
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "control.profile.name-input",
+      "type": "control",
+      "name": "Display name input",
+      "role": "textbox",
+      "semanticRole": "textInput",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Text input with placeholder 'Enter your name', background #141416, 1px border #212123, mono ~13, observed; TextBox realization proposed. Corner radius is not stated in the mock."
+      },
+      "properties": {
+        "placeholder": "Enter your name",
+        "uno": { "type": "TextBox" }
+      }
+    },
+    {
+      "id": "control.profile.save",
+      "type": "control",
+      "name": "Save",
+      "role": "button",
+      "text": "Save",
+      "semanticRole": "primaryAction",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "rationale": "Compact filled emerald button labeled 'Save' observed 8 right of the input; the only accent-filled control on the screen, so primaryAction is inferred. Button realization proposed. What saving does is not knowable from the static mock (see unresolved)."
+      },
+      "properties": {
+        "padding": "12x6",
+        "fontSize": 13,
+        "fontSizeApprox": true,
+        "fontWeight": "medium",
+        "textOnAccent": "dark (exact value not specified in mock)",
+        "uno": { "type": "Button" }
+      }
+    },
+    {
+      "id": "content.profile.helper",
+      "type": "content",
+      "text": "This name appears in the homepage greeting.",
+      "semanticRole": "helperText",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Helper text (mono ~11, faint) observed 8 below the input row; TextBlock realization proposed."
+      },
+      "properties": {
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "asset.about.logo",
+      "type": "asset",
+      "name": "Product logo",
+      "role": "logo",
+      "geometry": { "width": 32, "height": 32, "unit": "px" },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "32x32 product logo inside a 48x48 rounded tile (background #1A1A1C, radius 12) observed; Image realization proposed (asset path unknown, not fabricated)."
+      },
+      "properties": {
+        "tileSize": 48,
+        "uno": { "type": "Image" }
+      }
+    },
+    {
+      "id": "content.about.product-name",
+      "type": "content",
+      "text": "Orbital",
+      "semanticRole": "productName",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Product name (~13 semibold, high emphasis) observed right of the logo tile; TextBlock realization proposed."
+      },
+      "properties": {
+        "fontWeight": "semibold",
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "content.about.version",
+      "type": "content",
+      "text": "v0.1.0-alpha",
+      "semanticRole": "versionLabel",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Version string (mono ~11, faint) observed 4 below the product name; TextBlock realization proposed."
+      },
+      "properties": {
+        "uno": { "type": "TextBlock" }
+      }
+    },
+    {
+      "id": "component.info-row",
+      "type": "component",
+      "name": "Info row",
+      "role": "info-row",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Four rows in the ABOUT card share identical structure and treatment: mono ~11 muted label left, mono ~11 medium value right-aligned — one reusable label/value row concept. Two-column Grid realization proposed."
+      },
+      "properties": {
+        "parts": ["label", "value"],
+        "valueAlignment": "right",
+        "uno": { "type": "Grid" }
+      }
+    },
+    {
+      "id": "component.info-row.uno-platform-sdk",
+      "type": "component",
+      "role": "info-row",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row observed in the ABOUT card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Uno Platform SDK", "value": "..." }
+    },
+    {
+      "id": "component.info-row.dotnet-runtime",
+      "type": "component",
+      "role": "info-row",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row observed in the ABOUT card; value renders as '...' in the mock."
+      },
+      "properties": { "label": ".NET Runtime", "value": "..." }
+    },
+    {
+      "id": "component.info-row.renderer",
+      "type": "component",
+      "role": "info-row",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row observed in the ABOUT card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Renderer", "value": "..." }
+    },
+    {
+      "id": "component.info-row.platform",
+      "type": "component",
+      "role": "info-row",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Row observed in the ABOUT card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Platform", "value": "..." }
+    },
+    {
+      "id": "component.field",
+      "type": "component",
+      "name": "Path field",
+      "role": "field",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Three groups in the PATHS card share identical structure: mono ~11 muted label with a wrapping mono ~11 medium value line 8 below — one reusable stacked label-over-value concept. StackPanel realization proposed."
+      },
+      "properties": {
+        "parts": ["label", "value"],
+        "valueWraps": true,
+        "uno": { "type": "StackPanel" }
+      }
+    },
+    {
+      "id": "component.field.project-root",
+      "type": "component",
+      "role": "field",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field group observed in the PATHS card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Project Root", "value": "..." }
+    },
+    {
+      "id": "component.field.recent-projects-database",
+      "type": "component",
+      "role": "field",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field group observed in the PATHS card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Recent Projects Database", "value": "..." }
+    },
+    {
+      "id": "component.field.claude-code-skills",
+      "type": "component",
+      "role": "field",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Field group observed in the PATHS card; value renders as '...' in the mock."
+      },
+      "properties": { "label": "Claude Code Skills", "value": "..." }
+    },
+    {
+      "id": "component.action-button",
+      "type": "component",
+      "name": "Action button",
+      "role": "action-button",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Three full-width, left-aligned quiet buttons in the ACTIONS card share identical structure (small leading icon + ~13 label, transparent background, radius 8, padding 12x6) — one reusable low-emphasis icon+text button concept. Button realization proposed (left-aligned content)."
+      },
+      "properties": {
+        "parts": ["icon", "label"],
+        "background": "transparent",
+        "padding": "12x6",
+        "fullWidth": true,
+        "contentAlignment": "left",
+        "uno": { "type": "Button" }
+      }
+    },
+    {
+      "id": "component.action-button.clear-recent-projects",
+      "type": "component",
+      "role": "action-button",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button observed in the ACTIONS card with a trash-can icon and this label."
+      },
+      "properties": { "icon": "🗑 (trash glyph in mock)", "label": "Clear Recent Projects" }
+    },
+    {
+      "id": "component.action-button.open-data-folder",
+      "type": "component",
+      "role": "action-button",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button observed in the ACTIONS card with a folder icon and this label."
+      },
+      "properties": { "icon": "📁 (folder glyph in mock)", "label": "Open Data Folder" }
+    },
+    {
+      "id": "component.action-button.uno-docs",
+      "type": "component",
+      "role": "action-button",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Button observed in the ACTIONS card with a book icon and this label."
+      },
+      "properties": { "icon": "📖 (book glyph in mock)", "label": "Uno Platform Documentation" }
+    },
+    {
+      "id": "state.about.loading",
+      "type": "state",
+      "name": "About values loading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "rationale": "The mock description explicitly states the four ABOUT row values 'read `...` (still loading)'. Only this frame is shown; the loaded presentation is not depicted."
+      },
+      "properties": { "valuePlaceholder": "..." }
+    },
+    {
+      "id": "state.paths.loading",
+      "type": "state",
+      "name": "Path values loading",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "rationale": "The mock description explicitly states the three PATHS values 'read `...`' with the same still-loading convention. Only this frame is shown; the loaded presentation is not depicted."
+      },
+      "properties": { "valuePlaceholder": "..." }
+    },
+    {
+      "id": "token.color.background",
+      "type": "token",
+      "category": "color",
+      "value": "#0A0A0B",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Stated as the page background ('near-black')."
+      }
+    },
+    {
+      "id": "token.color.surface",
+      "type": "token",
+      "category": "color",
+      "value": "#141416",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs as the fill of cards, the search pill, and the text input."
+      }
+    },
+    {
+      "id": "token.color.border",
+      "type": "token",
+      "category": "color",
+      "value": "#212123",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs as the 1px border of cards, the search pill, and the text input."
+      }
+    },
+    {
+      "id": "token.color.surface-subtle",
+      "type": "token",
+      "category": "color",
+      "value": "#1A1A1C",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs as the header bottom border, the Ctrl+K keycap background, and the logo tile background. Semantic name is a neutral coinage (the mock does not name this value); the hex is exact."
+      }
+    },
+    {
+      "id": "token.color.text-high",
+      "type": "token",
+      "category": "color",
+      "value": "#D6D9E1",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Declared in the mock's text-emphasis scale as 'high'."
+      }
+    },
+    {
+      "id": "token.color.text-medium",
+      "type": "token",
+      "category": "color",
+      "value": "#B5B9C5",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Declared in the mock's text-emphasis scale as 'medium'; used for info-row and path values."
+      }
+    },
+    {
+      "id": "token.color.text-muted",
+      "type": "token",
+      "category": "color",
+      "value": "#7B8191",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Declared in the mock's text-emphasis scale as 'muted'; used for field and row labels."
+      }
+    },
+    {
+      "id": "token.color.text-faint",
+      "type": "token",
+      "category": "color",
+      "value": "#5D6372",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Declared in the mock's text-emphasis scale as 'faint'; used for subtitle, section headers, helper text, version, and search placeholder."
+      }
+    },
+    {
+      "id": "token.color.accent",
+      "type": "token",
+      "category": "color",
+      "value": "#10B981",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Declared as the accent ('emerald, used sparingly, with dark text on it'); consumed only by the Save button on this screen."
+      }
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "category": "radius",
+      "value": 12,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs on cards and the logo tile."
+      }
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "category": "radius",
+      "value": 8,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs on the search pill, the Save button, and the action buttons."
+      }
+    },
+    {
+      "id": "token.radius.4",
+      "type": "token",
+      "category": "radius",
+      "value": 4,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Used by the Ctrl+K keycap badge."
+      }
+    },
+    {
+      "id": "token.spacing.4",
+      "type": "token",
+      "category": "spacing",
+      "value": 4,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: title-to-subtitle gap and product-name-to-version gap."
+      }
+    },
+    {
+      "id": "token.spacing.8",
+      "type": "token",
+      "category": "spacing",
+      "value": 8,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: label-to-input, input-to-Save, helper-text gap, info-row stacking, field label-to-value gap."
+      }
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "category": "spacing",
+      "value": 12,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: action-button horizontal padding, ACTIONS title-to-body gap, action-button stacking."
+      }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "value": 16,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: card section-title-to-content gap, two-column gutter, identity-row internal gap, PATHS field-group stacking."
+      }
+    },
+    {
+      "id": "token.spacing.20",
+      "type": "token",
+      "category": "spacing",
+      "value": 20,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: card padding and header vertical padding."
+      }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "category": "spacing",
+      "value": 24,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: vertical gap between cards, including PATHS-to-ACTIONS."
+      }
+    },
+    {
+      "id": "token.spacing.32",
+      "type": "token",
+      "category": "spacing",
+      "value": 32,
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Recurs: content-area padding and header horizontal padding."
+      }
+    },
+    {
+      "id": "token.typography.title",
+      "type": "token",
+      "category": "typography",
+      "value": { "family": "display-sans", "size": 28, "sizeApprox": true },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Page title: geometric display/sans face at ~28. Concrete family name is not given in the mock (see unresolved)."
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "category": "typography",
+      "value": { "family": "display-sans", "size": 13, "sizeApprox": true },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "~13 sans/display text recurs: subtitle, Save label, product name (weights vary per use and are recorded on nodes)."
+      }
+    },
+    {
+      "id": "token.typography.mono-body",
+      "type": "token",
+      "category": "typography",
+      "value": { "family": "mono", "size": 13, "sizeApprox": true },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Mono ~13 used by the display-name text input."
+      }
+    },
+    {
+      "id": "token.typography.mono-small",
+      "type": "token",
+      "category": "typography",
+      "value": { "family": "mono", "size": 11, "sizeApprox": true },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "Mono ~11 recurs heavily: section headers, field/row labels, values, helper text, version."
+      }
+    }
+  ],
+  "edges": [
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.header", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.content", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "contains", "to": "content.header.title", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "contains", "to": "content.header.subtitle", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "contains", "to": "control.header.search", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "contains", "to": "asset.header.search-icon", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "contains", "to": "content.header.search-placeholder", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "contains", "to": "content.header.search-shortcut", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.profile", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.about", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.paths", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.actions", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.field-label", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.name-input", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.save", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.helper", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "asset.about.logo", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.product-name", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.version", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.uno-platform-sdk", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.dotnet-runtime", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.renderer", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.platform", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.field.project-root", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.field.recent-projects-database", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.field.claude-code-skills", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.clear-recent-projects", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.open-data-folder", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.uno-docs", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the card treatment and section-title pattern." } },
+    { "from": "component.card.about", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the card treatment and section-title pattern." } },
+    { "from": "component.card.paths", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the card treatment and section-title pattern." } },
+    { "from": "component.card.actions", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Shares the card treatment and section-title pattern." } },
+    { "from": "component.info-row.uno-platform-sdk", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four identically structured label/value rows." } },
+    { "from": "component.info-row.dotnet-runtime", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four identically structured label/value rows." } },
+    { "from": "component.info-row.renderer", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four identically structured label/value rows." } },
+    { "from": "component.info-row.platform", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of four identically structured label/value rows." } },
+    { "from": "component.field.project-root", "relation": "instance-of", "to": "component.field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured stacked label/value groups." } },
+    { "from": "component.field.recent-projects-database", "relation": "instance-of", "to": "component.field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured stacked label/value groups." } },
+    { "from": "component.field.claude-code-skills", "relation": "instance-of", "to": "component.field", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured stacked label/value groups." } },
+    { "from": "component.action-button.clear-recent-projects", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured quiet icon+label buttons." } },
+    { "from": "component.action-button.open-data-folder", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured quiet icon+label buttons." } },
+    { "from": "component.action-button.uno-docs", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of three identically structured quiet icon+label buttons." } },
+    { "from": "component.card.about", "relation": "has-state", "to": "state.about.loading", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "Mock explicitly notes the ABOUT values read '...' (still loading); the ABOUT card is the smallest described unit whose values change." } },
+    { "from": "component.card.paths", "relation": "has-state", "to": "state.paths.loading", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "Mock explicitly notes the PATHS values read '...'; the PATHS card is the smallest described unit whose values change." } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.background", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.32", "properties": { "appliesTo": "contentPadding" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.24", "properties": { "appliesTo": "cardGap" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.color.surface-subtle", "properties": { "appliesTo": "bottomBorder" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.spacing.32", "properties": { "appliesTo": "horizontalPadding" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "verticalPadding" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "uses-token", "to": "token.spacing.4", "properties": { "appliesTo": "titleSubtitleGap" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.title", "relation": "uses-token", "to": "token.typography.title", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.title", "relation": "uses-token", "to": "token.color.text-high", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.subtitle", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.subtitle", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.header.search", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.search-placeholder", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.search-shortcut", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.header.search-shortcut", "relation": "uses-token", "to": "token.color.surface-subtle", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "padding" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "titleToBodyGap" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "section-title part font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "section-title part foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "label and value font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "label part foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text-medium", "properties": { "appliesTo": "value part foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.field", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "label and value font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.field", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "label part foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.field", "relation": "uses-token", "to": "token.color.text-medium", "properties": { "appliesTo": "value part foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.field", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "labelToValueGap" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "horizontalPadding" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "titleToBodyGap", "note": "instance override of the canonical 16 title-to-body gap" }, "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "ACTIONS body starts '12 below' its section header, overriding the canonical 16." } },
+    { "from": "control.profile.name-input", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.profile.name-input", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.profile.name-input", "relation": "uses-token", "to": "token.typography.mono-body", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.profile.field-label", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.profile.field-label", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.profile.helper", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.profile.helper", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.about.product-name", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.about.product-name", "relation": "uses-token", "to": "token.color.text-high", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.about.version", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "font" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "content.about.version", "relation": "uses-token", "to": "token.color.text-faint", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "tile cornerRadius" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.color.surface-subtle", "properties": { "appliesTo": "tile background" }, "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "columnGutter" }, "evidence": { "kind": "observed", "confidence": 1.0 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.search-behavior",
+      "question": "Is the header search pill a live text input or a button that opens a command palette (the Ctrl+K keycap and 'Search or run command...' text suggest a palette)? What does invoking it do?",
+      "relatedIds": ["control.header.search", "content.header.search-shortcut"],
+      "possibleValues": ["TextBox-style inline search", "Button opening a command-palette overlay"],
+      "reason": "The mock is a static frame; no interaction behavior is depicted or described, so no Uno control type is proposed for this node and no triggers edge is asserted."
+    },
+    {
+      "id": "unresolved.save-action",
+      "question": "What does the Save button do with the entered display name (where is it persisted, is there any saved/confirmation feedback state)?",
+      "relatedIds": ["control.profile.save", "control.profile.name-input"],
+      "reason": "Only the resting populated frame is shown; helper text implies the name feeds a homepage greeting, but persistence and feedback are not observable, so no triggers edge is asserted."
+    },
+    {
+      "id": "unresolved.action-intents",
+      "question": "What do the three ACTIONS buttons do when invoked (e.g. is 'Clear Recent Projects' destructive with confirmation; does 'Open Data Folder' open an OS file browser; does 'Uno Platform Documentation' open an external URL)?",
+      "relatedIds": ["component.action-button.clear-recent-projects", "component.action-button.open-data-folder", "component.action-button.uno-docs"],
+      "reason": "Labels suggest intents but the static mock provides no behavior or destination evidence, so no triggers or navigates-to edges are asserted."
+    },
+    {
+      "id": "unresolved.loading-resolution",
+      "question": "What do the ABOUT and PATHS sections look like once their '...' values load, and how are the values sourced?",
+      "relatedIds": ["state.about.loading", "state.paths.loading", "component.info-row", "component.field"],
+      "reason": "The mock shows only the still-loading frame for these values; the loaded presentation and data source are unknown."
+    },
+    {
+      "id": "unresolved.action-button-text-style",
+      "question": "Which font family (mono or sans) and which exact text color do the ACTIONS buttons use? The mock says 'mono/sans ~13, medium-muted text'.",
+      "relatedIds": ["component.action-button", "token.typography.body", "token.typography.mono-body", "token.color.text-medium", "token.color.text-muted"],
+      "possibleValues": ["mono ~13 + #B5B9C5", "sans ~13 + #B5B9C5", "mono ~13 + #7B8191", "sans ~13 + #7B8191"],
+      "reason": "The mock description is explicitly ambiguous between the two families and between the medium and muted emphasis levels, so no typography or foreground token edge is attached to the action-button canonical."
+    },
+    {
+      "id": "unresolved.font-families",
+      "question": "Which concrete typefaces are the 'geometric display/sans face' and the 'monospace face'?",
+      "relatedIds": ["token.typography.title", "token.typography.body", "token.typography.mono-body", "token.typography.mono-small"],
+      "reason": "The mock declares two families by role only; no family names are given, so token values carry role placeholders ('display-sans', 'mono') rather than invented font names."
+    },
+    {
+      "id": "unresolved.action-icons",
+      "question": "Are the leading icons on the ACTIONS buttons (trash, folder, book) real icon-font/vector assets or literal emoji, and which glyphs/assets should be used?",
+      "relatedIds": ["component.action-button"],
+      "reason": "The mock description renders them as emoji; the intended production assets are unknown, so no FontIcon glyph codes or asset paths are proposed."
+    }
+  ],
+  "metadata": {
+    "generatedBy": "design-graph-kit SKILL.md v0.4 (design-first pilot)",
+    "inputMode": "design-only: written visual specification of a static mock; no application source, Figma file, or runtime available",
+    "behavior": "No triggers or navigates-to edges: the mock is static and no interaction behavior is knowable. Interaction intent is recorded in 'unresolved'.",
+    "unoMappingNote": "All properties.uno entries are proposed realizations (inferred). No x:Name, resourceKey, or styleKey fields are emitted anywhere: none are declared by the input. utu:CardContentControl for cards follows Uno Toolkit docs guidance (Card & CardContentControl article) resolved via the Uno docs MCP.",
+    "stateNote": "The screen overall is depicted populated; the only modeled states are the explicitly described still-loading value conditions of the ABOUT and PATHS cards."
+  }
+}
