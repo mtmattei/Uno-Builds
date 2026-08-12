@@ -215,6 +215,18 @@ altitude, and per-use token variants (~2× gold's token set, down from ~3×).
 6. Re-run the blind 5× protocol against v0.2 — done; see the validation
    section above.
 
+## Uno MCP assessment (v0.3)
+
+Checked whether the Uno Platform MCP server should back any of the kit's
+rules (`docs/uno-mcp-integration.md` has the full analysis). Conclusion:
+**no for the Design Graph layer** — its rules are framework-agnostic semantic
+conventions by architectural design — but **adopted in two places**: Uno
+implementation arms now initialize the MCP's usage rules and ground idioms
+via docs search (identical across arms, per `design-implement.md` rule 9),
+and MCP-grounded review is the sanctioned static verification when no
+compiler is available. The MCP is the right grounding source for the future
+Implementation Graph layer, not for this one.
+
 ## Next steps (v0.3 — evidence from blind-v2)
 
 1. `uses-token` attachment rule: token edges belong on the canonical

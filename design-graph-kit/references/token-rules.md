@@ -35,6 +35,22 @@ whole style dictionaries or palettes — a complete design-system inventory is
 a separate design-system graph. (Blind evals showed generators emitting
 ~3× the consumed token set by walking the full dictionary.)
 
+## Variant folding (v0.3 — binding)
+
+Interaction-only variants of a base value — hover/pressed shades, alpha
+steps of an accent brush, focus tints — are style internals. Tokenize the
+**base** value only; the variants live in the design-system layer. Distinct
+*emphasis levels the resting surface visibly uses* (label color vs value
+color) remain separate tokens.
+
+## Attachment (v0.3 — binding)
+
+`uses-token` attaches to the canonical component, or to the screen for
+page-level values — once per token per concept. Never wire token edges
+per-instance or per internal part; instances inherit the canonical's tokens.
+Attach to an instance only when it **overrides** the canonical value (then
+the edge documents exactly that override).
+
 ## Naming
 
 Prefer declared semantic names:

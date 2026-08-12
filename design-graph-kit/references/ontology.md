@@ -40,6 +40,13 @@ Examples:
 
 A component may be source-declared or inferred from repeated structure.
 
+Internals rule (v0.3): a canonical component's internal parts (label slot,
+value slot, icon) are recorded once as `properties` on the canonical node
+(e.g. `"parts": ["label", "value"]`), never as child nodes repeated under
+each instance. Instance nodes carry per-instance data (name, bound value) as
+`properties`. A child node under an instance is justified only when that
+instance overrides the canonical structure.
+
 ### `control`
 
 An interactive UI element.
@@ -151,6 +158,11 @@ A UI concept consumes a design token.
 Example:
 
 `component.metric-card -> uses-token -> token.radius.12`
+
+Attachment rule (v0.3): the edge belongs on the **canonical** component (or
+the screen for page-level values), once per token per concept. Instances
+inherit their canonical's tokens; give an instance its own `uses-token` edge
+only when it overrides the canonical value.
 
 ### `has-state`
 

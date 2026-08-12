@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.3.0 — 2026-08-12
+
+Driven by the blind-v2 replication (naming and state altitude fixed; residual
+drift concentrated in token wiring and component internals — see
+`evals/05-orbital-settings/blind-v2/README.md`):
+
+- `SKILL.md` Pass 3 / `references/ontology.md`: canonical-component internals
+  are `properties` on the canonical node, never child nodes per instance.
+- `SKILL.md` Pass 5 / `references/token-rules.md` /
+  `references/ontology.md`: `uses-token` attaches once per token per concept,
+  on the canonical component or screen; instances inherit, and get their own
+  edge only when overriding (blind-v2 showed 6× edge inflation from
+  per-instance wiring). Interaction-only variants (hover/pressed shades,
+  alpha steps) fold into the base token; resting-surface emphasis levels stay
+  distinct.
+- `prompts/design-implement.md` rule 9 + `docs/uno-mcp-integration.md`:
+  assessed the Uno Platform MCP server — not applicable to Design Graph rules
+  (framework-agnostic layer by design), but adopted for Uno implementation
+  arms (usage rules + docs grounding, identical across A/B arms) and as the
+  best static verification when no compiler is available.
+
 ## 0.2.0 — 2026-08-12
 
 Driven by the blind 5× replication of eval 05 (semantics stable, lexical

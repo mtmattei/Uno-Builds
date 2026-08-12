@@ -17,4 +17,9 @@ Rules:
 7. Do not silently resolve `unresolved` items unless implementation requires a choice. If required, document the assumption.
 8. Keep implementation-specific details out of the Design Graph unless separately producing an implementation mapping artifact.
 
-For A/B evaluation, use the same model, target framework, design input, and implementation instructions as the direct-design baseline. The only changed variable should be the presence of the Design Graph.
+9. When the target framework is Uno Platform and an Uno docs MCP server is
+   available, initialize its usage rules (`uno_platform_usage_rules_init`)
+   and ground framework idioms via `uno_platform_docs_search` — style/resource
+   discipline, control choice, theming. See `docs/uno-mcp-integration.md`.
+
+For A/B evaluation, use the same model, target framework, design input, and implementation instructions as the direct-design baseline. The only changed variable should be the presence of the Design Graph. Tooling access (including docs MCP servers) must be identical across arms.

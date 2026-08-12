@@ -1,7 +1,9 @@
 # Skill: Generate Design Graph
 
-Version: 0.2 (adds a binding ID grammar, state-altitude rules, and token
-scoping — all driven by blind-replication eval failures; see CHANGELOG).
+Version: 0.3 (0.2 added a binding ID grammar, state-altitude rules, and token
+scoping; 0.3 adds canonical-internals, token-edge attachment, and
+variant-folding rules — all driven by blind-replication eval failures; see
+CHANGELOG).
 
 ## Purpose
 
@@ -98,6 +100,15 @@ When multiple items are clearly instances of one reusable concept:
 
 Do not collapse merely similar objects when their semantics differ.
 
+Canonical internals (binding): a canonical component's internal parts (its
+label, value, icon slots) are described once, as `properties` on the
+canonical node (e.g. `"parts": ["label", "value"]`) — never as child nodes of
+the canonical or of each instance. Instance nodes carry only what differs per
+instance (name, bound value), also as `properties`. Create a child node under
+an instance only when that instance genuinely overrides the canonical
+structure. (Blind evals showed generators re-modeling template internals as
+nodes, one level below the intended altitude.)
+
 ### Pass 4: Identify states and variants
 
 When multiple presentations represent the same conceptual UI under different conditions:
@@ -137,6 +148,18 @@ Scope (binding): create tokens only for values the modeled surface actually
 consumes (directly or via a style it uses). Never enumerate an entire style
 dictionary or palette — a full design-system inventory belongs in a separate
 design-system graph, not a screen graph.
+
+Variant folding (binding): interaction-only variants of a base value —
+hover/pressed shades, alpha steps of an accent, focus tints — are style
+internals; tokenize the **base** value only. If a surface visibly uses two
+distinct emphasis levels (e.g. label vs value text), those are two tokens;
+a hover lightening of a button is not.
+
+Token-edge attachment (binding): `uses-token` edges attach to the canonical
+component (or the screen for page-level values) — **once per token per
+concept**, not per instance and not per internal part. Attach a token edge to
+an instance only when that instance overrides the canonical value. (Blind
+evals showed 6× edge inflation from per-instance wiring.)
 
 Create `token` nodes for recurring or explicitly declared values such as:
 
