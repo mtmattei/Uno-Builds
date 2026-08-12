@@ -6,3 +6,8 @@ timestamp,eval_case,run,model,model_version,input_type,prompt_or_skill_version,s
 2026-08-12,05-orbital-settings,5,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.1 (blind),0.1.0,true,0.0651,,0,5,0,"Blind run3. 89n/134e. Same two real behaviors, drifted ids"
 2026-08-12,05-orbital-settings,6,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.1 (blind),0.1.0,true,0.0593,,0,5,0,"Blind run4. 90n/134e. Style-level button states modeled (systematic granularity drift)"
 2026-08-12,05-orbital-settings,7,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.1 (blind),0.1.0,true,0.0620,,0,5,0,"Blind run5. 90n/137e. Pairwise mean macro F1 across runs 0.4467; 48 concepts identical in all 5 runs"
+2026-08-12,05-orbital-settings,8,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.2 (blind),0.1.0,true,0.2993,,0,4,0,"Blind-v2 run1 vs gold v1.2 scorer 0.2.0. 72n/121e. State altitude held; naming vocabulary converged"
+2026-08-12,05-orbital-settings,9,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.2 (blind),0.1.0,true,0.1994,,0,3,0,"Blind-v2 run2. 74n/121e. uses-token inflation (66 edges) is the main residual drift"
+2026-08-12,05-orbital-settings,10,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.2 (blind),0.1.0,true,0.2179,,0,4,0,"Blind-v2 run3. 74n/121e"
+2026-08-12,05-orbital-settings,11,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.2 (blind),0.1.0,true,0.3100,,0,5,0,"Blind-v2 run4. 81n/128e. Partial unresolved credit vs gold"
+2026-08-12,05-orbital-settings,12,claude,fable-5,xaml+csharp+design-system,SKILL.md v0.2 (blind),0.1.0,true,0.2530,,0,4,0,"Blind-v2 run5. 68n/138e. v0.1->v0.2 same-scorer deltas: vs-gold macro 0.114->0.256, node-id F1 0.154->0.484, singletons 72->30, style-level states eliminated"

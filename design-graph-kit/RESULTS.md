@@ -21,7 +21,8 @@ Stage-4/Stage-5 experiments.
 | 8. Test `SKILL.md` | ✅ | run 2: `skill.graph.json`, macro F1 **0.9742** (same-author; blind runs correct this — see below) |
 | 9. Value test (Design → Uno vs Design → Graph → Uno) | ✅ | `experiments/ab-orbital-settings/ab-results.md` — B ≫ A on semantics; **arm C matched B** |
 | 9b. Stage 6 round-trip parity | ✅ | node-id recall **1.000**; real parity findings (12 implementation-introduced tokens, state-attachment drift) |
-| 10. Productize decision | ✅ | **Do not productize v0.1.** Ship the v0.2 revisions first (id grammar, state altitude, token scoping, scorer normalization), then re-run blind. |
+| 10. Productize decision | ✅ | **Do not productize v0.1.** v0.2 shipped and blind-validated (below); one more iteration (v0.3 levers) before product integration. |
+| 11. v0.2 blind validation | ✅ | `evals/05-orbital-settings/blind-v2/` — vs-gold node-id F1 ×3.1, drift tail −58%, style-level states eliminated, 0 hallucinations |
 
 ## Why this design was chosen
 
@@ -174,7 +175,28 @@ The three follow-up experiments together give a clear, three-part answer:
    excellent semantic agreement but failing lexical/granularity stability.
    The failure modes are systematic and fixable, and the data names the fixes.
 
-## Next steps (v0.2 work list — evidence-backed)
+## v0.2 blind validation (same scorer, same gold — deltas caused by the revisions alone)
+
+Full analysis: `evals/05-orbital-settings/blind-v2/README.md`.
+
+| Metric | v0.1 | v0.2 |
+|---|---:|---:|
+| mean vs-gold macro F1 | 0.114 | **0.256** |
+| mean vs-gold node-id F1 | 0.154 | **0.484** (×3.1) |
+| mean pairwise node-id F1 | 0.707 | **0.814** |
+| drift tail (singleton ids) | 72 | **30** |
+| style-level states per run | ~6 | **0** |
+| hallucinations (10 blind runs total) | 0 | **0** |
+
+The naming vocabulary converged all five runs onto gold's canonical names
+(`component.info-row`, `control.profile.save`, …) and the state-altitude rule
+held in every run. Remaining drift is concentrated in three specific,
+rule-shaped places — the v0.3 levers: `uses-token` edges wired per-instance
+instead of once on the canonical component (66–71 edges vs gold's 11),
+canonical-component internals modeled as child nodes one level below gold's
+altitude, and per-use token variants (~2× gold's token set, down from ~3×).
+
+## The applied v0.2 work list (now shipped — kept for the record)
 
 1. **SKILL.md Pass 8:** binding id grammar (`<type>.<screen>.<slug>`, flat;
    canonical components unprefixed) + small naming thesaurus. The five blind
@@ -190,7 +212,18 @@ The three follow-up experiments together give a clear, three-part answer:
    (type + text + role) that survives id drift.
 5. **Gold checklist:** expand every source-backed component reference; record
    the intended granularity altitude in the eval README.
-6. Re-run the blind 5× protocol against v0.2; proceed toward product
-   integration only if lexical stability joins the already-good semantic
-   stability. Then compile/render the arms in a toolchain-equipped
-   environment for true visual parity.
+6. Re-run the blind 5× protocol against v0.2 — done; see the validation
+   section above.
+
+## Next steps (v0.3 — evidence from blind-v2)
+
+1. `uses-token` attachment rule: token edges belong on the canonical
+   component or screen, never per-instance/per-child.
+2. Canonical-component internals: template parts are `properties` of the
+   canonical node, not child nodes, unless an instance overrides them.
+3. Token variant folding: per-use alpha/hover variants fold into the base
+   token or the design-system layer.
+4. Re-run blind 5×; if the vs-gold gap closes materially again, graduate to
+   a second eval screen (different app/domain) before any product step.
+5. Compile/render the A/B/C arms in a toolchain-equipped environment for
+   true visual parity.
