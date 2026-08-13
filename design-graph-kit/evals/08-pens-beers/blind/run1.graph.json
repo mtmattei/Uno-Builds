@@ -1,0 +1,1162 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "pens-beers-screen",
+  "name": "Pens — Beers screen",
+  "description": "Single screen of a dark-themed team app (window title \"Pens\"): a team header, a scrolling season-consumption summary with a 52-cell case tracker, a legend, a 2x2 statistic card grid, and a five-item bottom tab bar with the \"Beers\" tab selected. Generated from one static screenshot only; no source code, runtime inspection, or interaction data was available.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "id": "src.screen-png",
+      "path": "design-graph-kit/evals/08-pens-beers/screen.png",
+      "label": "470x945 px application window screenshot"
+    }
+  ],
+  "metadata": {
+    "unoMappingEvidence": "inferred",
+    "unoMappingNote": "Every properties.uno block in this graph is a proposed realization, not a source-declared fact. The only input was a raster screenshot, so no x:Name, resource key, style key, or class name is asserted anywhere; each uno block carries \"evidence\": \"inferred\".",
+    "behaviorNote": "No triggers or navigates-to edges are emitted. A static image cannot establish what any affordance does; such questions are recorded in unresolved.",
+    "measurementNote": "Colors are sampled from the raster. Geometry is in screenshot pixels with the origin at the top-left of the window image (the OS title bar occupies y 0-34). The rendering scale factor is unknown, so pixel values may not equal device-independent pixels."
+  },
+  "nodes": [
+    {
+      "id": "screen.pens-beers",
+      "type": "screen",
+      "name": "Beers",
+      "role": "screen",
+      "semanticRole": "statisticsDashboard",
+      "geometry": { "x": 0, "y": 35, "width": 470, "height": 910, "unit": "px" },
+      "properties": {
+        "theme": "dark",
+        "layout": "fixed team header, vertically scrolling content, fixed bottom tab bar",
+        "scrolls": true,
+        "uno": {
+          "type": "Page",
+          "evidence": "inferred"
+        }
+      },
+      "tags": ["dark-theme", "single-column"],
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "One full application window is depicted; the selected bottom tab reads \"Beers\"."
+      }
+    },
+
+    {
+      "id": "region.pens-beers.team-header",
+      "type": "region",
+      "name": "Team header",
+      "role": "header",
+      "semanticRole": "identityHeader",
+      "geometry": { "x": 0, "y": 35, "width": 470, "height": 90, "unit": "px" },
+      "properties": {
+        "layout": "horizontal: logo then stacked name and subtitle",
+        "borderBottom": "1px hairline #121418 at y=125",
+        "uno": { "type": "Grid", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Distinct band above a full-width hairline divider, outside the scrolling area."
+      }
+    },
+    {
+      "id": "region.pens-beers.content",
+      "type": "region",
+      "name": "Scrolling content",
+      "role": "content region",
+      "geometry": { "x": 0, "y": 126, "width": 470, "height": 722, "unit": "px" },
+      "properties": {
+        "scrollable": true,
+        "scrollEvidence": "vertical scrollbar rail visible at the right edge; the lower stat-card row is clipped at the bottom of the viewport",
+        "uno": { "type": "ScrollViewer", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "A scrollbar rail and a clipped card at the lower edge indicate a scrolling viewport between header and tab bar."
+      }
+    },
+    {
+      "id": "region.pens-beers.season-summary",
+      "type": "region",
+      "name": "Season summary",
+      "role": "hero summary",
+      "geometry": { "x": 0, "y": 135, "width": 470, "height": 155, "unit": "px" },
+      "properties": {
+        "alignment": "centered",
+        "uno": { "type": "StackPanel", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Centered block combining a large numeral with a unit word and two caption lines."
+      }
+    },
+    {
+      "id": "region.tracker.grid",
+      "type": "region",
+      "name": "Case grid",
+      "role": "grid",
+      "geometry": { "x": 45, "y": 363, "width": 379, "height": 205, "unit": "px" },
+      "properties": {
+        "columns": 10,
+        "rows": 6,
+        "cellCount": 52,
+        "cellPitchX": 39,
+        "cellPitchY": 36,
+        "lastRowPartial": true,
+        "uno": { "type": "ItemsRepeater", "layout": "UniformGridLayout", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Uniform 10-column arrangement of 52 rounded squares measured from the raster (5 full rows plus a 2-cell row)."
+      }
+    },
+    {
+      "id": "region.pens-beers.tracker-legend",
+      "type": "region",
+      "name": "Tracker legend",
+      "role": "legend",
+      "geometry": { "x": 24, "y": 606, "width": 220, "height": 30, "unit": "px" },
+      "properties": {
+        "layout": "horizontal, two swatch/label pairs",
+        "uno": { "type": "StackPanel", "orientation": "Horizontal", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Two colored swatches with adjacent text keys placed directly below the tracker card."
+      }
+    },
+    {
+      "id": "region.pens-beers.stats",
+      "type": "region",
+      "name": "Statistics grid",
+      "role": "content region",
+      "geometry": { "x": 24, "y": 650, "width": 425, "height": 179, "unit": "px" },
+      "properties": {
+        "columns": 2,
+        "visibleRows": 2,
+        "columnGap": 14,
+        "rowGap": 14,
+        "clipped": "the second row is cut off by the bottom of the scroll viewport",
+        "uno": { "type": "ItemsRepeater", "layout": "UniformGridLayout", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Four equally sized cards on a two-column grid with uniform 14 px gaps."
+      }
+    },
+    {
+      "id": "region.pens-beers.tab-bar",
+      "type": "region",
+      "name": "Bottom tab bar",
+      "role": "navigation bar",
+      "semanticRole": "primaryNavigation",
+      "geometry": { "x": 0, "y": 849, "width": 470, "height": 96, "unit": "px" },
+      "properties": {
+        "itemCount": 5,
+        "placement": "bottom",
+        "borderTop": "1px hairline #121418 at y=849",
+        "itemLayout": "icon above label",
+        "uno": { "type": "utu:TabBar", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Five icon-over-label items in a fixed bottom band, one visually selected."
+      }
+    },
+
+    {
+      "id": "asset.team-header.logo",
+      "type": "asset",
+      "name": "Team logo",
+      "role": "logo",
+      "geometry": { "x": 24, "y": 46, "width": 58, "height": 60, "unit": "px" },
+      "properties": {
+        "shape": "rounded square",
+        "subject": "cartoon penguin holding a hockey stick, blue jersey",
+        "uno": { "type": "Image", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Raster crest image at the left of the header band."
+      }
+    },
+    {
+      "id": "content.team-header.name",
+      "type": "content",
+      "name": "Team name",
+      "role": "title",
+      "semanticRole": "heading",
+      "text": "PENGUINS",
+      "properties": {
+        "case": "uppercase",
+        "color": "#FFFFFF",
+        "capHeightPx": 23,
+        "weight": "bold",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot."
+      }
+    },
+    {
+      "id": "content.team-header.subtitle",
+      "type": "content",
+      "name": "Team subtitle",
+      "role": "subtitle",
+      "text": "DORVAL YOUNGTIMERS",
+      "properties": {
+        "case": "uppercase",
+        "letterSpacing": "wide",
+        "capHeightPx": 8,
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot."
+      }
+    },
+
+    {
+      "id": "content.season-summary.case-count",
+      "type": "content",
+      "name": "Case count",
+      "role": "metric value",
+      "semanticRole": "primaryMetric",
+      "text": "26",
+      "value": 26,
+      "geometry": { "x": 169, "y": 155, "width": 61, "height": 58, "unit": "px" },
+      "properties": {
+        "color": "#FFAA00",
+        "digitHeightPx": 58,
+        "weight": "bold",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Largest element on the screen; value matches the tracker's filled-cell count."
+      }
+    },
+    {
+      "id": "content.season-summary.case-unit",
+      "type": "content",
+      "name": "Case unit",
+      "role": "unit label",
+      "text": "cases",
+      "properties": {
+        "case": "lowercase",
+        "color": "#76869E",
+        "alignment": "baseline-offset above and right of the numeral",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot."
+      }
+    },
+    {
+      "id": "content.season-summary.consumed-label",
+      "type": "content",
+      "name": "Consumed caption",
+      "role": "label",
+      "semanticRole": "sectionHeader",
+      "text": "CONSUMED THIS SEASON",
+      "properties": {
+        "case": "uppercase",
+        "color": "#76869E",
+        "capHeightPx": 9,
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot; sits directly above the value line it labels."
+      }
+    },
+    {
+      "id": "content.season-summary.beer-total",
+      "type": "content",
+      "name": "Beer total",
+      "role": "value",
+      "text": "780 beers",
+      "value": 780,
+      "properties": {
+        "color": "#FFAA00",
+        "weight": "bold",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot."
+      }
+    },
+    {
+      "id": "content.season-summary.case-size-note",
+      "type": "content",
+      "name": "Case size note",
+      "role": "helper text",
+      "text": "(30 per case)",
+      "properties": {
+        "color": "#76869E",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot, inline after the beer total."
+      }
+    },
+
+    {
+      "id": "component.tracker-card",
+      "type": "component",
+      "name": "Season tracker card",
+      "role": "card",
+      "geometry": { "x": 23, "y": 308, "width": 427, "height": 283, "unit": "px" },
+      "properties": {
+        "parts": ["title", "progress-count", "grid"],
+        "background": "#12161D",
+        "cornerRadiusPx": 14,
+        "occurrences": 1,
+        "uno": { "type": "Border", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Rounded, filled grouping container is directly observed; treating it as a reusable card concept is an inference from the app's repeated card idiom."
+      }
+    },
+    {
+      "id": "content.tracker.section-title",
+      "type": "content",
+      "name": "Tracker title",
+      "role": "section title",
+      "semanticRole": "sectionHeader",
+      "text": "SEASON TRACKER",
+      "properties": {
+        "case": "uppercase",
+        "letterSpacing": "wide",
+        "color": "#76869E",
+        "capHeightPx": 10,
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot."
+      }
+    },
+    {
+      "id": "content.tracker.progress-count",
+      "type": "content",
+      "name": "Tracker progress count",
+      "role": "value",
+      "text": "26 / 52 cases",
+      "properties": {
+        "weight": "bold",
+        "colorApprox": "#BDE2F4",
+        "alignment": "right",
+        "note": "consistent with the 26 filled of 52 total cells in the grid below",
+        "uno": { "type": "TextBlock", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Text legible in the screenshot, right-aligned opposite the section title."
+      }
+    },
+    {
+      "id": "component.case-tile",
+      "type": "component",
+      "name": "Case tile",
+      "role": "indicator cell",
+      "properties": {
+        "parts": ["fill"],
+        "shape": "rounded square",
+        "widthPx": 26,
+        "heightPx": 24,
+        "cornerRadiusPx": 6,
+        "occurrences": 52,
+        "consumedCount": 26,
+        "remainingCount": 26,
+        "note": "modeled once as the canonical repeated cell; the 52 occurrences carry no distinct identity beyond their consumed/remaining presentation",
+        "uno": { "type": "Border", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "52 identically sized, identically rounded cells in one grid differing only in fill; one canonical cell concept."
+      }
+    },
+    {
+      "id": "state.case-tile.consumed",
+      "type": "state",
+      "name": "Consumed",
+      "role": "state",
+      "properties": {
+        "fill": "#FFAA00",
+        "legendKey": "Consumed",
+        "note": "26 of 52 cells are in this presentation"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Filled amber cells are labeled \"Consumed\" by the adjacent legend; treating the two fills as data-driven states of one cell (rather than two components) is the inference."
+      }
+    },
+    {
+      "id": "state.case-tile.remaining",
+      "type": "state",
+      "name": "Remaining",
+      "role": "state",
+      "properties": {
+        "fill": "#1A1F2A",
+        "legendKey": "Remaining",
+        "note": "26 of 52 cells are in this presentation"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Unfilled cells are labeled \"Remaining\" by the adjacent legend."
+      }
+    },
+
+    {
+      "id": "component.legend-item",
+      "type": "component",
+      "name": "Legend item",
+      "role": "legend item",
+      "properties": {
+        "parts": ["swatch", "label"],
+        "swatchShape": "rounded square",
+        "swatchSizePx": 18,
+        "layout": "swatch then label, horizontal",
+        "occurrences": 2,
+        "uno": { "type": "StackPanel", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Two structurally identical swatch+label pairs sharing spacing, size, and purpose."
+      }
+    },
+    {
+      "id": "component.legend-item.remaining",
+      "type": "component",
+      "name": "Remaining legend item",
+      "role": "legend item",
+      "text": "Remaining",
+      "properties": {
+        "label": "Remaining",
+        "swatchFill": "#1A1F2A"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Swatch and label legible in the screenshot."
+      }
+    },
+    {
+      "id": "component.legend-item.consumed",
+      "type": "component",
+      "name": "Consumed legend item",
+      "role": "legend item",
+      "text": "Consumed",
+      "properties": {
+        "label": "Consumed",
+        "swatchFill": "#FFAA00"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Swatch and label legible in the screenshot."
+      }
+    },
+
+    {
+      "id": "component.stat-card",
+      "type": "component",
+      "name": "Stat card",
+      "role": "card",
+      "properties": {
+        "parts": ["value", "label"],
+        "layout": "value above label, left aligned",
+        "background": "#12161D",
+        "cornerRadiusPx": 11,
+        "widthPx": 206,
+        "heightPx": 88,
+        "occurrences": 4,
+        "valueColor": "#FFAA00",
+        "labelCase": "uppercase",
+        "uno": { "type": "Border", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Four cards share identical size, radius, fill, internal order, type treatment, and purpose."
+      }
+    },
+    {
+      "id": "component.stat-card.avg-per-game",
+      "type": "component",
+      "name": "Average per game",
+      "role": "card",
+      "properties": { "value": "10", "label": "AVG / GAME" },
+      "geometry": { "x": 24, "y": 650, "width": 206, "height": 88, "unit": "px" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Value and label legible in the screenshot."
+      }
+    },
+    {
+      "id": "component.stat-card.games-played",
+      "type": "component",
+      "name": "Games played",
+      "role": "card",
+      "properties": { "value": "12", "label": "GAMES PLAYED" },
+      "geometry": { "x": 244, "y": 650, "width": 205, "height": 88, "unit": "px" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Value and label legible in the screenshot."
+      }
+    },
+    {
+      "id": "component.stat-card.top-consumer",
+      "type": "component",
+      "name": "Top consumer",
+      "role": "card",
+      "properties": {
+        "value": "B-ROB",
+        "label": "TOP CONSUMER",
+        "valueKind": "text rather than numeric"
+      },
+      "geometry": { "x": 24, "y": 752, "width": 206, "height": 88, "unit": "px" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Value and label legible in the screenshot; card is clipped by the scroll viewport."
+      }
+    },
+    {
+      "id": "component.stat-card.most-in-a-game",
+      "type": "component",
+      "name": "Most in a game",
+      "role": "card",
+      "properties": { "value": "18", "label": "MOST IN A GAME" },
+      "geometry": { "x": 244, "y": 752, "width": 205, "height": 88, "unit": "px" },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Value and label legible in the screenshot; card is clipped by the scroll viewport."
+      }
+    },
+
+    {
+      "id": "control.tab-bar.schedule",
+      "type": "control",
+      "name": "Schedule tab",
+      "role": "tab",
+      "text": "Schedule",
+      "properties": {
+        "icon": "calendar outline",
+        "iconTreatment": "monochrome line icon",
+        "uno": { "type": "utu:TabBarItem", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Icon and label legible in the bottom bar."
+      }
+    },
+    {
+      "id": "control.tab-bar.chat",
+      "type": "control",
+      "name": "Chat tab",
+      "role": "tab",
+      "text": "Chat",
+      "properties": {
+        "icon": "speech bubble outline",
+        "iconTreatment": "monochrome line icon",
+        "uno": { "type": "utu:TabBarItem", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Icon and label legible in the bottom bar."
+      }
+    },
+    {
+      "id": "control.tab-bar.beers",
+      "type": "control",
+      "name": "Beers tab",
+      "role": "tab",
+      "text": "Beers",
+      "geometry": { "x": 193, "y": 856, "width": 86, "height": 64, "unit": "px" },
+      "properties": {
+        "icon": "beer mug",
+        "iconTreatment": "full-color glyph, unlike the monochrome line icons of the other tabs",
+        "selected": true,
+        "selectedBackground": "#044D87",
+        "uno": { "type": "utu:TabBarItem", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Icon and label legible; its filled blue background distinguishes it from the other four items."
+      }
+    },
+    {
+      "id": "control.tab-bar.duties",
+      "type": "control",
+      "name": "Duties tab",
+      "role": "tab",
+      "text": "Duties",
+      "properties": {
+        "icon": "stacked horizontal lines",
+        "iconTreatment": "monochrome line icon",
+        "uno": { "type": "utu:TabBarItem", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Icon and label legible in the bottom bar."
+      }
+    },
+    {
+      "id": "control.tab-bar.roster",
+      "type": "control",
+      "name": "Roster tab",
+      "role": "tab",
+      "text": "Roster",
+      "properties": {
+        "icon": "two people",
+        "iconTreatment": "monochrome line icon",
+        "uno": { "type": "utu:TabBarItem", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Icon and label legible in the bottom bar."
+      }
+    },
+    {
+      "id": "state.tab-bar.selected",
+      "type": "state",
+      "name": "Selected",
+      "role": "state",
+      "properties": {
+        "background": "#044D87",
+        "shape": "filled rectangle behind icon and label"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "One of five otherwise identical tab items carries a solid blue background, the conventional selected presentation for a tab bar."
+      }
+    },
+
+    {
+      "id": "token.color.background",
+      "type": "token",
+      "category": "color",
+      "name": "Page background",
+      "value": "#0A0C10",
+      "properties": {
+        "usage": "window content background behind every region",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Dominant sampled color across the screen (185k pixels)."
+      }
+    },
+    {
+      "id": "token.color.surface1",
+      "type": "token",
+      "category": "color",
+      "name": "Card surface",
+      "value": "#12161D",
+      "properties": {
+        "usage": "tracker card and all four stat cards",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Exact same sampled fill on five separate grouping containers."
+      }
+    },
+    {
+      "id": "token.color.surface2",
+      "type": "token",
+      "category": "color",
+      "name": "Raised/empty surface",
+      "value": "#1A1F2A",
+      "properties": {
+        "usage": "unfilled tracker cells and the \"Remaining\" legend swatch",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Exact same sampled fill on 26 tracker cells and the legend swatch."
+      }
+    },
+    {
+      "id": "token.color.accent",
+      "type": "token",
+      "category": "color",
+      "name": "Accent amber",
+      "value": "#FFAA00",
+      "properties": {
+        "usage": "hero numeral, beer total, filled tracker cells, stat-card values, \"Consumed\" swatch",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "One exact value recurring across five semantically related emphasis uses."
+      }
+    },
+    {
+      "id": "token.color.selection",
+      "type": "token",
+      "category": "color",
+      "name": "Selection blue",
+      "value": "#044D87",
+      "properties": {
+        "usage": "background of the selected tab item",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.8,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Single sampled use, but it encodes a selection rule that any tab would consume; named for its observed role, not for a brand."
+      }
+    },
+    {
+      "id": "token.color.text-primary",
+      "type": "token",
+      "category": "color",
+      "name": "Primary text",
+      "value": "#FFFFFF",
+      "properties": {
+        "usage": "team name",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Pure white sampled in the largest non-accent text; the highest-emphasis text level on the surface."
+      }
+    },
+    {
+      "id": "token.color.text-secondary",
+      "type": "token",
+      "category": "color",
+      "name": "Secondary text",
+      "value": "#76869E",
+      "properties": {
+        "usage": "team subtitle, unit word, all uppercase captions and stat labels, tab labels",
+        "approximate": true,
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.75,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Peak sampled value of the muted slate text across six separate labels; anti-aliasing of small type means the true value may be slightly lighter."
+      }
+    },
+    {
+      "id": "token.color.divider",
+      "type": "token",
+      "category": "color",
+      "name": "Divider hairline",
+      "value": "#121418",
+      "properties": {
+        "usage": "1 px rule under the team header and above the tab bar",
+        "uno": { "resourceType": "SolidColorBrush", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "The same one-pixel full-width rule value appears at y=125 and y=849."
+      }
+    },
+    {
+      "id": "token.radius.card",
+      "type": "token",
+      "category": "radius",
+      "name": "Card corner radius",
+      "value": 12,
+      "properties": {
+        "unit": "px",
+        "measured": "≈14 px on the tracker card, ≈11 px on the stat cards",
+        "approximate": true,
+        "uno": { "property": "CornerRadius", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.65,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Corner profiles traced from the raster; the two measurements differ enough that they may be two rules rather than one."
+      }
+    },
+    {
+      "id": "token.radius.tile",
+      "type": "token",
+      "category": "radius",
+      "name": "Tile corner radius",
+      "value": 6,
+      "properties": {
+        "unit": "px",
+        "approximate": true,
+        "usage": "tracker cells and legend swatches",
+        "uno": { "property": "CornerRadius", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.7,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Corner profile traced from a filled cell; the same rounding appears on the legend swatches."
+      }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "category": "spacing",
+      "name": "Screen content margin",
+      "value": 24,
+      "properties": {
+        "unit": "px",
+        "usage": "left/right margin of the header, the tracker card, and the stat grid",
+        "uno": { "property": "Margin", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Card edges measured at x=23-24 and x=449-450 in a 470 px-wide window; the header logo starts at the same x."
+      }
+    },
+    {
+      "id": "token.spacing.14",
+      "type": "token",
+      "category": "spacing",
+      "name": "Grid gap",
+      "value": 14,
+      "properties": {
+        "unit": "px",
+        "usage": "gap between tracker cells and between stat cards in both axes",
+        "uno": { "property": "Spacing", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.8,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Same 14 px gutter measured between stat-card columns (230→244) and between tracker cells (72→86)."
+      }
+    },
+    {
+      "id": "token.typography.title",
+      "type": "token",
+      "category": "typography",
+      "name": "Screen title type",
+      "properties": {
+        "case": "uppercase",
+        "weight": "bold",
+        "capHeightPx": 23,
+        "estimatedFontSizePx": 32,
+        "family": "unknown; a condensed industrial sans",
+        "uno": { "resourceType": "TextBlock style", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.6,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Cap height measured from the raster; family and exact size are not recoverable from an image."
+      }
+    },
+    {
+      "id": "token.typography.display-numeral",
+      "type": "token",
+      "category": "typography",
+      "name": "Hero numeral type",
+      "properties": {
+        "weight": "bold",
+        "digitHeightPx": 58,
+        "estimatedFontSizePx": 76,
+        "family": "unknown; same condensed face as the title",
+        "uno": { "resourceType": "TextBlock style", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.6,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Digit height measured from the raster; a distinct display level from the stat-card value size."
+      }
+    },
+    {
+      "id": "token.typography.stat-value",
+      "type": "token",
+      "category": "typography",
+      "name": "Stat value type",
+      "properties": {
+        "weight": "bold",
+        "digitHeightPx": 39,
+        "estimatedFontSizePx": 48,
+        "uno": { "resourceType": "TextBlock style", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.65,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "Same measured height on all four stat-card values, distinct from the hero numeral."
+      }
+    },
+    {
+      "id": "token.typography.caps-label",
+      "type": "token",
+      "category": "typography",
+      "name": "Caps label type",
+      "properties": {
+        "case": "uppercase",
+        "letterSpacing": "wide",
+        "capHeightPx": 9,
+        "estimatedFontSizePx": 12,
+        "usage": "team subtitle, hero caption, section title, stat-card labels",
+        "uno": { "resourceType": "TextBlock style", "evidence": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.7,
+        "source": { "type": "screenshot", "id": "src.screen-png" },
+        "rationale": "One consistent small letterspaced uppercase treatment measured at 7-10 px cap height across six labels."
+      }
+    }
+  ],
+
+  "edges": [
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.team-header", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.content", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.tab-bar", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.team-header", "relation": "contains", "to": "asset.team-header.logo", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.team-header", "relation": "contains", "to": "content.team-header.name", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.team-header", "relation": "contains", "to": "content.team-header.subtitle", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.season-summary", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "component.tracker-card", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.tracker-legend", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.stats", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.season-summary", "relation": "contains", "to": "content.season-summary.case-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.season-summary", "relation": "contains", "to": "content.season-summary.case-unit", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.season-summary", "relation": "contains", "to": "content.season-summary.consumed-label", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.season-summary", "relation": "contains", "to": "content.season-summary.beer-total", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.season-summary", "relation": "contains", "to": "content.season-summary.case-size-note", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "component.tracker-card", "relation": "contains", "to": "content.tracker.section-title", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.tracker-card", "relation": "contains", "to": "content.tracker.progress-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.tracker-card", "relation": "contains", "to": "region.tracker.grid", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.tracker.grid", "relation": "contains", "to": "component.case-tile", "evidence": { "kind": "observed", "confidence": 1.0, "rationale": "The grid is composed of 52 occurrences of the canonical cell; occurrences are not modeled as separate nodes." } },
+
+    { "from": "region.pens-beers.tracker-legend", "relation": "contains", "to": "component.legend-item.remaining", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tracker-legend", "relation": "contains", "to": "component.legend-item.consumed", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.avg-per-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.games-played", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.top-consumer", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.most-in-a-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.tab-bar", "relation": "contains", "to": "control.tab-bar.schedule", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tab-bar", "relation": "contains", "to": "control.tab-bar.chat", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tab-bar", "relation": "contains", "to": "control.tab-bar.beers", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tab-bar", "relation": "contains", "to": "control.tab-bar.duties", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tab-bar", "relation": "contains", "to": "control.tab-bar.roster", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "component.stat-card.avg-per-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, radius, fill, and value-over-label structure." } },
+    { "from": "component.stat-card.games-played", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, radius, fill, and value-over-label structure." } },
+    { "from": "component.stat-card.top-consumer", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Same structure and treatment; its value is text rather than a numeral." } },
+    { "from": "component.stat-card.most-in-a-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, radius, fill, and value-over-label structure." } },
+    { "from": "component.legend-item.remaining", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Same swatch+label structure and spacing as the other legend entry." } },
+    { "from": "component.legend-item.consumed", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Same swatch+label structure and spacing as the other legend entry." } },
+
+    { "from": "component.case-tile", "relation": "has-state", "to": "state.case-tile.consumed", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "The legend defines the amber fill as the \"Consumed\" presentation of a cell." } },
+    { "from": "component.case-tile", "relation": "has-state", "to": "state.case-tile.remaining", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "The legend defines the dark fill as the \"Remaining\" presentation of a cell." } },
+    { "from": "control.tab-bar.beers", "relation": "has-state", "to": "state.tab-bar.selected", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Attached to the smallest node whose presentation changes: only this tab shows the filled selection background." } },
+
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.color.background", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.spacing.24", "properties": { "appliesTo": "contentMargin" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.color.text-secondary", "properties": { "appliesTo": "secondaryForeground" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.typography.caps-label", "properties": { "appliesTo": "labelTypography" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+
+    { "from": "region.pens-beers.team-header", "relation": "uses-token", "to": "token.color.divider", "properties": { "appliesTo": "borderBottom" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "region.pens-beers.tab-bar", "relation": "uses-token", "to": "token.color.divider", "properties": { "appliesTo": "borderTop" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+
+    { "from": "content.team-header.name", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "content.team-header.name", "relation": "uses-token", "to": "token.typography.title", "properties": { "appliesTo": "typography" }, "evidence": { "kind": "derived", "confidence": 0.6 } },
+
+    { "from": "content.season-summary.case-count", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "content.season-summary.case-count", "relation": "uses-token", "to": "token.typography.display-numeral", "properties": { "appliesTo": "typography" }, "evidence": { "kind": "derived", "confidence": 0.6 } },
+    { "from": "content.season-summary.beer-total", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+
+    { "from": "component.tracker-card", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "component.tracker-card", "relation": "uses-token", "to": "token.radius.card", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.65 } },
+
+    { "from": "region.tracker.grid", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "cellGap" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.radius.tile", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "consumedFill" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "remainingFill" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+
+    { "from": "component.legend-item", "relation": "uses-token", "to": "token.radius.tile", "properties": { "appliesTo": "swatchCornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+    { "from": "component.legend-item.remaining", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "swatchFill", "override": "instance-specific swatch color" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "component.legend-item.consumed", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "swatchFill", "override": "instance-specific swatch color" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.stats", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "gridGap" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.radius.card", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.65 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.accent", "properties": { "appliesTo": "valueForeground" }, "evidence": { "kind": "derived", "confidence": 1.0 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.typography.stat-value", "properties": { "appliesTo": "valueTypography" }, "evidence": { "kind": "derived", "confidence": 0.65 } },
+
+    { "from": "control.tab-bar.beers", "relation": "uses-token", "to": "token.color.selection", "properties": { "appliesTo": "selectedBackground" }, "evidence": { "kind": "derived", "confidence": 0.9 } }
+  ],
+
+  "unresolved": [
+    {
+      "id": "unresolved.tab-behavior",
+      "question": "What does activating each tab item do — which screen does each navigate to, and does the tab bar persist across those screens?",
+      "relatedIds": ["region.pens-beers.tab-bar", "control.tab-bar.schedule", "control.tab-bar.chat", "control.tab-bar.beers", "control.tab-bar.duties", "control.tab-bar.roster"],
+      "reason": "The input is a single static image. Tab labels suggest destinations but no navigation edge is assertable; no triggers or navigates-to edges were emitted anywhere in this graph."
+    },
+    {
+      "id": "unresolved.header-scope",
+      "question": "Is the team header part of this screen or app-shell chrome shared by every tab?",
+      "relatedIds": ["region.pens-beers.team-header", "screen.pens-beers"],
+      "possibleValues": ["screen-level header", "shell header outside the navigation frame"],
+      "reason": "It sits above the divider and outside the scrolling area, which is consistent with both interpretations; only one screen was supplied."
+    },
+    {
+      "id": "unresolved.tile-state-vs-variant",
+      "question": "Are the consumed and remaining cells two states of one cell component, or two stable variants?",
+      "relatedIds": ["component.case-tile", "state.case-tile.consumed", "state.case-tile.remaining"],
+      "possibleValues": ["data-driven states of one cell", "two variants of a cell family"],
+      "reason": "Modeled as states because a cell plausibly flips as the season progresses, but the image shows only one moment."
+    },
+    {
+      "id": "unresolved.grid-data-source",
+      "question": "Is the 52-cell grid data-driven (items generated from a collection) or a static set of 52 declared elements?",
+      "relatedIds": ["region.tracker.grid", "component.case-tile"],
+      "reason": "The proposed ItemsRepeater/UniformGridLayout realization is an inference; the raster cannot show whether the cells are generated. 52 suggests weeks in a season, which is not verifiable from the image."
+    },
+    {
+      "id": "unresolved.other-screen-states",
+      "question": "What do the empty, zero-data, loading, and error presentations of this screen look like?",
+      "relatedIds": ["screen.pens-beers", "region.pens-beers.stats", "component.tracker-card"],
+      "reason": "Only a populated presentation was supplied, so no screen-level state nodes were created."
+    },
+    {
+      "id": "unresolved.clipped-content",
+      "question": "Does more content exist below the second stat-card row?",
+      "relatedIds": ["region.pens-beers.content", "region.pens-beers.stats", "component.stat-card.top-consumer", "component.stat-card.most-in-a-game"],
+      "reason": "The scroll viewport clips the lower cards and a scrollbar rail is visible, so the content region extends past the captured frame."
+    },
+    {
+      "id": "unresolved.typography-identity",
+      "question": "What font family, exact sizes, weights, and letter spacing does the screen use?",
+      "relatedIds": ["token.typography.title", "token.typography.display-numeral", "token.typography.stat-value", "token.typography.caps-label"],
+      "reason": "Only cap heights and digit heights are measurable from a raster; the condensed industrial sans could not be identified and the rendering scale factor is unknown."
+    },
+    {
+      "id": "unresolved.card-radius-rule",
+      "question": "Do the tracker card and the stat cards share one corner-radius rule?",
+      "relatedIds": ["token.radius.card", "component.tracker-card", "component.stat-card"],
+      "possibleValues": [12, "two rules: ~14 for the tracker card and ~11 for stat cards"],
+      "reason": "Traced corner profiles differ by roughly 3 px, which is at the edge of raster measurement error."
+    },
+    {
+      "id": "unresolved.progress-count-color",
+      "question": "Is the tracker progress count (\"26 / 52 cases\") a distinct blue-tinted text token or the same primary text color as the team name?",
+      "relatedIds": ["content.tracker.progress-count", "token.color.text-primary"],
+      "reason": "Sampled peaks around #BDE2F4 versus pure white in the header; small bold anti-aliased text makes the true value uncertain, so no token edge was attached."
+    },
+    {
+      "id": "unresolved.beers-icon-treatment",
+      "question": "Why is the Beers tab icon a full-color glyph while the other four tab icons are monochrome line icons — is this the selected treatment, an emoji glyph, or a different asset kind?",
+      "relatedIds": ["control.tab-bar.beers", "state.tab-bar.selected"],
+      "reason": "Only one tab is selected in the image, so selected-icon treatment cannot be separated from an inherently colored asset."
+    },
+    {
+      "id": "unresolved.app-and-screen-identity",
+      "question": "What are the real application and page names?",
+      "relatedIds": ["screen.pens-beers"],
+      "reason": "The window title reads \"Pens\" and the selected tab reads \"Beers\"; the screen id combines them. No class name, page name, or route is knowable from an image, and no declared identifier appears anywhere in this graph."
+    },
+    {
+      "id": "unresolved.title-bar-ownership",
+      "question": "Is the window title bar OS-provided chrome or an app-drawn title bar?",
+      "relatedIds": ["screen.pens-beers"],
+      "reason": "It renders in standard Windows dark-title-bar gray, unlike the app's near-black palette, so it was excluded from the graph."
+    }
+  ]
+}

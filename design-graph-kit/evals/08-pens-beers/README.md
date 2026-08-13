@@ -83,6 +83,86 @@ two visual treatments". It supports nothing about how.
    python3 tools/stability.py blind 08-pens-beers
    ```
 
+## Results — 5-run blind fleet, 2026-08-12
+
+Model: Claude Opus 5. All five runs validate; **5/5 pass the honesty bar**
+(zero `triggers`/`navigates-to`, zero declared identifiers, no uno mapping
+claiming `declared`/`observed`), and the scorer's hallucination proxy is
+`false` for every run.
+
+| Run | Nodes | Edges | Unres | macro | node-id | concept | edge | uno |
+|---|---|---|---|---|---|---|---|---|
+| run1 | 52 | 65 | 12 | 0.113 | 0.154 | 0.308 | 0.072 | 0.104 |
+| run2 | 53 | 67 | 12 | 0.097 | 0.133 | 0.286 | 0.057 | 0.105 |
+| run3 | 54 | 79 | 13 | 0.093 | 0.094 | 0.226 | 0.040 | 0.141 |
+| run4 | 47 | 60 | 12 | 0.121 | 0.141 | 0.303 | 0.045 | 0.075 |
+| run5 | 54 | 83 | 13 | 0.142 | 0.189 | 0.264 | 0.103 | 0.146 |
+| **gold** | **52** | **73** | **3** | — | — | — | — | — |
+
+Mean vs-gold macro **0.113**; mean pairwise macro **0.287** (min 0.220, max
+0.390).
+
+### What the numbers say
+
+**Runs agree with each other about 2.5× more than with the gold.** That ratio
+is the measurement this eval exists to produce. The image constrains what a run
+can see, five independent runs see it consistently, and the residual gap is
+knowledge that exists only in source. Concretely, an image carried roughly
+**27% of the gold's concepts, 6% of its relationships, and 11% of its mapping
+layer** — while inventing nothing.
+
+**Size convergence is striking.** Five blind runs produced 47-54 nodes against
+a gold of 52, without ever seeing the gold or each other. The skeleton of the
+screen is not in dispute; the naming of it is. That reproduces the pattern of
+every previous eval: semantics stable, ids drift.
+
+**The uno F1 is nonzero (0.075-0.146) and that is correct, not leakage.** Runs
+proposed control types (`Page`, `Border`, `ItemsRepeater`, `utu:TabBar`) marked
+`inferred`, and some coincide with what the source actually uses. Proposing
+`ItemsRepeater` for a uniform grid of tiles is a defensible realization, not a
+claim about the source.
+
+### 5/5 consensus worth calibrating against
+
+1. **Every run emitted `region` nodes** (6-9 each; gold has 5). Not one of the
+   five modelled the screen without structural regions. This is direct evidence
+   for open question 6 in the review packets — gold 05 has **zero** regions for
+   a page whose XAML declares 27 layout containers. A unanimous blind fleet
+   reaching for regions suggests gold 05's altitude, not this gold's, is the
+   outlier.
+2. **No run instantiated 52 tile nodes.** All five modelled one canonical tile
+   carrying counts, matching the gold and the canonical-internals rule. The
+   consolidation rules are working.
+3. **All five deferred tab destinations to `unresolved`**, exactly as the honesty
+   bar requires, and the gold records the same gap for the same reason (no route
+   declared in the source set).
+
+### Divergences
+
+- **State vs variant for the tile fills.** Runs 1, 2, 4, 5 modelled
+  consumed/remaining as `has-state`; run 3 modelled them `variant-of`, arguing
+  both fills coexist stably in one frame. The gold emits a single
+  `state.case-tile.consumed` with the resting treatment implicit. Three
+  defensible readings of the same pixels; the ontology should say which.
+- **Tab items as `component` (runs 2/3/5, gold) or `control` (runs 1/4).** The
+  vocabulary does not clearly cover a framework navigation primitive that is
+  also a repeated structure.
+- **Unresolved F1 is 0.000 for four of five runs — and that is a scorer
+  artifact, not a miss.** Both the gold and every run flag the tab-navigation
+  targets, but the gold's `relatedIds` name `region.tab-bar` while runs name
+  `region.pens-beers.tab-bar`. Scorer 0.1.1 fixed `unresolved` matching for
+  question *wording*; it is still not tolerant of id *drift*, so semantically
+  identical uncertainty scores zero. Same defect class, one layer down.
+
+### What the runs saw that the gold does not
+
+Every run modelled or flagged things only a viewer of the rendered window can
+know: the scroll thumb and its proportion, the bottom stat row clipped by the
+viewport, the OS title bar, and sampled hex values. Several sampled the tile
+grid exactly (6 rows x 10 columns, 26 amber, matching the on-screen counter).
+The gold, authored from source, contains none of this — it knows `TotalCases =
+52` instead. Neither view is complete; that is the point.
+
 ## Contamination note
 
 The session that set this eval up listed the `Pens/` file names — enough to

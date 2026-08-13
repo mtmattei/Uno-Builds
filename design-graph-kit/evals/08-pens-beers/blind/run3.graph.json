@@ -1,0 +1,967 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "pens-beers-screen",
+  "name": "Pens — Beers screen",
+  "description": "Design Graph for a single dark-themed desktop screen of an app whose window title reads 'Pens': a team header, a season beer-consumption summary, a 52-cell season tracker card with legend, a 2x2 stat card grid, and a five-item bottom navigation bar with 'Beers' active. Derived from one static screenshot only; no source, runtime, or interaction evidence was available.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "path": "design-graph-kit/evals/08-pens-beers/screen.png",
+      "label": "470x945 px window capture, dark theme, includes OS window frame and title bar"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.pens-beers",
+      "type": "screen",
+      "name": "Pens — Beers",
+      "role": "screen",
+      "geometry": { "x": 5, "y": 26, "width": 460, "height": 914, "unit": "px" },
+      "properties": {
+        "theme": "dark",
+        "windowTitle": "Pens",
+        "activeNavigationItem": "Beers",
+        "layoutBands": ["header", "scrollable content", "bottom navigation"],
+        "uno": { "type": "Page", "evidenceKind": "inferred" }
+      },
+      "tags": ["desktop", "dark-theme"],
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "path": "design-graph-kit/evals/08-pens-beers/screen.png" },
+        "rationale": "A single application window is fully visible; geometry excludes the OS window frame and title bar."
+      }
+    },
+
+    {
+      "id": "region.pens-beers.header",
+      "type": "region",
+      "name": "Team header",
+      "role": "header",
+      "geometry": { "x": 5, "y": 30, "width": 460, "height": 96, "unit": "px" },
+      "properties": {
+        "layout": "logo at left, stacked name over subtitle at right",
+        "uno": { "type": "Grid", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "A distinct top band holding a logo, a large team name and a subtitle, separated from the content below by whitespace; reading it as a header is a semantic label on an observed grouping."
+      }
+    },
+    {
+      "id": "region.pens-beers.content",
+      "type": "region",
+      "name": "Scrollable content region",
+      "role": "content",
+      "geometry": { "x": 5, "y": 130, "width": 460, "height": 715, "unit": "px" },
+      "properties": {
+        "scrollable": true,
+        "scrollEvidence": "a light vertical scrollbar thumb is drawn at x≈462-465 and the second row of stat cards is clipped by the navigation band",
+        "uno": { "type": "ScrollViewer", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "A scrollbar thumb is visible along the right edge of this band and the bottom stat cards are cut off, so the area between header and navigation scrolls independently."
+      }
+    },
+    {
+      "id": "region.pens-beers.navigation",
+      "type": "region",
+      "name": "Bottom navigation bar",
+      "role": "navigationBar",
+      "geometry": { "x": 5, "y": 849, "width": 460, "height": 91, "unit": "px" },
+      "properties": {
+        "itemCount": 5,
+        "topDivider": "1-2 px hairline slightly lighter than the page background at y≈849",
+        "uno": { "type": "utu:TabBar", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "A fixed bottom band of five equally spaced icon-over-label items, one visually highlighted, is the standard bottom-navigation pattern; the highlight indicates a current section."
+      }
+    },
+    {
+      "id": "region.pens-beers.summary",
+      "type": "region",
+      "name": "Season consumption summary",
+      "role": "summary",
+      "geometry": { "x": 5, "y": 135, "width": 460, "height": 160, "unit": "px" },
+      "properties": {
+        "layout": "large metric with trailing unit, then a caption line and a detail line",
+        "uno": { "type": "StackPanel", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.88,
+        "rationale": "Four text runs are grouped as one hero block above the tracker card; grouping is supported by proximity and shared centering."
+      }
+    },
+    {
+      "id": "region.pens-beers.tracker-card",
+      "type": "region",
+      "name": "Season tracker card",
+      "role": "card",
+      "geometry": { "x": 24, "y": 307, "width": 423, "height": 285, "unit": "px" },
+      "properties": {
+        "padding": "≈20 px (measured from card edge to first cell)",
+        "layout": "title at left and progress count at right, grid below",
+        "uno": { "type": "Border", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "A rounded filled panel with its own background colour groups a section title, a progress count and a cell grid; per the naming vocabulary a bordered/rounded grouping container is a card."
+      }
+    },
+    {
+      "id": "region.tracker.case-grid",
+      "type": "region",
+      "name": "Case grid",
+      "role": "grid",
+      "geometry": { "x": 45, "y": 362, "width": 380, "height": 208, "unit": "px" },
+      "properties": {
+        "columns": 10,
+        "rows": 6,
+        "cellCount": 52,
+        "consumedCount": 26,
+        "remainingCount": 26,
+        "fillOrder": "left-to-right, top-to-bottom; the first 26 cells are filled",
+        "columnPitch": "39 px",
+        "rowPitch": "36 px",
+        "uno": { "type": "ItemsRepeater", "layout": "UniformGridLayout", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "rationale": "Cell positions and counts measured from the image: ten columns of 29 px cells at 39 px pitch, six rows (10,10,10,10,10,2) totalling 52, of which the first 26 are amber."
+      }
+    },
+    {
+      "id": "region.pens-beers.legend",
+      "type": "region",
+      "name": "Tracker legend",
+      "role": "legend",
+      "geometry": { "x": 24, "y": 606, "width": 230, "height": 28, "unit": "px" },
+      "properties": {
+        "itemCount": 2,
+        "uno": { "type": "StackPanel", "orientation": "Horizontal", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.93,
+        "rationale": "Two swatch+label pairs immediately below the tracker use exactly the two cell fill colours, which is the legend pattern for the grid above."
+      }
+    },
+    {
+      "id": "region.pens-beers.stats",
+      "type": "region",
+      "name": "Season statistics grid",
+      "role": "grid",
+      "geometry": { "x": 24, "y": 649, "width": 428, "height": 196, "unit": "px" },
+      "properties": {
+        "columns": 2,
+        "rows": 2,
+        "itemCount": 4,
+        "gap": "12 px horizontal and vertical (measured)",
+        "clipped": "the lower row is cut off by the navigation band, consistent with the region scrolling",
+        "uno": { "type": "Grid", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "rationale": "Four equally sized panels measured at ≈208 px wide with a 12 px gutter, arranged two per row."
+      }
+    },
+
+    {
+      "id": "component.case-cell",
+      "type": "component",
+      "name": "Case cell",
+      "role": "indicator",
+      "properties": {
+        "parts": ["fill"],
+        "size": "29 x 26 px (measured)",
+        "meaning": "one case in the 52-case season, drawn filled or unfilled",
+        "uno": { "type": "Border", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "rationale": "Fifty-two identically sized, identically rounded squares laid out on one uniform pitch are one repeated element; the legend confirms they carry a single shared meaning."
+      }
+    },
+    {
+      "id": "component.case-cell.consumed",
+      "type": "component",
+      "name": "Case cell — consumed",
+      "role": "indicator",
+      "properties": {
+        "fill": "#ffaa00",
+        "occurrences": 26,
+        "legendLabel": "Consumed"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "26 cells are filled with the accent colour; the legend labels that fill 'Consumed'."
+      }
+    },
+    {
+      "id": "component.case-cell.remaining",
+      "type": "component",
+      "name": "Case cell — remaining",
+      "role": "indicator",
+      "properties": {
+        "fill": "#1a1f2a",
+        "occurrences": 26,
+        "legendLabel": "Remaining"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "rationale": "26 cells are filled with the dim slate colour; the legend labels that fill 'Remaining'."
+      }
+    },
+
+    {
+      "id": "component.legend-item",
+      "type": "component",
+      "name": "Legend item",
+      "role": "legendItem",
+      "properties": {
+        "parts": ["swatch", "label"],
+        "layout": "square swatch left of a sentence-case label",
+        "swatchSize": "≈16 x 16 px",
+        "uno": { "type": "StackPanel", "orientation": "Horizontal", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.93,
+        "rationale": "Two structurally identical swatch+label pairs differing only in swatch colour and label text."
+      }
+    },
+    {
+      "id": "component.legend-item.remaining",
+      "type": "component",
+      "name": "Legend item — Remaining",
+      "properties": { "label": "Remaining", "swatchFill": "#1a1f2a" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.legend-item.consumed",
+      "type": "component",
+      "name": "Legend item — Consumed",
+      "properties": { "label": "Consumed", "swatchFill": "#ffaa00" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+
+    {
+      "id": "component.stat-card",
+      "type": "component",
+      "name": "Stat card",
+      "role": "card",
+      "properties": {
+        "parts": ["value", "label"],
+        "layout": "large accent value above a small uppercase muted label",
+        "size": "≈208 x 83 px (measured)",
+        "uno": { "type": "Border", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "rationale": "Four panels share size, corner treatment, background, internal padding and the same value-over-uppercase-label structure."
+      }
+    },
+    {
+      "id": "component.stat-card.avg-per-game",
+      "type": "component",
+      "name": "Stat card — average per game",
+      "properties": { "value": "10", "label": "AVG / GAME" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.stat-card.games-played",
+      "type": "component",
+      "name": "Stat card — games played",
+      "properties": { "value": "12", "label": "GAMES PLAYED" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.stat-card.top-consumer",
+      "type": "component",
+      "name": "Stat card — top consumer",
+      "properties": {
+        "value": "B-ROB",
+        "label": "TOP CONSUMER",
+        "note": "the only instance whose value is text rather than a number; treated as the same component with a different value payload"
+      },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.stat-card.most-in-a-game",
+      "type": "component",
+      "name": "Stat card — most in a game",
+      "properties": { "value": "18", "label": "MOST IN A GAME" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+
+    {
+      "id": "component.nav-item",
+      "type": "component",
+      "name": "Navigation item",
+      "role": "tab",
+      "properties": {
+        "parts": ["icon", "label"],
+        "layout": "icon above a small sentence-case label",
+        "itemCount": 5,
+        "uno": { "type": "utu:TabBarItem", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "rationale": "Five items in the bottom band share icon-over-label structure, spacing and label treatment."
+      }
+    },
+    {
+      "id": "component.nav-item.schedule",
+      "type": "component",
+      "name": "Navigation item — Schedule",
+      "properties": { "label": "Schedule", "icon": "calendar/grid glyph, monochrome" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.nav-item.chat",
+      "type": "component",
+      "name": "Navigation item — Chat",
+      "properties": { "label": "Chat", "icon": "speech bubble glyph, monochrome" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.nav-item.beers",
+      "type": "component",
+      "name": "Navigation item — Beers",
+      "properties": {
+        "label": "Beers",
+        "icon": "beer mug, full colour (emoji-style rather than monochrome glyph)",
+        "highlightFill": "#044d87",
+        "highlightGeometry": "≈92 x 74 px block with square corners behind the item"
+      },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.nav-item.duties",
+      "type": "component",
+      "name": "Navigation item — Duties",
+      "properties": { "label": "Duties", "icon": "stacked horizontal lines glyph, monochrome" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "component.nav-item.roster",
+      "type": "component",
+      "name": "Navigation item — Roster",
+      "properties": { "label": "Roster", "icon": "two-person glyph, monochrome" },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+
+    {
+      "id": "asset.header.team-logo",
+      "type": "asset",
+      "name": "Team logo",
+      "role": "logo",
+      "geometry": { "x": 22, "y": 47, "width": 58, "height": 58, "unit": "px" },
+      "properties": {
+        "description": "illustrated penguin in a blue jersey holding a hockey stick, on a light rounded-square plate",
+        "cornerRadius": "≈12 px (estimated)",
+        "uno": { "type": "Image", "evidenceKind": "inferred" }
+      },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+
+    {
+      "id": "content.header.team-name",
+      "type": "content",
+      "name": "Team name",
+      "text": "PENGUINS",
+      "semanticRole": "title",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.header.team-subtitle",
+      "type": "content",
+      "name": "Team subtitle",
+      "text": "DORVAL YOUNGTIMERS",
+      "semanticRole": "subtitle",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.summary.case-count",
+      "type": "content",
+      "name": "Case count",
+      "text": "26",
+      "semanticRole": "primaryMetric",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.summary.case-unit",
+      "type": "content",
+      "name": "Case count unit",
+      "text": "cases",
+      "semanticRole": "unitLabel",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.summary.consumed-label",
+      "type": "content",
+      "name": "Consumed caption",
+      "text": "CONSUMED THIS SEASON",
+      "semanticRole": "sectionHeader",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.summary.beer-total",
+      "type": "content",
+      "name": "Beer total",
+      "text": "780 beers",
+      "semanticRole": "secondaryMetric",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.summary.case-conversion",
+      "type": "content",
+      "name": "Case conversion note",
+      "text": "(30 per case)",
+      "semanticRole": "helperText",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.tracker.section-title",
+      "type": "content",
+      "name": "Tracker section title",
+      "text": "SEASON TRACKER",
+      "semanticRole": "sectionHeader",
+      "properties": { "uno": { "type": "TextBlock", "evidenceKind": "inferred" } },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+    {
+      "id": "content.tracker.progress-count",
+      "type": "content",
+      "name": "Tracker progress count",
+      "text": "26 / 52 cases",
+      "semanticRole": "progressValue",
+      "properties": {
+        "color": "pale blue, sampled ≈#bde2f4 — the only use of this hue on the screen, so it is not tokenised here",
+        "uno": { "type": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": { "kind": "observed", "confidence": 1.0 }
+    },
+
+    {
+      "id": "token.color.0a0c10",
+      "type": "token",
+      "name": "Page background",
+      "category": "color",
+      "value": "#0a0c10",
+      "properties": {
+        "usage": "window/page background and the bottom navigation band",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Flat colour sampled at multiple points across the page background and the navigation band."
+      }
+    },
+    {
+      "id": "token.color.12161d",
+      "type": "token",
+      "name": "Elevated surface",
+      "category": "color",
+      "value": "#12161d",
+      "properties": {
+        "usage": "tracker card and stat card backgrounds",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Identical flat fill sampled in the tracker card and in all four stat cards."
+      }
+    },
+    {
+      "id": "token.color.1a1f2a",
+      "type": "token",
+      "name": "Inactive track fill",
+      "category": "color",
+      "value": "#1a1f2a",
+      "properties": {
+        "usage": "unfilled case cells and the 'Remaining' legend swatch",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.92,
+        "rationale": "Same flat fill sampled in the empty cells and in the legend swatch that labels them."
+      }
+    },
+    {
+      "id": "token.color.ffaa00",
+      "type": "token",
+      "name": "Accent",
+      "category": "color",
+      "value": "#ffaa00",
+      "properties": {
+        "usage": "hero metric, beer total, filled case cells, 'Consumed' swatch, stat values",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Dominant saturated colour, sampled exactly in the large flat cell fills and matching the antialiasing peak of the amber text runs."
+      }
+    },
+    {
+      "id": "token.color.ffffff",
+      "type": "token",
+      "name": "Primary text",
+      "category": "color",
+      "value": "#ffffff",
+      "properties": {
+        "usage": "team name",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "rationale": "Pure white sampled inside the heavy strokes of the team name; no other text on the screen reaches it."
+      }
+    },
+    {
+      "id": "token.color.76869e",
+      "type": "token",
+      "name": "Muted text",
+      "category": "color",
+      "value": "#76869e",
+      "properties": {
+        "usage": "unit label, captions, section titles, stat labels, legend labels, inactive navigation labels",
+        "note": "thinner runs sample dimmer (≈#647286); the difference may be antialiasing rather than a second token — see unresolved.text-emphasis-levels",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.75,
+        "rationale": "Brightest-pixel sampling of the secondary text runs clusters at #74849a-#76869e; small antialiased type under-reads its true colour, so the value is approximate."
+      }
+    },
+    {
+      "id": "token.color.044d87",
+      "type": "token",
+      "name": "Selection background",
+      "category": "color",
+      "value": "#044d87",
+      "properties": {
+        "usage": "highlight block behind the active navigation item",
+        "uno": { "resourceType": "SolidColorBrush", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "rationale": "Large flat fill sampled behind the 'Beers' navigation item."
+      }
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "name": "Card corner radius",
+      "category": "radius",
+      "value": 12,
+      "properties": {
+        "unit": "px",
+        "usage": "tracker card, stat cards, logo plate",
+        "uno": { "resourceType": "CornerRadius", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.65,
+        "rationale": "Estimated from the corner falloff of the tracker card (≈8 px of horizontal travel over ≈8 px of vertical travel); antialiasing makes the exact value uncertain, so 12 is a rounded estimate."
+      }
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "name": "Cell corner radius",
+      "category": "radius",
+      "value": 8,
+      "properties": {
+        "unit": "px",
+        "usage": "case cells (the legend swatches use a smaller radius)",
+        "uno": { "resourceType": "CornerRadius", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.6,
+        "rationale": "Estimated from the corner falloff of a 29 px cell; clearly rounded but well short of a pill, so ≈8 px."
+      }
+    },
+    {
+      "id": "token.spacing.20",
+      "type": "token",
+      "name": "Container padding",
+      "category": "spacing",
+      "value": 20,
+      "properties": {
+        "unit": "px",
+        "usage": "page gutter (client edge to card edge) and tracker card inner padding",
+        "uno": { "resourceType": "Thickness", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "rationale": "Measured twice: client edge x=5 to card edge x=25, and card edge x=25 to first cell x=45."
+      }
+    },
+    {
+      "id": "token.spacing.12",
+      "type": "token",
+      "name": "Card gutter",
+      "category": "spacing",
+      "value": 12,
+      "properties": {
+        "unit": "px",
+        "usage": "gap between stat cards, horizontally and vertically",
+        "uno": { "resourceType": "Thickness", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "rationale": "Measured between the right edge of the first stat card (x=231) and the left edge of the second (x=243)."
+      }
+    },
+    {
+      "id": "token.spacing.10",
+      "type": "token",
+      "name": "Grid gap",
+      "category": "spacing",
+      "value": 10,
+      "properties": {
+        "unit": "px",
+        "usage": "gap between case cells in both axes",
+        "uno": { "resourceType": "Thickness", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "rationale": "Column pitch 39 px minus 29 px cell width, and row pitch 36 px minus 26 px cell height, both give 10 px."
+      }
+    },
+    {
+      "id": "token.typography.display",
+      "type": "token",
+      "name": "Display metric",
+      "category": "typography",
+      "value": { "size": "≈88 px", "weight": "bold", "case": "as-typed", "style": "condensed grotesque" },
+      "properties": {
+        "usage": "the hero case count",
+        "uno": { "resourceType": "Style", "targetType": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.7,
+        "rationale": "One text run is dramatically larger than every other; the size is back-computed from a ≈63 px digit height, so it is approximate and the family cannot be identified from a raster."
+      }
+    },
+    {
+      "id": "token.typography.title",
+      "type": "token",
+      "name": "Title",
+      "category": "typography",
+      "value": { "size": "≈32 px", "weight": "heavy", "case": "uppercase", "style": "condensed grotesque" },
+      "properties": {
+        "usage": "team name",
+        "uno": { "resourceType": "Style", "targetType": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.7,
+        "rationale": "Second-largest run on the screen, uppercase and heaviest weight; size estimated from a ≈22 px cap height."
+      }
+    },
+    {
+      "id": "token.typography.metric",
+      "type": "token",
+      "name": "Card metric",
+      "category": "typography",
+      "value": { "size": "≈30 px", "weight": "bold", "case": "as-typed" },
+      "properties": {
+        "usage": "stat card values",
+        "uno": { "resourceType": "Style", "targetType": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.8,
+        "rationale": "All four stat cards use one visibly identical value treatment, distinct from both the hero metric and the labels."
+      }
+    },
+    {
+      "id": "token.typography.caps-label",
+      "type": "token",
+      "name": "Uppercase label",
+      "category": "typography",
+      "value": { "size": "≈13 px", "weight": "semibold", "case": "uppercase", "letterSpacing": "loose (≈0.08em)" },
+      "properties": {
+        "usage": "team subtitle, 'CONSUMED THIS SEASON', 'SEASON TRACKER', stat card labels",
+        "uno": { "resourceType": "Style", "targetType": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.85,
+        "rationale": "Four separate places use the same small, letterspaced, uppercase, muted treatment, which is a design rule rather than a one-off."
+      }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "name": "Body / label",
+      "category": "typography",
+      "value": { "size": "≈13 px", "weight": "regular", "case": "as-typed" },
+      "properties": {
+        "usage": "legend labels and navigation labels",
+        "uno": { "resourceType": "Style", "targetType": "TextBlock", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.75,
+        "rationale": "Sentence-case small text shared by the legend and the navigation labels, visibly unletterspaced unlike the uppercase labels."
+      }
+    },
+
+    {
+      "id": "state.nav-item.selected",
+      "type": "state",
+      "name": "Navigation item selected",
+      "role": "selected",
+      "properties": {
+        "presentation": "filled highlight block behind the item and a full-colour rather than monochrome icon",
+        "uno": { "mechanism": "VisualStateManager", "evidenceKind": "inferred" }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "rationale": "Exactly one of five structurally identical navigation items carries a filled background, which is the standard depiction of the active item; the condition itself is not observable from a static image."
+      }
+    }
+  ],
+  "edges": [
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.header", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.content", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.navigation", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "asset.header.team-logo", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "content.header.team-name", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "content.header.team-subtitle", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.summary", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.tracker-card", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.legend", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.stats", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.case-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.case-unit", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.consumed-label", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.beer-total", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.case-conversion", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.tracker-card", "relation": "contains", "to": "content.tracker.section-title", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tracker-card", "relation": "contains", "to": "content.tracker.progress-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.tracker-card", "relation": "contains", "to": "region.tracker.case-grid", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.tracker.case-grid", "relation": "contains", "to": "component.case-cell.consumed", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.tracker.case-grid", "relation": "contains", "to": "component.case-cell.remaining", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.legend", "relation": "contains", "to": "component.legend-item.remaining", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.legend", "relation": "contains", "to": "component.legend-item.consumed", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.avg-per-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.games-played", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.top-consumer", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.most-in-a-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.navigation", "relation": "contains", "to": "component.nav-item.schedule", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.navigation", "relation": "contains", "to": "component.nav-item.chat", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.navigation", "relation": "contains", "to": "component.nav-item.beers", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.navigation", "relation": "contains", "to": "component.nav-item.duties", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.navigation", "relation": "contains", "to": "component.nav-item.roster", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "component.case-cell.consumed", "relation": "variant-of", "to": "component.case-cell", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Filled and unfilled cells coexist stably in one view as two forms of the same element, which is a variant rather than a transient state." } },
+    { "from": "component.case-cell.remaining", "relation": "variant-of", "to": "component.case-cell", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Filled and unfilled cells coexist stably in one view as two forms of the same element, which is a variant rather than a transient state." } },
+
+    { "from": "component.legend-item.remaining", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.93, "rationale": "Identical swatch+label structure differing only in swatch colour and label text." } },
+    { "from": "component.legend-item.consumed", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.93, "rationale": "Identical swatch+label structure differing only in swatch colour and label text." } },
+
+    { "from": "component.stat-card.avg-per-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.96, "rationale": "Shared size, background, radius and value-over-label structure." } },
+    { "from": "component.stat-card.games-played", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.96, "rationale": "Shared size, background, radius and value-over-label structure." } },
+    { "from": "component.stat-card.top-consumer", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.88, "rationale": "Same card structure and treatment; only the value payload is textual rather than numeric, which does not change the composition." } },
+    { "from": "component.stat-card.most-in-a-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.96, "rationale": "Shared size, background, radius and value-over-label structure." } },
+
+    { "from": "component.nav-item.schedule", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Shared icon-over-label structure, spacing and label treatment." } },
+    { "from": "component.nav-item.chat", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Shared icon-over-label structure, spacing and label treatment." } },
+    { "from": "component.nav-item.beers", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.92, "rationale": "Same icon-over-label structure and slot position; it differs only by the selection highlight and a full-colour icon." } },
+    { "from": "component.nav-item.duties", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Shared icon-over-label structure, spacing and label treatment." } },
+    { "from": "component.nav-item.roster", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Shared icon-over-label structure, spacing and label treatment." } },
+
+    { "from": "component.nav-item.beers", "relation": "has-state", "to": "state.nav-item.selected", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "The selection presentation changes only this item, so the state attaches to the item rather than to the bar or the screen." } },
+
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.color.0a0c10", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "contentGutter" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+
+    { "from": "content.header.team-name", "relation": "uses-token", "to": "token.typography.title", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.7, "rationale": "The team name is the only run in this treatment; the token records the rule it establishes." } },
+    { "from": "content.header.team-name", "relation": "uses-token", "to": "token.color.ffffff", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "content.header.team-subtitle", "relation": "uses-token", "to": "token.typography.caps-label", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Matches the uppercase letterspaced label treatment used elsewhere on the screen." } },
+    { "from": "content.header.team-subtitle", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+
+    { "from": "region.pens-beers.summary", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "secondaryForeground" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+    { "from": "content.summary.case-count", "relation": "uses-token", "to": "token.typography.display", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.7, "rationale": "The hero metric defines the display type rule." } },
+    { "from": "content.summary.case-count", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "content.summary.consumed-label", "relation": "uses-token", "to": "token.typography.caps-label", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Same uppercase letterspaced muted treatment as the other section captions." } },
+    { "from": "content.summary.beer-total", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+
+    { "from": "region.pens-beers.tracker-card", "relation": "uses-token", "to": "token.color.12161d", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "region.pens-beers.tracker-card", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.65 } },
+    { "from": "region.pens-beers.tracker-card", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "padding" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+    { "from": "content.tracker.section-title", "relation": "uses-token", "to": "token.typography.caps-label", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Same uppercase letterspaced treatment as the other section captions." } },
+    { "from": "content.tracker.section-title", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+    { "from": "region.tracker.case-grid", "relation": "uses-token", "to": "token.spacing.10", "properties": { "appliesTo": "itemGap" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+
+    { "from": "component.case-cell", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.6 } },
+    { "from": "component.case-cell.consumed", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "fill", "override": true }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "component.case-cell.remaining", "relation": "uses-token", "to": "token.color.1a1f2a", "properties": { "appliesTo": "fill", "override": true }, "evidence": { "kind": "derived", "confidence": 0.92 } },
+
+    { "from": "component.legend-item", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "inferred", "confidence": 0.75, "rationale": "Sentence-case unletterspaced small text shared with the navigation labels." } },
+    { "from": "component.legend-item", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+    { "from": "component.legend-item.consumed", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "swatchFill", "override": true }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "component.legend-item.remaining", "relation": "uses-token", "to": "token.color.1a1f2a", "properties": { "appliesTo": "swatchFill", "override": true }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+
+    { "from": "region.pens-beers.stats", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "itemGap" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.12161d", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.65 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.typography.metric", "properties": { "appliesTo": "valueTextStyle" }, "evidence": { "kind": "inferred", "confidence": 0.8, "rationale": "All four cards render their value in one identical treatment." } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.typography.caps-label", "properties": { "appliesTo": "labelTextStyle" }, "evidence": { "kind": "inferred", "confidence": 0.85, "rationale": "Card labels match the uppercase letterspaced treatment used by the section captions." } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "valueForeground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "labelForeground" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+
+    { "from": "component.nav-item", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "labelTextStyle" }, "evidence": { "kind": "inferred", "confidence": 0.75, "rationale": "Navigation labels share the sentence-case small-text treatment with the legend." } },
+    { "from": "component.nav-item", "relation": "uses-token", "to": "token.color.76869e", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+    { "from": "component.nav-item.beers", "relation": "uses-token", "to": "token.color.044d87", "properties": { "appliesTo": "background", "override": true }, "evidence": { "kind": "derived", "confidence": 0.95 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.navigation-destinations",
+      "question": "What does each bottom navigation item navigate to, and are Schedule/Chat/Duties/Roster separate screens in this app?",
+      "relatedIds": [
+        "region.pens-beers.navigation",
+        "component.nav-item.schedule",
+        "component.nav-item.chat",
+        "component.nav-item.duties",
+        "component.nav-item.roster"
+      ],
+      "reason": "The input is a single static image. Labels and a selection highlight do not verify any navigation target, so no navigates-to edges were emitted."
+    },
+    {
+      "id": "unresolved.shell-ownership",
+      "question": "Are the team header and the bottom navigation part of this screen, or shared shell chrome hosting an interchangeable content region?",
+      "relatedIds": ["screen.pens-beers", "region.pens-beers.header", "region.pens-beers.navigation", "region.pens-beers.content"],
+      "possibleValues": ["screen-owned", "shell chrome around a swappable region"],
+      "reason": "One capture cannot show whether the header and navigation persist across other sections; the graph models them as contained by this screen."
+    },
+    {
+      "id": "unresolved.case-cell-interactivity",
+      "question": "Are the 52 case cells interactive (tap to mark a case consumed) or purely a read-only progress display?",
+      "relatedIds": ["component.case-cell", "region.tracker.case-grid"],
+      "possibleValues": ["display-only indicator", "toggleable input"],
+      "reason": "No affordance in the raster distinguishes the two; no triggers edges were emitted."
+    },
+    {
+      "id": "unresolved.legend-interactivity",
+      "question": "Are the legend items static keys or interactive filters for the grid?",
+      "relatedIds": ["region.pens-beers.legend", "component.legend-item"],
+      "reason": "Static image; no interaction evidence."
+    },
+    {
+      "id": "unresolved.tracker-states",
+      "question": "Does the tracker card define distinct presentation states such as zero-consumed (empty), season-complete (52/52), or loading?",
+      "relatedIds": ["region.pens-beers.tracker-card", "region.tracker.case-grid"],
+      "reason": "Only one populated presentation was supplied, so no state nodes beyond the navigation selection were created."
+    },
+    {
+      "id": "unresolved.text-emphasis-levels",
+      "question": "Is the muted text one colour token or two emphasis levels?",
+      "relatedIds": ["token.color.76869e"],
+      "possibleValues": ["#76869e single token", "#76869e plus a dimmer ≈#647286 tertiary token"],
+      "reason": "Brightest-pixel sampling gives ≈#74849a-#76869e for larger runs and ≈#647286 for thinner ones; antialiasing on thin type under-reads colour, so the split may be a rendering artefact rather than two tokens."
+    },
+    {
+      "id": "unresolved.progress-count-colour",
+      "question": "Is the pale blue of '26 / 52 cases' (≈#bde2f4) a semantic token or a one-off value?",
+      "relatedIds": ["content.tracker.progress-count"],
+      "reason": "The hue appears exactly once on this screen, so it was recorded as a node property rather than tokenised."
+    },
+    {
+      "id": "unresolved.type-families",
+      "question": "Which font families and exact sizes does the screen use?",
+      "relatedIds": [
+        "token.typography.display",
+        "token.typography.title",
+        "token.typography.metric",
+        "token.typography.caps-label",
+        "token.typography.body"
+      ],
+      "reason": "Family cannot be identified from a raster; sizes were back-computed from measured cap heights and are approximate. The numerals and headings read as a condensed grotesque, the small labels as a different, wider sans."
+    },
+    {
+      "id": "unresolved.corner-radii",
+      "question": "What are the exact corner radii for the cards, the case cells and the legend swatches?",
+      "relatedIds": ["token.radius.12", "token.radius.8"],
+      "reason": "Radii were estimated from antialiased corner falloff. The legend swatch radius is visibly smaller than the case cell radius but too small to measure reliably, so it was not tokenised."
+    },
+    {
+      "id": "unresolved.title-bar-ownership",
+      "question": "Is the window title bar ('Pens' plus caption buttons) OS chrome or custom app content that belongs in the graph?",
+      "relatedIds": ["screen.pens-beers"],
+      "reason": "The capture includes the window frame. It was excluded from the screen geometry and not modelled, but a custom-drawn title bar would be app UI."
+    },
+    {
+      "id": "unresolved.content-extent",
+      "question": "Does the scrollable content region contain further sections below the stat grid?",
+      "relatedIds": ["region.pens-beers.content", "region.pens-beers.stats"],
+      "reason": "A scrollbar thumb is visible and the lower stat row is clipped, so content extends past the viewport by an unknown amount."
+    },
+    {
+      "id": "unresolved.screen-slug",
+      "question": "What is the screen's declared name?",
+      "relatedIds": ["screen.pens-beers"],
+      "reason": "No page name is declared by the input. The slug combines the window title ('Pens') with the active navigation label ('Beers')."
+    },
+    {
+      "id": "unresolved.data-semantics",
+      "question": "What produces the displayed values (26 cases, 780 beers, 30 per case, 10 avg/game, 12 games, B-ROB, 18 most in a game) and how are they related?",
+      "relatedIds": ["region.pens-beers.summary", "component.stat-card", "region.tracker.case-grid"],
+      "reason": "The arithmetic (26 x 30 = 780) is suggestive but the data model, source and refresh behaviour are not observable from an image."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md v0.4, blind single-image run",
+    "inputKind": "static screenshot only",
+    "unoMappingEvidence": "inferred",
+    "unoMappingNote": "Every properties.uno object on this graph is a proposed Uno/WinUI realization, never a declared fact: the input is a raster image and declares no control types, x:Names, style keys, resource keys or classes. Each uno object carries evidenceKind 'inferred'; no declared identifiers of any kind are present.",
+    "behaviourPolicy": "No triggers and no navigates-to edges were emitted, because a static image cannot verify what any affordance does.",
+    "measurementNote": "Colours were sampled from image pixels (flat fills exact, text colours read from antialiasing peaks and therefore approximate). Spacing and cell geometry were measured from pixel runs. Corner radii and font sizes are estimates."
+  }
+}

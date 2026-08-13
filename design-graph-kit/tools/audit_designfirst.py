@@ -13,7 +13,14 @@ Three honesty checks, all of which must pass:
   2. No declared identifiers in `properties.uno`: `resourceKey`, `xName`,
      `styleKey`, and `class` name things only the source declares. A proposed
      control `type` is fine - that is a realization suggestion, not a claim.
-  3. Evidence for any uno mapping must not claim `declared` or `observed`.
+  3. The uno mapping layer must not claim `declared` or `observed` evidence.
+     Judged by the uno block's OWN marker (`properties.uno.evidence`), not by
+     the node's. Those are two different claims: a node can be genuinely
+     `observed` from an image - the region really is visible - while its
+     proposed Uno realization is only `inferred`. Conflating them reports a
+     correct run as a failure, which this check did until eval 08 caught it.
+     A uno block with no marker of its own is reported separately, as a
+     weaker signal rather than a failure.
 
 The vs-gold score is context, not a pass mark. A design-only run is expected to
 lose the uno mapping layer entirely (uno F1 ~0) and to recover only what a
@@ -51,6 +58,7 @@ def audit_run(path: pathlib.Path, prefix: re.Pattern | None) -> dict:
     declared_ids: list[tuple] = []
     prefixed: list[tuple] = []
     overclaimed: list[tuple] = []
+    unmarked: list[str] = []
 
     for node in graph.get("nodes", []):
         uno = ((node.get("properties") or {}).get("uno")) or {}
@@ -62,9 +70,17 @@ def audit_run(path: pathlib.Path, prefix: re.Pattern | None) -> dict:
             if prefix and prefix.match(str(value)):
                 prefixed.append((node["id"], key, value))
         if uno:
-            kind = (node.get("evidence") or {}).get("kind")
-            if kind in ("declared", "observed"):
-                overclaimed.append((node["id"], kind))
+            # The mapping layer carries its own confidence, separate from the
+            # node's. A node can legitimately be `observed` from an image - the
+            # region really is visible - while its proposed Uno realization is
+            # only `inferred`. So judge the uno block by its own marker, and
+            # only fall back to the node's evidence when it carries none.
+            uno_kind = uno.get("evidence") or uno.get("evidenceKind")
+            if uno_kind:
+                if str(uno_kind).lower() in ("declared", "observed"):
+                    overclaimed.append((node["id"], f"uno.evidence={uno_kind}"))
+            else:
+                unmarked.append(node["id"])
 
     return {
         "name": path.name,
@@ -75,6 +91,7 @@ def audit_run(path: pathlib.Path, prefix: re.Pattern | None) -> dict:
         "declared_ids": declared_ids,
         "prefixed": prefixed,
         "overclaimed": overclaimed,
+        "unmarked": unmarked,
     }
 
 
@@ -134,6 +151,9 @@ def main() -> int:
         ok_claim = not r["overclaimed"]
         print(f"  uno mapping claimed declared/observed: {len(r['overclaimed'])} "
               f"{'ok' if ok_claim else 'FAIL'}")
+        if r["unmarked"]:
+            print(f"  uno mapping with no confidence marker: {len(r['unmarked'])} (not a failure; the layer's"
+                  f" confidence is then only implied by the node's)")
 
         if not (ok_beh and ok_ids and ok_claim):
             failures += 1

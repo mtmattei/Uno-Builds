@@ -1,0 +1,1410 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "pens-beers-screen",
+  "name": "Pens - Beers screen",
+  "description": "Design Graph for a single dark-themed team app screen (window title 'Pens', bottom-nav item 'Beers' selected). Generated blind from one static screenshot: no source, no runtime, no interaction metadata. Therefore no triggers, no navigates-to, and no declared identifiers in the Uno mapping layer.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "id": "src.screen",
+      "path": "design-graph-kit/evals/08-pens-beers/screen.png",
+      "label": "470x945 desktop window screenshot, includes OS title bar (top ~34px)"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.pens-beers",
+      "type": "screen",
+      "name": "Beers",
+      "role": "screen",
+      "geometry": { "x": 0, "y": 34, "width": 470, "height": 909, "unit": "px" },
+      "properties": {
+        "theme": "dark",
+        "windowTitle": "Pens",
+        "selectedNavItem": "Beers",
+        "layout": "pinned team header, scrollable content, fixed bottom navigation",
+        "uno": {
+          "type": "Page",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only; a screenshot cannot reveal the control type, class, or page name."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "A single application window is depicted; its content area below the OS title bar is the modeled screen."
+      }
+    },
+
+    {
+      "id": "region.pens-beers.header",
+      "type": "region",
+      "name": "Team header",
+      "role": "header",
+      "semanticRole": "pageHeader",
+      "geometry": { "x": 0, "y": 34, "width": 470, "height": 92, "unit": "px" },
+      "properties": {
+        "uno": {
+          "type": "Grid",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed panel type for a logo + two stacked text lines; not observable from an image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Distinct top band holding a team logo, wordmark and subtitle; the scrollbar track starts below it (y~141), so it reads as pinned chrome."
+      }
+    },
+    {
+      "id": "region.pens-beers.content",
+      "type": "region",
+      "name": "Scrollable content",
+      "role": "content",
+      "geometry": { "x": 0, "y": 126, "width": 470, "height": 723, "unit": "px" },
+      "properties": {
+        "scrollable": true,
+        "scrollbar": "vertical, track x=462-465, thumb y=141-782 within track y=141-849",
+        "uno": {
+          "type": "ScrollViewer",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "A vertical scrollbar is visible over this band; ScrollViewer is the proposed realization, not a declared fact."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "A vertical scrollbar with a partial thumb is rendered at the right edge, bounded above by the header and below by the navigation bar."
+      }
+    },
+    {
+      "id": "region.pens-beers.summary",
+      "type": "region",
+      "name": "Season summary",
+      "role": "summary",
+      "semanticRole": "primaryMetric",
+      "geometry": { "x": 24, "y": 135, "width": 422, "height": 155, "unit": "px" },
+      "properties": {
+        "uno": {
+          "type": "StackPanel",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a centered vertical text stack."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Centered block of headline figure plus supporting lines, visually separated from the header above and the card below."
+      }
+    },
+    {
+      "id": "region.season-tracker.case-grid",
+      "type": "region",
+      "name": "Case grid",
+      "role": "collection",
+      "geometry": { "x": 44, "y": 362, "width": 382, "height": 208, "unit": "px" },
+      "properties": {
+        "columns": 10,
+        "rows": 6,
+        "itemCount": 52,
+        "rowFill": [10, 10, 10, 10, 10, 2],
+        "gapPx": 9,
+        "uno": {
+          "type": "ItemsRepeater",
+          "layout": "UniformGridLayout",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a uniform 10-column tile grid; the image cannot show whether it is a repeater, a Grid, or a WrapPanel."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.98,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Pixel scan finds 6 rows of uniformly pitched tiles (39px horizontal, 36px vertical pitch), 10 per row except the last row of 2, totalling 52."
+      }
+    },
+    {
+      "id": "region.pens-beers.legend",
+      "type": "region",
+      "name": "Tracker legend",
+      "role": "legend",
+      "geometry": { "x": 24, "y": 608, "width": 220, "height": 24, "unit": "px" },
+      "properties": {
+        "uno": {
+          "type": "StackPanel",
+          "orientation": "Horizontal",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for two horizontally arranged swatch+label pairs."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Two colour swatches with adjacent labels sit directly beneath the tracker card and name the two tile fills."
+      }
+    },
+    {
+      "id": "region.pens-beers.stats",
+      "type": "region",
+      "name": "Statistics grid",
+      "role": "grid",
+      "geometry": { "x": 24, "y": 650, "width": 425, "height": 190, "unit": "px" },
+      "properties": {
+        "columns": 2,
+        "rows": 2,
+        "gapPx": 14,
+        "uno": {
+          "type": "Grid",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.65,
+            "rationale": "Proposed realization for a fixed 2x2 arrangement measured from the image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Four equally sized cards measured at 206x88px in two columns and two rows with a 14px gutter."
+      }
+    },
+    {
+      "id": "region.pens-beers.bottom-nav",
+      "type": "region",
+      "name": "Bottom navigation",
+      "role": "navigation",
+      "semanticRole": "primaryNavigation",
+      "geometry": { "x": 0, "y": 849, "width": 470, "height": 94, "unit": "px" },
+      "properties": {
+        "itemCount": 5,
+        "uno": {
+          "type": "utu:TabBar",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Uno Toolkit TabBar is the idiomatic realization of a five-item bottom bar; the image declares no type."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Fixed bar at the bottom of the window holding five equally spaced icon+label items, one of which is highlighted."
+      }
+    },
+
+    {
+      "id": "component.season-tracker-card",
+      "type": "component",
+      "name": "Season tracker card",
+      "role": "card",
+      "geometry": { "x": 23, "y": 307, "width": 424, "height": 284, "unit": "px" },
+      "properties": {
+        "surface": "#12161d",
+        "borderColor": "#14181e",
+        "cornerRadiusPx": 15,
+        "instanceCount": 1,
+        "uno": {
+          "type": "Border",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a rounded, bordered surface panel; could equally be utu:Card."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Rounded, bordered panel with its own lighter surface fill grouping a title, a counter and the case grid."
+      }
+    },
+    {
+      "id": "component.case-tile",
+      "type": "component",
+      "name": "Case tile",
+      "role": "list-item",
+      "geometry": { "x": 44, "y": 362, "width": 31, "height": 28, "unit": "px" },
+      "properties": {
+        "parts": ["fill"],
+        "instanceCount": 52,
+        "instancesNotModeled": true,
+        "consumedCount": 26,
+        "remainingCount": 26,
+        "note": "One tile represents one case of beer for the season; individual tiles carry no text or per-item identity, so instances are summarised here rather than emitted as 52 nodes.",
+        "uno": {
+          "type": "Border",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a small rounded filled tile; not observable from an image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "52 identically sized, uniformly pitched rounded tiles differing only in fill colour are one repeated element; the adjacent legend labels the two fills."
+      }
+    },
+    {
+      "id": "component.legend-item",
+      "type": "component",
+      "name": "Legend item",
+      "role": "legend-item",
+      "properties": {
+        "parts": ["swatch", "label"],
+        "instanceCount": 2,
+        "swatchSizePx": 16,
+        "uno": {
+          "type": "StackPanel",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a swatch plus label pair."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Two structurally identical swatch+label pairs differing only in swatch colour and label text."
+      }
+    },
+    {
+      "id": "component.stat-card",
+      "type": "component",
+      "name": "Stat card",
+      "role": "card",
+      "geometry": { "x": 24, "y": 650, "width": 206, "height": 88, "unit": "px" },
+      "properties": {
+        "parts": ["value", "label"],
+        "instanceCount": 4,
+        "surface": "#13161c",
+        "cornerRadiusPx": 15,
+        "valueEmphasis": "large bold accent-coloured value over a small uppercase muted label",
+        "uno": {
+          "type": "Border",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization for a rounded surface panel containing two TextBlocks."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Four cards share size, surface colour, radius, internal layout and typography, differing only in value and label text."
+      }
+    },
+    {
+      "id": "component.nav-item",
+      "type": "component",
+      "name": "Navigation item",
+      "role": "tab",
+      "semanticRole": "navigationItem",
+      "properties": {
+        "parts": ["icon", "label"],
+        "instanceCount": 5,
+        "layout": "icon above label, centered",
+        "uno": {
+          "type": "utu:TabBarItem",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed realization matching the proposed utu:TabBar container; the image declares no type."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Five structurally identical icon-over-label cells in one bar, differing in glyph, label and selection presentation."
+      }
+    },
+
+    {
+      "id": "component.legend-item.remaining",
+      "type": "component",
+      "name": "Remaining legend item",
+      "role": "legend-item",
+      "properties": { "label": "Remaining", "swatchFill": "#1a1f2a", "order": 1 },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Dark swatch at x=24-39 followed by the visible label text 'Remaining'."
+      }
+    },
+    {
+      "id": "component.legend-item.consumed",
+      "type": "component",
+      "name": "Consumed legend item",
+      "role": "legend-item",
+      "properties": { "label": "Consumed", "swatchFill": "#ffaa00", "order": 2 },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Amber swatch followed by the visible label text 'Consumed'."
+      }
+    },
+    {
+      "id": "component.stat-card.avg-per-game",
+      "type": "component",
+      "name": "Average per game stat",
+      "role": "card",
+      "properties": { "value": "10", "label": "AVG / GAME", "gridPosition": [0, 0] },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible card text."
+      }
+    },
+    {
+      "id": "component.stat-card.games-played",
+      "type": "component",
+      "name": "Games played stat",
+      "role": "card",
+      "properties": { "value": "12", "label": "GAMES PLAYED", "gridPosition": [0, 1] },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible card text."
+      }
+    },
+    {
+      "id": "component.stat-card.top-consumer",
+      "type": "component",
+      "name": "Top consumer stat",
+      "role": "card",
+      "properties": {
+        "value": "B-ROB",
+        "label": "TOP CONSUMER",
+        "gridPosition": [1, 0],
+        "valueKind": "text rather than numeral"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible card text; the value slot holds a name-like string instead of a number."
+      }
+    },
+    {
+      "id": "component.stat-card.most-in-a-game",
+      "type": "component",
+      "name": "Most in a game stat",
+      "role": "card",
+      "properties": { "value": "18", "label": "MOST IN A GAME", "gridPosition": [1, 1] },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible card text."
+      }
+    },
+    {
+      "id": "component.nav-item.schedule",
+      "type": "component",
+      "name": "Schedule nav item",
+      "role": "tab",
+      "properties": { "label": "Schedule", "icon": "calendar grid", "order": 1, "selected": false },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible label and calendar-like glyph."
+      }
+    },
+    {
+      "id": "component.nav-item.chat",
+      "type": "component",
+      "name": "Chat nav item",
+      "role": "tab",
+      "properties": { "label": "Chat", "icon": "speech bubble", "order": 2, "selected": false },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible label and speech-bubble glyph."
+      }
+    },
+    {
+      "id": "component.nav-item.beers",
+      "type": "component",
+      "name": "Beers nav item",
+      "role": "tab",
+      "geometry": { "x": 191, "y": 858, "width": 90, "height": 64, "unit": "px" },
+      "properties": {
+        "label": "Beers",
+        "icon": "beer mug (multicolour, likely emoji or coloured asset)",
+        "order": 3,
+        "selected": true,
+        "selectionTreatment": "solid blue rectangle behind icon and label, square corners"
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible label with a filled #044d87 rectangle measured at 90x64px behind it; the depicted screen content matches this item."
+      }
+    },
+    {
+      "id": "component.nav-item.duties",
+      "type": "component",
+      "name": "Duties nav item",
+      "role": "tab",
+      "properties": { "label": "Duties", "icon": "stacked horizontal lines", "order": 4, "selected": false },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible label and list-like glyph."
+      }
+    },
+    {
+      "id": "component.nav-item.roster",
+      "type": "component",
+      "name": "Roster nav item",
+      "role": "tab",
+      "properties": { "label": "Roster", "icon": "two people", "order": 5, "selected": false },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible label and people glyph."
+      }
+    },
+
+    {
+      "id": "asset.header.team-logo",
+      "type": "asset",
+      "name": "Team logo",
+      "role": "logo",
+      "geometry": { "x": 23, "y": 53, "width": 56, "height": 57, "unit": "px" },
+      "properties": {
+        "shape": "rounded square",
+        "subject": "cartoon penguin mascot on a light ground",
+        "uno": {
+          "type": "Image",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.65,
+            "rationale": "Proposed realization for a raster crest; the image cannot reveal the asset path."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Square mascot image at the left of the header band."
+      }
+    },
+    {
+      "id": "content.header.team-name",
+      "type": "content",
+      "name": "Team name",
+      "role": "title",
+      "semanticRole": "pageTitle",
+      "text": "PENGUINS",
+      "properties": {
+        "case": "uppercase",
+        "weight": "heavy",
+        "color": "#ffffff",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization; an image cannot reveal the element type or style key."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible white heavy uppercase wordmark."
+      }
+    },
+    {
+      "id": "content.header.team-subtitle",
+      "type": "content",
+      "name": "Team subtitle",
+      "role": "subtitle",
+      "text": "DORVAL YOUNGTIMERS",
+      "properties": {
+        "case": "uppercase",
+        "letterSpacing": "wide",
+        "color": "#6d7d92",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible muted uppercase line beneath the wordmark."
+      }
+    },
+    {
+      "id": "content.summary.case-count",
+      "type": "content",
+      "name": "Case count",
+      "role": "value",
+      "semanticRole": "primaryMetricValue",
+      "text": "26",
+      "properties": {
+        "color": "#ffaa00",
+        "approxCapHeightPx": 72,
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Largest figure on the screen, rendered in the accent amber."
+      }
+    },
+    {
+      "id": "content.summary.case-unit",
+      "type": "content",
+      "name": "Case unit label",
+      "role": "label",
+      "text": "cases",
+      "properties": {
+        "case": "lowercase",
+        "color": "#6d7d92",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Muted lowercase word set to the upper right of the headline figure."
+      }
+    },
+    {
+      "id": "content.summary.consumed-label",
+      "type": "content",
+      "name": "Consumed-this-season label",
+      "role": "label",
+      "semanticRole": "sectionHeader",
+      "text": "CONSUMED THIS SEASON",
+      "properties": {
+        "case": "uppercase",
+        "color": "#6d7d92",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible uppercase muted caption above the beer count line."
+      }
+    },
+    {
+      "id": "content.summary.beer-count",
+      "type": "content",
+      "name": "Beer count",
+      "role": "value",
+      "text": "780 beers",
+      "properties": {
+        "color": "#ffaa00",
+        "emphasis": "the numeral is bolder than the unit word, both in accent amber",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.65,
+            "rationale": "Proposed realization; the mixed-weight run could be one TextBlock with Runs or two elements."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible amber text '780 beers'."
+      }
+    },
+    {
+      "id": "content.summary.per-case-note",
+      "type": "content",
+      "name": "Per-case note",
+      "role": "helper-text",
+      "text": "(30 per case)",
+      "properties": {
+        "color": "#6d7d92",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Visible muted parenthetical following the beer count on the same line."
+      }
+    },
+    {
+      "id": "content.season-tracker.title",
+      "type": "content",
+      "name": "Season tracker title",
+      "role": "section-title",
+      "semanticRole": "sectionHeader",
+      "text": "SEASON TRACKER",
+      "properties": {
+        "case": "uppercase",
+        "color": "#6d7d92",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Uppercase heading at the top-left of the tracker card."
+      }
+    },
+    {
+      "id": "content.season-tracker.counter",
+      "type": "content",
+      "name": "Season tracker counter",
+      "role": "value",
+      "semanticRole": "progressIndicatorText",
+      "text": "26 / 52 cases",
+      "properties": {
+        "color": "#9ab8c8",
+        "alignment": "right",
+        "uno": {
+          "type": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.7,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Counter at the top-right of the tracker card; the numbers agree exactly with the 26 amber of 52 tiles measured in the grid."
+      }
+    },
+
+    {
+      "id": "state.case-tile.consumed",
+      "type": "state",
+      "name": "Consumed",
+      "role": "state",
+      "properties": { "fill": "#ffaa00", "occurrences": 26 },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "26 tiles carry the amber fill and the on-screen legend names that fill 'Consumed'; the condition driving it is data, not style interaction."
+      }
+    },
+    {
+      "id": "state.case-tile.remaining",
+      "type": "state",
+      "name": "Remaining",
+      "role": "state",
+      "properties": { "fill": "#1a1f2a", "occurrences": 26 },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "26 tiles carry the dark fill and the on-screen legend names that fill 'Remaining'."
+      }
+    },
+    {
+      "id": "state.nav-item.selected",
+      "type": "state",
+      "name": "Selected",
+      "role": "state",
+      "properties": {
+        "treatment": "solid blue background block behind icon and label",
+        "activeInstance": "component.nav-item.beers"
+      },
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Exactly one of five nav items carries a filled background while the depicted content matches that item's label, which reads as current-selection presentation rather than a pointer visual."
+      }
+    },
+
+    {
+      "id": "token.color.0a0c10",
+      "type": "token",
+      "name": "Page background",
+      "category": "color",
+      "value": "#0a0c10",
+      "properties": {
+        "usage": "window content background and bottom navigation bar background",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type; no resource key is observable from an image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Dominant flat colour sampled across the header band, page gutters and nav bar."
+      }
+    },
+    {
+      "id": "token.color.12161d",
+      "type": "token",
+      "name": "Card surface",
+      "category": "color",
+      "value": "#12161d",
+      "properties": {
+        "usage": "raised card surfaces (season tracker card, stat cards; stat cards sample #13161c)",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Same near-identical fill sampled inside all five card panels, distinctly lighter than the page background."
+      }
+    },
+    {
+      "id": "token.color.1a1f2a",
+      "type": "token",
+      "name": "Inactive tile fill",
+      "category": "color",
+      "value": "#1a1f2a",
+      "properties": {
+        "usage": "unconsumed case tiles and the 'Remaining' legend swatch",
+        "borderColor": "#23272e",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Identical fill sampled in the 26 empty tiles and in the legend swatch that labels them."
+      }
+    },
+    {
+      "id": "token.color.ffaa00",
+      "type": "token",
+      "name": "Accent amber",
+      "category": "color",
+      "value": "#ffaa00",
+      "properties": {
+        "usage": "headline figure, beer count, consumed tiles, stat values, consumed legend swatch",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.95,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Flat #ffaa00 sampled in tile interiors and headline glyphs; smaller amber text antialiases toward #ffb300 but resolves to the same base value."
+      }
+    },
+    {
+      "id": "token.color.ffffff",
+      "type": "token",
+      "name": "Primary text",
+      "category": "color",
+      "value": "#ffffff",
+      "properties": {
+        "usage": "team wordmark",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Wordmark glyph interiors sample pure white."
+      }
+    },
+    {
+      "id": "token.color.6d7d92",
+      "type": "token",
+      "name": "Secondary text",
+      "category": "color",
+      "value": "#6d7d92",
+      "properties": {
+        "usage": "team subtitle, unit and caption labels, helper text, stat labels, unselected nav labels",
+        "note": "Sampled from antialiased glyph cores; the true value may be slightly lighter.",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.8,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "One blue-grey muted tone recurs across every low-emphasis text run on the screen."
+      }
+    },
+    {
+      "id": "token.color.9ab8c8",
+      "type": "token",
+      "name": "Tracker counter text",
+      "category": "color",
+      "value": "#9ab8c8",
+      "properties": {
+        "usage": "the '26 / 52 cases' counter in the tracker card header",
+        "note": "Visibly lighter and bluer than the secondary text tone; the exact hex is an antialiased estimate.",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.55,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.6,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Glyph cores of the counter sample distinctly lighter and bluer than every other muted label on the screen, suggesting a separate emphasis level."
+      }
+    },
+    {
+      "id": "token.color.044d87",
+      "type": "token",
+      "name": "Selection background",
+      "category": "color",
+      "value": "#044d87",
+      "properties": {
+        "usage": "background block behind the selected bottom-navigation item",
+        "uno": {
+          "resourceType": "SolidColorBrush",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.6,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.9,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Flat fill sampled across the 90x64px block behind the selected nav item."
+      }
+    },
+    {
+      "id": "token.radius.16",
+      "type": "token",
+      "name": "Card corner radius",
+      "category": "radius",
+      "value": 16,
+      "properties": {
+        "measuredPx": 15,
+        "usage": "season tracker card and stat cards",
+        "uno": {
+          "resourceType": "CornerRadius",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.55,
+            "rationale": "Proposed resource type; no style key is observable from an image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.7,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Corner curve of the tracker card spans about 15px from top edge to full left extent; 16 is the nearest conventional design value."
+      }
+    },
+    {
+      "id": "token.radius.4",
+      "type": "token",
+      "name": "Tile corner radius",
+      "category": "radius",
+      "value": 4,
+      "properties": {
+        "measuredPx": 4,
+        "usage": "case tiles and legend swatches",
+        "uno": {
+          "resourceType": "CornerRadius",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.55,
+            "rationale": "Proposed resource type only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.75,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Tile edge reaches full width three pixel rows below its top edge, indicating a small radius near 4px."
+      }
+    },
+    {
+      "id": "token.spacing.24",
+      "type": "token",
+      "name": "Page horizontal padding",
+      "category": "spacing",
+      "value": 24,
+      "properties": {
+        "measuredPx": 23,
+        "usage": "left and right inset of the tracker card, the stat grid and the legend",
+        "uno": {
+          "resourceType": "Thickness",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.55,
+            "rationale": "Proposed realization; no declared resource is observable."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Card edges sit at x=23 and x=447 in a 470px-wide window, a consistent inset on both sides."
+      }
+    },
+    {
+      "id": "token.spacing.14",
+      "type": "token",
+      "name": "Card gutter",
+      "category": "spacing",
+      "value": 14,
+      "properties": {
+        "usage": "row and column gap of the 2x2 stat grid",
+        "uno": {
+          "resourceType": "Thickness",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.55,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.8,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Measured 14px between stat card columns (x 230-244) and rows (y 738-752)."
+      }
+    },
+    {
+      "id": "token.typography.wordmark",
+      "type": "token",
+      "name": "Wordmark type",
+      "category": "typography",
+      "value": {
+        "case": "uppercase",
+        "weight": "heavy",
+        "width": "condensed",
+        "approxCapHeightPx": 30
+      },
+      "properties": {
+        "usage": "team name in the header",
+        "uno": {
+          "resourceType": "Style",
+          "targetType": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.5,
+            "rationale": "Proposed realization; the font family and any style key are not recoverable from a raster image."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.7,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Heavy condensed uppercase display treatment distinct from all other text on the screen; family not identifiable from the raster."
+      }
+    },
+    {
+      "id": "token.typography.hero-value",
+      "type": "token",
+      "name": "Hero value type",
+      "category": "typography",
+      "value": { "weight": "bold", "width": "condensed", "approxCapHeightPx": 72 },
+      "properties": {
+        "usage": "the headline case count",
+        "uno": {
+          "resourceType": "Style",
+          "targetType": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.5,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.7,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Single largest type size on the screen, used once for the primary metric."
+      }
+    },
+    {
+      "id": "token.typography.card-value",
+      "type": "token",
+      "name": "Card value type",
+      "category": "typography",
+      "value": { "weight": "bold", "approxCapHeightPx": 24 },
+      "properties": {
+        "usage": "stat card values and the beer count line",
+        "uno": {
+          "resourceType": "Style",
+          "targetType": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.5,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.75,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "Same bold accent-coloured value size recurs in all four stat cards and in the beer-count line."
+      }
+    },
+    {
+      "id": "token.typography.label-caps",
+      "type": "token",
+      "name": "Micro label type",
+      "category": "typography",
+      "value": {
+        "case": "uppercase",
+        "letterSpacing": "wide",
+        "approxCapHeightPx": 9
+      },
+      "properties": {
+        "usage": "team subtitle, section captions, stat card labels, navigation labels",
+        "uno": {
+          "resourceType": "Style",
+          "targetType": "TextBlock",
+          "evidence": {
+            "kind": "inferred",
+            "confidence": 0.5,
+            "rationale": "Proposed realization only."
+          }
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 0.85,
+        "source": { "type": "screenshot", "id": "src.screen" },
+        "rationale": "One small, letterspaced, uppercase, muted treatment recurs at least seven times across unrelated regions of the screen."
+      }
+    }
+  ],
+  "edges": [
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.header", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.content", "evidence": { "kind": "observed", "confidence": 0.9 } },
+    { "from": "screen.pens-beers", "relation": "contains", "to": "region.pens-beers.bottom-nav", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "asset.header.team-logo", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "content.header.team-name", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.header", "relation": "contains", "to": "content.header.team-subtitle", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.summary", "evidence": { "kind": "observed", "confidence": 0.9 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "component.season-tracker-card", "evidence": { "kind": "observed", "confidence": 0.9 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.legend", "evidence": { "kind": "observed", "confidence": 0.9 } },
+    { "from": "region.pens-beers.content", "relation": "contains", "to": "region.pens-beers.stats", "evidence": { "kind": "observed", "confidence": 0.9 } },
+
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.case-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.case-unit", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.consumed-label", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.beer-count", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.summary", "relation": "contains", "to": "content.summary.per-case-note", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "component.season-tracker-card", "relation": "contains", "to": "content.season-tracker.title", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.season-tracker-card", "relation": "contains", "to": "content.season-tracker.counter", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "component.season-tracker-card", "relation": "contains", "to": "region.season-tracker.case-grid", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.season-tracker.case-grid", "relation": "contains", "to": "component.case-tile", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "The grid renders 52 tiles of one repeated element; the canonical stands in for the unmodelled instances." } },
+
+    { "from": "region.pens-beers.legend", "relation": "contains", "to": "component.legend-item.remaining", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.legend", "relation": "contains", "to": "component.legend-item.consumed", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.avg-per-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.games-played", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.top-consumer", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.stats", "relation": "contains", "to": "component.stat-card.most-in-a-game", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "region.pens-beers.bottom-nav", "relation": "contains", "to": "component.nav-item.schedule", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.bottom-nav", "relation": "contains", "to": "component.nav-item.chat", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.bottom-nav", "relation": "contains", "to": "component.nav-item.beers", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.bottom-nav", "relation": "contains", "to": "component.nav-item.duties", "evidence": { "kind": "observed", "confidence": 1.0 } },
+    { "from": "region.pens-beers.bottom-nav", "relation": "contains", "to": "component.nav-item.roster", "evidence": { "kind": "observed", "confidence": 1.0 } },
+
+    { "from": "component.legend-item.remaining", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Same swatch+label structure as the sibling legend entry." } },
+    { "from": "component.legend-item.consumed", "relation": "instance-of", "to": "component.legend-item", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Same swatch+label structure as the sibling legend entry." } },
+
+    { "from": "component.stat-card.avg-per-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, surface, radius and value-over-label typography across all four cards." } },
+    { "from": "component.stat-card.games-played", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, surface, radius and value-over-label typography across all four cards." } },
+    { "from": "component.stat-card.top-consumer", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "Same card structure; its value slot holds text rather than a numeral, which is data variation rather than a structural difference." } },
+    { "from": "component.stat-card.most-in-a-game", "relation": "instance-of", "to": "component.stat-card", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Identical size, surface, radius and value-over-label typography across all four cards." } },
+
+    { "from": "component.nav-item.schedule", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same icon-over-label cell repeated five times in the bar." } },
+    { "from": "component.nav-item.chat", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same icon-over-label cell repeated five times in the bar." } },
+    { "from": "component.nav-item.beers", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same icon-over-label cell repeated five times in the bar." } },
+    { "from": "component.nav-item.duties", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same icon-over-label cell repeated five times in the bar." } },
+    { "from": "component.nav-item.roster", "relation": "instance-of", "to": "component.nav-item", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same icon-over-label cell repeated five times in the bar." } },
+
+    { "from": "component.case-tile", "relation": "has-state", "to": "state.case-tile.consumed", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "The tile is the smallest node whose presentation changes; the legend names the amber fill 'Consumed'." } },
+    { "from": "component.case-tile", "relation": "has-state", "to": "state.case-tile.remaining", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "The tile is the smallest node whose presentation changes; the legend names the dark fill 'Remaining'." } },
+    { "from": "component.nav-item", "relation": "has-state", "to": "state.nav-item.selected", "evidence": { "kind": "inferred", "confidence": 0.9, "rationale": "One of five otherwise identical items carries a filled background, and every instance can plausibly take that presentation, so the state belongs to the canonical." } },
+
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.color.0a0c10", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.spacing.24", "properties": { "appliesTo": "pageHorizontalPadding" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.color.6d7d92", "properties": { "appliesTo": "secondaryTextForeground", "note": "page-level value consumed by labels in several regions" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+    { "from": "screen.pens-beers", "relation": "uses-token", "to": "token.typography.label-caps", "properties": { "appliesTo": "microLabels", "note": "page-level treatment consumed by labels in several regions" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+
+    { "from": "content.header.team-name", "relation": "uses-token", "to": "token.typography.wordmark", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+    { "from": "content.header.team-name", "relation": "uses-token", "to": "token.color.ffffff", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+
+    { "from": "content.summary.case-count", "relation": "uses-token", "to": "token.typography.hero-value", "properties": { "appliesTo": "textStyle" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+    { "from": "content.summary.case-count", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "content.summary.beer-count", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "content.season-tracker.counter", "relation": "uses-token", "to": "token.color.9ab8c8", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "derived", "confidence": 0.6 } },
+
+    { "from": "component.season-tracker-card", "relation": "uses-token", "to": "token.color.12161d", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "component.season-tracker-card", "relation": "uses-token", "to": "token.radius.16", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "fill", "condition": "consumed" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.color.1a1f2a", "properties": { "appliesTo": "fill", "condition": "remaining" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "component.case-tile", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.75 } },
+
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.12161d", "properties": { "appliesTo": "background" }, "evidence": { "kind": "derived", "confidence": 0.85 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.radius.16", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "derived", "confidence": 0.7 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "valueForeground" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "component.stat-card", "relation": "uses-token", "to": "token.typography.card-value", "properties": { "appliesTo": "valueTextStyle" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+
+    { "from": "region.pens-beers.stats", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "rowAndColumnGap" }, "evidence": { "kind": "derived", "confidence": 0.8 } },
+
+    { "from": "component.nav-item", "relation": "uses-token", "to": "token.color.044d87", "properties": { "appliesTo": "background", "condition": "selected" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+
+    { "from": "component.legend-item.consumed", "relation": "uses-token", "to": "token.color.ffaa00", "properties": { "appliesTo": "swatchFill", "note": "instance override: the swatch colour is what distinguishes this instance" }, "evidence": { "kind": "derived", "confidence": 0.95 } },
+    { "from": "component.legend-item.remaining", "relation": "uses-token", "to": "token.color.1a1f2a", "properties": { "appliesTo": "swatchFill", "note": "instance override: the swatch colour is what distinguishes this instance" }, "evidence": { "kind": "derived", "confidence": 0.95 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.nav-destinations",
+      "question": "What does each bottom-navigation item do, and which screens do Schedule, Chat, Duties and Roster lead to?",
+      "relatedIds": [
+        "component.nav-item",
+        "component.nav-item.schedule",
+        "component.nav-item.chat",
+        "component.nav-item.beers",
+        "component.nav-item.duties",
+        "component.nav-item.roster"
+      ],
+      "reason": "The input is a single static image. Labels suggest sibling screens, but no navigation edge or trigger is verifiable, so none is asserted."
+    },
+    {
+      "id": "unresolved.tile-interactivity",
+      "question": "Are case tiles interactive (tap to mark a case consumed) or purely a read-only visualisation?",
+      "relatedIds": ["component.case-tile", "region.season-tracker.case-grid"],
+      "possibleValues": ["read-only progress visualisation", "tappable toggle", "long-press editable"],
+      "reason": "No affordance cue distinguishes these from static swatches in a still image."
+    },
+    {
+      "id": "unresolved.tile-state-vs-variant",
+      "question": "Should the consumed/remaining tile fills be modelled as states of one tile or as two stable variants?",
+      "relatedIds": ["component.case-tile", "state.case-tile.consumed", "state.case-tile.remaining"],
+      "possibleValues": ["has-state (data-driven condition)", "variant-of (two design-system forms)"],
+      "reason": "Both fills coexist on screen, which reads variant-like, but the fill is driven by per-item data, which reads state-like. Modelled as states here."
+    },
+    {
+      "id": "unresolved.header-pinned",
+      "question": "Is the team header pinned above the scroll viewport, or does it scroll with the content?",
+      "relatedIds": ["region.pens-beers.header", "region.pens-beers.content"],
+      "reason": "The scrollbar track begins below the header (y~141), which supports a pinned header, but a single frame cannot prove it."
+    },
+    {
+      "id": "unresolved.card-consolidation",
+      "question": "Are the season tracker card and the stat cards one shared card component with different content, or two separate components?",
+      "relatedIds": ["component.season-tracker-card", "component.stat-card"],
+      "reason": "They share surface colour and corner radius but differ in width, height and internal structure; modelled separately to avoid collapsing on visual coincidence alone."
+    },
+    {
+      "id": "unresolved.stat-grid-fixed-or-bound",
+      "question": "Is the 2x2 statistics grid a fixed set of four cards or a data-driven collection rendered from a list?",
+      "relatedIds": ["region.pens-beers.stats", "component.stat-card"],
+      "reason": "Four items with heterogeneous value kinds (three numerals and one name string) fit either shape."
+    },
+    {
+      "id": "unresolved.tracker-capacity",
+      "question": "Is the 52-tile capacity fixed (season length) or derived from data such as scheduled games or a season goal?",
+      "relatedIds": ["region.season-tracker.case-grid", "content.season-tracker.counter"],
+      "reason": "The counter reads '26 / 52 cases' and the grid renders exactly 52 tiles, but the origin of 52 is not observable."
+    },
+    {
+      "id": "unresolved.screen-conditions",
+      "question": "What are the loading, empty, error and zero-data presentations of this screen?",
+      "relatedIds": ["screen.pens-beers", "component.season-tracker-card", "region.pens-beers.stats"],
+      "reason": "Only one populated frame is available; no other condition is depicted, so no such state nodes were created."
+    },
+    {
+      "id": "unresolved.counter-text-token",
+      "question": "Is the pale blue-grey of the tracker counter a distinct colour token, or a lighter tint of the secondary text token?",
+      "relatedIds": ["token.color.9ab8c8", "token.color.6d7d92", "content.season-tracker.counter"],
+      "reason": "The sampled hue is visibly lighter and bluer than every other muted label, but antialiasing on small glyphs makes the exact value uncertain."
+    },
+    {
+      "id": "unresolved.token-values-precision",
+      "question": "Are the sampled colour, radius, spacing and type values the authored design values?",
+      "relatedIds": [
+        "token.color.0a0c10",
+        "token.color.12161d",
+        "token.color.6d7d92",
+        "token.radius.16",
+        "token.radius.4",
+        "token.spacing.24",
+        "token.spacing.14",
+        "token.typography.wordmark",
+        "token.typography.hero-value",
+        "token.typography.card-value",
+        "token.typography.label-caps"
+      ],
+      "reason": "Every value is measured from a rasterised screenshot at unknown scaling; hexes for antialiased text and all radius/spacing/type metrics are approximations, and font families are not recoverable."
+    },
+    {
+      "id": "unresolved.window-chrome",
+      "question": "Is the window title bar ('Pens' with minimise/maximise/close) OS-default chrome or an app-customised title bar?",
+      "relatedIds": ["screen.pens-beers"],
+      "reason": "It appears to be standard desktop chrome and was excluded from the modelled screen; a custom title bar would belong in the graph."
+    },
+    {
+      "id": "unresolved.beer-icon-asset",
+      "question": "Is the selected item's multicolour beer-mug glyph an emoji, a coloured font icon, or a raster asset, and are the other four nav glyphs from one icon set?",
+      "relatedIds": ["component.nav-item", "component.nav-item.beers"],
+      "reason": "The beer glyph is full colour while the other four are monochrome strokes, which suggests different sources, but the image cannot confirm it."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph skill v0.4, blind single-image run",
+    "inputKind": "static screenshot only",
+    "protocolNotes": [
+      "Zero triggers and zero navigates-to edges: a still image supports no verifiable behaviour.",
+      "The Uno mapping layer carries proposed control types only. No resourceKey, xName, styleKey or class is present, and every uno block carries its own inferred evidence marker so mapping-layer claims are never observed or declared.",
+      "Colour, geometry and grid counts were measured by pixel sampling of the supplied image; they are recorded as derived rather than declared."
+    ]
+  }
+}

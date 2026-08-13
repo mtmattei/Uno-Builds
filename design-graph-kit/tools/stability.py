@@ -7,7 +7,9 @@
 """
 import itertools, json, pathlib, subprocess, sys
 
-KIT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit")
+# Resolve the kit from this file's own location so the tool runs on any machine
+# (it was previously pinned to the sandbox path it was written in).
+KIT = pathlib.Path(__file__).resolve().parents[1]
 import sys as _sys
 _EVAL = _sys.argv[2] if len(_sys.argv) > 2 else "05-orbital-settings"
 BLIND = KIT / ("evals/" + _EVAL + "/" + (_sys.argv[1] if len(_sys.argv) > 1 else "blind"))
