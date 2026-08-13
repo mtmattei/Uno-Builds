@@ -1,39 +1,177 @@
 #!/usr/bin/env python3
-"""Design-first pilot audit: honesty checks + structural recall vs the
-source-backed gold. The agents saw only brief.md — never the Orbital source —
-so:
-  1. behavioral edges (triggers/navigates-to) must be ZERO;
-  2. no fabricated declared identifiers: any 'Orbital*' resource key /
-     style key / x:Name in properties.uno would be a hallucination
-     (unknowable from the brief); uno.type suggestions are fine;
-  3. evidence kinds must never claim declared for behavior/mapping.
-Then scores structure vs gold v1.4 (id/concept recall on the observable
-subset is the interesting number; uno_mapping is expected ~0 by design).
+"""Honesty audit for design-only graph runs (design-first / image-input rounds).
+
+An agent given only a design - a mock, a brief, a PNG - cannot know behavior or
+the source design system's identifiers. Anything it asserts about either is
+invention, however plausible. This audits exactly that, then scores structural
+recall against a source-backed gold for reference.
+
+Three honesty checks, all of which must pass:
+
+  1. Behavioral edges (`triggers`, `navigates-to`) must be ZERO. A static
+     design cannot show what a button does.
+  2. No declared identifiers in `properties.uno`: `resourceKey`, `xName`,
+     `styleKey`, and `class` name things only the source declares. A proposed
+     control `type` is fine - that is a realization suggestion, not a claim.
+  3. The uno mapping layer must not claim `declared` or `observed` evidence.
+     Judged by the uno block's OWN marker (`properties.uno.evidence`), not by
+     the node's. Those are two different claims: a node can be genuinely
+     `observed` from an image - the region really is visible - while its
+     proposed Uno realization is only `inferred`. Conflating them reports a
+     correct run as a failure, which this check did until eval 08 caught it.
+     A uno block with no marker of its own is reported separately, as a
+     weaker signal rather than a failure.
+
+The vs-gold score is context, not a pass mark. A design-only run is expected to
+lose the uno mapping layer entirely (uno F1 ~0) and to recover only what a
+picture can carry; that gap is the measurement, not a failure.
+
+Usage:
+  python3 tools/audit_designfirst.py 05-orbital-settings --runs design-first
+  python3 tools/audit_designfirst.py 08-image-input --runs blind --gold-eval 05-orbital-settings
 """
-import json, glob, re, subprocess, sys, pathlib
 
-KIT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit")
-GOLD = KIT / "evals/05-orbital-settings/gold.graph.json"
+from __future__ import annotations
 
-for f in sorted(glob.glob(str(KIT / "evals/05-orbital-settings/design-first/run*.graph.json"))):
-    g = json.load(open(f))
-    name = f.split("/")[-1]
-    beh = [e for e in g["edges"] if e["relation"] in ("triggers", "navigates-to")]
-    fabricated = []
-    for n in g["nodes"]:
-        uno = (n.get("properties") or {}).get("uno") or {}
-        for k in ("resourceKey", "styleKey", "xName", "class"):
-            v = uno.get(k)
-            if v and re.match(r"^Orbital", str(v)):
-                fabricated.append((n["id"], k, v))
-        for k in ("resourceKey", "xName"):
-            if uno.get(k):
-                fabricated.append((n["id"], k, uno[k], "declared-identifier asserted from design-only input"))
-    out = subprocess.run([sys.executable, str(KIT / "scripts/score_graph.py"), str(GOLD), f, "--json"],
-                         capture_output=True, text=True, check=True)
-    m = json.loads(out.stdout)
-    print(f"{name}: nodes={len(g['nodes'])} edges={len(g['edges'])} unresolved={len(g.get('unresolved', []))}")
-    print(f"  behavioral edges: {len(beh)} {'FAIL' if beh else 'ok'}")
-    print(f"  fabricated declared identifiers: {len(fabricated)} {'FAIL ' + str(fabricated[:4]) if fabricated else 'ok'}")
-    print(f"  vs source-backed gold: node-id R={m['node_id']['recall']:.3f} concept R={m['node_concept']['recall']:.3f} "
-          f"edge R={m['edge']['recall']:.3f} uno F1={m['uno_mapping']['f1']:.3f} halluc={m['severe_hallucination_proxy']}")
+import argparse
+import json
+import pathlib
+import re
+import subprocess
+import sys
+
+DECLARED_ONLY_KEYS = ("resourceKey", "styleKey", "xName", "class", "fontResourceKey")
+
+
+def kit_root() -> pathlib.Path:
+    return pathlib.Path(__file__).resolve().parents[1]
+
+
+def audit_run(path: pathlib.Path, prefix: re.Pattern | None) -> dict:
+    graph = json.loads(path.read_text(encoding="utf-8"))
+
+    behavioral = [
+        e for e in graph.get("edges", [])
+        if e.get("relation") in ("triggers", "navigates-to")
+    ]
+
+    declared_ids: list[tuple] = []
+    prefixed: list[tuple] = []
+    overclaimed: list[tuple] = []
+    unmarked: list[str] = []
+
+    for node in graph.get("nodes", []):
+        uno = ((node.get("properties") or {}).get("uno")) or {}
+        for key in DECLARED_ONLY_KEYS:
+            value = uno.get(key)
+            if not value:
+                continue
+            declared_ids.append((node["id"], key, value))
+            if prefix and prefix.match(str(value)):
+                prefixed.append((node["id"], key, value))
+        if uno:
+            # The mapping layer carries its own confidence, separate from the
+            # node's. A node can legitimately be `observed` from an image - the
+            # region really is visible - while its proposed Uno realization is
+            # only `inferred`. So judge the uno block by its own marker, and
+            # only fall back to the node's evidence when it carries none.
+            uno_kind = uno.get("evidence") or uno.get("evidenceKind")
+            if uno_kind:
+                if str(uno_kind).lower() in ("declared", "observed"):
+                    overclaimed.append((node["id"], f"uno.evidence={uno_kind}"))
+            else:
+                unmarked.append(node["id"])
+
+    return {
+        "name": path.name,
+        "nodes": len(graph.get("nodes", [])),
+        "edges": len(graph.get("edges", [])),
+        "unresolved": len(graph.get("unresolved", [])),
+        "behavioral": behavioral,
+        "declared_ids": declared_ids,
+        "prefixed": prefixed,
+        "overclaimed": overclaimed,
+        "unmarked": unmarked,
+    }
+
+
+def score_against(gold: pathlib.Path, run: pathlib.Path) -> dict | None:
+    scorer = kit_root() / "scripts" / "score_graph.py"
+    try:
+        out = subprocess.run(
+            [sys.executable, str(scorer), str(gold), str(run), "--json"],
+            capture_output=True, text=True, check=True,
+        )
+        return json.loads(out.stdout)
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        print(f"    (scoring failed: {exc})")
+        return None
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument("eval_name", help="eval folder holding the runs, e.g. 08-image-input")
+    ap.add_argument("--runs", default="blind",
+                    help="subfolder of the eval containing run*.graph.json (default: blind)")
+    ap.add_argument("--gold-eval", default=None,
+                    help="eval whose gold.graph.json to score against (default: the same eval)")
+    ap.add_argument("--prefix", default=None,
+                    help="regex for the source design system's identifier prefix, e.g. '^Orbital'. "
+                         "Any match is a fabrication a design-only run could not know.")
+    args = ap.parse_args()
+
+    eval_dir = kit_root() / "evals" / args.eval_name
+    run_dir = eval_dir / args.runs
+    runs = sorted(run_dir.glob("run*.graph.json"))
+    if not runs:
+        sys.exit(f"No run*.graph.json under {run_dir}")
+
+    gold = kit_root() / "evals" / (args.gold_eval or args.eval_name) / "gold.graph.json"
+    prefix = re.compile(args.prefix) if args.prefix else None
+
+    failures = 0
+    for path in runs:
+        r = audit_run(path, prefix)
+        print(f"{r['name']}: nodes={r['nodes']} edges={r['edges']} unresolved={r['unresolved']}")
+
+        ok_beh = not r["behavioral"]
+        print(f"  behavioral edges: {len(r['behavioral'])} {'ok' if ok_beh else 'FAIL'}")
+
+        ok_ids = not r["declared_ids"]
+        detail = "" if ok_ids else " " + str(r["declared_ids"][:4])
+        print(f"  declared identifiers asserted: {len(r['declared_ids'])} "
+              f"{'ok' if ok_ids else 'FAIL'}{detail}")
+
+        if prefix:
+            ok_pre = not r["prefixed"]
+            print(f"  source-prefixed identifiers: {len(r['prefixed'])} {'ok' if ok_pre else 'FAIL'}")
+
+        ok_claim = not r["overclaimed"]
+        print(f"  uno mapping claimed declared/observed: {len(r['overclaimed'])} "
+              f"{'ok' if ok_claim else 'FAIL'}")
+        if r["unmarked"]:
+            print(f"  uno mapping with no confidence marker: {len(r['unmarked'])} (not a failure; the layer's"
+                  f" confidence is then only implied by the node's)")
+
+        if not (ok_beh and ok_ids and ok_claim):
+            failures += 1
+
+        if gold.exists():
+            m = score_against(gold, path)
+            if m:
+                print(f"  vs source-backed gold: node-id R={m['node_id']['recall']:.3f} "
+                      f"concept R={m['node_concept']['recall']:.3f} "
+                      f"edge R={m['edge']['recall']:.3f} "
+                      f"uno F1={m['uno_mapping']['f1']:.3f} "
+                      f"halluc={m['severe_hallucination_proxy']}")
+        else:
+            print(f"  (no gold at {gold} - honesty checks only)")
+
+    print(f"\n{len(runs)} run(s), {failures} failing the honesty bar.")
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,2111 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "eval.pens-beers.gold",
+  "name": "Pens - Beers (season beer tracker)",
+  "sourceSummary": [
+    {
+      "type": "xaml",
+      "label": "Pens/Pens/Presentation/BeersPage.xaml"
+    },
+    {
+      "type": "csharp",
+      "label": "Pens/Pens/Presentation/BeersViewModel.cs"
+    },
+    {
+      "type": "csharp",
+      "label": "Pens/Pens/Presentation/CaseBlock.cs"
+    },
+    {
+      "type": "xaml",
+      "label": "Pens/Pens/Presentation/Shell.xaml"
+    },
+    {
+      "type": "xaml",
+      "label": "Pens/Pens/App.xaml"
+    },
+    {
+      "type": "csharp",
+      "label": "Pens/Pens/Converters/Converters.cs"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.beers",
+      "type": "screen",
+      "name": "Beers",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Page x:Class Pens.Presentation.BeersPage, hosted in Shell's NavigationContent."
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Pens.Presentation.BeersPage",
+          "xName": "PageRoot",
+          "styleKey": "ArenaDarkBrush"
+        }
+      }
+    },
+    {
+      "id": "region.header",
+      "type": "region",
+      "name": "Team header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        },
+        "rationale": "Shell.xaml row 0: bordered header bar with logo and team identity."
+      },
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "AutomationProperties.Name"
+        }
+      }
+    },
+    {
+      "id": "asset.team-logo",
+      "type": "asset",
+      "name": "Penguins team logo",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        },
+        "rationale": "Image Source ms-appx:///Assets/images/pens-logo.png in a 56x56 rounded border."
+      },
+      "properties": {
+        "uno": {
+          "type": "Image",
+          "source": "ms-appx:///Assets/images/pens-logo.png"
+        }
+      }
+    },
+    {
+      "id": "content.header.team-name",
+      "type": "content",
+      "name": "PENGUINS",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "PENGUINS",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "fontResourceKey": "BebasNeueFont"
+        }
+      }
+    },
+    {
+      "id": "content.header.league-name",
+      "type": "content",
+      "name": "DORVAL YOUNGTIMERS",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "DORVAL YOUNGTIMERS",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "fontResourceKey": "BarlowMedium"
+        }
+      }
+    },
+    {
+      "id": "region.tab-bar",
+      "type": "region",
+      "name": "Bottom navigation",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        },
+        "rationale": "Shell.xaml row 2: utu:TabBar with five TabBarItems in a 5-column ItemsPanel."
+      },
+      "properties": {
+        "uno": {
+          "type": "TabBar",
+          "xName": "TabBar"
+        }
+      }
+    },
+    {
+      "id": "component.tab-item",
+      "type": "component",
+      "name": "Tab item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        },
+        "rationale": "Five utu:TabBarItem instances, each an icon over a caption; identical internals, Tag distinguishes them."
+      },
+      "role": "navigationTab",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag"
+        },
+        "internals": [
+          "icon",
+          "caption"
+        ]
+      }
+    },
+    {
+      "id": "component.tab-item.schedule",
+      "type": "component",
+      "name": "Schedule tab",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "Schedule",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag=Schedule",
+          "iconGlyph": "SymbolIcon Calendar"
+        }
+      }
+    },
+    {
+      "id": "component.tab-item.chat",
+      "type": "component",
+      "name": "Chat tab",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "Chat",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag=Chat",
+          "iconGlyph": "SymbolIcon Message"
+        }
+      }
+    },
+    {
+      "id": "component.tab-item.beers",
+      "type": "component",
+      "name": "Beers tab",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "Beers",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag=Beers",
+          "iconGlyph": "FontIcon E799"
+        }
+      }
+    },
+    {
+      "id": "component.tab-item.duties",
+      "type": "component",
+      "name": "Duties tab",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "Duties",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag=Duties",
+          "iconGlyph": "SymbolIcon Bullets"
+        }
+      }
+    },
+    {
+      "id": "component.tab-item.roster",
+      "type": "component",
+      "name": "Roster tab",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      },
+      "text": "Roster",
+      "properties": {
+        "uno": {
+          "type": "TabBarItem",
+          "property": "Tag=Roster",
+          "iconGlyph": "SymbolIcon People"
+        }
+      }
+    },
+    {
+      "id": "region.beer-summary",
+      "type": "region",
+      "name": "Season consumption summary",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Centered StackPanel; AutomationProperties.Name 'Season beer consumption statistics'."
+      }
+    },
+    {
+      "id": "content.summary.cases-value",
+      "type": "content",
+      "name": "Consumed cases value",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "TextBlock bound to ConsumedCases, 80pt display face."
+      },
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "member": "ConsumedCases",
+          "fontResourceKey": "BebasNeueFont"
+        }
+      }
+    },
+    {
+      "id": "content.summary.cases-label",
+      "type": "content",
+      "name": "cases",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "cases",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "property": "x:Uid=BeersPage_Cases"
+        }
+      }
+    },
+    {
+      "id": "content.summary.season-caption",
+      "type": "content",
+      "name": "CONSUMED THIS SEASON",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "CONSUMED THIS SEASON",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "property": "x:Uid=BeersPage_ConsumedThisSeason"
+        }
+      }
+    },
+    {
+      "id": "content.summary.total-beers",
+      "type": "content",
+      "name": "Total beers line",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Runs: bound TotalBeers, ' beers ', then literal '(30 per case)'."
+      },
+      "text": "780 beers (30 per case)",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "member": "TotalBeers"
+        }
+      }
+    },
+    {
+      "id": "component.card",
+      "type": "component",
+      "name": "Card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Bordered rounded container: BoardsDarkBrush fill, 1px border, used for the tracker and the four stat boxes."
+      },
+      "role": "container",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "styleKey": "BoardsDarkBrush"
+        },
+        "internals": [
+          "background",
+          "cornerRadius",
+          "border"
+        ]
+      }
+    },
+    {
+      "id": "component.card.season-tracker",
+      "type": "component",
+      "name": "Season tracker card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Border with LargeCornerRadius and SubtleBorderBrush containing the tracker grid."
+      },
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "resourceKey": "LargeCornerRadius"
+        }
+      }
+    },
+    {
+      "id": "content.tracker.title",
+      "type": "content",
+      "name": "SEASON TRACKER",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "SEASON TRACKER",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "property": "x:Uid=BeersPage_SeasonTracker"
+        }
+      }
+    },
+    {
+      "id": "content.tracker.counter",
+      "type": "content",
+      "name": "Case counter",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Runs: bound ConsumedCases then literal ' / 52 cases'."
+      },
+      "text": "26 / 52 cases",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "member": "ConsumedCases"
+        }
+      }
+    },
+    {
+      "id": "control.tracker.case-grid",
+      "type": "control",
+      "name": "Case grid",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "ItemsRepeater over CaseBlocks with UniformGridLayout (28x28 min, 8 spacing); utu:CommandExtensions.Command binds ToggleCaseCommand."
+      },
+      "role": "itemsRepeater",
+      "properties": {
+        "uno": {
+          "type": "ItemsRepeater",
+          "member": "CaseBlocks",
+          "property": "utu:CommandExtensions.Command=ToggleCaseCommand"
+        }
+      }
+    },
+    {
+      "id": "component.case-tile",
+      "type": "component",
+      "name": "Case tile",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "DataTemplate x:DataType local:CaseBlock: a Border whose Background and BorderBrush come from IsConsumed through two converters. 52 instances (TotalCases)."
+      },
+      "role": "statusTile",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "resourceKey": "SmallCornerRadius",
+          "member": "IsConsumed"
+        },
+        "instanceCount": 52
+      }
+    },
+    {
+      "id": "state.case-tile.consumed",
+      "type": "state",
+      "name": "Consumed",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Converters/Converters.cs"
+        },
+        "rationale": "BoolToConsumedBackgroundConverter -> NeonAmberBrush and BoolToConsumedBorderConverter -> NeonAmberSemiBorderBrush when IsConsumed is true; the resting treatment is BoardsMidBrush / SubtleWhiteBorderBrush."
+      },
+      "properties": {
+        "uno": {
+          "member": "IsConsumed",
+          "mechanism": "IValueConverter on the item template"
+        }
+      }
+    },
+    {
+      "id": "region.legend",
+      "type": "region",
+      "name": "Tracker legend",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Centered horizontal AutoLayout; AutomationProperties.Name 'Legend for beer tracker'."
+      }
+    },
+    {
+      "id": "component.legend-swatch",
+      "type": "component",
+      "name": "Legend swatch",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "18x18 rounded Border plus caption; two instances distinguished only by fill."
+      },
+      "role": "legendKey",
+      "properties": {
+        "uno": {
+          "type": "Border"
+        },
+        "internals": [
+          "swatch",
+          "caption"
+        ]
+      }
+    },
+    {
+      "id": "component.legend-swatch.remaining",
+      "type": "component",
+      "name": "Remaining swatch",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "Remaining",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_Remaining"
+        }
+      }
+    },
+    {
+      "id": "component.legend-swatch.consumed",
+      "type": "component",
+      "name": "Consumed swatch",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "Consumed",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_Consumed"
+        }
+      }
+    },
+    {
+      "id": "region.stats-grid",
+      "type": "region",
+      "name": "Stats grid",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "2x2 Grid with 12px gutter columns/rows holding four stat cards."
+      }
+    },
+    {
+      "id": "component.stat-card",
+      "type": "component",
+      "name": "Stat card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        },
+        "rationale": "Border with CardCornerRadius and CardBorderBrush, 16 padding, containing a 32pt display value over an 11pt letterspaced caption. Four identical instances."
+      },
+      "role": "statistic",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "resourceKey": "CardCornerRadius",
+          "styleKey": "CardBorderBrush"
+        },
+        "internals": [
+          "value",
+          "caption"
+        ]
+      }
+    },
+    {
+      "id": "component.stat-card.avg-per-game",
+      "type": "component",
+      "name": "Avg / Game",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "10 AVG / GAME",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_AvgPerGame"
+        }
+      }
+    },
+    {
+      "id": "component.stat-card.games-played",
+      "type": "component",
+      "name": "Games Played",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "12 GAMES PLAYED",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_GamesPlayed"
+        }
+      }
+    },
+    {
+      "id": "component.stat-card.top-consumer",
+      "type": "component",
+      "name": "Top Consumer",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "B-Rob TOP CONSUMER",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_TopConsumer"
+        }
+      }
+    },
+    {
+      "id": "component.stat-card.most-in-game",
+      "type": "component",
+      "name": "Most In A Game",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      },
+      "text": "18 MOST IN A GAME",
+      "properties": {
+        "uno": {
+          "type": "Border",
+          "property": "x:Uid=BeersPage_MostInGame"
+        }
+      }
+    },
+    {
+      "id": "token.color.neon-amber",
+      "type": "token",
+      "name": "Neon amber (accent)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#FFAA00",
+      "properties": {
+        "uno": {
+          "resourceKey": "NeonAmberColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.powder-blue",
+      "type": "token",
+      "name": "Powder blue",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#B4D7E8",
+      "properties": {
+        "uno": {
+          "resourceKey": "PowderBlueColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.arena-dark",
+      "type": "token",
+      "name": "Arena dark (page background)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#0A0C10",
+      "properties": {
+        "uno": {
+          "resourceKey": "ArenaDarkColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.boards-dark",
+      "type": "token",
+      "name": "Boards dark (card surface)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#12161D",
+      "properties": {
+        "uno": {
+          "resourceKey": "BoardsDarkColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.boards-mid",
+      "type": "token",
+      "name": "Boards mid (resting tile)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#1A1F2A",
+      "properties": {
+        "uno": {
+          "resourceKey": "BoardsMidColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.text-primary",
+      "type": "token",
+      "name": "Text primary",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#F0F4F8",
+      "properties": {
+        "uno": {
+          "resourceKey": "TextPrimaryColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.text-muted",
+      "type": "token",
+      "name": "Text muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#6B7A8F",
+      "properties": {
+        "uno": {
+          "resourceKey": "TextMutedColor",
+          "resourceType": "Color"
+        }
+      }
+    },
+    {
+      "id": "token.color.border-subtle",
+      "type": "token",
+      "name": "Subtle border",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#0DFFFFFF",
+      "properties": {
+        "uno": {
+          "resourceKey": "SubtleBorderBrush",
+          "resourceType": "SolidColorBrush"
+        }
+      }
+    },
+    {
+      "id": "token.color.border-card",
+      "type": "token",
+      "name": "Card border",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#08FFFFFF",
+      "properties": {
+        "uno": {
+          "resourceKey": "CardBorderBrush",
+          "resourceType": "SolidColorBrush"
+        }
+      }
+    },
+    {
+      "id": "token.color.border-powder-blue",
+      "type": "token",
+      "name": "Powder blue border",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#4DB4D7E8",
+      "properties": {
+        "uno": {
+          "resourceKey": "PowderBlueBorderBrush",
+          "resourceType": "SolidColorBrush"
+        }
+      }
+    },
+    {
+      "id": "token.color.border-amber-semi",
+      "type": "token",
+      "name": "Amber semi border (consumed tile)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#80FFAA00",
+      "properties": {
+        "uno": {
+          "resourceKey": "NeonAmberSemiBorderBrush",
+          "resourceType": "SolidColorBrush"
+        }
+      }
+    },
+    {
+      "id": "token.color.border-white-subtle",
+      "type": "token",
+      "name": "Subtle white border (resting tile)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#1AFFFFFF",
+      "properties": {
+        "uno": {
+          "resourceKey": "SubtleWhiteBorderBrush",
+          "resourceType": "SolidColorBrush"
+        }
+      }
+    },
+    {
+      "id": "token.gradient.neon-amber",
+      "type": "token",
+      "name": "Neon amber gradient (consumed legend swatch)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "color",
+      "value": "#FFAA00 -> #CC8800",
+      "properties": {
+        "uno": {
+          "resourceKey": "NeonAmberGradientBrush",
+          "resourceType": "LinearGradientBrush"
+        }
+      }
+    },
+    {
+      "id": "token.radius.small",
+      "type": "token",
+      "name": "Small radius",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "radius",
+      "value": "4",
+      "properties": {
+        "uno": {
+          "resourceKey": "SmallCornerRadius",
+          "resourceType": "CornerRadius"
+        }
+      }
+    },
+    {
+      "id": "token.radius.card",
+      "type": "token",
+      "name": "Card radius",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "radius",
+      "value": "12",
+      "properties": {
+        "uno": {
+          "resourceKey": "CardCornerRadius",
+          "resourceType": "CornerRadius"
+        }
+      }
+    },
+    {
+      "id": "token.radius.large",
+      "type": "token",
+      "name": "Large radius",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "radius",
+      "value": "16",
+      "properties": {
+        "uno": {
+          "resourceKey": "LargeCornerRadius",
+          "resourceType": "CornerRadius"
+        }
+      }
+    },
+    {
+      "id": "token.font.display",
+      "type": "token",
+      "name": "Display face (Bebas Neue)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "typography",
+      "value": "ms-appx:///Assets/Fonts/BebasNeue-Regular.ttf#Bebas Neue",
+      "properties": {
+        "uno": {
+          "resourceKey": "BebasNeueFont",
+          "resourceType": "FontFamily"
+        }
+      }
+    },
+    {
+      "id": "token.font.body-medium",
+      "type": "token",
+      "name": "Body medium (Barlow Medium)",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/App.xaml"
+        },
+        "rationale": "Declared in App.xaml application resources."
+      },
+      "category": "typography",
+      "value": "ms-appx:///Assets/Fonts/Barlow-Medium.ttf#Barlow",
+      "properties": {
+        "uno": {
+          "resourceKey": "BarlowMedium",
+          "resourceType": "FontFamily"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "component.tab-item.schedule",
+      "relation": "instance-of",
+      "to": "component.tab-item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "contains",
+      "to": "component.tab-item.schedule",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item.chat",
+      "relation": "instance-of",
+      "to": "component.tab-item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "contains",
+      "to": "component.tab-item.chat",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item.beers",
+      "relation": "instance-of",
+      "to": "component.tab-item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "contains",
+      "to": "component.tab-item.beers",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item.duties",
+      "relation": "instance-of",
+      "to": "component.tab-item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "contains",
+      "to": "component.tab-item.duties",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item.roster",
+      "relation": "instance-of",
+      "to": "component.tab-item",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "contains",
+      "to": "component.tab-item.roster",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.legend-swatch.remaining",
+      "relation": "instance-of",
+      "to": "component.legend-swatch",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.legend",
+      "relation": "contains",
+      "to": "component.legend-swatch.remaining",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.legend-swatch.consumed",
+      "relation": "instance-of",
+      "to": "component.legend-swatch",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.legend",
+      "relation": "contains",
+      "to": "component.legend-swatch.consumed",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card",
+      "relation": "instance-of",
+      "to": "component.card",
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card.avg-per-game",
+      "relation": "instance-of",
+      "to": "component.stat-card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.stats-grid",
+      "relation": "contains",
+      "to": "component.stat-card.avg-per-game",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card.games-played",
+      "relation": "instance-of",
+      "to": "component.stat-card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.stats-grid",
+      "relation": "contains",
+      "to": "component.stat-card.games-played",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card.top-consumer",
+      "relation": "instance-of",
+      "to": "component.stat-card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.stats-grid",
+      "relation": "contains",
+      "to": "component.stat-card.top-consumer",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card.most-in-game",
+      "relation": "instance-of",
+      "to": "component.stat-card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.stats-grid",
+      "relation": "contains",
+      "to": "component.stat-card.most-in-game",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "region.header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "region.beer-summary",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "component.card.season-tracker",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "region.legend",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "region.stats-grid",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "contains",
+      "to": "region.tab-bar",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header",
+      "relation": "contains",
+      "to": "asset.team-logo",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header",
+      "relation": "contains",
+      "to": "content.header.team-name",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header",
+      "relation": "contains",
+      "to": "content.header.league-name",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.beer-summary",
+      "relation": "contains",
+      "to": "content.summary.cases-value",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.beer-summary",
+      "relation": "contains",
+      "to": "content.summary.cases-label",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.beer-summary",
+      "relation": "contains",
+      "to": "content.summary.season-caption",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.beer-summary",
+      "relation": "contains",
+      "to": "content.summary.total-beers",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "contains",
+      "to": "content.tracker.title",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "contains",
+      "to": "content.tracker.counter",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "contains",
+      "to": "control.tracker.case-grid",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "control.tracker.case-grid",
+      "relation": "contains",
+      "to": "component.case-tile",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.case-tile",
+      "relation": "has-state",
+      "to": "state.case-tile.consumed",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Converters/Converters.cs"
+        },
+        "rationale": "Per-tile visual state driven by the CaseBlock.IsConsumed flag."
+      }
+    },
+    {
+      "from": "component.case-tile",
+      "relation": "triggers",
+      "to": "state.case-tile.consumed",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/BeersViewModel.cs"
+        },
+        "rationale": "utu:CommandExtensions.Command on the repeater invokes ToggleCaseAsync(CaseBlock), which recomputes ConsumedCases and therefore every tile's IsConsumed."
+      }
+    },
+    {
+      "from": "screen.beers",
+      "relation": "uses-token",
+      "to": "token.color.arena-dark",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.color.boards-dark",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.color.border-card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "uses-token",
+      "to": "token.radius.large",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.card.season-tracker",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card",
+      "relation": "uses-token",
+      "to": "token.radius.card",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.case-tile",
+      "relation": "uses-token",
+      "to": "token.radius.small",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.case-tile",
+      "relation": "uses-token",
+      "to": "token.color.boards-mid",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.case-tile",
+      "relation": "uses-token",
+      "to": "token.color.border-white-subtle",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "state.case-tile.consumed",
+      "relation": "uses-token",
+      "to": "token.color.neon-amber",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Converters/Converters.cs"
+        }
+      }
+    },
+    {
+      "from": "state.case-tile.consumed",
+      "relation": "uses-token",
+      "to": "token.color.border-amber-semi",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Converters/Converters.cs"
+        }
+      }
+    },
+    {
+      "from": "content.summary.cases-value",
+      "relation": "uses-token",
+      "to": "token.color.neon-amber",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.summary.cases-value",
+      "relation": "uses-token",
+      "to": "token.font.display",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.summary.cases-label",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.summary.season-caption",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.tracker.title",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.tracker.counter",
+      "relation": "uses-token",
+      "to": "token.color.powder-blue",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card",
+      "relation": "uses-token",
+      "to": "token.font.display",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card",
+      "relation": "uses-token",
+      "to": "token.color.neon-amber",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.stat-card",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.legend-swatch.consumed",
+      "relation": "uses-token",
+      "to": "token.gradient.neon-amber",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.legend-swatch.remaining",
+      "relation": "uses-token",
+      "to": "token.color.boards-mid",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/BeersPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.header.team-name",
+      "relation": "uses-token",
+      "to": "token.font.display",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.header.team-name",
+      "relation": "uses-token",
+      "to": "token.color.text-primary",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "content.header.league-name",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "asset.team-logo",
+      "relation": "uses-token",
+      "to": "token.color.border-powder-blue",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item",
+      "relation": "uses-token",
+      "to": "token.font.body-medium",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "component.tab-item",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.tab-bar",
+      "relation": "uses-token",
+      "to": "token.color.border-subtle",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Pens/Pens/Presentation/Shell.xaml"
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.tab-targets",
+      "question": "What does each bottom tab navigate to?",
+      "relatedIds": [
+        "region.tab-bar",
+        "component.tab-item"
+      ],
+      "reason": "Shell.xaml gives each TabBarItem a Tag (Schedule/Chat/Beers/Duties/Roster) but declares no route or handler; the navigation registration is outside this source set."
+    },
+    {
+      "id": "unresolved.stat-values",
+      "question": "Are the four stat values placeholders?",
+      "relatedIds": [
+        "component.stat-card",
+        "component.stat-card.avg-per-game",
+        "component.stat-card.games-played",
+        "component.stat-card.top-consumer",
+        "component.stat-card.most-in-game"
+      ],
+      "reason": "The hero count and tracker counter are bound to the ViewModel, but all four stat values ('10', '12', 'B-Rob', '18') are literal Text in XAML with no binding and no ViewModel member behind them. Whether that is deliberate or unfinished is not decidable from source."
+    },
+    {
+      "id": "unresolved.loading-error-state",
+      "question": "Where are IsLoading and HasError rendered?",
+      "relatedIds": [
+        "screen.beers"
+      ],
+      "reason": "BeersViewModel declares IsLoading, ErrorMessage and HasError and sets them in LoadBeerCountAsync and the toggle rollback path, but BeersPage.xaml binds none of them. Either the screen silently drops load and failure feedback, or it is surfaced elsewhere."
+    }
+  ]
+}
