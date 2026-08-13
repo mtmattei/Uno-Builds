@@ -7,7 +7,7 @@ wired to consumers; canonical internals as properties; tokens screen-scoped).
 """
 import json, pathlib
 
-OUT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit/evals/06-flux-profile")
+OUT = pathlib.Path(__file__).resolve().parents[1] / "evals" / "06-flux-profile"
 XAML = {"type": "xaml", "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"}
 VM = {"type": "csharp", "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs"}
 DS = {"type": "design-system", "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"}
@@ -233,6 +233,15 @@ nodes = [
         {"styleKey": "FluxHeadingLarge"}, "Page title; balance value."),
     tok("token.typography.body", "Body", "typography", {"size": 14},
         {"styleKey": "FluxBody"}, "Default body text."),
+    # Cross-model review F3/F4: the API and alerts helpers apply FluxBody but
+    # override FontSize to 12 locally (ProfilePage.xaml:187,220), so the 14px
+    # body token does not describe their rendered typography. Derived, because
+    # the source states the size inline rather than through a declared token.
+    node("token.typography.helper", "token", name="Helper caption", category="typography",
+         value={"size": 12},
+         properties={"uno": {"styleKey": "FluxBody", "property": "FontSize=12"}},
+         evidence=ev("derived", 1.0, XAML,
+                     "Repeated local FontSize=12 override on FluxBody helper text.")),
     tok("token.typography.body-bold", "Body bold", "typography", {"size": 14, "weight": "Bold"},
         {"styleKey": "FluxBodyBold"}, "Route names."),
     tok("token.typography.micro", "Micro header", "typography",
@@ -305,6 +314,9 @@ UT = [
     ("component.card", "token.color.glass-panel", "background"),
     ("component.card", "token.color.border-subtle", "borderBrush"),
     ("component.card", "token.radius.24", "cornerRadius"),
+    # Cross-model review: FluxGlassPanelStyle declares Padding=24; the 16 comes
+    # from three page-local child StackPanels, not from the cited style.
+    ("component.card", "token.spacing.24", "padding"),
     ("component.card", "token.spacing.16", "innerGap"),
     ("content.header.title", "token.typography.heading-large", "font"),
     ("content.header.subtitle", "token.typography.body", "font"),
@@ -322,6 +334,27 @@ UT = [
     ("component.route-item", "token.color.border-subtle", "borderBrush"),
     ("component.route-item", "token.color.primary", "iconColor"),
     ("component.route-item", "token.color.text-muted", "chevronColor"),
+    # Cross-model review F5/F6: the styles these nodes already consume also
+    # declare a Foreground - FluxBody supplies TextSecondary, FluxHeadingLarge
+    # and FluxBodyBold supply TextPrimary, FluxMicro supplies TextMuted. The
+    # gold recorded the typography half of each style and dropped the colour
+    # half, leaving text-secondary with no modelled consumer at all.
+    ("content.header.title", "token.color.text-primary", "foreground"),
+    ("content.header.subtitle", "token.color.text-secondary", "foreground"),
+    ("content.opus.balance-label", "token.color.text-secondary", "foreground"),
+    ("content.opus.refresh-hint", "token.color.text-secondary", "foreground"),
+    ("content.opus.updating-label", "token.color.text-secondary", "foreground"),
+    ("content.opus.section-title", "token.color.text-muted", "foreground"),
+    ("content.routes.section-title", "token.color.text-muted", "foreground"),
+    ("content.settings.section-title", "token.color.text-muted", "foreground"),
+    ("component.route-item", "token.color.text-primary", "nameForeground"),
+    ("content.settings.api-label", "token.color.text-secondary", "foreground"),
+    # The two 12px helpers: derived helper typography, but they still inherit
+    # FluxBody's foreground.
+    ("content.settings.api-helper", "token.typography.helper", "font"),
+    ("content.settings.alerts-helper", "token.typography.helper", "font"),
+    ("content.settings.api-helper", "token.color.text-secondary", "foreground"),
+    ("content.settings.alerts-helper", "token.color.text-secondary", "foreground"),
     ("component.route-item", "token.typography.body-bold", "nameFont"),
     ("component.route-item", "token.typography.body", "stationsFont"),
     ("component.route-item", "token.spacing.4", "textGap"),
@@ -330,11 +363,9 @@ UT = [
     ("content.settings.api-label", "token.typography.body", "font"),
     ("control.settings.api-key", "token.color.surface", "background"),
     ("control.settings.api-key", "token.color.border-light", "borderBrush"),
-    ("content.settings.api-helper", "token.typography.body", "font"),
-    ("content.settings.language-label", "token.typography.body", "font"),
+        ("content.settings.language-label", "token.typography.body", "font"),
     ("content.settings.alerts-label", "token.typography.body", "font"),
-    ("content.settings.alerts-helper", "token.typography.body", "font"),
-    ("content.footer.version", "token.typography.body", "font"),
+        ("content.footer.version", "token.typography.body", "font"),
     ("content.footer.credit", "token.typography.body", "font"),
 ]
 for frm, to, applies in UT:

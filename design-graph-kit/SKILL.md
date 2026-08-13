@@ -66,6 +66,36 @@ Do not wrap the JSON in explanatory prose if the caller asks for a file or machi
 
 ## Procedure
 
+### Pass 0: Read the whole source set (binding)
+
+Before inventorying anything, open **every file that backs the surface**:
+
+- each `.xaml` **and its `.xaml.cs` code-behind**;
+- every custom control the markup references, and *their* code-behind;
+- the shell or host that composes the screen, and its code-behind;
+- the view models, models and converters the bindings name;
+- the style dictionaries the surface consumes.
+
+A `.xaml` file tells you what exists. Its code-behind tells you what it
+*does* — navigation maps, command wiring, animation timings, dialog copy.
+Modeling from markup alone produces a graph that is confidently wrong about
+behavior, which is worse than one that is silent about it.
+
+This is binding because it has caused a critical answer-key defect twice:
+
+- eval 05 v1.1 modeled the page header as a plain region because
+  `PageHeader.xaml` was never opened, missing an entire reusable component and
+  its search affordance;
+- eval 08 recorded `unresolved.tab-targets` — "the navigation registration is
+  outside this source set" — when `Shell.xaml.cs` maps every tab tag to its
+  page. Five `navigates-to` edges were missing, and worse, the graph asserted
+  the destinations were *unknowable*.
+
+An `unresolved` item that the source answers is more damaging than a missing
+node: it teaches every downstream consumer that the fact cannot be known.
+Before writing one, confirm the answer is absent from the **whole** source
+set, not merely from the file you happened to read.
+
 ### Pass 1: Inventory observable facts
 
 Identify only what is directly supported by the source:

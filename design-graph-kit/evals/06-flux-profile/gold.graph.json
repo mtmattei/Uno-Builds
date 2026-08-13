@@ -42,6 +42,56 @@
       }
     },
     {
+      "id": "region.profile.scroll-content",
+      "type": "region",
+      "name": "Scrolling content",
+      "semanticRole": "scrollingContent",
+      "properties": {
+        "uno": {
+          "type": "ScrollViewer"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        },
+        "rationale": "ScrollViewer owning the safe-area-aware, width-constrained content column for the whole page."
+      }
+    },
+    {
+      "id": "region.opus.summary",
+      "type": "region",
+      "name": "OPUS summary",
+      "semanticRole": "accountSummary",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        },
+        "rationale": "Horizontal grouping pairing the OPUS card visual with its balance; the pairing identifies which account the balance belongs to, which is meaning rather than arrangement."
+      }
+    },
+    {
+      "id": "region.opus.refresh-action",
+      "type": "region",
+      "name": "Refresh action",
+      "semanticRole": "actionSlot",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        },
+        "rationale": "Grid where the update button and the progress row occupy the same cell with inverse visibility; this is the only part of the OPUS card whose presentation swaps."
+      }
+    },
+    {
       "id": "region.profile.header",
       "type": "region",
       "name": "Header",
@@ -1181,6 +1231,30 @@
       }
     },
     {
+      "id": "token.typography.helper",
+      "type": "token",
+      "name": "Helper caption",
+      "category": "typography",
+      "value": {
+        "size": 12
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "FluxBody",
+          "property": "FontSize=12"
+        }
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        },
+        "rationale": "Repeated local FontSize=12 override on FluxBody helper text."
+      }
+    },
+    {
       "id": "token.typography.body-bold",
       "type": "token",
       "name": "Body bold",
@@ -1234,6 +1308,19 @@
     {
       "from": "screen.profile",
       "relation": "contains",
+      "to": "region.profile.scroll-content",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.profile.scroll-content",
+      "relation": "contains",
       "to": "region.profile.header",
       "evidence": {
         "kind": "observed",
@@ -1284,7 +1371,7 @@
       }
     },
     {
-      "from": "screen.profile",
+      "from": "region.profile.scroll-content",
       "relation": "contains",
       "to": "component.card.opus",
       "evidence": {
@@ -1297,7 +1384,7 @@
       }
     },
     {
-      "from": "screen.profile",
+      "from": "region.profile.scroll-content",
       "relation": "contains",
       "to": "component.card.routes",
       "evidence": {
@@ -1310,7 +1397,7 @@
       }
     },
     {
-      "from": "screen.profile",
+      "from": "region.profile.scroll-content",
       "relation": "contains",
       "to": "component.card.settings",
       "evidence": {
@@ -1323,7 +1410,7 @@
       }
     },
     {
-      "from": "screen.profile",
+      "from": "region.profile.scroll-content",
       "relation": "contains",
       "to": "region.profile.footer",
       "evidence": {
@@ -1419,7 +1506,7 @@
     {
       "from": "component.card.opus",
       "relation": "contains",
-      "to": "component.opus-card",
+      "to": "region.opus.summary",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1431,6 +1518,32 @@
     },
     {
       "from": "component.card.opus",
+      "relation": "contains",
+      "to": "region.opus.refresh-action",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.opus.summary",
+      "relation": "contains",
+      "to": "component.opus-card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.opus.summary",
       "relation": "contains",
       "to": "content.opus.balance-label",
       "evidence": {
@@ -1443,7 +1556,7 @@
       }
     },
     {
-      "from": "component.card.opus",
+      "from": "region.opus.summary",
       "relation": "contains",
       "to": "content.opus.balance-value",
       "evidence": {
@@ -1456,7 +1569,7 @@
       }
     },
     {
-      "from": "component.card.opus",
+      "from": "region.opus.summary",
       "relation": "contains",
       "to": "content.opus.refresh-hint",
       "evidence": {
@@ -1469,7 +1582,7 @@
       }
     },
     {
-      "from": "component.card.opus",
+      "from": "region.opus.refresh-action",
       "relation": "contains",
       "to": "control.opus.update",
       "evidence": {
@@ -1679,7 +1792,7 @@
       }
     },
     {
-      "from": "component.card.opus",
+      "from": "region.opus.refresh-action",
       "relation": "has-state",
       "to": "state.opus.refreshing",
       "evidence": {
@@ -1689,7 +1802,7 @@
           "type": "csharp",
           "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs"
         },
-        "rationale": "IsRefreshing swaps the update button for the progress row inside this section."
+        "rationale": "IsRefreshing swaps the update button for the progress row in this grid; the card visual, balance and heading do not change."
       }
     },
     {
@@ -1704,6 +1817,20 @@
           "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs"
         },
         "rationale": "UpdateBalance sets IsRefreshing true for the duration of the refresh."
+      }
+    },
+    {
+      "from": "control.opus.update",
+      "relation": "triggers",
+      "to": "content.opus.balance-value",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs"
+        },
+        "rationale": "UpdateBalance sets OpusBalance to the newly fetched value."
       }
     },
     {
@@ -1806,6 +1933,23 @@
       "to": "token.radius.24",
       "properties": {
         "appliesTo": "cornerRadius"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "component.card",
+      "relation": "uses-token",
+      "to": "token.spacing.24",
+      "properties": {
+        "appliesTo": "padding"
       },
       "evidence": {
         "kind": "declared",
@@ -2107,6 +2251,244 @@
       }
     },
     {
+      "from": "content.header.title",
+      "relation": "uses-token",
+      "to": "token.color.text-primary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.header.subtitle",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.opus.balance-label",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.opus.refresh-hint",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.opus.updating-label",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.opus.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.routes.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.section-title",
+      "relation": "uses-token",
+      "to": "token.color.text-muted",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "component.route-item",
+      "relation": "uses-token",
+      "to": "token.color.text-primary",
+      "properties": {
+        "appliesTo": "nameForeground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.api-label",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.api-helper",
+      "relation": "uses-token",
+      "to": "token.typography.helper",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.alerts-helper",
+      "relation": "uses-token",
+      "to": "token.typography.helper",
+      "properties": {
+        "appliesTo": "font"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.api-helper",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
+      "from": "content.settings.alerts-helper",
+      "relation": "uses-token",
+      "to": "token.color.text-secondary",
+      "properties": {
+        "appliesTo": "foreground"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+        },
+        "rationale": "Declared style/brush consumption."
+      }
+    },
+    {
       "from": "component.route-item",
       "relation": "uses-token",
       "to": "token.typography.body-bold",
@@ -2243,23 +2625,6 @@
       }
     },
     {
-      "from": "content.settings.api-helper",
-      "relation": "uses-token",
-      "to": "token.typography.body",
-      "properties": {
-        "appliesTo": "font"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "design-system",
-          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
-        },
-        "rationale": "Declared style/brush consumption."
-      }
-    },
-    {
       "from": "content.settings.language-label",
       "relation": "uses-token",
       "to": "token.typography.body",
@@ -2278,23 +2643,6 @@
     },
     {
       "from": "content.settings.alerts-label",
-      "relation": "uses-token",
-      "to": "token.typography.body",
-      "properties": {
-        "appliesTo": "font"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "design-system",
-          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
-        },
-        "rationale": "Declared style/brush consumption."
-      }
-    },
-    {
-      "from": "content.settings.alerts-helper",
       "relation": "uses-token",
       "to": "token.typography.body",
       "properties": {

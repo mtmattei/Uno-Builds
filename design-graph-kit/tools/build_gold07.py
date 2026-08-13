@@ -10,7 +10,7 @@ internals as properties; consensus token wiring; screen-scoped tokens).
 """
 import json, pathlib
 
-OUT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit/evals/07-caffe-main")
+OUT = pathlib.Path(__file__).resolve().parents[1] / "evals" / "07-caffe-main"
 XAML = {"type": "xaml", "path": "Caffe/Caffe/MainPage.xaml"}
 CB = {"type": "csharp", "path": "Caffe/Caffe/MainPage.xaml.cs"}
 VM = {"type": "csharp", "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"}
@@ -158,6 +158,14 @@ nodes += [
 
 # tokens — declared in AppResources.xaml, consumed by the page or its components
 TOKENS = [
+    # Cross-model review: these four are declared Colors consumed directly as
+    # GradientStops by the modeled controls (BrewingScreen, TemperatureGauge).
+    # They are resting runtime visuals, not interaction-only variants, so the
+    # variant-folding rule does not exclude them - they were simply missed.
+    ("token.color.coffee-dark", "Coffee dark (brew gradient)", "color", "#3D2314", {"resourceKey": "CoffeeDarkColor", "resourceType": "Color"}),
+    ("token.color.coffee-light", "Coffee light (brew gradient)", "color", "#5D3A1A", {"resourceKey": "CoffeeLightColor", "resourceType": "Color"}),
+    ("token.color.temperature-high", "Temperature high", "color", "#C1121F", {"resourceKey": "CaffeTemperatureHighColor", "resourceType": "Color"}),
+    ("token.color.temperature-low", "Temperature low", "color", "#E07070", {"resourceKey": "CaffeTemperatureLowColor", "resourceType": "Color"}),
     ("token.color.background", "Background", "color", "#FAFAFA", {"resourceKey": "CaffeBackgroundBrush", "resourceType": "SolidColorBrush"}),
     ("token.color.surface", "Surface", "color", "#FFFFFF", {"resourceKey": "CaffeSurfaceBrush", "resourceType": "SolidColorBrush"}),
     ("token.color.primary", "Primary (espresso green)", "color", "#1B4332", {"resourceKey": "CaffePrimaryBrush", "resourceType": "SolidColorBrush"}),
@@ -216,6 +224,16 @@ edges = [
          ev("declared", 1.0, CB, "BrewRequested -> BrewCommand -> IsBrewing=true for the simulated brew.")),
     edge("component.espresso-card", "triggers", "state.espresso-card.selected",
          ev("declared", 1.0, CB, "Every card's Tapped handler selects its espresso (canonical attachment; instances identical).")),
+    # Multi-effect rule (v0.6), from the cross-model review: one selection
+    # changes four local presentations, not one. Recording only the card visual
+    # understated what the source declares - and the three affected states were
+    # already modeled, so only the trigger edges were missing.
+    edge("component.espresso-card", "triggers", "state.selection-overview.hidden",
+         ev("declared", 1.0, VM, "Selection sets HasSelection, which reveals the otherwise-hidden "
+                                 "selection overview.")),
+    edge("component.espresso-card", "triggers", "state.brew-button.disabled",
+         ev("declared", 1.0, VM, "HasSelection also lifts the brew button out of its disabled state and "
+                                 "changes its label to 'Brew {SelectedEspresso.Name}'.")),
 ]
 for slug, *_ , xname in [(s, n, v, d, x) for s, n, v, d, x in ESPRESSOS]:
     edges.append(edge("region.caffe-main.menu", "contains", f"component.espresso-card.{slug}", E_OBS()))
@@ -264,6 +282,11 @@ UT = [
     ("component.brewing-screen", "token.typography.brewing-title", "titleFont"),
     ("component.brewing-screen", "token.typography.body", "bodyFont"),
     ("component.extraction-arc", "token.typography.arc-label", "labelFont"),
+    # Gradient stops consumed directly by the two controls that declare them.
+    ("component.brewing-screen", "token.color.coffee-dark", "gradientStop"),
+    ("component.brewing-screen", "token.color.coffee-light", "gradientStop"),
+    ("component.temperature-gauge", "token.color.temperature-high", "gradientStop"),
+    ("component.temperature-gauge", "token.color.temperature-low", "gradientStop"),
 ]
 for frm, to, applies in UT:
     edges.append(edge(frm, "uses-token", to,

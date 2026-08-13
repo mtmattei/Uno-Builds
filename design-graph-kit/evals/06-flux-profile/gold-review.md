@@ -1,6 +1,6 @@
 # Gold review — `06-flux-profile`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\06-flux-profile\gold.graph.json` (57 nodes / 74 edges / 4 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\06-flux-profile\gold.graph.json` (61 nodes / 91 edges / 4 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -20,7 +20,7 @@
 | Source file | Found | Nodes citing it |
 |---|---|---|
 | `FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs` | yes | 1 |
-| `FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml` | yes | 33 |
+| `FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml` | yes | 37 |
 | `FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml` | yes | 23 |
 
 ## Automated pre-pass — identifiers not found in the cited source
@@ -40,7 +40,11 @@ style it names. The check exists because a cross-model reviewer found a
 token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
 the 28 belonged to a different style, and every existence check passed it.
 
-**No mismatches.** Every token value matches the style it cites.
+**1 mismatch(es).**
+
+| Node | Style key | Field | Gold claims | Source declares |
+|---|---|---|---|---|
+| `token.typography.helper` | `FluxBody` | size | **12** | **14** |
 
 ## Structural facts
 
@@ -49,22 +53,22 @@ these are correct, and that call belongs to the reviewer.
 
 | Node type | In gold |
 |---|---|
-| `token` | 22 |
+| `token` | 23 |
 | `content` | 16 |
 | `component` | 8 |
 | `control` | 7 |
-| `region` | 2 |
+| `region` | 5 |
 | `screen` | 1 |
 | `state` | 1 |
 | `asset` | **0** |
 
 | Relation | In gold |
 |---|---|
-| `uses-token` | 36 |
-| `contains` | 31 |
+| `uses-token` | 49 |
+| `contains` | 34 |
 | `instance-of` | 5 |
+| `triggers` | 2 |
 | `has-state` | 1 |
-| `triggers` | 1 |
 
 The cited XAML declares **21** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 3 file(s).
 Compare against the `region` count above when judging check 6.
@@ -87,6 +91,9 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | Node id | Type | Name | Evidence | Conf | Uno mapping | Verdict | Note |
 |---|---|---|---|---|---|---|---|
 | `screen.profile` | screen | Profile | observed | 1.0 | type=Page, class=FluxTransit.Presentation.ProfilePage | | |
+| `region.profile.scroll-content` | region | Scrolling content | observed | 1.0 | type=ScrollViewer | | |
+| `region.opus.summary` | region | OPUS summary | observed | 1.0 | — | | |
+| `region.opus.refresh-action` | region | Refresh action | observed | 1.0 | — | | |
 | `region.profile.header` | region | Header | observed | 1.0 | — | | |
 | `control.header.back` | control | Back | declared | 1.0 | type=Button, styleKey=FluxIconButtonStyle, iconGlyph=E72B | | |
 | `content.header.title` | content | Title | observed | 1.0 | type=TextBlock, styleKey=FluxHeadingLarge | | |
@@ -141,6 +148,7 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `token.spacing.4` | token | 4 spacing | declared | 1.0 | resourceKey=FluxSpacingXS | | |
 | `token.typography.heading-large` | token | Heading large | declared | 1.0 | styleKey=FluxHeadingLarge | | |
 | `token.typography.body` | token | Body | declared | 1.0 | styleKey=FluxBody | | |
+| `token.typography.helper` | token | Helper caption | derived | 1.0 | styleKey=FluxBody, property=FontSize=12 | | |
 | `token.typography.body-bold` | token | Body bold | declared | 1.0 | styleKey=FluxBodyBold | | |
 | `token.typography.micro` | token | Micro header | declared | 1.0 | styleKey=FluxMicro | | |
 
@@ -152,25 +160,29 @@ the ones a graph must never invent. They are listed first.
 | Relation | From | To | Evidence | Verdict | Note |
 |---|---|---|---|---|---|
 | **triggers** | `control.opus.update` | `state.opus.refreshing` | declared | | |
-| **contains** | `screen.profile` | `region.profile.header` | observed | | |
+| **triggers** | `control.opus.update` | `content.opus.balance-value` | declared | | |
+| **contains** | `screen.profile` | `region.profile.scroll-content` | observed | | |
+| **contains** | `region.profile.scroll-content` | `region.profile.header` | observed | | |
 | **contains** | `region.profile.header` | `control.header.back` | observed | | |
 | **contains** | `region.profile.header` | `content.header.title` | observed | | |
 | **contains** | `region.profile.header` | `content.header.subtitle` | observed | | |
-| **contains** | `screen.profile` | `component.card.opus` | observed | | |
-| **contains** | `screen.profile` | `component.card.routes` | observed | | |
-| **contains** | `screen.profile` | `component.card.settings` | observed | | |
-| **contains** | `screen.profile` | `region.profile.footer` | observed | | |
+| **contains** | `region.profile.scroll-content` | `component.card.opus` | observed | | |
+| **contains** | `region.profile.scroll-content` | `component.card.routes` | observed | | |
+| **contains** | `region.profile.scroll-content` | `component.card.settings` | observed | | |
+| **contains** | `region.profile.scroll-content` | `region.profile.footer` | observed | | |
 | **contains** | `region.profile.footer` | `content.footer.version` | observed | | |
 | **contains** | `region.profile.footer` | `content.footer.credit` | observed | | |
 | **instance-of** | `component.card.opus` | `component.card` | declared | | |
 | **instance-of** | `component.card.routes` | `component.card` | declared | | |
 | **instance-of** | `component.card.settings` | `component.card` | declared | | |
 | **contains** | `component.card.opus` | `content.opus.section-title` | observed | | |
-| **contains** | `component.card.opus` | `component.opus-card` | observed | | |
-| **contains** | `component.card.opus` | `content.opus.balance-label` | observed | | |
-| **contains** | `component.card.opus` | `content.opus.balance-value` | observed | | |
-| **contains** | `component.card.opus` | `content.opus.refresh-hint` | observed | | |
-| **contains** | `component.card.opus` | `control.opus.update` | observed | | |
+| **contains** | `component.card.opus` | `region.opus.summary` | observed | | |
+| **contains** | `component.card.opus` | `region.opus.refresh-action` | observed | | |
+| **contains** | `region.opus.summary` | `component.opus-card` | observed | | |
+| **contains** | `region.opus.summary` | `content.opus.balance-label` | observed | | |
+| **contains** | `region.opus.summary` | `content.opus.balance-value` | observed | | |
+| **contains** | `region.opus.summary` | `content.opus.refresh-hint` | observed | | |
+| **contains** | `region.opus.refresh-action` | `control.opus.update` | observed | | |
 | **contains** | `component.card.routes` | `content.routes.section-title` | observed | | |
 | **contains** | `component.card.routes` | `component.route-item.home-work` | observed | | |
 | **contains** | `component.card.routes` | `component.route-item.downtown-loop` | observed | | |
@@ -186,7 +198,7 @@ the ones a graph must never invent. They are listed first.
 | **contains** | `component.card.settings` | `content.settings.alerts-label` | observed | | |
 | **contains** | `component.card.settings` | `content.settings.alerts-helper` | observed | | |
 | **contains** | `component.card.settings` | `control.settings.alerts` | observed | | |
-| **has-state** | `component.card.opus` | `state.opus.refreshing` | declared | | |
+| **has-state** | `region.opus.refresh-action` | `state.opus.refreshing` | declared | | |
 | **contains** | `state.opus.refreshing` | `control.opus.progress` | observed | | |
 | **contains** | `state.opus.refreshing` | `content.opus.updating-label` | observed | | |
 | **uses-token** | `screen.profile` | `token.color.background` | declared | | |
@@ -194,6 +206,7 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `component.card` | `token.color.glass-panel` | declared | | |
 | **uses-token** | `component.card` | `token.color.border-subtle` | declared | | |
 | **uses-token** | `component.card` | `token.radius.24` | declared | | |
+| **uses-token** | `component.card` | `token.spacing.24` | declared | | |
 | **uses-token** | `component.card` | `token.spacing.16` | declared | | |
 | **uses-token** | `content.header.title` | `token.typography.heading-large` | declared | | |
 | **uses-token** | `content.header.subtitle` | `token.typography.body` | declared | | |
@@ -211,6 +224,20 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `component.route-item` | `token.color.border-subtle` | declared | | |
 | **uses-token** | `component.route-item` | `token.color.primary` | declared | | |
 | **uses-token** | `component.route-item` | `token.color.text-muted` | declared | | |
+| **uses-token** | `content.header.title` | `token.color.text-primary` | declared | | |
+| **uses-token** | `content.header.subtitle` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.opus.balance-label` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.opus.refresh-hint` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.opus.updating-label` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.opus.section-title` | `token.color.text-muted` | declared | | |
+| **uses-token** | `content.routes.section-title` | `token.color.text-muted` | declared | | |
+| **uses-token** | `content.settings.section-title` | `token.color.text-muted` | declared | | |
+| **uses-token** | `component.route-item` | `token.color.text-primary` | declared | | |
+| **uses-token** | `content.settings.api-label` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.settings.api-helper` | `token.typography.helper` | declared | | |
+| **uses-token** | `content.settings.alerts-helper` | `token.typography.helper` | declared | | |
+| **uses-token** | `content.settings.api-helper` | `token.color.text-secondary` | declared | | |
+| **uses-token** | `content.settings.alerts-helper` | `token.color.text-secondary` | declared | | |
 | **uses-token** | `component.route-item` | `token.typography.body-bold` | declared | | |
 | **uses-token** | `component.route-item` | `token.typography.body` | declared | | |
 | **uses-token** | `component.route-item` | `token.spacing.4` | declared | | |
@@ -219,10 +246,8 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `content.settings.api-label` | `token.typography.body` | declared | | |
 | **uses-token** | `control.settings.api-key` | `token.color.surface` | declared | | |
 | **uses-token** | `control.settings.api-key` | `token.color.border-light` | declared | | |
-| **uses-token** | `content.settings.api-helper` | `token.typography.body` | declared | | |
 | **uses-token** | `content.settings.language-label` | `token.typography.body` | declared | | |
 | **uses-token** | `content.settings.alerts-label` | `token.typography.body` | declared | | |
-| **uses-token** | `content.settings.alerts-helper` | `token.typography.body` | declared | | |
 | **uses-token** | `content.footer.version` | `token.typography.body` | declared | | |
 | **uses-token** | `content.footer.credit` | `token.typography.body` | declared | | |
 

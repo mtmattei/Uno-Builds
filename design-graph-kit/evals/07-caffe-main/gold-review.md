@@ -1,6 +1,6 @@
 # Gold review — `07-caffe-main`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\07-caffe-main\gold.graph.json` (48 nodes / 67 edges / 1 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\07-caffe-main\gold.graph.json` (52 nodes / 73 edges / 1 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -22,7 +22,7 @@
 | `Caffe/Caffe/Controls/` | yes | 7 |
 | `Caffe/Caffe/MainPage.xaml` | yes | 11 |
 | `Caffe/Caffe/MainPage.xaml.cs` | yes | 1 |
-| `Caffe/Caffe/Styles/AppResources.xaml` | yes | 24 |
+| `Caffe/Caffe/Styles/AppResources.xaml` | yes | 28 |
 | `Caffe/Caffe/ViewModels/MainViewModel.cs` | yes | 5 |
 
 ## Automated pre-pass — identifiers not found in the cited source
@@ -61,7 +61,7 @@ these are correct, and that call belongs to the reviewer.
 
 | Node type | In gold |
 |---|---|
-| `token` | 25 |
+| `token` | 29 |
 | `component` | 13 |
 | `state` | 4 |
 | `content` | 2 |
@@ -72,11 +72,11 @@ these are correct, and that call belongs to the reviewer.
 
 | Relation | In gold |
 |---|---|
-| `uses-token` | 40 |
+| `uses-token` | 44 |
 | `contains` | 17 |
 | `has-state` | 4 |
+| `triggers` | 4 |
 | `instance-of` | 4 |
-| `triggers` | 2 |
 
 The cited XAML declares **34** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 5 file(s).
 Compare against the `region` count above when judging check 6.
@@ -121,6 +121,10 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `state.selection-overview.hidden` | state | Overview hidden | declared | 1.0 | mechanism=binding, member=HasSelection | | |
 | `state.caffe-main.brewing` | state | Brewing | declared | 1.0 | mechanism=binding, member=IsBrewing | | |
 | `component.brewing-screen` | component | Brewing overlay | declared | 1.0 | type=UserControl, class=Caffe.Controls.BrewingScreen, xName=BrewingOverlay | | |
+| `token.color.coffee-dark` | token | Coffee dark (brew gradient) | declared | 1.0 | resourceKey=CoffeeDarkColor, resourceType=Color | | |
+| `token.color.coffee-light` | token | Coffee light (brew gradient) | declared | 1.0 | resourceKey=CoffeeLightColor, resourceType=Color | | |
+| `token.color.temperature-high` | token | Temperature high | declared | 1.0 | resourceKey=CaffeTemperatureHighColor, resourceType=Color | | |
+| `token.color.temperature-low` | token | Temperature low | declared | 1.0 | resourceKey=CaffeTemperatureLowColor, resourceType=Color | | |
 | `token.color.background` | token | Background | declared | 1.0 | resourceKey=CaffeBackgroundBrush, resourceType=SolidColorBrush | | |
 | `token.color.surface` | token | Surface | declared | 1.0 | resourceKey=CaffeSurfaceBrush, resourceType=SolidColorBrush | | |
 | `token.color.primary` | token | Primary (espresso green) | declared | 1.0 | resourceKey=CaffePrimaryBrush, resourceType=SolidColorBrush | | |
@@ -156,6 +160,8 @@ the ones a graph must never invent. They are listed first.
 |---|---|---|---|---|---|
 | **triggers** | `component.brew-button` | `state.caffe-main.brewing` | declared | | |
 | **triggers** | `component.espresso-card` | `state.espresso-card.selected` | declared | | |
+| **triggers** | `component.espresso-card` | `state.selection-overview.hidden` | declared | | |
+| **triggers** | `component.espresso-card` | `state.brew-button.disabled` | declared | | |
 | **contains** | `screen.caffe-main` | `component.caffe-header` | observed | | |
 | **contains** | `component.caffe-header` | `asset.header.accent-bar` | observed | | |
 | **contains** | `component.caffe-header` | `content.header.logo` | observed | | |
@@ -221,6 +227,10 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `component.brewing-screen` | `token.typography.brewing-title` | declared | | |
 | **uses-token** | `component.brewing-screen` | `token.typography.body` | declared | | |
 | **uses-token** | `component.extraction-arc` | `token.typography.arc-label` | declared | | |
+| **uses-token** | `component.brewing-screen` | `token.color.coffee-dark` | declared | | |
+| **uses-token** | `component.brewing-screen` | `token.color.coffee-light` | declared | | |
+| **uses-token** | `component.temperature-gauge` | `token.color.temperature-high` | declared | | |
+| **uses-token** | `component.temperature-gauge` | `token.color.temperature-low` | declared | | |
 
 ## Unresolved items
 

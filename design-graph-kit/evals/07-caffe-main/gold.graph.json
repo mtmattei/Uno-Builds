@@ -550,6 +550,90 @@
       }
     },
     {
+      "id": "token.color.coffee-dark",
+      "type": "token",
+      "name": "Coffee dark (brew gradient)",
+      "category": "color",
+      "value": "#3D2314",
+      "properties": {
+        "uno": {
+          "resourceKey": "CoffeeDarkColor",
+          "resourceType": "Color"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.color.coffee-light",
+      "type": "token",
+      "name": "Coffee light (brew gradient)",
+      "category": "color",
+      "value": "#5D3A1A",
+      "properties": {
+        "uno": {
+          "resourceKey": "CoffeeLightColor",
+          "resourceType": "Color"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.color.temperature-high",
+      "type": "token",
+      "name": "Temperature high",
+      "category": "color",
+      "value": "#C1121F",
+      "properties": {
+        "uno": {
+          "resourceKey": "CaffeTemperatureHighColor",
+          "resourceType": "Color"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
+      "id": "token.color.temperature-low",
+      "type": "token",
+      "name": "Temperature low",
+      "category": "color",
+      "value": "#E07070",
+      "properties": {
+        "uno": {
+          "resourceKey": "CaffeTemperatureLowColor",
+          "resourceType": "Color"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        }
+      }
+    },
+    {
       "id": "token.color.background",
       "type": "token",
       "name": "Background",
@@ -1348,6 +1432,34 @@
       }
     },
     {
+      "from": "component.espresso-card",
+      "relation": "triggers",
+      "to": "state.selection-overview.hidden",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "Selection sets HasSelection, which reveals the otherwise-hidden selection overview."
+      }
+    },
+    {
+      "from": "component.espresso-card",
+      "relation": "triggers",
+      "to": "state.brew-button.disabled",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "HasSelection also lifts the brew button out of its disabled state and changes its label to 'Brew {SelectedEspresso.Name}'."
+      }
+    },
+    {
       "from": "region.caffe-main.menu",
       "relation": "contains",
       "to": "component.espresso-card.espresso",
@@ -2120,6 +2232,74 @@
       "to": "token.typography.arc-label",
       "properties": {
         "appliesTo": "labelFont"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.brewing-screen",
+      "relation": "uses-token",
+      "to": "token.color.coffee-dark",
+      "properties": {
+        "appliesTo": "gradientStop"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.brewing-screen",
+      "relation": "uses-token",
+      "to": "token.color.coffee-light",
+      "properties": {
+        "appliesTo": "gradientStop"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.temperature-gauge",
+      "relation": "uses-token",
+      "to": "token.color.temperature-high",
+      "properties": {
+        "appliesTo": "gradientStop"
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "path": "Caffe/Caffe/Styles/AppResources.xaml"
+        },
+        "rationale": "Audited StaticResource consumption in the page/controls."
+      }
+    },
+    {
+      "from": "component.temperature-gauge",
+      "relation": "uses-token",
+      "to": "token.color.temperature-low",
+      "properties": {
+        "appliesTo": "gradientStop"
       },
       "evidence": {
         "kind": "declared",
