@@ -13,6 +13,55 @@ recall 1.000 · design-first pilot passed · Claude Code skill in
 
 ---
 
+## Status update — 2026-08-12, Windows machine with the real sources
+
+The sandbox's two missing resources turned out to be available here: this repo
+holds the actual `Orbital/`, `FluxTransit/`, and `Caffe/` apps the evals were
+authored from, and the machine has .NET 10 + Uno.Templates. That closed most of
+the list.
+
+| Item | State | Evidence |
+|---|---|---|
+| **A** — compile + visual parity | **done** | All four arms compile with zero arm-code changes; arm A crashes at runtime on a relocated `ms-appx:///` URI; visual parity against the real Orbital SettingsPage recorded. `experiments/ab-orbital-settings/ab-results.md` → "Compile verification"; captures in `experiments/ab-orbital-settings/parity/` |
+| **B** — image input | **scaffolded, blocked** | `evals/08-image-input/README.md` has the protocol; `tools/audit_designfirst.py` is parameterized and reproduces the pilot result. Waiting on a real design image — see below |
+| **C** — human gold review | **packet built, review open** | `tools/build_review_packet.py` generates `gold-review.md` per eval; automated pre-pass found **0 fabricated identifiers** across all three golds. The independent human pass is still required and is the only thing that discharges this item |
+| **D** — installable plugin | **done, unpublished** | Self-contained plugin repo built and committed locally at `../uno-design-graph-plugin`. Not pushed to GitHub — publishing is a human call |
+
+What changed in the findings, beyond ticking boxes:
+
+- **Arm A's invented docs URL is now confirmed wrong** against the real
+  code-behind (`https://platform.uno/docs/` vs the real
+  `https://platform.uno/docs/articles/intro.html`). The Stage-5 claim was
+  inference; it is now a checked fact. B, C, and B2 match exactly, and B2's
+  data-folder path matches an implementation detail no arm was told about.
+- **Compiling clean and running clean are different bars.** All four arms
+  passed static verification *and* compilation; one still died at first frame.
+  `verify_arm.py` cannot catch it, because the resource it points at genuinely
+  exists — at a path that only exists in the experiment's own layout.
+- **The uno mapping layer survives contact with the real source.** Across 3
+  golds, every quoted identifier exists in the app it claims to come from.
+  The residue is hygiene, not invention: one node cites its design system by
+  glob label rather than a path, and two pack prose into a `member` field.
+- **Gold 05 models no `region` nodes** while the real page is a prominent
+  two-column arrangement (ABOUT ‖ PATHS+ACTIONS) and the cited XAML declares 27
+  layout containers. The brief given to the implementation arms *did* describe
+  the two-column row, so the arms got it right. Whether the graph should carry
+  that arrangement is a genuine altitude question, now check 6 in the review
+  packet.
+
+### What item B still needs
+
+A real design image. Scanning every app in this repo found hundreds of
+screenshots but essentially all are **output** captures of implemented screens;
+the genuine design inputs here are written briefs, the shape the design-first
+pilot already tested. Drop a Figma export at
+`evals/08-image-input/design.png` and the round is one command away.
+See `evals/CANDIDATES.md` for the apps pairing a written design spec with an
+implementation and screenshots — Meridian and QuoteCraft allow a three-way
+spec → graph vs source → graph vs image → graph comparison on one screen.
+
+---
+
 ## A. Compile the four implementation arms + visual parity (needs Uno toolchain)
 
 The arms pass static verification (well-formed XAML, all resource refs

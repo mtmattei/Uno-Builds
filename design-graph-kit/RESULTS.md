@@ -384,3 +384,62 @@ provenance; stability/verification/audit scripts = every reported number).
    a second eval screen (different app/domain) before any product step.
 5. Compile/render the A/B/C arms in a toolchain-equipped environment for
    true visual parity.
+
+---
+
+# Item A/C follow-through — 2026-08-12 (Windows, real sources available)
+
+The three eval source apps (`Orbital/`, `FluxTransit/`, `Caffe/`) live in this
+same repo, and the machine has the Uno toolchain. Both blockers named in the
+Handoff are gone, so the open items were executed. Full detail:
+`experiments/ab-orbital-settings/ab-results.md` (compile verification + visual
+parity), `evals/*/gold-review.md` (review packets), `HANDOFF.md` (status).
+
+**Compilation.** All four implementation arms compile with zero changes to arm
+code, on Uno.Sdk 6.5.31 / net10.0-desktop, in a host built for the purpose
+(`experiments/ab-orbital-settings/ArmHost`). Static verification predicted this
+correctly.
+
+**Runtime is a separate bar, and one arm failed it.** Arm A dies at first frame
+on `ms-appx:///A-baseline/Tokens.xaml` — an absolute URI containing its own
+arm-folder name. B, C, and B2 used relative sources and survive relocation.
+`verify_arm.py` cannot catch this: the dictionary it names genuinely exists, at
+a path that exists only in the experiment's own layout. **Static verification
+plus compilation is still not evidence that a screen runs.**
+
+**The A/B semantic verdict now rests on checked facts rather than inference.**
+Stage 5 reported that arm A invented a docs URL. Against the real code-behind:
+A wired `https://platform.uno/docs/`, the app launches
+`https://platform.uno/docs/articles/intro.html`. A's guess is confirmed wrong;
+B, C, and B2 match exactly. B2 additionally implements the data folder as
+`LocalApplicationData/Orbital`, which is what the real
+`OpenDataFolderButton` handler does and which no arm was told.
+
+**Visual parity: the tie holds.** All four arms reproduce the real screen's
+structure — header with the Ctrl+K search affordance, PROFILE card, two-column
+ABOUT ‖ PATHS+ACTIONS, four info rows, three path fields, three ghost actions.
+Remaining differences trace to inputs, not arm quality (no ViewModel, so every
+arm correctly renders the declared `FallbackValue` placeholders; no nav rail,
+because the arms implement a page and the reference is a shell).
+
+**The uno mapping layer survives contact with the source.** The review packets
+check every quoted `properties.uno` identifier against the app it cites.
+Across all three golds: **0 fabricated identifiers**. What remains is hygiene —
+one node cites its design system by glob label (`Orbital Styles/*.xaml`) rather
+than a path, so its correct value is unverifiable from its own evidence; two
+`member` values pack prose ("HasSelection (RelayCommand CanExecute)") into a
+field that should hold one identifier. This is the first evidence that
+copy-don't-coin holds against real source rather than against itself.
+
+**One open altitude question, surfaced by the real source.** Gold 05 contains
+no `region` nodes, while the page it models is a prominent two-column
+arrangement and its cited XAML declares 27 layout containers. The brief given
+to the implementation arms described the two-column row explicitly, so the arms
+reproduced it; a Mode-2 implementation working from the graph alone would not
+have that information. Recorded as check 6 in every review packet rather than
+resolved unilaterally — it is exactly the kind of call the independent human
+review exists to make.
+
+**Still open:** the human review itself (item C), the image-input round
+(item B, waiting on a design image), and publishing the plugin (item D, built
+and committed locally, not pushed).
