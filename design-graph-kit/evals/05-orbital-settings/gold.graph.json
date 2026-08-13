@@ -411,8 +411,14 @@
       "id": "content.about.version",
       "type": "content",
       "name": "Version",
-      "text": "v0.1.0-alpha",
       "semanticRole": "versionLabel",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalMonoSmall"
+        },
+        "fallbackValue": "v0.1.0-alpha"
+      },
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -421,12 +427,6 @@
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "Bound VersionDisplay, FallbackValue v0.1.0-alpha."
-      },
-      "properties": {
-        "uno": {
-          "type": "TextBlock",
-          "styleKey": "OrbitalMonoSmall"
-        }
       }
     },
     {
@@ -742,10 +742,17 @@
       }
     },
     {
-      "id": "state.settings.entering",
+      "id": "state.profile.entering",
       "type": "state",
       "name": "Entering",
       "semanticRole": "entering",
+      "properties": {
+        "delayMs": 0,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -753,13 +760,73 @@
           "type": "csharp",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
         },
-        "rationale": "AnimationHelper.FadeUp animates all four sections in on Loaded."
-      },
+        "rationale": "AnimationHelper.FadeUp(ProfileSection, 0) on Loaded."
+      }
+    },
+    {
+      "id": "state.about.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
       "properties": {
+        "delayMs": 100,
         "uno": {
-          "mechanism": "code-behind",
-          "member": "AnimationHelper.FadeUp"
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
         }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(AboutSection, 100) on Loaded."
+      }
+    },
+    {
+      "id": "state.paths.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
+      "properties": {
+        "delayMs": 200,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(PathsSection, 200) on Loaded."
+      }
+    },
+    {
+      "id": "state.actions.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
+      "properties": {
+        "delayMs": 300,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(ActionsSection, 300) on Loaded."
       }
     },
     {
@@ -1167,7 +1234,7 @@
       "category": "typography",
       "value": {
         "family": "Space Grotesk",
-        "size": 28,
+        "size": 20,
         "weight": "SemiBold"
       },
       "properties": {
@@ -1182,7 +1249,33 @@
           "type": "design-system",
           "label": "Orbital Styles/*.xaml"
         },
-        "rationale": "OrbitalPageTitle style (display face, 28)."
+        "rationale": "OrbitalPageTitle style (display face, 20, SemiBold)."
+      }
+    },
+    {
+      "id": "token.typography.section-header",
+      "type": "token",
+      "name": "Section header type",
+      "category": "typography",
+      "value": {
+        "family": "JetBrains Mono",
+        "size": 11,
+        "weight": "Medium",
+        "letterSpacing": 80
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OrbitalSectionHeader"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "OrbitalSectionHeader style (mono 11, Medium, tracking 80)."
       }
     },
     {
@@ -1775,9 +1868,48 @@
       }
     },
     {
-      "from": "screen.settings",
+      "from": "component.settings-card.profile",
       "relation": "has-state",
-      "to": "state.settings.entering",
+      "to": "state.profile.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "has-state",
+      "to": "state.about.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "has-state",
+      "to": "state.paths.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "has-state",
+      "to": "state.actions.entering",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -2059,7 +2191,7 @@
     {
       "from": "content.profile.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2093,7 +2225,7 @@
     {
       "from": "content.about.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2127,7 +2259,7 @@
     {
       "from": "content.paths.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2161,7 +2293,7 @@
     {
       "from": "content.actions.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },

@@ -32,6 +32,16 @@ contract says each one should appear literally.
 
 **No fabricated identifiers.** Every quoted uno value exists in the application.
 
+### Token values that disagree with the style they name
+
+A key existing in source does not make the value attributed to it right.
+This compares each token's asserted value against the `Setter`s of the
+style it names. The check exists because a cross-model reviewer found a
+token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
+the 28 belonged to a different style, and every existence check passed it.
+
+**No mismatches.** Every token value matches the style it cites.
+
 ## Structural facts
 
 Stated as counts, not judgements — the altitude contract decides which of

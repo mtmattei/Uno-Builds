@@ -61,6 +61,20 @@ is unverifiable, which is what makes this worth a reviewer's attention.
 |---|---|---|---|
 | `component.app-title-row` | `class` | `Composer.Views.Controls.AppTitleRow` | `Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml` |
 
+### Token values that disagree with the style they name
+
+A key existing in source does not make the value attributed to it right.
+This compares each token's asserted value against the `Setter`s of the
+style it names. The check exists because a cross-model reviewer found a
+token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
+the 28 belonged to a different style, and every existence check passed it.
+
+**1 mismatch(es).**
+
+| Node | Style key | Field | Gold claims | Source declares |
+|---|---|---|---|---|
+| `token.typography.mono-eyebrow` | `MonoEyebrow` | family | **MonoFontFamily** | **ms-appx:///Assets/Fonts/JetBrains_Mono/JetBrainsMono-VariableFont.ttf#JetBrains Mono, Cascadia Mono, Consolas, monospace** |
+
 ## Structural facts
 
 Stated as counts, not judgements — the altitude contract decides which of

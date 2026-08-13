@@ -12,7 +12,7 @@ deterministic score reflects realistic run-to-run drift rather than sabotage.
 """
 import json, pathlib
 
-OUT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit/evals/05-orbital-settings")
+OUT = pathlib.Path(__file__).resolve().parents[1] / "evals" / "05-orbital-settings"
 
 XAML = {"type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"}
 CS = {"type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"}
@@ -99,8 +99,13 @@ gold_nodes = [
          semanticRole="appLogo", evidence=ev("observed", 1.0, XAML)),
     node("content.about.app-name", "content", name="App name", text="Orbital",
          semanticRole="appName", evidence=ev("observed", 1.0, XAML)),
+    # Cross-model review finding 2: the visible value is bound; "v0.1.0-alpha"
+    # is only the FallbackValue, so asserting it as `text` states a placeholder
+    # as if it were the content.
     node("content.about.version", "content", name="Version",
-         text="v0.1.0-alpha", semanticRole="versionLabel",
+         semanticRole="versionLabel",
+         properties={"uno": {"type": "TextBlock", "member": "VersionDisplay"},
+                     "fallbackValue": "v0.1.0-alpha"},
          evidence=ev("declared", 1.0, XAML, "Bound VersionDisplay, FallbackValue v0.1.0-alpha.")),
     node("component.info-row", "component", name="Info row (label/value)",
          role="keyValueRow", evidence=ev("derived", 1.0, XAML,
@@ -151,8 +156,24 @@ gold_nodes = [
          evidence=ev("declared", 1.0, CS, "ContentDialog shown after clearing recent projects.")),
 
     # states (source-backed)
-    node("state.settings.entering", "state", name="Entering", semanticRole="entering",
-         evidence=ev("declared", 1.0, CS, "AnimationHelper.FadeUp animates all four sections in on Loaded.")),
+    #
+    # Cross-model review finding 3: this was one screen-level state, which
+    # broke the kit's own Pass 4 attachment rule ("smallest node whose
+    # presentation actually changes") and the v0.5 condition-vs-presentation
+    # rule. Only the four cards animate - the header does not - and each gets a
+    # distinct stagger delay, so the condition drives four local presentations.
+    node("state.profile.entering", "state", name="Entering", semanticRole="entering",
+         properties={"delayMs": 0, "uno": {"mechanism": "AnimationHelper.FadeUp", "member": "OnLoaded"}},
+         evidence=ev("declared", 1.0, CS, "AnimationHelper.FadeUp(ProfileSection, 0) on Loaded.")),
+    node("state.about.entering", "state", name="Entering", semanticRole="entering",
+         properties={"delayMs": 100, "uno": {"mechanism": "AnimationHelper.FadeUp", "member": "OnLoaded"}},
+         evidence=ev("declared", 1.0, CS, "AnimationHelper.FadeUp(AboutSection, 100) on Loaded.")),
+    node("state.paths.entering", "state", name="Entering", semanticRole="entering",
+         properties={"delayMs": 200, "uno": {"mechanism": "AnimationHelper.FadeUp", "member": "OnLoaded"}},
+         evidence=ev("declared", 1.0, CS, "AnimationHelper.FadeUp(PathsSection, 200) on Loaded.")),
+    node("state.actions.entering", "state", name="Entering", semanticRole="entering",
+         properties={"delayMs": 300, "uno": {"mechanism": "AnimationHelper.FadeUp", "member": "OnLoaded"}},
+         evidence=ev("declared", 1.0, CS, "AnimationHelper.FadeUp(ActionsSection, 300) on Loaded.")),
     node("state.profile.saved", "state", name="Saved", semanticRole="confirmation",
          evidence=ev("declared", 1.0, CS, "Save sets button content to 'Saved!' for 1.5s after SettingsService.SaveUsername.")),
 
@@ -217,7 +238,11 @@ for i in ["clear-recents", "open-data-folder", "open-docs"]:
 
 # states + triggers
 gold_edges += [
-    edge("screen.settings", "has-state", "state.settings.entering", ev("declared", 1.0, CS)),
+    # One condition (OnLoaded), four locally-attached presentations.
+    edge("component.settings-card.profile", "has-state", "state.profile.entering", ev("declared", 1.0, CS)),
+    edge("component.settings-card.about", "has-state", "state.about.entering", ev("declared", 1.0, CS)),
+    edge("component.settings-card.paths", "has-state", "state.paths.entering", ev("declared", 1.0, CS)),
+    edge("component.settings-card.actions", "has-state", "state.actions.entering", ev("declared", 1.0, CS)),
     edge("control.profile.save", "has-state", "state.profile.saved",
          ev("declared", 1.0, CS, "v0.2 attachment rule: the Save button is the smallest node whose presentation changes.")),
     edge("control.profile.save", "triggers", "state.profile.saved",
@@ -285,10 +310,22 @@ for _id, _name, _cat, _val, _uno in _CAL_TOKENS:
     gold_nodes.append(node(_id, "token", name=_name, category=_cat, value=_val,
                            properties={"uno": _uno},
                            evidence=ev("declared", 1.0, DS, "Declared brush resource consumed by the resting screen.")))
+# Cross-model review finding 1: this said size 28, which is OrbitalHeroTitle's
+# value. OrbitalPageTitle declares FontSize 20 (Styles/TextBlock.xaml:21-24).
+# The key existed, so every existence check passed while the value was another
+# style's - which is why tools/build_review_packet.py now compares values too.
 gold_nodes.append(node("token.typography.page-title", "token", name="Page title type", category="typography",
-                       value={"family": "Space Grotesk", "size": 28, "weight": "SemiBold"},
+                       value={"family": "Space Grotesk", "size": 20, "weight": "SemiBold"},
                        properties={"uno": {"styleKey": "OrbitalPageTitle"}},
-                       evidence=ev("declared", 1.0, DS, "OrbitalPageTitle style (display face, 28).")))
+                       evidence=ev("declared", 1.0, DS, "OrbitalPageTitle style (display face, 20, SemiBold).")))
+# Cross-model review finding 4: OrbitalSectionHeader is a distinct declared
+# style - Medium weight with CharacterSpacing 80 - not the same token as
+# OrbitalMonoSmall (Normal, no tracking). Same family and size is not the same
+# typography.
+gold_nodes.append(node("token.typography.section-header", "token", name="Section header type", category="typography",
+                       value={"family": "JetBrains Mono", "size": 11, "weight": "Medium", "letterSpacing": 80},
+                       properties={"uno": {"styleKey": "OrbitalSectionHeader"}},
+                       evidence=ev("declared", 1.0, DS, "OrbitalSectionHeader style (mono 11, Medium, tracking 80).")))
 gold_nodes.append(node("token.typography.body", "token", name="Body type", category="typography",
                        value={"family": "Space Grotesk", "size": 13},
                        properties={"uno": {"styleKey": "OrbitalBody"}},
@@ -298,13 +335,13 @@ _CAL_EDGES = [
     ("content.settings.title", "token.typography.page-title", "font"),
     ("content.settings.subtitle", "token.typography.body", "font"),
     ("content.settings.subtitle", "token.color.text-40", "foreground"),
-    ("content.profile.section-title", "token.typography.mono-small", "font"),
+    ("content.profile.section-title", "token.typography.section-header", "font"),
     ("content.profile.section-title", "token.color.text-38", "foreground"),
-    ("content.about.section-title", "token.typography.mono-small", "font"),
+    ("content.about.section-title", "token.typography.section-header", "font"),
     ("content.about.section-title", "token.color.text-38", "foreground"),
-    ("content.paths.section-title", "token.typography.mono-small", "font"),
+    ("content.paths.section-title", "token.typography.section-header", "font"),
     ("content.paths.section-title", "token.color.text-38", "foreground"),
-    ("content.actions.section-title", "token.typography.mono-small", "font"),
+    ("content.actions.section-title", "token.typography.section-header", "font"),
     ("content.actions.section-title", "token.color.text-38", "foreground"),
     ("content.profile.name-label", "token.typography.mono-small", "font"),
     ("content.profile.name-label", "token.color.text-50", "foreground"),
@@ -364,7 +401,6 @@ UNO = {
     "control.actions.open-data-folder": {"type": "Button", "xName": "OpenDataFolderButton", "iconGlyph": "E838"},
     "control.actions.open-docs": {"type": "Button", "xName": "OpenDocsButton", "iconGlyph": "E8A5"},
     "component.dialog.recents-cleared": {"type": "ContentDialog"},
-    "state.settings.entering": {"mechanism": "code-behind", "member": "AnimationHelper.FadeUp"},
     "state.profile.saved": {"mechanism": "code-behind"},
     "token.color.surface0": {"resourceKey": "OrbitalSurface0Brush", "resourceType": "SolidColorBrush"},
     "token.color.surface1": {"resourceKey": "OrbitalSurface1Brush", "resourceType": "SolidColorBrush"},

@@ -88,6 +88,23 @@ def collect_sources(graph: dict, source_root: Path) -> dict[str, str]:
     return texts
 
 
+def collect_app_files(texts: dict[str, str], source_root: Path) -> dict[str, str]:
+    """Every .xaml/.cs file of the apps the cited files belong to, by path."""
+    roots = {Path(rel).parts[0] for rel in texts if Path(rel).parts}
+    files: dict[str, str] = {}
+    for root in roots:
+        base = source_root / root
+        if not base.is_dir():
+            continue
+        for path in base.rglob("*"):
+            if path.suffix.lower() not in (".xaml", ".cs"):
+                continue
+            if any(part in ("bin", "obj") for part in path.parts):
+                continue
+            files[path.as_posix()] = path.read_text(encoding="utf-8", errors="replace")
+    return files
+
+
 def collect_app_corpus(texts: dict[str, str], source_root: Path) -> str:
     """Read the whole app the cited files belong to.
 
@@ -200,6 +217,105 @@ def check_uno_values(
     return fabricated, compound, miscited
 
 
+def parse_style_setters(corpus_files: dict[str, str]) -> dict[str, dict[str, str]]:
+    """Map every declared XAML style/resource key to its Setter values.
+
+    `<Style x:Key="OrbitalPageTitle"> <Setter Property="FontSize" Value="20"/>`
+    becomes {"OrbitalPageTitle": {"FontSize": "20"}}.
+    """
+    styles: dict[str, dict[str, str]] = {}
+    style_re = re.compile(
+        r'<Style[^>]*x:Key="([^"]+)"[^>]*>(.*?)</Style>', re.DOTALL)
+    setter_re = re.compile(r'<Setter\s+Property="([^"]+)"\s+Value="([^"]*)"')
+    for body in corpus_files.values():
+        for key, inner in style_re.findall(body):
+            setters = {p: v for p, v in setter_re.findall(inner)}
+            if setters:
+                styles.setdefault(key, {}).update(setters)
+    return styles
+
+
+# Token value fields mapped to the XAML Setter property that declares them.
+VALUE_PROPERTY_MAP = {
+    "size": "FontSize",
+    "fontSize": "FontSize",
+    "weight": "FontWeight",
+    "fontWeight": "FontWeight",
+    "family": "FontFamily",
+    "letterSpacing": "CharacterSpacing",
+    "characterSpacing": "CharacterSpacing",
+}
+
+
+def parse_simple_resources(corpus_files: dict[str, str]) -> dict[str, str]:
+    """Element-form resources: `<FontFamily x:Key="X">value</FontFamily>`."""
+    out: dict[str, str] = {}
+    for body in corpus_files.values():
+        for tag, key, value in re.findall(
+            r'<(FontFamily|Color|x:String|x:Double)\s+x:Key="([^"]+)"\s*>([^<]*)</\1>', body
+        ):
+            out[key] = value.strip()
+    return out
+
+
+def resolve_value(value: str, resources: dict[str, str]) -> str:
+    """Follow one `{StaticResource X}` / `{ThemeResource X}` hop, if we can.
+
+    A gold legitimately records the resolved design value ("JetBrains Mono")
+    while the style says `{StaticResource OrbitalMonoFont}`. Comparing those
+    raw produces a false mismatch, and a checker that cries wolf is worse than
+    none - the same failure this tool already made once.
+    """
+    m = re.fullmatch(r"\{(?:Static|Theme)Resource\s+([^}]+)\}", str(value).strip())
+    if m:
+        return resources.get(m.group(1).strip(), value)
+    return value
+
+
+def check_token_values(graph: dict, styles: dict[str, dict[str, str]],
+                       resources: dict[str, str] | None = None) -> list[dict]:
+    """Compare a token's asserted value against the style it names.
+
+    The existence check that preceded this one asked only whether a quoted key
+    appears in source. It passed a token claiming `OrbitalPageTitle` is 28px
+    when that style declares 20 and the 28 belongs to `OrbitalHeroTitle` - the
+    key was real, the value was another style's. A cross-model reviewer caught
+    it; nothing here could, because nothing compared values.
+    """
+    findings = []
+    for node in graph.get("nodes", []):
+        if node.get("type") != "token":
+            continue
+        uno = ((node.get("properties") or {}).get("uno")) or {}
+        key = uno.get("styleKey") or uno.get("resourceKey") or uno.get("fontResourceKey")
+        if not key or key not in styles:
+            continue
+        declared = styles[key]
+        value = node.get("value")
+        if not isinstance(value, dict):
+            continue
+        for field, claimed in value.items():
+            prop = VALUE_PROPERTY_MAP.get(field)
+            if not prop or prop not in declared:
+                continue
+            actual = resolve_value(declared[prop], resources or {})
+            c, a = str(claimed).strip().lower(), str(actual).strip().lower()
+            # Compare loosely: "20" vs 20, "SemiBold" vs "semibold". A resolved
+            # font resource ends in "...ttf#JetBrains Mono", so a claimed family
+            # is a match when the resolved value ends with it.
+            if c == a or a.endswith("#" + c) or c in a.split("#")[-1:]:
+                continue
+            if True:
+                findings.append({
+                    "node": node["id"],
+                    "key": key,
+                    "field": field,
+                    "claimed": claimed,
+                    "actual": actual,
+                })
+    return findings
+
+
 def md_escape(text: str) -> str:
     return str(text).replace("|", "\\|").replace("\n", " ")
 
@@ -209,6 +325,8 @@ def build(eval_name: str, source_root: Path) -> str:
     texts = collect_sources(graph, source_root)
     app_corpus = collect_app_corpus(texts, source_root)
     fabricated, compound, miscited = check_uno_values(graph, texts, app_corpus)
+    app_files = collect_app_files(texts, source_root)
+    wrong_values = check_token_values(graph, parse_style_setters(app_files), parse_simple_resources(app_files))
 
     nodes = graph.get("nodes", [])
     edges = graph.get("edges", [])
@@ -307,6 +425,26 @@ def build(eval_name: str, source_root: Path) -> str:
             for f in miscited:
                 w(f"| `{f['node']}` | `{f['key']}` | `{md_escape(f['value'])}` | `{md_escape(f['cited'])}` |")
             w("")
+
+    w("### Token values that disagree with the style they name")
+    w("")
+    w("A key existing in source does not make the value attributed to it right.")
+    w("This compares each token's asserted value against the `Setter`s of the")
+    w("style it names. The check exists because a cross-model reviewer found a")
+    w("token claiming `OrbitalPageTitle` is 28px when that style declares 20 —")
+    w("the 28 belonged to a different style, and every existence check passed it.")
+    w("")
+    if not wrong_values:
+        w("**No mismatches.** Every token value matches the style it cites.")
+    else:
+        w(f"**{len(wrong_values)} mismatch(es).**")
+        w("")
+        w("| Node | Style key | Field | Gold claims | Source declares |")
+        w("|---|---|---|---|---|")
+        for f in wrong_values:
+            w(f"| `{f['node']}` | `{f['key']}` | {f['field']} | "
+              f"**{md_escape(f['claimed'])}** | **{md_escape(f['actual'])}** |")
+    w("")
 
     w("## Structural facts")
     w("")
