@@ -303,9 +303,41 @@ confirmed wrong; B, C, and B2 match the real app exactly.** B2's data-folder
 implementation (`LocalApplicationData/Orbital`) also matches the real
 `OpenDataFolderButton` handler, which no arm was told about.
 
+## Transient behaviors, driven and verified
+
+Compiling and launching an arm proves its markup is sound; it does not prove
+the declared behaviors fire. Both transient ones were driven through
+synthesized clicks (`verify-interactions.ps1`); captures in
+`parity/interactions/`.
+
+| Behavior | Arm B | Arm B2 | Matches real Orbital |
+|---|---|---|---|
+| `state.profile.saved` — Save flips to "Saved!" | ✅ | ✅ | yes: 1.5 s, then reverts to "Save" |
+| `dialog.recents-cleared` — Cleared ContentDialog | ✅ | ✅ | yes: title "Cleared", body "Recent projects list has been cleared.", button "OK" — verbatim |
+
+The dialog copy is character-identical to the real `SettingsPage.xaml.cs`, in
+arms whose author never saw that file. The graph carried it.
+
+**All three source-backed behaviors are now verified end to end in the graph
+arms** — entrance stagger (from the launch captures), the Saved! flash, and the
+Cleared dialog. The baseline arm implements none of them.
+
+### Two traps worth recording for anyone repeating this
+
+1. **`SetForegroundWindow` fails when the calling process does not own the
+   foreground** — the normal case when a script drives an app. It returns
+   `false`, the arm stays behind whatever window is on top, and synthesized
+   clicks land on *that* window. Because `PrintWindow` is occlusion-proof, the
+   captures still look perfectly correct while nothing is being clicked. The
+   first run of this verification produced three plausible screenshots showing
+   no state change at all. Use `SetWindowPos(HWND_TOPMOST)`, which needs no
+   foreground rights, and assert the click target with
+   `WindowFromPoint` + `GetWindowThreadProcessId` before trusting a click.
+2. **Compare capture hashes.** Four byte-identical PNGs mean nothing happened,
+   however convincing each looks alone. That single check turns "the feature
+   works" into a claim with evidence behind it, and it is what caught trap 1.
+
 ## Still open
 
-- Driving Save / Clear Recent Projects through synthesized clicks to verify
-  the 1.5 s flash and the Cleared dialog render as the original does.
 - Pixel-differencing rather than structural comparison; needs the arms hosted
   in the real shell (nav rail included) to make crops comparable.
