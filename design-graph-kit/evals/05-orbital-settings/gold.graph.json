@@ -46,6 +46,110 @@
       }
     },
     {
+      "id": "region.header-band",
+      "type": "region",
+      "name": "Header band",
+      "semanticRole": "pageHeaderBand",
+      "properties": {
+        "uno": {
+          "type": "Grid",
+          "property": "RowDefinition Height=Auto"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Root grid row 0: fixed, non-scrolling header row holding the PageHeader control."
+      }
+    },
+    {
+      "id": "region.settings-content",
+      "type": "region",
+      "name": "Settings content",
+      "semanticRole": "scrollingContent",
+      "properties": {
+        "uno": {
+          "type": "ScrollViewer"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Root grid row 1: ScrollViewer owning scrolling for the settings cards."
+      }
+    },
+    {
+      "id": "region.settings-columns",
+      "type": "region",
+      "name": "Two-column composition",
+      "semanticRole": "columnLayout",
+      "properties": {
+        "uno": {
+          "type": "Grid",
+          "property": "ColumnDefinitions * / 16 / *"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Declared two-column grid with a 16px gutter, below the profile card."
+      }
+    },
+    {
+      "id": "region.about-column",
+      "type": "region",
+      "name": "About column",
+      "semanticRole": "leftColumn",
+      "properties": {
+        "uno": {
+          "type": "AutoLayout",
+          "property": "Grid.Column=0"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Left column, grouping ABOUT."
+      }
+    },
+    {
+      "id": "region.configuration-column",
+      "type": "region",
+      "name": "Configuration column",
+      "semanticRole": "rightColumn",
+      "properties": {
+        "uno": {
+          "type": "AutoLayout",
+          "property": "Grid.Column=2"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Right column, grouping PATHS then ACTIONS."
+      }
+    },
+    {
       "id": "component.page-header",
       "type": "component",
       "name": "Page header",
@@ -1307,7 +1411,72 @@
     {
       "from": "screen.settings",
       "relation": "contains",
+      "to": "region.header-band",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "region.settings-content",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header-band",
+      "relation": "contains",
       "to": "component.page-header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-content",
+      "relation": "contains",
+      "to": "region.settings-columns",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-columns",
+      "relation": "contains",
+      "to": "region.about-column",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-columns",
+      "relation": "contains",
+      "to": "region.configuration-column",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1357,7 +1526,7 @@
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.settings-content",
       "relation": "contains",
       "to": "component.settings-card.profile",
       "evidence": {
@@ -1384,7 +1553,7 @@
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.about-column",
       "relation": "contains",
       "to": "component.settings-card.about",
       "evidence": {
@@ -1411,7 +1580,7 @@
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.configuration-column",
       "relation": "contains",
       "to": "component.settings-card.paths",
       "evidence": {
@@ -1438,7 +1607,7 @@
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.configuration-column",
       "relation": "contains",
       "to": "component.settings-card.actions",
       "evidence": {

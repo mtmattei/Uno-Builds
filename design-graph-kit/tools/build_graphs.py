@@ -50,6 +50,26 @@ def edge(frm, rel, to, ev_, **props):
 gold_nodes = [
     node("screen.settings", "screen", name="Settings",
          evidence=ev("observed", 1.0, XAML)),
+
+    # Regions (v0.6 rule: a grouping that owns layout or state, not every panel)
+    node("region.header-band", "region", name="Header band", semanticRole="pageHeaderBand",
+         properties={"uno": {"type": "Grid", "property": "RowDefinition Height=Auto"}},
+         evidence=ev("observed", 1.0, XAML,
+         "Root grid row 0: fixed, non-scrolling header row holding the PageHeader control.")),
+    node("region.settings-content", "region", name="Settings content", semanticRole="scrollingContent",
+         properties={"uno": {"type": "ScrollViewer"}},
+         evidence=ev("observed", 1.0, XAML,
+         "Root grid row 1: ScrollViewer owning scrolling for the settings cards.")),
+    node("region.settings-columns", "region", name="Two-column composition", semanticRole="columnLayout",
+         properties={"uno": {"type": "Grid", "property": "ColumnDefinitions * / 16 / *"}},
+         evidence=ev("observed", 1.0, XAML,
+         "Declared two-column grid with a 16px gutter, below the profile card.")),
+    node("region.about-column", "region", name="About column", semanticRole="leftColumn",
+         properties={"uno": {"type": "AutoLayout", "property": "Grid.Column=0"}},
+         evidence=ev("observed", 1.0, XAML, "Left column, grouping ABOUT.")),
+    node("region.configuration-column", "region", name="Configuration column", semanticRole="rightColumn",
+         properties={"uno": {"type": "AutoLayout", "property": "Grid.Column=2"}},
+         evidence=ev("observed", 1.0, XAML, "Right column, grouping PATHS then ACTIONS.")),
     node("component.page-header", "component", name="Page header", role="pageHeader",
          evidence=ev("declared", 1.0, XAML,
          "controls:PageHeader is a reusable UserControl (Orbital.Controls) instantiated with Title/Subtitle.")),
@@ -202,13 +222,34 @@ gold_nodes = [
 ]
 
 gold_edges = [
-    edge("screen.settings", "contains", "component.page-header", ev("observed", 1.0, XAML)),
+    # Cross-model review, region ruling: this gold had zero region nodes for a
+    # page whose root grid separates a fixed header row from a scrolling
+    # content row, and whose content is a declared two-column composition.
+    # Removing the header/content boundary would erase fixed-vs-scrolling
+    # behavior; removing the columns would erase the intentional pairing of
+    # ABOUT against PATHS+ACTIONS. The small label/value grids stay arrangement
+    # and are deliberately NOT regions - per the v0.6 ontology rule.
+    edge("screen.settings", "contains", "region.header-band", ev("observed", 1.0, XAML)),
+    edge("screen.settings", "contains", "region.settings-content", ev("observed", 1.0, XAML)),
+    edge("region.header-band", "contains", "component.page-header", ev("observed", 1.0, XAML)),
+    edge("region.settings-content", "contains", "region.settings-columns", ev("observed", 1.0, XAML)),
+    edge("region.settings-columns", "contains", "region.about-column", ev("observed", 1.0, XAML)),
+    edge("region.settings-columns", "contains", "region.configuration-column", ev("observed", 1.0, XAML)),
     edge("component.page-header", "contains", "content.settings.title", ev("observed", 1.0, XAML)),
     edge("component.page-header", "contains", "content.settings.subtitle", ev("observed", 1.0, XAML)),
     edge("component.page-header", "contains", "control.header.search", ev("declared", 1.0, PH)),
 ]
+# Each card now hangs off the region that actually holds it, per the region
+# ruling: Profile sits directly in the scrolling content, ABOUT in the left
+# column, PATHS and ACTIONS in the right.
+_CARD_PARENT = {
+    "profile": "region.settings-content",
+    "about": "region.about-column",
+    "paths": "region.configuration-column",
+    "actions": "region.configuration-column",
+}
 for s in ["profile", "about", "paths", "actions"]:
-    gold_edges.append(edge("screen.settings", "contains", f"component.settings-card.{s}", ev("observed", 1.0, XAML)))
+    gold_edges.append(edge(_CARD_PARENT[s], "contains", f"component.settings-card.{s}", ev("observed", 1.0, XAML)))
     gold_edges.append(edge(f"component.settings-card.{s}", "instance-of", "component.settings-card",
                            ev("derived", 1.0, DS, "Shares OrbitalCardStyle.")))
 

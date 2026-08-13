@@ -1,6 +1,6 @@
 # Gold review — `08-pens-beers`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\08-pens-beers\gold.graph.json` (52 nodes / 73 edges / 3 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\08-pens-beers\gold.graph.json` (56 nodes / 78 edges / 2 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -23,6 +23,7 @@
 | `Pens/Pens/Converters/Converters.cs` | yes | 1 |
 | `Pens/Pens/Presentation/BeersPage.xaml` | yes | 22 |
 | `Pens/Pens/Presentation/Shell.xaml` | yes | 11 |
+| `Pens/Pens/Presentation/Shell.xaml.cs` | yes | 4 |
 
 ## Automated pre-pass — identifiers not found in the cited source
 
@@ -32,6 +33,20 @@ against the text of every source file this gold cites. The copy-don't-coin
 contract says each one should appear literally.
 
 **No fabricated identifiers.** Every quoted uno value exists in the application.
+
+### Real, but not provable from the node's own citation (4)
+
+The value exists in the app, but the node's `evidence.source` does not
+point at a file containing it — commonly because the source is given as
+a glob label rather than a path. The mapping is right; the provenance
+is unverifiable, which is what makes this worth a reviewer's attention.
+
+| Node | uno key | Value | Cited as |
+|---|---|---|---|
+| `screen.schedule` | `class` | `Pens.Presentation.SchedulePage` | `Pens/Pens/Presentation/Shell.xaml.cs` |
+| `screen.chat` | `class` | `Pens.Presentation.ChatPage` | `Pens/Pens/Presentation/Shell.xaml.cs` |
+| `screen.duties` | `class` | `Pens.Presentation.DutiesPage` | `Pens/Pens/Presentation/Shell.xaml.cs` |
+| `screen.roster` | `class` | `Pens.Presentation.RosterPage` | `Pens/Pens/Presentation/Shell.xaml.cs` |
 
 ### Token values that disagree with the style they name
 
@@ -53,8 +68,8 @@ these are correct, and that call belongs to the reviewer.
 | `token` | 18 |
 | `component` | 17 |
 | `content` | 8 |
+| `screen` | 5 |
 | `region` | 5 |
-| `screen` | 1 |
 | `asset` | 1 |
 | `control` | 1 |
 | `state` | 1 |
@@ -64,10 +79,11 @@ these are correct, and that call belongs to the reviewer.
 | `uses-token` | 30 |
 | `contains` | 28 |
 | `instance-of` | 13 |
+| `navigates-to` | 5 |
 | `has-state` | 1 |
 | `triggers` | 1 |
 
-The cited XAML declares **24** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 4 file(s).
+The cited XAML declares **24** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 5 file(s).
 Compare against the `region` count above when judging check 6.
 
 ## Checks only a human can make
@@ -99,6 +115,10 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `component.tab-item.beers` | component | Beers tab | observed | 1.0 | type=TabBarItem, property=Tag=Beers, iconGlyph=&#xE799; | | |
 | `component.tab-item.duties` | component | Duties tab | observed | 1.0 | type=TabBarItem, property=Tag=Duties, iconGlyph=Bullets | | |
 | `component.tab-item.roster` | component | Roster tab | observed | 1.0 | type=TabBarItem, property=Tag=Roster, iconGlyph=People | | |
+| `screen.schedule` | screen | Schedule | declared | 1.0 | type=Page, class=Pens.Presentation.SchedulePage | | |
+| `screen.chat` | screen | Chat | declared | 1.0 | type=Page, class=Pens.Presentation.ChatPage | | |
+| `screen.duties` | screen | Duties | declared | 1.0 | type=Page, class=Pens.Presentation.DutiesPage | | |
+| `screen.roster` | screen | Roster | declared | 1.0 | type=Page, class=Pens.Presentation.RosterPage | | |
 | `region.beer-summary` | region | Season consumption summary | observed | 1.0 | — | | |
 | `content.summary.cases-value` | content | Consumed cases value | declared | 1.0 | type=TextBlock, member=ConsumedCases, fontResourceKey=BebasNeueFont | | |
 | `content.summary.cases-label` | content | cases | observed | 1.0 | type=TextBlock, property=x:Uid=BeersPage_Cases | | |
@@ -147,7 +167,12 @@ the ones a graph must never invent. They are listed first.
 
 | Relation | From | To | Evidence | Verdict | Note |
 |---|---|---|---|---|---|
-| **triggers** | `component.case-tile` | `state.case-tile.consumed` | declared | | |
+| **navigates-to** | `component.tab-item.schedule` | `screen.schedule` | declared | | |
+| **navigates-to** | `component.tab-item.chat` | `screen.chat` | declared | | |
+| **navigates-to** | `component.tab-item.duties` | `screen.duties` | declared | | |
+| **navigates-to** | `component.tab-item.roster` | `screen.roster` | declared | | |
+| **navigates-to** | `component.tab-item.beers` | `screen.beers` | declared | | |
+| **triggers** | `control.tracker.case-grid` | `state.case-tile.consumed` | declared | | |
 | **instance-of** | `component.tab-item.schedule` | `component.tab-item` | observed | | |
 | **contains** | `region.tab-bar` | `component.tab-item.schedule` | observed | | |
 | **instance-of** | `component.tab-item.chat` | `component.tab-item` | observed | | |
@@ -225,7 +250,6 @@ the ones a graph must never invent. They are listed first.
 
 | Question | Related ids | Genuinely undecidable? | Note |
 |---|---|---|---|
-| What does each bottom tab navigate to? | `region.tab-bar`, `component.tab-item` | | |
 | Are the four stat values placeholders? | `component.stat-card`, `component.stat-card.avg-per-game`, `component.stat-card.games-played`, `component.stat-card.top-consumer`, `component.stat-card.most-in-game` | | |
 | Where are IsLoading and HasError rendered? | `screen.beers` | | |
 
