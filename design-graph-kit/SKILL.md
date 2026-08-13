@@ -1,6 +1,6 @@
 # Skill: Generate Design Graph
 
-Version: 0.4 (0.2 added a binding ID grammar, state-altitude rules, and token
+Version: 0.6 (0.2 added a binding ID grammar, state-altitude rules, and token
 scoping; 0.3 added canonical-internals, token-edge attachment, and
 variant-folding rules; 0.4 makes the graph **Uno-first** — every node may
 carry a `properties.uno` mapping layer per `references/uno-mapping.md`. See
@@ -265,7 +265,22 @@ ID grammar (binding — repeated blind runs drift exactly where this is loose):
   type is for framework-primitive interactive elements (Button, TextBox,
   ToggleSwitch…) used directly.
 
-Naming vocabulary (use these; do not coin synonyms):
+**Precedence when a declared name and the vocabulary disagree** (eval 09): the
+**source-declared name wins**. If the source declares a type or element name
+for the concept (`LayerRow`, `FileRow`, an `x:Name`, a Figma component name),
+slugify it — `component.layer-row`, not `component.layer-item`. The vocabulary
+below applies when the source declares *no* name for the concept, which is the
+usual case for design-only inputs.
+
+Why this way round: a declared name is evidence, and the whole graph is built
+on preferring evidence to invention; the vocabulary exists to stop two runs
+coining different synonyms for the same *unnamed* shape. Eval 09's fleet split
+3–2 on exactly this, with both sides correctly citing this section — the rule
+contradicted itself until this paragraph. Record the alternative in
+`properties.uno` (e.g. `itemModel: LayerRow`) so nothing is lost either way.
+
+Naming vocabulary (use these when the source declares no name; do not coin
+synonyms):
 
 - a bordered/rounded grouping container → `card` — **regardless of its
   visual treatment** (glass, elevated, outlined section panels are all

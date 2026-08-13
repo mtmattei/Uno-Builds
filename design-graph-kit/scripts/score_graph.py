@@ -11,7 +11,7 @@ import json
 import re
 from pathlib import Path
 
-SCORER_VERSION = "0.3.0"
+SCORER_VERSION = "0.4.0"
 
 
 def load(path: Path):
@@ -79,6 +79,59 @@ def unresolved_signature(u):
     return tuple(sorted(u.get("relatedIds", [])))
 
 
+def unresolved_tokens(u):
+    """Word tokens of the ids an unresolved item attaches to (v0.4).
+
+    Matching on exact `relatedIds` still fails whenever ids drift: gold saying
+    `region.tab-bar` and a run saying `region.pens-beers.tab-bar` flag the same
+    ambiguity and scored 0.0. Scorer 0.1.1 fixed this dimension for question
+    *wording*; this fixes it for id *spelling*, which eval 08 showed is the
+    remaining failure (four of five runs scored 0.000 while naming the same
+    gaps as gold).
+    """
+    out = set()
+    for rid in u.get("relatedIds", []):
+        for seg in str(rid).split("."):
+            out.update(t for t in re.split(r"[^a-z0-9]+", seg.lower()) if t)
+    # Type prefixes carry no discriminating information - every id starts with
+    # one, so leaving them in makes unrelated items look similar.
+    return frozenset(out - {"screen", "region", "component", "control",
+                            "content", "asset", "token", "state", "unresolved"})
+
+
+def match_unresolved(gold_items, pred_items, threshold=0.34):
+    """Greedy overlap matching for unresolved items; returns (P, R, F1).
+
+    Set equality is the wrong test for a dimension whose members are prose
+    questions attached to drifting ids, so each predicted item is paired with
+    the most similar unmatched gold item and counted when the Jaccard overlap
+    of their id tokens clears the threshold.
+    """
+    gold_tok = [unresolved_tokens(u) for u in gold_items]
+    pred_tok = [unresolved_tokens(u) for u in pred_items]
+    if not gold_tok and not pred_tok:
+        return 1.0, 1.0, 1.0
+
+    unmatched = list(range(len(gold_tok)))
+    matches = 0
+    for p in pred_tok:
+        best, best_score = None, 0.0
+        for gi in unmatched:
+            g = gold_tok[gi]
+            union = g | p
+            score = (len(g & p) / len(union)) if union else 0.0
+            if score > best_score:
+                best, best_score = gi, score
+        if best is not None and best_score >= threshold:
+            unmatched.remove(best)
+            matches += 1
+
+    precision = matches / len(pred_tok) if pred_tok else 0.0
+    recall = matches / len(gold_tok) if gold_tok else 1.0
+    score = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+    return precision, recall, score
+
+
 def round4(x):
     return round(float(x), 4)
 
@@ -116,10 +169,6 @@ def main():
             {edge_signature(e) for e in gold.get("edges", [])},
             {edge_signature(e) for e in pred.get("edges", [])},
         ),
-        "unresolved": (
-            {unresolved_signature(u) for u in gold.get("unresolved", [])},
-            {unresolved_signature(u) for u in pred.get("unresolved", [])},
-        ),
     }
 
     f1s = []
@@ -133,6 +182,17 @@ def main():
             "generated_count": len(p),
         }
         f1s.append(score)
+
+    # Scored by overlap rather than set equality - see match_unresolved.
+    u_p, u_r, u_f1 = match_unresolved(gold.get("unresolved", []), pred.get("unresolved", []))
+    metrics["unresolved"] = {
+        "precision": round4(u_p),
+        "recall": round4(u_r),
+        "f1": round4(u_f1),
+        "gold_count": len(gold.get("unresolved", [])),
+        "generated_count": len(pred.get("unresolved", [])),
+    }
+    f1s.append(u_f1)
 
     metrics["macro_f1"] = round4(sum(f1s) / len(f1s))
 
@@ -154,30 +214,67 @@ def main():
                 out.add(t[:-1])
         return frozenset(out)
 
+    def endpoint_tokens(node, node_id):
+        """Identity tokens of a behavioral endpoint: the node's name/text AND
+        its id segments.
+
+        Names drift harder than ids - gold calling a control "Expand toggle"
+        while a run calls the same thing "Locked context card" left the two
+        with no shared token, so a real behavior read as invented. The id
+        segments (`locked-card` vs `locked-context-card`) still overlap, so
+        the union is the more reliable identity.
+        """
+        toks = set(_tokens(node))
+        for seg in str(node_id or "").split("."):
+            toks.update(t for t in re.split(r"[^a-z0-9]+", seg.lower()) if t)
+        return stems(frozenset(toks) - {"screen", "region", "component",
+                                        "control", "content", "asset",
+                                        "token", "state"})
+
     def behavior_edges(graph):
         nodes = {n.get("id"): n for n in graph.get("nodes", []) if isinstance(n, dict)}
         out = []
         for e in graph.get("edges", []):
             if e.get("relation") in {"navigates-to", "triggers"}:
+                frm, to = e.get("from"), e.get("to")
                 out.append((
                     e.get("relation"),
-                    stems(_tokens(nodes.get(e.get("from"), {"id": e.get("from")}))),
-                    stems(_tokens(nodes.get(e.get("to"), {"id": e.get("to")}))),
+                    endpoint_tokens(nodes.get(frm, {}), frm),
+                    endpoint_tokens(nodes.get(to, {}), to),
                     edge_signature(e),
                 ))
         return out
 
+    # v0.4 - the proxy now separates *invention* from *target choice*.
+    #
+    # Requiring both endpoints to match gold flagged all five runs in evals 05,
+    # 07 and 09, and every flagged edge turned out to be a real code path. The
+    # cause is that one action legitimately has several effects: a layer-row
+    # click both swaps the canvas and opens the rails, so gold and a run each
+    # record a different true target and the edge reads as unsupported.
+    #
+    # What actually indicates invention is a behavioral edge whose *source*
+    # gold never says triggers anything at all. A divergent target on a real
+    # trigger source is a modeling decision, so it is reported separately and
+    # does not raise the hallucination flag.
     gold_behavior = behavior_edges(gold)
     unsupported_behavior = []
+    divergent_targets = []
     for rel, ftok, ttok, sig in behavior_edges(pred):
-        supported = any(
-            rel == grel and (ftok & gftok) and (ttok & gttok)
-            for grel, gftok, gttok, _ in gold_behavior
+        same_relation = [g for g in gold_behavior if g[0] == rel]
+        source_supported = any(ftok & gftok for _, gftok, _, _ in same_relation)
+        fully_supported = any(
+            (ftok & gftok) and (ttok & gttok) for _, gftok, gttok, _ in same_relation
         )
-        if not supported:
+        if not source_supported:
             unsupported_behavior.append(sig)
+        elif not fully_supported:
+            divergent_targets.append(sig)
+
     unsupported_behavior.sort()
+    divergent_targets.sort()
     metrics["unsupported_behavior_edges"] = unsupported_behavior
+    metrics["divergent_behavior_targets"] = divergent_targets
     metrics["severe_hallucination_proxy"] = bool(unsupported_behavior)
     metrics["scorer_version"] = SCORER_VERSION
 

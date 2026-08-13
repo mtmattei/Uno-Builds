@@ -1,5 +1,76 @@
 # Changelog
 
+## 0.6.0 — 2026-08-12
+
+Rule and scorer round driven by eval 09 (Composer Shell) and the eval-08 image
+round, plus the kit's first execution against real toolchains and real sources.
+
+**Scorer 0.4.0 — two defects fixed, both found by running on real data.**
+Macro F1 values are not comparable with 0.3.0 results.
+
+- The **hallucination proxy no longer conflates target choice with invention.**
+  Requiring both endpoints to match gold flagged all five runs in evals 05, 07
+  and 09; every flagged edge was verified by hand as a real code path. The
+  cause is multi-effect actions — a layer-row click both swaps the canvas and
+  opens the rails, so gold and a run each record a different true target. The
+  proxy now flags an edge only when its **source** is one gold never says
+  triggers anything; a divergent target on a real source is reported as
+  `divergent_behavior_targets` and does not raise the flag. Re-verified against
+  an injected fake edge, which is still caught.
+- Endpoint identity now unions **id segments with name/text tokens**. Names
+  drift harder than ids ("Expand toggle" vs "Locked context card" for the same
+  control), which was making real behaviors read as invented.
+- The **`unresolved` dimension survives id drift.** 0.1.1 fixed it for question
+  *wording*; eval 08 showed ids were still fatal (four of five runs scored
+  0.000 while naming the same gaps as gold). It now matches by greedy overlap
+  of id tokens rather than set equality: eval-08 runs 0.000 → 0.125–0.400,
+  eval-09 runs 0.000 → 0.154–0.667.
+
+**Rules — three gaps closed, each with fleet evidence.**
+
+- `SKILL.md` Pass 8: **precedence when a declared name and the naming
+  vocabulary disagree** — the source-declared name wins (`component.layer-row`,
+  not `component.layer-item`); the vocabulary governs concepts the source does
+  not name. Eval 09's fleet split 3–2 with both sides correctly citing Pass 8,
+  which contradicted itself until now.
+- `references/ontology.md`: **multi-effect rule** — one `triggers` edge per
+  declared effect, never a chosen "main" one.
+- `references/ontology.md`: **when to emit a `region`** — a structural grouping
+  that owns layout or state, not every layout panel. Ten independent runs
+  across evals 08 and 09 emitted regions unprompted while gold 05 has zero;
+  gold 05 is **queued for revision through the human review** rather than
+  silently recalibrated by the lineage that authored it.
+
+**Tooling.**
+
+- `tools/build_review_packet.py` (new): a node-by-node review sheet per gold
+  that classifies every quoted `properties.uno` value as fabricated, compound,
+  or miscited. It reported 26 fabrications against a clean gold 09 before
+  expression-valued keys were handled — fixed; all five source-backed golds now
+  verify with **0 fabricated identifiers**.
+- `tools/audit_designfirst.py` and `tools/stability.py`: both carried hardcoded
+  sandbox paths and had never run outside the sandbox. Parameterized.
+- `tools/Capture-Window.ps1` (new): occlusion-proof capture with a blank-bitmap
+  guard, since `PrintWindow` can report success and return a uniform image.
+- `experiments/ab-orbital-settings/ArmHost`, `run-arms.ps1`,
+  `verify-interactions.ps1` (new): compile, launch and drive the A/B arms.
+
+**Evals.**
+
+- New `08-pens-beers`: image input — recorded honestly as a *screenshot* round,
+  since the input is a render of a running app rather than a design export.
+  MVVM; 5/5 honesty-perfect.
+- New `09-composer-shell`: MVUX, the densest design system in the pool. Token
+  scoping and component expansion both held 5/5 under the largest dictionary
+  set the kit has faced.
+- Gold 08 corrected: `iconGlyph` held prose pairs rather than source values.
+
+**Experiments.** All four A/B arms compile with zero arm-code changes; arm A
+still dies at first frame on a relocated `ms-appx:///` URI. Both transient
+behaviors verified live in the graph arms, with dialog copy character-identical
+to a code-behind their authors never saw. Arm A's guessed docs URL is confirmed
+wrong against the real source.
+
 ## 0.5.0 — 2026-08-12
 
 Consensus calibration round from eval-07's unanimous blind findings, plus
