@@ -1,0 +1,1349 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "composer-shell",
+  "name": "Composer Shell",
+  "description": "Three-column context-engine workspace: composition-stack rail (left), active layer canvas (center, hosting swappable per-layer content), files rail (right). Rails are 0px on the cold-launch screen and reveal on first lock or advance. Layer views hosted by the canvas are out of scope.",
+  "sourceSummary": [
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml", "label": "Shell page + rail reveal/hide storyboards" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Shell.xaml.cs", "label": "Rail column toggling, storyboard dispatch, DataContext construction" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ProgressIndicator.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ProgressIndicator.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/AppTitleRow.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/AppTitleRow.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml.cs" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml", "label": "InkButtonStyle / LinkButtonStyle / ChatInputTextBoxStyle consumed by this surface" },
+    { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/ContextEngineStyles.xaml", "label": "AmberButtonStyle / StackRowButtonStyle consumed by this surface" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/Presentation/ShellModel.cs", "label": "Shell-level feeds and commands" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs", "label": "Commands invoked by this surface, suggestion chips" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/LayerDef.cs", "label": "Eight layer definitions consumed by both rails" },
+    { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/MotionPreferences.cs", "label": "Reduced-motion gate on every storyboard" }
+  ],
+  "nodes": [
+    {
+      "id": "screen.composer-shell",
+      "type": "screen",
+      "name": "Composer Shell",
+      "role": "workspace",
+      "properties": {
+        "layout": "three-column workspace; rails collapse to 0px width in cold-launch focus mode",
+        "dataContext": "ComposerViewModel constructed in Shell.OnLoaded from ShellModel, IntentModel, UXModel, ArchitectureModel, DesignModel, InteractionsModel, DataModel, ImplementationModel plus IBundleExporter, IUnoSdkVersionService, ILayerPreviewService, IContextDeriver, IOptions<AnthropicConfig>",
+        "uno": {
+          "type": "Page",
+          "class": "Composer.Shell",
+          "background": "{ThemeResource GlassBackdropBrush}",
+          "requestedTheme": "Light",
+          "attachedProperties": { "utu:SafeArea.Insets": "VisibleBounds" }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 1 } }
+    },
+    {
+      "id": "region.composer-shell.workspace",
+      "type": "region",
+      "name": "Workspace grid",
+      "role": "layoutRoot",
+      "properties": {
+        "columns": [
+          { "name": "LeftRailColumn", "width": "0 (280 when rails visible)" },
+          { "width": "*" },
+          { "name": "RightRailColumn", "width": "0 (280 when rails visible)" }
+        ],
+        "note": "Code-behind SyncRailsAnimation snaps both rail ColumnDefinition.Width between 0 and 280; Grid columns do not re-measure smoothly under DoubleAnimation on Skia desktop, so only the rail content is animated.",
+        "uno": { "type": "Grid", "xName": "WorkspaceRoot" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 85 } }
+    },
+    {
+      "id": "region.composer-shell.left-rail",
+      "type": "region",
+      "name": "Left rail container",
+      "role": "railContainer",
+      "properties": {
+        "initialOpacity": 0,
+        "initialTranslateX": -40,
+        "uno": {
+          "type": "Border",
+          "xName": "LeftRailContainer",
+          "gridColumn": 0,
+          "renderTransform": { "type": "TranslateTransform", "xName": "LeftRailTransform", "X": -40 }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 92 } }
+    },
+    {
+      "id": "region.composer-shell.right-rail",
+      "type": "region",
+      "name": "Right rail container",
+      "role": "railContainer",
+      "properties": {
+        "initialOpacity": 0,
+        "initialTranslateX": 40,
+        "uno": {
+          "type": "Border",
+          "xName": "RightRailContainer",
+          "gridColumn": 2,
+          "renderTransform": { "type": "TranslateTransform", "xName": "RightRailTransform", "X": 40 }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 107 } }
+    },
+    {
+      "id": "component.composition-stack",
+      "type": "component",
+      "name": "Composition Stack",
+      "role": "rail",
+      "properties": {
+        "width": 280,
+        "padding": "20,28",
+        "borderThickness": "0,0,1,0",
+        "stackSpacing": 14,
+        "itemsSource": "XAML declares {Binding Layers}; code-behind Render() replaces ItemsRepeater.ItemsSource with an ImmutableArray<LayerRow> projection built from Composer.Models.Layers.All (8 layers) plus ActiveIndex and LayerStates",
+        "refreshedOn": ["ActiveIndex", "LayerStates"],
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.CompositionStack",
+          "rootType": "Border",
+          "background": "{ThemeResource Paper2Brush}",
+          "borderBrush": "{ThemeResource HairlineBrush}",
+          "panel": "utu:AutoLayout"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" } }
+    },
+    {
+      "id": "content.composition-stack.section-title",
+      "type": "content",
+      "name": "Composition stack title",
+      "semanticRole": "sectionHeader",
+      "text": "COMPOSITION STACK",
+      "properties": { "uno": { "type": "TextBlock", "styleKey": "MonoEyebrow" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" }, "locator": { "line": 11 } }
+    },
+    {
+      "id": "content.composition-stack.caption",
+      "type": "content",
+      "name": "Composition stack caption",
+      "semanticRole": "caption",
+      "text": "A conversation that crystallizes into a build system.",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "fontFamily": "{StaticResource SerifLightItalicFontFamily}",
+          "fontSize": "{StaticResource TypeBodySmallSize}",
+          "foreground": "{ThemeResource Ink3Brush}",
+          "textWrapping": "Wrap"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" }, "locator": { "line": 13 } }
+    },
+    {
+      "id": "component.layer-row",
+      "type": "component",
+      "name": "Layer row",
+      "role": "button",
+      "semanticRole": "layerNavigation",
+      "properties": {
+        "parts": ["state-marker", "index-label", "label", "hint", "glyph"],
+        "partDetail": {
+          "state-marker": "2px Border, VerticalAlignment=Stretch, Margin 0,2,10,2, Background bound to LayerRow.LeftBorderBrush",
+          "index-label": "mono, TypeEyebrowSize, CharacterSpacing 160, Ink3, text = LayerRow.IndexLabel (\"01\"..\"08\")",
+          "label": "mono, TypeEyebrowSize, CharacterSpacing 160, SemiBold, Ink, text = LayerRow.LabelUpper",
+          "hint": "SerifLightItalic, TypeLabelSize, Ink3, wrapping, text = LayerRow.Hint",
+          "glyph": "mono, TypeLabelSize, Ink, text = LayerRow.Glyph (\"✓\" when locked, otherwise empty)"
+        },
+        "instanceCount": 8,
+        "instanceSource": "Composer.Models.Layers.All projected through LayerRow.For(def, isActive, isLocked, dimmed)",
+        "rowSpacing": 2,
+        "contentPadding": "0,8,0,8",
+        "uno": {
+          "type": "Button",
+          "styleKey": "StackRowButtonStyle",
+          "hostType": "ItemsRepeater",
+          "hostXName": "LayerRows",
+          "layout": "StackLayout Orientation=Vertical Spacing=2",
+          "clickHandler": "OnLayerRowClick",
+          "tag": "{Binding}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" }, "locator": { "line": 30 } }
+    },
+    {
+      "id": "state.layer-row.active",
+      "type": "state",
+      "name": "Active layer row",
+      "properties": {
+        "leftBorderBrush": "AppBrushes.Amber",
+        "opacity": 1.0,
+        "condition": "row index == ActiveIndex",
+        "uno": { "mechanism": "code-behind", "member": "LayerRow.For / CompositionStack.Render" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs" }, "locator": { "line": 120 } }
+    },
+    {
+      "id": "state.layer-row.locked",
+      "type": "state",
+      "name": "Locked layer row",
+      "properties": {
+        "leftBorderBrush": "AppBrushes.Ink2",
+        "glyph": "✓",
+        "opacity": 1.0,
+        "condition": "LayerStates[kind] == LayerState.Locked",
+        "uno": { "mechanism": "code-behind", "member": "LayerRow.For / CompositionStack.Render" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs" }, "locator": { "line": 120 } }
+    },
+    {
+      "id": "state.layer-row.dimmed",
+      "type": "state",
+      "name": "Upcoming layer row",
+      "properties": {
+        "leftBorderBrush": "AppBrushes.Transparent",
+        "opacity": 0.42,
+        "condition": "not active, not locked, index > ActiveIndex",
+        "uno": { "mechanism": "code-behind", "member": "LayerRow.For / CompositionStack.Render" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs" }, "locator": { "line": 64 } }
+    },
+    {
+      "id": "component.active-canvas",
+      "type": "component",
+      "name": "Active canvas",
+      "role": "contentColumn",
+      "properties": {
+        "scrollHost": { "type": "ScrollViewer", "xName": "CanvasScrollHost", "padding": "32,28,32,40", "horizontalScrollMode": "Disabled", "verticalScrollMode": "Auto", "verticalScrollBarVisibility": "Hidden" },
+        "column": { "type": "utu:AutoLayout", "xName": "CanvasColumn", "orientation": "Vertical", "spacing": 20, "minWidth": 640, "maxWidth": 720, "horizontalAlignment": "Center" },
+        "slotOrder": ["ProgressRegion", "TitleRow", "HeaderRegion", "LockedStack", "CanvasSlot", "FooterRegion", "FutureStack"],
+        "refreshedOn": ["ActiveIndex", "ActiveLayer", "LayerStates", "RailsVisible", "IsFocusedFirst", "ActiveLayerHeader", "ActiveLayerLayerState", "Architecture", "UX", "Design", "Data", "Implementation"],
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.ActiveCanvas",
+          "xName": "CenterCanvas",
+          "gridColumn": 1
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" } }
+    },
+    {
+      "id": "component.progress-indicator",
+      "type": "component",
+      "name": "Progress indicator",
+      "role": "progress",
+      "properties": {
+        "parts": ["track", "fill", "label", "counter"],
+        "partDetail": {
+          "track": "1px Border, HairlineBrush, stretched, inside Grid x:Name=TrackRoot (SizeChanged=OnTrackSizeChanged)",
+          "fill": "1px Border x:Name=ProgressFill, AmberBrush, left-aligned, Width = TrackRoot.ActualWidth * Fraction, initial Width 0",
+          "label": "TextBlock x:Name=LabelText, mono, TypeEyebrowSize, CharacterSpacing 160, Ink3",
+          "counter": "TextBlock x:Name=CounterText, mono, TypeEyebrowSize, CharacterSpacing 160, Ink4"
+        },
+        "stackSpacing": 10,
+        "animation": "DoubleAnimation on ProgressFill.Width, 480ms, QuinticEase EaseOut; snapped when MotionPreferences.AnimationsEnabled is false",
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.ProgressIndicator",
+          "xName": "ProgressRegion",
+          "dependencyProperties": {
+            "Fraction": "{Binding ProgressFraction, Mode=OneWay}",
+            "Label": "{Binding ProgressLabel, Mode=OneWay}",
+            "Counter": "{Binding ProgressCounter, Mode=OneWay}"
+          }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ProgressIndicator.xaml" } }
+    },
+    {
+      "id": "component.app-title-row",
+      "type": "component",
+      "name": "App title row",
+      "role": "header",
+      "properties": {
+        "visibility": "Collapsed",
+        "note": "Set Visibility=Collapsed in ActiveCanvas.xaml with the comment that the project name is no longer needed above each canvas; the control and its bindings remain live.",
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.AppTitleRow",
+          "xName": "TitleRow",
+          "dependencyProperties": {
+            "ProjectName": "{Binding ProjectName, Mode=OneWay}",
+            "ShowReset": "{Binding HasLockedLayers, Mode=OneWay}"
+          }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" }, "locator": { "line": 28 } }
+    },
+    {
+      "id": "content.app-title-row.project-name",
+      "type": "content",
+      "name": "Project name",
+      "semanticRole": "title",
+      "properties": {
+        "fallbackText": "Untitled",
+        "source": "ProjectName DP (Intent.AppType via ComposerModel.ProjectName)",
+        "uno": {
+          "type": "TextBlock",
+          "xName": "ProjectNameText",
+          "fontFamily": "{StaticResource SansFontFamily}",
+          "fontSize": 18,
+          "fontWeight": "Medium",
+          "foreground": "{ThemeResource InkBrush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/AppTitleRow.xaml" }, "locator": { "line": 14 } }
+    },
+    {
+      "id": "control.app-title-row.reset",
+      "type": "control",
+      "name": "Reset",
+      "role": "button",
+      "semanticRole": "destructiveAction",
+      "text": "Reset",
+      "properties": {
+        "visibility": "Collapsed until ShowReset (HasLockedLayers) is true",
+        "command": "Reset (invoked reflectively via MvuxCommandInvoker on the host Page's DataContext)",
+        "uno": {
+          "type": "Button",
+          "xName": "ResetButton",
+          "styleKey": "LinkButtonStyle",
+          "clickHandler": "OnResetClick",
+          "automationName": "Reset composition"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/AppTitleRow.xaml" }, "locator": { "line": 22 } }
+    },
+    {
+      "id": "component.active-layer-header",
+      "type": "component",
+      "name": "Active layer header",
+      "role": "header",
+      "properties": {
+        "stackSpacing": 6,
+        "hiddenParts": {
+          "LayerLabelText": "Collapsed — kept so existing code-behind assignments compile",
+          "TitleText": "Collapsed — title now renders inside the layer's glass container",
+          "SubtitleText": "Collapsed — same reason as TitleText"
+        },
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.ActiveLayerHeader",
+          "xName": "HeaderRegion",
+          "dependencyProperties": {
+            "LayerIndex": "{Binding ActiveLayerIndex, Mode=OneWay}",
+            "LayerLabel": "{Binding ActiveLayerLabel, Mode=OneWay}",
+            "LayerState": "{Binding ActiveLayerLayerState, Mode=OneWay}",
+            "Recap": "{Binding ActiveLayerRecap, Mode=OneWay}",
+            "Title": "{Binding ActiveLayerTitle, Mode=OneWay}",
+            "Subtitle": "{Binding ActiveLayerSubtitle, Mode=OneWay}"
+          }
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml" } }
+    },
+    {
+      "id": "content.active-layer-header.recap",
+      "type": "content",
+      "name": "Layer recap",
+      "semanticRole": "recap",
+      "properties": {
+        "glyph": "↳",
+        "maxWidth": 560,
+        "lineHeight": 20,
+        "source": "ShellModel.ActiveLayerRecap — static per-layer copy; null for the Intent cold-launch layer",
+        "uno": {
+          "type": "TextBlock",
+          "xName": "RecapText",
+          "containerXName": "RecapRow",
+          "containerType": "utu:AutoLayout",
+          "fontFamily": "{StaticResource SerifLightItalicFontFamily}",
+          "fontSize": "{StaticResource TypeBodySmallSize}",
+          "foreground": "{ThemeResource Ink3Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml" }, "locator": { "line": 20 } }
+    },
+    {
+      "id": "content.active-layer-header.state-badge",
+      "type": "content",
+      "name": "Layer state badge",
+      "semanticRole": "statusBadge",
+      "properties": {
+        "initialVisibility": "Collapsed",
+        "uno": {
+          "type": "TextBlock",
+          "xName": "StateBadgeText",
+          "fontFamily": "{StaticResource MonoFontFamily}",
+          "fontSize": "{StaticResource TypeEyebrowSize}",
+          "characterSpacing": 160,
+          "foreground": "{ThemeResource AmberBrush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml" }, "locator": { "line": 33 } }
+    },
+    {
+      "id": "state.active-layer-header.recap-hidden",
+      "type": "state",
+      "name": "No recap",
+      "properties": {
+        "presentation": "RecapRow collapsed",
+        "condition": "Recap is null or whitespace (Intent, the cold-launch layer)",
+        "uno": { "mechanism": "code-behind", "member": "ActiveLayerHeader.Apply" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml.cs" }, "locator": { "line": 96 } }
+    },
+    {
+      "id": "state.active-layer-header.edited",
+      "type": "state",
+      "name": "Edited badge",
+      "text": "EDITED — PREVIEW PENDING",
+      "properties": {
+        "presentation": "StateBadgeText visible with the edited copy",
+        "uno": { "mechanism": "code-behind", "member": "ActiveLayerHeader.Apply", "condition": "LayerState.Dirty" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml.cs" }, "locator": { "line": 113 } }
+    },
+    {
+      "id": "state.active-layer-header.previewing",
+      "type": "state",
+      "name": "Preview badge",
+      "text": "PREVIEW — REVIEW AND ACCEPT",
+      "properties": {
+        "presentation": "StateBadgeText visible with the preview copy",
+        "uno": { "mechanism": "code-behind", "member": "ActiveLayerHeader.Apply", "condition": "LayerState.Previewing" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveLayerHeader.xaml.cs" }, "locator": { "line": 114 } }
+    },
+    {
+      "id": "region.active-canvas.locked-stack",
+      "type": "region",
+      "name": "Locked context stack",
+      "role": "cardStack",
+      "properties": {
+        "spacing": 10,
+        "population": "ActiveCanvas.SyncLockedStack instantiates one LockedContextCard per layer whose LayerStates value is Locked, in Layers.All order",
+        "uno": { "type": "utu:AutoLayout", "xName": "LockedStack", "orientation": "Vertical" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" }, "locator": { "line": 45 } }
+    },
+    {
+      "id": "component.locked-context-card",
+      "type": "component",
+      "name": "Locked context card",
+      "role": "card",
+      "properties": {
+        "parts": ["expand-toggle", "header-label", "locked-suffix", "revisit-link", "summary", "divider", "facts-grid"],
+        "partDetail": {
+          "expand-toggle": "Button x:Name=ExpandToggle, LinkButtonStyle, mono, content \"−\" when expanded and \"+\" when collapsed, Click=OnExpandToggleClick",
+          "header-label": "TextBlock with Run \"✓ \" (Ink2), Run x:Name=HeaderLabelRun (layer label uppercased), Run \"  ·  LOCKED\" (Ink3)",
+          "revisit-link": "Button x:Name=RevisitButton, LinkButtonStyle, content \"Revisit\", Click=OnRevisitClick",
+          "summary": "TextBlock x:Name=SummaryText, SerifLightItalic, TypeBodySmallSize, Ink",
+          "divider": "1px Border x:Name=DividerLine, HairlineBrush, Margin 0,12,0,12",
+          "facts-grid": "Grid x:Name=FactsGrid, 4 rows × 2 columns (120px label column, * value column), populated in code with mono 10px labels (Ink3, CharacterSpacing 160) and mono 12px values (Ink)"
+        },
+        "cornerRadius": 4,
+        "padding": "20,18",
+        "borderThickness": 1,
+        "factsSource": "ActiveCanvas.LockedSummaryFor(kind, dc) derives a summary sentence and four label/value facts per layer kind",
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.LockedContextCard",
+          "dependencyProperties": ["LayerKind", "Summary", "IsExpanded"],
+          "plainProperty": "Facts (IList<KeyValuePair<string,string>>)",
+          "background": "{ThemeResource Paper2Brush}",
+          "borderBrush": "{ThemeResource HairlineBrush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml" } }
+    },
+    {
+      "id": "state.locked-context-card.collapsed",
+      "type": "state",
+      "name": "Collapsed card",
+      "properties": {
+        "presentation": "SummaryText, DividerLine and FactsGrid collapsed; ExpandToggle content becomes \"+\"",
+        "defaultRule": "IsExpanded is seeded from ShellModel.DefaultExpandedKinds — only the two most recently locked layers stay expanded; the toggle is a local manual override",
+        "uno": { "mechanism": "code-behind", "member": "LockedContextCard.ApplyExpansion" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs" }, "locator": { "line": 67 } }
+    },
+    {
+      "id": "state.locked-stack.populated",
+      "type": "state",
+      "name": "Locked cards present",
+      "properties": {
+        "presentation": "one card per locked layer stacked above the canvas slot; empty on the cold-launch screen",
+        "uno": { "mechanism": "code-behind", "member": "ActiveCanvas.SyncLockedStack", "condition": "LayerStates contains at least one Locked entry" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 254 } }
+    },
+    {
+      "id": "region.active-canvas.canvas-slot",
+      "type": "region",
+      "name": "Layer canvas slot",
+      "role": "contentHost",
+      "properties": {
+        "minHeight": 480,
+        "hosting": "ActiveCanvas.SyncSlot instantiates the per-layer canvas UserControl for Layers.All[clamp(ActiveIndex)].Kind and assigns it to CanvasSlot.Content, forwarding the page DataContext. The hosted layer views are outside this graph's scope.",
+        "note": "Region-based navigation (uen:Region.Attached) was reverted here; Pages + RouteMap remain registered as scaffolding for a later navigation pass.",
+        "uno": {
+          "type": "ContentControl",
+          "xName": "CanvasSlot",
+          "horizontalContentAlignment": "Stretch",
+          "verticalContentAlignment": "Stretch"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" }, "locator": { "line": 55 } }
+    },
+    {
+      "id": "component.composer-footer",
+      "type": "component",
+      "name": "Composer footer",
+      "role": "card",
+      "semanticRole": "promptComposer",
+      "properties": {
+        "cornerRadius": 6,
+        "padding": "20,18",
+        "borderThickness": 1,
+        "stackSpacing": 14,
+        "placement": "directly under the current canvas so the primary action is anchored to the surface being reviewed",
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.ComposerFooter",
+          "xName": "FooterRegion",
+          "dependencyProperties": ["State (LayerState)", "Prompt (string)"],
+          "assignedFrom": "ActiveCanvas.SyncFooter sets State from LayerStates[activeKind] and Prompt from ActivePrompt",
+          "background": "{ThemeResource Paper2Brush}",
+          "borderBrush": "{ThemeResource HairlineBrush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" } }
+    },
+    {
+      "id": "content.composer-footer.eyebrow",
+      "type": "content",
+      "name": "Composer eyebrow",
+      "semanticRole": "sectionHeader",
+      "text": "COMPOSER · REFINING",
+      "properties": {
+        "format": "\"COMPOSER · \" + ComposerStatus.ForLayerState(State) → REFINING / LISTENING / PROPOSING",
+        "uno": { "type": "TextBlock", "xName": "EyebrowText", "styleKey": "MonoEyebrow" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 13 } }
+    },
+    {
+      "id": "content.composer-footer.lead-question",
+      "type": "content",
+      "name": "Lead question",
+      "semanticRole": "prompt",
+      "properties": {
+        "source": "ShellModel.ActiveLeadQuestion — one verbatim question per layer; the block collapses when empty",
+        "lineHeight": 22,
+        "uno": {
+          "type": "TextBlock",
+          "xName": "LeadQuestionText",
+          "fontFamily": "{StaticResource SansFontFamily}",
+          "fontSize": "{StaticResource TypeBodySize}",
+          "foreground": "{ThemeResource Ink2Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 21 } }
+    },
+    {
+      "id": "content.composer-footer.ack",
+      "type": "content",
+      "name": "Acknowledgment line",
+      "semanticRole": "acknowledgment",
+      "properties": {
+        "format": "You asked: “{PreviewAcks[kind]}” — here's what changes if I apply that.",
+        "initialVisibility": "Collapsed",
+        "container": { "type": "Border", "xName": "AckLine", "borderBrush": "{ThemeResource AmberBrush}", "borderThickness": "2,0,0,0", "padding": "12,2,0,2" },
+        "uno": {
+          "type": "TextBlock",
+          "xName": "AckText",
+          "fontFamily": "{StaticResource SerifItalicFontFamily}",
+          "fontStyle": "Italic",
+          "fontSize": 13,
+          "foreground": "{ThemeResource Ink2Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 30 } }
+    },
+    {
+      "id": "control.composer-footer.prompt-input",
+      "type": "control",
+      "name": "Prompt input",
+      "role": "textbox",
+      "semanticRole": "promptInput",
+      "properties": {
+        "placeholder": "Refine, or accept what's drawn…",
+        "acceptsReturn": true,
+        "minHeight": 68,
+        "keyboard": "Ctrl+Enter triggers the primary action; Esc discards the preview while in Previewing",
+        "command": "SetActivePrompt on every TextChanged (which marks the active layer Dirty when the text is non-empty)",
+        "uno": {
+          "type": "TextBox",
+          "xName": "PromptInput",
+          "styleKey": "ChatInputTextBoxStyle",
+          "automationName": "Composer prompt",
+          "handlers": ["KeyDown=OnPromptKeyDown", "TextChanged=OnPromptTextChanged"]
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 43 } }
+    },
+    {
+      "id": "content.composer-footer.try-label",
+      "type": "content",
+      "name": "Try label",
+      "semanticRole": "label",
+      "text": "TRY",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "fontFamily": "{StaticResource MonoFontFamily}",
+          "fontSize": "{StaticResource TypeEyebrowSize}",
+          "fontWeight": "Medium",
+          "characterSpacing": 160,
+          "foreground": "{ThemeResource Ink3Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 61 } }
+    },
+    {
+      "id": "region.composer-footer.chips-row",
+      "type": "region",
+      "name": "Suggestion chips row",
+      "role": "chipGroup",
+      "properties": {
+        "spacing": 8,
+        "population": "ComposerFooter.RenderChips builds one Button per entry of ComposerModel.SuggestionChips[activeLayerKind] (three per layer)",
+        "uno": { "type": "utu:AutoLayout", "xName": "ChipsRow", "orientation": "Horizontal" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 70 } }
+    },
+    {
+      "id": "component.suggestion-chip",
+      "type": "component",
+      "name": "Suggestion chip",
+      "role": "button",
+      "semanticRole": "suggestion",
+      "properties": {
+        "parts": ["label"],
+        "instanceCount": 3,
+        "instanceSource": "ComposerModel.SuggestionChips[activeLayerKind]",
+        "onClick": "sets PromptInput.Text to the chip text, moves the caret to the end, focuses the textbox, and invokes SetActivePrompt with the chip text",
+        "uno": {
+          "type": "Button",
+          "constructedIn": "ComposerFooter.RenderChips",
+          "fontFamily": "MonoFontFamily",
+          "fontSize": 11,
+          "fontWeight": "Medium",
+          "characterSpacing": 40,
+          "background": "TransparentBrush",
+          "borderBrush": "HairlineBrush",
+          "borderThickness": 1,
+          "cornerRadius": 4,
+          "padding": "10,5,10,5",
+          "foreground": "Ink2Brush"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" }, "locator": { "line": 171 } }
+    },
+    {
+      "id": "content.composer-footer.kbd-hint",
+      "type": "content",
+      "name": "Keyboard hint",
+      "semanticRole": "helperText",
+      "text": "⌘  ↵  TO SUBMIT",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "xName": "KbdHint",
+          "fontFamily": "{StaticResource MonoFontFamily}",
+          "fontSize": "{StaticResource TypeEyebrowMicroSize}",
+          "characterSpacing": 180,
+          "foreground": "{ThemeResource Ink4Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 75 } }
+    },
+    {
+      "id": "control.composer-footer.primary",
+      "type": "control",
+      "name": "Primary action",
+      "role": "button",
+      "semanticRole": "primaryAction",
+      "text": "Lock and continue →",
+      "properties": {
+        "labelByState": {
+          "Clean": "Lock and continue → (Continue → when the active layer is Intent)",
+          "Dirty": "Generate preview →",
+          "Previewing": "Accept and lock →",
+          "Locked": "Lock and continue → (Continue → on Intent)"
+        },
+        "commandByResolvedState": {
+          "Clean": "LockAndContinue",
+          "Dirty": "GeneratePreview",
+          "Previewing": "AcceptAndLock",
+          "Locked": "LockAndContinue"
+        },
+        "note": "TriggerPrimary promotes a Clean state to Dirty when the prompt box holds text, so a typed prompt routes to GeneratePreview.",
+        "uno": {
+          "type": "Button",
+          "xName": "PrimaryButton",
+          "styleKey": "InkButtonStyle",
+          "alternateStyleKey": "AmberButtonStyle",
+          "clickHandler": "OnPrimaryClick",
+          "automationName": "Lock and continue"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 96 } }
+    },
+    {
+      "id": "content.composer-footer.primary-hint",
+      "type": "content",
+      "name": "Primary action hint",
+      "semanticRole": "helperText",
+      "text": "accepting the recommendation",
+      "properties": {
+        "textByState": {
+          "Clean": "accepting the recommendation",
+          "Dirty": "with your edits",
+          "Previewing": "the AI's pass"
+        },
+        "uno": {
+          "type": "TextBlock",
+          "xName": "PrimaryHintText",
+          "fontFamily": "{StaticResource SerifLightItalicFontFamily}",
+          "fontSize": "{StaticResource TypeBodySmallSize}",
+          "foreground": "{ThemeResource Ink3Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 103 } }
+    },
+    {
+      "id": "control.composer-footer.discard-edits",
+      "type": "control",
+      "name": "Discard edits",
+      "role": "button",
+      "text": "Discard edits",
+      "properties": {
+        "initialVisibility": "Collapsed",
+        "command": "DiscardEdits (also clears the prompt box)",
+        "uno": {
+          "type": "Button",
+          "xName": "DiscardEditsButton",
+          "styleKey": "LinkButtonStyle",
+          "padding": "6,10",
+          "clickHandler": "OnDiscardEditsClick",
+          "automationName": "Discard edits"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 115 } }
+    },
+    {
+      "id": "control.composer-footer.discard-preview",
+      "type": "control",
+      "name": "Discard preview",
+      "role": "button",
+      "text": "← Discard preview",
+      "properties": {
+        "initialVisibility": "Collapsed",
+        "command": "DiscardPreview (also reachable with Esc while the prompt box has focus in Previewing)",
+        "uno": {
+          "type": "Button",
+          "xName": "DiscardPreviewButton",
+          "styleKey": "LinkButtonStyle",
+          "padding": "6,10",
+          "clickHandler": "OnDiscardPreviewClick",
+          "automationName": "Discard preview"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 123 } }
+    },
+    {
+      "id": "state.composer-footer.clean",
+      "type": "state",
+      "name": "Refining",
+      "properties": {
+        "eyebrow": "COMPOSER · REFINING",
+        "primaryLabel": "Lock and continue → (Continue → on Intent)",
+        "primaryStyle": "InkButtonStyle",
+        "primaryHint": "accepting the recommendation",
+        "discardEdits": "Collapsed",
+        "discardPreview": "Collapsed",
+        "ackLine": "Collapsed",
+        "note": "LayerState.Locked renders identically to Clean in ApplyState.",
+        "uno": { "mechanism": "code-behind", "member": "ComposerFooter.ApplyState", "condition": "LayerState.Clean" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" }, "locator": { "line": 111 } }
+    },
+    {
+      "id": "state.composer-footer.dirty",
+      "type": "state",
+      "name": "Listening",
+      "properties": {
+        "eyebrow": "COMPOSER · LISTENING",
+        "primaryLabel": "Generate preview →",
+        "primaryStyle": "AmberButtonStyle",
+        "primaryHint": "with your edits",
+        "discardEdits": "Visible",
+        "discardPreview": "Collapsed",
+        "ackLine": "Collapsed",
+        "uno": { "mechanism": "code-behind", "member": "ComposerFooter.ApplyState", "condition": "LayerState.Dirty" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" }, "locator": { "line": 118 } }
+    },
+    {
+      "id": "state.composer-footer.previewing",
+      "type": "state",
+      "name": "Proposing",
+      "properties": {
+        "eyebrow": "COMPOSER · PROPOSING",
+        "primaryLabel": "Accept and lock →",
+        "primaryStyle": "InkButtonStyle",
+        "primaryHint": "the AI's pass",
+        "discardEdits": "Collapsed",
+        "discardPreview": "Visible",
+        "ackLine": "Visible when PreviewAcks holds a quote for the active layer",
+        "uno": { "mechanism": "code-behind", "member": "ComposerFooter.ApplyState", "condition": "LayerState.Previewing" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" }, "locator": { "line": 125 } }
+    },
+    {
+      "id": "state.composer-footer.hidden",
+      "type": "state",
+      "name": "Footer hidden",
+      "properties": {
+        "presentation": "the whole footer collapses",
+        "condition": "active layer kind is Scaffold — the terminal canvas owns its own download-bundle action",
+        "uno": { "mechanism": "code-behind", "member": "ActiveCanvas.SyncFooter" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 179 } }
+    },
+    {
+      "id": "region.active-canvas.future-stack",
+      "type": "region",
+      "name": "Future preview stack",
+      "role": "cardStack",
+      "properties": {
+        "spacing": 8,
+        "population": "ActiveCanvas.SyncFutureStack builds one FuturePreviewCard for every layer after the active index",
+        "uno": { "type": "utu:AutoLayout", "xName": "FutureStack", "orientation": "Vertical" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" }, "locator": { "line": 68 } }
+    },
+    {
+      "id": "component.future-preview-card",
+      "type": "component",
+      "name": "Future preview card",
+      "role": "card",
+      "properties": {
+        "parts": ["dashed-outline", "header", "hint"],
+        "partDetail": {
+          "dashed-outline": "Rectangle, HairlineBrush stroke, StrokeThickness 1, StrokeDashArray 3,3, RadiusX/RadiusY 4, Fill Transparent (Border does not support stroke dashes)",
+          "header": "TextBlock x:Name=HeaderText, mono, TypeEyebrowSize, CharacterSpacing 160, Ink3, text = \"{LayerLabel}  ·  UPCOMING\"",
+          "hint": "TextBlock x:Name=HintText, SerifItalic, TypeBodySmallSize, Ink3, wrapping, text = LayerDef.Hint"
+        },
+        "padding": "20,14",
+        "stackSpacing": 3,
+        "isHitTestVisible": false,
+        "opacityFormula": "max(0.05, 0.40 - distance * 0.08) where distance = layerIndex - activeIndex",
+        "entrance": "each card fades from 0 to its target opacity over 480ms with QuinticEase EaseOut; snapped to the target when animations are disabled",
+        "uno": { "type": "UserControl", "class": "Composer.Views.Controls.FuturePreviewCard", "dependencyProperties": ["LayerLabel", "Hint"] }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml" } }
+    },
+    {
+      "id": "state.future-stack.populated",
+      "type": "state",
+      "name": "Future cards visible",
+      "properties": {
+        "presentation": "upcoming-layer cards render below the footer; the stack is cleared and left empty while the rails are hidden",
+        "uno": { "mechanism": "code-behind", "member": "ActiveCanvas.SyncFutureStack", "condition": "RailsVisible" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 213 } }
+    },
+    {
+      "id": "state.active-canvas.focused-first",
+      "type": "state",
+      "name": "Focused-first canvas",
+      "properties": {
+        "minWidth": 640,
+        "maxWidth": 720,
+        "scrollPadding": "32,64,32,40",
+        "appliedByDefault": true,
+        "uno": { "mechanism": "code-behind", "member": "ActiveCanvas.SyncFocusedFirst", "condition": "RailsVisible is false (IsFocusedFirst)" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 101 } }
+    },
+    {
+      "id": "state.active-canvas.rails-open",
+      "type": "state",
+      "name": "Rails-open canvas",
+      "properties": {
+        "minWidth": 820,
+        "maxWidth": 880,
+        "scrollPadding": "32,28,32,40",
+        "animation": "pooled Storyboard animating CanvasColumn.MinWidth and MaxWidth over 480ms with QuinticEase EaseOut; padding is snapped because Thickness does not animate cleanly on Skia",
+        "uno": { "mechanism": "code-behind", "member": "ActiveCanvas.SyncFocusedFirst", "condition": "RailsVisible" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 101 } }
+    },
+    {
+      "id": "state.left-rail.revealed",
+      "type": "state",
+      "name": "Left rail revealed",
+      "properties": {
+        "columnWidth": 280,
+        "translateX": 0,
+        "opacity": 1,
+        "translateAnimation": "0:0:0.48, QuinticEase EaseOut",
+        "opacityAnimation": "0:0:0.32 with BeginTime 0:0:0.16",
+        "hideAnimation": "RailsHideStoryboard: X to -40 over 0:0:0.32 (QuinticEase EaseOut), Opacity to 0 over 0:0:0.24",
+        "reducedMotion": "Shell.SyncRailsAnimation snaps opacity and translate when MotionPreferences.AnimationsEnabled is false",
+        "uno": {
+          "mechanism": "Storyboard",
+          "member": "RailsVisible",
+          "resourceKey": "RailsRevealStoryboard",
+          "hideResourceKey": "RailsHideStoryboard",
+          "driver": "Shell.SyncRailsAnimation via INotifyPropertyChanged on the ComposerViewModel"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 16 } }
+    },
+    {
+      "id": "state.right-rail.revealed",
+      "type": "state",
+      "name": "Right rail revealed",
+      "properties": {
+        "columnWidth": 280,
+        "translateX": 0,
+        "opacity": 1,
+        "translateAnimation": "0:0:0.48, QuinticEase EaseOut",
+        "opacityAnimation": "0:0:0.32 with BeginTime 0:0:0.16",
+        "hideAnimation": "RailsHideStoryboard: X to +40 over 0:0:0.32 (QuinticEase EaseOut), Opacity to 0 over 0:0:0.24",
+        "reducedMotion": "Shell.SyncRailsAnimation snaps opacity and translate when MotionPreferences.AnimationsEnabled is false",
+        "uno": {
+          "mechanism": "Storyboard",
+          "member": "RailsVisible",
+          "resourceKey": "RailsRevealStoryboard",
+          "hideResourceKey": "RailsHideStoryboard",
+          "driver": "Shell.SyncRailsAnimation via INotifyPropertyChanged on the ComposerViewModel"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "locator": { "line": 30 } }
+    },
+    {
+      "id": "component.files-rail",
+      "type": "component",
+      "name": "Files Rail",
+      "role": "rail",
+      "properties": {
+        "width": 280,
+        "padding": "20,28",
+        "borderThickness": "1,0,0,0",
+        "stackSpacing": 14,
+        "itemsSource": "code-behind Render() sets ItemsRepeater.ItemsSource to FileRow projections — one per layer file plus README.md and prompt-context.md",
+        "refreshedOn": ["FileStatuses"],
+        "uno": {
+          "type": "UserControl",
+          "class": "Composer.Views.Controls.FilesRail",
+          "rootType": "Border",
+          "background": "{ThemeResource Paper2Brush}",
+          "borderBrush": "{ThemeResource HairlineBrush}",
+          "panel": "utu:AutoLayout"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" } }
+    },
+    {
+      "id": "content.files-rail.section-title",
+      "type": "content",
+      "name": "Files rail title",
+      "semanticRole": "sectionHeader",
+      "text": "FILES RAIL",
+      "properties": { "uno": { "type": "TextBlock", "styleKey": "MonoEyebrow" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" }, "locator": { "line": 10 } }
+    },
+    {
+      "id": "content.files-rail.caption",
+      "type": "content",
+      "name": "Files rail caption",
+      "semanticRole": "caption",
+      "text": "Each layer emits files as it locks.",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "fontFamily": "{StaticResource SerifLightItalicFontFamily}",
+          "fontSize": "{StaticResource TypeBodySmallSize}",
+          "foreground": "{ThemeResource Ink3Brush}",
+          "textWrapping": "Wrap"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" }, "locator": { "line": 12 } }
+    },
+    {
+      "id": "component.file-row",
+      "type": "component",
+      "name": "File row",
+      "role": "listItem",
+      "properties": {
+        "parts": ["status-dot", "file-name", "status-badge"],
+        "partDetail": {
+          "status-dot": "Ellipse 8×8, StrokeThickness 1, Fill bound to FileRow.DotFill, Stroke bound to FileRow.DotStroke",
+          "file-name": "mono, TypeLabelSize, Ink, text = LayerDef.File (README.md, ux-flows.md, architecture.md, design-system.md, interaction-spec.md, data-contracts.md, implementation-plan.md, scaffold.command) plus the synthesized README.md and prompt-context.md rows",
+          "status-badge": "mono, TypeEyebrowMicroSize, CharacterSpacing 160, Foreground bound to FileRow.StatusBadgeBrush"
+        },
+        "rowPadding": "0,8,0,8",
+        "rowSpacing": 2,
+        "uno": {
+          "type": "Grid",
+          "hostType": "ItemsRepeater",
+          "hostXName": "FileRows",
+          "layout": "StackLayout Orientation=Vertical Spacing=2"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" }, "locator": { "line": 28 } }
+    },
+    {
+      "id": "state.file-row.planned",
+      "type": "state",
+      "name": "Planned file",
+      "text": "PLANNED",
+      "properties": {
+        "badgeBrush": "AppBrushes.Ink4",
+        "dotFill": "AppBrushes.Transparent",
+        "dotStroke": "AppBrushes.Ink4",
+        "opacity": 0.42,
+        "uno": { "mechanism": "code-behind", "member": "FileRow.For", "condition": "FileStatus.Planned" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml.cs" }, "locator": { "line": 108 } }
+    },
+    {
+      "id": "state.file-row.writing",
+      "type": "state",
+      "name": "Writing file",
+      "text": "WRITING",
+      "properties": {
+        "badgeBrush": "AppBrushes.Indigo",
+        "dotFill": "AppBrushes.Indigo",
+        "dotStroke": "AppBrushes.Indigo",
+        "opacity": 1.0,
+        "condition": "the file of the active layer",
+        "uno": { "mechanism": "code-behind", "member": "FileRow.For", "condition": "FileStatus.Writing" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml.cs" }, "locator": { "line": 102 } }
+    },
+    {
+      "id": "state.file-row.drafted",
+      "type": "state",
+      "name": "Drafted file",
+      "text": "DRAFTED",
+      "properties": {
+        "badgeBrush": "AppBrushes.Amber",
+        "dotFill": "AppBrushes.Amber",
+        "dotStroke": "AppBrushes.Amber",
+        "opacity": 1.0,
+        "condition": "the file of a locked layer",
+        "uno": { "mechanism": "code-behind", "member": "FileRow.For", "condition": "FileStatus.Drafted" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml.cs" }, "locator": { "line": 96 } }
+    },
+    {
+      "id": "content.files-rail.locked-summary",
+      "type": "content",
+      "name": "Locked summary",
+      "semanticRole": "summary",
+      "text": "0 OF 8 LOCKED",
+      "properties": {
+        "format": "\"{draftedCount} OF {Layers.All.Length} LOCKED\"",
+        "uno": {
+          "type": "TextBlock",
+          "xName": "LockedSummary",
+          "fontFamily": "{StaticResource MonoFontFamily}",
+          "fontSize": "{StaticResource TypeEyebrowSize}",
+          "characterSpacing": 160,
+          "foreground": "{ThemeResource Ink3Brush}"
+        }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml" }, "locator": { "line": 63 } }
+    },
+
+    { "id": "token.color.glass-backdrop", "type": "token", "category": "color", "name": "Glass backdrop", "value": "linear-gradient #FFE3ECF7 0.0 → #FFF1F4F9 0.5 → #FFFAF8F1 1.0 (0,0 → 1,1)", "properties": { "uno": { "resourceKey": "GlassBackdropBrush", "resourceType": "LinearGradientBrush" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 73 } } },
+    { "id": "token.color.paper", "type": "token", "category": "color", "name": "Paper", "value": "#FFFFFF (dark: #141418)", "properties": { "uno": { "resourceKey": "PaperBrush", "resourceType": "SolidColorBrush", "colorKey": "PaperColor" }, "consumedVia": "InkButtonStyle Foreground" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 63 } } },
+    { "id": "token.color.paper2", "type": "token", "category": "color", "name": "Paper 2", "value": "#FAFAFA (dark: #1B1B1F)", "properties": { "uno": { "resourceKey": "Paper2Brush", "resourceType": "SolidColorBrush", "colorKey": "Paper2Color" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 64 } } },
+    { "id": "token.color.hairline", "type": "token", "category": "color", "name": "Hairline", "value": "#ECECEC (dark: #393940)", "properties": { "uno": { "resourceKey": "HairlineBrush", "resourceType": "SolidColorBrush", "colorKey": "HairlineColor" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 90 } } },
+    { "id": "token.color.ink", "type": "token", "category": "color", "name": "Ink", "value": "#1A1A1A (dark: #FAFAFA)", "properties": { "uno": { "resourceKey": "InkBrush", "resourceType": "SolidColorBrush", "colorKey": "InkColor" }, "note": "InkHoverBrush / InkPressedBrush are interaction variants of this base and are not tokenized separately." }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 82 } } },
+    { "id": "token.color.ink2", "type": "token", "category": "color", "name": "Ink 2", "value": "#3A3A3A (dark: #C7C5D0)", "properties": { "uno": { "resourceKey": "Ink2Brush", "resourceType": "SolidColorBrush", "colorKey": "Ink2Color" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 85 } } },
+    { "id": "token.color.ink3", "type": "token", "category": "color", "name": "Ink 3", "value": "#737373 (dark: #918F9A)", "properties": { "uno": { "resourceKey": "Ink3Brush", "resourceType": "SolidColorBrush", "colorKey": "Ink3Color" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 86 } } },
+    { "id": "token.color.ink4", "type": "token", "category": "color", "name": "Ink 4", "value": "#A3A3A3 (dark: #777680)", "properties": { "uno": { "resourceKey": "Ink4Brush", "resourceType": "SolidColorBrush", "colorKey": "Ink4Color" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 87 } } },
+    { "id": "token.color.amber", "type": "token", "category": "color", "name": "Amber", "value": "#C89C3F (dark: #F59E0B)", "properties": { "uno": { "resourceKey": "AmberBrush", "resourceType": "SolidColorBrush", "colorKey": "AmberColor" }, "usage": "active marker, progress fill, dirty/preview badge, drafted file status, acknowledgment rule" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 100 } } },
+    { "id": "token.color.indigo", "type": "token", "category": "color", "name": "Indigo", "value": "#3D3DFF (dark: #A8B0F4)", "properties": { "uno": { "resourceKey": "IndigoBrush", "resourceType": "SolidColorBrush", "colorKey": "IndigoColor" }, "consumedVia": "AppBrushes.Indigo on the WRITING file status" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Tokens.xaml" }, "locator": { "line": 102 } } },
+
+    { "id": "token.typography.mono", "type": "token", "category": "typography", "name": "Mono family", "value": "ms-appx:///Assets/Fonts/JetBrains_Mono/JetBrainsMono-VariableFont.ttf#JetBrains Mono, Cascadia Mono, Consolas, monospace", "properties": { "uno": { "resourceKey": "MonoFontFamily", "resourceType": "FontFamily" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 37 } } },
+    { "id": "token.typography.sans", "type": "token", "category": "typography", "name": "Sans family", "value": "ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif", "properties": { "uno": { "resourceKey": "SansFontFamily", "resourceType": "FontFamily" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 22 } } },
+    { "id": "token.typography.serif", "type": "token", "category": "typography", "name": "Serif family (alias of Inter)", "value": "ms-appx:///Assets/Fonts/Inter/InterVariable.ttf#Inter, Bahnschrift, Segoe UI Variable Display, Segoe UI, sans-serif", "properties": { "uno": { "resourceKey": "SerifFontFamily", "resourceType": "FontFamily" }, "consumedVia": "ChatInputTextBoxStyle (prompt input and its placeholder)" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 26 } } },
+    { "id": "token.typography.serif-italic", "type": "token", "category": "typography", "name": "Serif italic family", "value": "ms-appx:///Assets/Fonts/Inter/InterVariable-Italic.ttf#Inter, Bahnschrift, Segoe UI, sans-serif", "properties": { "uno": { "resourceKey": "SerifItalicFontFamily", "resourceType": "FontFamily" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 32 } } },
+    { "id": "token.typography.serif-light-italic", "type": "token", "category": "typography", "name": "Serif light italic family", "value": "ms-appx:///Assets/Fonts/Inter/InterVariable-Italic.ttf#Inter, Bahnschrift, Segoe UI, sans-serif", "properties": { "uno": { "resourceKey": "SerifLightItalicFontFamily", "resourceType": "FontFamily" }, "usage": "editorial voice — rail captions, layer hints, recap, locked-card summaries, primary-action hint" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 33 } } },
+    { "id": "token.typography.mono-eyebrow", "type": "token", "category": "typography", "name": "Mono eyebrow style", "value": { "fontFamily": "MonoFontFamily", "fontSize": 11, "fontWeight": "Medium", "characterSpacing": 180, "foreground": "Ink3Brush", "lineHeight": 13, "numeralAlignment": "Tabular" }, "properties": { "uno": { "styleKey": "MonoEyebrow", "resourceType": "Style", "targetType": "TextBlock" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 63 } } },
+
+    { "id": "token.font-size.eyebrow-micro", "type": "token", "category": "typography", "name": "Eyebrow micro size", "value": 10, "properties": { "uno": { "resourceKey": "TypeEyebrowMicroSize", "resourceType": "x:Double" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 46 } } },
+    { "id": "token.font-size.eyebrow", "type": "token", "category": "typography", "name": "Eyebrow size", "value": 11, "properties": { "uno": { "resourceKey": "TypeEyebrowSize", "resourceType": "x:Double" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 47 } } },
+    { "id": "token.font-size.label", "type": "token", "category": "typography", "name": "Label size", "value": 12, "properties": { "uno": { "resourceKey": "TypeLabelSize", "resourceType": "x:Double" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 48 } } },
+    { "id": "token.font-size.body-small", "type": "token", "category": "typography", "name": "Body small size", "value": 14, "properties": { "uno": { "resourceKey": "TypeBodySmallSize", "resourceType": "x:Double" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 49 } } },
+    { "id": "token.font-size.body", "type": "token", "category": "typography", "name": "Body size", "value": 16, "properties": { "uno": { "resourceKey": "TypeBodySize", "resourceType": "x:Double" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/Typography.xaml" }, "locator": { "line": 50 } } },
+
+    { "id": "token.spacing.8", "type": "token", "category": "spacing", "name": "Spacing 8", "value": 8, "properties": { "uno": { "property": "utu:AutoLayout.Spacing" }, "usage": "suggestion chips row, future preview stack; declared as a literal, not through the Spacing8 resource" }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "rationale": "Same literal spacing recurs on the chips row and the future-card stack." } },
+    { "id": "token.spacing.14", "type": "token", "category": "spacing", "name": "Spacing 14", "value": 14, "properties": { "uno": { "property": "utu:AutoLayout.Spacing" }, "usage": "vertical rhythm of both rails and the composer footer stack" }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" }, "rationale": "Identical literal spacing on CompositionStack, FilesRail and ComposerFooter root stacks." } },
+    { "id": "token.spacing.20", "type": "token", "category": "spacing", "name": "Spacing 20", "value": 20, "properties": { "uno": { "property": "utu:AutoLayout.Spacing" }, "usage": "canvas column slot gap; also the horizontal padding of the rails, footer and locked cards" }, "evidence": { "kind": "derived", "confidence": 0.9, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml" }, "rationale": "20 recurs as the canvas slot gap and as the horizontal padding of every panel on the surface." } },
+
+    { "id": "token.radius.4", "type": "token", "category": "radius", "name": "Radius 4", "value": 4, "properties": { "uno": { "property": "CornerRadius" }, "usage": "locked context card, future preview card outline (RadiusX/RadiusY), suggestion chip" }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml" }, "rationale": "Same corner value on three card/chip surfaces of this screen." } },
+    { "id": "token.radius.6", "type": "token", "category": "radius", "name": "Radius 6", "value": 6, "properties": { "uno": { "property": "CornerRadius" }, "usage": "composer footer panel" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml" }, "locator": { "line": 8 } } },
+    { "id": "token.radius.8", "type": "token", "category": "radius", "name": "Radius 8", "value": 8, "properties": { "uno": { "styleKey": "InkButtonStyle", "property": "CornerRadius", "alsoIn": "AmberButtonStyle" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml" }, "locator": { "line": 264 } } },
+
+    { "id": "token.border.hairline", "type": "token", "category": "border", "name": "Hairline rule", "value": 1, "properties": { "uno": { "property": "BorderThickness / Height" }, "usage": "rail edge, panel borders, section dividers, progress track and fill" }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml" }, "rationale": "1px paired with HairlineBrush is the surface's single separator rule, repeated on rails, panels, dividers and the progress track." } },
+
+    { "id": "token.size.rail-width", "type": "token", "category": "size", "name": "Rail width", "value": 280, "properties": { "uno": { "property": "ColumnDefinition.Width", "member": "Shell.SyncRailsAnimation" }, "note": "0 while rails are hidden" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Shell.xaml.cs" }, "locator": { "line": 94 } } },
+    { "id": "token.size.canvas-width-focused", "type": "token", "category": "size", "name": "Canvas width (focused-first)", "value": { "minWidth": 640, "maxWidth": 720 }, "properties": { "uno": { "property": "utu:AutoLayout MinWidth/MaxWidth", "xName": "CanvasColumn" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 101 } } },
+    { "id": "token.size.canvas-width-rails-open", "type": "token", "category": "size", "name": "Canvas width (rails open)", "value": { "minWidth": 820, "maxWidth": 880 }, "properties": { "uno": { "property": "utu:AutoLayout MinWidth/MaxWidth", "xName": "CanvasColumn" } }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ActiveCanvas.xaml.cs" }, "locator": { "line": 102 } } },
+
+    { "id": "token.motion.reveal-duration", "type": "token", "category": "motion", "name": "Reveal duration", "value": "480ms", "properties": { "uno": { "property": "Duration" }, "usage": "rail translate reveal (0:0:0.48), canvas min/max width morph, progress fill width, future-card fade-in", "note": "No Duration.* resource key is referenced by this surface; every site declares 480ms inline." }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "rationale": "The same 480ms appears at four independent animation sites and is called out as the shared rail-reveal rhythm in code comments." } },
+    { "id": "token.motion.ease-out-quint", "type": "token", "category": "motion", "name": "Ease out quint", "value": "QuinticEase EasingMode=EaseOut", "properties": { "uno": { "type": "QuinticEase" }, "note": "Declared inline at each site; the dictionary's EaseInOutQuint key is a different easing mode and is not used here." }, "evidence": { "kind": "derived", "confidence": 0.95, "source": { "type": "xaml", "path": "Composer/src/Composer/Composer/Shell.xaml" }, "rationale": "Every animated property on this surface uses the same QuinticEase EaseOut curve." } }
+  ],
+  "edges": [
+    { "from": "screen.composer-shell", "relation": "contains", "to": "region.composer-shell.workspace", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.workspace", "relation": "contains", "to": "region.composer-shell.left-rail", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.workspace", "relation": "contains", "to": "component.active-canvas", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.workspace", "relation": "contains", "to": "region.composer-shell.right-rail", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.left-rail", "relation": "contains", "to": "component.composition-stack", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.right-rail", "relation": "contains", "to": "component.files-rail", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.composition-stack", "relation": "contains", "to": "content.composition-stack.section-title", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "contains", "to": "content.composition-stack.caption", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "contains", "to": "component.layer-row", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "ItemsRepeater LayerRows renders one templated row per layer." } },
+
+    { "from": "component.files-rail", "relation": "contains", "to": "content.files-rail.section-title", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "contains", "to": "content.files-rail.caption", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "contains", "to": "component.file-row", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "contains", "to": "content.files-rail.locked-summary", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.active-canvas", "relation": "contains", "to": "component.progress-indicator", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "component.app-title-row", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "component.active-layer-header", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "region.active-canvas.locked-stack", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "region.active-canvas.canvas-slot", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "component.composer-footer", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "contains", "to": "region.active-canvas.future-stack", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.app-title-row", "relation": "contains", "to": "content.app-title-row.project-name", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.app-title-row", "relation": "contains", "to": "control.app-title-row.reset", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.active-layer-header", "relation": "contains", "to": "content.active-layer-header.recap", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "contains", "to": "content.active-layer-header.state-badge", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "region.active-canvas.locked-stack", "relation": "contains", "to": "component.locked-context-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.active-canvas.future-stack", "relation": "contains", "to": "component.future-preview-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.eyebrow", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.lead-question", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.ack", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "control.composer-footer.prompt-input", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.try-label", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "region.composer-footer.chips-row", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.kbd-hint", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "control.composer-footer.primary", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "content.composer-footer.primary-hint", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "control.composer-footer.discard-edits", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "contains", "to": "control.composer-footer.discard-preview", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-footer.chips-row", "relation": "contains", "to": "component.suggestion-chip", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "region.composer-shell.left-rail", "relation": "has-state", "to": "state.left-rail.revealed", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.composer-shell.right-rail", "relation": "has-state", "to": "state.right-rail.revealed", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "has-state", "to": "state.active-canvas.focused-first", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "has-state", "to": "state.active-canvas.rails-open", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.active-canvas.future-stack", "relation": "has-state", "to": "state.future-stack.populated", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.active-canvas.locked-stack", "relation": "has-state", "to": "state.locked-stack.populated", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "has-state", "to": "state.composer-footer.clean", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "has-state", "to": "state.composer-footer.dirty", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "has-state", "to": "state.composer-footer.previewing", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "has-state", "to": "state.composer-footer.hidden", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "has-state", "to": "state.active-layer-header.recap-hidden", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "has-state", "to": "state.active-layer-header.edited", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "has-state", "to": "state.active-layer-header.previewing", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "has-state", "to": "state.locked-context-card.collapsed", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "has-state", "to": "state.layer-row.active", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "has-state", "to": "state.layer-row.locked", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "has-state", "to": "state.layer-row.dimmed", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "has-state", "to": "state.file-row.planned", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "has-state", "to": "state.file-row.writing", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "has-state", "to": "state.file-row.drafted", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.layer-row", "relation": "triggers", "to": "region.active-canvas.canvas-slot", "properties": { "command": "Jump", "argument": "LayerRow.Index", "path": "OnLayerRowClick → MvuxCommandInvoker.Invoke(page.DataContext, \"Jump\", index) → ShellModel.ActiveIndex → ActiveCanvas.SyncSlot swaps CanvasSlot.Content" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs" }, "locator": { "line": 90 } } },
+    { "from": "component.locked-context-card", "relation": "triggers", "to": "region.active-canvas.canvas-slot", "properties": { "part": "RevisitButton", "command": "Revisit", "argument": "LayerKind", "effect": "moves ActiveIndex to that layer and resets its state to Clean (non-destructive)" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs" }, "locator": { "line": 135 } } },
+    { "from": "component.suggestion-chip", "relation": "triggers", "to": "control.composer-footer.prompt-input", "properties": { "command": "SetActivePrompt", "effect": "writes the chip text into PromptInput, moves the caret to the end and focuses it" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml.cs" }, "locator": { "line": 193 } } },
+    { "from": "control.composer-footer.prompt-input", "relation": "triggers", "to": "state.composer-footer.dirty", "properties": { "command": "SetActivePrompt", "effect": "non-empty prompt text marks the active layer Dirty" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs" }, "locator": { "line": 465 } } },
+    { "from": "control.composer-footer.primary", "relation": "triggers", "to": "state.composer-footer.previewing", "properties": { "command": "GeneratePreview", "condition": "resolved state is Dirty", "effect": "sets the layer to Previewing after the preview service returns" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs" }, "locator": { "line": 498 } } },
+    { "from": "control.composer-footer.discard-preview", "relation": "triggers", "to": "state.composer-footer.clean", "properties": { "command": "DiscardPreview", "effect": "restores the pre-edit snapshot, clears the prompt and sets the layer back to Clean" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs" }, "locator": { "line": 574 } } },
+    { "from": "control.composer-footer.discard-edits", "relation": "triggers", "to": "state.composer-footer.clean", "properties": { "command": "DiscardEdits", "effect": "restores the snapshot, clears the prompt and sets the layer back to Clean" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs" }, "locator": { "line": 562 } } },
+
+    { "from": "screen.composer-shell", "relation": "uses-token", "to": "token.color.glass-backdrop", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.composer-shell", "relation": "uses-token", "to": "token.size.rail-width", "properties": { "appliesTo": "railColumnWidth" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.composer-shell", "relation": "uses-token", "to": "token.motion.reveal-duration", "properties": { "appliesTo": "railRevealDuration" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.composer-shell", "relation": "uses-token", "to": "token.motion.ease-out-quint", "properties": { "appliesTo": "railRevealEasing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.color.paper2", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "borderBrush" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.border.hairline", "properties": { "appliesTo": "borderThickness" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "stackSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.typography.mono-eyebrow", "properties": { "appliesTo": "sectionTitleStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.typography.serif-light-italic", "properties": { "appliesTo": "captionFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composition-stack", "relation": "uses-token", "to": "token.font-size.body-small", "properties": { "appliesTo": "captionFontSize" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.files-rail", "relation": "uses-token", "to": "token.color.paper2", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "borderBrush and dividers" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "stackSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "uses-token", "to": "token.typography.mono-eyebrow", "properties": { "appliesTo": "sectionTitleStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.files-rail", "relation": "uses-token", "to": "token.typography.serif-light-italic", "properties": { "appliesTo": "captionFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.layer-row", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "indexLabel, label, glyph" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "uses-token", "to": "token.color.amber", "properties": { "appliesTo": "activeStateMarker" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "uses-token", "to": "token.color.ink", "properties": { "appliesTo": "labelForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "uses-token", "to": "token.font-size.eyebrow", "properties": { "appliesTo": "indexLabel, label" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.layer-row", "relation": "uses-token", "to": "token.font-size.label", "properties": { "appliesTo": "hint, glyph" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "fileName, statusBadge" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.color.amber", "properties": { "appliesTo": "draftedStatus" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.color.indigo", "properties": { "appliesTo": "writingStatus" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.color.ink4", "properties": { "appliesTo": "plannedStatus" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.font-size.label", "properties": { "appliesTo": "fileName" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.file-row", "relation": "uses-token", "to": "token.font-size.eyebrow-micro", "properties": { "appliesTo": "statusBadge" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.active-canvas", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "columnSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "uses-token", "to": "token.size.canvas-width-focused", "properties": { "appliesTo": "minWidth/maxWidth" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-canvas", "relation": "uses-token", "to": "token.size.canvas-width-rails-open", "properties": { "appliesTo": "minWidth/maxWidth" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.progress-indicator", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "track" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.progress-indicator", "relation": "uses-token", "to": "token.color.amber", "properties": { "appliesTo": "fill" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.progress-indicator", "relation": "uses-token", "to": "token.border.hairline", "properties": { "appliesTo": "trackHeight" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.progress-indicator", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "label, counter" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.progress-indicator", "relation": "uses-token", "to": "token.font-size.eyebrow", "properties": { "appliesTo": "label, counter" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.active-layer-header", "relation": "uses-token", "to": "token.color.amber", "properties": { "appliesTo": "stateBadgeForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "stateBadge, recapGlyph" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "uses-token", "to": "token.typography.serif-light-italic", "properties": { "appliesTo": "recapText" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "uses-token", "to": "token.font-size.eyebrow", "properties": { "appliesTo": "stateBadge" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.active-layer-header", "relation": "uses-token", "to": "token.font-size.body-small", "properties": { "appliesTo": "recapText" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.app-title-row", "relation": "uses-token", "to": "token.typography.sans", "properties": { "appliesTo": "projectNameFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.app-title-row", "relation": "uses-token", "to": "token.color.ink", "properties": { "appliesTo": "projectNameForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.color.paper2", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "borderBrush" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.color.ink2", "properties": { "appliesTo": "leadQuestion, acknowledgment" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.radius.6", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.spacing.14", "properties": { "appliesTo": "stackSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "chipsRowSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.typography.sans", "properties": { "appliesTo": "leadQuestionFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.typography.mono-eyebrow", "properties": { "appliesTo": "eyebrowStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.composer-footer", "relation": "uses-token", "to": "token.font-size.body", "properties": { "appliesTo": "leadQuestionFontSize" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "control.composer-footer.prompt-input", "relation": "uses-token", "to": "token.typography.serif", "properties": { "appliesTo": "fontFamily via ChatInputTextBoxStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.prompt-input", "relation": "uses-token", "to": "token.font-size.body", "properties": { "appliesTo": "fontSize via ChatInputTextBoxStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.prompt-input", "relation": "uses-token", "to": "token.color.ink", "properties": { "appliesTo": "foreground via ChatInputTextBoxStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius via InkButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.color.ink", "properties": { "appliesTo": "background via InkButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.color.paper", "properties": { "appliesTo": "foreground via InkButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.color.amber", "properties": { "appliesTo": "background in the Dirty state via AmberButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "fontFamily via InkButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.composer-footer.primary", "relation": "uses-token", "to": "token.font-size.eyebrow-micro", "properties": { "appliesTo": "fontSize via InkButtonStyle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.suggestion-chip", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "fontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.suggestion-chip", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "borderBrush" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.suggestion-chip", "relation": "uses-token", "to": "token.color.ink2", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.suggestion-chip", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.color.paper2", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "borderBrush and divider" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.typography.serif-light-italic", "properties": { "appliesTo": "summaryFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "header, facts grid" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.locked-context-card", "relation": "uses-token", "to": "token.font-size.body-small", "properties": { "appliesTo": "summaryFontSize" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.future-preview-card", "relation": "uses-token", "to": "token.color.hairline", "properties": { "appliesTo": "dashedOutlineStroke" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.future-preview-card", "relation": "uses-token", "to": "token.color.ink3", "properties": { "appliesTo": "header and hint foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.future-preview-card", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "outlineRadiusX/RadiusY" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.future-preview-card", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "headerFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.future-preview-card", "relation": "uses-token", "to": "token.typography.serif-italic", "properties": { "appliesTo": "hintFontFamily" }, "evidence": { "kind": "declared", "confidence": 1.0 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.center-column-navigation",
+      "question": "Should the center column be modeled as a navigation region rather than an inline content host?",
+      "relatedIds": ["region.active-canvas.canvas-slot", "component.active-canvas", "screen.composer-shell"],
+      "reason": "Shell.xaml and ActiveCanvas.xaml.cs both state that the center column will become a uen:Region.Attached navigation surface, and Pages plus a RouteMap are already registered, but the shipped code hosts layer canvases inline via CanvasSlot.Content. The graph models the implemented behavior only.",
+      "possibleValues": ["inline content host (current)", "uen:Region.Attached navigation region (planned)"]
+    },
+    {
+      "id": "unresolved.app-title-row-live",
+      "question": "Is AppTitleRow part of this surface or dormant scaffolding?",
+      "relatedIds": ["component.app-title-row", "content.app-title-row.project-name", "control.app-title-row.reset"],
+      "reason": "The control is instantiated with live ProjectName and ShowReset bindings but Visibility=Collapsed, so its Reset action is unreachable on the current surface. It is kept in the graph because the bindings and click handler are declared and functional.",
+      "possibleValues": ["live but hidden", "dead scaffolding to be removed"]
+    },
+    {
+      "id": "unresolved.header-title-ownership",
+      "question": "Do the layer title and subtitle belong to the shell header or to each layer canvas?",
+      "relatedIds": ["component.active-layer-header"],
+      "reason": "ActiveLayerHeader still receives Title and Subtitle DPs from ShellModel, but TitleText and SubtitleText are Collapsed with a comment that the copy now renders inside each layer's glass container. Ownership of that content is ambiguous from this surface alone.",
+      "possibleValues": ["shell header owns it", "each layer canvas owns it"]
+    },
+    {
+      "id": "unresolved.files-rail-row-count",
+      "question": "How many rows does the files rail actually render?",
+      "relatedIds": ["component.file-row", "content.files-rail.locked-summary"],
+      "reason": "The class comment says nine files (eight per-layer plus prompt-context.md), the code emits Layers.All.Length + 2 = 10 rows, and README.md appears both as the Intent layer's file and as a synthesized companion, so the list likely contains a duplicate row.",
+      "possibleValues": [9, 10]
+    },
+    {
+      "id": "unresolved.row-component-consolidation",
+      "question": "Are the composition-stack layer row and the files-rail file row one shared rail-row component?",
+      "relatedIds": ["component.layer-row", "component.file-row"],
+      "reason": "Both are three-column rows (leading marker, stretching label, trailing badge) inside a 280px rail with identical spacing and mono typography, but they differ in purpose, interactivity and projection record, so they are kept as separate canonical components.",
+      "possibleValues": ["two components (chosen)", "one canonical rail-row with two variants"]
+    },
+    {
+      "id": "unresolved.motion-token-naming",
+      "question": "Should the 480ms / QuinticEase EaseOut motion pair be tokens, given the theme dictionary declares different keys?",
+      "relatedIds": ["token.motion.reveal-duration", "token.motion.ease-out-quint"],
+      "reason": "Tokens.xaml declares Duration.Quick/Standard/Expressive/Slow and EaseOutCubic/EaseOutExpo/EaseInOutQuint, none of which match the 480ms QuinticEase EaseOut this surface declares inline at four sites. The recurrence is real but no resource key backs it.",
+      "possibleValues": ["keep as derived tokens (chosen)", "leave as per-site literals"]
+    },
+    {
+      "id": "unresolved.rail-hidden-baseline",
+      "question": "Is the rails-hidden presentation a state or the default?",
+      "relatedIds": ["state.left-rail.revealed", "state.right-rail.revealed", "state.active-canvas.focused-first"],
+      "reason": "Rails start at width 0 / opacity 0 / translate ±40 in markup, so hidden is the declared baseline and only the revealed presentation is modeled as a state; the canvas, by contrast, declares both dimension sets explicitly in code, so both of its presentations are modeled.",
+      "possibleValues": ["revealed-only state (chosen)", "explicit hidden and revealed states on both rails"]
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md v0.4, blind run",
+    "scope": "Shell surface only. The eight per-layer views under Views/Layers are swappable content hosted by region.active-canvas.canvas-slot and are deliberately not modeled; theme dictionaries were mined only for values this surface consumes directly or through a style it uses.",
+    "canonicalInternalsPolicy": "Runtime-repeated components (layer-row, file-row, locked-context-card, future-preview-card, suggestion-chip) describe their internals as properties.parts; singleton UserControls expose child nodes only for declared literal text and interactive elements.",
+    "unmodeledDeclaredResources": "Phase tints, state tints, error colors, Paper3/Paper4, Ink5, Space*/Spacing* thickness scales, Duration.* and Ease* keys, and the wider type-style scale are declared in Themes but not consumed by this surface."
+  }
+}
