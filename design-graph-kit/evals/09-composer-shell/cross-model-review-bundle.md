@@ -48,10 +48,10 @@ Rules for your report:
 
 ## The open question you must rule on
 
-The kit is undecided about `region` nodes. This gold contains **zero** of them,
-while the page it models is built from many nested layout containers and has a
-visible multi-column arrangement. Ten independent runs of other screens emitted
-6-10 region nodes each, unprompted.
+The kit is undecided about `region` nodes. This gold contains **8**
+of them, while the page it models is built from 27 nested layout
+containers. Ten independent runs of other screens emitted 6-10 region nodes
+each, unprompted.
 
 The proposed rule is: *emit a `region` when the source declares a structural
 grouping that owns layout or state and is not itself a reusable component; do

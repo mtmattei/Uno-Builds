@@ -1,6 +1,6 @@
 # Gold review — `09-composer-shell`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (98 nodes / 186 edges / 5 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (98 nodes / 188 edges / 5 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -96,7 +96,7 @@ these are correct, and that call belongs to the reviewer.
 | `uses-token` | 103 |
 | `contains` | 53 |
 | `has-state` | 20 |
-| `triggers` | 10 |
+| `triggers` | 12 |
 
 The cited XAML declares **26** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 21 file(s).
 Compare against the `region` count above when judging check 6.
@@ -224,11 +224,13 @@ the ones a graph must never invent. They are listed first.
 
 | Relation | From | To | Evidence | Verdict | Note |
 |---|---|---|---|---|---|
+| **triggers** | `component.layer-row` | `control.canvas.slot` | declared | | |
 | **triggers** | `component.layer-row` | `state.composer-shell.rails-open` | declared | | |
-| **triggers** | `control.title-row.reset` | `state.composer-shell.rails-hidden` | declared | | |
 | **triggers** | `control.footer.prompt-input` | `state.composer-footer.dirty` | declared | | |
 | **triggers** | `component.suggestion-chip` | `state.composer-footer.dirty` | declared | | |
 | **triggers** | `control.footer.primary` | `state.composer-footer.previewing` | declared | | |
+| **triggers** | `control.footer.primary` | `control.canvas.slot` | declared | | |
+| **triggers** | `control.footer.primary` | `state.composer-shell.rails-open` | declared | | |
 | **triggers** | `control.footer.primary` | `state.layer-row.locked` | declared | | |
 | **triggers** | `control.footer.primary` | `state.file-row.drafted` | declared | | |
 | **triggers** | `control.footer.discard-edits` | `state.composer-footer.clean` | declared | | |

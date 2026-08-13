@@ -48,10 +48,10 @@ Rules for your report:
 
 ## The open question you must rule on
 
-The kit is undecided about `region` nodes. This gold contains **zero** of them,
-while the page it models is built from many nested layout containers and has a
-visible multi-column arrangement. Ten independent runs of other screens emitted
-6-10 region nodes each, unprompted.
+The kit is undecided about `region` nodes. This gold contains **5**
+of them, while the page it models is built from 25 nested layout
+containers. Ten independent runs of other screens emitted 6-10 region nodes
+each, unprompted.
 
 The proposed rule is: *emit a `region` when the source declares a structural
 grouping that owns layout or state and is not itself a reusable component; do
@@ -67,7 +67,7 @@ worth modeling. Answer directly - a hedge here is worth nothing.
 
 # The answer key under review: `08-pens-beers`
 
-52 nodes · 73 edges · 3 unresolved items
+56 nodes · 78 edges · 2 unresolved items
 
 ## Rules the gold is supposed to follow — `references/ontology.md`
 
@@ -887,6 +887,90 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
           "property": "Tag=Roster",
           "iconGlyph": "People"
         }
+      }
+    },
+    {
+      "id": "screen.schedule",
+      "type": "screen",
+      "name": "Schedule",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "_pageFactories[\"Schedule\"] constructs SchedulePage with its view model."
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Pens.Presentation.SchedulePage"
+        },
+        "scopeNote": "navigation target only; not modeled in this eval"
+      }
+    },
+    {
+      "id": "screen.chat",
+      "type": "screen",
+      "name": "Chat",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "_pageFactories[\"Chat\"] constructs ChatPage with its view model."
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Pens.Presentation.ChatPage"
+        },
+        "scopeNote": "navigation target only; not modeled in this eval"
+      }
+    },
+    {
+      "id": "screen.duties",
+      "type": "screen",
+      "name": "Duties",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "_pageFactories[\"Duties\"] constructs DutiesPage with its view model."
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Pens.Presentation.DutiesPage"
+        },
+        "scopeNote": "navigation target only; not modeled in this eval"
+      }
+    },
+    {
+      "id": "screen.roster",
+      "type": "screen",
+      "name": "Roster",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "_pageFactories[\"Roster\"] constructs RosterPage with its view model."
+      },
+      "properties": {
+        "uno": {
+          "type": "Page",
+          "class": "Pens.Presentation.RosterPage"
+        },
+        "scopeNote": "navigation target only; not modeled in this eval"
       }
     },
     {
@@ -1864,6 +1948,76 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
+      "from": "component.tab-item.schedule",
+      "relation": "navigates-to",
+      "to": "screen.schedule",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "OnTabSelectionChanged -> NavigateToTab(tag) -> NavigationContent."
+      }
+    },
+    {
+      "from": "component.tab-item.chat",
+      "relation": "navigates-to",
+      "to": "screen.chat",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "OnTabSelectionChanged -> NavigateToTab(tag) -> NavigationContent."
+      }
+    },
+    {
+      "from": "component.tab-item.duties",
+      "relation": "navigates-to",
+      "to": "screen.duties",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "OnTabSelectionChanged -> NavigateToTab(tag) -> NavigationContent."
+      }
+    },
+    {
+      "from": "component.tab-item.roster",
+      "relation": "navigates-to",
+      "to": "screen.roster",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "OnTabSelectionChanged -> NavigateToTab(tag) -> NavigationContent."
+      }
+    },
+    {
+      "from": "component.tab-item.beers",
+      "relation": "navigates-to",
+      "to": "screen.beers",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Pens/Pens/Presentation/Shell.xaml.cs"
+        },
+        "rationale": "OnTabSelectionChanged -> NavigateToTab(\"Beers\") -> this screen."
+      }
+    },
+    {
       "from": "component.card.season-tracker",
       "relation": "instance-of",
       "to": "component.card",
@@ -2281,7 +2435,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "component.case-tile",
+      "from": "control.tracker.case-grid",
       "relation": "triggers",
       "to": "state.case-tile.consumed",
       "evidence": {
@@ -2291,7 +2445,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
           "type": "csharp",
           "path": "Pens/Pens/Presentation/BeersViewModel.cs"
         },
-        "rationale": "utu:CommandExtensions.Command on the repeater invokes ToggleCaseAsync(CaseBlock), which recomputes ConsumedCases and therefore every tile's IsConsumed."
+        "rationale": "utu:CommandExtensions.Command on the repeater invokes ToggleCaseAsync(CaseBlock), which sets ConsumedCases from the tapped block's index."
       }
     },
     {
@@ -2687,15 +2841,6 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
   ],
   "unresolved": [
     {
-      "id": "unresolved.tab-targets",
-      "question": "What does each bottom tab navigate to?",
-      "relatedIds": [
-        "region.tab-bar",
-        "component.tab-item"
-      ],
-      "reason": "Shell.xaml gives each TabBarItem a Tag (Schedule/Chat/Beers/Duties/Roster) but declares no route or handler; the navigation registration is outside this source set."
-    },
-    {
       "id": "unresolved.stat-values",
       "question": "Are the four stat values placeholders?",
       "relatedIds": [
@@ -2713,7 +2858,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       "relatedIds": [
         "screen.beers"
       ],
-      "reason": "BeersViewModel declares IsLoading, ErrorMessage and HasError and sets them in LoadBeerCountAsync and the toggle rollback path, but BeersPage.xaml binds none of them. Either the screen silently drops load and failure feedback, or it is surfaced elsewhere."
+      "reason": "BeersViewModel declares IsLoading, ErrorMessage and HasError and sets them in LoadBeerCountAsync and the toggle rollback path, but BeersPage.xaml binds none of them. Nothing in the page binds them, so this screen renders no load or failure feedback at all. Recorded because the ViewModel declares presentation state the screen never shows, which is a defect worth surfacing rather than an ambiguity."
     }
   ]
 }
@@ -3114,6 +3259,65 @@ Line-numbered so you can cite `file:line`.
   160  </Page>
 ```
 
+### `Pens/Pens/Presentation/Shell.xaml.cs`
+
+```csharp
+    1  namespace Pens.Presentation;
+    2  
+    3  public sealed partial class Shell : Page
+    4  {
+    5      private readonly IServiceProvider _services;
+    6      private readonly Dictionary<string, Func<Page>> _pageFactories;
+    7  
+    8      public Shell(IServiceProvider services)
+    9      {
+   10          _services = services;
+   11          this.InitializeComponent();
+   12  
+   13          _pageFactories = new Dictionary<string, Func<Page>>
+   14          {
+   15              ["Schedule"] = () => new SchedulePage { DataContext = _services.GetRequiredService<ScheduleViewModel>() },
+   16              ["Chat"] = () => new ChatPage { DataContext = _services.GetRequiredService<ChatViewModel>() },
+   17              ["Beers"] = () => new BeersPage { DataContext = _services.GetRequiredService<BeersViewModel>() },
+   18              ["Duties"] = () => new DutiesPage { DataContext = _services.GetRequiredService<DutiesViewModel>() },
+   19              ["Roster"] = () => new RosterPage { DataContext = _services.GetRequiredService<RosterViewModel>() }
+   20          };
+   21  
+   22          TabBar.SelectionChanged += OnTabSelectionChanged;
+   23  
+   24          // Load default page
+   25          this.Loaded += (s, e) => NavigateToTab("Schedule");
+   26      }
+   27  
+   28      private void OnTabSelectionChanged(object sender, Uno.Toolkit.UI.TabBarSelectionChangedEventArgs e)
+   29      {
+   30          if (e.NewItem is Uno.Toolkit.UI.TabBarItem tab)
+   31          {
+   32              var tabName = tab.Tag?.ToString();
+   33              if (!string.IsNullOrEmpty(tabName))
+   34              {
+   35                  NavigateToTab(tabName);
+   36              }
+   37          }
+   38      }
+   39  
+   40      private void NavigateToTab(string tabName)
+   41      {
+   42          if (_pageFactories.TryGetValue(tabName, out var factory))
+   43          {
+   44              try
+   45              {
+   46                  NavigationContent.Content = factory();
+   47              }
+   48              catch (Exception ex)
+   49              {
+   50                  System.Diagnostics.Debug.WriteLine($"Navigation error for {tabName}: {ex}");
+   51              }
+   52          }
+   53      }
+   54  }
+```
+
 ### `Pens/Pens/Converters/Converters.cs`
 
 ```csharp
@@ -3506,65 +3710,6 @@ Line-numbered so you can cite `file:line`.
     7          this.InitializeComponent();
     8      }
     9  }
-```
-
-### `Pens/Pens/Presentation/Shell.xaml.cs`
-
-```csharp
-    1  namespace Pens.Presentation;
-    2  
-    3  public sealed partial class Shell : Page
-    4  {
-    5      private readonly IServiceProvider _services;
-    6      private readonly Dictionary<string, Func<Page>> _pageFactories;
-    7  
-    8      public Shell(IServiceProvider services)
-    9      {
-   10          _services = services;
-   11          this.InitializeComponent();
-   12  
-   13          _pageFactories = new Dictionary<string, Func<Page>>
-   14          {
-   15              ["Schedule"] = () => new SchedulePage { DataContext = _services.GetRequiredService<ScheduleViewModel>() },
-   16              ["Chat"] = () => new ChatPage { DataContext = _services.GetRequiredService<ChatViewModel>() },
-   17              ["Beers"] = () => new BeersPage { DataContext = _services.GetRequiredService<BeersViewModel>() },
-   18              ["Duties"] = () => new DutiesPage { DataContext = _services.GetRequiredService<DutiesViewModel>() },
-   19              ["Roster"] = () => new RosterPage { DataContext = _services.GetRequiredService<RosterViewModel>() }
-   20          };
-   21  
-   22          TabBar.SelectionChanged += OnTabSelectionChanged;
-   23  
-   24          // Load default page
-   25          this.Loaded += (s, e) => NavigateToTab("Schedule");
-   26      }
-   27  
-   28      private void OnTabSelectionChanged(object sender, Uno.Toolkit.UI.TabBarSelectionChangedEventArgs e)
-   29      {
-   30          if (e.NewItem is Uno.Toolkit.UI.TabBarItem tab)
-   31          {
-   32              var tabName = tab.Tag?.ToString();
-   33              if (!string.IsNullOrEmpty(tabName))
-   34              {
-   35                  NavigateToTab(tabName);
-   36              }
-   37          }
-   38      }
-   39  
-   40      private void NavigateToTab(string tabName)
-   41      {
-   42          if (_pageFactories.TryGetValue(tabName, out var factory))
-   43          {
-   44              try
-   45              {
-   46                  NavigationContent.Content = factory();
-   47              }
-   48              catch (Exception ex)
-   49              {
-   50                  System.Diagnostics.Debug.WriteLine($"Navigation error for {tabName}: {ex}");
-   51              }
-   52          }
-   53      }
-   54  }
 ```
 
 ### `Pens/Pens/App.xaml.cs`

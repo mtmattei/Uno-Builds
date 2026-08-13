@@ -76,10 +76,10 @@ Rules for your report:
 
 ## The open question you must rule on
 
-The kit is undecided about `region` nodes. This gold contains **zero** of them,
-while the page it models is built from many nested layout containers and has a
-visible multi-column arrangement. Ten independent runs of other screens emitted
-6-10 region nodes each, unprompted.
+The kit is undecided about `region` nodes. This gold contains **{region_count}**
+of them, while the page it models is built from {container_count} nested layout
+containers. Ten independent runs of other screens emitted 6-10 region nodes
+each, unprompted.
 
 The proposed rule is: *emit a `region` when the source declares a structural
 grouping that owns layout or state and is not itself a reusable component; do
@@ -148,7 +148,19 @@ def build(eval_name: str, source_root: Path) -> str:
             if sibling not in cited and (source_root / sibling).is_file():
                 cited.append(sibling)
 
-    out: list[str] = [TASK, ""]
+    # The region question must state this gold's ACTUAL counts. An earlier
+    # version hardcoded "zero regions", which was false for a gold that had two
+    # - a reviewer caught the false premise and had to spend a finding on it.
+    region_count = sum(1 for n in gold.get("nodes", []) if n.get("type") == "region")
+    container_re = re.compile(r"<(Grid|StackPanel|utu:AutoLayout|RelativePanel|Canvas|ScrollViewer)[\s>]")
+    container_count = sum(len(container_re.findall(read_source(source_root, rel)))
+                          for rel in cited if rel.endswith(".xaml"))
+
+    out: list[str] = [
+        TASK.replace("{region_count}", str(region_count))
+            .replace("{container_count}", str(container_count)),
+        "",
+    ]
     w = out.append
 
     w("---")

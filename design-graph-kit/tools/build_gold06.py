@@ -46,6 +46,18 @@ nodes = [
          properties={"uno": {"type": "Page", "class": "FluxTransit.Presentation.ProfilePage"}},
          evidence=ev("observed", 1.0, XAML)),
 
+    node("region.profile.scroll-content", "region", name="Scrolling content", semanticRole="scrollingContent",
+         properties={"uno": {"type": "ScrollViewer"}},
+         evidence=ev("observed", 1.0, XAML,
+         "ScrollViewer owning the safe-area-aware, width-constrained content column for the whole page.")),
+    node("region.opus.summary", "region", name="OPUS summary", semanticRole="accountSummary",
+         evidence=ev("observed", 1.0, XAML,
+         "Horizontal grouping pairing the OPUS card visual with its balance; the pairing identifies which "
+         "account the balance belongs to, which is meaning rather than arrangement.")),
+    node("region.opus.refresh-action", "region", name="Refresh action", semanticRole="actionSlot",
+         evidence=ev("observed", 1.0, XAML,
+         "Grid where the update button and the progress row occupy the same cell with inverse visibility; "
+         "this is the only part of the OPUS card whose presentation swaps.")),
     node("region.profile.header", "region", name="Header",
          evidence=ev("observed", 1.0, XAML, "Back button + heading grid at top.")),
     node("control.header.back", "control", name="Back", role="button", semanticRole="backNavigation",
@@ -232,23 +244,34 @@ E_OBS = lambda: ev("observed", 1.0, XAML)
 E_DS = lambda r=None: ev("declared", 1.0, DS, r)
 
 edges = [
-    edge("screen.profile", "contains", "region.profile.header", E_OBS()),
+    # Cross-model review: the whole visible surface is owned by a ScrollViewer
+    # holding a safe-area-aware, width-constrained content column. Removing
+    # that grouping changes scrolling and viewport safety, not just placement,
+    # so it earns a region under the v0.6 rule.
+    edge("screen.profile", "contains", "region.profile.scroll-content", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "region.profile.header", E_OBS()),
     edge("region.profile.header", "contains", "control.header.back", E_OBS()),
     edge("region.profile.header", "contains", "content.header.title", E_OBS()),
     edge("region.profile.header", "contains", "content.header.subtitle", E_OBS()),
-    edge("screen.profile", "contains", "component.card.opus", E_OBS()),
-    edge("screen.profile", "contains", "component.card.routes", E_OBS()),
-    edge("screen.profile", "contains", "component.card.settings", E_OBS()),
-    edge("screen.profile", "contains", "region.profile.footer", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.opus", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.routes", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.settings", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "region.profile.footer", E_OBS()),
     edge("region.profile.footer", "contains", "content.footer.version", E_OBS()),
     edge("region.profile.footer", "contains", "content.footer.credit", E_OBS()),
 ]
 for s_ in ("opus", "routes", "settings"):
     edges.append(edge(f"component.card.{s_}", "instance-of", "component.card",
                       E_DS("Uses FluxGlassPanelStyle.")))
-for c in ("content.opus.section-title", "component.opus-card", "content.opus.balance-label",
-          "content.opus.balance-value", "content.opus.refresh-hint", "control.opus.update"):
-    edges.append(edge("component.card.opus", "contains", c, E_OBS()))
+# The OPUS card splits into a summary grouping (card visual + its balance) and
+# the action slot that actually swaps presentation - cross-model findings 11/12.
+edges.append(edge("component.card.opus", "contains", "content.opus.section-title", E_OBS()))
+edges.append(edge("component.card.opus", "contains", "region.opus.summary", E_OBS()))
+edges.append(edge("component.card.opus", "contains", "region.opus.refresh-action", E_OBS()))
+for c in ("component.opus-card", "content.opus.balance-label",
+          "content.opus.balance-value", "content.opus.refresh-hint"):
+    edges.append(edge("region.opus.summary", "contains", c, E_OBS()))
+edges.append(edge("region.opus.refresh-action", "contains", "control.opus.update", E_OBS()))
 for c in ("content.routes.section-title", "component.route-item.home-work",
           "component.route-item.downtown-loop", "control.routes.add"):
     edges.append(edge("component.card.routes", "contains", c, E_OBS()))
@@ -261,10 +284,17 @@ for c in ("content.settings.section-title", "content.settings.api-label", "contr
     edges.append(edge("component.card.settings", "contains", c, E_OBS()))
 
 edges += [
-    edge("component.card.opus", "has-state", "state.opus.refreshing",
-         ev("declared", 1.0, VM, "IsRefreshing swaps the update button for the progress row inside this section.")),
+    # Attached to the action slot, not the whole card: only that grid swaps.
+    edge("region.opus.refresh-action", "has-state", "state.opus.refreshing",
+         ev("declared", 1.0, VM, "IsRefreshing swaps the update button for the progress row in this grid; "
+                                 "the card visual, balance and heading do not change.")),
     edge("control.opus.update", "triggers", "state.opus.refreshing",
          ev("declared", 1.0, VM, "UpdateBalance sets IsRefreshing true for the duration of the refresh.")),
+    # Multi-effect rule (v0.6): UpdateBalance has two declared effects - it sets
+    # IsRefreshing AND writes a new OpusBalance. Recording only the loading one
+    # was the exact omission the rule exists to prevent.
+    edge("control.opus.update", "triggers", "content.opus.balance-value",
+         ev("declared", 1.0, VM, "UpdateBalance sets OpusBalance to the newly fetched value.")),
     edge("state.opus.refreshing", "contains", "control.opus.progress", E_OBS()),
     edge("state.opus.refreshing", "contains", "content.opus.updating-label", E_OBS()),
 ]

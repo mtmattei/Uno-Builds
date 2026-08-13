@@ -917,15 +917,25 @@ edge("component.locked-context-card", "has-state", "state.locked-card.collapsed"
      ev("declared", LOCKED_CS))
 
 # ---------------------------------------------------------------- triggers
+# Multi-effect rule (v0.6), from the cross-model review: a layer-row click has
+# two declared effects. Jump(row.Index) changes ActiveIndex, which BOTH swaps
+# the hosted canvas and (conditionally) opens the rails. Recording only the
+# rails effect was the omission the rule exists to prevent - and it overstated
+# the rails effect, since jumping to index 0 does not open them.
+edge("component.layer-row", "triggers", "control.canvas.slot",
+     ev("declared", STACK_CS,
+        "OnLayerRowClick invokes Jump(row.Index), changing ActiveIndex; SyncSlot() then replaces "
+        "CanvasSlot.Content with the selected layer's canvas."))
 edge("component.layer-row", "triggers", "state.composer-shell.rails-open",
      ev("declared", STACK_CS,
-        "OnLayerRowClick invokes Jump(row.Index) on the page DataContext; ShellModel.RailsVisible is "
-        "lockedLayers.Count > 0 || ActiveIndex > 0, so jumping to any layer past the first opens the rails. "
-        "Attached once at the canonical - every row behaves identically."))
-edge("control.title-row.reset", "triggers", "state.composer-shell.rails-hidden",
-     ev("declared", MODEL,
-        "Reset() sets every layer back to Clean and ActiveIndex to 0, which makes RailsVisible false "
-        "and runs RailsHideStoryboard."))
+        "Jump(row.Index) changes ActiveIndex; RailsVisible is lockedLayers.Count > 0 || ActiveIndex > 0, "
+        "so a jump past the first layer opens the rails. Conditional: jumping to index 0 with no locked "
+        "layers does not. Attached once at the canonical - every row behaves identically."))
+# The reset trigger is removed: AppTitleRow is unconditionally
+# Visibility="Collapsed" (ActiveCanvas.xaml:28-31), so the control cannot be
+# invoked on this surface. The node is kept, marked collapsed, because the
+# bindings are live and the graph should say the affordance is parked rather
+# than pretend it does not exist.
 edge("control.footer.prompt-input", "triggers", "state.composer-footer.dirty",
      ev("declared", MODEL,
         "TextChanged invokes SetActivePrompt, which marks the active layer Dirty once the text is non-empty."))
@@ -937,6 +947,16 @@ edge("control.footer.primary", "triggers", "state.composer-footer.previewing",
      ev("declared", MODEL,
         "In the Dirty state TriggerPrimary invokes GeneratePreview, which stages the proposal and sets "
         "the layer to Previewing."))
+# Multi-effect rule: both lock paths also advance ActiveIndex, so the primary
+# action swaps the hosted canvas and, on the first lock, opens the rails.
+edge("control.footer.primary", "triggers", "control.canvas.slot",
+     ev("declared", MODEL,
+        "Both lock paths advance ActiveIndex, and SyncSlot() replaces CanvasSlot.Content with the "
+        "newly active layer's canvas."))
+edge("control.footer.primary", "triggers", "state.composer-shell.rails-open",
+     ev("declared", MODEL,
+        "Locking makes lockedLayers.Count > 0 and advances ActiveIndex, so RailsVisible becomes true "
+        "on the first lock and the reveal storyboard runs."))
 edge("control.footer.primary", "triggers", "state.layer-row.locked",
      ev("declared", MODEL,
         "LockAndContinue / AcceptAndLock set the layer to LayerState.Locked and advance ActiveIndex; the "

@@ -48,10 +48,10 @@ Rules for your report:
 
 ## The open question you must rule on
 
-The kit is undecided about `region` nodes. This gold contains **zero** of them,
-while the page it models is built from many nested layout containers and has a
-visible multi-column arrangement. Ten independent runs of other screens emitted
-6-10 region nodes each, unprompted.
+The kit is undecided about `region` nodes. This gold contains **5**
+of them, while the page it models is built from 28 nested layout
+containers. Ten independent runs of other screens emitted 6-10 region nodes
+each, unprompted.
 
 The proposed rule is: *emit a `region` when the source declares a structural
 grouping that owns layout or state and is not itself a reusable component; do
@@ -67,7 +67,7 @@ worth modeling. Answer directly - a hedge here is worth nothing.
 
 # The answer key under review: `05-orbital-settings`
 
-56 nodes · 88 edges · 3 unresolved items
+65 nodes · 96 edges · 3 unresolved items
 
 ## What this screen is (the eval's own description)
 
@@ -701,6 +701,110 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
+      "id": "region.header-band",
+      "type": "region",
+      "name": "Header band",
+      "semanticRole": "pageHeaderBand",
+      "properties": {
+        "uno": {
+          "type": "Grid",
+          "property": "RowDefinition Height=Auto"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Root grid row 0: fixed, non-scrolling header row holding the PageHeader control."
+      }
+    },
+    {
+      "id": "region.settings-content",
+      "type": "region",
+      "name": "Settings content",
+      "semanticRole": "scrollingContent",
+      "properties": {
+        "uno": {
+          "type": "ScrollViewer"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Root grid row 1: ScrollViewer owning scrolling for the settings cards."
+      }
+    },
+    {
+      "id": "region.settings-columns",
+      "type": "region",
+      "name": "Two-column composition",
+      "semanticRole": "columnLayout",
+      "properties": {
+        "uno": {
+          "type": "Grid",
+          "property": "ColumnDefinitions * / 16 / *"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Declared two-column grid with a 16px gutter, below the profile card."
+      }
+    },
+    {
+      "id": "region.about-column",
+      "type": "region",
+      "name": "About column",
+      "semanticRole": "leftColumn",
+      "properties": {
+        "uno": {
+          "type": "AutoLayout",
+          "property": "Grid.Column=0"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Left column, grouping ABOUT."
+      }
+    },
+    {
+      "id": "region.configuration-column",
+      "type": "region",
+      "name": "Configuration column",
+      "semanticRole": "rightColumn",
+      "properties": {
+        "uno": {
+          "type": "AutoLayout",
+          "property": "Grid.Column=2"
+        }
+      },
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        },
+        "rationale": "Right column, grouping PATHS then ACTIONS."
+      }
+    },
+    {
       "id": "component.page-header",
       "type": "component",
       "name": "Page header",
@@ -1066,8 +1170,14 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       "id": "content.about.version",
       "type": "content",
       "name": "Version",
-      "text": "v0.1.0-alpha",
       "semanticRole": "versionLabel",
+      "properties": {
+        "uno": {
+          "type": "TextBlock",
+          "styleKey": "OrbitalMonoSmall"
+        },
+        "fallbackValue": "v0.1.0-alpha"
+      },
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1076,12 +1186,6 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
         },
         "rationale": "Bound VersionDisplay, FallbackValue v0.1.0-alpha."
-      },
-      "properties": {
-        "uno": {
-          "type": "TextBlock",
-          "styleKey": "OrbitalMonoSmall"
-        }
       }
     },
     {
@@ -1397,10 +1501,17 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "id": "state.settings.entering",
+      "id": "state.profile.entering",
       "type": "state",
       "name": "Entering",
       "semanticRole": "entering",
+      "properties": {
+        "delayMs": 0,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1408,13 +1519,73 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
           "type": "csharp",
           "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
         },
-        "rationale": "AnimationHelper.FadeUp animates all four sections in on Loaded."
-      },
+        "rationale": "AnimationHelper.FadeUp(ProfileSection, 0) on Loaded."
+      }
+    },
+    {
+      "id": "state.about.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
       "properties": {
+        "delayMs": 100,
         "uno": {
-          "mechanism": "code-behind",
-          "member": "AnimationHelper.FadeUp"
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
         }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(AboutSection, 100) on Loaded."
+      }
+    },
+    {
+      "id": "state.paths.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
+      "properties": {
+        "delayMs": 200,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(PathsSection, 200) on Loaded."
+      }
+    },
+    {
+      "id": "state.actions.entering",
+      "type": "state",
+      "name": "Entering",
+      "semanticRole": "entering",
+      "properties": {
+        "delayMs": 300,
+        "uno": {
+          "mechanism": "AnimationHelper.FadeUp",
+          "member": "OnLoaded"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        },
+        "rationale": "AnimationHelper.FadeUp(ActionsSection, 300) on Loaded."
       }
     },
     {
@@ -1822,7 +1993,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       "category": "typography",
       "value": {
         "family": "Space Grotesk",
-        "size": 28,
+        "size": 20,
         "weight": "SemiBold"
       },
       "properties": {
@@ -1837,7 +2008,33 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
           "type": "design-system",
           "label": "Orbital Styles/*.xaml"
         },
-        "rationale": "OrbitalPageTitle style (display face, 28)."
+        "rationale": "OrbitalPageTitle style (display face, 20, SemiBold)."
+      }
+    },
+    {
+      "id": "token.typography.section-header",
+      "type": "token",
+      "name": "Section header type",
+      "category": "typography",
+      "value": {
+        "family": "JetBrains Mono",
+        "size": 11,
+        "weight": "Medium",
+        "letterSpacing": 80
+      },
+      "properties": {
+        "uno": {
+          "styleKey": "OrbitalSectionHeader"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "design-system",
+          "label": "Orbital Styles/*.xaml"
+        },
+        "rationale": "OrbitalSectionHeader style (mono 11, Medium, tracking 80)."
       }
     },
     {
@@ -1869,7 +2066,72 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
     {
       "from": "screen.settings",
       "relation": "contains",
+      "to": "region.header-band",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "region.settings-content",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.header-band",
+      "relation": "contains",
       "to": "component.page-header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-content",
+      "relation": "contains",
+      "to": "region.settings-columns",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-columns",
+      "relation": "contains",
+      "to": "region.about-column",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "xaml",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"
+        }
+      }
+    },
+    {
+      "from": "region.settings-columns",
+      "relation": "contains",
+      "to": "region.configuration-column",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -1919,7 +2181,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.settings-content",
       "relation": "contains",
       "to": "component.settings-card.profile",
       "evidence": {
@@ -1946,7 +2208,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.about-column",
       "relation": "contains",
       "to": "component.settings-card.about",
       "evidence": {
@@ -1973,7 +2235,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.configuration-column",
       "relation": "contains",
       "to": "component.settings-card.paths",
       "evidence": {
@@ -2000,7 +2262,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "screen.settings",
+      "from": "region.configuration-column",
       "relation": "contains",
       "to": "component.settings-card.actions",
       "evidence": {
@@ -2430,9 +2692,48 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
       }
     },
     {
-      "from": "screen.settings",
+      "from": "component.settings-card.profile",
       "relation": "has-state",
-      "to": "state.settings.entering",
+      "to": "state.profile.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.about",
+      "relation": "has-state",
+      "to": "state.about.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.paths",
+      "relation": "has-state",
+      "to": "state.paths.entering",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"
+        }
+      }
+    },
+    {
+      "from": "component.settings-card.actions",
+      "relation": "has-state",
+      "to": "state.actions.entering",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -2714,7 +3015,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
     {
       "from": "content.profile.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2748,7 +3049,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
     {
       "from": "content.about.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2782,7 +3083,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
     {
       "from": "content.paths.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },
@@ -2816,7 +3117,7 @@ For v0.1, `uses-token` may include an edge property identifying what the token c
     {
       "from": "content.actions.section-title",
       "relation": "uses-token",
-      "to": "token.typography.mono-small",
+      "to": "token.typography.section-header",
       "properties": {
         "appliesTo": "font"
       },

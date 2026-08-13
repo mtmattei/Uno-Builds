@@ -3391,6 +3391,20 @@
     {
       "from": "component.layer-row",
       "relation": "triggers",
+      "to": "control.canvas.slot",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs"
+        },
+        "rationale": "OnLayerRowClick invokes Jump(row.Index), changing ActiveIndex; SyncSlot() then replaces CanvasSlot.Content with the selected layer's canvas."
+      }
+    },
+    {
+      "from": "component.layer-row",
+      "relation": "triggers",
       "to": "state.composer-shell.rails-open",
       "evidence": {
         "kind": "declared",
@@ -3399,21 +3413,7 @@
           "type": "csharp",
           "path": "Composer/src/Composer/Composer/Views/Controls/CompositionStack.xaml.cs"
         },
-        "rationale": "OnLayerRowClick invokes Jump(row.Index) on the page DataContext; ShellModel.RailsVisible is lockedLayers.Count > 0 || ActiveIndex > 0, so jumping to any layer past the first opens the rails. Attached once at the canonical - every row behaves identically."
-      }
-    },
-    {
-      "from": "control.title-row.reset",
-      "relation": "triggers",
-      "to": "state.composer-shell.rails-hidden",
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "csharp",
-          "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
-        },
-        "rationale": "Reset() sets every layer back to Clean and ActiveIndex to 0, which makes RailsVisible false and runs RailsHideStoryboard."
+        "rationale": "Jump(row.Index) changes ActiveIndex; RailsVisible is lockedLayers.Count > 0 || ActiveIndex > 0, so a jump past the first layer opens the rails. Conditional: jumping to index 0 with no locked layers does not. Attached once at the canonical - every row behaves identically."
       }
     },
     {
@@ -3456,6 +3456,34 @@
           "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
         },
         "rationale": "In the Dirty state TriggerPrimary invokes GeneratePreview, which stages the proposal and sets the layer to Previewing."
+      }
+    },
+    {
+      "from": "control.footer.primary",
+      "relation": "triggers",
+      "to": "control.canvas.slot",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
+        },
+        "rationale": "Both lock paths advance ActiveIndex, and SyncSlot() replaces CanvasSlot.Content with the newly active layer's canvas."
+      }
+    },
+    {
+      "from": "control.footer.primary",
+      "relation": "triggers",
+      "to": "state.composer-shell.rails-open",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
+        },
+        "rationale": "Locking makes lockedLayers.Count > 0 and advances ActiveIndex, so RailsVisible becomes true on the first lock and the reveal storyboard runs."
       }
     },
     {
