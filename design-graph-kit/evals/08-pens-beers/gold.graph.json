@@ -193,7 +193,7 @@
         "uno": {
           "type": "TabBarItem",
           "property": "Tag=Schedule",
-          "iconGlyph": "SymbolIcon Calendar"
+          "iconGlyph": "Calendar"
         }
       }
     },
@@ -214,7 +214,7 @@
         "uno": {
           "type": "TabBarItem",
           "property": "Tag=Chat",
-          "iconGlyph": "SymbolIcon Message"
+          "iconGlyph": "Message"
         }
       }
     },
@@ -235,7 +235,7 @@
         "uno": {
           "type": "TabBarItem",
           "property": "Tag=Beers",
-          "iconGlyph": "FontIcon E799"
+          "iconGlyph": "&#xE799;"
         }
       }
     },
@@ -256,7 +256,7 @@
         "uno": {
           "type": "TabBarItem",
           "property": "Tag=Duties",
-          "iconGlyph": "SymbolIcon Bullets"
+          "iconGlyph": "Bullets"
         }
       }
     },
@@ -277,7 +277,7 @@
         "uno": {
           "type": "TabBarItem",
           "property": "Tag=Roster",
-          "iconGlyph": "SymbolIcon People"
+          "iconGlyph": "People"
         }
       }
     },

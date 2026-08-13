@@ -91,11 +91,11 @@ node("component.tab-item", "component", "Tab item", ev("observed", SHELL,
      properties={"uno": {"type": "TabBarItem", "property": "Tag"},
                  "internals": ["icon", "caption"]})
 for slug, label, glyph in [
-    ("schedule", "Schedule", "SymbolIcon Calendar"),
-    ("chat", "Chat", "SymbolIcon Message"),
-    ("beers", "Beers", "FontIcon E799"),
-    ("duties", "Duties", "SymbolIcon Bullets"),
-    ("roster", "Roster", "SymbolIcon People"),
+    ("schedule", "Schedule", "Calendar"),
+    ("chat", "Chat", "Message"),
+    ("beers", "Beers", "&#xE799;"),
+    ("duties", "Duties", "Bullets"),
+    ("roster", "Roster", "People"),
 ]:
     node(f"component.tab-item.{slug}", "component", f"{label} tab", ev("observed", SHELL),
          text=label, properties={"uno": {"type": "TabBarItem", "property": f"Tag={label}", "iconGlyph": glyph}})

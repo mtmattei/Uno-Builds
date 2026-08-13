@@ -28,19 +28,27 @@ import re
 import sys
 from pathlib import Path
 
-# uno mapping keys whose values are identifiers that must appear verbatim in
-# the source. Keys like "type" (a WinUI control name) or "mechanism" (prose)
-# are excluded: they are classifications, not quotations.
+# uno mapping keys whose values must appear VERBATIM in source. These name a
+# single declared thing, so a literal match is the right test.
 QUOTED_UNO_KEYS = {
     "xName",
     "styleKey",
     "resourceKey",
     "fontResourceKey",
     "class",
-    "property",
-    "member",
     "iconGlyph",
 }
+
+# Keys that legitimately hold an expression rather than a bare identifier -
+# "Tag={Binding}, Click=OnLayerRowClick", "ShellModel.RailsVisible",
+# "LockAndContinue | GeneratePreview". Requiring these to match literally
+# reports correct golds as fabrications, so they are checked by their
+# identifier tokens instead. Keys like "type" (a WinUI control name) and
+# "mechanism" (prose) stay out of both sets: they are classifications.
+EXPRESSION_UNO_KEYS = {"property", "member", "source"}
+
+# Splits an expression into candidate identifiers.
+_EXPR_SPLIT = re.compile(r"[^\w.]+")
 
 
 def kit_root() -> Path:
@@ -127,6 +135,36 @@ def check_uno_values(
     for node in graph.get("nodes", []):
         uno = ((node.get("properties") or {}).get("uno")) or {}
         src = (node.get("evidence") or {}).get("source") or {}
+
+        # Expression-valued keys: every identifier inside must exist, but the
+        # string as a whole is not expected to appear anywhere.
+        for key, value in uno.items():
+            if key not in EXPRESSION_UNO_KEYS or not isinstance(value, str):
+                continue
+            # Only tokens that LOOK like identifiers - PascalCase, camelCase or
+            # dotted. An expression field often carries a parenthetical gloss
+            # ("(overwritten in code-behind)"), and flagging ordinary English
+            # words as missing identifiers buries the real findings.
+            idents = [
+                t for t in _EXPR_SPLIT.split(value)
+                if t
+                and not t.replace(".", "").isdigit()
+                and re.match(r"^[A-Za-z_]", t)
+                and (any(c.isupper() for c in t) or "." in t)
+            ]
+            # A dotted path (ShellModel.RailsVisible) counts as found when
+            # either the whole path or its final segment exists in source.
+            missing = [
+                t for t in idents
+                if t not in app_corpus and t.split(".")[-1] not in app_corpus
+            ]
+            if missing:
+                fabricated.append({
+                    "node": node["id"], "key": key, "value": value,
+                    "cited": src.get("path") or src.get("label") or "-",
+                    "missing": ", ".join(missing),
+                })
+
         for key, value in uno.items():
             if key not in QUOTED_UNO_KEYS or not isinstance(value, str):
                 continue

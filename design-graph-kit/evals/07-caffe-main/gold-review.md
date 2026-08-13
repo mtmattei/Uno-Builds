@@ -34,18 +34,6 @@ contract says each one should appear literally.
 
 **No fabricated identifiers.** Every quoted uno value exists in the application.
 
-### Prose in a field that should hold one identifier (2)
-
-Every identifier inside these strings exists in the app, so the mapping
-is right — but the field packs two names, or a name plus a gloss, which
-means nothing downstream can consume it as a quotation. Decide whether
-the value should be split, or the field's contract loosened.
-
-| Node | uno key | Value | Identifiers found | Cited as |
-|---|---|---|---|---|
-| `state.espresso-card.selected` | `member` | `HasSelection / IsSelected` | `HasSelection, IsSelected` | `Caffe/Caffe/ViewModels/MainViewModel.cs` |
-| `state.brew-button.disabled` | `member` | `HasSelection (RelayCommand CanExecute)` | `HasSelection` | `Caffe/Caffe/ViewModels/MainViewModel.cs` |
-
 ## Structural facts
 
 Stated as counts, not judgements — the altitude contract decides which of
