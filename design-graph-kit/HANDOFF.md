@@ -23,7 +23,7 @@ the list.
 | Item | State | Evidence |
 |---|---|---|
 | **A** — compile + visual parity | **done** | All four arms compile with zero arm-code changes; arm A crashes at runtime on a relocated `ms-appx:///` URI; visual parity against the real Orbital SettingsPage recorded. `experiments/ab-orbital-settings/ab-results.md` → "Compile verification"; captures in `experiments/ab-orbital-settings/parity/` |
-| **B** — image input | **scaffolded, blocked** | `evals/08-image-input/README.md` has the protocol; `tools/audit_designfirst.py` is parameterized and reproduces the pilot result. Waiting on a real design image — see below |
+| **B** — image input | **done** | `evals/08-pens-beers/` — real image supplied, gold authored from source, 5-run blind fleet, **5/5 honesty perfect**. Recorded as a *screenshot* round, not design-first: the input is a capture of the running app, not a design export |
 | **C** — human gold review | **packet built, review open** | `tools/build_review_packet.py` generates `gold-review.md` per eval; automated pre-pass found **0 fabricated identifiers** across all three golds. The independent human pass is still required and is the only thing that discharges this item |
 | **D** — installable plugin | **done, unpublished** | Self-contained plugin repo built and committed locally at `../uno-design-graph-plugin`. Not pushed to GitHub — publishing is a human call |
 
@@ -49,15 +49,31 @@ What changed in the findings, beyond ticking boxes:
   that arrangement is a genuine altitude question, now check 6 in the review
   packet.
 
-### What item B still needs
+### Item B outcome
 
-A real design image. Scanning every app in this repo found hundreds of
-screenshots but essentially all are **output** captures of implemented screens;
-the genuine design inputs here are written briefs, the shape the design-first
-pilot already tested. Drop a Figma export at
-`evals/08-image-input/design.png` and the round is one command away.
-See `evals/CANDIDATES.md` for the apps pairing a written design spec with an
-implementation and screenshots — Meridian and QuoteCraft allow a three-way
+A screenshot of the `Pens` Beers screen was supplied and run as
+`evals/08-pens-beers/`. Because the app's source is in this repo, the
+image-derived graphs could be scored against a source-backed gold — a stronger
+setup than a Figma export, since it measures the gap directly rather than
+asserting it.
+
+- **5/5 runs passed the honesty bar**, zero hallucinations.
+- **Mean vs-gold macro 0.113 against mean pairwise 0.287**: the runs agree with
+  each other ~2.5× more than with the gold. An image carried ~27% of the gold's
+  concepts, 6% of its edges, 11% of its mapping layer.
+- Node counts converged to 47–54 against a gold of 52, with no run seeing the
+  gold or each other.
+
+**Calibration signal for item C:** all five runs emitted `region` nodes (6–9
+each). Gold 05 has **zero** regions for a page whose XAML declares 27 layout
+containers. A unanimous blind fleet reaching for regions makes gold 05 the
+likely outlier on open question 6 — worth putting in front of the human
+reviewer explicitly.
+
+Still open here: a true **design-first** round on a real design export (this was
+a render), which `evals/CANDIDATES.md` shows this repo cannot supply — its
+images are all output captures. Meridian and QuoteCraft pair a written design
+spec with an implementation and screenshots, which would allow a three-way
 spec → graph vs source → graph vs image → graph comparison on one screen.
 
 ---
