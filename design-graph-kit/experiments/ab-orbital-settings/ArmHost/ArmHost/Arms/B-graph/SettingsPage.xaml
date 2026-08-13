@@ -1,0 +1,286 @@
+<!--
+  SettingsPage — "Orbital" Settings screen (screen.settings).
+
+  Implemented from the validated Design Graph (eval.orbital-settings.skill) as the
+  semantic source of truth; the brief is the visual reference. Graph node ids are
+  annotated inline. Canonical components (component.settings-card, component.info-row,
+  component.path-field, component.action-button) are realized as shared styles in
+  Tokens.xaml and reused for every instance-of.
+
+  Note: the graph models component.page-header as a reusable UserControl; since this
+  deliverable is a single page, the header is inlined below as a clearly delimited
+  block that maps 1:1 to that component boundary.
+-->
+<Page
+    x:Class="AbExperiment.B.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource OrbitalSurface0Brush}">
+    <!-- uses-token: token.color.surface0 -> page background -->
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Tokens.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ======================= component.page-header ======================= -->
+        <Border Grid.Row="0"
+                BorderBrush="{StaticResource OrbitalSurface2Brush}"
+                BorderThickness="0,0,0,1"
+                Padding="{StaticResource OrbitalHeaderPadding}">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="4" VerticalAlignment="Center">
+                    <!-- content.settings.title -->
+                    <TextBlock Style="{StaticResource OrbitalPageTitleStyle}" Text="Settings" />
+                    <!-- content.settings.subtitle -->
+                    <TextBlock Style="{StaticResource OrbitalPageSubtitleStyle}" Text="Profile and preferences" />
+                </StackPanel>
+
+                <!-- control.header.search : tappable search / command palette affordance.
+                     unresolved.header.search-target: what it opens is unresolved in the
+                     graph, so no Click behavior is wired (rule 2 / rule 7). -->
+                <Button Grid.Column="1"
+                        x:Name="SearchButton"
+                        Style="{StaticResource OrbitalSearchPillStyle}"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Search or run command">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="{StaticResource OrbitalSpacing8}"
+                                VerticalAlignment="Center">
+                        <FontIcon Glyph="&#xE721;"
+                                  FontSize="12"
+                                  Foreground="{StaticResource OrbitalText35Brush}"
+                                  VerticalAlignment="Center" />
+                        <TextBlock Text="Search or run command..."
+                                   FontFamily="{StaticResource OrbitalMonoFontFamily}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource OrbitalText35Brush}"
+                                   VerticalAlignment="Center" />
+                        <!-- shortcutHint: Ctrl+K keycap badge -->
+                        <Border Background="{StaticResource OrbitalSurface2Brush}"
+                                CornerRadius="{StaticResource OrbitalRadius4}"
+                                Padding="6,2"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="Ctrl+K"
+                                       FontFamily="{StaticResource OrbitalMonoFontFamily}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource OrbitalText50Brush}" />
+                        </Border>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- ======================= Content area ======================= -->
+        <ScrollViewer Grid.Row="1">
+            <!-- uses-token: token.spacing.24 -> sectionGap -->
+            <StackPanel Padding="{StaticResource OrbitalPagePadding}"
+                        Spacing="{StaticResource OrbitalSpacing24}">
+
+                <!-- ============ component.settings-card.profile (instance-of settings-card) ============ -->
+                <Border x:Name="ProfileSection" Style="{StaticResource OrbitalCardStyle}">
+                    <StackPanel Spacing="{StaticResource OrbitalSpacing16}">
+                        <!-- content.profile.section-title -->
+                        <TextBlock Style="{StaticResource OrbitalSectionHeaderStyle}" Text="PROFILE" />
+
+                        <StackPanel Spacing="{StaticResource OrbitalSpacing8}">
+                            <!-- content.profile.name-label -->
+                            <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Display Name" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <!-- control.profile.username : value round-trips through the
+                                     app's SettingsService in the real app (out of scope here). -->
+                                <TextBox x:Name="UsernameBox"
+                                         Style="{StaticResource OrbitalTextBoxStyle}"
+                                         PlaceholderText="Enter your name" />
+                                <!-- control.profile.save : triggers state.profile.saved -->
+                                <Button Grid.Column="1"
+                                        x:Name="SaveButton"
+                                        Style="{StaticResource OrbitalPrimaryButtonSmStyle}"
+                                        VerticalAlignment="Stretch"
+                                        Content="Save"
+                                        Click="OnSaveClick" />
+                            </Grid>
+
+                            <!-- content.profile.name-helper -->
+                            <TextBlock Style="{StaticResource OrbitalHelperTextStyle}"
+                                       Text="This name appears in the homepage greeting." />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ============ Two-column row (16 gutter) ============ -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+
+                    <!-- ============ component.settings-card.about (instance-of settings-card) ============ -->
+                    <Border Grid.Column="0"
+                            x:Name="AboutSection"
+                            Style="{StaticResource OrbitalCardStyle}"
+                            VerticalAlignment="Top">
+                        <StackPanel Spacing="{StaticResource OrbitalSpacing16}">
+                            <!-- content.about.section-title -->
+                            <TextBlock Style="{StaticResource OrbitalSectionHeaderStyle}" Text="ABOUT" />
+
+                            <!-- Identity row -->
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource OrbitalSpacing16}">
+                                <Border Width="48" Height="48"
+                                        Background="{StaticResource OrbitalSurface2Brush}"
+                                        CornerRadius="{StaticResource OrbitalRadius12}">
+                                    <!-- asset.about.logo : source path taken verbatim from the graph -->
+                                    <Image Width="32" Height="32"
+                                           Source="ms-appx:///Assets/Icons/Uno-logo.png"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel VerticalAlignment="Center" Spacing="4">
+                                    <!-- content.about.app-name -->
+                                    <TextBlock Text="Orbital"
+                                               FontFamily="{StaticResource OrbitalDisplayFontFamily}"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource OrbitalTextHighBrush}" />
+                                    <!-- content.about.version : graph FallbackValue for VersionDisplay -->
+                                    <TextBlock x:Name="VersionText"
+                                               Text="v0.1.0-alpha"
+                                               FontFamily="{StaticResource OrbitalMonoFontFamily}"
+                                               FontSize="{StaticResource OrbitalMonoSmallSize}"
+                                               Foreground="{StaticResource OrbitalText35Brush}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- component.info-row instances. Canonical structure: muted label
+                                 left, right-aligned value (mono-small, text-50 / text-72).
+                                 Values render the mock's still-loading "..."; in the real app
+                                 they bind to EnvStatus.* / DotNetDisplay / PlatformInfo. -->
+                            <StackPanel Spacing="{StaticResource OrbitalSpacing8}">
+                                <!-- component.info-row.uno-sdk -->
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Uno Platform SDK" />
+                                    <TextBlock Grid.Column="1" x:Name="UnoSdkValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               HorizontalAlignment="Right" Text="..." />
+                                </Grid>
+                                <!-- component.info-row.dotnet -->
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text=".NET Runtime" />
+                                    <TextBlock Grid.Column="1" x:Name="DotNetValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               HorizontalAlignment="Right" Text="..." />
+                                </Grid>
+                                <!-- component.info-row.renderer -->
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Renderer" />
+                                    <TextBlock Grid.Column="1" x:Name="RendererValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               HorizontalAlignment="Right" Text="..." />
+                                </Grid>
+                                <!-- component.info-row.platform -->
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Platform" />
+                                    <TextBlock Grid.Column="1" x:Name="PlatformValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               HorizontalAlignment="Right" Text="..." />
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right column: PATHS, then 24 below, ACTIONS -->
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource OrbitalSpacing24}">
+
+                        <!-- ============ component.settings-card.paths (instance-of settings-card) ============ -->
+                        <Border x:Name="PathsSection" Style="{StaticResource OrbitalCardStyle}">
+                            <StackPanel Spacing="{StaticResource OrbitalSpacing16}">
+                                <!-- content.paths.section-title -->
+                                <TextBlock Style="{StaticResource OrbitalSectionHeaderStyle}" Text="PATHS" />
+
+                                <!-- component.path-field instances. Canonical structure: label
+                                     over a wrapping value (kept distinct from info-row per the
+                                     graph — unresolved.settings.rowfield-consolidation is left
+                                     as modeled: two components). Values are the mock's "...";
+                                     real bindings: ProjectRoot / RecentsPath / SkillsPath. -->
+                                <!-- component.path-field.project-root -->
+                                <StackPanel Spacing="{StaticResource OrbitalSpacing8}">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Project Root" />
+                                    <TextBlock x:Name="ProjectRootValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               TextWrapping="Wrap" Text="..." />
+                                </StackPanel>
+                                <!-- component.path-field.recents-db -->
+                                <StackPanel Spacing="{StaticResource OrbitalSpacing8}">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Recent Projects Database" />
+                                    <TextBlock x:Name="RecentsPathValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               TextWrapping="Wrap" Text="..." />
+                                </StackPanel>
+                                <!-- component.path-field.skills -->
+                                <StackPanel Spacing="{StaticResource OrbitalSpacing8}">
+                                    <TextBlock Style="{StaticResource OrbitalFieldLabelStyle}" Text="Claude Code Skills" />
+                                    <TextBlock x:Name="SkillsPathValue"
+                                               Style="{StaticResource OrbitalValueTextStyle}"
+                                               TextWrapping="Wrap" Text="..." />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- ============ component.settings-card.actions (instance-of settings-card) ============ -->
+                        <!-- uses-token: token.spacing.12 -> innerGap -->
+                        <Border x:Name="ActionsSection" Style="{StaticResource OrbitalCardStyle}">
+                            <StackPanel Spacing="{StaticResource OrbitalSpacing12}">
+                                <!-- content.actions.section-title -->
+                                <TextBlock Style="{StaticResource OrbitalSectionHeaderStyle}" Text="ACTIONS" />
+
+                                <!-- control.actions.clear-recents (instance-of action-button)
+                                     triggers component.dialog.recents-cleared -->
+                                <Button x:Name="ClearRecentsButton"
+                                        Style="{StaticResource OrbitalGhostButtonSmStyle}"
+                                        Click="OnClearRecentsClick">
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource OrbitalSpacing8}">
+                                        <FontIcon Glyph="&#xE74D;" FontSize="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Clear Recent Projects" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- control.actions.open-data-folder (instance-of action-button).
+                                     The graph declares the control but no target path/URI, so the
+                                     handler is a documented stub (rule 2). -->
+                                <Button x:Name="OpenDataFolderButton"
+                                        Style="{StaticResource OrbitalGhostButtonSmStyle}"
+                                        Click="OnOpenDataFolderClick">
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource OrbitalSpacing8}">
+                                        <FontIcon Glyph="&#xE8B7;" FontSize="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Open Data Folder" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- control.actions.open-docs (instance-of action-button)
+                                     semanticRole: externalLink; launches the docs URI declared
+                                     in the graph. -->
+                                <Button x:Name="OpenDocsButton"
+                                        Style="{StaticResource OrbitalGhostButtonSmStyle}"
+                                        Click="OnOpenDocsClick">
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource OrbitalSpacing8}">
+                                        <FontIcon Glyph="&#xE736;" FontSize="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Uno Platform Documentation" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

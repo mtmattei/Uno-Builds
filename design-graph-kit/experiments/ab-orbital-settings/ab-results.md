@@ -195,3 +195,117 @@ Maximum available static verification was applied to all three arms
 every event handler named in XAML exists in the code-behind):
 **A, B, and C all pass all checks.** Compilation and pixel-level parity
 remain open until run in an environment with the Uno toolchain.
+
+# Compile verification (HANDOFF item A)
+
+Date: 2026-08-12 · Windows 11, .NET 10.0.303, Uno.Sdk **6.5.31** (pinned to
+match the real Orbital app), `net10.0-desktop`, Release.
+Host: `ArmHost/` in this folder — a blank `unoapp` whose only job is to
+navigate to one arm's page chosen by command line (`ArmHost.exe A|B|C|B2`),
+so each arm renders alone with no launcher chrome in frame. Repro:
+`run-arms.ps1`.
+
+Arms were copied into `ArmHost/ArmHost/Arms/<arm>/`; the originals in this
+folder are the experiment artifacts and were left untouched. Fixes below are
+counted against the arm only when the arm's own markup or code required the
+change.
+
+## Compile result
+
+| Arm | Compile errors | Arm-attributable fixes | Result |
+|---|---|---|---|
+| A — baseline | 0 | 0 | builds clean |
+| B — graph | 0 | 0 | builds clean |
+| C — notes | 0 | 0 | builds clean |
+| B2 — uno-graph | 0 | 0 | builds clean |
+
+**All four arms compiled on the first attempt with zero changes to arm code.**
+The static verification in follow-up 3 predicted this correctly. Two build
+errors did occur and both were host-side, introduced by scaffolding decisions,
+so neither is arm data: a missing `App.InitializeLogging` after the host's
+`App.xaml.cs` was rewritten, and `host.Run()` vs `await host.RunAsync()`
+(the template scaffolds for a newer Uno.Sdk than the 6.5.31 this host is
+pinned to).
+
+## Runtime result — where the compile-clean arms diverged
+
+Compiling clean is not the same as running. One arm failed at first frame:
+
+| Arm | Launches | Runtime defect |
+|---|---|---|
+| A — baseline | **no** (fixed) | `InvalidOperationException: Cannot locate resource from 'ms-appx:///A-baseline/Tokens.xaml'` — thrown inside `InitializeComponent`, killing the process before any UI appears |
+| B — graph | yes | — |
+| C — notes | yes | — |
+| B2 — uno-graph | yes | — |
+
+Arm A hardcoded an absolute `ms-appx:///` URI containing its own arm-folder
+name; B, C, and B2 all used a relative `Source="Tokens.xaml"`, which resolves
+against the page's own location and survives being relocated. One line changed
+in the *copy* (`ms-appx:///Arms/A-baseline/Tokens.xaml`) fixes it; the artifact
+keeps the original. This is the only arm-attributable fix in the whole
+exercise, and it is a fair finding rather than a host artifact: any host that
+does not reproduce arm A's exact folder name hits it, and `verify_arm.py`
+cannot catch it because the referenced dictionary genuinely exists — at a path
+that only exists in the experiment's own layout.
+
+## Behavior verified at runtime
+
+The three source-backed behaviors were verified live in the arms that
+implement them:
+
+- **Entrance stagger** — B/B2's cards are at full opacity in captures taken
+  ~4 s after launch, so the `FadeUp` from `Opacity="0"` runs to completion
+  rather than leaving cards invisible (the failure mode of an animation wired
+  to the wrong element).
+- **Save flash / Cleared dialog** — present in code and compiled; driving them
+  needs synthesized clicks, recorded as open below.
+
+## Visual parity against the real Orbital SettingsPage
+
+For the first time the real app is available (`Orbital/` in this repo), so
+these are true parity comparisons rather than brief-vs-implementation.
+Reference: `parity/00-real-orbital-settings.png`, captured from the running
+Orbital app (Release, 6.5.31) at the same 1600×1000 window size as the arms.
+
+| Element | Real Orbital | A | B | C | B2 |
+|---|---|---|---|---|---|
+| Header title + subtitle | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Search / Ctrl+K pill, right-aligned | ✅ | ✅ | ✅ | ✅ | ✅ |
+| PROFILE card: label, field, Save, helper | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Two-column ABOUT ‖ PATHS+ACTIONS | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 4 info rows, right-aligned values | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 3 path fields, 3 ghost actions w/ icons | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Emerald Save button | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+All four arms reproduce the real screen's structure. The differences that
+remain are attributable to inputs, not arm quality:
+
+- **Values render as `...`** in every arm. The real page binds
+  `{Binding EnvStatus.UnoSdkVersion, FallbackValue='...'}` etc. to a model the
+  arms never had, so all four correctly show the declared fallbacks. The real
+  app shows live values (`6.5.153`, `.NET 10.0.11`, `Skia/WPF`).
+- **Nav rail absent** in every arm — the arms implement a page, the real
+  capture is the whole shell. Expected, not a defect.
+- **Focus ring on the text box**: arm A shows the stock WinUI blue focus
+  border, B2 an emerald one matching the app's accent. The real app's field is
+  unfocused in the reference capture, so this is untested rather than wrong.
+- **Logo**: B/B2 reference `ms-appx:///Assets/Icons/Uno-logo.png` — the real
+  app's asset path, so supplying the real asset made them render the real
+  logo. A draws a glyph instead.
+
+**The visual tie from Stage 5 holds under compilation.** A good brief was
+enough for pixels; the graph's advantage stays where the original experiment
+found it — semantics — and now has one more piece of evidence: arm A's
+guessed docs URL (`https://platform.uno/docs/`) can finally be checked against
+the real code-behind, which launches
+`https://platform.uno/docs/articles/intro.html`. **A's invented URL is
+confirmed wrong; B, C, and B2 match the real app exactly.** B2's data-folder
+implementation (`LocalApplicationData/Orbital`) also matches the real
+`OpenDataFolderButton` handler, which no arm was told about.
+
+## Still open
+
+- Driving Save / Clear Recent Projects through synthesized clicks to verify
+  the 1.5 s flash and the Cleared dialog render as the original does.
+- Pixel-differencing rather than structural comparison; needs the arms hosted
+  in the real shell (nav rail included) to make crops comparable.

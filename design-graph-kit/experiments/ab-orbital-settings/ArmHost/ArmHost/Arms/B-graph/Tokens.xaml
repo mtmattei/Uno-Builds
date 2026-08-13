@@ -1,0 +1,290 @@
+<!--
+  Tokens.xaml — design tokens + canonical component styles for the Orbital Settings screen.
+
+  Every resource here maps back to a Design Graph token or canonical component node
+  (graph: eval.orbital-settings.skill). Graph ids are noted next to each resource so the
+  token relationships stay traceable (rule 5: preserve token consistency, don't copy raw
+  values independently).
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ================= Color tokens ================= -->
+
+    <!-- token.color.surface0 : page background -->
+    <Color x:Key="OrbitalSurface0Color">#0A0A0B</Color>
+    <SolidColorBrush x:Key="OrbitalSurface0Brush" Color="{StaticResource OrbitalSurface0Color}" />
+
+    <!-- token.color.surface1 : card / input background -->
+    <Color x:Key="OrbitalSurface1Color">#141416</Color>
+    <SolidColorBrush x:Key="OrbitalSurface1Brush" Color="{StaticResource OrbitalSurface1Color}" />
+
+    <!-- Surface 2 (#1A1A1C): header rule, keycap badge, logo tile, ghost-button hover.
+         Not a named token in the graph, but used repeatedly by the brief; promoted to a
+         token here rather than scattering the raw value. -->
+    <Color x:Key="OrbitalSurface2Color">#1A1A1C</Color>
+    <SolidColorBrush x:Key="OrbitalSurface2Brush" Color="{StaticResource OrbitalSurface2Color}" />
+
+    <!-- token.color.surface3 : card / input 1px border -->
+    <Color x:Key="OrbitalSurface3Color">#212123</Color>
+    <SolidColorBrush x:Key="OrbitalSurface3Brush" Color="{StaticResource OrbitalSurface3Color}" />
+
+    <!-- Derived interaction shade (focused input border, pressed ghost button). -->
+    <Color x:Key="OrbitalSurface4Color">#2E2E31</Color>
+    <SolidColorBrush x:Key="OrbitalSurface4Brush" Color="{StaticResource OrbitalSurface4Color}" />
+
+    <!-- token.color.emerald-500 : primary accent -->
+    <Color x:Key="OrbitalEmerald500Color">#10B981</Color>
+    <SolidColorBrush x:Key="OrbitalEmerald500Brush" Color="{StaticResource OrbitalEmerald500Color}" />
+    <!-- Derived hover/pressed shades of the accent -->
+    <SolidColorBrush x:Key="OrbitalEmerald400Brush" Color="#34D399" />
+    <SolidColorBrush x:Key="OrbitalEmerald600Brush" Color="#059669" />
+    <!-- Dark text on the accent (brief: "dark text on it") -->
+    <SolidColorBrush x:Key="OrbitalOnEmeraldBrush" Color="{StaticResource OrbitalSurface0Color}" />
+
+    <!-- Text emphasis ramp (brief: high / medium / muted / faint) -->
+    <SolidColorBrush x:Key="OrbitalTextHighBrush" Color="#D6D9E1" />
+    <!-- token.color.text-72 : row/field values -->
+    <SolidColorBrush x:Key="OrbitalText72Brush" Color="#B5B9C5" />
+    <!-- token.color.text-50 : field/row labels -->
+    <SolidColorBrush x:Key="OrbitalText50Brush" Color="#7B8191" />
+    <!-- faint: section headers, helper text, placeholders -->
+    <SolidColorBrush x:Key="OrbitalText35Brush" Color="#5D6372" />
+
+    <!-- ================= Typography tokens ================= -->
+
+    <!-- Display face stand-in (geometric sans in the mock). -->
+    <FontFamily x:Key="OrbitalDisplayFontFamily">Segoe UI</FontFamily>
+    <!-- token.typography.mono-small family (JetBrains Mono in the mock; Consolas stand-in). -->
+    <FontFamily x:Key="OrbitalMonoFontFamily">Consolas</FontFamily>
+    <!-- token.typography.mono-small size -->
+    <x:Double x:Key="OrbitalMonoSmallSize">11</x:Double>
+
+    <!-- ================= Radius tokens ================= -->
+
+    <!-- token.radius.12 : cards, logo tile -->
+    <CornerRadius x:Key="OrbitalRadius12">12</CornerRadius>
+    <!-- token.radius.8 : buttons, inputs, search pill -->
+    <CornerRadius x:Key="OrbitalRadius8">8</CornerRadius>
+    <!-- keycap badge -->
+    <CornerRadius x:Key="OrbitalRadius4">4</CornerRadius>
+
+    <!-- ================= Spacing tokens ================= -->
+
+    <!-- token.spacing.24 : gap between cards -->
+    <x:Double x:Key="OrbitalSpacing24">24</x:Double>
+    <!-- token.spacing.16 : card inner gap, column gutter -->
+    <x:Double x:Key="OrbitalSpacing16">16</x:Double>
+    <!-- token.spacing.12 : actions card inner gap -->
+    <x:Double x:Key="OrbitalSpacing12">12</x:Double>
+    <!-- token.spacing.8 : label/value gap, icon/text gap -->
+    <x:Double x:Key="OrbitalSpacing8">8</x:Double>
+
+    <Thickness x:Key="OrbitalPagePadding">32</Thickness>
+    <Thickness x:Key="OrbitalHeaderPadding">32,20</Thickness>
+    <Thickness x:Key="OrbitalCardPadding">20</Thickness>
+
+    <!-- ================= Text styles ================= -->
+
+    <!-- content.*.pageTitle -->
+    <Style x:Key="OrbitalPageTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalDisplayFontFamily}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalTextHighBrush}" />
+    </Style>
+
+    <!-- content.*.pageSubtitle -->
+    <Style x:Key="OrbitalPageSubtitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalDisplayFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText35Brush}" />
+    </Style>
+
+    <!-- semanticRole: sectionHeader (PROFILE / ABOUT / PATHS / ACTIONS) -->
+    <Style x:Key="OrbitalSectionHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalMonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource OrbitalMonoSmallSize}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText35Brush}" />
+        <Setter Property="CharacterSpacing" Value="80" />
+    </Style>
+
+    <!-- semanticRole: fieldLabel — also the label half of info-row / path-field
+         (component.info-row + component.path-field share labelColor=text-50, mono-small) -->
+    <Style x:Key="OrbitalFieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalMonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource OrbitalMonoSmallSize}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText50Brush}" />
+    </Style>
+
+    <!-- Value half of info-row / path-field (valueColor=text-72, mono-small) -->
+    <Style x:Key="OrbitalValueTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalMonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource OrbitalMonoSmallSize}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText72Brush}" />
+    </Style>
+
+    <!-- semanticRole: helperText -->
+    <Style x:Key="OrbitalHelperTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalMonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource OrbitalMonoSmallSize}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText35Brush}" />
+    </Style>
+
+    <!-- ================= component.settings-card (canonical) ================= -->
+    <!-- Surface1 bg, Surface3 1px border, radius 12, padding 20. All four section
+         cards are instance-of this style. -->
+    <Style x:Key="OrbitalCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource OrbitalSurface1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OrbitalSurface3Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource OrbitalRadius12}" />
+        <Setter Property="Padding" Value="{StaticResource OrbitalCardPadding}" />
+    </Style>
+
+    <!-- ================= control.profile.username : text input ================= -->
+    <Style x:Key="OrbitalTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource OrbitalSurface1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OrbitalSurface3Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource OrbitalRadius8}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalTextHighBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalMonoFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="SelectionHighlightColor" Value="{StaticResource OrbitalEmerald500Brush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Opacity" Value="0.4" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.BorderBrush" Value="{StaticResource OrbitalSurface4Brush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.BorderBrush" Value="{StaticResource OrbitalEmerald500Brush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="RootBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}" />
+                        <ScrollViewer x:Name="ContentElement"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalScrollMode="Auto"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollMode="Disabled"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      IsTabStop="False"
+                                      ZoomMode="Disabled"
+                                      VerticalAlignment="Center" />
+                        <TextBlock x:Name="PlaceholderTextContentPresenter"
+                                   Text="{TemplateBinding PlaceholderText}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Foreground="{StaticResource OrbitalText35Brush}"
+                                   Margin="{TemplateBinding Padding}"
+                                   VerticalAlignment="Center"
+                                   IsHitTestVisible="False" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Shared minimal button template (Border + ContentPresenter, state brushes via setters). -->
+    <ControlTemplate x:Key="OrbitalButtonTemplate" TargetType="Button">
+        <Border x:Name="RootBorder"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Target="RootBorder.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Target="RootBorder.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" />
+                            <Setter Target="RootBorder.Opacity" Value="0.85" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Target="RootBorder.Opacity" Value="0.4" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter x:Name="ContentPresenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+    </ControlTemplate>
+
+    <!-- ================= control.profile.save : compact filled primary button =================
+         uses-token: emerald-500 (background), radius.8 (cornerRadius).
+         Tag carries the hover brush consumed by OrbitalButtonTemplate. -->
+    <Style x:Key="OrbitalPrimaryButtonSmStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource OrbitalEmerald500Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalOnEmeraldBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource OrbitalRadius8}" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalDisplayFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Tag" Value="{StaticResource OrbitalEmerald400Brush}" />
+        <Setter Property="Template" Value="{StaticResource OrbitalButtonTemplate}" />
+    </Style>
+
+    <!-- ================= component.action-button (canonical) =================
+         Ghost icon+label button: transparent bg, radius 8, padding 12x6, stretched,
+         left-aligned. control.actions.* are instance-of this style. -->
+    <Style x:Key="OrbitalGhostButtonSmStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText72Brush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource OrbitalRadius8}" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontFamily" Value="{StaticResource OrbitalDisplayFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Tag" Value="{StaticResource OrbitalSurface2Brush}" />
+        <Setter Property="Template" Value="{StaticResource OrbitalButtonTemplate}" />
+    </Style>
+
+    <!-- ================= control.header.search : search / command palette pill ================= -->
+    <Style x:Key="OrbitalSearchPillStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource OrbitalSurface1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource OrbitalText35Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource OrbitalSurface3Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource OrbitalRadius8}" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Tag" Value="{StaticResource OrbitalSurface2Brush}" />
+        <Setter Property="Template" Value="{StaticResource OrbitalButtonTemplate}" />
+    </Style>
+
+</ResourceDictionary>
