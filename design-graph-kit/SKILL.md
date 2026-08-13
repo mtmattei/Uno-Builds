@@ -3,7 +3,10 @@
 Version: 0.6 (0.2 added a binding ID grammar, state-altitude rules, and token
 scoping; 0.3 added canonical-internals, token-edge attachment, and
 variant-folding rules; 0.4 makes the graph **Uno-first** — every node may
-carry a `properties.uno` mapping layer per `references/uno-mapping.md`. See
+carry a `properties.uno` mapping layer per `references/uno-mapping.md`; 0.5
+added the screen-slug rule and condition-vs-presentation states; 0.6 settles
+three conflicts the fleets exposed — declared names beat the naming vocabulary,
+one `triggers` edge per declared effect, and when a `region` is warranted. See
 CHANGELOG.)
 
 ## Target framework
