@@ -1,0 +1,536 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "orbital-settings",
+  "name": "Orbital Settings screen",
+  "description": "Design Graph of the Orbital SettingsPage and the PageHeader instance it renders, generated from full XAML/C# source and the Orbital style dictionaries.",
+  "sourceSummary": [
+    { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml", "label": "Settings page markup" },
+    { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs", "label": "Settings page code-behind" },
+    { "type": "xaml", "path": "Orbital/Orbital/Controls/PageHeader.xaml", "label": "PageHeader user control markup" },
+    { "type": "csharp", "path": "Orbital/Orbital/Controls/PageHeader.xaml.cs", "label": "PageHeader code-behind" },
+    { "type": "design-system", "path": "Orbital/Orbital/Styles/", "label": "Orbital style dictionaries (brushes, surfaces, text styles, buttons, animation constants)" }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "name": "Settings",
+      "semanticRole": "settingsScreen",
+      "properties": {
+        "sourceClass": "Orbital.Presentation.SettingsPage",
+        "layout": "header row + scrollable content; content is a vertical stack (spacing 24) with a full-width profile card above a two-column grid (16 gap)",
+        "responsivePadding": { "narrow": 16, "normal": 32, "wide": 32 }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+    {
+      "id": "region.settings.header",
+      "type": "region",
+      "name": "Header",
+      "role": "pageHeader",
+      "properties": { "gridRow": 0 },
+      "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Row 0 of the page grid hosts the PageHeader instance." }
+    },
+    {
+      "id": "region.settings.content",
+      "type": "region",
+      "name": "Content",
+      "role": "scrollableContent",
+      "properties": { "gridRow": 1, "scrollable": true, "spacing": 24 },
+      "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Row 1 of the page grid is a ScrollViewer wrapping the settings sections." }
+    },
+
+    {
+      "id": "component.page-header",
+      "type": "component",
+      "name": "PageHeader",
+      "semanticRole": "pageHeader",
+      "properties": {
+        "sourceClass": "Orbital.Controls.PageHeader",
+        "api": ["Title", "Subtitle"],
+        "parts": ["title", "subtitle", "search-bar"],
+        "title": { "style": "OrbitalPageTitle" },
+        "subtitle": { "style": "OrbitalBody", "fontWeight": "Normal" },
+        "search-bar": {
+          "kind": "clickable border acting as a search/command entry point",
+          "icon": { "glyph": "E721", "fontSize": 14 },
+          "placeholder": "Search or run command...",
+          "shortcutHint": "Ctrl+K",
+          "automationName": "Search or run command",
+          "interaction": "Tapped raises static SearchRequested event"
+        },
+        "bottomBorder": "0,0,0,1",
+        "padding": "32,20"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Orbital/Orbital/Controls/PageHeader.xaml" } }
+    },
+    {
+      "id": "component.page-header.settings",
+      "type": "component",
+      "name": "Settings PageHeader",
+      "properties": { "title": "Settings", "subtitle": "Profile and preferences", "xName": "Header" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+
+    {
+      "id": "component.card",
+      "type": "component",
+      "name": "Section card",
+      "semanticRole": "groupingCard",
+      "properties": {
+        "style": "OrbitalCardStyle",
+        "parts": ["section-title", "body"],
+        "section-title": { "style": "OrbitalSectionHeader", "semanticRole": "sectionHeader", "case": "uppercase" },
+        "innerSpacing": 16,
+        "entrance": "starts at Opacity 0 with TranslateY 8 and fades up on page load"
+      },
+      "evidence": { "kind": "inferred", "confidence": 0.97, "rationale": "Four section Borders share the declared OrbitalCardStyle, an uppercase OrbitalSectionHeader title, and the same entrance treatment — one reusable card concept.", "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+    {
+      "id": "component.card.profile",
+      "type": "component",
+      "name": "Profile card",
+      "properties": { "title": "PROFILE", "xName": "ProfileSection" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.card.about",
+      "type": "component",
+      "name": "About card",
+      "properties": { "title": "ABOUT", "xName": "AboutSection", "column": "left" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.card.paths",
+      "type": "component",
+      "name": "Paths card",
+      "properties": { "title": "PATHS", "xName": "PathsSection", "column": "right" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.card.actions",
+      "type": "component",
+      "name": "Actions card",
+      "properties": { "title": "ACTIONS", "xName": "ActionsSection", "column": "right", "innerSpacing": 12 },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+
+    {
+      "id": "component.info-row",
+      "type": "component",
+      "name": "Info row",
+      "semanticRole": "labelValuePair",
+      "properties": {
+        "parts": ["label", "value"],
+        "layout": "horizontal; label left, value right-aligned",
+        "label": { "style": "OrbitalMonoSmall" },
+        "value": { "style": "OrbitalMonoSmall" }
+      },
+      "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Four Grids in the About card repeat an identical left-label / right-aligned-value structure with the same styles and brushes.", "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+    {
+      "id": "component.info-row.uno-sdk",
+      "type": "component",
+      "name": "Uno Platform SDK row",
+      "properties": { "label": "Uno Platform SDK", "binding": "EnvStatus.UnoSdkVersion", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.info-row.dotnet-runtime",
+      "type": "component",
+      "name": ".NET Runtime row",
+      "properties": { "label": ".NET Runtime", "binding": "DotNetDisplay", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.info-row.renderer",
+      "type": "component",
+      "name": "Renderer row",
+      "properties": { "label": "Renderer", "binding": "EnvStatus.Renderer", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.info-row.platform",
+      "type": "component",
+      "name": "Platform row",
+      "properties": { "label": "Platform", "binding": "PlatformInfo", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+
+    {
+      "id": "component.path-field",
+      "type": "component",
+      "name": "Path field",
+      "semanticRole": "labelValuePair",
+      "properties": {
+        "parts": ["label", "value"],
+        "layout": "stacked; label above wrapping value (spacing 8)",
+        "label": { "style": "OrbitalMonoSmall" },
+        "value": { "style": "OrbitalMonoSmall", "textWrapping": "Wrap" }
+      },
+      "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Three StackPanels in the Paths card repeat an identical stacked label-over-wrapping-path structure with the same styles and brushes.", "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+    {
+      "id": "component.path-field.project-root",
+      "type": "component",
+      "name": "Project Root field",
+      "properties": { "label": "Project Root", "binding": "ProjectRoot", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.path-field.recents-db",
+      "type": "component",
+      "name": "Recent Projects Database field",
+      "properties": { "label": "Recent Projects Database", "binding": "RecentsPath", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "component.path-field.skills",
+      "type": "component",
+      "name": "Claude Code Skills field",
+      "properties": { "label": "Claude Code Skills", "binding": "SkillsPath", "fallback": "..." },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+
+    {
+      "id": "component.action-button",
+      "type": "component",
+      "name": "Action button",
+      "semanticRole": "secondaryAction",
+      "properties": {
+        "parts": ["icon", "label"],
+        "style": "OrbitalGhostButtonSm",
+        "layout": "icon + text, left-aligned, stretched full width",
+        "icon": { "fontSize": 14 }
+      },
+      "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Three Buttons in the Actions card repeat an identical ghost-style icon + text structure.", "source": { "type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml" } }
+    },
+    {
+      "id": "component.action-button.clear-recents",
+      "type": "component",
+      "name": "Clear Recent Projects",
+      "properties": {
+        "xName": "ClearRecentsButton",
+        "glyph": "E74D",
+        "label": "Clear Recent Projects",
+        "action": "removes all recent projects via IProjectContext, then shows a confirmation dialog"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+    {
+      "id": "component.action-button.open-data-folder",
+      "type": "component",
+      "name": "Open Data Folder",
+      "properties": {
+        "xName": "OpenDataFolderButton",
+        "glyph": "E838",
+        "label": "Open Data Folder",
+        "action": "opens the local Orbital app-data folder in the OS shell"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+    {
+      "id": "component.action-button.open-docs",
+      "type": "component",
+      "name": "Uno Platform Documentation",
+      "properties": {
+        "xName": "OpenDocsButton",
+        "glyph": "E8A5",
+        "label": "Uno Platform Documentation",
+        "action": "launches external URL https://platform.uno/docs/articles/intro.html"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+
+    {
+      "id": "content.profile.name-label",
+      "type": "content",
+      "name": "Display Name label",
+      "text": "Display Name",
+      "semanticRole": "fieldLabel",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "control.profile.username",
+      "type": "control",
+      "name": "Username textbox",
+      "role": "textbox",
+      "semanticRole": "textInput",
+      "properties": {
+        "xName": "UsernameBox",
+        "placeholder": "Enter your name",
+        "fontSize": 13,
+        "initialValue": "loaded from SettingsService.GetStoredUsername() when non-empty"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "control.profile.save",
+      "type": "control",
+      "name": "Save button",
+      "role": "button",
+      "text": "Save",
+      "semanticRole": "primaryAction",
+      "properties": {
+        "xName": "SaveUsernameButton",
+        "style": "OrbitalPrimaryButtonSm",
+        "action": "persists the trimmed username via SettingsService.SaveUsername"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+    {
+      "id": "content.profile.helper",
+      "type": "content",
+      "name": "Display name helper text",
+      "text": "This name appears in the homepage greeting.",
+      "semanticRole": "helperText",
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+
+    {
+      "id": "asset.about.logo",
+      "type": "asset",
+      "name": "Orbital logo",
+      "properties": {
+        "source": "ms-appx:///Assets/Icons/Uno-logo.png",
+        "imageSize": 32,
+        "container": { "size": 48, "cornerRadius": 12 }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "content.about.app-name",
+      "type": "content",
+      "name": "App name",
+      "text": "Orbital",
+      "semanticRole": "appName",
+      "properties": { "style": "OrbitalBody", "fontWeight": "SemiBold" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+    {
+      "id": "content.about.version",
+      "type": "content",
+      "name": "App version",
+      "semanticRole": "versionLabel",
+      "properties": { "binding": "VersionDisplay", "fallback": "v0.1.0-alpha", "style": "OrbitalMonoSmall" },
+      "evidence": { "kind": "declared", "confidence": 1.0 }
+    },
+
+    {
+      "id": "state.profile.saved",
+      "type": "state",
+      "name": "Saved confirmation",
+      "properties": { "content": "Saved!", "revertsAfterMs": 1500, "revertsTo": "Save" },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+    {
+      "id": "state.settings.entering",
+      "type": "state",
+      "name": "Entering",
+      "properties": {
+        "description": "On Loaded the four section cards fade up from Opacity 0 / TranslateY 8 with staggered delays",
+        "staggerMs": [0, 100, 200, 300],
+        "targets": ["component.card.profile", "component.card.about", "component.card.paths", "component.card.actions"]
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+    {
+      "id": "state.actions.cleared",
+      "type": "state",
+      "name": "Recents cleared confirmation",
+      "properties": {
+        "presentation": "modal ContentDialog",
+        "title": "Cleared",
+        "body": "Recent projects list has been cleared.",
+        "closeButton": "OK"
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } }
+    },
+
+    { "id": "token.color.surface0", "type": "token", "name": "OrbitalSurface0Brush", "category": "color", "value": "#FF0A0A0B", "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Orbital/Orbital/Styles/OrbitalBrushes.xaml" } } },
+    { "id": "token.color.surface1", "type": "token", "name": "OrbitalSurface1Brush", "category": "color", "value": "#FF141416", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.surface2", "type": "token", "name": "OrbitalSurface2Brush", "category": "color", "value": "#FF1A1A1C", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.surface3", "type": "token", "name": "OrbitalSurface3Brush", "category": "color", "value": "#FF212123", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.emerald500", "type": "token", "name": "OrbitalEmerald500Brush", "category": "color", "value": "#FF10B981", "properties": { "note": "hover/pressed use Emerald400 and alpha steps; folded as style internals of this base accent" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text30", "type": "token", "name": "OrbitalText30Brush", "category": "color", "value": "#FF4A505D", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text35", "type": "token", "name": "OrbitalText35Brush", "category": "color", "value": "#FF565C6B", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text38", "type": "token", "name": "OrbitalText38Brush", "category": "color", "value": "#FF5D6372", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text40", "type": "token", "name": "OrbitalText40Brush", "category": "color", "value": "#FF626878", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text50", "type": "token", "name": "OrbitalText50Brush", "category": "color", "value": "#FF7B8191", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text55", "type": "token", "name": "OrbitalText55Brush", "category": "color", "value": "#FF8A90A0", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text72", "type": "token", "name": "OrbitalText72Brush", "category": "color", "value": "#FFB5B9C5", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text85", "type": "token", "name": "OrbitalText85Brush", "category": "color", "value": "#FFD6D9E1", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.color.text90", "type": "token", "name": "OrbitalText90Brush", "category": "color", "value": "#FFE3E5EC", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "id": "token.typography.page-title", "type": "token", "name": "OrbitalPageTitle", "category": "typography", "value": { "family": "Space Grotesk", "size": 20, "weight": "SemiBold", "characterSpacing": -25 }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Orbital/Orbital/Styles/TextBlock.xaml" } } },
+    { "id": "token.typography.body", "type": "token", "name": "OrbitalBody", "category": "typography", "value": { "family": "Space Grotesk", "size": 13, "weight": "Medium" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.typography.section-header", "type": "token", "name": "OrbitalSectionHeader", "category": "typography", "value": { "family": "JetBrains Mono", "size": 11, "weight": "Medium", "characterSpacing": 80 }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.typography.mono-small", "type": "token", "name": "OrbitalMonoSmall", "category": "typography", "value": { "family": "JetBrains Mono", "size": 11, "weight": "Normal" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.typography.mono", "type": "token", "name": "OrbitalMonoFont", "category": "typography", "value": { "family": "JetBrains Mono" }, "properties": { "note": "family-only token; consumed at 13px (textbox), 12px and 10px (search bar)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.typography.button", "type": "token", "name": "OrbitalButtonText", "category": "typography", "value": { "family": "DM Sans", "size": 13, "weight": "Medium" }, "properties": { "note": "declared inside OrbitalPrimaryButton/OrbitalGhostButton styles via OrbitalSansFont" }, "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Orbital/Orbital/Styles/Buttons.xaml" } } },
+
+    { "id": "token.radius.12", "type": "token", "name": "radius-12", "category": "radius", "value": 12, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs on card style and About logo container." } },
+    { "id": "token.radius.8", "type": "token", "name": "radius-8", "category": "radius", "value": 8, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs on button styles and header search bar." } },
+    { "id": "token.radius.4", "type": "token", "name": "radius-4", "category": "radius", "value": 4, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "id": "token.spacing.4", "type": "token", "name": "spacing-4", "category": "spacing", "value": 4, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.spacing.8", "type": "token", "name": "spacing-8", "category": "spacing", "value": 8, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs as field stack spacing, icon-text gap, and name/save gap." } },
+    { "id": "token.spacing.12", "type": "token", "name": "spacing-12", "category": "spacing", "value": 12, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.spacing.16", "type": "token", "name": "spacing-16", "category": "spacing", "value": 16, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs as card inner spacing, two-column gap, and narrow page padding." } },
+    { "id": "token.spacing.20", "type": "token", "name": "spacing-20", "category": "spacing", "value": 20, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "id": "token.spacing.24", "type": "token", "name": "spacing-24", "category": "spacing", "value": 24, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs as page section spacing and column stack spacing." } },
+    { "id": "token.spacing.32", "type": "token", "name": "spacing-32", "category": "spacing", "value": 32, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Recurs as normal/wide page padding and header horizontal padding." } },
+
+    { "id": "token.border.1", "type": "token", "name": "hairline-border", "category": "border", "value": 1, "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "1px border recurs on cards, header divider, search bar, and textbox." } }
+  ],
+  "edges": [
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.header", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "contains", "to": "region.settings.content", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.settings.header", "relation": "contains", "to": "component.page-header.settings", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.profile", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.about", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.paths", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.settings.content", "relation": "contains", "to": "component.card.actions", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.name-label", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.username", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "control.profile.save", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "contains", "to": "content.profile.helper", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "asset.about.logo", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.app-name", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "content.about.version", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.uno-sdk", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.dotnet-runtime", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.renderer", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "contains", "to": "component.info-row.platform", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.project-root", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.recents-db", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "contains", "to": "component.path-field.skills", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.clear-recents", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.open-data-folder", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "contains", "to": "component.action-button.open-docs", "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.page-header.settings", "relation": "instance-of", "to": "component.page-header", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.profile", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.about", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.paths", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "instance-of", "to": "component.card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.info-row.uno-sdk", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other About rows." } },
+    { "from": "component.info-row.dotnet-runtime", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other About rows." } },
+    { "from": "component.info-row.renderer", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other About rows." } },
+    { "from": "component.info-row.platform", "relation": "instance-of", "to": "component.info-row", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other About rows." } },
+    { "from": "component.path-field.project-root", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other Paths fields." } },
+    { "from": "component.path-field.recents-db", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other Paths fields." } },
+    { "from": "component.path-field.skills", "relation": "instance-of", "to": "component.path-field", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same structure and styles as the other Paths fields." } },
+    { "from": "component.action-button.clear-recents", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same ghost icon+text structure as the other action buttons." } },
+    { "from": "component.action-button.open-data-folder", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same ghost icon+text structure as the other action buttons." } },
+    { "from": "component.action-button.open-docs", "relation": "instance-of", "to": "component.action-button", "evidence": { "kind": "inferred", "confidence": 0.95, "rationale": "Same ghost icon+text structure as the other action buttons." } },
+
+    { "from": "control.profile.save", "relation": "has-state", "to": "state.profile.saved", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "Code-behind flips the button content to 'Saved!' for 1500ms; only the button's presentation changes." } },
+    { "from": "screen.settings", "relation": "has-state", "to": "state.settings.entering", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "Whole-screen load condition: all four cards animate in on Loaded with a stagger." } },
+    { "from": "screen.settings", "relation": "has-state", "to": "state.actions.cleared", "evidence": { "kind": "declared", "confidence": 1.0, "rationale": "A modal ContentDialog overlays the whole screen." } },
+
+    { "from": "control.profile.save", "relation": "triggers", "to": "state.profile.saved", "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } } },
+    { "from": "component.action-button.clear-recents", "relation": "triggers", "to": "state.actions.cleared", "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs" } } },
+
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.color.surface0", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.24", "properties": { "appliesTo": "sectionSpacing, columnStackSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.32", "properties": { "appliesTo": "contentPadding(normal, wide)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.settings", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "contentPadding(narrow), twoColumnGap" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "bottomBorderBrush, shortcutPillBackground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.border.1", "properties": { "appliesTo": "bottomBorder, searchBarBorder" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.typography.page-title", "properties": { "appliesTo": "title" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.text90", "properties": { "appliesTo": "title (via OrbitalPageTitle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "subtitle" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.text40", "properties": { "appliesTo": "subtitleForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "searchBarBackground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.surface3", "properties": { "appliesTo": "searchBarBorderBrush" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.text30", "properties": { "appliesTo": "searchPlaceholderForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.color.text35", "properties": { "appliesTo": "searchIconForeground, shortcutHintForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "searchBarCornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.radius.4", "properties": { "appliesTo": "shortcutPillCornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "searchPlaceholder(12px), shortcutHint(10px)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "searchBarInnerSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.spacing.4", "properties": { "appliesTo": "titleSubtitleGap" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.spacing.32", "properties": { "appliesTo": "horizontalPadding" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.page-header", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "verticalPadding" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background (via OrbitalCardStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.surface3", "properties": { "appliesTo": "borderBrush (via OrbitalCardStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.border.1", "properties": { "appliesTo": "borderThickness (via OrbitalCardStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "cornerRadius (via OrbitalCardStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.20", "properties": { "appliesTo": "padding (via OrbitalCardStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "innerSpacing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.typography.section-header", "properties": { "appliesTo": "section-title" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card", "relation": "uses-token", "to": "token.color.text38", "properties": { "appliesTo": "section-title foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.card.actions", "relation": "uses-token", "to": "token.spacing.12", "properties": { "appliesTo": "innerSpacing", "override": true, "overrides": "canonical innerSpacing 16" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "label, value" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text50", "properties": { "appliesTo": "labelForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.info-row", "relation": "uses-token", "to": "token.color.text72", "properties": { "appliesTo": "valueForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "label, value" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.color.text50", "properties": { "appliesTo": "labelForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.color.text72", "properties": { "appliesTo": "valueForeground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.path-field", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "labelValueGap" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.color.text55", "properties": { "appliesTo": "foreground (via OrbitalGhostButton)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius (via OrbitalGhostButton)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.typography.button", "properties": { "appliesTo": "label (via OrbitalGhostButton)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.action-button", "relation": "uses-token", "to": "token.spacing.8", "properties": { "appliesTo": "iconLabelGap" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.color.emerald500", "properties": { "appliesTo": "background (via OrbitalPrimaryButtonSm)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.color.surface0", "properties": { "appliesTo": "foreground (via OrbitalPrimaryButtonSm)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.radius.8", "properties": { "appliesTo": "cornerRadius (via OrbitalPrimaryButtonSm)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.save", "relation": "uses-token", "to": "token.typography.button", "properties": { "appliesTo": "label (via OrbitalPrimaryButtonSm)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "control.profile.username", "relation": "uses-token", "to": "token.typography.mono", "properties": { "appliesTo": "fontFamily (13px)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.username", "relation": "uses-token", "to": "token.color.surface1", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.username", "relation": "uses-token", "to": "token.color.surface3", "properties": { "appliesTo": "borderBrush" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "control.profile.username", "relation": "uses-token", "to": "token.color.text85", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+
+    { "from": "content.profile.name-label", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "text" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.profile.name-label", "relation": "uses-token", "to": "token.color.text50", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.profile.helper", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "text" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.profile.helper", "relation": "uses-token", "to": "token.color.text30", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.about.app-name", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "text (weight overridden to SemiBold)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.about.app-name", "relation": "uses-token", "to": "token.color.text85", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.about.version", "relation": "uses-token", "to": "token.typography.mono-small", "properties": { "appliesTo": "text" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "content.about.version", "relation": "uses-token", "to": "token.color.text40", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.color.surface2", "properties": { "appliesTo": "containerBackground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "asset.about.logo", "relation": "uses-token", "to": "token.radius.12", "properties": { "appliesTo": "containerCornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.search-destination",
+      "question": "What handles the PageHeader search bar's SearchRequested event, and what UI does tapping it open?",
+      "relatedIds": ["component.page-header"],
+      "possibleValues": ["a command palette / search overlay", "navigation to a search screen"],
+      "reason": "SearchBorder.Tapped raises a static SearchRequested event; the subscriber is outside the allowed sources, so no navigates-to or triggers edge can be asserted."
+    },
+    {
+      "id": "unresolved.label-value-consolidation",
+      "question": "Are info-row (horizontal label/value) and path-field (stacked label/value) two variants of one label-value component?",
+      "relatedIds": ["component.info-row", "component.path-field"],
+      "possibleValues": ["one component with orientation variants", "two distinct components (as modeled)"],
+      "reason": "They share typography and foreground tokens but differ in layout and wrapping behavior; kept separate to avoid over-consolidation."
+    },
+    {
+      "id": "unresolved.data-context",
+      "question": "What view model backs the declared bindings (VersionDisplay, DotNetDisplay, PlatformInfo, EnvStatus.*, ProjectRoot, RecentsPath, SkillsPath)?",
+      "relatedIds": ["content.about.version", "component.info-row.uno-sdk", "component.info-row.dotnet-runtime", "component.info-row.renderer", "component.info-row.platform", "component.path-field.project-root", "component.path-field.recents-db", "component.path-field.skills"],
+      "reason": "Binding paths are declared in XAML, but the DataContext type and value semantics live outside the allowed sources."
+    },
+    {
+      "id": "unresolved.entrance-timing",
+      "question": "What duration/easing does AnimationHelper.FadeUp use, and does it consume the declared OrbitalFadeUpDuration (350ms) constant?",
+      "relatedIds": ["state.settings.entering"],
+      "reason": "The helper implementation is outside the allowed sources; only the per-card stagger delays (0/100/200/300ms) and initial Opacity 0 / TranslateY 8 are source-backed."
+    }
+  ],
+  "metadata": {
+    "generator": "design-graph-kit SKILL.md v0.3",
+    "run": "blind-v3/run2",
+    "notes": "Style-level interaction visuals (button PointerOver/Pressed/Disabled, search-bar hover brush swaps, focus ring) were excluded per state-altitude and variant-folding rules; hover shades (Emerald400, Surface35, Emerald500_20, Surface15) folded into their base tokens."
+  }
+}

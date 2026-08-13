@@ -1,0 +1,418 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "eval.dashboard",
+  "name": "Dashboard",
+  "description": "Gold graph for repeated metric-card recognition.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "label": "Synthetic fixture description"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.dashboard",
+      "type": "screen",
+      "name": "Dashboard",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "region.dashboard.metrics",
+      "type": "region",
+      "name": "Metrics",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.metric-card",
+      "type": "component",
+      "name": "Metric card",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Three cards share identical structure and visual treatment."
+      }
+    },
+    {
+      "id": "component.metric-card.revenue",
+      "type": "component",
+      "name": "Revenue card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.metric-card.orders",
+      "type": "component",
+      "name": "Orders card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "component.metric-card.customers",
+      "type": "component",
+      "name": "Customers card",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.revenue.label",
+      "type": "content",
+      "text": "Revenue",
+      "semanticRole": "metricLabel",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.revenue.value",
+      "type": "content",
+      "text": "$42,180",
+      "semanticRole": "metricValue",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.orders.label",
+      "type": "content",
+      "text": "Orders",
+      "semanticRole": "metricLabel",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.orders.value",
+      "type": "content",
+      "text": "384",
+      "semanticRole": "metricValue",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.customers.label",
+      "type": "content",
+      "text": "Customers",
+      "semanticRole": "metricLabel",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.metric.customers.value",
+      "type": "content",
+      "text": "128",
+      "semanticRole": "metricValue",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "token.radius.12",
+      "type": "token",
+      "category": "radius",
+      "value": 12,
+      "properties": {
+        "unit": "px"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "value": 16,
+      "properties": {
+        "unit": "px"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.dashboard",
+      "relation": "contains",
+      "to": "region.dashboard.metrics",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.dashboard.metrics",
+      "relation": "contains",
+      "to": "component.metric-card.revenue",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.dashboard.metrics",
+      "relation": "contains",
+      "to": "component.metric-card.orders",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.dashboard.metrics",
+      "relation": "contains",
+      "to": "component.metric-card.customers",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.revenue",
+      "relation": "instance-of",
+      "to": "component.metric-card",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Matches the repeated metric-card structure."
+      }
+    },
+    {
+      "from": "component.metric-card.orders",
+      "relation": "instance-of",
+      "to": "component.metric-card",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Matches the repeated metric-card structure."
+      }
+    },
+    {
+      "from": "component.metric-card.customers",
+      "relation": "instance-of",
+      "to": "component.metric-card",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.96,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Matches the repeated metric-card structure."
+      }
+    },
+    {
+      "from": "component.metric-card.revenue",
+      "relation": "contains",
+      "to": "content.metric.revenue.label",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.revenue",
+      "relation": "contains",
+      "to": "content.metric.revenue.value",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.orders",
+      "relation": "contains",
+      "to": "content.metric.orders.label",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.orders",
+      "relation": "contains",
+      "to": "content.metric.orders.value",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.customers",
+      "relation": "contains",
+      "to": "content.metric.customers.label",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card.customers",
+      "relation": "contains",
+      "to": "content.metric.customers.value",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "component.metric-card",
+      "relation": "uses-token",
+      "to": "token.radius.12",
+      "properties": {
+        "appliesTo": "cornerRadius"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.dashboard.metrics",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": {
+        "appliesTo": "gap"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "unresolved": []
+}

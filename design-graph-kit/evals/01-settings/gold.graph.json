@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "eval.settings",
+  "name": "Settings",
+  "description": "Gold graph for a simple account settings screen.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "label": "Synthetic fixture description"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.settings",
+      "type": "screen",
+      "name": "Settings",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "region.settings.account",
+      "type": "region",
+      "name": "Account",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.settings.title",
+      "type": "content",
+      "name": "Settings title",
+      "text": "Settings",
+      "semanticRole": "pageTitle",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "control.settings.name",
+      "type": "control",
+      "name": "Name",
+      "role": "textbox",
+      "text": "Matthew",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "control.settings.email",
+      "type": "control",
+      "name": "Email",
+      "role": "textbox",
+      "text": "matt@example.com",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "control.settings.save",
+      "type": "control",
+      "name": "Save changes",
+      "role": "button",
+      "text": "Save changes",
+      "semanticRole": "primaryAction",
+      "evidence": {
+        "kind": "inferred",
+        "confidence": 0.9,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "It is the only high-emphasis action in the settings form."
+      }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "name": "16 spacing",
+      "category": "spacing",
+      "value": 16,
+      "properties": {
+        "unit": "px"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Repeated 16 px gap in fixture specification."
+      }
+    },
+    {
+      "id": "token.radius.8",
+      "type": "token",
+      "name": "8 radius",
+      "category": "radius",
+      "value": 8,
+      "properties": {
+        "unit": "px"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        },
+        "rationale": "Repeated 8 px radius in fixture specification."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "content.settings.title",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "screen.settings",
+      "relation": "contains",
+      "to": "region.settings.account",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.settings.account",
+      "relation": "contains",
+      "to": "control.settings.name",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.settings.account",
+      "relation": "contains",
+      "to": "control.settings.email",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.settings.account",
+      "relation": "contains",
+      "to": "control.settings.save",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.settings.account",
+      "relation": "uses-token",
+      "to": "token.spacing.16",
+      "properties": {
+        "appliesTo": "gap"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "control.settings.save",
+      "relation": "uses-token",
+      "to": "token.radius.8",
+      "properties": {
+        "appliesTo": "cornerRadius"
+      },
+      "evidence": {
+        "kind": "derived",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.settings.save-behavior",
+      "question": "What application action does Save changes trigger?",
+      "relatedIds": [
+        "control.settings.save"
+      ],
+      "possibleValues": [
+        "save settings",
+        "submit form",
+        "unknown"
+      ],
+      "reason": "The visual fixture does not expose implementation behavior."
+    }
+  ]
+}

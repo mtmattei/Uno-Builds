@@ -1,0 +1,766 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "caffe-main",
+  "name": "Caffe Main Screen",
+  "description": "Design Graph of the Caffe espresso-brewing main screen (Caffe.MainPage), an Uno Platform page composed of custom UserControls bound to MainViewModel (CommunityToolkit.Mvvm).",
+  "sourceSummary": [
+    { "type": "xaml", "path": "Caffe/MainPage.xaml", "label": "Main page markup" },
+    { "type": "csharp", "path": "Caffe/MainPage.xaml.cs", "label": "Main page code-behind" },
+    { "type": "csharp", "path": "Caffe/ViewModels/MainViewModel.cs", "label": "MVVM view model" },
+    { "type": "csharp", "path": "Caffe/Models/EspressoItem.cs", "label": "Espresso data model" },
+    { "type": "csharp", "path": "Caffe/Models/GrindLevel.cs", "label": "Grind level enum" },
+    { "type": "xaml", "path": "Caffe/Controls/*.xaml", "label": "Custom UserControls" },
+    { "type": "csharp", "path": "Caffe/Controls/*.xaml.cs", "label": "UserControl code-behind" },
+    { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml", "label": "Brushes, fonts, text styles" }
+  ],
+  "nodes": [
+    {
+      "id": "screen.caffe-main",
+      "type": "screen",
+      "name": "Caffe Main",
+      "role": "page",
+      "properties": {
+        "responsiveMaxWidth": { "narrow": 480, "normal": 640, "wide": 960 },
+        "responsivePadding": { "narrow": "16,0", "normal": "24,0", "wide": "40,0" },
+        "layout": "ScrollViewer > utu:AutoLayout (vertical); espresso grid and control panel reflow via utu:Responsive between one-column (Narrow) and two-column (Wide)",
+        "uno": { "type": "Page", "class": "Caffe.MainPage" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "region.caffe-main.main-content",
+      "type": "region",
+      "name": "Main Content",
+      "role": "content region",
+      "properties": {
+        "visibilityBinding": "Collapsed while ViewModel.IsBrewing (ReverseBoolToVisibilityConverter)",
+        "uno": { "type": "Grid", "xName": "MainContent" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "region.caffe-main.espresso-grid",
+      "type": "region",
+      "name": "Espresso Card Grid",
+      "role": "selection grid",
+      "properties": {
+        "layout": "2x2 Grid of EspressoCard instances",
+        "responsiveGap": { "narrow": 8, "wide": 12 },
+        "uno": { "type": "Grid" }
+      },
+      "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Unnamed Grid in MainPage.xaml holding the four EspressoCard instances.", "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "region.caffe-main.control-panel",
+      "type": "region",
+      "name": "Brew Control Panel",
+      "role": "control panel",
+      "properties": {
+        "layout": "Vertical utu:AutoLayout: parameters row, selection overview, brew button; sits beside the espresso grid on Wide, below it on Narrow",
+        "uno": { "type": "utu:AutoLayout" }
+      },
+      "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Unnamed AutoLayout in MainPage.xaml grouping parameters, overview and brew button.", "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "region.caffe-main.parameters",
+      "type": "region",
+      "name": "Parameters Panel",
+      "role": "parameter controls",
+      "properties": {
+        "layout": "3 equal columns: TemperatureGauge, ExtractionArc, GrindSelector",
+        "responsiveColumnSpacing": { "narrow": 6, "normal": 10, "wide": 16 },
+        "uno": { "type": "Grid" }
+      },
+      "evidence": { "kind": "derived", "confidence": 1.0, "rationale": "Unnamed 3-column Grid in MainPage.xaml commented 'Parameters Panel'.", "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "component.caffe-header",
+      "type": "component",
+      "name": "Caffe Header",
+      "role": "page header",
+      "properties": {
+        "parts": ["accent-bar", "logo", "tagline"],
+        "logoText": "Caffè",
+        "taglineText": "NOTHING MORE. NOTHING LESS.",
+        "accentBar": "56x4 split bar: primary (left) + accent-red (right)",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.CaffeHeader" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/CaffeHeader.xaml" } }
+    },
+    {
+      "id": "component.caffe-footer",
+      "type": "component",
+      "name": "Caffe Footer",
+      "role": "page footer",
+      "properties": {
+        "parts": ["accent-bar"],
+        "accentBar": "36x3 split bar: accent-red (left) + primary (right), reversed from header",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.CaffeFooter" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/CaffeFooter.xaml" } }
+    },
+    {
+      "id": "component.espresso-card",
+      "type": "component",
+      "name": "Espresso Card",
+      "role": "selectable card",
+      "semanticRole": "optionCard",
+      "properties": {
+        "parts": ["volume-badge", "checkmark", "name", "description"],
+        "api": {
+          "Espresso": "EspressoItem dependency property (fills volume badge, name, description)",
+          "IsSelected": "bool dependency property (border brush swap + checkmark visibility)",
+          "Tapped": "routed event handled in MainPage code-behind"
+        },
+        "borderThickness": 2,
+        "padding": "16,20",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.EspressoCard" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/EspressoCard.xaml" } }
+    },
+    {
+      "id": "component.espresso-card.espresso",
+      "type": "component",
+      "name": "Espresso",
+      "properties": {
+        "binding": "ViewModel.EspressoItems[0]",
+        "itemName": "Espresso",
+        "volumeML": 30,
+        "description": "Pure, concentrated, bold",
+        "tappedHandler": "OnEspressoCardTapped",
+        "uno": { "xName": "EspressoCard" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "component.espresso-card.doppio",
+      "type": "component",
+      "name": "Doppio",
+      "properties": {
+        "binding": "ViewModel.EspressoItems[1]",
+        "itemName": "Doppio",
+        "volumeML": 60,
+        "description": "Double the intensity",
+        "tappedHandler": "OnDoppioCardTapped",
+        "uno": { "xName": "DoppioCard" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "component.espresso-card.ristretto",
+      "type": "component",
+      "name": "Ristretto",
+      "properties": {
+        "binding": "ViewModel.EspressoItems[2]",
+        "itemName": "Ristretto",
+        "volumeML": 20,
+        "description": "Short, sweet, powerful",
+        "tappedHandler": "OnRistrettoCardTapped",
+        "uno": { "xName": "RistrettoCard" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "component.espresso-card.lungo",
+      "type": "component",
+      "name": "Lungo",
+      "properties": {
+        "binding": "ViewModel.EspressoItems[3]",
+        "itemName": "Lungo",
+        "volumeML": 50,
+        "description": "Long pull, smooth finish",
+        "tappedHandler": "OnLungoCardTapped",
+        "uno": { "xName": "LungoCard" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "component.temperature-gauge",
+      "type": "component",
+      "name": "Temperature Gauge",
+      "role": "parameter card",
+      "semanticRole": "valueAdjuster",
+      "properties": {
+        "parts": ["label", "thermometer", "value", "slider", "range-labels"],
+        "labelText": "TEMPERATURE",
+        "api": { "Temperature": "int dependency property, TwoWay-bound to ViewModel.Temperature" },
+        "range": { "min": 88, "max": 96, "default": 93, "step": 1 },
+        "sliderAutomationName": "Temperature",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.TemperatureGauge", "xName": "TempGauge" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/TemperatureGauge.xaml" } }
+    },
+    {
+      "id": "component.extraction-arc",
+      "type": "component",
+      "name": "Extraction Arc",
+      "role": "parameter card",
+      "semanticRole": "valueAdjuster",
+      "properties": {
+        "parts": ["label", "arc", "value", "slider", "range-labels"],
+        "labelText": "EXTRACTION",
+        "api": { "ExtractionTime": "int dependency property, TwoWay-bound to ViewModel.ExtractionTime" },
+        "range": { "min": 20, "max": 35, "default": 27, "step": 1 },
+        "sweetSpot": "25-30s highlighted arc segment (accent-green, 0.3 opacity)",
+        "sliderAutomationName": "Extraction time",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.ExtractionArc", "xName": "ExtractionArc" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/ExtractionArc.xaml" } }
+    },
+    {
+      "id": "component.grind-selector",
+      "type": "component",
+      "name": "Grind Selector",
+      "role": "parameter card",
+      "semanticRole": "optionSelector",
+      "properties": {
+        "parts": ["label", "particle-display", "grind-label", "grind-hint", "size-buttons", "size-labels"],
+        "labelText": "GRIND SIZE",
+        "api": { "GrindLevel": "GrindLevel enum dependency property (Fine|Medium|Coarse), TwoWay-bound to ViewModel.GrindLevel" },
+        "options": ["Fine (Slower)", "Medium (Balanced)", "Coarse (Faster)"],
+        "default": "Fine",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.GrindSelector", "xName": "GrindSelector" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/GrindSelector.xaml" } }
+    },
+    {
+      "id": "component.selection-overview",
+      "type": "component",
+      "name": "Selection Overview",
+      "role": "summary card",
+      "semanticRole": "selectionSummary",
+      "properties": {
+        "parts": ["selection-label", "espresso-name", "temp-stat", "grind-stat", "time-stat", "dividers"],
+        "selectionLabelText": "YOUR SELECTION",
+        "statLabels": ["Temp", "Grind", "Time"],
+        "api": {
+          "EspressoName": "ViewModel.SelectedEspresso.Name (FallbackValue 'Espresso')",
+          "Temperature": "ViewModel.Temperature",
+          "GrindAbbreviation": "ViewModel.GrindAbbreviation (F|M|C)",
+          "ExtractionTime": "ViewModel.ExtractionTime"
+        },
+        "padding": "20,16",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.SelectionOverview", "xName": "SelectionOverview" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/SelectionOverview.xaml" } }
+    },
+    {
+      "id": "component.brew-button",
+      "type": "component",
+      "name": "Brew Button",
+      "role": "button",
+      "semanticRole": "primaryAction",
+      "properties": {
+        "parts": ["button", "label"],
+        "api": {
+          "Text": "ViewModel.BrewButtonText ('Select your espresso' | 'Brew {Name}')",
+          "IsBrewEnabled": "ViewModel.HasSelection",
+          "BrewRequested": "event -> MainPage.OnBrewRequested -> ViewModel.BrewCommand"
+        },
+        "height": 56,
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.BrewButton", "xName": "BrewBtn" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/BrewButton.xaml" } }
+    },
+    {
+      "id": "component.brewing-screen",
+      "type": "component",
+      "name": "Brewing Screen Overlay",
+      "role": "overlay",
+      "semanticRole": "progressOverlay",
+      "properties": {
+        "parts": ["cup", "brewing-title", "parameters-text"],
+        "api": {
+          "EspressoName": "ViewModel.SelectedEspresso.Name -> title 'Brewing {Name}'",
+          "ParametersText": "ViewModel.BrewingParametersText ('{Temp}°C · {Grind} · {Time}s')",
+          "BrewProgress": "ViewModel.BrewProgress (0..1) -> cup fill height + params-text opacity pulse"
+        },
+        "loading": "x:Load bound to ViewModel.IsBrewing",
+        "uno": { "type": "UserControl", "class": "Caffe.Controls.BrewingScreen", "xName": "BrewingOverlay" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/Controls/BrewingScreen.xaml" } }
+    },
+    {
+      "id": "state.caffe-main.brewing",
+      "type": "state",
+      "name": "Brewing",
+      "properties": {
+        "condition": "ViewModel.IsBrewing == true (BrewCommand running, ~2.5s)",
+        "effect": "MainContent collapsed; BrewingScreen overlay loaded and shown; cup fills with ViewModel.BrewProgress",
+        "uno": { "mechanism": "x:Bind", "member": "ViewModel.IsBrewing" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Caffe/ViewModels/MainViewModel.cs" } }
+    },
+    {
+      "id": "state.caffe-main.card-selected",
+      "type": "state",
+      "name": "Card Selected",
+      "properties": {
+        "condition": "EspressoCard.IsSelected == true (card's item equals ViewModel.SelectedEspresso)",
+        "effect": "Card border swaps to primary brush; checkmark badge becomes visible",
+        "uno": { "mechanism": "code-behind", "member": "EspressoCard.OnIsSelectedChanged" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Caffe/Controls/EspressoCard.xaml.cs" } }
+    },
+    {
+      "id": "state.caffe-main.brew-disabled",
+      "type": "state",
+      "name": "Brew Disabled",
+      "properties": {
+        "condition": "ViewModel.HasSelection == false (default until a card is tapped)",
+        "effect": "Button background swaps to primary-disabled brush, IsEnabled=false, label reads 'Select your espresso'",
+        "uno": { "mechanism": "code-behind", "member": "BrewButton.UpdateVisual" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "csharp", "path": "Caffe/Controls/BrewButton.xaml.cs" } }
+    },
+    {
+      "id": "state.caffe-main.overview-hidden",
+      "type": "state",
+      "name": "Overview Hidden",
+      "properties": {
+        "condition": "ViewModel.HasSelection == false (default until a card is tapped)",
+        "effect": "SelectionOverview Visibility collapsed",
+        "uno": { "mechanism": "x:Bind", "member": "ViewModel.HasSelection" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "token.color.background",
+      "type": "token",
+      "category": "color",
+      "name": "Background",
+      "value": "#FAFAFA",
+      "properties": { "uno": { "resourceKey": "CaffeBackgroundBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.surface",
+      "type": "token",
+      "category": "color",
+      "name": "Surface",
+      "value": "#FFFFFF",
+      "properties": { "uno": { "resourceKey": "CaffeSurfaceBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.primary",
+      "type": "token",
+      "category": "color",
+      "name": "Primary (deep green)",
+      "value": "#1B4332",
+      "properties": { "uno": { "resourceKey": "CaffePrimaryBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.primary-disabled",
+      "type": "token",
+      "category": "color",
+      "name": "Primary Disabled",
+      "value": "#591B4332",
+      "properties": {
+        "note": "35% alpha step of primary; kept as a token (rather than folded) because the brew button's modeled disabled state consumes it directly in code-behind.",
+        "uno": { "resourceKey": "CaffePrimaryDisabledBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.accent-red",
+      "type": "token",
+      "category": "color",
+      "name": "Accent Red",
+      "value": "#C1121F",
+      "properties": { "uno": { "resourceKey": "CaffeAccentRedBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.accent-green",
+      "type": "token",
+      "category": "color",
+      "name": "Accent Green",
+      "value": "#2D6A4F",
+      "properties": { "uno": { "resourceKey": "CaffeAccentGreenBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.text-primary",
+      "type": "token",
+      "category": "color",
+      "name": "Text Primary",
+      "value": "#1A1A1A",
+      "properties": { "uno": { "resourceKey": "CaffeTextPrimaryBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.text-secondary",
+      "type": "token",
+      "category": "color",
+      "name": "Text Secondary",
+      "value": "#888888",
+      "properties": { "uno": { "resourceKey": "CaffeTextSecondaryBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.text-muted",
+      "type": "token",
+      "category": "color",
+      "name": "Text Muted",
+      "value": "#999999",
+      "properties": { "uno": { "resourceKey": "CaffeTextMutedBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.on-primary",
+      "type": "token",
+      "category": "color",
+      "name": "On Primary",
+      "value": "#FFFFFF",
+      "properties": {
+        "note": "Also realized as literal 'White' on internal parts (checkmark glyph, grind ellipses, overview dividers).",
+        "uno": { "resourceKey": "CaffeOnPrimaryBrush", "resourceType": "SolidColorBrush" }
+      },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.border",
+      "type": "token",
+      "category": "color",
+      "name": "Border / Track",
+      "value": "#E0E0E0",
+      "properties": { "uno": { "resourceKey": "CaffeBorderBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.particle",
+      "type": "token",
+      "category": "color",
+      "name": "Grind Particle",
+      "value": "#1A1A1A",
+      "properties": { "uno": { "resourceKey": "CaffeParticleBrush", "resourceType": "SolidColorBrush" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.coffee-dark",
+      "type": "token",
+      "category": "color",
+      "name": "Coffee Dark (gradient stop)",
+      "value": "#3D2314",
+      "properties": { "uno": { "resourceKey": "CoffeeDarkColor", "resourceType": "Color" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.coffee-light",
+      "type": "token",
+      "category": "color",
+      "name": "Coffee Light (gradient stop)",
+      "value": "#5D3A1A",
+      "properties": { "uno": { "resourceKey": "CoffeeLightColor", "resourceType": "Color" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.temperature-high",
+      "type": "token",
+      "category": "color",
+      "name": "Temperature High (gradient stop)",
+      "value": "#C1121F",
+      "properties": { "uno": { "resourceKey": "CaffeTemperatureHighColor", "resourceType": "Color" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.color.temperature-low",
+      "type": "token",
+      "category": "color",
+      "name": "Temperature Low (gradient stop)",
+      "value": "#E07070",
+      "properties": { "uno": { "resourceKey": "CaffeTemperatureLowColor", "resourceType": "Color" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.logo",
+      "type": "token",
+      "category": "typography",
+      "name": "Logo",
+      "value": { "family": "Cormorant Garamond", "weight": "Light", "size": 48, "foreground": "token.color.text-primary" },
+      "properties": { "uno": { "styleKey": "LogoTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.tagline",
+      "type": "token",
+      "category": "typography",
+      "name": "Tagline",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 11, "characterSpacing": 150, "foreground": "token.color.text-secondary" },
+      "properties": { "uno": { "styleKey": "TaglineTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.card-title",
+      "type": "token",
+      "category": "typography",
+      "name": "Card Title",
+      "value": { "family": "Cormorant Garamond", "weight": "Regular", "size": 22, "foreground": "token.color.text-primary" },
+      "properties": { "uno": { "styleKey": "CardTitleTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.card-description",
+      "type": "token",
+      "category": "typography",
+      "name": "Card Description",
+      "value": { "family": "DM Sans", "weight": "Regular", "size": 12, "foreground": "token.color.text-muted" },
+      "properties": { "uno": { "styleKey": "CardDescriptionTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.parameter-value",
+      "type": "token",
+      "category": "typography",
+      "name": "Parameter Value",
+      "value": { "family": "Cormorant Garamond", "weight": "Regular", "size": 26, "foreground": "token.color.text-primary" },
+      "properties": { "uno": { "styleKey": "ParameterValueTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.parameter-label",
+      "type": "token",
+      "category": "typography",
+      "name": "Parameter Label",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 10, "characterSpacing": 100, "foreground": "token.color.text-secondary" },
+      "properties": { "uno": { "styleKey": "ParameterLabelTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.volume-badge",
+      "type": "token",
+      "category": "typography",
+      "name": "Volume Badge",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 11, "foreground": "token.color.on-primary" },
+      "properties": { "uno": { "styleKey": "VolumeBadgeTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.body",
+      "type": "token",
+      "category": "typography",
+      "name": "Body",
+      "value": { "family": "DM Sans", "weight": "Regular", "size": 14, "foreground": "token.color.text-primary" },
+      "properties": { "uno": { "styleKey": "BodyTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.button",
+      "type": "token",
+      "category": "typography",
+      "name": "Button",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 15, "foreground": "token.color.on-primary" },
+      "properties": { "uno": { "styleKey": "ButtonTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.grind-hint",
+      "type": "token",
+      "category": "typography",
+      "name": "Grind Hint",
+      "value": { "family": "DM Sans", "weight": "Regular", "size": 11, "style": "Italic", "foreground": "token.color.text-muted" },
+      "properties": { "uno": { "styleKey": "GrindHintTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.overview-label",
+      "type": "token",
+      "category": "typography",
+      "name": "Overview Label",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 10, "characterSpacing": 100, "foreground": "token.color.on-primary", "opacity": 0.7 },
+      "properties": { "uno": { "styleKey": "OverviewLabelTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.overview-value",
+      "type": "token",
+      "category": "typography",
+      "name": "Overview Value",
+      "value": { "family": "Cormorant Garamond", "weight": "Regular", "size": 18, "foreground": "token.color.on-primary" },
+      "properties": { "uno": { "styleKey": "OverviewValueTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.brewing-title",
+      "type": "token",
+      "category": "typography",
+      "name": "Brewing Title",
+      "value": { "family": "Cormorant Garamond", "weight": "Regular", "size": 28, "foreground": "token.color.text-primary", "basedOn": "token.typography.card-title" },
+      "properties": { "uno": { "styleKey": "BrewingTitleTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.typography.arc-label",
+      "type": "token",
+      "category": "typography",
+      "name": "Arc Label",
+      "value": { "family": "DM Sans", "weight": "Medium", "size": 8, "characterSpacing": 100, "foreground": "token.color.text-secondary", "basedOn": "token.typography.parameter-label" },
+      "properties": { "uno": { "styleKey": "ArcLabelTextStyle", "resourceType": "Style" } },
+      "evidence": { "kind": "declared", "confidence": 1.0, "source": { "type": "design-system", "path": "Caffe/Styles/AppResources.xaml" } }
+    },
+    {
+      "id": "token.radius.14",
+      "type": "token",
+      "category": "radius",
+      "name": "Card Radius",
+      "value": 14,
+      "properties": { "uno": { "property": "CornerRadius" } },
+      "evidence": { "kind": "derived", "confidence": 0.95, "rationale": "CornerRadius=14 recurs on EspressoCard, SelectionOverview and BrewButton; literal, no declared resource key.", "source": { "type": "xaml", "path": "Caffe/Controls" } }
+    },
+    {
+      "id": "token.spacing.16",
+      "type": "token",
+      "category": "spacing",
+      "name": "Section Gap",
+      "value": 16,
+      "evidence": { "kind": "derived", "confidence": 0.9, "rationale": "16px bottom margin recurs between page sections (espresso grid, parameters panel, brew button) and as card horizontal padding; literal, no declared resource key.", "source": { "type": "xaml", "path": "Caffe/MainPage.xaml" } }
+    },
+    {
+      "id": "token.elevation.4",
+      "type": "token",
+      "category": "elevation",
+      "name": "Card Elevation",
+      "value": { "translation": "0,0,4", "shadow": "ThemeShadow" },
+      "evidence": { "kind": "derived", "confidence": 0.95, "rationale": "ThemeShadow with Translation Z=4 recurs on EspressoCard, TemperatureGauge, ExtractionArc and GrindSelector.", "source": { "type": "xaml", "path": "Caffe/Controls" } }
+    }
+  ],
+  "edges": [
+    { "from": "screen.caffe-main", "relation": "contains", "to": "region.caffe-main.main-content", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.caffe-main", "relation": "contains", "to": "component.brewing-screen", "properties": { "note": "Overlay sibling of MainContent, x:Load bound to IsBrewing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.main-content", "relation": "contains", "to": "component.caffe-header", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.main-content", "relation": "contains", "to": "region.caffe-main.espresso-grid", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.main-content", "relation": "contains", "to": "region.caffe-main.control-panel", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.main-content", "relation": "contains", "to": "component.caffe-footer", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.espresso-grid", "relation": "contains", "to": "component.espresso-card.espresso", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.espresso-grid", "relation": "contains", "to": "component.espresso-card.doppio", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.espresso-grid", "relation": "contains", "to": "component.espresso-card.ristretto", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.espresso-grid", "relation": "contains", "to": "component.espresso-card.lungo", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.control-panel", "relation": "contains", "to": "region.caffe-main.parameters", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.control-panel", "relation": "contains", "to": "component.selection-overview", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.control-panel", "relation": "contains", "to": "component.brew-button", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.parameters", "relation": "contains", "to": "component.temperature-gauge", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.parameters", "relation": "contains", "to": "component.extraction-arc", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "region.caffe-main.parameters", "relation": "contains", "to": "component.grind-selector", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card.espresso", "relation": "instance-of", "to": "component.espresso-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card.doppio", "relation": "instance-of", "to": "component.espresso-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card.ristretto", "relation": "instance-of", "to": "component.espresso-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card.lungo", "relation": "instance-of", "to": "component.espresso-card", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.caffe-main", "relation": "has-state", "to": "state.caffe-main.brewing", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "has-state", "to": "state.caffe-main.card-selected", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "has-state", "to": "state.caffe-main.brew-disabled", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.selection-overview", "relation": "has-state", "to": "state.caffe-main.overview-hidden", "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "triggers", "to": "state.caffe-main.card-selected", "properties": { "via": "Tapped -> MainPage.SelectCard -> ViewModel.SelectedEspresso -> UpdateCardSelections" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "triggers", "to": "state.caffe-main.brewing", "properties": { "via": "BrewRequested -> MainPage.OnBrewRequested -> ViewModel.BrewCommand -> IsBrewing" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.caffe-main", "relation": "uses-token", "to": "token.color.background", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "screen.caffe-main", "relation": "uses-token", "to": "token.spacing.16", "properties": { "appliesTo": "section margins" }, "evidence": { "kind": "derived", "confidence": 0.9 } },
+    { "from": "component.caffe-header", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "accent-bar left" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.caffe-header", "relation": "uses-token", "to": "token.color.accent-red", "properties": { "appliesTo": "accent-bar right" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.caffe-header", "relation": "uses-token", "to": "token.typography.logo", "properties": { "appliesTo": "logo" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.caffe-header", "relation": "uses-token", "to": "token.typography.tagline", "properties": { "appliesTo": "tagline" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.caffe-footer", "relation": "uses-token", "to": "token.color.accent-red", "properties": { "appliesTo": "accent-bar left" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.caffe-footer", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "accent-bar right" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "border (unselected)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "selected border + checkmark background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.color.accent-red", "properties": { "appliesTo": "volume-badge background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.typography.card-title", "properties": { "appliesTo": "name" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.typography.card-description", "properties": { "appliesTo": "description" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.typography.volume-badge", "properties": { "appliesTo": "volume-badge text" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.radius.14", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.espresso-card", "relation": "uses-token", "to": "token.elevation.4", "properties": { "appliesTo": "shadow" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "thermometer track" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.color.accent-red", "properties": { "appliesTo": "thermometer bulb" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.color.temperature-high", "properties": { "appliesTo": "fill gradient bottom stop" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.color.temperature-low", "properties": { "appliesTo": "fill gradient top stop" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.typography.parameter-label", "properties": { "appliesTo": "label + range labels" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.typography.parameter-value", "properties": { "appliesTo": "value" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.temperature-gauge", "relation": "uses-token", "to": "token.elevation.4", "properties": { "appliesTo": "shadow" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "background arc" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "value arc" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.color.accent-green", "properties": { "appliesTo": "sweet-spot arc" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.typography.parameter-label", "properties": { "appliesTo": "label + range labels" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.typography.parameter-value", "properties": { "appliesTo": "value + arc center value" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.typography.arc-label", "properties": { "appliesTo": "SECONDS caption" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.extraction-arc", "relation": "uses-token", "to": "token.elevation.4", "properties": { "appliesTo": "shadow" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.color.surface", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "selected size button" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.color.border", "properties": { "appliesTo": "unselected size buttons" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.color.particle", "properties": { "appliesTo": "particle-display ellipses" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.typography.parameter-label", "properties": { "appliesTo": "label + S/M/L labels" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.typography.parameter-value", "properties": { "appliesTo": "grind-label" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.typography.grind-hint", "properties": { "appliesTo": "grind-hint" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.grind-selector", "relation": "uses-token", "to": "token.elevation.4", "properties": { "appliesTo": "shadow" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.selection-overview", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.selection-overview", "relation": "uses-token", "to": "token.typography.overview-label", "properties": { "appliesTo": "labels" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.selection-overview", "relation": "uses-token", "to": "token.typography.overview-value", "properties": { "appliesTo": "values" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.selection-overview", "relation": "uses-token", "to": "token.radius.14", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "uses-token", "to": "token.color.primary", "properties": { "appliesTo": "background (enabled)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "uses-token", "to": "token.color.primary-disabled", "properties": { "appliesTo": "background (disabled state)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "uses-token", "to": "token.typography.button", "properties": { "appliesTo": "label" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brew-button", "relation": "uses-token", "to": "token.radius.14", "properties": { "appliesTo": "cornerRadius" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.color.background", "properties": { "appliesTo": "background" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "cup/handle/saucer strokes" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.color.text-secondary", "properties": { "appliesTo": "parameters-text foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.color.coffee-dark", "properties": { "appliesTo": "cup fill gradient top stop" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.color.coffee-light", "properties": { "appliesTo": "cup fill gradient bottom stop" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.typography.brewing-title", "properties": { "appliesTo": "brewing-title" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "component.brewing-screen", "relation": "uses-token", "to": "token.typography.body", "properties": { "appliesTo": "parameters-text" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.logo", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.tagline", "relation": "uses-token", "to": "token.color.text-secondary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.card-title", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.card-description", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.parameter-value", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.parameter-label", "relation": "uses-token", "to": "token.color.text-secondary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.volume-badge", "relation": "uses-token", "to": "token.color.on-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.body", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.button", "relation": "uses-token", "to": "token.color.on-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.grind-hint", "relation": "uses-token", "to": "token.color.text-muted", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.overview-label", "relation": "uses-token", "to": "token.color.on-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.overview-value", "relation": "uses-token", "to": "token.color.on-primary", "properties": { "appliesTo": "foreground" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.brewing-title", "relation": "uses-token", "to": "token.color.text-primary", "properties": { "appliesTo": "foreground (inherited from CardTitleTextStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } },
+    { "from": "token.typography.arc-label", "relation": "uses-token", "to": "token.color.text-secondary", "properties": { "appliesTo": "foreground (inherited from ParameterLabelTextStyle)" }, "evidence": { "kind": "declared", "confidence": 1.0 } }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.selection-condition",
+      "question": "Should the ViewModel.HasSelection / SelectedEspresso condition be modeled as one screen-level 'selection made' state instead of (or in addition to) the three per-owner states (card-selected, brew-disabled, overview-hidden)?",
+      "relatedIds": ["state.caffe-main.card-selected", "state.caffe-main.brew-disabled", "state.caffe-main.overview-hidden", "screen.caffe-main"],
+      "reason": "One ViewModel condition drives three distinct presentation changes; per the attachment rule each was attached to the smallest changing node, but a single screen-level condition is also a defensible reading."
+    },
+    {
+      "id": "unresolved.particle-vs-text-primary",
+      "question": "CaffeParticleBrush (#1A1A1A) has the same value as CaffeTextPrimaryBrush — are they one semantic token?",
+      "relatedIds": ["token.color.particle", "token.color.text-primary"],
+      "possibleValues": ["one token", "two intentionally separate resources"],
+      "reason": "Kept separate because the source declares two distinct resource keys; values are identical."
+    },
+    {
+      "id": "unresolved.temperature-high-vs-accent-red",
+      "question": "CaffeTemperatureHighColor (#C1121F) has the same value as CaffeAccentRedBrush — are they one semantic token?",
+      "relatedIds": ["token.color.temperature-high", "token.color.accent-red"],
+      "possibleValues": ["one token", "two intentionally separate resources"],
+      "reason": "Kept separate because the source declares two distinct resource keys (Color vs SolidColorBrush); values are identical."
+    },
+    {
+      "id": "unresolved.gauge-corner-radius",
+      "question": "The three parameter cards use a responsive CornerRadius (Narrow=12, Wide=16) while the other cards use 14 — is this one radius rule with responsive scaling or two intentional rules?",
+      "relatedIds": ["token.radius.14", "component.temperature-gauge", "component.extraction-arc", "component.grind-selector"],
+      "reason": "Only the literal 14 recurs verbatim; the responsive 12/16 pair was left as component-level detail rather than tokenized."
+    },
+    {
+      "id": "unresolved.primary-hover-brush",
+      "question": "CaffePrimaryHoverBrush (#14352A) is declared in AppResources.xaml but no file in the modeled surface references it — is it dead, or consumed by an implicit style?",
+      "relatedIds": ["token.color.primary"],
+      "reason": "Excluded per token scope and variant-folding rules (hover shade of primary, no observed consumer)."
+    }
+  ],
+  "metadata": {
+    "generatedBy": "design-graph-kit SKILL.md v0.4 blind replication (run1)",
+    "targetFramework": "Uno Platform (WinUI XAML, Uno Toolkit)",
+    "notes": "Custom UserControls modeled at canonical-component altitude with internals as properties.parts; Uno Toolkit usage (utu:AutoLayout, utu:Responsive) recorded in region/screen properties; ColorPaletteOverride.xaml (Uno Themes palette) not enumerated per token scope rule since the modeled markup consumes only Caffe* resources."
+  }
+}

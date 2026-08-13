@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "0.1.0",
+  "graphId": "eval.ambiguous",
+  "name": "Ambiguous action",
+  "description": "Gold graph that intentionally avoids inventing navigation or commands.",
+  "sourceSummary": [
+    {
+      "type": "screenshot",
+      "label": "Synthetic fixture description"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen.profile",
+      "type": "screen",
+      "name": "Profile",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "region.profile.header",
+      "type": "region",
+      "name": "Profile header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "content.profile.name",
+      "type": "content",
+      "text": "Alex Morgan",
+      "semanticRole": "profileName",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "id": "control.profile.edit",
+      "type": "control",
+      "name": "Edit",
+      "role": "button",
+      "text": "Edit",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "screen.profile",
+      "relation": "contains",
+      "to": "region.profile.header",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "contains",
+      "to": "content.profile.name",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    },
+    {
+      "from": "region.profile.header",
+      "relation": "contains",
+      "to": "control.profile.edit",
+      "evidence": {
+        "kind": "observed",
+        "confidence": 1.0,
+        "source": {
+          "type": "screenshot",
+          "label": "fixture"
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "unresolved.profile.edit-intent",
+      "question": "What does Edit do?",
+      "relatedIds": [
+        "control.profile.edit"
+      ],
+      "possibleValues": [
+        "navigate to editor",
+        "enable inline edit",
+        "open modal",
+        "unknown"
+      ],
+      "reason": "The screenshot proves only that an Edit button is present; behavior is not visible."
+    }
+  ]
+}
