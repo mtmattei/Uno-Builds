@@ -1884,13 +1884,13 @@
         "appliesTo": "sectionGap"
       },
       "evidence": {
-        "kind": "declared",
+        "kind": "derived",
         "confidence": 1.0,
         "source": {
-          "type": "design-system",
-          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
         },
-        "rationale": "Declared style/brush consumption."
+        "rationale": "The surface uses a literal Spacing value equal to the declared token; it does not reference the resource."
       }
     },
     {
@@ -2530,13 +2530,13 @@
         "appliesTo": "textGap"
       },
       "evidence": {
-        "kind": "declared",
+        "kind": "derived",
         "confidence": 1.0,
         "source": {
-          "type": "design-system",
-          "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"
+          "type": "xaml",
+          "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"
         },
-        "rationale": "Declared style/brush consumption."
+        "rationale": "The surface uses a literal Spacing value equal to the declared token; it does not reference the resource."
       }
     },
     {
@@ -2694,6 +2694,16 @@
     }
   ],
   "unresolved": [
+    {
+      "id": "unresolved.routes.item-behavior",
+      "question": "What happens when a saved route row is tapped?",
+      "relatedIds": [
+        "component.route-item",
+        "component.route-item.home-work",
+        "component.route-item.downtown-loop"
+      ],
+      "reason": "Both rows show an E76C chevron implying disclosure, but they are plain Borders with no command, click handler, or gesture recognizer declared anywhere in the source set."
+    },
     {
       "id": "unresolved.header.back-target",
       "question": "Where does Back navigate?",

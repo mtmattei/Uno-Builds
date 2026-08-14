@@ -42,17 +42,7 @@ style it names. The check exists because a cross-model reviewer found a
 token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
 the 28 belonged to a different style, and every existence check passed it.
 
-**7 mismatch(es).**
-
-| Node | Style key | Field | Gold claims | Source declares |
-|---|---|---|---|---|
-| `token.typography.logo` | `LogoTextStyle` | family | **Cormorant Light** | **ms-appx:///Assets/Fonts/CormorantGaramond-Light.ttf#Cormorant Garamond** |
-| `token.typography.tagline` | `TaglineTextStyle` | family | **DM Sans Medium** | **ms-appx:///Assets/Fonts/DMSans-Medium.ttf#DM Sans** |
-| `token.typography.card-title` | `CardTitleTextStyle` | family | **Cormorant** | **ms-appx:///Assets/Fonts/CormorantGaramond-Regular.ttf#Cormorant Garamond** |
-| `token.typography.volume-badge` | `VolumeBadgeTextStyle` | family | **DM Sans Medium** | **ms-appx:///Assets/Fonts/DMSans-Medium.ttf#DM Sans** |
-| `token.typography.parameter-value` | `ParameterValueTextStyle` | family | **Cormorant** | **ms-appx:///Assets/Fonts/CormorantGaramond-Regular.ttf#Cormorant Garamond** |
-| `token.typography.parameter-label` | `ParameterLabelTextStyle` | family | **DM Sans Medium** | **ms-appx:///Assets/Fonts/DMSans-Medium.ttf#DM Sans** |
-| `token.typography.overview-value` | `OverviewValueTextStyle` | family | **DM Sans** | **ms-appx:///Assets/Fonts/CormorantGaramond-Regular.ttf#Cormorant Garamond** |
+**No mismatches.** Every token value matches the style it cites.
 
 ## Structural facts
 

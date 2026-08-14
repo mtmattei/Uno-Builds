@@ -2243,7 +2243,7 @@
       },
       "category": "typography",
       "value": {
-        "family": "MonoFontFamily",
+        "family": "JetBrains Mono",
         "size": 11,
         "weight": "Medium",
         "tracking": 180,

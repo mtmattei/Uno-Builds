@@ -811,8 +811,9 @@
       "name": "Logo type",
       "category": "typography",
       "value": {
-        "family": "Cormorant Light",
-        "size": 48
+        "family": "Cormorant Garamond",
+        "size": 48,
+        "weight": "Light"
       },
       "properties": {
         "uno": {
@@ -834,9 +835,10 @@
       "name": "Tagline type",
       "category": "typography",
       "value": {
-        "family": "DM Sans Medium",
+        "family": "DM Sans",
         "size": 11,
-        "tracking": 150
+        "weight": "Medium",
+        "letterSpacing": 150
       },
       "properties": {
         "uno": {
@@ -858,7 +860,7 @@
       "name": "Card title type",
       "category": "typography",
       "value": {
-        "family": "Cormorant",
+        "family": "Cormorant Garamond",
         "size": 22
       },
       "properties": {
@@ -904,8 +906,9 @@
       "name": "Volume badge type",
       "category": "typography",
       "value": {
-        "family": "DM Sans Medium",
-        "size": 11
+        "family": "DM Sans",
+        "size": 11,
+        "weight": "Medium"
       },
       "properties": {
         "uno": {
@@ -927,7 +930,7 @@
       "name": "Parameter value type",
       "category": "typography",
       "value": {
-        "family": "Cormorant",
+        "family": "Cormorant Garamond",
         "size": 26
       },
       "properties": {
@@ -950,9 +953,10 @@
       "name": "Parameter label type",
       "category": "typography",
       "value": {
-        "family": "DM Sans Medium",
+        "family": "DM Sans",
         "size": 10,
-        "tracking": 100
+        "weight": "Medium",
+        "letterSpacing": 100
       },
       "properties": {
         "uno": {
@@ -974,7 +978,8 @@
       "name": "Button type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "DM Sans",
+        "size": 15
       },
       "properties": {
         "uno": {
@@ -996,7 +1001,9 @@
       "name": "Grind hint type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "DM Sans",
+        "size": 11,
+        "style": "Italic"
       },
       "properties": {
         "uno": {
@@ -1018,7 +1025,9 @@
       "name": "Overview label type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "DM Sans",
+        "size": 10,
+        "letterSpacing": 100
       },
       "properties": {
         "uno": {
@@ -1040,7 +1049,8 @@
       "name": "Overview value type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "Cormorant Garamond",
+        "size": 18
       },
       "properties": {
         "uno": {
@@ -1062,7 +1072,8 @@
       "name": "Brewing title type",
       "category": "typography",
       "value": {
-        "family": "Cormorant"
+        "family": "Cormorant Garamond",
+        "size": 28
       },
       "properties": {
         "uno": {
@@ -1084,7 +1095,8 @@
       "name": "Body type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "DM Sans",
+        "size": 14
       },
       "properties": {
         "uno": {
@@ -1106,7 +1118,9 @@
       "name": "Arc label type",
       "category": "typography",
       "value": {
-        "family": "DM Sans"
+        "family": "DM Sans",
+        "size": 8,
+        "letterSpacing": 100
       },
       "properties": {
         "uno": {

@@ -69,11 +69,7 @@ style it names. The check exists because a cross-model reviewer found a
 token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
 the 28 belonged to a different style, and every existence check passed it.
 
-**1 mismatch(es).**
-
-| Node | Style key | Field | Gold claims | Source declares |
-|---|---|---|---|---|
-| `token.typography.mono-eyebrow` | `MonoEyebrow` | family | **MonoFontFamily** | **ms-appx:///Assets/Fonts/JetBrains_Mono/JetBrainsMono-VariableFont.ttf#JetBrains Mono, Cascadia Mono, Consolas, monospace** |
+**No mismatches.** Every token value matches the style it cites.
 
 ## Structural facts
 

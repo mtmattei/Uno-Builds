@@ -286,6 +286,12 @@ def check_token_values(graph: dict, styles: dict[str, dict[str, str]],
     for node in graph.get("nodes", []):
         if node.get("type") != "token":
             continue
+        # A `derived` token records a value the surface produces, not one the
+        # style declares - e.g. a helper caption that applies FluxBody and then
+        # overrides FontSize to 12. Demanding it match the style it names would
+        # flag the very override it exists to record.
+        if (node.get("evidence") or {}).get("kind") == "derived":
+            continue
         uno = ((node.get("properties") or {}).get("uno")) or {}
         key = uno.get("styleKey") or uno.get("resourceKey") or uno.get("fontResourceKey")
         if not key or key not in styles:
@@ -301,9 +307,11 @@ def check_token_values(graph: dict, styles: dict[str, dict[str, str]],
             actual = resolve_value(declared[prop], resources or {})
             c, a = str(claimed).strip().lower(), str(actual).strip().lower()
             # Compare loosely: "20" vs 20, "SemiBold" vs "semibold". A resolved
-            # font resource ends in "...ttf#JetBrains Mono", so a claimed family
-            # is a match when the resolved value ends with it.
-            if c == a or a.endswith("#" + c) or c in a.split("#")[-1:]:
+            # font resource looks like "...ttf#JetBrains Mono", and may carry a
+            # fallback stack: "...ttf#JetBrains Mono, Cascadia Mono, monospace".
+            # The claimed family matches the primary entry after the '#'.
+            primary = a.split("#")[-1].split(",")[0].strip() if "#" in a else a
+            if c == a or c == primary:
                 continue
             if True:
                 findings.append({

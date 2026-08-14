@@ -779,7 +779,7 @@ TOKENS_TYPO = [
      "ms-appx:///Assets/Fonts/Inter/InterVariable-Italic.ttf#Inter, Bahnschrift, Segoe UI, sans-serif",
      {"resourceKey": "SerifLightItalicFontFamily", "resourceType": "FontFamily"}),
     ("token.typography.mono-eyebrow", "Mono eyebrow style", "typography",
-     {"family": "MonoFontFamily", "size": 11, "weight": "Medium", "tracking": 180,
+     {"family": "JetBrains Mono", "size": 11, "weight": "Medium", "tracking": 180,
       "lineHeight": 13, "foreground": "Ink3Brush", "numerals": "Tabular"},
      {"styleKey": "MonoEyebrow", "resourceType": "Style(TextBlock)"}),
     ("token.font-size.eyebrow-micro", "Eyebrow micro size", "typography", 10,

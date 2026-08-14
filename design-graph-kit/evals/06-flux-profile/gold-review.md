@@ -1,6 +1,6 @@
 # Gold review — `06-flux-profile`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\06-flux-profile\gold.graph.json` (61 nodes / 91 edges / 4 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\06-flux-profile\gold.graph.json` (61 nodes / 91 edges / 5 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -40,11 +40,7 @@ style it names. The check exists because a cross-model reviewer found a
 token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
 the 28 belonged to a different style, and every existence check passed it.
 
-**1 mismatch(es).**
-
-| Node | Style key | Field | Gold claims | Source declares |
-|---|---|---|---|---|
-| `token.typography.helper` | `FluxBody` | size | **12** | **14** |
+**No mismatches.** Every token value matches the style it cites.
 
 ## Structural facts
 
@@ -202,7 +198,7 @@ the ones a graph must never invent. They are listed first.
 | **contains** | `state.opus.refreshing` | `control.opus.progress` | observed | | |
 | **contains** | `state.opus.refreshing` | `content.opus.updating-label` | observed | | |
 | **uses-token** | `screen.profile` | `token.color.background` | declared | | |
-| **uses-token** | `screen.profile` | `token.spacing.24` | declared | | |
+| **uses-token** | `screen.profile` | `token.spacing.24` | derived | | |
 | **uses-token** | `component.card` | `token.color.glass-panel` | declared | | |
 | **uses-token** | `component.card` | `token.color.border-subtle` | declared | | |
 | **uses-token** | `component.card` | `token.radius.24` | declared | | |
@@ -240,7 +236,7 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `content.settings.alerts-helper` | `token.color.text-secondary` | declared | | |
 | **uses-token** | `component.route-item` | `token.typography.body-bold` | declared | | |
 | **uses-token** | `component.route-item` | `token.typography.body` | declared | | |
-| **uses-token** | `component.route-item` | `token.spacing.4` | declared | | |
+| **uses-token** | `component.route-item` | `token.spacing.4` | derived | | |
 | **uses-token** | `control.routes.add` | `token.color.border-light` | declared | | |
 | **uses-token** | `control.routes.add` | `token.color.text-primary` | declared | | |
 | **uses-token** | `content.settings.api-label` | `token.typography.body` | declared | | |
@@ -255,6 +251,7 @@ the ones a graph must never invent. They are listed first.
 
 | Question | Related ids | Genuinely undecidable? | Note |
 |---|---|---|---|
+| What happens when a saved route row is tapped? | `component.route-item`, `component.route-item.home-work`, `component.route-item.downtown-loop` | | |
 | Where does Back navigate? | `control.header.back` | | |
 | What does Add New Route do? | `control.routes.add` | | |
 | What invokes the declared SaveSettings command? | `screen.profile` | | |

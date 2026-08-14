@@ -368,10 +368,37 @@ UT = [
         ("content.footer.version", "token.typography.body", "font"),
     ("content.footer.credit", "token.typography.body", "font"),
 ]
+# Cross-model review F8/F9: two of these consume a literal that merely EQUALS
+# the declared token - the page writes Spacing="24" and Spacing="4" rather than
+# referencing FluxSpacingL / FluxSpacingXS. Equality to a declared value is
+# derived evidence, not declared, and calling it declared overstates the link
+# between the surface and the design system.
+_DERIVED_LITERAL = {
+    ("screen.profile", "token.spacing.24"),
+    ("component.route-item", "token.spacing.4"),
+}
 for frm, to, applies in UT:
-    edges.append(edge(frm, "uses-token", to, E_DS("Declared style/brush consumption."), appliesTo=applies))
+    if (frm, to) in _DERIVED_LITERAL:
+        e = ev("derived", 1.0, XAML,
+               "The surface uses a literal Spacing value equal to the declared token; "
+               "it does not reference the resource.")
+    else:
+        e = E_DS("Declared style/brush consumption.")
+    edges.append(edge(frm, "uses-token", to, e, appliesTo=applies))
 
 unresolved = [
+    {
+        # Cross-model review F7: the gold recorded uncertainty for the adjacent
+        # Add button but not for the rows, though both advertise interaction
+        # and neither declares any. Treating identical evidence differently in
+        # one graph is the inconsistency worth fixing.
+        "id": "unresolved.routes.item-behavior",
+        "question": "What happens when a saved route row is tapped?",
+        "relatedIds": ["component.route-item", "component.route-item.home-work",
+                       "component.route-item.downtown-loop"],
+        "reason": "Both rows show an E76C chevron implying disclosure, but they are plain Borders with "
+                  "no command, click handler, or gesture recognizer declared anywhere in the source set.",
+    },
     {
         "id": "unresolved.header.back-target",
         "question": "Where does Back navigate?",
