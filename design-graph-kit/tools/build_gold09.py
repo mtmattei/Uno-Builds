@@ -419,7 +419,7 @@ node("component.info-row", "component", "Fact row",
                  "parts": ["label", "value"],
                  "instanceCount": 4})
 
-node("control.canvas.slot", "control", "Layer canvas slot",
+node("region.canvas.slot", "region", "Layer canvas slot",
      ev("declared", CANVAS_CS,
         "ContentControl x:Name=CanvasSlot, MinHeight=480, stretched. SyncSlot() reads the active "
         "LayerKind and assigns the matching per-layer UserControl via CreateCanvas, passing the "
@@ -729,6 +729,11 @@ node("state.file-row.drafted", "state", "File drafted",
      properties={"uno": {"mechanism": "binding", "member": "FileStatuses[kind]"},
                  "badge": "DRAFTED", "opacity": 1.0})
 
+node("state.locked-card.expanded", "state", "Expanded",
+     ev("declared", LOCKED_CS,
+        "IsExpanded defaults to true; ApplyExpansion defines the expanded presentation explicitly."),
+     properties={"when": "IsExpanded == true",
+                 "uno": {"mechanism": "code-behind", "member": "IsExpanded"}})
 node("state.locked-card.collapsed", "state", "Card collapsed",
      ev("declared", LOCKED_CS,
         "ApplyExpansion hides the summary, divider and facts grid and flips the toggle glyph to +. "
@@ -828,7 +833,7 @@ contains("component.files-rail", "content.files.locked-summary", FILES)
 
 contains("component.active-canvas", "region.canvas.column", CANVAS)
 for child in ("component.progress-indicator", "component.app-title-row", "component.active-layer-header",
-              "region.canvas.locked-stack", "control.canvas.slot", "component.composer-footer",
+              "region.canvas.locked-stack", "region.canvas.slot", "component.composer-footer",
               "region.canvas.future-stack"):
     contains("region.canvas.column", child, CANVAS)
 
@@ -891,9 +896,9 @@ node("control.locked-card.revisit", "control", "Revisit",
                          "member": "MvuxCommandInvoker.Invoke(dc, \"Revisit\", LayerKind)"}})
 
 # ---------------------------------------------------------------- states wiring
-edge("screen.composer-shell", "has-state", "state.composer-shell.rails-hidden",
+edge("region.composer-shell.workspace", "has-state", "state.composer-shell.rails-hidden",
      ev("declared", SHELL_CS, "Initial presentation - the rails start at zero width."))
-edge("screen.composer-shell", "has-state", "state.composer-shell.rails-open",
+edge("region.composer-shell.workspace", "has-state", "state.composer-shell.rails-open",
      ev("declared", SHELL_CS))
 edge("component.active-canvas", "has-state", "state.active-canvas.focused-first",
      ev("declared", CANVAS_CS))
@@ -922,7 +927,7 @@ edge("component.locked-context-card", "has-state", "state.locked-card.collapsed"
 # the hosted canvas and (conditionally) opens the rails. Recording only the
 # rails effect was the omission the rule exists to prevent - and it overstated
 # the rails effect, since jumping to index 0 does not open them.
-edge("component.layer-row", "triggers", "control.canvas.slot",
+edge("component.layer-row", "triggers", "region.canvas.slot",
      ev("declared", STACK_CS,
         "OnLayerRowClick invokes Jump(row.Index), changing ActiveIndex; SyncSlot() then replaces "
         "CanvasSlot.Content with the selected layer's canvas."))
@@ -949,7 +954,7 @@ edge("control.footer.primary", "triggers", "state.composer-footer.previewing",
         "the layer to Previewing."))
 # Multi-effect rule: both lock paths also advance ActiveIndex, so the primary
 # action swaps the hosted canvas and, on the first lock, opens the rails.
-edge("control.footer.primary", "triggers", "control.canvas.slot",
+edge("control.footer.primary", "triggers", "region.canvas.slot",
      ev("declared", MODEL,
         "Both lock paths advance ActiveIndex, and SyncSlot() replaces CanvasSlot.Content with the "
         "newly active layer's canvas."))
@@ -969,6 +974,16 @@ edge("control.footer.discard-edits", "triggers", "state.composer-footer.clean",
      ev("declared", MODEL, "DiscardEdits restores the pre-edit snapshot, clears the prompt and sets the layer Clean."))
 edge("control.footer.discard-preview", "triggers", "state.composer-footer.clean",
      ev("declared", MODEL, "DiscardPreview restores the snapshot, clears the prompt and sets the layer Clean."))
+edge("component.locked-context-card", "has-state", "state.locked-card.expanded",
+     ev("declared", LOCKED_CS, "ApplyExpansion renders the expanded presentation when IsExpanded is true."))
+edge("control.locked-card.revisit", "triggers", "region.canvas.slot",
+     ev("declared", MODEL,
+        "Revisit sets ActiveIndex to the locked layer's index; SyncSlot() then swaps CanvasSlot.Content."))
+edge("control.locked-card.revisit", "triggers", "state.composer-footer.clean",
+     ev("declared", MODEL,
+        "Revisit resets the selected locked layer to Clean, returning the footer to its clean presentation."))
+edge("control.locked-card.expand-toggle", "triggers", "state.locked-card.expanded",
+     ev("declared", LOCKED_CS, "The toggle inverts IsExpanded in both directions; this is the true branch."))
 edge("control.locked-card.expand-toggle", "triggers", "state.locked-card.collapsed",
      ev("declared", LOCKED_CS, "OnExpandToggleClick inverts IsExpanded, which drives ApplyExpansion."))
 
@@ -1154,7 +1169,7 @@ graph = {
         {
             "id": "unresolved.canvas-slot-navigation",
             "question": "Will the center column become a navigation region, and does that change the graph's shape?",
-            "relatedIds": ["control.canvas.slot", "component.active-canvas", "screen.composer-shell"],
+            "relatedIds": ["region.canvas.slot", "component.active-canvas", "screen.composer-shell"],
             "reason": "Shell.xaml and ActiveCanvas.xaml.cs both state that the center column is intended to be a "
                       "uen:Region.Attached navigation surface and that the per-layer Pages plus RouteMap remain "
                       "registered as scaffolding; the M3b attempt was reverted because pages did not mount inside "

@@ -930,8 +930,8 @@
       }
     },
     {
-      "id": "control.canvas.slot",
-      "type": "control",
+      "id": "region.canvas.slot",
+      "type": "region",
       "name": "Layer canvas slot",
       "evidence": {
         "kind": "declared",
@@ -1832,6 +1832,27 @@
       }
     },
     {
+      "id": "state.locked-card.expanded",
+      "type": "state",
+      "name": "Expanded",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs"
+        },
+        "rationale": "IsExpanded defaults to true; ApplyExpansion defines the expanded presentation explicitly."
+      },
+      "properties": {
+        "when": "IsExpanded == true",
+        "uno": {
+          "mechanism": "code-behind",
+          "member": "IsExpanded"
+        }
+      }
+    },
+    {
       "id": "state.locked-card.collapsed",
       "type": "state",
       "name": "Card collapsed",
@@ -2697,7 +2718,7 @@
     {
       "from": "region.canvas.column",
       "relation": "contains",
-      "to": "control.canvas.slot",
+      "to": "region.canvas.slot",
       "evidence": {
         "kind": "observed",
         "confidence": 1.0,
@@ -3128,7 +3149,7 @@
       }
     },
     {
-      "from": "screen.composer-shell",
+      "from": "region.composer-shell.workspace",
       "relation": "has-state",
       "to": "state.composer-shell.rails-hidden",
       "evidence": {
@@ -3142,7 +3163,7 @@
       }
     },
     {
-      "from": "screen.composer-shell",
+      "from": "region.composer-shell.workspace",
       "relation": "has-state",
       "to": "state.composer-shell.rails-open",
       "evidence": {
@@ -3391,7 +3412,7 @@
     {
       "from": "component.layer-row",
       "relation": "triggers",
-      "to": "control.canvas.slot",
+      "to": "region.canvas.slot",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -3461,7 +3482,7 @@
     {
       "from": "control.footer.primary",
       "relation": "triggers",
-      "to": "control.canvas.slot",
+      "to": "region.canvas.slot",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -3540,6 +3561,62 @@
           "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
         },
         "rationale": "DiscardPreview restores the snapshot, clears the prompt and sets the layer Clean."
+      }
+    },
+    {
+      "from": "component.locked-context-card",
+      "relation": "has-state",
+      "to": "state.locked-card.expanded",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs"
+        },
+        "rationale": "ApplyExpansion renders the expanded presentation when IsExpanded is true."
+      }
+    },
+    {
+      "from": "control.locked-card.revisit",
+      "relation": "triggers",
+      "to": "region.canvas.slot",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
+        },
+        "rationale": "Revisit sets ActiveIndex to the locked layer's index; SyncSlot() then swaps CanvasSlot.Content."
+      }
+    },
+    {
+      "from": "control.locked-card.revisit",
+      "relation": "triggers",
+      "to": "state.composer-footer.clean",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Models/ComposerModel.cs"
+        },
+        "rationale": "Revisit resets the selected locked layer to Clean, returning the footer to its clean presentation."
+      }
+    },
+    {
+      "from": "control.locked-card.expand-toggle",
+      "relation": "triggers",
+      "to": "state.locked-card.expanded",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs"
+        },
+        "rationale": "The toggle inverts IsExpanded in both directions; this is the true branch."
       }
     },
     {
@@ -5232,7 +5309,7 @@
       "id": "unresolved.canvas-slot-navigation",
       "question": "Will the center column become a navigation region, and does that change the graph's shape?",
       "relatedIds": [
-        "control.canvas.slot",
+        "region.canvas.slot",
         "component.active-canvas",
         "screen.composer-shell"
       ],

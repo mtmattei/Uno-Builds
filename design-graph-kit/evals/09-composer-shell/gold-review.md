@@ -1,6 +1,6 @@
 # Gold review — `09-composer-shell`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (98 nodes / 188 edges / 5 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (99 nodes / 192 edges / 5 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -37,7 +37,7 @@
 | `Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml` | yes | 2 |
 | `Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml.cs` | yes | 2 |
 | `Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml` | yes | 4 |
-| `Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs` | yes | 4 |
+| `Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml.cs` | yes | 5 |
 | `Composer/src/Composer/Composer/Views/Controls/ProgressIndicator.xaml` | yes | 2 |
 | `Composer/src/Composer/Composer/Views/Controls/ProgressIndicator.xaml.cs` | yes | 2 |
 
@@ -83,11 +83,11 @@ these are correct, and that call belongs to the reviewer.
 | Node type | In gold |
 |---|---|
 | `token` | 24 |
+| `state` | 21 |
 | `content` | 20 |
-| `state` | 20 |
 | `component` | 13 |
-| `control` | 10 |
-| `region` | 8 |
+| `region` | 9 |
+| `control` | 9 |
 | `asset` | 2 |
 | `screen` | 1 |
 
@@ -95,8 +95,8 @@ these are correct, and that call belongs to the reviewer.
 |---|---|
 | `uses-token` | 103 |
 | `contains` | 53 |
-| `has-state` | 20 |
-| `triggers` | 12 |
+| `has-state` | 21 |
+| `triggers` | 15 |
 
 The cited XAML declares **26** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 21 file(s).
 Compare against the `region` count above when judging check 6.
@@ -150,7 +150,7 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `content.locked-card.header` | content | Locked card header | observed | 1.0 | type=TextBlock, xName=HeaderLabelRun | | |
 | `content.locked-card.summary` | content | Locked card summary | declared | 1.0 | type=TextBlock, xName=SummaryText, fontResourceKey=SerifLightItalicFontFamily, member=Summary | | |
 | `component.info-row` | component | Fact row | declared | 1.0 | type=TextBlock, member=IList<KeyValuePair<string,string>> Facts | | |
-| `control.canvas.slot` | control | Layer canvas slot | declared | 1.0 | type=ContentControl, xName=CanvasSlot, member=ActiveIndex -> Layers.All[i].Kind -> CreateCanvas(kind) | | |
+| `region.canvas.slot` | region | Layer canvas slot | declared | 1.0 | type=ContentControl, xName=CanvasSlot, member=ActiveIndex -> Layers.All[i].Kind -> CreateCanvas(kind) | | |
 | `component.composer-footer` | component | Composer footer | declared | 1.0 | type=UserControl, class=Composer.Views.Controls.ComposerFooter, xName=FooterRegion, member=State (LayerState), Prompt (string) | | |
 | `content.footer.eyebrow` | content | Composer status eyebrow | declared | 1.0 | type=TextBlock, xName=EyebrowText, styleKey=MonoEyebrow, member=ComposerStatus.ForLayerState | | |
 | `content.footer.lead-question` | content | Lead question | declared | 1.0 | type=TextBlock, xName=LeadQuestionText, member=ActiveLeadQuestion | | |
@@ -189,6 +189,7 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `state.file-row.planned` | state | File planned | declared | 1.0 | mechanism=binding, member=FileStatuses[kind] | | |
 | `state.file-row.writing` | state | File writing | declared | 1.0 | mechanism=binding, member=FileStatuses[kind] | | |
 | `state.file-row.drafted` | state | File drafted | declared | 1.0 | mechanism=binding, member=FileStatuses[kind] | | |
+| `state.locked-card.expanded` | state | Expanded | declared | 1.0 | mechanism=code-behind, member=IsExpanded | | |
 | `state.locked-card.collapsed` | state | Card collapsed | declared | 1.0 | mechanism=dependency-property, member=LockedContextCard.IsExpanded | | |
 | `token.color.glass-backdrop` | token | Glass backdrop (page background) | declared | 1.0 | resourceKey=GlassBackdropBrush, resourceType=LinearGradientBrush | | |
 | `token.color.paper` | token | Paper (on-ink foreground) | declared | 1.0 | resourceKey=PaperBrush, resourceType=SolidColorBrush | | |
@@ -224,17 +225,20 @@ the ones a graph must never invent. They are listed first.
 
 | Relation | From | To | Evidence | Verdict | Note |
 |---|---|---|---|---|---|
-| **triggers** | `component.layer-row` | `control.canvas.slot` | declared | | |
+| **triggers** | `component.layer-row` | `region.canvas.slot` | declared | | |
 | **triggers** | `component.layer-row` | `state.composer-shell.rails-open` | declared | | |
 | **triggers** | `control.footer.prompt-input` | `state.composer-footer.dirty` | declared | | |
 | **triggers** | `component.suggestion-chip` | `state.composer-footer.dirty` | declared | | |
 | **triggers** | `control.footer.primary` | `state.composer-footer.previewing` | declared | | |
-| **triggers** | `control.footer.primary` | `control.canvas.slot` | declared | | |
+| **triggers** | `control.footer.primary` | `region.canvas.slot` | declared | | |
 | **triggers** | `control.footer.primary` | `state.composer-shell.rails-open` | declared | | |
 | **triggers** | `control.footer.primary` | `state.layer-row.locked` | declared | | |
 | **triggers** | `control.footer.primary` | `state.file-row.drafted` | declared | | |
 | **triggers** | `control.footer.discard-edits` | `state.composer-footer.clean` | declared | | |
 | **triggers** | `control.footer.discard-preview` | `state.composer-footer.clean` | declared | | |
+| **triggers** | `control.locked-card.revisit` | `region.canvas.slot` | declared | | |
+| **triggers** | `control.locked-card.revisit` | `state.composer-footer.clean` | declared | | |
+| **triggers** | `control.locked-card.expand-toggle` | `state.locked-card.expanded` | declared | | |
 | **triggers** | `control.locked-card.expand-toggle` | `state.locked-card.collapsed` | declared | | |
 | **contains** | `screen.composer-shell` | `region.composer-shell.workspace` | observed | | |
 | **contains** | `region.composer-shell.workspace` | `region.composer-shell.left-rail` | observed | | |
@@ -256,7 +260,7 @@ the ones a graph must never invent. They are listed first.
 | **contains** | `region.canvas.column` | `component.app-title-row` | observed | | |
 | **contains** | `region.canvas.column` | `component.active-layer-header` | observed | | |
 | **contains** | `region.canvas.column` | `region.canvas.locked-stack` | observed | | |
-| **contains** | `region.canvas.column` | `control.canvas.slot` | observed | | |
+| **contains** | `region.canvas.column` | `region.canvas.slot` | observed | | |
 | **contains** | `region.canvas.column` | `component.composer-footer` | observed | | |
 | **contains** | `region.canvas.column` | `region.canvas.future-stack` | observed | | |
 | **contains** | `component.progress-indicator` | `asset.progress.track` | observed | | |
@@ -289,8 +293,8 @@ the ones a graph must never invent. They are listed first.
 | **contains** | `component.future-preview-card` | `asset.future-card.outline` | observed | | |
 | **contains** | `component.future-preview-card` | `content.future-card.header` | observed | | |
 | **contains** | `component.future-preview-card` | `content.future-card.hint` | observed | | |
-| **has-state** | `screen.composer-shell` | `state.composer-shell.rails-hidden` | declared | | |
-| **has-state** | `screen.composer-shell` | `state.composer-shell.rails-open` | declared | | |
+| **has-state** | `region.composer-shell.workspace` | `state.composer-shell.rails-hidden` | declared | | |
+| **has-state** | `region.composer-shell.workspace` | `state.composer-shell.rails-open` | declared | | |
 | **has-state** | `component.active-canvas` | `state.active-canvas.focused-first` | declared | | |
 | **has-state** | `component.active-canvas` | `state.active-canvas.rails-open` | declared | | |
 | **has-state** | `region.canvas.future-stack` | `state.future-stack.empty` | declared | | |
@@ -309,6 +313,7 @@ the ones a graph must never invent. They are listed first.
 | **has-state** | `component.file-row` | `state.file-row.writing` | declared | | |
 | **has-state** | `component.file-row` | `state.file-row.drafted` | declared | | |
 | **has-state** | `component.locked-context-card` | `state.locked-card.collapsed` | declared | | |
+| **has-state** | `component.locked-context-card` | `state.locked-card.expanded` | declared | | |
 | **uses-token** | `screen.composer-shell` | `token.color.glass-backdrop` | declared | | |
 | **uses-token** | `component.composition-stack` | `token.color.paper2` | declared | | |
 | **uses-token** | `component.composition-stack` | `token.color.hairline` | declared | | |
@@ -419,7 +424,7 @@ the ones a graph must never invent. They are listed first.
 |---|---|---|---|
 | Is CompositionStack's ItemsSource="{Binding Layers}" live, or vestigial? | `control.stack.layer-rows`, `component.layer-row` | | |
 | Are CompositionStack and FilesRail two controls or one panel component with two variants? | `component.composition-stack`, `component.files-rail` | | |
-| Will the center column become a navigation region, and does that change the graph's shape? | `control.canvas.slot`, `component.active-canvas`, `screen.composer-shell` | | |
+| Will the center column become a navigation region, and does that change the graph's shape? | `region.canvas.slot`, `component.active-canvas`, `screen.composer-shell` | | |
 | Are the collapsed title row and header title/subtitle removed for good? | `component.app-title-row`, `component.active-layer-header`, `content.title-row.project-name`, `control.title-row.reset` | | |
 | Is the duplicated README.md row in the files rail intentional? | `component.file-row`, `control.files.file-rows`, `content.files.locked-summary` | | |
 
