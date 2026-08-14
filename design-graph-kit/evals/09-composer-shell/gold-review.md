@@ -1,6 +1,6 @@
 # Gold review — `09-composer-shell`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (99 nodes / 192 edges / 5 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\09-composer-shell\gold.graph.json` (99 nodes / 182 edges / 5 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -89,7 +89,7 @@ these are correct, and that call belongs to the reviewer.
 
 | Relation | In gold |
 |---|---|
-| `uses-token` | 103 |
+| `uses-token` | 93 |
 | `contains` | 53 |
 | `has-state` | 21 |
 | `triggers` | 15 |
@@ -317,17 +317,16 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `component.files-rail` | `token.color.paper2` | declared | | |
 | **uses-token** | `component.files-rail` | `token.color.hairline` | declared | | |
 | **uses-token** | `component.files-rail` | `token.spacing.14` | declared | | |
-| **uses-token** | `content.stack.eyebrow` | `token.typography.mono-eyebrow` | declared | | |
-| **uses-token** | `content.files.eyebrow` | `token.typography.mono-eyebrow` | declared | | |
-| **uses-token** | `content.stack.caption` | `token.typography.serif-light-italic` | declared | | |
-| **uses-token** | `content.stack.caption` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.stack.caption` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.files.caption` | `token.typography.serif-light-italic` | declared | | |
-| **uses-token** | `content.files.caption` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.files.caption` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.files.locked-summary` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.files.locked-summary` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.files.locked-summary` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.composition-stack` | `token.typography.mono-eyebrow` | declared | | |
+| **uses-token** | `component.files-rail` | `token.typography.mono-eyebrow` | declared | | |
+| **uses-token** | `component.composition-stack` | `token.typography.serif-light-italic` | declared | | |
+| **uses-token** | `component.composition-stack` | `token.font-size.body-small` | declared | | |
+| **uses-token** | `component.composition-stack` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.files-rail` | `token.typography.serif-light-italic` | declared | | |
+| **uses-token** | `component.files-rail` | `token.font-size.body-small` | declared | | |
+| **uses-token** | `component.files-rail` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.files-rail` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.files-rail` | `token.font-size.eyebrow` | declared | | |
 | **uses-token** | `component.layer-row` | `token.typography.mono` | declared | | |
 | **uses-token** | `component.layer-row` | `token.typography.serif-light-italic` | declared | | |
 | **uses-token** | `component.layer-row` | `token.font-size.eyebrow` | declared | | |
@@ -343,76 +342,67 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `state.file-row.planned` | `token.color.ink4` | declared | | |
 | **uses-token** | `state.file-row.writing` | `token.color.indigo` | declared | | |
 | **uses-token** | `state.file-row.drafted` | `token.color.amber` | declared | | |
-| **uses-token** | `asset.progress.track` | `token.color.hairline` | declared | | |
-| **uses-token** | `asset.progress.track` | `token.color.amber` | declared | | |
-| **uses-token** | `content.progress.label` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.progress.label` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.progress.label` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.progress.counter` | `token.color.ink4` | declared | | |
-| **uses-token** | `content.title-row.project-name` | `token.typography.sans` | declared | | |
-| **uses-token** | `content.title-row.project-name` | `token.color.ink` | declared | | |
-| **uses-token** | `content.header.recap` | `token.typography.serif-light-italic` | declared | | |
-| **uses-token** | `content.header.recap` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.header.recap` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.header.recap` | `token.color.ink4` | declared | | |
-| **uses-token** | `content.header.state-badge` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.header.state-badge` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.header.state-badge` | `token.color.amber` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.color.hairline` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.color.amber` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.font-size.eyebrow` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.progress-indicator` | `token.color.ink4` | declared | | |
+| **uses-token** | `component.app-title-row` | `token.typography.sans` | declared | | |
+| **uses-token** | `component.app-title-row` | `token.color.ink` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.typography.serif-light-italic` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.font-size.body-small` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.color.ink4` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.font-size.eyebrow` | declared | | |
+| **uses-token** | `component.active-layer-header` | `token.color.amber` | declared | | |
 | **uses-token** | `component.composer-footer` | `token.color.paper2` | declared | | |
 | **uses-token** | `component.composer-footer` | `token.color.hairline` | declared | | |
 | **uses-token** | `component.composer-footer` | `token.spacing.14` | declared | | |
-| **uses-token** | `content.footer.eyebrow` | `token.typography.mono-eyebrow` | declared | | |
-| **uses-token** | `content.footer.lead-question` | `token.typography.sans` | declared | | |
-| **uses-token** | `content.footer.lead-question` | `token.font-size.body` | declared | | |
-| **uses-token** | `content.footer.lead-question` | `token.color.ink2` | declared | | |
-| **uses-token** | `content.footer.ack` | `token.typography.serif-italic` | declared | | |
-| **uses-token** | `content.footer.ack` | `token.color.ink2` | declared | | |
-| **uses-token** | `content.footer.ack` | `token.color.amber` | declared | | |
-| **uses-token** | `control.footer.prompt-input` | `token.typography.serif` | declared | | |
-| **uses-token** | `control.footer.prompt-input` | `token.font-size.body` | declared | | |
-| **uses-token** | `control.footer.prompt-input` | `token.color.ink` | declared | | |
-| **uses-token** | `control.footer.prompt-input` | `token.color.ink4` | declared | | |
-| **uses-token** | `content.footer.try-label` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.footer.try-label` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.footer.try-label` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.mono-eyebrow` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.sans` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.font-size.body` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.ink2` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.serif-italic` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.amber` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.serif` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.ink` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.ink4` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.font-size.eyebrow` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.ink3` | declared | | |
 | **uses-token** | `component.suggestion-chip` | `token.typography.mono` | declared | | |
 | **uses-token** | `component.suggestion-chip` | `token.color.transparent` | declared | | |
 | **uses-token** | `component.suggestion-chip` | `token.color.hairline` | declared | | |
 | **uses-token** | `component.suggestion-chip` | `token.color.ink2` | declared | | |
 | **uses-token** | `component.suggestion-chip` | `token.radius.4` | declared | | |
-| **uses-token** | `content.footer.kbd-hint` | `token.font-size.eyebrow-micro` | declared | | |
-| **uses-token** | `content.footer.kbd-hint` | `token.color.ink4` | declared | | |
-| **uses-token** | `control.footer.primary` | `token.color.ink` | declared | | |
-| **uses-token** | `control.footer.primary` | `token.color.paper` | declared | | |
-| **uses-token** | `control.footer.primary` | `token.typography.mono` | declared | | |
-| **uses-token** | `control.footer.primary` | `token.font-size.eyebrow-micro` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.font-size.eyebrow-micro` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.color.paper` | declared | | |
 | **uses-token** | `state.composer-footer.dirty` | `token.color.amber` | declared | | |
-| **uses-token** | `content.footer.primary-hint` | `token.typography.serif-light-italic` | declared | | |
-| **uses-token** | `content.footer.primary-hint` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.footer.primary-hint` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.typography.serif-light-italic` | declared | | |
+| **uses-token** | `component.composer-footer` | `token.font-size.body-small` | declared | | |
 | **uses-token** | `component.locked-context-card` | `token.color.paper2` | declared | | |
 | **uses-token** | `component.locked-context-card` | `token.color.hairline` | declared | | |
 | **uses-token** | `component.locked-context-card` | `token.radius.4` | declared | | |
-| **uses-token** | `content.locked-card.header` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.locked-card.header` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.locked-card.header` | `token.color.ink` | declared | | |
-| **uses-token** | `content.locked-card.header` | `token.color.ink2` | declared | | |
-| **uses-token** | `content.locked-card.header` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.locked-card.summary` | `token.typography.serif-light-italic` | declared | | |
-| **uses-token** | `content.locked-card.summary` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.locked-card.summary` | `token.color.ink` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.font-size.eyebrow` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.color.ink` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.color.ink2` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.typography.serif-light-italic` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.font-size.body-small` | declared | | |
 | **uses-token** | `component.info-row` | `token.typography.mono` | declared | | |
 | **uses-token** | `component.info-row` | `token.color.ink3` | declared | | |
 | **uses-token** | `component.info-row` | `token.color.ink` | declared | | |
-| **uses-token** | `control.locked-card.expand-toggle` | `token.color.ink4` | declared | | |
-| **uses-token** | `asset.future-card.outline` | `token.color.hairline` | declared | | |
-| **uses-token** | `asset.future-card.outline` | `token.radius.4` | declared | | |
-| **uses-token** | `content.future-card.header` | `token.typography.mono` | declared | | |
-| **uses-token** | `content.future-card.header` | `token.font-size.eyebrow` | declared | | |
-| **uses-token** | `content.future-card.header` | `token.color.ink3` | declared | | |
-| **uses-token** | `content.future-card.hint` | `token.typography.serif-italic` | declared | | |
-| **uses-token** | `content.future-card.hint` | `token.font-size.body-small` | declared | | |
-| **uses-token** | `content.future-card.hint` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.locked-context-card` | `token.color.ink4` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.color.hairline` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.radius.4` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.typography.mono` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.font-size.eyebrow` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.color.ink3` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.typography.serif-italic` | declared | | |
+| **uses-token** | `component.future-preview-card` | `token.font-size.body-small` | declared | | |
 
 ## Unresolved items
 

@@ -3746,11 +3746,11 @@
       }
     },
     {
-      "from": "content.stack.eyebrow",
+      "from": "component.composition-stack",
       "relation": "uses-token",
       "to": "token.typography.mono-eyebrow",
       "properties": {
-        "appliesTo": "textStyle"
+        "appliesTo": "eyebrow.textStyle"
       },
       "evidence": {
         "kind": "declared",
@@ -3762,11 +3762,11 @@
       }
     },
     {
-      "from": "content.files.eyebrow",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.typography.mono-eyebrow",
       "properties": {
-        "appliesTo": "textStyle"
+        "appliesTo": "eyebrow.textStyle"
       },
       "evidence": {
         "kind": "declared",
@@ -3778,11 +3778,11 @@
       }
     },
     {
-      "from": "content.stack.caption",
+      "from": "component.composition-stack",
       "relation": "uses-token",
       "to": "token.typography.serif-light-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "caption.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -3794,11 +3794,11 @@
       }
     },
     {
-      "from": "content.stack.caption",
+      "from": "component.composition-stack",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "caption.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -3810,11 +3810,11 @@
       }
     },
     {
-      "from": "content.stack.caption",
+      "from": "component.composition-stack",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "caption.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -3826,11 +3826,11 @@
       }
     },
     {
-      "from": "content.files.caption",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.typography.serif-light-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "caption.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -3842,11 +3842,11 @@
       }
     },
     {
-      "from": "content.files.caption",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "caption.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -3858,11 +3858,11 @@
       }
     },
     {
-      "from": "content.files.caption",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "caption.foreground, locked-summary.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -3874,11 +3874,11 @@
       }
     },
     {
-      "from": "content.files.locked-summary",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "locked-summary.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -3890,27 +3890,11 @@
       }
     },
     {
-      "from": "content.files.locked-summary",
+      "from": "component.files-rail",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/FilesRail.xaml"
-        }
-      }
-    },
-    {
-      "from": "content.files.locked-summary",
-      "relation": "uses-token",
-      "to": "token.color.ink3",
-      "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "locked-summary.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4162,11 +4146,11 @@
       }
     },
     {
-      "from": "asset.progress.track",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.color.hairline",
       "properties": {
-        "appliesTo": "trackBackground"
+        "appliesTo": "track.trackBackground"
       },
       "evidence": {
         "kind": "declared",
@@ -4178,11 +4162,11 @@
       }
     },
     {
-      "from": "asset.progress.track",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.color.amber",
       "properties": {
-        "appliesTo": "fillBackground"
+        "appliesTo": "track.fillBackground"
       },
       "evidence": {
         "kind": "declared",
@@ -4194,11 +4178,11 @@
       }
     },
     {
-      "from": "content.progress.label",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "label.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4210,11 +4194,11 @@
       }
     },
     {
-      "from": "content.progress.label",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "label.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4226,11 +4210,11 @@
       }
     },
     {
-      "from": "content.progress.label",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "label.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4242,11 +4226,11 @@
       }
     },
     {
-      "from": "content.progress.counter",
+      "from": "component.progress-indicator",
       "relation": "uses-token",
       "to": "token.color.ink4",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "counter.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4258,11 +4242,11 @@
       }
     },
     {
-      "from": "content.title-row.project-name",
+      "from": "component.app-title-row",
       "relation": "uses-token",
       "to": "token.typography.sans",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "project-name.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4274,11 +4258,11 @@
       }
     },
     {
-      "from": "content.title-row.project-name",
+      "from": "component.app-title-row",
       "relation": "uses-token",
       "to": "token.color.ink",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "project-name.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4290,11 +4274,11 @@
       }
     },
     {
-      "from": "content.header.recap",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.typography.serif-light-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "recap.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4306,11 +4290,11 @@
       }
     },
     {
-      "from": "content.header.recap",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "recap.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4322,11 +4306,11 @@
       }
     },
     {
-      "from": "content.header.recap",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "recap.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4338,11 +4322,11 @@
       }
     },
     {
-      "from": "content.header.recap",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.color.ink4",
       "properties": {
-        "appliesTo": "arrowGlyphForeground"
+        "appliesTo": "recap.arrowGlyphForeground"
       },
       "evidence": {
         "kind": "declared",
@@ -4354,11 +4338,11 @@
       }
     },
     {
-      "from": "content.header.state-badge",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "state-badge.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4370,11 +4354,11 @@
       }
     },
     {
-      "from": "content.header.state-badge",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "state-badge.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4386,11 +4370,11 @@
       }
     },
     {
-      "from": "content.header.state-badge",
+      "from": "component.active-layer-header",
       "relation": "uses-token",
       "to": "token.color.amber",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "state-badge.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4450,11 +4434,11 @@
       }
     },
     {
-      "from": "content.footer.eyebrow",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.mono-eyebrow",
       "properties": {
-        "appliesTo": "textStyle"
+        "appliesTo": "eyebrow.textStyle"
       },
       "evidence": {
         "kind": "declared",
@@ -4466,11 +4450,11 @@
       }
     },
     {
-      "from": "content.footer.lead-question",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.sans",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "lead-question.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4482,11 +4466,11 @@
       }
     },
     {
-      "from": "content.footer.lead-question",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.font-size.body",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "lead-question.fontSize, prompt-input.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4498,11 +4482,11 @@
       }
     },
     {
-      "from": "content.footer.lead-question",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.ink2",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "ack.foreground, lead-question.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4514,11 +4498,11 @@
       }
     },
     {
-      "from": "content.footer.ack",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.serif-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "ack.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4530,27 +4514,11 @@
       }
     },
     {
-      "from": "content.footer.ack",
-      "relation": "uses-token",
-      "to": "token.color.ink2",
-      "properties": {
-        "appliesTo": "foreground"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml"
-        }
-      }
-    },
-    {
-      "from": "content.footer.ack",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.amber",
       "properties": {
-        "appliesTo": "leftRuleBrush"
+        "appliesTo": "ack.leftRuleBrush"
       },
       "evidence": {
         "kind": "declared",
@@ -4562,11 +4530,11 @@
       }
     },
     {
-      "from": "control.footer.prompt-input",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.serif",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "prompt-input.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4578,27 +4546,11 @@
       }
     },
     {
-      "from": "control.footer.prompt-input",
-      "relation": "uses-token",
-      "to": "token.font-size.body",
-      "properties": {
-        "appliesTo": "fontSize"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml"
-        }
-      }
-    },
-    {
-      "from": "control.footer.prompt-input",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.ink",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "primary.background, prompt-input.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4610,11 +4562,11 @@
       }
     },
     {
-      "from": "control.footer.prompt-input",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.ink4",
       "properties": {
-        "appliesTo": "placeholderForeground"
+        "appliesTo": "kbd-hint.foreground, prompt-input.placeholderForeground"
       },
       "evidence": {
         "kind": "declared",
@@ -4626,11 +4578,11 @@
       }
     },
     {
-      "from": "content.footer.try-label",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "primary.fontFamily, try-label.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4642,11 +4594,11 @@
       }
     },
     {
-      "from": "content.footer.try-label",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "try-label.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4658,11 +4610,11 @@
       }
     },
     {
-      "from": "content.footer.try-label",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "primary-hint.foreground, try-label.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4754,11 +4706,11 @@
       }
     },
     {
-      "from": "content.footer.kbd-hint",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow-micro",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "kbd-hint.fontSize, primary.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4770,75 +4722,11 @@
       }
     },
     {
-      "from": "content.footer.kbd-hint",
-      "relation": "uses-token",
-      "to": "token.color.ink4",
-      "properties": {
-        "appliesTo": "foreground"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml"
-        }
-      }
-    },
-    {
-      "from": "control.footer.primary",
-      "relation": "uses-token",
-      "to": "token.color.ink",
-      "properties": {
-        "appliesTo": "background"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml"
-        }
-      }
-    },
-    {
-      "from": "control.footer.primary",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.color.paper",
       "properties": {
-        "appliesTo": "foreground"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml"
-        }
-      }
-    },
-    {
-      "from": "control.footer.primary",
-      "relation": "uses-token",
-      "to": "token.typography.mono",
-      "properties": {
-        "appliesTo": "fontFamily"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Themes/ChipStyles.xaml"
-        }
-      }
-    },
-    {
-      "from": "control.footer.primary",
-      "relation": "uses-token",
-      "to": "token.font-size.eyebrow-micro",
-      "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "primary.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -4866,11 +4754,11 @@
       }
     },
     {
-      "from": "content.footer.primary-hint",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.typography.serif-light-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "primary-hint.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4882,27 +4770,11 @@
       }
     },
     {
-      "from": "content.footer.primary-hint",
+      "from": "component.composer-footer",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/ComposerFooter.xaml"
-        }
-      }
-    },
-    {
-      "from": "content.footer.primary-hint",
-      "relation": "uses-token",
-      "to": "token.color.ink3",
-      "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "primary-hint.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4962,11 +4834,11 @@
       }
     },
     {
-      "from": "content.locked-card.header",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "header.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -4978,11 +4850,11 @@
       }
     },
     {
-      "from": "content.locked-card.header",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "header.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -4994,11 +4866,11 @@
       }
     },
     {
-      "from": "content.locked-card.header",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.color.ink",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "header.foreground, summary.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -5010,11 +4882,11 @@
       }
     },
     {
-      "from": "content.locked-card.header",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.color.ink2",
       "properties": {
-        "appliesTo": "checkGlyphForeground"
+        "appliesTo": "header.checkGlyphForeground"
       },
       "evidence": {
         "kind": "declared",
@@ -5026,11 +4898,11 @@
       }
     },
     {
-      "from": "content.locked-card.header",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "lockedSuffixForeground"
+        "appliesTo": "header.lockedSuffixForeground"
       },
       "evidence": {
         "kind": "declared",
@@ -5042,11 +4914,11 @@
       }
     },
     {
-      "from": "content.locked-card.summary",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.typography.serif-light-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "summary.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -5058,27 +4930,11 @@
       }
     },
     {
-      "from": "content.locked-card.summary",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/LockedContextCard.xaml"
-        }
-      }
-    },
-    {
-      "from": "content.locked-card.summary",
-      "relation": "uses-token",
-      "to": "token.color.ink",
-      "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "summary.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -5138,11 +4994,11 @@
       }
     },
     {
-      "from": "control.locked-card.expand-toggle",
+      "from": "component.locked-context-card",
       "relation": "uses-token",
       "to": "token.color.ink4",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "expand-toggle.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -5154,11 +5010,11 @@
       }
     },
     {
-      "from": "asset.future-card.outline",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.color.hairline",
       "properties": {
-        "appliesTo": "stroke"
+        "appliesTo": "outline.stroke"
       },
       "evidence": {
         "kind": "declared",
@@ -5170,11 +5026,11 @@
       }
     },
     {
-      "from": "asset.future-card.outline",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.radius.4",
       "properties": {
-        "appliesTo": "cornerRadius"
+        "appliesTo": "outline.cornerRadius"
       },
       "evidence": {
         "kind": "declared",
@@ -5186,11 +5042,11 @@
       }
     },
     {
-      "from": "content.future-card.header",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.typography.mono",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "header.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -5202,11 +5058,11 @@
       }
     },
     {
-      "from": "content.future-card.header",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.font-size.eyebrow",
       "properties": {
-        "appliesTo": "fontSize"
+        "appliesTo": "header.fontSize"
       },
       "evidence": {
         "kind": "declared",
@@ -5218,11 +5074,11 @@
       }
     },
     {
-      "from": "content.future-card.header",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.color.ink3",
       "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "header.foreground, hint.foreground"
       },
       "evidence": {
         "kind": "declared",
@@ -5234,11 +5090,11 @@
       }
     },
     {
-      "from": "content.future-card.hint",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.typography.serif-italic",
       "properties": {
-        "appliesTo": "fontFamily"
+        "appliesTo": "hint.fontFamily"
       },
       "evidence": {
         "kind": "declared",
@@ -5250,27 +5106,11 @@
       }
     },
     {
-      "from": "content.future-card.hint",
+      "from": "component.future-preview-card",
       "relation": "uses-token",
       "to": "token.font-size.body-small",
       "properties": {
-        "appliesTo": "fontSize"
-      },
-      "evidence": {
-        "kind": "declared",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Composer/src/Composer/Composer/Views/Controls/FuturePreviewCard.xaml"
-        }
-      }
-    },
-    {
-      "from": "content.future-card.hint",
-      "relation": "uses-token",
-      "to": "token.color.ink3",
-      "properties": {
-        "appliesTo": "foreground"
+        "appliesTo": "hint.fontSize"
       },
       "evidence": {
         "kind": "declared",

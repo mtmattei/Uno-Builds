@@ -1103,6 +1103,76 @@ uses("content.future-card.hint", "token.font-size.body-small", FUTURE, "fontSize
 uses("content.future-card.hint", "token.color.ink3", FUTURE, "foreground")
 
 # ---------------------------------------------------------------- graph
+# ---------------------------------------------------------------- token altitude
+# Cross-model review, major finding: token edges were wired to internal leaves
+# of canonical reusable controls (the composition stack's eyebrow and caption,
+# the progress indicator's track, the locked card's parts). The binding
+# token-edge rule records consumption ONCE on the canonical concept, never per
+# internal part - the same altitude error the v0.3 round fixed for instances,
+# reappearing one level down.
+#
+# Applied as a rule rather than 66 hand-edits so the constraint is enforced
+# rather than merely obeyed, and it prints what it moved so the effect stays
+# visible when this builder is edited again.
+#
+# A canonical concept is any component that is not itself an instance of one -
+# which keeps `component.layer-row` and `component.file-row` as owners in their
+# own right rather than folding their tokens into the rails that contain them.
+_instances = {e["from"] for e in edges if e.get("relation") == "instance-of"}
+_canonical = {n["id"] for n in nodes
+              if n.get("type") == "component" and n["id"] not in _instances}
+_parent = {e["to"]: e["from"] for e in edges if e.get("relation") == "contains"}
+
+
+def _canonical_owner(node_id):
+    seen, cur = set(), node_id
+    while cur in _parent and cur not in seen:
+        seen.add(cur)
+        cur = _parent[cur]
+        if cur in _canonical:
+            return cur
+    return None
+
+
+_types = {n["id"]: n.get("type") for n in nodes}
+_moved = 0
+_lifted: dict[tuple, dict] = {}
+_kept = []
+for _e in edges:
+    if _e.get("relation") != "uses-token":
+        _kept.append(_e)
+        continue
+    _src = _e["from"]
+    if _src in _canonical or _types.get(_src) in ("screen", "region", "state"):
+        _kept.append(_e)
+        continue
+    _owner = _canonical_owner(_src)
+    if not _owner:
+        _kept.append(_e)
+        continue
+
+    _leaf = _src.split(".")[-1]
+    _applies = (_e.get("properties") or {}).get("appliesTo")
+    # Keep the consuming internal identifiable: "caption.foreground".
+    _label = f"{_leaf}.{_applies}" if _applies else _leaf
+    _moved += 1
+
+    # "Once per token per concept" is literal: when several internals of one
+    # canonical consume the same token, they become ONE edge listing each
+    # consumer, not several edges that differ only in appliesTo.
+    _key = (_owner, _e["to"])
+    if _key in _lifted:
+        _existing = _lifted[_key]["properties"]
+        _existing["appliesTo"] = sorted(set(str(_existing["appliesTo"]).split(", ")) | {_label})
+        _existing["appliesTo"] = ", ".join(_existing["appliesTo"])
+        continue
+    _e["from"] = _owner
+    _e.setdefault("properties", {})["appliesTo"] = _label
+    _lifted[_key] = _e
+    _kept.append(_e)
+
+edges[:] = _kept
+
 graph = {
     "schemaVersion": "0.1.0",
     "graphId": "eval.composer-shell.gold",
@@ -1211,4 +1281,5 @@ graph = {
 
 out = Path(__file__).resolve().parents[1] / "evals" / "09-composer-shell" / "gold.graph.json"
 out.write_text(json.dumps(graph, indent=2) + "\n", encoding="utf-8")
-print(f"wrote {out}: {len(nodes)} nodes, {len(edges)} edges, {len(graph['unresolved'])} unresolved")
+print(f"wrote {out}: {len(nodes)} nodes, {len(edges)} edges, "
+      f"{len(graph['unresolved'])} unresolved; {_moved} token edges lifted to canonicals")
