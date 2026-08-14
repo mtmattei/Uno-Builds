@@ -76,70 +76,6 @@
       }
     },
     {
-      "id": "asset.header.accent-bar",
-      "type": "asset",
-      "name": "Accent bar",
-      "role": "decoration",
-      "semanticRole": "brandAccent",
-      "properties": {
-        "colors": [
-          "primary",
-          "accent-red"
-        ]
-      },
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        },
-        "rationale": "Two-color 56x4 bar above the logo."
-      }
-    },
-    {
-      "id": "content.header.logo",
-      "type": "content",
-      "name": "Logo",
-      "text": "Caff\u00e8",
-      "semanticRole": "appName",
-      "properties": {
-        "uno": {
-          "type": "TextBlock",
-          "styleKey": "LogoTextStyle"
-        }
-      },
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        }
-      }
-    },
-    {
-      "id": "content.header.tagline",
-      "type": "content",
-      "name": "Tagline",
-      "text": "NOTHING MORE. NOTHING LESS.",
-      "semanticRole": "tagline",
-      "properties": {
-        "uno": {
-          "type": "TextBlock",
-          "styleKey": "TaglineTextStyle"
-        }
-      },
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        }
-      }
-    },
-    {
       "id": "component.caffe-footer",
       "type": "component",
       "name": "Caffe footer",
@@ -455,14 +391,16 @@
       }
     },
     {
-      "id": "state.brew-button.disabled",
+      "id": "state.brew-button.enabled",
       "type": "state",
-      "name": "Brew disabled",
-      "semanticRole": "disabled",
+      "name": "Brew enabled",
+      "semanticRole": "enabled",
       "properties": {
+        "when": "HasSelection == true",
         "uno": {
           "mechanism": "binding",
-          "member": "HasSelection (RelayCommand CanExecute)"
+          "member": "HasSelection",
+          "property": "RelayCommand CanExecute"
         }
       },
       "evidence": {
@@ -472,15 +410,39 @@
           "type": "csharp",
           "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
         },
-        "rationale": "BrewCommand CanExecute=HasSelection; button disabled until a card is selected."
+        "rationale": "BrewCommand CanExecute=HasSelection; the button becomes invokable once a card is selected."
       }
     },
     {
-      "id": "state.selection-overview.hidden",
+      "id": "state.brew-button.selection-label",
       "type": "state",
-      "name": "Overview hidden",
-      "semanticRole": "hidden",
+      "name": "Brew label names the selection",
+      "semanticRole": "labelled",
       "properties": {
+        "when": "HasSelection == true",
+        "text": "Brew {SelectedEspresso.Name}",
+        "uno": {
+          "mechanism": "binding",
+          "member": "BrewButtonText"
+        }
+      },
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "BrewButtonText becomes 'Brew {SelectedEspresso.Name}' once a selection exists."
+      }
+    },
+    {
+      "id": "state.selection-overview.visible",
+      "type": "state",
+      "name": "Overview visible",
+      "semanticRole": "visible",
+      "properties": {
+        "when": "HasSelection == true",
         "uno": {
           "mechanism": "binding",
           "member": "HasSelection"
@@ -493,7 +455,7 @@
           "type": "csharp",
           "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
         },
-        "rationale": "Overview Visibility bound to HasSelection; hidden until selection."
+        "rationale": "Overview Visibility bound to HasSelection; shown once a card is selected."
       }
     },
     {
@@ -1195,45 +1157,6 @@
       }
     },
     {
-      "from": "component.caffe-header",
-      "relation": "contains",
-      "to": "asset.header.accent-bar",
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        }
-      }
-    },
-    {
-      "from": "component.caffe-header",
-      "relation": "contains",
-      "to": "content.header.logo",
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        }
-      }
-    },
-    {
-      "from": "component.caffe-header",
-      "relation": "contains",
-      "to": "content.header.tagline",
-      "evidence": {
-        "kind": "observed",
-        "confidence": 1.0,
-        "source": {
-          "type": "xaml",
-          "path": "Caffe/Caffe/Controls/"
-        }
-      }
-    },
-    {
       "from": "screen.caffe-main",
       "relation": "contains",
       "to": "region.caffe-main.menu",
@@ -1366,7 +1289,20 @@
     {
       "from": "component.brew-button",
       "relation": "has-state",
-      "to": "state.brew-button.disabled",
+      "to": "state.brew-button.enabled",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        }
+      }
+    },
+    {
+      "from": "component.brew-button",
+      "relation": "has-state",
+      "to": "state.brew-button.selection-label",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1379,7 +1315,7 @@
     {
       "from": "component.selection-overview",
       "relation": "has-state",
-      "to": "state.selection-overview.hidden",
+      "to": "state.selection-overview.visible",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1434,7 +1370,7 @@
     {
       "from": "component.espresso-card",
       "relation": "triggers",
-      "to": "state.selection-overview.hidden",
+      "to": "state.selection-overview.visible",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1448,7 +1384,21 @@
     {
       "from": "component.espresso-card",
       "relation": "triggers",
-      "to": "state.brew-button.disabled",
+      "to": "state.brew-button.selection-label",
+      "evidence": {
+        "kind": "declared",
+        "confidence": 1.0,
+        "source": {
+          "type": "csharp",
+          "path": "Caffe/Caffe/ViewModels/MainViewModel.cs"
+        },
+        "rationale": "Selection rewrites BrewButtonText to 'Brew {SelectedEspresso.Name}'."
+      }
+    },
+    {
+      "from": "component.espresso-card",
+      "relation": "triggers",
+      "to": "state.brew-button.enabled",
       "evidence": {
         "kind": "declared",
         "confidence": 1.0,
@@ -1581,11 +1531,11 @@
       }
     },
     {
-      "from": "content.header.logo",
+      "from": "component.caffe-header",
       "relation": "uses-token",
       "to": "token.typography.logo",
       "properties": {
-        "appliesTo": "font"
+        "appliesTo": "logoFont"
       },
       "evidence": {
         "kind": "declared",
@@ -1598,11 +1548,11 @@
       }
     },
     {
-      "from": "content.header.tagline",
+      "from": "component.caffe-header",
       "relation": "uses-token",
       "to": "token.typography.tagline",
       "properties": {
-        "appliesTo": "font"
+        "appliesTo": "taglineFont"
       },
       "evidence": {
         "kind": "declared",
@@ -1615,11 +1565,11 @@
       }
     },
     {
-      "from": "asset.header.accent-bar",
+      "from": "component.caffe-header",
       "relation": "uses-token",
       "to": "token.color.primary",
       "properties": {
-        "appliesTo": "leftColor"
+        "appliesTo": "accentBarLeftColor"
       },
       "evidence": {
         "kind": "declared",
@@ -1632,11 +1582,11 @@
       }
     },
     {
-      "from": "asset.header.accent-bar",
+      "from": "component.caffe-header",
       "relation": "uses-token",
       "to": "token.color.accent-red",
       "properties": {
-        "appliesTo": "rightColor"
+        "appliesTo": "accentBarRightColor"
       },
       "evidence": {
         "kind": "declared",
