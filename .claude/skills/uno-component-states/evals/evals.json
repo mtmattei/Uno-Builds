@@ -1,0 +1,43 @@
+{
+  "skill_name": "uno-component-states",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "widget-all-three-states",
+      "prompt": "The sales widget in SalesDashboard/SalesDashboard/Presentation/SalesDashboardWidget.xaml only handles the happy path where data is present. Add loading, empty, and error states to it — it should still look like the same widget in every state.",
+      "expected_output": "SalesDashboardWidget gains Loading (skeleton mirroring the populated layout), Empty (neutral message, CTA only if supported), and Error (message + Retry wired to an existing command) states. Shell, padding, corner radius, typography, and resource usage are unchanged; existing bindings still work; project builds.",
+      "files": [],
+      "assertions": [
+        "The populated/data path's existing bindings and markup are preserved (not rewritten or restyled)",
+        "Loading state uses a skeleton that mirrors the populated row/column structure, not a lone centered spinner",
+        "Empty and Error states are visually distinct: Empty uses neutral emphasis, Error uses the app's semantic error resource as accent only",
+        "No new hardcoded colors, corner radii, or spacing values where an existing app resource exists",
+        "All states live inside the same component shell (FeedView templates, VisualStateManager, or state-bound visibility) rather than three duplicated components"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "targeted-states-flag",
+      "prompt": "/uno-component-states UnoWallet/UnoWallet/Presentation/DashboardPage.xaml --states loading,empty",
+      "expected_output": "Only Loading and Empty states are generated for the dashboard's data regions; no Error state is added. The page's visual identity (tokens, typography, density) is untouched.",
+      "files": [],
+      "assertions": [
+        "Only loading and empty states are produced; no error state is added",
+        "Skeleton placeholders approximate the real content's footprint to minimize layout shift",
+        "Existing StaticResource/ThemeResource tokens are reused instead of literal values"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "feedview-project-respects-existing-pattern",
+      "prompt": "QuoteCraft's dashboard (QuoteCraft/src/QuoteCraft/Presentation/DashboardPage.xaml) looks broken when the quote list is empty or a fetch fails. Can you make it handle those situations gracefully, plus a skeleton while it loads?",
+      "expected_output": "Since QuoteCraft already uses Uno Toolkit FeedView, states are expressed through FeedView's ProgressTemplate/NoneTemplate/ErrorTemplate (or the app's established pattern) rather than a new state architecture. Empty state offers a CTA only if a create-quote flow exists; Error offers Retry wired to the existing refresh.",
+      "files": [],
+      "assertions": [
+        "The implementation follows the app's existing state mechanism (FeedView templates) instead of introducing a new architecture",
+        "Empty state CTA, if present, is wired to an existing command rather than a dead button",
+        "No raw exception text is shown in the error state"
+      ]
+    }
+  ]
+}
