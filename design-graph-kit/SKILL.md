@@ -1,9 +1,12 @@
 # Skill: Generate Design Graph
 
-Version: 0.4 (0.2 added a binding ID grammar, state-altitude rules, and token
+Version: 0.6 (0.2 added a binding ID grammar, state-altitude rules, and token
 scoping; 0.3 added canonical-internals, token-edge attachment, and
 variant-folding rules; 0.4 makes the graph **Uno-first** — every node may
-carry a `properties.uno` mapping layer per `references/uno-mapping.md`. See
+carry a `properties.uno` mapping layer per `references/uno-mapping.md`; 0.5
+added the screen-slug rule and condition-vs-presentation states; 0.6 settles
+three conflicts the fleets exposed — declared names beat the naming vocabulary,
+one `triggers` edge per declared effect, and when a `region` is warranted. See
 CHANGELOG.)
 
 ## Target framework
@@ -62,6 +65,36 @@ Default filename:
 Do not wrap the JSON in explanatory prose if the caller asks for a file or machine-readable result.
 
 ## Procedure
+
+### Pass 0: Read the whole source set (binding)
+
+Before inventorying anything, open **every file that backs the surface**:
+
+- each `.xaml` **and its `.xaml.cs` code-behind**;
+- every custom control the markup references, and *their* code-behind;
+- the shell or host that composes the screen, and its code-behind;
+- the view models, models and converters the bindings name;
+- the style dictionaries the surface consumes.
+
+A `.xaml` file tells you what exists. Its code-behind tells you what it
+*does* — navigation maps, command wiring, animation timings, dialog copy.
+Modeling from markup alone produces a graph that is confidently wrong about
+behavior, which is worse than one that is silent about it.
+
+This is binding because it has caused a critical answer-key defect twice:
+
+- eval 05 v1.1 modeled the page header as a plain region because
+  `PageHeader.xaml` was never opened, missing an entire reusable component and
+  its search affordance;
+- eval 08 recorded `unresolved.tab-targets` — "the navigation registration is
+  outside this source set" — when `Shell.xaml.cs` maps every tab tag to its
+  page. Five `navigates-to` edges were missing, and worse, the graph asserted
+  the destinations were *unknowable*.
+
+An `unresolved` item that the source answers is more damaging than a missing
+node: it teaches every downstream consumer that the fact cannot be known.
+Before writing one, confirm the answer is absent from the **whole** source
+set, not merely from the file you happened to read.
 
 ### Pass 1: Inventory observable facts
 
@@ -265,7 +298,22 @@ ID grammar (binding — repeated blind runs drift exactly where this is loose):
   type is for framework-primitive interactive elements (Button, TextBox,
   ToggleSwitch…) used directly.
 
-Naming vocabulary (use these; do not coin synonyms):
+**Precedence when a declared name and the vocabulary disagree** (eval 09): the
+**source-declared name wins**. If the source declares a type or element name
+for the concept (`LayerRow`, `FileRow`, an `x:Name`, a Figma component name),
+slugify it — `component.layer-row`, not `component.layer-item`. The vocabulary
+below applies when the source declares *no* name for the concept, which is the
+usual case for design-only inputs.
+
+Why this way round: a declared name is evidence, and the whole graph is built
+on preferring evidence to invention; the vocabulary exists to stop two runs
+coining different synonyms for the same *unnamed* shape. Eval 09's fleet split
+3–2 on exactly this, with both sides correctly citing this section — the rule
+contradicted itself until this paragraph. Record the alternative in
+`properties.uno` (e.g. `itemModel: LayerRow`) so nothing is lost either way.
+
+Naming vocabulary (use these when the source declares no name; do not coin
+synonyms):
 
 - a bordered/rounded grouping container → `card` — **regardless of its
   visual treatment** (glass, elevated, outlined section panels are all

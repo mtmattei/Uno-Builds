@@ -1,10 +1,10 @@
-# Design Graph Kit v0.5
+# Design Graph Kit v0.6
 
 A validated kit for generating and consuming **Design Graphs** — a semantic,
 machine-checkable intermediate representation between UI design inputs and
 Uno Platform implementation.
 
-> **Status (v0.5):** the v0.1 hypothesis below has been tested. See
+> **Status (v0.6):** the v0.1 hypothesis below has been tested. See
 > `RESULTS.md` for the full experiment log: 3 source-backed evals across 3
 > architectures (code-behind / MVUX / MVVM), 50 blind generation runs with
 > **zero hallucinated behaviors**, A/B implementation experiments, a perfect

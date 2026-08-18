@@ -26,6 +26,33 @@ Examples:
 - content region;
 - footer.
 
+When to emit one (v0.6, from the eval-08 and eval-09 fleets): model a `region`
+when the source declares a structural grouping that **owns layout or state**
+and is not itself a reusable component — a two-column split, a fixed header
+band, a scrolling content area, a bottom navigation bar.
+
+Do **not** emit a region for every layout panel. Most `Grid`/`StackPanel`
+elements exist to position things and carry no meaning of their own; a graph
+with one region per panel is a XAML transcript, which is precisely what this
+IR is not.
+
+The distinguishing question: *if this grouping disappeared, would the screen's
+meaning change, or only its arrangement?* A two-column split that pairs ABOUT
+with PATHS is meaning. A `Grid` wrapping one label and one value is
+arrangement, and belongs in the parent's properties.
+
+Evidence for this rule: all five eval-08 runs and all five eval-09 runs emitted
+regions unprompted (6–10 each), while gold 05 has **zero** for a page whose
+XAML declares 27 layout containers and whose visible structure is a prominent
+two-column split. Ten independent runs reaching for regions where an answer key
+has none is a strong signal the answer key is the outlier.
+
+**Gold 05 is therefore queued for revision, not silently revised.** The change
+is source-driven (the two-column arrangement is really there), but it alters an
+answer key that every eval-05 fleet is scored against, so it belongs to the
+independent human review (check 6 in `gold-review.md`) rather than to the agent
+lineage that authored the key in the first place.
+
 Do not represent meaningless design-layer groups.
 
 ### `component`
@@ -136,6 +163,26 @@ Trigger attachment rule (v0.5): when every instance of a canonical component
 triggers identically, attach the `triggers` edge **once, from the
 canonical**; per-instance trigger edges only when instances genuinely
 differ. (Mirrors the `uses-token` once-per-concept rule.)
+
+Multi-effect rule (v0.6, from eval-09): when one action has **several declared
+effects**, emit **one `triggers` edge per effect**. Do not pick a "main" one.
+
+A layer-row click in Composer both swaps the hosted canvas *and* opens the
+rails; the footer's primary button sets the footer previewing *and* locks the
+layer *and* marks the file drafted. All of those are in the source. When a
+graph records only one, a second correct graph that recorded a different one
+reads as disagreement — which is exactly what eval 09's fleet produced, five
+runs and the gold each choosing different true targets while the scorer counted
+honest modeling as error.
+
+Edge count is not the thing to economize. Emit every declared effect; leave one
+out only when the code does not establish it, in which case it belongs in
+`unresolved` rather than in a guessed edge.
+
+Corollary for scoring: a behavioral edge whose *source* matches gold but whose
+*target* differs is a modeling difference, not invention. `score_graph.py`
+0.4.0 reports these as `divergent_behavior_targets` and no longer raises the
+hallucination flag for them.
 
 ## Relationship types
 

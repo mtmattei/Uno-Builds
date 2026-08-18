@@ -7,7 +7,7 @@ wired to consumers; canonical internals as properties; tokens screen-scoped).
 """
 import json, pathlib
 
-OUT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit/evals/06-flux-profile")
+OUT = pathlib.Path(__file__).resolve().parents[1] / "evals" / "06-flux-profile"
 XAML = {"type": "xaml", "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfilePage.xaml"}
 VM = {"type": "csharp", "path": "FluxTransit/FluxTransit/FluxTransit/Presentation/ProfileModel.cs"}
 DS = {"type": "design-system", "path": "FluxTransit/FluxTransit/FluxTransit/Styles/FluxStyles.xaml"}
@@ -46,6 +46,18 @@ nodes = [
          properties={"uno": {"type": "Page", "class": "FluxTransit.Presentation.ProfilePage"}},
          evidence=ev("observed", 1.0, XAML)),
 
+    node("region.profile.scroll-content", "region", name="Scrolling content", semanticRole="scrollingContent",
+         properties={"uno": {"type": "ScrollViewer"}},
+         evidence=ev("observed", 1.0, XAML,
+         "ScrollViewer owning the safe-area-aware, width-constrained content column for the whole page.")),
+    node("region.opus.summary", "region", name="OPUS summary", semanticRole="accountSummary",
+         evidence=ev("observed", 1.0, XAML,
+         "Horizontal grouping pairing the OPUS card visual with its balance; the pairing identifies which "
+         "account the balance belongs to, which is meaning rather than arrangement.")),
+    node("region.opus.refresh-action", "region", name="Refresh action", semanticRole="actionSlot",
+         evidence=ev("observed", 1.0, XAML,
+         "Grid where the update button and the progress row occupy the same cell with inverse visibility; "
+         "this is the only part of the OPUS card whose presentation swaps.")),
     node("region.profile.header", "region", name="Header",
          evidence=ev("observed", 1.0, XAML, "Back button + heading grid at top.")),
     node("control.header.back", "control", name="Back", role="button", semanticRole="backNavigation",
@@ -221,6 +233,15 @@ nodes = [
         {"styleKey": "FluxHeadingLarge"}, "Page title; balance value."),
     tok("token.typography.body", "Body", "typography", {"size": 14},
         {"styleKey": "FluxBody"}, "Default body text."),
+    # Cross-model review F3/F4: the API and alerts helpers apply FluxBody but
+    # override FontSize to 12 locally (ProfilePage.xaml:187,220), so the 14px
+    # body token does not describe their rendered typography. Derived, because
+    # the source states the size inline rather than through a declared token.
+    node("token.typography.helper", "token", name="Helper caption", category="typography",
+         value={"size": 12},
+         properties={"uno": {"styleKey": "FluxBody", "property": "FontSize=12"}},
+         evidence=ev("derived", 1.0, XAML,
+                     "Repeated local FontSize=12 override on FluxBody helper text.")),
     tok("token.typography.body-bold", "Body bold", "typography", {"size": 14, "weight": "Bold"},
         {"styleKey": "FluxBodyBold"}, "Route names."),
     tok("token.typography.micro", "Micro header", "typography",
@@ -232,23 +253,34 @@ E_OBS = lambda: ev("observed", 1.0, XAML)
 E_DS = lambda r=None: ev("declared", 1.0, DS, r)
 
 edges = [
-    edge("screen.profile", "contains", "region.profile.header", E_OBS()),
+    # Cross-model review: the whole visible surface is owned by a ScrollViewer
+    # holding a safe-area-aware, width-constrained content column. Removing
+    # that grouping changes scrolling and viewport safety, not just placement,
+    # so it earns a region under the v0.6 rule.
+    edge("screen.profile", "contains", "region.profile.scroll-content", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "region.profile.header", E_OBS()),
     edge("region.profile.header", "contains", "control.header.back", E_OBS()),
     edge("region.profile.header", "contains", "content.header.title", E_OBS()),
     edge("region.profile.header", "contains", "content.header.subtitle", E_OBS()),
-    edge("screen.profile", "contains", "component.card.opus", E_OBS()),
-    edge("screen.profile", "contains", "component.card.routes", E_OBS()),
-    edge("screen.profile", "contains", "component.card.settings", E_OBS()),
-    edge("screen.profile", "contains", "region.profile.footer", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.opus", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.routes", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "component.card.settings", E_OBS()),
+    edge("region.profile.scroll-content", "contains", "region.profile.footer", E_OBS()),
     edge("region.profile.footer", "contains", "content.footer.version", E_OBS()),
     edge("region.profile.footer", "contains", "content.footer.credit", E_OBS()),
 ]
 for s_ in ("opus", "routes", "settings"):
     edges.append(edge(f"component.card.{s_}", "instance-of", "component.card",
                       E_DS("Uses FluxGlassPanelStyle.")))
-for c in ("content.opus.section-title", "component.opus-card", "content.opus.balance-label",
-          "content.opus.balance-value", "content.opus.refresh-hint", "control.opus.update"):
-    edges.append(edge("component.card.opus", "contains", c, E_OBS()))
+# The OPUS card splits into a summary grouping (card visual + its balance) and
+# the action slot that actually swaps presentation - cross-model findings 11/12.
+edges.append(edge("component.card.opus", "contains", "content.opus.section-title", E_OBS()))
+edges.append(edge("component.card.opus", "contains", "region.opus.summary", E_OBS()))
+edges.append(edge("component.card.opus", "contains", "region.opus.refresh-action", E_OBS()))
+for c in ("component.opus-card", "content.opus.balance-label",
+          "content.opus.balance-value", "content.opus.refresh-hint"):
+    edges.append(edge("region.opus.summary", "contains", c, E_OBS()))
+edges.append(edge("region.opus.refresh-action", "contains", "control.opus.update", E_OBS()))
 for c in ("content.routes.section-title", "component.route-item.home-work",
           "component.route-item.downtown-loop", "control.routes.add"):
     edges.append(edge("component.card.routes", "contains", c, E_OBS()))
@@ -261,10 +293,17 @@ for c in ("content.settings.section-title", "content.settings.api-label", "contr
     edges.append(edge("component.card.settings", "contains", c, E_OBS()))
 
 edges += [
-    edge("component.card.opus", "has-state", "state.opus.refreshing",
-         ev("declared", 1.0, VM, "IsRefreshing swaps the update button for the progress row inside this section.")),
+    # Attached to the action slot, not the whole card: only that grid swaps.
+    edge("region.opus.refresh-action", "has-state", "state.opus.refreshing",
+         ev("declared", 1.0, VM, "IsRefreshing swaps the update button for the progress row in this grid; "
+                                 "the card visual, balance and heading do not change.")),
     edge("control.opus.update", "triggers", "state.opus.refreshing",
          ev("declared", 1.0, VM, "UpdateBalance sets IsRefreshing true for the duration of the refresh.")),
+    # Multi-effect rule (v0.6): UpdateBalance has two declared effects - it sets
+    # IsRefreshing AND writes a new OpusBalance. Recording only the loading one
+    # was the exact omission the rule exists to prevent.
+    edge("control.opus.update", "triggers", "content.opus.balance-value",
+         ev("declared", 1.0, VM, "UpdateBalance sets OpusBalance to the newly fetched value.")),
     edge("state.opus.refreshing", "contains", "control.opus.progress", E_OBS()),
     edge("state.opus.refreshing", "contains", "content.opus.updating-label", E_OBS()),
 ]
@@ -275,6 +314,9 @@ UT = [
     ("component.card", "token.color.glass-panel", "background"),
     ("component.card", "token.color.border-subtle", "borderBrush"),
     ("component.card", "token.radius.24", "cornerRadius"),
+    # Cross-model review: FluxGlassPanelStyle declares Padding=24; the 16 comes
+    # from three page-local child StackPanels, not from the cited style.
+    ("component.card", "token.spacing.24", "padding"),
     ("component.card", "token.spacing.16", "innerGap"),
     ("content.header.title", "token.typography.heading-large", "font"),
     ("content.header.subtitle", "token.typography.body", "font"),
@@ -292,6 +334,27 @@ UT = [
     ("component.route-item", "token.color.border-subtle", "borderBrush"),
     ("component.route-item", "token.color.primary", "iconColor"),
     ("component.route-item", "token.color.text-muted", "chevronColor"),
+    # Cross-model review F5/F6: the styles these nodes already consume also
+    # declare a Foreground - FluxBody supplies TextSecondary, FluxHeadingLarge
+    # and FluxBodyBold supply TextPrimary, FluxMicro supplies TextMuted. The
+    # gold recorded the typography half of each style and dropped the colour
+    # half, leaving text-secondary with no modelled consumer at all.
+    ("content.header.title", "token.color.text-primary", "foreground"),
+    ("content.header.subtitle", "token.color.text-secondary", "foreground"),
+    ("content.opus.balance-label", "token.color.text-secondary", "foreground"),
+    ("content.opus.refresh-hint", "token.color.text-secondary", "foreground"),
+    ("content.opus.updating-label", "token.color.text-secondary", "foreground"),
+    ("content.opus.section-title", "token.color.text-muted", "foreground"),
+    ("content.routes.section-title", "token.color.text-muted", "foreground"),
+    ("content.settings.section-title", "token.color.text-muted", "foreground"),
+    ("component.route-item", "token.color.text-primary", "nameForeground"),
+    ("content.settings.api-label", "token.color.text-secondary", "foreground"),
+    # The two 12px helpers: derived helper typography, but they still inherit
+    # FluxBody's foreground.
+    ("content.settings.api-helper", "token.typography.helper", "font"),
+    ("content.settings.alerts-helper", "token.typography.helper", "font"),
+    ("content.settings.api-helper", "token.color.text-secondary", "foreground"),
+    ("content.settings.alerts-helper", "token.color.text-secondary", "foreground"),
     ("component.route-item", "token.typography.body-bold", "nameFont"),
     ("component.route-item", "token.typography.body", "stationsFont"),
     ("component.route-item", "token.spacing.4", "textGap"),
@@ -300,17 +363,42 @@ UT = [
     ("content.settings.api-label", "token.typography.body", "font"),
     ("control.settings.api-key", "token.color.surface", "background"),
     ("control.settings.api-key", "token.color.border-light", "borderBrush"),
-    ("content.settings.api-helper", "token.typography.body", "font"),
-    ("content.settings.language-label", "token.typography.body", "font"),
+        ("content.settings.language-label", "token.typography.body", "font"),
     ("content.settings.alerts-label", "token.typography.body", "font"),
-    ("content.settings.alerts-helper", "token.typography.body", "font"),
-    ("content.footer.version", "token.typography.body", "font"),
+        ("content.footer.version", "token.typography.body", "font"),
     ("content.footer.credit", "token.typography.body", "font"),
 ]
+# Cross-model review F8/F9: two of these consume a literal that merely EQUALS
+# the declared token - the page writes Spacing="24" and Spacing="4" rather than
+# referencing FluxSpacingL / FluxSpacingXS. Equality to a declared value is
+# derived evidence, not declared, and calling it declared overstates the link
+# between the surface and the design system.
+_DERIVED_LITERAL = {
+    ("screen.profile", "token.spacing.24"),
+    ("component.route-item", "token.spacing.4"),
+}
 for frm, to, applies in UT:
-    edges.append(edge(frm, "uses-token", to, E_DS("Declared style/brush consumption."), appliesTo=applies))
+    if (frm, to) in _DERIVED_LITERAL:
+        e = ev("derived", 1.0, XAML,
+               "The surface uses a literal Spacing value equal to the declared token; "
+               "it does not reference the resource.")
+    else:
+        e = E_DS("Declared style/brush consumption.")
+    edges.append(edge(frm, "uses-token", to, e, appliesTo=applies))
 
 unresolved = [
+    {
+        # Cross-model review F7: the gold recorded uncertainty for the adjacent
+        # Add button but not for the rows, though both advertise interaction
+        # and neither declares any. Treating identical evidence differently in
+        # one graph is the inconsistency worth fixing.
+        "id": "unresolved.routes.item-behavior",
+        "question": "What happens when a saved route row is tapped?",
+        "relatedIds": ["component.route-item", "component.route-item.home-work",
+                       "component.route-item.downtown-loop"],
+        "reason": "Both rows show an E76C chevron implying disclosure, but they are plain Borders with "
+                  "no command, click handler, or gesture recognizer declared anywhere in the source set.",
+    },
     {
         "id": "unresolved.header.back-target",
         "question": "Where does Back navigate?",

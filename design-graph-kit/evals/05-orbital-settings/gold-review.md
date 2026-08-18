@@ -1,6 +1,6 @@
 # Gold review — `05-orbital-settings`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\05-orbital-settings\gold.graph.json` (56 nodes / 88 edges / 3 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\05-orbital-settings\gold.graph.json` (65 nodes / 96 edges / 3 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -20,8 +20,8 @@
 | Source file | Found | Nodes citing it |
 |---|---|---|
 | `Orbital/Orbital/Controls/PageHeader.xaml` | yes | 1 |
-| `Orbital/Orbital/Presentation/SettingsPage.xaml` | yes | 34 |
-| `Orbital/Orbital/Presentation/SettingsPage.xaml.cs` | yes | 4 |
+| `Orbital/Orbital/Presentation/SettingsPage.xaml` | yes | 39 |
+| `Orbital/Orbital/Presentation/SettingsPage.xaml.cs` | yes | 7 |
 
 ## Automated pre-pass — identifiers not found in the cited source
 
@@ -43,6 +43,16 @@ is unverifiable, which is what makes this worth a reviewer's attention.
 |---|---|---|---|
 | `token.color.emerald-500` | `resourceKey` | `OrbitalEmerald500Brush` | `Orbital Styles/*.xaml` |
 
+### Token values that disagree with the style they name
+
+A key existing in source does not make the value attributed to it right.
+This compares each token's asserted value against the `Setter`s of the
+style it names. The check exists because a cross-model reviewer found a
+token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
+the 28 belonged to a different style, and every existence check passed it.
+
+**No mismatches.** Every token value matches the style it cites.
+
 ## Structural facts
 
 Stated as counts, not judgements — the altitude contract decides which of
@@ -50,21 +60,21 @@ these are correct, and that call belongs to the reviewer.
 
 | Node type | In gold |
 |---|---|
-| `token` | 19 |
+| `token` | 20 |
 | `component` | 17 |
 | `content` | 10 |
 | `control` | 6 |
-| `state` | 2 |
+| `region` | 5 |
+| `state` | 5 |
 | `screen` | 1 |
 | `asset` | 1 |
-| `region` | **0** |
 
 | Relation | In gold |
 |---|---|
 | `uses-token` | 41 |
-| `contains` | 29 |
+| `contains` | 34 |
 | `instance-of` | 14 |
-| `has-state` | 2 |
+| `has-state` | 5 |
 | `triggers` | 2 |
 
 The cited XAML declares **27** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 3 file(s).
@@ -88,6 +98,11 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | Node id | Type | Name | Evidence | Conf | Uno mapping | Verdict | Note |
 |---|---|---|---|---|---|---|---|
 | `screen.settings` | screen | Settings | observed | 1.0 | type=Page, class=Orbital.Presentation.SettingsPage | | |
+| `region.header-band` | region | Header band | observed | 1.0 | type=Grid, property=RowDefinition Height=Auto | | |
+| `region.settings-content` | region | Settings content | observed | 1.0 | type=ScrollViewer | | |
+| `region.settings-columns` | region | Two-column composition | observed | 1.0 | type=Grid, property=ColumnDefinitions * / 16 / * | | |
+| `region.about-column` | region | About column | observed | 1.0 | type=AutoLayout, property=Grid.Column=0 | | |
+| `region.configuration-column` | region | Configuration column | observed | 1.0 | type=AutoLayout, property=Grid.Column=2 | | |
 | `component.page-header` | component | Page header | declared | 1.0 | type=UserControl, class=Orbital.Controls.PageHeader | | |
 | `control.header.search` | control | Search / command palette | declared | 1.0 | type=Border, xName=SearchBorder | | |
 | `content.settings.title` | content | Title | observed | 1.0 | type=TextBlock, styleKey=OrbitalPageTitle | | |
@@ -122,7 +137,10 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `control.actions.open-data-folder` | control | Open Data Folder | declared | 1.0 | type=Button, xName=OpenDataFolderButton, iconGlyph=E838 | | |
 | `control.actions.open-docs` | control | Uno Platform Documentation | declared | 1.0 | type=Button, xName=OpenDocsButton, iconGlyph=E8A5 | | |
 | `component.dialog.recents-cleared` | component | Cleared dialog | declared | 1.0 | type=ContentDialog | | |
-| `state.settings.entering` | state | Entering | declared | 1.0 | mechanism=code-behind, member=AnimationHelper.FadeUp | | |
+| `state.profile.entering` | state | Entering | declared | 1.0 | mechanism=AnimationHelper.FadeUp, member=OnLoaded | | |
+| `state.about.entering` | state | Entering | declared | 1.0 | mechanism=AnimationHelper.FadeUp, member=OnLoaded | | |
+| `state.paths.entering` | state | Entering | declared | 1.0 | mechanism=AnimationHelper.FadeUp, member=OnLoaded | | |
+| `state.actions.entering` | state | Entering | declared | 1.0 | mechanism=AnimationHelper.FadeUp, member=OnLoaded | | |
 | `state.profile.saved` | state | Saved | declared | 1.0 | mechanism=code-behind | | |
 | `token.color.surface0` | token | Surface 0 (page bg) | declared | 1.0 | resourceKey=OrbitalSurface0Brush, resourceType=SolidColorBrush | | |
 | `token.color.surface1` | token | Surface 1 (card bg) | declared | 1.0 | resourceKey=OrbitalSurface1Brush, resourceType=SolidColorBrush | | |
@@ -142,6 +160,7 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `token.color.text-85` | token | Text 85% emphasis | declared | 1.0 | resourceKey=OrbitalText85Brush, resourceType=SolidColorBrush | | |
 | `token.color.emerald-500` | token | Emerald 500 (primary accent) | declared | 1.0 | resourceKey=OrbitalEmerald500Brush, resourceType=SolidColorBrush | | |
 | `token.typography.page-title` | token | Page title type | declared | 1.0 | styleKey=OrbitalPageTitle | | |
+| `token.typography.section-header` | token | Section header type | declared | 1.0 | styleKey=OrbitalSectionHeader | | |
 | `token.typography.body` | token | Body type | declared | 1.0 | styleKey=OrbitalBody | | |
 
 ## Edges
@@ -153,17 +172,22 @@ the ones a graph must never invent. They are listed first.
 |---|---|---|---|---|---|
 | **triggers** | `control.profile.save` | `state.profile.saved` | declared | | |
 | **triggers** | `control.actions.clear-recents` | `component.dialog.recents-cleared` | declared | | |
-| **contains** | `screen.settings` | `component.page-header` | observed | | |
+| **contains** | `screen.settings` | `region.header-band` | observed | | |
+| **contains** | `screen.settings` | `region.settings-content` | observed | | |
+| **contains** | `region.header-band` | `component.page-header` | observed | | |
+| **contains** | `region.settings-content` | `region.settings-columns` | observed | | |
+| **contains** | `region.settings-columns` | `region.about-column` | observed | | |
+| **contains** | `region.settings-columns` | `region.configuration-column` | observed | | |
 | **contains** | `component.page-header` | `content.settings.title` | observed | | |
 | **contains** | `component.page-header` | `content.settings.subtitle` | observed | | |
 | **contains** | `component.page-header` | `control.header.search` | declared | | |
-| **contains** | `screen.settings` | `component.settings-card.profile` | observed | | |
+| **contains** | `region.settings-content` | `component.settings-card.profile` | observed | | |
 | **instance-of** | `component.settings-card.profile` | `component.settings-card` | derived | | |
-| **contains** | `screen.settings` | `component.settings-card.about` | observed | | |
+| **contains** | `region.about-column` | `component.settings-card.about` | observed | | |
 | **instance-of** | `component.settings-card.about` | `component.settings-card` | derived | | |
-| **contains** | `screen.settings` | `component.settings-card.paths` | observed | | |
+| **contains** | `region.configuration-column` | `component.settings-card.paths` | observed | | |
 | **instance-of** | `component.settings-card.paths` | `component.settings-card` | derived | | |
-| **contains** | `screen.settings` | `component.settings-card.actions` | observed | | |
+| **contains** | `region.configuration-column` | `component.settings-card.actions` | observed | | |
 | **instance-of** | `component.settings-card.actions` | `component.settings-card` | derived | | |
 | **contains** | `component.settings-card.profile` | `content.profile.section-title` | observed | | |
 | **contains** | `component.settings-card.profile` | `content.profile.name-label` | observed | | |
@@ -196,7 +220,10 @@ the ones a graph must never invent. They are listed first.
 | **instance-of** | `control.actions.clear-recents` | `component.action-button` | derived | | |
 | **instance-of** | `control.actions.open-data-folder` | `component.action-button` | derived | | |
 | **instance-of** | `control.actions.open-docs` | `component.action-button` | derived | | |
-| **has-state** | `screen.settings` | `state.settings.entering` | declared | | |
+| **has-state** | `component.settings-card.profile` | `state.profile.entering` | declared | | |
+| **has-state** | `component.settings-card.about` | `state.about.entering` | declared | | |
+| **has-state** | `component.settings-card.paths` | `state.paths.entering` | declared | | |
+| **has-state** | `component.settings-card.actions` | `state.actions.entering` | declared | | |
 | **has-state** | `control.profile.save` | `state.profile.saved` | declared | | |
 | **uses-token** | `screen.settings` | `token.color.surface0` | declared | | |
 | **uses-token** | `screen.settings` | `token.spacing.24` | observed | | |
@@ -212,13 +239,13 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `content.settings.title` | `token.typography.page-title` | declared | | |
 | **uses-token** | `content.settings.subtitle` | `token.typography.body` | declared | | |
 | **uses-token** | `content.settings.subtitle` | `token.color.text-40` | declared | | |
-| **uses-token** | `content.profile.section-title` | `token.typography.mono-small` | declared | | |
+| **uses-token** | `content.profile.section-title` | `token.typography.section-header` | declared | | |
 | **uses-token** | `content.profile.section-title` | `token.color.text-38` | declared | | |
-| **uses-token** | `content.about.section-title` | `token.typography.mono-small` | declared | | |
+| **uses-token** | `content.about.section-title` | `token.typography.section-header` | declared | | |
 | **uses-token** | `content.about.section-title` | `token.color.text-38` | declared | | |
-| **uses-token** | `content.paths.section-title` | `token.typography.mono-small` | declared | | |
+| **uses-token** | `content.paths.section-title` | `token.typography.section-header` | declared | | |
 | **uses-token** | `content.paths.section-title` | `token.color.text-38` | declared | | |
-| **uses-token** | `content.actions.section-title` | `token.typography.mono-small` | declared | | |
+| **uses-token** | `content.actions.section-title` | `token.typography.section-header` | declared | | |
 | **uses-token** | `content.actions.section-title` | `token.color.text-38` | declared | | |
 | **uses-token** | `content.profile.name-label` | `token.typography.mono-small` | declared | | |
 | **uses-token** | `content.profile.name-label` | `token.color.text-50` | declared | | |

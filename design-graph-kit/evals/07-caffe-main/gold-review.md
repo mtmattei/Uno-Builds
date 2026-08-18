@@ -1,6 +1,6 @@
 # Gold review — `07-caffe-main`
 
-**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\07-caffe-main\gold.graph.json` (48 nodes / 67 edges / 1 unresolved)
+**Reviewer:** _(name)_  ·  **Date:** _(YYYY-MM-DD)_  ·  **Gold:** `evals\07-caffe-main\gold.graph.json` (50 nodes / 72 edges / 1 unresolved)
 
 > Independent review breaking the same-author circularity: every gold in this
 > kit was authored and calibrated by one agent lineage. Record findings here;
@@ -19,11 +19,11 @@
 
 | Source file | Found | Nodes citing it |
 |---|---|---|
-| `Caffe/Caffe/Controls/` | yes | 7 |
+| `Caffe/Caffe/Controls/` | yes | 4 |
 | `Caffe/Caffe/MainPage.xaml` | yes | 11 |
 | `Caffe/Caffe/MainPage.xaml.cs` | yes | 1 |
-| `Caffe/Caffe/Styles/AppResources.xaml` | yes | 24 |
-| `Caffe/Caffe/ViewModels/MainViewModel.cs` | yes | 5 |
+| `Caffe/Caffe/Styles/AppResources.xaml` | yes | 28 |
+| `Caffe/Caffe/ViewModels/MainViewModel.cs` | yes | 6 |
 
 ## Automated pre-pass — identifiers not found in the cited source
 
@@ -34,17 +34,15 @@ contract says each one should appear literally.
 
 **No fabricated identifiers.** Every quoted uno value exists in the application.
 
-### Prose in a field that should hold one identifier (2)
+### Token values that disagree with the style they name
 
-Every identifier inside these strings exists in the app, so the mapping
-is right — but the field packs two names, or a name plus a gloss, which
-means nothing downstream can consume it as a quotation. Decide whether
-the value should be split, or the field's contract loosened.
+A key existing in source does not make the value attributed to it right.
+This compares each token's asserted value against the `Setter`s of the
+style it names. The check exists because a cross-model reviewer found a
+token claiming `OrbitalPageTitle` is 28px when that style declares 20 —
+the 28 belonged to a different style, and every existence check passed it.
 
-| Node | uno key | Value | Identifiers found | Cited as |
-|---|---|---|---|---|
-| `state.espresso-card.selected` | `member` | `HasSelection / IsSelected` | `HasSelection, IsSelected` | `Caffe/Caffe/ViewModels/MainViewModel.cs` |
-| `state.brew-button.disabled` | `member` | `HasSelection (RelayCommand CanExecute)` | `HasSelection` | `Caffe/Caffe/ViewModels/MainViewModel.cs` |
+**No mismatches.** Every token value matches the style it cites.
 
 ## Structural facts
 
@@ -53,22 +51,22 @@ these are correct, and that call belongs to the reviewer.
 
 | Node type | In gold |
 |---|---|
-| `token` | 25 |
+| `token` | 29 |
 | `component` | 13 |
-| `state` | 4 |
-| `content` | 2 |
+| `state` | 5 |
 | `region` | 2 |
 | `screen` | 1 |
-| `asset` | 1 |
 | `control` | **0** |
+| `content` | **0** |
+| `asset` | **0** |
 
 | Relation | In gold |
 |---|---|
-| `uses-token` | 40 |
-| `contains` | 17 |
-| `has-state` | 4 |
+| `uses-token` | 44 |
+| `contains` | 14 |
+| `has-state` | 5 |
+| `triggers` | 5 |
 | `instance-of` | 4 |
-| `triggers` | 2 |
 
 The cited XAML declares **34** layout containers (`Grid`/`StackPanel`/`AutoLayout`/…) across 5 file(s).
 Compare against the `region` count above when judging check 6.
@@ -92,9 +90,6 @@ For each, mark **ok** / **finding** and add a line of evidence.
 |---|---|---|---|---|---|---|---|
 | `screen.caffe-main` | screen | Caffe main (brew) | observed | 1.0 | type=Page, class=Caffe.MainPage, viewModel=Caffe.ViewModels.MainViewModel (CommunityToolkit.Mvvm) | | |
 | `component.caffe-header` | component | Caffe header | declared | 1.0 | type=UserControl, class=Caffe.Controls.CaffeHeader | | |
-| `asset.header.accent-bar` | asset | Accent bar | observed | 1.0 | — | | |
-| `content.header.logo` | content | Logo | observed | 1.0 | type=TextBlock, styleKey=LogoTextStyle | | |
-| `content.header.tagline` | content | Tagline | observed | 1.0 | type=TextBlock, styleKey=TaglineTextStyle | | |
 | `component.caffe-footer` | component | Caffe footer | declared | 1.0 | type=UserControl, class=Caffe.Controls.CaffeFooter | | |
 | `region.caffe-main.menu` | region | Espresso menu | observed | 1.0 | — | | |
 | `component.espresso-card` | component | Espresso card | declared | 1.0 | type=UserControl, class=Caffe.Controls.EspressoCard | | |
@@ -109,10 +104,15 @@ For each, mark **ok** / **finding** and add a line of evidence.
 | `component.selection-overview` | component | Selection overview | declared | 1.0 | type=UserControl, class=Caffe.Controls.SelectionOverview, xName=SelectionOverview | | |
 | `component.brew-button` | component | Brew | declared | 1.0 | type=UserControl, class=Caffe.Controls.BrewButton, xName=BrewBtn | | |
 | `state.espresso-card.selected` | state | Card selected | declared | 1.0 | mechanism=binding, member=HasSelection / IsSelected | | |
-| `state.brew-button.disabled` | state | Brew disabled | declared | 1.0 | mechanism=binding, member=HasSelection (RelayCommand CanExecute) | | |
-| `state.selection-overview.hidden` | state | Overview hidden | declared | 1.0 | mechanism=binding, member=HasSelection | | |
+| `state.brew-button.enabled` | state | Brew enabled | declared | 1.0 | mechanism=binding, member=HasSelection, property=RelayCommand CanExecute | | |
+| `state.brew-button.selection-label` | state | Brew label names the selection | declared | 1.0 | mechanism=binding, member=BrewButtonText | | |
+| `state.selection-overview.visible` | state | Overview visible | declared | 1.0 | mechanism=binding, member=HasSelection | | |
 | `state.caffe-main.brewing` | state | Brewing | declared | 1.0 | mechanism=binding, member=IsBrewing | | |
 | `component.brewing-screen` | component | Brewing overlay | declared | 1.0 | type=UserControl, class=Caffe.Controls.BrewingScreen, xName=BrewingOverlay | | |
+| `token.color.coffee-dark` | token | Coffee dark (brew gradient) | declared | 1.0 | resourceKey=CoffeeDarkColor, resourceType=Color | | |
+| `token.color.coffee-light` | token | Coffee light (brew gradient) | declared | 1.0 | resourceKey=CoffeeLightColor, resourceType=Color | | |
+| `token.color.temperature-high` | token | Temperature high | declared | 1.0 | resourceKey=CaffeTemperatureHighColor, resourceType=Color | | |
+| `token.color.temperature-low` | token | Temperature low | declared | 1.0 | resourceKey=CaffeTemperatureLowColor, resourceType=Color | | |
 | `token.color.background` | token | Background | declared | 1.0 | resourceKey=CaffeBackgroundBrush, resourceType=SolidColorBrush | | |
 | `token.color.surface` | token | Surface | declared | 1.0 | resourceKey=CaffeSurfaceBrush, resourceType=SolidColorBrush | | |
 | `token.color.primary` | token | Primary (espresso green) | declared | 1.0 | resourceKey=CaffePrimaryBrush, resourceType=SolidColorBrush | | |
@@ -148,10 +148,10 @@ the ones a graph must never invent. They are listed first.
 |---|---|---|---|---|---|
 | **triggers** | `component.brew-button` | `state.caffe-main.brewing` | declared | | |
 | **triggers** | `component.espresso-card` | `state.espresso-card.selected` | declared | | |
+| **triggers** | `component.espresso-card` | `state.selection-overview.visible` | declared | | |
+| **triggers** | `component.espresso-card` | `state.brew-button.selection-label` | declared | | |
+| **triggers** | `component.espresso-card` | `state.brew-button.enabled` | declared | | |
 | **contains** | `screen.caffe-main` | `component.caffe-header` | observed | | |
-| **contains** | `component.caffe-header` | `asset.header.accent-bar` | observed | | |
-| **contains** | `component.caffe-header` | `content.header.logo` | observed | | |
-| **contains** | `component.caffe-header` | `content.header.tagline` | observed | | |
 | **contains** | `screen.caffe-main` | `region.caffe-main.menu` | observed | | |
 | **contains** | `screen.caffe-main` | `region.caffe-main.parameters` | observed | | |
 | **contains** | `screen.caffe-main` | `component.brew-button` | observed | | |
@@ -162,8 +162,9 @@ the ones a graph must never invent. They are listed first.
 | **has-state** | `screen.caffe-main` | `state.caffe-main.brewing` | declared | | |
 | **contains** | `screen.caffe-main` | `component.selection-overview` | observed | | |
 | **has-state** | `component.espresso-card` | `state.espresso-card.selected` | declared | | |
-| **has-state** | `component.brew-button` | `state.brew-button.disabled` | declared | | |
-| **has-state** | `component.selection-overview` | `state.selection-overview.hidden` | declared | | |
+| **has-state** | `component.brew-button` | `state.brew-button.enabled` | declared | | |
+| **has-state** | `component.brew-button` | `state.brew-button.selection-label` | declared | | |
+| **has-state** | `component.selection-overview` | `state.selection-overview.visible` | declared | | |
 | **contains** | `state.caffe-main.brewing` | `component.brewing-screen` | declared | | |
 | **contains** | `region.caffe-main.menu` | `component.espresso-card.espresso` | observed | | |
 | **instance-of** | `component.espresso-card.espresso` | `component.espresso-card` | derived | | |
@@ -174,10 +175,10 @@ the ones a graph must never invent. They are listed first.
 | **contains** | `region.caffe-main.menu` | `component.espresso-card.lungo` | observed | | |
 | **instance-of** | `component.espresso-card.lungo` | `component.espresso-card` | derived | | |
 | **uses-token** | `screen.caffe-main` | `token.color.background` | declared | | |
-| **uses-token** | `content.header.logo` | `token.typography.logo` | declared | | |
-| **uses-token** | `content.header.tagline` | `token.typography.tagline` | declared | | |
-| **uses-token** | `asset.header.accent-bar` | `token.color.primary` | declared | | |
-| **uses-token** | `asset.header.accent-bar` | `token.color.accent-red` | declared | | |
+| **uses-token** | `component.caffe-header` | `token.typography.logo` | declared | | |
+| **uses-token** | `component.caffe-header` | `token.typography.tagline` | declared | | |
+| **uses-token** | `component.caffe-header` | `token.color.primary` | declared | | |
+| **uses-token** | `component.caffe-header` | `token.color.accent-red` | declared | | |
 | **uses-token** | `component.caffe-footer` | `token.color.primary` | declared | | |
 | **uses-token** | `component.caffe-footer` | `token.color.accent-red` | declared | | |
 | **uses-token** | `component.espresso-card` | `token.color.surface` | declared | | |
@@ -213,6 +214,10 @@ the ones a graph must never invent. They are listed first.
 | **uses-token** | `component.brewing-screen` | `token.typography.brewing-title` | declared | | |
 | **uses-token** | `component.brewing-screen` | `token.typography.body` | declared | | |
 | **uses-token** | `component.extraction-arc` | `token.typography.arc-label` | declared | | |
+| **uses-token** | `component.brewing-screen` | `token.color.coffee-dark` | declared | | |
+| **uses-token** | `component.brewing-screen` | `token.color.coffee-light` | declared | | |
+| **uses-token** | `component.temperature-gauge` | `token.color.temperature-high` | declared | | |
+| **uses-token** | `component.temperature-gauge` | `token.color.temperature-low` | declared | | |
 
 ## Unresolved items
 

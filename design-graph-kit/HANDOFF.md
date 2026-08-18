@@ -24,7 +24,7 @@ the list.
 |---|---|---|
 | **A** — compile + visual parity | **done** | All four arms compile with zero arm-code changes; arm A crashes at runtime on a relocated `ms-appx:///` URI; visual parity against the real Orbital SettingsPage recorded. `experiments/ab-orbital-settings/ab-results.md` → "Compile verification"; captures in `experiments/ab-orbital-settings/parity/` |
 | **B** — image input | **done** | `evals/08-pens-beers/` — real image supplied, gold authored from source, 5-run blind fleet, **5/5 honesty perfect**. Recorded as a *screenshot* round, not design-first: the input is a capture of the running app, not a design export |
-| **C** — human gold review | **packet built, review open** | `tools/build_review_packet.py` generates `gold-review.md` per eval; automated pre-pass found **0 fabricated identifiers** across all three golds. The independent human pass is still required and is the only thing that discharges this item |
+| **C** — human gold review | **packet + cross-model bundle built, review open** | `tools/build_review_packet.py` generates `gold-review.md` per eval (0 fabricated identifiers across all five golds); `tools/build_cross_review.py` generates a self-contained bundle for an outside model. The independent pass is still required — see below |
 | **D** — installable plugin | **done, unpublished** | Self-contained plugin repo built and committed locally at `../uno-design-graph-plugin`. Not pushed to GitHub — publishing is a human call |
 
 What changed in the findings, beyond ticking boxes:
@@ -48,6 +48,37 @@ What changed in the findings, beyond ticking boxes:
   the two-column row, so the arms got it right. Whether the graph should carry
   that arrangement is a genuine altitude question, now check 6 in the review
   packet.
+
+### Item C — two ways to break the circularity
+
+The problem is not that a human sees what a model cannot. It is **correlated
+error**: every gold, rule and checker here came from one model lineage, so a
+checker written by that lineage inherits its blind spots rather than catching
+them. Three tools in this kit were confidently wrong until data contradicted
+them, and none was caught by review.
+
+**Option 1 — cross-model review (no human time).** Breaks lineage correlation,
+which is most of the value.
+
+```bash
+python3 tools/build_cross_review.py 05-orbital-settings   # self-contained bundle
+python3 tools/run_cross_review.py   05-orbital-settings   # sends it to Gemini via Vertex
+```
+
+`run_cross_review.py` uses the gcloud CLI's own credentials, so there is no API
+key to manage; if the token has expired it says so and stops rather than
+failing obscurely. The bundle is plain markdown and can equally be uploaded to
+any model by hand — it carries the task, the rules, the gold, and every source
+file line-numbered so findings can cite `file:line`. Sizes: eval 05 ~37k
+tokens, eval 09 ~86k.
+
+What this does **not** settle: the altitude ruling (whether `region` nodes
+belong), and questions of intent that only someone who knows the app can
+answer.
+
+**Option 2 — a person reads `gold-review.md`.** Roughly half an hour. Only
+check 6 genuinely needs a human; the rest can be sampled. This is what makes
+"validated" sayable to anyone outside the project.
 
 ### Item B outcome
 

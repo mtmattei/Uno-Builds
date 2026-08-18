@@ -17,7 +17,7 @@ score exists to quantify.
 """
 import json, pathlib
 
-OUT = pathlib.Path("/home/user/Uno-Builds/design-graph-kit/evals/05-orbital-settings")
+OUT = pathlib.Path(__file__).resolve().parents[1] / "evals" / "05-orbital-settings"
 XAML = {"type": "xaml", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml"}
 CS = {"type": "csharp", "path": "Orbital/Orbital/Presentation/SettingsPage.xaml.cs"}
 DS = {"type": "design-system", "label": "Orbital Styles/*.xaml"}

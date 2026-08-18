@@ -91,16 +91,38 @@ node("component.tab-item", "component", "Tab item", ev("observed", SHELL,
      properties={"uno": {"type": "TabBarItem", "property": "Tag"},
                  "internals": ["icon", "caption"]})
 for slug, label, glyph in [
-    ("schedule", "Schedule", "SymbolIcon Calendar"),
-    ("chat", "Chat", "SymbolIcon Message"),
-    ("beers", "Beers", "FontIcon E799"),
-    ("duties", "Duties", "SymbolIcon Bullets"),
-    ("roster", "Roster", "SymbolIcon People"),
+    ("schedule", "Schedule", "Calendar"),
+    ("chat", "Chat", "Message"),
+    ("beers", "Beers", "&#xE799;"),
+    ("duties", "Duties", "Bullets"),
+    ("roster", "Roster", "People"),
 ]:
     node(f"component.tab-item.{slug}", "component", f"{label} tab", ev("observed", SHELL),
          text=label, properties={"uno": {"type": "TabBarItem", "property": f"Tag={label}", "iconGlyph": glyph}})
     edge(f"component.tab-item.{slug}", "instance-of", "component.tab-item", ev("observed", SHELL))
     contains("region.tab-bar", f"component.tab-item.{slug}", SHELL)
+
+# Cross-model review, critical finding: the first version of this gold recorded
+# the tab destinations as `unresolved`, because it was authored from Shell.xaml
+# without opening Shell.xaml.cs - where `_pageFactories` maps every Tag to its
+# page (lines 13-20), OnTabSelectionChanged reads that tag, and NavigateToTab
+# installs the page. The destinations are fully declared. The sibling screens
+# are modeled as bare navigation targets; their internals are out of scope.
+SHELLCS = "Pens/Pens/Presentation/Shell.xaml.cs"
+for slug, label, page in [
+    ("schedule", "Schedule", "SchedulePage"),
+    ("chat", "Chat", "ChatPage"),
+    ("duties", "Duties", "DutiesPage"),
+    ("roster", "Roster", "RosterPage"),
+]:
+    node(f"screen.{slug}", "screen", label,
+         ev("declared", SHELLCS, f'_pageFactories["{label}"] constructs {page} with its view model.'),
+         properties={"uno": {"type": "Page", "class": f"Pens.Presentation.{page}"},
+                     "scopeNote": "navigation target only; not modeled in this eval"})
+    edge(f"component.tab-item.{slug}", "navigates-to", f"screen.{slug}",
+         ev("declared", SHELLCS, "OnTabSelectionChanged -> NavigateToTab(tag) -> NavigationContent."))
+edge("component.tab-item.beers", "navigates-to", "screen.beers",
+     ev("declared", SHELLCS, 'OnTabSelectionChanged -> NavigateToTab("Beers") -> this screen.'))
 
 # ---------------------------------------------------------------- hero summary
 node("region.beer-summary", "region", "Season consumption summary",
@@ -239,9 +261,13 @@ contains("control.tracker.case-grid", "component.case-tile")
 # ---------------------------------------------------------------- behavior
 edge("component.case-tile", "has-state", "state.case-tile.consumed",
      ev("declared", CONV, "Per-tile visual state driven by the CaseBlock.IsConsumed flag."))
-edge("component.case-tile", "triggers", "state.case-tile.consumed",
-     ev("declared", VM, "utu:CommandExtensions.Command on the repeater invokes ToggleCaseAsync(CaseBlock), "
-                        "which recomputes ConsumedCases and therefore every tile's IsConsumed."))
+# Cross-model review: the command is attached to the ItemsRepeater
+# (BeersPage.xaml:71-72), not to the Border in its item template, and toggling
+# recomputes the count for the tapped block rather than flipping every tile.
+edge("control.tracker.case-grid", "triggers", "state.case-tile.consumed",
+     ev("declared", VM, "utu:CommandExtensions.Command on the repeater invokes "
+                        "ToggleCaseAsync(CaseBlock), which sets ConsumedCases from the "
+                        "tapped block's index."))
 
 # ---------------------------------------------------------------- token wiring
 uses("screen.beers", "token.color.arena-dark")
@@ -290,13 +316,11 @@ graph = {
     "nodes": nodes,
     "edges": edges,
     "unresolved": [
-        {
-            "id": "unresolved.tab-targets",
-            "question": "What does each bottom tab navigate to?",
-            "relatedIds": ["region.tab-bar", "component.tab-item"],
-            "reason": "Shell.xaml gives each TabBarItem a Tag (Schedule/Chat/Beers/Duties/Roster) but declares no "
-                      "route or handler; the navigation registration is outside this source set.",
-        },
+        # `unresolved.tab-targets` was removed after the cross-model review:
+        # the destinations are declared in Shell.xaml.cs, which the first pass
+        # never opened. They are now five `navigates-to` edges. An unresolved
+        # item that the source answers is worse than a missing one - it teaches
+        # a consumer that the fact is unknowable.
         {
             "id": "unresolved.stat-values",
             "question": "Are the four stat values placeholders?",
@@ -313,7 +337,7 @@ graph = {
             "relatedIds": ["screen.beers"],
             "reason": "BeersViewModel declares IsLoading, ErrorMessage and HasError and sets them in "
                       "LoadBeerCountAsync and the toggle rollback path, but BeersPage.xaml binds none of them. "
-                      "Either the screen silently drops load and failure feedback, or it is surfaced elsewhere.",
+                      "Nothing in the page binds them, so this screen renders no load or failure feedback at all. Recorded because the ViewModel declares presentation state the screen never shows, which is a defect worth surfacing rather than an ambiguity.",
         },
     ],
 }
