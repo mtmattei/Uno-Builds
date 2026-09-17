@@ -12,7 +12,8 @@ Status: plan for V1, ready to implement.
   - https://discord.com/channels/1182775715242967050/1547279690664771605
   - https://discord.com/channels/1182775715242967050/1549796979914313788
   - https://discord.com/channels/1182775715242967050/1549786519886368869
-- Tag names and label maps in the config example are placeholders until the real forum tags are known.
+- A moderator-only `Track on GitHub` tag exists on all three forums (added 2026-09-17). It is the trigger tag. Label maps in the config example are placeholders.
+- V1 reacts to the trigger tag both at post creation and when a moderator applies it later (decided 2026-09-17, see Decisions).
 - Forum tags are configured by **name**, matched case-insensitively. Tag IDs are more stable but hurt readability; renames are a documented limitation.
 - The build environment cannot reach Discord or GitHub gateways, so the integration test is a manual runbook step. Unit tests run with `dotnet test`.
 
@@ -26,6 +27,8 @@ Status: plan for V1, ready to implement.
 | Microsoft.Extensions.Hosting | 10.0.12 | Worker host. |
 | Polly.Core | 8.8.0 | Bounded retry with backoff. |
 | `BaseSocketClient.ThreadCreated` | `Func<SocketThreadChannel, Task>` | Fires on creation **and** when the bot is added to a thread. Expect a double fire per forum post. |
+| `BaseSocketClient.ThreadUpdated` | `Func<Cacheable<SocketThreadChannel, ulong>, SocketThreadChannel, Task>` | `before` may be uncached; when `HasValue` is false, skip the tag diff and let the reservation guard decide. |
+| `ForumTag` | `Id, Name, Emoji, IsModerated, CreatedAt` | `IsModerated` lets the bot warn at startup if the trigger tag is not mod-only. |
 | `SocketThreadChannel.AppliedTags` | `IReadOnlyCollection<ulong>` | Tag IDs; resolve names via `SocketForumChannel.Tags`. |
 | `SocketThreadChannel.ParentChannel` | `SocketGuildChannel` | Cast to `SocketForumChannel` to confirm it is a forum. |
 | Starter message | `thread.GetMessageAsync(thread.Id)` | The starter message ID equals the thread ID. Can be `null` briefly after the event. |
@@ -55,7 +58,7 @@ DiscordGitHubBridge/
 │   │   └── ForumRuleOptions.cs      # ChannelId, RequiredTags, IgnoredTags, LabelMap, DefaultLabels
 │   ├── Discord/
 │   │   ├── DiscordGatewayService.cs # BackgroundService: login, intents, event wiring, reconnect logging
-│   │   ├── ForumThreadHandler.cs    # ThreadCreated → ForumThreadSnapshot → BridgeProcessor
+│   │   ├── ForumThreadHandler.cs    # ThreadCreated + ThreadUpdated → ForumThreadSnapshot → BridgeProcessor
 │   │   └── ForumThreadSnapshot.cs   # Plain record; the only Discord shape the core sees
 │   ├── GitHub/
 │   │   ├── IGitHubIssueClient.cs    # CreateIssueAsync(NewIssueRequest) → CreatedIssue
@@ -89,7 +92,7 @@ DiscordGitHubBridge/
 
 This extends the spec's four-field model with a `Status` column. It is what makes the partial-failure requirement in spec §13 hold: a crash between "issue created" and "mapping saved" leaves a `Pending` row plus an error log line carrying the issue URL, and the next event for that thread stops at the reservation instead of creating a second issue. `Pending` rows older than a few minutes are logged at startup for manual review.
 
-An in-process `ConcurrentDictionary<ulong, byte>` of in-flight thread IDs absorbs the `ThreadCreated` double fire before it reaches the database.
+An in-process `ConcurrentDictionary<ulong, byte>` of in-flight thread IDs absorbs the `ThreadCreated` double fire and any `ThreadUpdated` burst before it reaches the database. `ThreadUpdated` is noisy (name edits, archive state, pins), so the handler only proceeds when the applied-tag set actually changed and now contains a trigger tag; everything else is dropped at Debug. When the `before` value is not cached, the handler skips the diff and proceeds, relying on the reservation row to stop duplicates.
 
 **Services and DI.**
 
@@ -101,7 +104,7 @@ An in-process `ConcurrentDictionary<ulong, byte>` of in-flight thread IDs absorb
 | `IGitHubIssueClient` | Singleton | Holds the cached installation token. |
 | `BridgeDbContext` | Scoped via `IDbContextFactory` | Event handlers are not request-scoped; create a context per event. |
 
-**Data flow.** `ThreadCreated` → `ForumThreadHandler` (fire-and-forget with `Task.Run`, so the gateway is never blocked; exceptions caught and logged) → `BridgeProcessor.ProcessAsync(snapshot)` → outcome logged with a scope of `{ThreadId, ChannelId, Repo, IssueNumber?}`.
+**Data flow.** `ThreadCreated` or `ThreadUpdated` → `ForumThreadHandler` (fire-and-forget with `Task.Run`, so the gateway is never blocked; exceptions caught and logged) → `BridgeProcessor.ProcessAsync(snapshot)` → outcome logged with a scope of `{ThreadId, ChannelId, Repo, IssueNumber?}`.
 
 **Auth.** GitHub App is the chosen mode for the first deployment (decided 2026-09-17). `GitHub:Auth:Mode` is `App` by default; `Pat` stays available for local development only. App mode builds an RS256 JWT from `AppId` and a PEM private key (`RSA.ImportFromPem` + `SignData`, roughly 25 lines, no extra package), exchanges it for an installation token via `CreateInstallationToken(InstallationId)`, and caches the token until five minutes before expiry. PAT mode is for local development only and the README says so.
 
@@ -192,7 +195,9 @@ Options are validated with data annotations plus `ValidateOnStart`, so a missing
 
 ## Interaction Brief
 
-**Happy path.** Thread created in a configured forum with a required tag → issue created with mapped labels → mapping saved → reply posted in the thread → Information log with issue number.
+**Happy path A (tag at creation).** Thread created in a configured forum with the trigger tag → issue created with mapped labels → mapping saved → reply posted in the thread → Information log with issue number.
+
+**Happy path B (tag applied later).** Untagged thread created → `SkippedRule` at Debug → moderator applies `Track on GitHub` → `ThreadUpdated` → same pipeline → exactly one issue. Removing the tag afterwards changes nothing in V1.
 
 **Rule evaluation** (`ThreadRuleEvaluator`, pure):
 
@@ -213,7 +218,7 @@ Options are validated with data annotations plus `ValidateOnStart`, so a missing
 - GitHub transient error after retries → same as terminal, logged as Error with the retry count.
 - Persistence failure after issue creation → Error log includes the issue URL; the `Pending` reservation stays so no second issue is created.
 - Discord reply failure → Warning; mapping stays `Created`. The issue exists and is linked; the reply is best-effort.
-- Gateway disconnect → Discord.Net reconnects on its own; `Disconnected`/`Connected` are logged. Threads created while disconnected are not replayed in V1 (documented limitation; V2 `/github sync`).
+- Gateway disconnect → Discord.Net reconnects on its own; `Disconnected`/`Connected` are logged. Threads created or tagged while disconnected are not replayed in V1. Workaround: a moderator removes and re-applies the tag. V2 `/github sync` covers the rest.
 
 **Feedback.** The only user-visible feedback is the thread reply. Moderators can confirm state from the log or the SQLite file.
 
@@ -222,7 +227,7 @@ Options are validated with data annotations plus `ValidateOnStart`, so a missing
 **Runtime verification steps** (manual, against a test server and repo):
 
 1. Create a forum post with the required tag → exactly one issue, correct title, body, labels, backlink; reply appears in the thread.
-2. Create a post without the required tag → no issue, one Skipped log line.
+2. Create a post without the required tag → no issue, one Skipped log line. Then apply `Track on GitHub` as a moderator → exactly one issue and one reply.
 3. Create a post in a non-configured forum → no issue, one Skipped log line.
 4. Restart the service, re-run step 1's thread through the `Pending`-row path by deleting the issue and re-tagging → no second issue, `AlreadyMapped` logged.
 5. Revoke the GitHub token → post a qualifying thread → Error logged, worker stays up, no `Created` row.
@@ -237,8 +242,8 @@ Each step is a build-green commit. Conventional commit messages.
 3. **`feat: add thread rule evaluator and issue factory`** — pure classes plus tests for allowed/disallowed forum, required/ignored tags, multi-tag label mapping, body construction, backtick escaping, truncation. Verify: `dotnet test`.
 4. **`feat: add SQLite mapping store with reservation status`** — entity, `BridgeDbContext`, initial migration, repository with `TryReserveAsync`, `CompleteAsync`, `MarkNotifiedAsync`, `ReleaseAsync`. Tests on in-memory SQLite for uniqueness and status transitions. Verify: `dotnet test`, `dotnet ef migrations list`.
 5. **`feat: add GitHub issue client with app auth and retry`** — `GitHubCredentialProvider` (PAT + App JWT), `OctokitIssueClient` with the Polly pipeline, terminal-vs-transient classification. Tests cover the JWT shape (header/claims) and the retry predicate; the Octokit call itself is exercised in the manual run.
-6. **`feat: add bridge processor with idempotency and partial-failure handling`** — the spec workflow end to end with fakes-based tests: duplicate event, existing mapping, GitHub failure leaves no `Created` row, reply failure keeps the mapping. Verify: `dotnet test`.
-7. **`feat: connect Discord gateway and forum thread handler`** — `DiscordGatewayService`, intents, `ThreadCreated` wiring, snapshot extraction with tag-name resolution, starter-message retry, reply via `SendMessageAsync`. Verify: build, then manual runbook steps 1–3 against a test server.
+6. **`feat: add bridge processor with idempotency and partial-failure handling`** — the spec workflow end to end with fakes-based tests: duplicate event, existing mapping, late-tag path creates exactly one issue, GitHub failure leaves no `Created` row, reply failure keeps the mapping. Verify: `dotnet test`.
+7. **`feat: connect Discord gateway and forum thread handler`** — `DiscordGatewayService`, intents, `ThreadCreated` and `ThreadUpdated` wiring with the tag-diff guard, snapshot extraction with tag-name resolution, starter-message retry, reply via `SendMessageAsync`. Verify: build, then manual runbook steps 1–3 against a test server.
 8. **`docs: add README with Discord and GitHub App setup and runbook`** — portal steps (bot scopes, privileged intent, channel permissions), GitHub App permissions (Metadata: Read, Issues: Read & Write), secret configuration per platform, the manual verification steps above, known limitations.
 9. Optional **`chore: add Dockerfile`** if the deployment target is a container. Left out until the target is known.
 
@@ -262,6 +267,10 @@ Decision: Polly.Core for retry.
 Reason: spec §13 requires bounded exponential backoff, and Polly is the standard .NET way to express it with jitter.
 Tradeoff: one dependency; a hand-written loop would be about the same size but without jitter or a predicate API.
 
+Decision: handle `ThreadUpdated` in V1, not only `ThreadCreated`.
+Reason: the trigger tag is moderator-only, so it is usually applied after the post exists. Without this, the triage gate the spec asks for cannot be used.
+Tradeoff: one more event to filter; the tag-diff guard keeps the noise out. Pulled forward from the V2 "Discord tag changes" item, scoped to add-only.
+
 Decision: tags configured by name, not ID.
 Reason: readable config for moderators; IDs are only visible via the API.
 Tradeoff: renaming a forum tag silently breaks its rule until config is updated. Logged at Warning when an applied tag has no name match.
@@ -276,6 +285,11 @@ Needed before the first run. Create the App at GitHub → Settings → Developer
 - Install the App on the target repository only.
 - Collect for config: **App ID** (App settings page), **Installation ID** (from the installation URL `.../settings/installations/<id>`), and a **private key** (.pem, generated on the App page and downloaded once).
 - Store the PEM outside the repo: `GitHub__Auth__PrivateKeyPath` pointing at a file, or `GitHub__Auth__PrivateKeyPem` with the key contents, via user-secrets locally and the platform secret store in production.
+
+## Additional acceptance criteria (beyond spec §15)
+
+- Applying the trigger tag to an existing untagged post creates exactly one issue.
+- Thread edits that do not change the applied tags create nothing and log at Debug only.
 
 ## Unresolved Questions
 
