@@ -7,12 +7,13 @@ Status: plan for V1, ready to implement.
 
 - The bridge lives in `DiscordGitHubBridge/` at the repo root, following the one-folder-per-project convention used by `vtrack/`, `matrix/`, etc.
 - Target is `net10.0`. The `.NET 10.0.112` SDK is available and NuGet is reachable from the build environment.
-- One Discord guild, one GitHub repository for V1 (multi-repo routing stays in V2).
+- One Discord guild, one GitHub repository for V1 (multi-repo routing stays in V2). Target repository: `unoplatform/uno` (confirmed 2026-09-17).
 - Target guild: `1182775715242967050`. Target forum channels (provided 2026-09-17):
   - https://discord.com/channels/1182775715242967050/1547279690664771605
   - https://discord.com/channels/1182775715242967050/1549796979914313788
   - https://discord.com/channels/1182775715242967050/1549786519886368869
-- A moderator-only `Track on GitHub` tag exists on all three forums (added 2026-09-17). It is the trigger tag. Label maps in the config example are placeholders.
+- A moderator-only `Track on GitHub` tag exists on all three forums (added 2026-09-17). It is the trigger tag.
+- All three forums use the same single label, `triage/untriaged`, and no per-tag label map (confirmed 2026-09-17).
 - V1 reacts to the trigger tag both at post creation and when a moderator applies it later (decided 2026-09-17, see Decisions).
 - Forum tags are configured by **name**, matched case-insensitively. Tag IDs are more stable but hurt readability; renames are a documented limitation.
 - The build environment cannot reach Discord or GitHub gateways, so the integration test is a manual runbook step. Unit tests run with `dotnet test`.
@@ -291,12 +292,21 @@ Needed before the first run. Create the App at GitHub → Settings → Developer
 - Applying the trigger tag to an existing untagged post creates exactly one issue.
 - Thread edits that do not change the applied tags create nothing and log at Debug only.
 
+## Label choice
+
+`unoplatform/uno` names labels `prefix/name` (`area/…`, `kind/…`, `triage/…`) and has no Discord or
+provenance label. The bridge applies `triage/untriaged`, which already exists there, is described as
+"Indicates an issue requires triaging or verification", and drops a bridged issue straight into the
+maintainers' existing triage flow. Provenance needs no label: the issue body already carries
+"Source: Discord" and the thread backlink.
+
+Whether the GitHub API creates a label that does not yet exist could not be confirmed from here
+(`docs.github.com` is blocked by the egress proxy), which is a second reason to configure only
+labels that already exist in the target repository.
+
 ## Unresolved Questions
 
-- Which GitHub repo is the target, as `owner/repo`? The example config still says `your-org/your-repo`.
 - The GitHub App's App ID and Installation ID, once the App is created and installed.
-- Per-forum label maps, if the three forums should not all use just `from-discord`.
 - Where the service runs in production, which decides whether the optional Dockerfile step happens.
 - Where does this run in production (Windows service, Linux systemd, container, Azure Container Apps)? Decides whether step 9 happens and where the SQLite file lives.
-- Should unmapped Discord tags become GitHub labels verbatim, or be dropped as planned? Dropping is safer for label hygiene.
 - Should the starter message author be linked to a GitHub account when one is known (for example via a Discord ↔ GitHub username map), or stay as plain text? Plain text for V1 unless there is a need.

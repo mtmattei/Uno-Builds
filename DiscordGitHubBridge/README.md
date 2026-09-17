@@ -61,6 +61,8 @@ The `.pem` never goes in the repository.
 
 Copy the non-secret parts of [appsettings.example.json](DiscordGitHubBridge/appsettings.example.json)
 into `appsettings.json` and fill in the forum channel IDs, the repository, and the label maps.
+Configure only labels that already exist in the target repository, so a typo shows up as a missing
+label rather than as a new one appearing in a repository with an established label scheme.
 A forum channel ID is the second number in a channel URL:
 `https://discord.com/channels/<guildId>/<channelId>`.
 
@@ -128,7 +130,9 @@ offline are not replayed. A moderator can remove and re-apply the tag to trigger
 
 ## Verifying a deployment
 
-Run these against a test server and a test repository.
+Run these against a test server and a scratch GitHub repository first, then change `GitHub:Owner`
+and `GitHub:Repository` to the real target. A bridge pointed at a busy public repository on its
+first run has no undo.
 
 1. Create a forum post with the trigger tag. Expect exactly one issue with the thread title, the
    starter message, the mapped labels and the backlink, plus a reply in the thread.
