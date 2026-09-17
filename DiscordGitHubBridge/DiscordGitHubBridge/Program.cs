@@ -1,3 +1,4 @@
+using DiscordGitHubBridge.Bridge;
 using DiscordGitHubBridge.Configuration;
 using DiscordGitHubBridge.Data;
 using DiscordGitHubBridge.GitHub;
@@ -25,7 +26,11 @@ builder.Services.AddSingleton<IGitHubCredentialProvider>(sp =>
 });
 builder.Services.AddSingleton<IGitHubIssueClient, OctokitIssueClient>();
 
-// Discord services are registered in a later step.
+builder.Services.AddSingleton<ThreadRuleEvaluator>();
+builder.Services.AddSingleton<IssueFactory>();
+builder.Services.AddSingleton<BridgeProcessor>();
+
+// The Discord gateway service and IDiscordReplier are registered in the next step.
 
 var host = builder.Build();
 host.Run();
