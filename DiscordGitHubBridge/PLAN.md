@@ -98,7 +98,7 @@ An in-process `ConcurrentDictionary<ulong, byte>` of in-flight thread IDs absorb
 
 **Data flow.** `ThreadCreated` → `ForumThreadHandler` (fire-and-forget with `Task.Run`, so the gateway is never blocked; exceptions caught and logged) → `BridgeProcessor.ProcessAsync(snapshot)` → outcome logged with a scope of `{ThreadId, ChannelId, Repo, IssueNumber?}`.
 
-**Auth.** `GitHub:Auth:Mode` is `Pat` or `App`. App mode builds an RS256 JWT from `AppId` and a PEM private key (`RSA.ImportFromPem` + `SignData`, roughly 25 lines, no extra package), exchanges it for an installation token via `CreateInstallationToken(InstallationId)`, and caches the token until five minutes before expiry. PAT mode is for local development only and the README says so.
+**Auth.** GitHub App is the chosen mode for the first deployment (decided 2026-09-17). `GitHub:Auth:Mode` is `App` by default; `Pat` stays available for local development only. App mode builds an RS256 JWT from `AppId` and a PEM private key (`RSA.ImportFromPem` + `SignData`, roughly 25 lines, no extra package), exchanges it for an installation token via `CreateInstallationToken(InstallationId)`, and caches the token until five minutes before expiry. PAT mode is for local development only and the README says so.
 
 **Retry.** Polly `ResiliencePipeline` around the create-issue call: 3 attempts, exponential backoff with jitter from 2s, retry only on `RateLimitExceededException`, `AbuseException`, and `ApiException` with a 5xx status. `AuthorizationException`, `NotFoundException`, and `ApiValidationException` are terminal and logged once.
 
@@ -247,10 +247,20 @@ Decision: tags configured by name, not ID.
 Reason: readable config for moderators; IDs are only visible via the API.
 Tradeoff: renaming a forum tag silently breaks its rule until config is updated. Logged at Warning when an applied tag has no name match.
 
+## GitHub App setup checklist
+
+Needed before the first run. Create the App at GitHub → Settings → Developer settings → GitHub Apps (org-level if the target repo is under an org).
+
+- Permissions: Repository → Metadata: Read-only, Issues: Read and write. Nothing else.
+- Webhook: off for V1 (no inbound endpoint).
+- Where can this App be installed: only this account/org.
+- Install the App on the target repository only.
+- Collect for config: **App ID** (App settings page), **Installation ID** (from the installation URL `.../settings/installations/<id>`), and a **private key** (.pem, generated on the App page and downloaded once).
+- Store the PEM outside the repo: `GitHub__Auth__PrivateKeyPath` pointing at a file, or `GitHub__Auth__PrivateKeyPem` with the key contents, via user-secrets locally and the platform secret store in production.
+
 ## Unresolved Questions
 
 - Which Discord server and forum channel(s) are the real V1 targets, and which GitHub repo? (Needed for `appsettings.json` defaults and the README example.)
-- GitHub App or PAT for the first deployment? The plan supports both; App needs someone with org admin to create and install it.
 - Where does this run in production (Windows service, Linux systemd, container, Azure Container Apps)? Decides whether step 9 happens and where the SQLite file lives.
 - Should unmapped Discord tags become GitHub labels verbatim, or be dropped as planned? Dropping is safer for label hygiene.
 - Should the starter message author be linked to a GitHub account when one is known (for example via a Discord ↔ GitHub username map), or stay as plain text? Plain text for V1 unless there is a need.
