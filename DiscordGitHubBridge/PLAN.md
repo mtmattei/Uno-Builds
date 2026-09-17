@@ -8,6 +8,11 @@ Status: plan for V1, ready to implement.
 - The bridge lives in `DiscordGitHubBridge/` at the repo root, following the one-folder-per-project convention used by `vtrack/`, `matrix/`, etc.
 - Target is `net10.0`. The `.NET 10.0.112` SDK is available and NuGet is reachable from the build environment.
 - One Discord guild, one GitHub repository for V1 (multi-repo routing stays in V2).
+- Target guild: `1182775715242967050`. Target forum channels (provided 2026-09-17):
+  - https://discord.com/channels/1182775715242967050/1547279690664771605
+  - https://discord.com/channels/1182775715242967050/1549796979914313788
+  - https://discord.com/channels/1182775715242967050/1549786519886368869
+- Tag names and label maps in the config example are placeholders until the real forum tags are known.
 - Forum tags are configured by **name**, matched case-insensitively. Tag IDs are more stable but hurt readability; renames are a documented limitation.
 - The build environment cannot reach Discord or GitHub gateways, so the integration test is a manual runbook step. Unit tests run with `dotnet test`.
 
@@ -154,10 +159,24 @@ Wrapped in `<>` so Discord does not render a link preview card. Configurable via
   },
   "Forums": [
     {
-      "ChannelId": 0,
+      "ChannelId": 1547279690664771605,
       "RequiredTags": [ "Track on GitHub" ],
       "IgnoredTags": [ "Duplicate", "Answered" ],
       "LabelMap": { "Bug": "bug", "Feature Request": "enhancement" },
+      "DefaultLabels": [ "from-discord" ]
+    },
+    {
+      "ChannelId": 1549796979914313788,
+      "RequiredTags": [ "Track on GitHub" ],
+      "IgnoredTags": [],
+      "LabelMap": {},
+      "DefaultLabels": [ "from-discord" ]
+    },
+    {
+      "ChannelId": 1549786519886368869,
+      "RequiredTags": [ "Track on GitHub" ],
+      "IgnoredTags": [],
+      "LabelMap": {},
       "DefaultLabels": [ "from-discord" ]
     }
   ],
@@ -260,7 +279,8 @@ Needed before the first run. Create the App at GitHub → Settings → Developer
 
 ## Unresolved Questions
 
-- Which Discord server and forum channel(s) are the real V1 targets, and which GitHub repo? (Needed for `appsettings.json` defaults and the README example.)
+- Which GitHub repo is the target, as `owner/repo`?
+- For each of the three forum channels: its name, the tag list, which tag should trigger an issue, and the tag → label map. The example config uses placeholders until then.
 - Where does this run in production (Windows service, Linux systemd, container, Azure Container Apps)? Decides whether step 9 happens and where the SQLite file lives.
 - Should unmapped Discord tags become GitHub labels verbatim, or be dropped as planned? Dropping is safer for label hygiene.
 - Should the starter message author be linked to a GitHub account when one is known (for example via a Discord ↔ GitHub username map), or stay as plain text? Plain text for V1 unless there is a need.
