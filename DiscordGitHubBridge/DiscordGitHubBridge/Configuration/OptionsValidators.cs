@@ -56,9 +56,9 @@ public sealed class GitHubOptionsValidator : IValidateOptions<GitHubOptions>
                 {
                     failures.Add("GitHub.Auth.AppId is required when GitHub.Auth.Mode is App.");
                 }
-                if (auth.InstallationId <= 0)
+                if (auth.InstallationId < 0)
                 {
-                    failures.Add("GitHub.Auth.InstallationId is required when GitHub.Auth.Mode is App.");
+                    failures.Add("GitHub.Auth.InstallationId must be positive when set. Leave it unset to let the bridge find it.");
                 }
                 if (string.IsNullOrWhiteSpace(auth.PrivateKeyPath) && string.IsNullOrWhiteSpace(auth.PrivateKeyPem))
                 {

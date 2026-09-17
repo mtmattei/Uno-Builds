@@ -13,10 +13,23 @@ public class GitHubAppCredentialProviderTests
 
     private sealed class FakeExchanger : IInstallationTokenExchanger
     {
+        public const long DiscoveredInstallationId = 987654;
+
         public int Calls { get; private set; }
+        public int ResolveCalls { get; private set; }
         public DateTimeOffset ExpiresAt { get; set; } = T0.AddHours(1);
         public string? LastJwt { get; private set; }
         public long LastInstallationId { get; private set; }
+        public string? LastOwner { get; private set; }
+        public string? LastRepository { get; private set; }
+
+        public Task<long> ResolveInstallationIdAsync(string appJwt, string owner, string repository, CancellationToken cancellationToken)
+        {
+            ResolveCalls++;
+            LastOwner = owner;
+            LastRepository = repository;
+            return Task.FromResult(DiscoveredInstallationId);
+        }
 
         public Task<AccessToken> ExchangeAsync(string appJwt, long installationId, CancellationToken cancellationToken)
         {
@@ -27,14 +40,14 @@ public class GitHubAppCredentialProviderTests
         }
     }
 
-    private static (GitHubAppCredentialProvider Provider, FakeExchanger Exchanger, FakeTimeProvider Clock) Create()
+    private static (GitHubAppCredentialProvider Provider, FakeExchanger Exchanger, FakeTimeProvider Clock) Create(long installationId = 99)
     {
         using var rsa = RSA.Create(2048);
         var options = Options.Create(new GitHubOptions
         {
-            Owner = "o",
-            Repository = "r",
-            Auth = new GitHubAuthOptions { Mode = GitHubAuthMode.App, AppId = 42, InstallationId = 99, PrivateKeyPem = rsa.ExportRSAPrivateKeyPem() },
+            Owner = "unoplatform",
+            Repository = "uno",
+            Auth = new GitHubAuthOptions { Mode = GitHubAuthMode.App, AppId = 42, InstallationId = installationId, PrivateKeyPem = rsa.ExportRSAPrivateKeyPem() },
         });
         var exchanger = new FakeExchanger();
         var clock = new FakeTimeProvider(T0);
@@ -54,6 +67,37 @@ public class GitHubAppCredentialProviderTests
             Assert.Equal(AuthenticationType.Oauth, credentials.AuthenticationType);
             Assert.Equal(99, exchanger.LastInstallationId);
             Assert.Equal(3, exchanger.LastJwt!.Split('.').Length);
+            Assert.Equal(0, exchanger.ResolveCalls);
+        }
+    }
+
+    [Fact]
+    public async Task Unset_installation_id_is_discovered_from_owner_and_repository()
+    {
+        var (provider, exchanger, _) = Create(installationId: 0);
+        using (provider)
+        {
+            await provider.GetCredentialsAsync(CancellationToken.None);
+
+            Assert.Equal(1, exchanger.ResolveCalls);
+            Assert.Equal("unoplatform", exchanger.LastOwner);
+            Assert.Equal("uno", exchanger.LastRepository);
+            Assert.Equal(FakeExchanger.DiscoveredInstallationId, exchanger.LastInstallationId);
+        }
+    }
+
+    [Fact]
+    public async Task Discovered_installation_id_is_resolved_once_and_reused_across_token_renewals()
+    {
+        var (provider, exchanger, clock) = Create(installationId: 0);
+        using (provider)
+        {
+            await provider.GetCredentialsAsync(CancellationToken.None);
+            clock.Now = T0.AddMinutes(56);
+            await provider.GetCredentialsAsync(CancellationToken.None);
+
+            Assert.Equal(2, exchanger.Calls);
+            Assert.Equal(1, exchanger.ResolveCalls);
         }
     }
 

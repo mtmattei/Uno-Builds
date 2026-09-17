@@ -260,6 +260,10 @@ Decision: reserve the mapping row before calling GitHub (adds a `Status` column 
 Reason: it is the only way to satisfy spec §13 "partial failure must not create a second issue" without a GitHub search fallback.
 Tradeoff: a crash mid-flight leaves a `Pending` row that needs a manual look; logged at startup.
 
+Decision: discover the installation ID instead of requiring it in configuration.
+Reason: it is the hardest value to find in the GitHub UI, and the App already knows the target repository.
+Tradeoff: one extra API call on the first token mint, cached for the process lifetime. An explicit ID in configuration still wins when set.
+
 Decision: hand-roll the RS256 JWT for GitHub App auth instead of adding `GitHubJwt`.
 Reason: the package is at 0.0.6 and rarely updated; the JWT is three claims and one `RSA.SignData` call.
 Tradeoff: about 25 lines we own and must test.
@@ -284,7 +288,7 @@ Needed before the first run. Create the App at GitHub → Settings → Developer
 - Webhook: off for V1 (no inbound endpoint).
 - Where can this App be installed: only this account/org.
 - Install the App on the target repository only.
-- Collect for config: **App ID** (App settings page), **Installation ID** (from the installation URL `.../settings/installations/<id>`), and a **private key** (.pem, generated on the App page and downloaded once).
+- Collect for config: **App ID** (App settings page) and a **private key** (.pem, generated on the App page and downloaded once). The **Installation ID** is optional: when unset the bridge calls `GetRepositoryInstallationForCurrent(owner, repo)` and logs what it found.
 - Store the PEM outside the repo: `GitHub__Auth__PrivateKeyPath` pointing at a file, or `GitHub__Auth__PrivateKeyPem` with the key contents, via user-secrets locally and the platform secret store in production.
 
 ## Additional acceptance criteria (beyond spec §15)
@@ -306,7 +310,7 @@ labels that already exist in the target repository.
 
 ## Unresolved Questions
 
-- The GitHub App's App ID and Installation ID, once the App is created and installed.
+- The GitHub App's App ID, once the App is created. The Installation ID is no longer needed.
 - Where the service runs in production, which decides whether the optional Dockerfile step happens.
 - Where does this run in production (Windows service, Linux systemd, container, Azure Container Apps)? Decides whether step 9 happens and where the SQLite file lives.
 - Should the starter message author be linked to a GitHub account when one is known (for example via a Discord ↔ GitHub username map), or stay as plain text? Plain text for V1 unless there is a need.

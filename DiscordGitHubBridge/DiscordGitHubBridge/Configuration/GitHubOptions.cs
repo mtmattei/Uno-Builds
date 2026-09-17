@@ -31,6 +31,7 @@ public sealed class GitHubAuthOptions
 
     public long AppId { get; set; }
 
+    /// <summary>Optional. When unset, the bridge asks GitHub which installation covers Owner/Repository.</summary>
     public long InstallationId { get; set; }
 
     /// <summary>Path to the GitHub App private key (.pem). Alternative to <see cref="PrivateKeyPem"/>.</summary>

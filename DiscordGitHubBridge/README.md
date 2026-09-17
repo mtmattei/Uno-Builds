@@ -41,21 +41,88 @@ until the configuration is updated, so the startup log names any trigger tag it 
 
 ### 3. GitHub App
 
-At GitHub → Settings → Developer settings → GitHub Apps, create an App:
+The bridge authenticates as a GitHub App, not as a person. The App needs two values: an **App ID**
+and a **private key**. The Installation ID is found automatically, so you do not have to hunt for it.
 
-- Repository permissions: **Metadata: Read-only**, **Issues: Read and write**. Nothing else.
-- Webhook: off. V1 has no inbound endpoint.
-- Where can this App be installed: only this account or organization.
+#### 3a. Create the App
 
-Install it on the target repository only. Then collect three things:
+Who creates it depends on who owns the target repository. `unoplatform/uno` belongs to an
+organization, so an organization owner has to do this. An App owned by your personal account cannot
+be installed on an organization repository without an owner approving it anyway.
 
-| Value | Where |
+- **Organization-owned repository:** go to the organization's page, then
+  **Settings → Developer settings → GitHub Apps → New GitHub App**.
+  The direct URL is `https://github.com/organizations/<org>/settings/apps/new`.
+- **Personal repository:** your avatar → **Settings → Developer settings → GitHub Apps →
+  New GitHub App**, at `https://github.com/settings/apps/new`.
+
+Fill in the form:
+
+| Field | Value |
 |---|---|
-| App ID | The App's settings page |
-| Installation ID | The number at the end of the installation URL |
-| Private key | Generate on the App page; a `.pem` downloaded once |
+| GitHub App name | Anything unique, for example `Discord Forum Bridge` |
+| Homepage URL | Any URL. Your repository is fine. It is not used. |
+| Webhook → Active | **Uncheck it.** V1 has no inbound endpoint. |
+| Repository permissions → Issues | **Read and write** |
+| Repository permissions → Metadata | **Read-only** (it is selected for you and cannot be removed) |
+| Where can this GitHub App be installed | **Only on this account** |
 
-The `.pem` never goes in the repository.
+Leave every other permission at **No access**. Click **Create GitHub App**.
+
+#### 3b. App ID
+
+You land on the App's **General** page right after creating it. Near the top, under the App's name,
+is a row of details including **App ID** followed by a number, usually six or seven digits. That
+number is the App ID.
+
+To come back to it later: **Settings → Developer settings → GitHub Apps**, click **Edit** next to
+your App. The URL of that page ends in `/settings/apps/<app-slug>`, and the App ID is on the page.
+The number in the URL is not the App ID.
+
+#### 3c. Private key
+
+On the same **General** page, scroll to **Private keys** and click **Generate a private key**.
+The browser downloads a `.pem` file immediately, and this is the only time you can get it. GitHub
+keeps only the fingerprint.
+
+Move the file somewhere outside the repository, for example `C:\keys\discord-bridge.pem`.
+If you lose it, generate a new one and delete the old key from that page.
+
+#### 3d. Install the App on the repository
+
+On the App's page, click **Install App** in the left sidebar, then **Install** next to the account
+or organization that owns the target repository.
+
+Choose **Only select repositories** and pick the target repository. Do not choose all repositories:
+the App should reach nothing else. Click **Install**. An organization may require an owner to
+approve the request before it takes effect.
+
+#### 3e. Installation ID (optional)
+
+You do not need this. Leave `GitHub:Auth:InstallationId` out of your configuration and the bridge
+asks GitHub which installation covers `Owner/Repository`, then logs the answer at startup:
+
+```
+Resolved GitHub App installation 12345678 for unoplatform/uno.
+Set GitHub:Auth:InstallationId to this value to skip the lookup.
+```
+
+Pin it in configuration if you prefer one less call at startup. To find it in the browser instead,
+go to the installation's configuration page and read the last number of the URL:
+
+- Organization: `https://github.com/organizations/<org>/settings/installations/<installation-id>`
+- Personal: `https://github.com/settings/installations/<installation-id>`
+
+You reach that page from **Settings → Applications → Installed GitHub Apps → Configure**, or from
+the App's own **Install App** tab by clicking the gear next to the account it is installed on.
+
+#### 3f. What you end up with
+
+| Value | Goes into | Secret |
+|---|---|---|
+| App ID | `GitHub:Auth:AppId` | No |
+| Private key `.pem` | `GitHub:Auth:PrivateKeyPath` | **Yes** |
+| Installation ID | `GitHub:Auth:InstallationId`, optional | No |
 
 ### 4. Configuration
 
@@ -72,9 +139,11 @@ Secrets stay outside the repository. Locally, use user-secrets from the project 
 cd DiscordGitHubBridge
 dotnet user-secrets set "Discord:Token" "<bot token>"
 dotnet user-secrets set "GitHub:Auth:AppId" "<app id>"
-dotnet user-secrets set "GitHub:Auth:InstallationId" "<installation id>"
-dotnet user-secrets set "GitHub:Auth:PrivateKeyPath" "C:\keys\bridge.pem"
+dotnet user-secrets set "GitHub:Auth:PrivateKeyPath" "C:\keys\discord-bridge.pem"
 ```
+
+Only the bot token and the private key are secret. The App ID is not, but keeping it with the rest
+saves splitting the configuration across two places.
 
 In production, use the platform's secret store through environment variables. Double underscores
 separate the levels: `Discord__Token`, `GitHub__Auth__AppId`, `GitHub__Auth__PrivateKeyPem`.
@@ -97,7 +166,8 @@ The database is created and migrated on first start.
 | `Discord:Token` | Bot token. Secret. |
 | `GitHub:Owner`, `GitHub:Repository` | Where issues are created. |
 | `GitHub:Auth:Mode` | `App` for production, `Pat` for local development. |
-| `GitHub:Auth:AppId`, `InstallationId` | App mode identity. |
+| `GitHub:Auth:AppId` | App mode identity. Required in App mode. |
+| `GitHub:Auth:InstallationId` | Optional. Found from `Owner`/`Repository` when unset. |
 | `GitHub:Auth:PrivateKeyPath` or `PrivateKeyPem` | App private key. Secret. |
 | `GitHub:Auth:Token` | Personal access token. `Pat` mode only. Secret. |
 | `Forums[].ChannelId` | A watched forum channel. |
@@ -163,6 +233,9 @@ Discord and GitHub are not contacted by any test. Steps 1 through 6 above are th
 | Issue bodies say the starter message was unavailable | Message Content intent is off, or the bot cannot read the channel. |
 | Log says a forum channel is not visible | The bot's role lacks View Channel on that channel or its category. |
 | Gateway never becomes ready after 90 seconds | Wrong token, or the bot was never invited to the server. |
+| GitHub returns 404 at startup | The App is not installed on the target repository, or an organization owner has not approved the installation yet. |
+| GitHub returns 401 | Wrong App ID, or the private key does not belong to that App. |
+| GitHub returns 403 on issue creation | The App lacks Issues: Read and write. |
 | Log says a forum has no tag with the trigger name | The tag was renamed or never created there. |
 | A qualifying post creates no issue | Check for an ignored tag, and check the startup log for the forum's tag list. |
 

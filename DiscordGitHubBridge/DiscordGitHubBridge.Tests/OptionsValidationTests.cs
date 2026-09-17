@@ -83,6 +83,18 @@ public class OptionsValidationTests
     }
 
     [Fact]
+    public void App_mode_without_installation_id_is_allowed()
+    {
+        var config = ValidAppConfig();
+        config.Remove("GitHub:Auth:InstallationId");
+        using var provider = Build(config);
+
+        var github = provider.GetRequiredService<IOptions<GitHubOptions>>().Value;
+
+        Assert.Equal(0, github.Auth.InstallationId);
+    }
+
+    [Fact]
     public void App_mode_without_key_fails()
     {
         var config = ValidAppConfig();
@@ -101,10 +113,12 @@ public class OptionsValidationTests
         config.Remove("GitHub:Auth:AppId");
         config.Remove("GitHub:Auth:InstallationId");
         config.Remove("GitHub:Auth:PrivateKeyPem");
+        config.Remove("GitHub:Owner");
         using var provider = Build(config);
 
         Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IOptions<GitHubOptions>>().Value);
 
+        config["GitHub:Owner"] = "owner";
         config["GitHub:Auth:Token"] = "ghp_x";
         using var okProvider = Build(config);
         Assert.Equal(GitHubAuthMode.Pat, okProvider.GetRequiredService<IOptions<GitHubOptions>>().Value.Auth.Mode);

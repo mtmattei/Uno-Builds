@@ -10,6 +10,7 @@ public sealed class GitHubAppCredentialProvider : IGitHubCredentialProvider, IDi
 {
     private static readonly TimeSpan RefreshMargin = TimeSpan.FromMinutes(5);
 
+    private readonly GitHubOptions _options;
     private readonly GitHubAuthOptions _auth;
     private readonly IInstallationTokenExchanger _exchanger;
     private readonly TimeProvider _timeProvider;
@@ -19,6 +20,7 @@ public sealed class GitHubAppCredentialProvider : IGitHubCredentialProvider, IDi
 
     private Credentials? _cached;
     private DateTimeOffset _expiresAt;
+    private long _installationId;
 
     public GitHubAppCredentialProvider(
         IOptions<GitHubOptions> options,
@@ -26,7 +28,8 @@ public sealed class GitHubAppCredentialProvider : IGitHubCredentialProvider, IDi
         TimeProvider timeProvider,
         ILogger<GitHubAppCredentialProvider> logger)
     {
-        _auth = options.Value.Auth;
+        _options = options.Value;
+        _auth = _options.Auth;
         _exchanger = exchanger;
         _timeProvider = timeProvider;
         _logger = logger;
@@ -54,17 +57,41 @@ public sealed class GitHubAppCredentialProvider : IGitHubCredentialProvider, IDi
 
             var now = _timeProvider.GetUtcNow();
             var jwt = GitHubAppJwt.Create(_auth.AppId, _privateKey, now);
-            var token = await _exchanger.ExchangeAsync(jwt, _auth.InstallationId, cancellationToken);
+            var installationId = await GetInstallationIdAsync(jwt, cancellationToken);
+            var token = await _exchanger.ExchangeAsync(jwt, installationId, cancellationToken);
 
             _cached = new Credentials(token.Token);
             _expiresAt = token.ExpiresAt;
-            _logger.LogInformation("Minted GitHub App installation token for installation {InstallationId}, expires {ExpiresAt}", _auth.InstallationId, token.ExpiresAt);
+            _logger.LogInformation("Minted GitHub App installation token for installation {InstallationId}, expires {ExpiresAt}", installationId, token.ExpiresAt);
             return _cached;
         }
         finally
         {
             _gate.Release();
         }
+    }
+
+    /// <summary>
+    /// Uses the configured installation ID when there is one; otherwise asks GitHub which
+    /// installation covers the target repository, so the ID never has to be looked up by hand.
+    /// </summary>
+    private async Task<long> GetInstallationIdAsync(string jwt, CancellationToken cancellationToken)
+    {
+        if (_auth.InstallationId > 0)
+        {
+            return _auth.InstallationId;
+        }
+
+        if (_installationId > 0)
+        {
+            return _installationId;
+        }
+
+        _installationId = await _exchanger.ResolveInstallationIdAsync(jwt, _options.Owner, _options.Repository, cancellationToken);
+        _logger.LogInformation(
+            "Resolved GitHub App installation {InstallationId} for {Owner}/{Repository}. Set GitHub:Auth:InstallationId to this value to skip the lookup.",
+            _installationId, _options.Owner, _options.Repository);
+        return _installationId;
     }
 
     private bool TryGetFresh(out Credentials credentials)
