@@ -244,7 +244,7 @@ Each step is a build-green commit. Conventional commit messages.
 5. **`feat: add GitHub issue client with app auth and retry`** — `GitHubCredentialProvider` (PAT + App JWT), `OctokitIssueClient` with the Polly pipeline, terminal-vs-transient classification. Tests cover the JWT shape (header/claims) and the retry predicate; the Octokit call itself is exercised in the manual run.
 6. **`feat: add bridge processor with idempotency and partial-failure handling`** — the spec workflow end to end with fakes-based tests: duplicate event, existing mapping, late-tag path creates exactly one issue, GitHub failure leaves no `Created` row, reply failure keeps the mapping. Verify: `dotnet test`.
 7. **`feat: connect Discord gateway and forum thread handler`** — `DiscordGatewayService`, intents, `ThreadCreated` and `ThreadUpdated` wiring with the tag-diff guard, snapshot extraction with tag-name resolution, starter-message retry, reply via `SendMessageAsync`. Verify: build, then manual runbook steps 1–3 against a test server.
-8. **`docs: add README with Discord and GitHub App setup and runbook`** — portal steps (bot scopes, privileged intent, channel permissions), GitHub App permissions (Metadata: Read, Issues: Read & Write), secret configuration per platform, the manual verification steps above, known limitations.
+8. **`docs: add README with Discord and GitHub App setup and runbook`** (done) — portal steps (bot scopes, privileged intent, channel permissions), GitHub App permissions (Metadata: Read, Issues: Read & Write), secret configuration per platform, the manual verification steps above, known limitations.
 9. Optional **`chore: add Dockerfile`** if the deployment target is a container. Left out until the target is known.
 
 Estimated effort matches spec §18: functional V1 in roughly 2.5–4 hours of agent-assisted work; hardening and the manual integration pass another 2–4 hours, mostly waiting on portal setup.
@@ -293,8 +293,10 @@ Needed before the first run. Create the App at GitHub → Settings → Developer
 
 ## Unresolved Questions
 
-- Which GitHub repo is the target, as `owner/repo`?
-- For each of the three forum channels: its name, the tag list, which tag should trigger an issue, and the tag → label map. The example config uses placeholders until then.
+- Which GitHub repo is the target, as `owner/repo`? The example config still says `your-org/your-repo`.
+- The GitHub App's App ID and Installation ID, once the App is created and installed.
+- Per-forum label maps, if the three forums should not all use just `from-discord`.
+- Where the service runs in production, which decides whether the optional Dockerfile step happens.
 - Where does this run in production (Windows service, Linux systemd, container, Azure Container Apps)? Decides whether step 9 happens and where the SQLite file lives.
 - Should unmapped Discord tags become GitHub labels verbatim, or be dropped as planned? Dropping is safer for label hygiene.
 - Should the starter message author be linked to a GitHub account when one is known (for example via a Discord ↔ GitHub username map), or stay as plain text? Plain text for V1 unless there is a need.
