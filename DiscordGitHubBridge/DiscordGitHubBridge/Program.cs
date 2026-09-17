@@ -1,6 +1,8 @@
 using DiscordGitHubBridge.Bridge;
 using DiscordGitHubBridge.Configuration;
+using Discord.WebSocket;
 using DiscordGitHubBridge.Data;
+using DiscordGitHubBridge.Discord;
 using DiscordGitHubBridge.GitHub;
 using DiscordGitHubBridge.Mapping;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +32,17 @@ builder.Services.AddSingleton<ThreadRuleEvaluator>();
 builder.Services.AddSingleton<IssueFactory>();
 builder.Services.AddSingleton<BridgeProcessor>();
 
-// The Discord gateway service and IDiscordReplier are registered in the next step.
+builder.Services.AddSingleton(new DiscordSocketConfig
+{
+    GatewayIntents = DiscordGatewayService.RequiredIntents,
+    LogLevel = Discord.LogSeverity.Info,
+    MessageCacheSize = 0,
+});
+builder.Services.AddSingleton<DiscordSocketClient>();
+builder.Services.AddSingleton<ForumThreadReader>();
+builder.Services.AddSingleton<ForumThreadHandler>();
+builder.Services.AddSingleton<IDiscordReplier, DiscordThreadReplier>();
+builder.Services.AddHostedService<DiscordGatewayService>();
 
 var host = builder.Build();
 host.Run();
