@@ -17,27 +17,28 @@ Built with the `frontend-design` skill layered with the `frontend-design-unique`
 
 ## Design Brief
 
-- Direction: instrument-clean. Cool, windshield-white ground with a blue-biased ink, one cobalt accent, and separate semantic amber and red for traffic and warnings.
-- Signature device: the slack ruler. A minute-tick time ruler with the current time as a needle, the drive as a solid block (traffic delay as its own amber segment), and the bell as a dashed hard stop. The gap between the needle and the block is the slack, and it is labeled in minutes.
-- Type: Barlow Semi Condensed for numerals (road-signage lineage), Barlow for text. Scale: 11 / 12.5 / 13 / 14 / 15 / 22 / 72.
-- Spacing: 20 px card padding, 16 px between sections, 12 x 16 px instrument grid.
-- Hierarchy: header (day, car, weather), the answer (kicker, leave-by time, one-line route sentence), the ruler, four instruments, two actions.
-- Theme: full light and dark token sets. Dark redefines tokens only.
-- Responsive: single column at every width; ruler and fuel ruler redraw on resize.
+- Direction: frosted glass over an out-of-focus morning backdrop, matching the supplied mockup. Blue-biased ink, one route accent (dialable hue), semantic green, amber and red kept separate from the accent.
+- Signature device: the slack ruler laid along the map route. Minutes become distance along the path: a dotted grey stretch for the slack (now to leave-by), a solid drive segment with the duration pill, an amber walk segment, and the school pin at the bell. Point labels sit above the path, duration labels below it.
+- Type: Instrument Sans, one family. Scale: 11.5 / 12.5 / 13 / 14 / 15 / 16 / 23 / 42.
+- Spacing: 22 px card padding, 18 px between sections, map panel 214 px tall with the ETA block overlaid top-left.
+- Hierarchy: greeting and trip title with the leave-in sentence, car and status at right, the map with the ETA block, a three-column stats row (range with bar, charging, tire pressure), four round actions.
+- Theme: full light and dark token sets, including map ground, roads, parks and water. Dark redefines tokens only.
+- Responsive: single column at every width; the route SVG uses a fixed viewBox and slices to the panel.
 
 ## Interaction Brief
 
-- Flows: read the time, press "Open route", or press "Warm cabin to 20°" and watch the cabin value climb.
-- Headline logic: slack of 2 min or more shows "Leave by 7:33"; under 2 min shows "Leave now"; negative slack shows "Running late" with minutes late and the arrival if you leave now.
-- Empty state: no drop-off (journée pédagogique). The ruler and route action hide; the car instruments stay.
-- Loading state: skeleton for the answer, the ruler shows ticks and the bell only.
-- Error state: offline banner with a Retry link, stale values dimmed, the route sentence says traffic is from the last update.
-- Motion: one orchestrated entrance. Ticks fade in left to right (7 ms stagger), the drive block grows from its start (560 ms, ease-out quart), the needle slides in. Nothing else animates on load. The heat button answers a press with a state change and a small ring. `prefers-reduced-motion` skips all of it.
-- Accessibility: visible focus rings, the ruler has a title, the offline banner is a status region, the heat button uses `aria-pressed`.
-- Verification: drag Clock past 7:33 to see the late state; set Fuel range under 90 and Front-left tire under 30 to see warnings; switch state chips.
+- Flows: read the leave-in sentence, glance at the route, then Lock, Climate, Send to car, or More.
+- Headline logic: slack of 2 min or more shows "Leave in N min to arrive on time"; under 2 min shows "Leave now"; negative slack shows "Running N min late" with the arrival if you leave now, and the route turns red with no slack dots.
+- Empty state: no drop-off (pedagogical day). The route and ETA hide over the map ground; car stats and actions stay.
+- Loading state: skeleton in the ETA block, the map ground stays, the route hides.
+- Error state: the subtitle says the car isn't reachable with a Retry link, the car status reads "Last seen 6:58", stats dim.
+- Motion: one orchestrated entrance in trip order. Slack dots appear in sequence, the drive segment draws along the path (620 ms, ease-out quart), then the walk segment, then nodes, pin and pill pop in, then labels fade. Lock and Climate answer a press with a filled circle; Send to car confirms with "Sent". `prefers-reduced-motion` skips all of it.
+- Accessibility: visible focus rings, the map SVG has a title, Lock and Climate use `aria-pressed`, the tire cell is a button.
+- Verification: drag Clock past 7:33 for the late state; Range under 70 and Front-left tire under 30 for warnings; Traffic delay over 6 for heavy traffic; switch state chips.
 
 ## Unresolved Questions
 
 - Should leave-by include a configurable walk-in buffer per school, or come from the routing API?
-- Fuel range under 90 km suggests a station on the route; that needs a real POI lookup.
+- The charging cell is static ("Not charging"); wire it to the plug state when the model gains one.
+- Units follow the mockup (miles, °F); a locale switch would flip them.
 - Port to Uno Platform XAML (a `MorningCard` control) if this direction is approved.
