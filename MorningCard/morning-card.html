@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Morning Drive Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<style>
+/* ---------- tokens (light is the base; dark redefines only tokens) ---------- */
+:root {
+  --hue: 222;                       /* dialable: accent hue */
+  --radius: 22px;                   /* dialable: card corner */
+  --speed: 1;                       /* dialable: motion multiplier */
+
+  --ground: #eef1f4;
+  --surface: #fbfcfd;
+  --surface-2: #f1f4f7;
+  --ink: #14202b;
+  --ink-2: #5e6b78;
+  --ink-3: #93a0ac;
+  --line: #d9dfe5;
+  --line-2: #c7ced6;
+  --accent: hsl(var(--hue) 65% 47%);
+  --accent-ink: hsl(var(--hue) 65% 40%);
+  --on-accent: #ffffff;
+  --amber: #e39a1e;
+  --amber-ink: #9c5e00;
+  --red: #c8362b;
+  --red-ink: #a52a20;
+  --green-ink: #25704a;
+  --shadow: 0 1px 2px rgba(20,32,43,.06), 0 14px 34px -14px rgba(20,32,43,.22);
+  --panel: #e4e9ee;
+
+  --font-text: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --font-num: "Barlow Semi Condensed", "Barlow", "Arial Narrow", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0f1620; --surface: #172230; --surface-2: #1f2c3b;
+    --ink: #edf1f5; --ink-2: #a3aeba; --ink-3: #6f7c8a;
+    --line: #26333f; --line-2: #33414e;
+    --accent: hsl(var(--hue) 88% 70%); --accent-ink: hsl(var(--hue) 88% 76%); --on-accent: #0f1620;
+    --amber: #e8a83a; --amber-ink: #f0bc5e; --red: #e0574b; --red-ink: #ef7a70; --green-ink: #6fcf97;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 40px -16px rgba(0,0,0,.6);
+    --panel: #121b26;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0f1620; --surface: #172230; --surface-2: #1f2c3b;
+  --ink: #edf1f5; --ink-2: #a3aeba; --ink-3: #6f7c8a;
+  --line: #26333f; --line-2: #33414e;
+  --accent: hsl(var(--hue) 88% 70%); --accent-ink: hsl(var(--hue) 88% 76%); --on-accent: #0f1620;
+  --amber: #e8a83a; --amber-ink: #f0bc5e; --red: #e0574b; --red-ink: #ef7a70; --green-ink: #6fcf97;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 40px -16px rgba(0,0,0,.6);
+  --panel: #121b26;
+  color-scheme: dark;
+}
+
+/* ---------- page ---------- */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 16px;
+  padding-block: 28px 48px;
+}
+.stage { max-width: 390px; margin: 0 auto; display: grid; gap: 28px; }
+.stage-note { color: var(--ink-2); font-size: 13px; margin: 0; }
+.stage-note strong { color: var(--ink); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- the card ---------- */
+.mc {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 16px;
+  container-type: inline-size;
+}
+.mc-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  font-size: 13px; color: var(--ink-2);
+}
+.mc-head .day { color: var(--ink); font-weight: 600; }
+.mc-head .car { display: inline-flex; align-items: center; gap: 6px; }
+.mc-head .car::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-ink);
+}
+.mc[data-state="offline"] .mc-head .car::before { background: var(--ink-3); }
+.mc-head .wx { font-variant-numeric: tabular-nums; }
+
+.mc-answer { display: grid; gap: 2px; }
+.mc-kicker { margin: 0; color: var(--ink-2); font-size: 14px; }
+.mc-leave {
+  margin: 0;
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: 72px;
+  line-height: .95;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.mc-leave small { font-size: 22px; font-weight: 500; letter-spacing: 0; margin-left: 6px; color: var(--ink-2); }
+.mc[data-tone="late"] .mc-leave { color: var(--red-ink); }
+.mc[data-tone="now"] .mc-leave { color: var(--accent-ink); }
+.mc-sub { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; max-width: 34ch; text-wrap: pretty; }
+.mc-sub b { font-weight: 500; color: var(--ink); }
+
+/* the slack ruler */
+.mc-ruler { display: block; width: 100%; height: 82px; overflow: visible; }
+.mc-ruler text { font-family: var(--font-text); font-size: 11px; fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+.mc-ruler .tick { stroke: var(--line-2); stroke-width: 1; }
+.mc-ruler .tick.major { stroke: var(--ink-3); }
+.mc-ruler .base { stroke: var(--line-2); stroke-width: 1; }
+.mc-ruler .drive { fill: var(--accent); }
+.mc-ruler .delay { fill: var(--amber); }
+.mc-ruler .late { fill: var(--red); }
+.mc-ruler .drive-label { fill: var(--on-accent); font-weight: 600; }
+.mc-ruler .slack-label { fill: var(--ink-2); }
+.mc-ruler .needle { stroke: var(--ink); stroke-width: 1.5; }
+.mc-ruler .needle-cap { fill: var(--ink); }
+.mc-ruler .bell { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.mc-ruler .flag { fill: var(--ink); }
+.mc-ruler .label-strong { fill: var(--ink); font-weight: 600; }
+.mc-ruler .hatch { stroke: var(--amber-ink); stroke-width: 1; opacity: .5; }
+
+/* instruments */
+.mc-instr {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px;
+  border-top: 1px solid var(--line); padding-top: 14px;
+}
+.mc-instr li { display: grid; grid-template-columns: 18px 1fr; column-gap: 8px; align-items: start; min-width: 0; }
+.mc-instr li.wide { grid-column: 1 / -1; }
+.mc-instr svg { width: 18px; height: 18px; stroke: var(--ink-2); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-top: 2px; }
+.mc-instr .v { font-family: var(--font-num); font-weight: 600; font-size: 22px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.mc-instr .v small { font-size: 14px; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.mc-instr .n { font-size: 12.5px; color: var(--ink-2); line-height: 1.3; text-wrap: pretty; }
+.mc-instr li[data-level="warn"] .v, .mc-instr li[data-level="warn"] .n { color: var(--amber-ink); }
+.mc-instr li[data-level="warn"] svg { stroke: var(--amber-ink); }
+.mc-instr li[data-level="bad"] .v, .mc-instr li[data-level="bad"] .n { color: var(--red-ink); }
+.mc-instr li[data-level="bad"] svg { stroke: var(--red-ink); }
+.mc[data-state="offline"] .mc-instr .v { color: var(--ink-3); }
+
+/* fuel mini ruler, same language as the time ruler */
+.fuel { display: block; width: 100%; height: 10px; margin-top: 5px; overflow: visible; }
+.fuel .track { stroke: var(--line-2); stroke-width: 1; }
+.fuel .fill { stroke: var(--accent); stroke-width: 4; stroke-linecap: butt; }
+.fuel .today { stroke: var(--ink); stroke-width: 4; }
+.fuel .reserve { stroke: var(--amber); stroke-width: 1; }
+li[data-level="warn"] .fuel .fill { stroke: var(--amber); }
+li[data-level="bad"] .fuel .fill { stroke: var(--red); }
+
+/* actions */
+.mc-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+  appearance: none; border: 1px solid var(--line-2); background: var(--surface);
+  color: var(--ink); font: inherit; font-weight: 500; font-size: 14px;
+  padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: transform 120ms cubic-bezier(.2,.7,.2,1), background 160ms, border-color 160ms;
+}
+.btn:active { transform: scale(.98); }
+.btn.primary { background: var(--accent); border-color: transparent; color: var(--on-accent); }
+.btn[aria-pressed="true"] { background: var(--surface-2); border-color: var(--accent); color: var(--accent-ink); }
+.btn .ring { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); border-top-color: var(--accent-ink); display: none; }
+.btn[aria-pressed="true"] .ring { display: inline-block; animation: spin 1.1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* states */
+.mc-offline {
+  display: none; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--surface-2); border-radius: 12px; padding: 10px 12px; font-size: 13px; color: var(--ink-2);
+}
+.mc-offline .link { background: none; border: 0; color: var(--accent-ink); font: inherit; font-weight: 600; cursor: pointer; padding: 0; }
+.mc[data-state="offline"] .mc-offline { display: flex; }
+
+.mc-empty { display: none; gap: 4px; }
+.mc-empty .t { margin: 0; font-family: var(--font-num); font-weight: 600; font-size: 34px; line-height: 1; }
+.mc-empty .n { color: var(--ink-2); font-size: 14px; margin: 4px 0 0; }
+.mc[data-state="empty"] .mc-answer,
+.mc[data-state="empty"] .mc-ruler,
+.mc[data-state="empty"] .mc-actions .primary { display: none; }
+.mc[data-state="empty"] .mc-empty { display: grid; }
+
+.mc-skel { display: none; gap: 10px; }
+.mc-skel span { display: block; height: 14px; border-radius: 6px; background: var(--surface-2); }
+.mc-skel .big { height: 62px; width: 46%; border-radius: 10px; }
+.mc-skel .w60 { width: 60%; } .mc-skel .w80 { width: 80%; }
+.mc[data-state="loading"] .mc-answer,
+.mc[data-state="loading"] .mc-actions,
+.mc[data-state="loading"] .mc-instr { display: none; }
+.mc[data-state="loading"] .mc-skel { display: grid; }
+.mc[data-state="loading"] .mc-ruler .drive,
+.mc[data-state="loading"] .mc-ruler .delay,
+.mc[data-state="loading"] .mc-ruler .needle,
+.mc[data-state="loading"] .mc-ruler .needle-cap,
+.mc[data-state="loading"] .mc-ruler .drive-label,
+.mc[data-state="loading"] .mc-ruler .slack-label,
+.mc[data-state="loading"] .mc-ruler .label-strong { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .mc[data-state="loading"] .mc-skel span { animation: pulse 1.4s ease-in-out infinite; }
+}
+@keyframes pulse { 50% { opacity: .55; } }
+
+/* ---------- dial panel (tuning surface, not part of the card) ---------- */
+.dials {
+  background: var(--panel); border-radius: 16px; padding: 16px 18px 18px;
+  display: grid; gap: 12px; font-size: 13px; color: var(--ink-2);
+}
+.dials h2 { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink); }
+.dials p { margin: 0; }
+.dial { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; }
+.dial label { color: var(--ink); font-weight: 500; }
+.dial output { font-variant-numeric: tabular-nums; color: var(--ink-2); justify-self: end; }
+.dial input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg label {
+  border: 1px solid var(--line-2); border-radius: 999px; padding: 5px 11px; cursor: pointer;
+  color: var(--ink); background: var(--surface);
+}
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg input:checked + span { color: var(--accent-ink); font-weight: 600; }
+.seg label:has(input:checked) { border-color: var(--accent); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dials .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.dials .btn { font-size: 13px; padding: 7px 11px; border-radius: 10px; }
+</style>
+</head>
+<body>
+<main class="stage">
+  <p class="stage-note"><strong>Morning drive card.</strong> One glance answers "when do I leave for drop-off?" The ruler shows the slack between now, the drive, and the bell.</p>
+
+  <article class="mc" id="mc" data-state="live" data-tone="ok" aria-labelledby="mc-title">
+    <header class="mc-head">
+      <div><span class="day" id="mc-day">Monday, Sept 21</span> <span class="car" id="mc-car">Outback, locked</span></div>
+      <div class="wx" id="mc-wx">9° clear</div>
+    </header>
+
+    <div class="mc-offline" role="status">
+      <span id="mc-offline-text">Car isn't reachable. Showing 6:58 data.</span>
+      <button class="link" type="button" id="mc-retry">Retry</button>
+    </div>
+
+    <section class="mc-answer">
+      <p class="mc-kicker" id="mc-kicker">Leave for Lanaudière school by</p>
+      <p class="mc-leave" id="mc-title"><span id="mc-leave">7:33</span></p>
+      <p class="mc-sub" id="mc-sub"></p>
+    </section>
+
+    <div class="mc-empty">
+      <p class="t">No drop-off today</p>
+      <p class="n">Journée pédagogique at Lanaudière. Nothing else is planned this morning.</p>
+    </div>
+
+    <div class="mc-skel" aria-hidden="true"><span class="w60"></span><span class="big"></span><span class="w80"></span></div>
+
+    <svg class="mc-ruler" id="mc-ruler" role="img" aria-labelledby="mc-ruler-title"><title id="mc-ruler-title">Time ruler from now to the school bell</title></svg>
+
+    <ul class="mc-instr">
+      <li id="i-range">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M7 7h6M15 9h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0v-7l-3-3"/></svg>
+        <div>
+          <div class="v"><span id="v-range">412</span><small>km range</small></div>
+          <svg class="fuel" id="fuel" aria-hidden="true"></svg>
+          <div class="n" id="n-range"></div>
+        </div>
+      </li>
+      <li id="i-cabin">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a2 2 0 1 1 4 0v9.5a4 4 0 1 1-4 0zM12 9v6"/></svg>
+        <div>
+          <div class="v"><span id="v-cabin">8</span><small>° cabin</small></div>
+          <div class="n" id="n-cabin"></div>
+        </div>
+      </li>
+      <li id="i-tires">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/></svg>
+        <div>
+          <div class="v"><span id="v-tires">33</span><small>psi</small></div>
+          <div class="n" id="n-tires"></div>
+        </div>
+      </li>
+      <li id="i-parked">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <div>
+          <div class="v" style="font-size:16px;line-height:1.2">Rue Rachel Est</div>
+          <div class="n">Near Papineau. No parking from 9:30, street cleaning.</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="mc-actions">
+      <button class="btn primary" type="button" id="mc-route">Open route</button>
+      <button class="btn" type="button" id="mc-heat" aria-pressed="false"><span class="ring" aria-hidden="true"></span><span id="mc-heat-label">Warm cabin to 20°</span></button>
+    </div>
+  </article>
+
+  <aside class="dials" aria-labelledby="dials-title">
+    <h2 id="dials-title">Dial it in</h2>
+    <p>Tuning surface for the component. Every slider maps to a state value or a CSS variable on the card.</p>
+
+    <div class="seg" role="radiogroup" aria-label="Card state">
+      <label><input type="radio" name="state" value="live" checked><span>Live</span></label>
+      <label><input type="radio" name="state" value="loading"><span>Loading</span></label>
+      <label><input type="radio" name="state" value="offline"><span>Offline</span></label>
+      <label><input type="radio" name="state" value="empty"><span>No trip</span></label>
+    </div>
+
+    <div class="dial"><label for="d-now">Clock</label><output id="o-now"></output><input id="d-now" type="range" min="420" max="490" step="1" value="444"></div>
+    <div class="dial"><label for="d-delay">Traffic delay</label><output id="o-delay"></output><input id="d-delay" type="range" min="0" max="25" step="1" value="3"></div>
+    <div class="dial"><label for="d-range">Fuel range</label><output id="o-range"></output><input id="d-range" type="range" min="0" max="600" step="2" value="412"></div>
+    <div class="dial"><label for="d-cabin">Cabin temperature</label><output id="o-cabin"></output><input id="d-cabin" type="range" min="-15" max="25" step="1" value="8"></div>
+    <div class="dial"><label for="d-tire">Front-left tire</label><output id="o-tire"></output><input id="d-tire" type="range" min="20" max="36" step="1" value="33"></div>
+    <div class="dial"><label for="d-hue">Accent hue</label><output id="o-hue"></output><input id="d-hue" type="range" min="0" max="360" step="1" value="222"></div>
+    <div class="dial"><label for="d-radius">Corner radius</label><output id="o-radius"></output><input id="d-radius" type="range" min="8" max="30" step="1" value="22"></div>
+    <div class="dial"><label for="d-speed">Motion speed</label><output id="o-speed"></output><input id="d-speed" type="range" min="0.25" max="2" step="0.25" value="1"></div>
+
+    <div class="row">
+      <button class="btn" type="button" id="d-replay">Replay entrance</button>
+      <button class="btn" type="button" id="d-theme">Toggle theme</button>
+    </div>
+  </aside>
+</main>
+
+<script>
+(() => {
+  // ---------- model ----------
+  const S = {
+    now: 444,            // minutes since midnight (7:24)
+    bell: 470,           // 7:50
+    base: 11,            // clear-road drive, minutes
+    delay: 3,            // traffic, minutes
+    walk: 3,             // door to classroom
+    range: 412, cabin: 8, tireFL: 33,
+    todayKm: 23,         // school 6 km + work 17 km
+    state: 'live', speed: 1, heating: false,
+  };
+  const $ = (id) => document.getElementById(id);
+  const card = $('mc'), ruler = $('mc-ruler'), fuel = $('fuel');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  const hm = (m) => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`;
+  const traffic = (d) => d <= 1 ? 'light traffic' : d <= 6 ? 'moderate traffic' : 'heavy traffic';
+
+  function derive() {
+    const drive = S.base + S.delay;
+    const leaveBy = S.bell - S.walk - drive;
+    const slack = leaveBy - S.now;
+    const arriveIfNow = S.now + drive;
+    return { drive, leaveBy, slack, arriveIfNow };
+  }
+
+  // ---------- render ----------
+  function render() {
+    const d = derive();
+    card.dataset.state = S.state;
+    card.dataset.tone = d.slack < 0 ? 'late' : d.slack < 2 ? 'now' : 'ok';
+
+    // headline
+    if (d.slack < 0) {
+      $('mc-kicker').textContent = 'Running late for Lanaudière school';
+      $('mc-leave').innerHTML = `${-d.slack}<small>min</small>`;
+      $('mc-sub').innerHTML = `Leave now to arrive <b>${hm(d.arriveIfNow)}</b>, ${d.drive} min via Papineau with ${traffic(S.delay)}. Bell is ${hm(S.bell)}.`;
+    } else if (d.slack < 2) {
+      $('mc-kicker').textContent = 'Lanaudière school';
+      $('mc-leave').textContent = 'Leave now';
+      $('mc-sub').innerHTML = `<b>${d.drive} min</b> via Papineau, ${traffic(S.delay)}${S.delay ? ` (+${S.delay})` : ''}. ${S.walk} min to walk in. Bell ${hm(S.bell)}.`;
+    } else {
+      $('mc-kicker').textContent = 'Leave for Lanaudière school by';
+      $('mc-leave').textContent = hm(d.leaveBy);
+      $('mc-sub').innerHTML = `<b>${d.drive} min</b> via Papineau, ${traffic(S.delay)}${S.delay ? ` (+${S.delay})` : ''}. ${S.walk} min to walk in. Bell ${hm(S.bell)}.`;
+    }
+    if (S.state === 'offline') $('mc-sub').innerHTML += ' Traffic is from the last update.';
+
+    // instruments
+    $('v-range').textContent = S.range;
+    const r = $('i-range');
+    if (S.range < 40) { r.dataset.level = 'bad'; $('n-range').textContent = 'Fuel first. Petro-Canada on Papineau adds 4 min.'; }
+    else if (S.range < 90) { r.dataset.level = 'warn'; $('n-range').textContent = `Reserve soon. ${S.todayKm} km planned today, fuel up on the way back.`; }
+    else { delete r.dataset.level; $('n-range').textContent = `${S.todayKm} km planned today.`; }
+    drawFuel();
+
+    $('v-cabin').textContent = S.cabin;
+    const c = $('i-cabin');
+    if (S.heating) { delete c.dataset.level; $('n-cabin').textContent = S.cabin >= 20 ? 'Warm and ready.' : 'Warming to 20°.'; }
+    else if (S.cabin <= 0) { c.dataset.level = 'warn'; $('n-cabin').textContent = 'Frost likely. Warm the cabin before you head out.'; }
+    else { delete c.dataset.level; $('n-cabin').textContent = 'Outside 9°. Warms in about 6 min.'; }
+    $('mc-heat-label').textContent = S.heating ? (S.cabin >= 20 ? 'Cabin at 20°' : `Warming, ${S.cabin}° now`) : 'Warm cabin to 20°';
+    $('mc-heat').setAttribute('aria-pressed', String(S.heating && S.cabin < 20));
+
+    $('v-tires').textContent = S.tireFL < 33 ? S.tireFL : 33;
+    const t = $('i-tires');
+    if (S.tireFL < 26) { t.dataset.level = 'bad'; $('n-tires').textContent = `Front left ${S.tireFL} psi. Add air before the highway.`; }
+    else if (S.tireFL < 30) { t.dataset.level = 'warn'; $('n-tires').textContent = `Front left ${S.tireFL} psi, others 33. Top up this week.`; }
+    else { delete t.dataset.level; $('n-tires').textContent = 'All four at 33 psi.'; }
+
+    $('mc-car').textContent = S.state === 'offline' ? 'Outback, last seen 6:58' : 'Outback, locked';
+    drawRuler();
+  }
+
+  function drawFuel() {
+    const W = fuel.clientWidth || 150, max = 600, x = (km) => Math.min(W, W * km / max);
+    fuel.setAttribute('viewBox', `0 0 ${W} 10`);
+    fuel.innerHTML = `
+      <line class="track" x1="0" y1="5" x2="${W}" y2="5"/>
+      <line class="fill" x1="0" y1="5" x2="${x(S.range)}" y2="5"/>
+      <line class="today" x1="0" y1="5" x2="${x(S.todayKm)}" y2="5"/>
+      <line class="reserve" x1="${x(80)}" y1="0" x2="${x(80)}" y2="10"/>`;
+  }
+
+  function drawRuler() {
+    const d = derive();
+    const W = ruler.clientWidth || 318, H = 82, pad = 4;
+    const late = d.slack < 0;
+    const start = late ? S.now : d.leaveBy;
+    const endBase = start + S.base, end = start + d.drive;
+    let ws = Math.floor((Math.min(S.now, start) - 4) / 5) * 5;
+    let we = Math.ceil((Math.max(S.bell, end) + 4) / 5) * 5;
+    if (we - ws < 30) we = ws + 30;
+    const x = (m) => pad + (m - ws) / (we - ws) * (W - 2 * pad);
+    ruler.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    let ticks = '', i = 0;
+    for (let m = ws; m <= we; m++, i++) {
+      const major = m % 10 === 0, mid = m % 5 === 0;
+      const h = major ? 10 : mid ? 7 : 4;
+      ticks += `<line class="tick${major ? ' major' : ''}" style="--i:${i}" x1="${x(m)}" y1="44" x2="${x(m)}" y2="${44 + h}"/>`;
+      if (major) ticks += `<text x="${x(m)}" y="76" text-anchor="${m === ws ? 'start' : m === we ? 'end' : 'middle'}">${hm(m)}</text>`;
+    }
+
+    const bw = x(end) - x(start);
+    const block = `
+      <g class="block" style="transform-origin:${x(start)}px 0">
+        <rect class="${late ? 'late' : 'drive'}" x="${x(start)}" y="24" width="${x(endBase) - x(start)}" height="14" rx="3"/>
+        ${S.delay ? `<rect class="${late ? 'late' : 'delay'}" x="${x(endBase)}" y="24" width="${x(end) - x(endBase)}" height="14" rx="3"/>
+        <rect class="${late ? 'late' : 'delay'}" x="${x(endBase)}" y="24" width="${Math.min(4, x(end) - x(endBase))}" height="14"/>` : ''}
+        ${bw > 40 ? `<text class="drive-label" x="${x(start) + bw / 2}" y="34.5" text-anchor="middle">${d.drive} min</text>` : ''}
+      </g>`;
+
+    const gap = x(start) - x(S.now);
+    const slackLabel = !late && gap > 44
+      ? `<text class="slack-label" x="${x(S.now) + gap / 2}" y="34.5" text-anchor="middle">${d.slack} min slack</text>` : '';
+
+    const nowLabelAnchor = x(S.now) > W - 64 ? 'end' : 'start';
+    const nowLabelX = nowLabelAnchor === 'start' ? x(S.now) + 5 : x(S.now) - 5;
+    const nowBox = nowLabelAnchor === 'start' ? [x(S.now) + 5, x(S.now) + 66] : [x(S.now) - 66, x(S.now) - 5];
+    const overlaps = (a, b) => a[0] < b[1] + 6 && b[0] < a[1] + 6;
+    // Bell label: prefer left of the flag, then right of it, then a row of its own under the ticks.
+    let bellAnchor = 'end', bellX = x(S.bell) - 5, bellY = 18;
+    let bellBox = [x(S.bell) - 62, x(S.bell) - 5];
+    if (bellBox[0] < pad || overlaps(bellBox, nowBox)) {
+      bellAnchor = 'start'; bellX = x(S.bell) + 5; bellBox = [x(S.bell) + 5, x(S.bell) + 62];
+      if (bellBox[1] > W - pad || overlaps(bellBox, nowBox)) {
+        bellY = 62; bellAnchor = x(S.bell) < 70 ? 'start' : 'end'; bellX = bellAnchor === 'start' ? x(S.bell) + 5 : x(S.bell) - 5;
+      }
+    }
+    const needle = `
+      <g class="needle-g">
+        <line class="needle" x1="${x(S.now)}" y1="8" x2="${x(S.now)}" y2="50"/>
+        <path class="needle-cap" d="M${x(S.now) - 4} 6 h8 l-4 5 z"/>
+        <text class="label-strong" x="${nowLabelX}" y="18" text-anchor="${nowLabelAnchor}">Now ${hm(S.now)}</text>
+      </g>`;
+    const bell = `
+      <line class="bell" x1="${x(S.bell)}" y1="8" x2="${x(S.bell)}" y2="${bellY === 62 ? 56 : 50}"/>
+      <rect class="flag" x="${x(S.bell) - 4}" y="6" width="8" height="5"/>
+      <text class="label-strong" x="${bellX}" y="${bellY}" text-anchor="${bellAnchor}">Bell ${hm(S.bell)}</text>`;
+
+    ruler.innerHTML = `<title id="mc-ruler-title">Time ruler from now to the school bell</title>
+      <line class="base" x1="${pad}" y1="44" x2="${W - pad}" y2="44"/>
+      ${ticks}${block}${slackLabel}${bell}${needle}`;
+  }
+
+  // ---------- storyboard: one orchestrated entrance ----------
+  function storyboard() {
+    if (reduced.matches || S.state === 'loading' || S.state === 'empty') return;
+    const k = 1 / S.speed, ease = 'cubic-bezier(.25,1,.5,1)';
+    ruler.querySelectorAll('.tick').forEach((el, i) =>
+      el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180 * k, delay: i * 7 * k, fill: 'backwards' }));
+    ruler.querySelectorAll('.block').forEach((el) =>
+      el.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 560 * k, delay: 220 * k, easing: ease, fill: 'backwards' }));
+    ruler.querySelectorAll('.drive-label, .slack-label').forEach((el) =>
+      el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240 * k, delay: 620 * k, fill: 'backwards' }));
+    ruler.querySelectorAll('.needle-g').forEach((el) =>
+      el.animate([{ transform: 'translateX(-18px)', opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }], { duration: 460 * k, delay: 140 * k, easing: ease, fill: 'backwards' }));
+  }
+
+  // ---------- actions ----------
+  let heatTimer = null;
+  $('mc-heat').addEventListener('click', () => {
+    if (S.heating) { S.heating = false; clearInterval(heatTimer); render(); return; }
+    S.heating = true; render();
+    clearInterval(heatTimer);
+    heatTimer = setInterval(() => {
+      if (S.cabin >= 20) { clearInterval(heatTimer); return; }
+      S.cabin += 1; $('d-cabin').value = S.cabin; $('o-cabin').textContent = `${S.cabin}°`; render();
+    }, 900 / S.speed);
+  });
+  $('mc-retry').addEventListener('click', () => { S.state = 'live'; document.querySelector('input[name=state][value=live]').checked = true; render(); storyboard(); });
+  $('mc-route').addEventListener('click', () => { $('mc-route').textContent = 'Opening in Maps'; setTimeout(() => $('mc-route').textContent = 'Open route', 1200); });
+
+  // ---------- dials ----------
+  const bind = (id, out, fmt, apply) => {
+    const el = $(id), o = $(out);
+    const run = () => { o.textContent = fmt(el.value); apply(el.value); };
+    el.addEventListener('input', () => { run(); render(); });
+    run();
+  };
+  bind('d-now', 'o-now', (v) => hm(+v), (v) => S.now = +v);
+  bind('d-delay', 'o-delay', (v) => `${v} min`, (v) => S.delay = +v);
+  bind('d-range', 'o-range', (v) => `${v} km`, (v) => S.range = +v);
+  bind('d-cabin', 'o-cabin', (v) => `${v}°`, (v) => S.cabin = +v);
+  bind('d-tire', 'o-tire', (v) => `${v} psi`, (v) => S.tireFL = +v);
+  bind('d-hue', 'o-hue', (v) => `${v}°`, (v) => document.documentElement.style.setProperty('--hue', v));
+  bind('d-radius', 'o-radius', (v) => `${v} px`, (v) => document.documentElement.style.setProperty('--radius', `${v}px`));
+  bind('d-speed', 'o-speed', (v) => `×${v}`, (v) => S.speed = +v);
+  document.querySelectorAll('input[name=state]').forEach((el) =>
+    el.addEventListener('change', () => { S.state = el.value; render(); storyboard(); }));
+  $('d-replay').addEventListener('click', () => { render(); storyboard(); });
+  $('d-theme').addEventListener('click', () => {
+    const root = document.documentElement;
+    const dark = root.dataset.theme === 'dark' || (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+    root.dataset.theme = dark ? 'light' : 'dark';
+  });
+
+  addEventListener('resize', () => { drawFuel(); drawRuler(); });
+  document.fonts?.ready.then(() => { drawFuel(); drawRuler(); });
+  render(); storyboard();
+})();
+</script>
+</body>
+</html>
