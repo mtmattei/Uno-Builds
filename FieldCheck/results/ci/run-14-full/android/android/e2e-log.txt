@@ -1,0 +1,18 @@
+main: com.fieldcheck.app/crc6498d17d64ad8ab35f.MainActivity screen: 1080 2400
+PASS J04.clean_first_run cold start TotalTime=5660ms
+PASS A05.dashboard_usable 
+PASS C02.counts_7_3_2 
+PASS B01.needs_attention_rows 
+PASS B07.bottom_nav_assets 
+PASS C03.search_location_case_insensitive ['Air Handler 203', 'Cooling Tower 07', 'Exhaust Fan 305']
+PASS C05.search_plus_filter 
+PASS E05.no_results_state 
+PASS C04.filter_reset_all 
+PASS C04.status_filter_attention 
+PASS B03.asset_detail 
+PASS B08.bottom_nav_hidden_on_detail 
+PASS E07.long_description_reachable 
+FAIL B08.back_detail_to_assets 
+FAIL driver.exception TypeError("'NoneType' object is not subscriptable")
+PASS J03.no_crash_in_logcat_crash_buffer 
+14/16 checks passed
