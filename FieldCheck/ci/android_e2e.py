@@ -205,7 +205,7 @@ def submit_is_inert():
     adb("shell", "input", "tap", "540", str(y))
     time.sleep(2)
     ns = nodes()
-    return find("New inspection", ns) is not None and find("Inspection saved", ns) is None
+    return find("Cancel inspection", ns) is not None and find("Inspection saved", ns) is None
 
 
 def run_full():
@@ -458,10 +458,16 @@ def run_states():
     shot("state-retry-recovered")
     stop()
     adb("shell", "am", "start", "-n", MAIN, "--es", "data_mode", "slow")  # no -W: capture while loading
-    time.sleep(3.5)
-    with open(os.path.join(SHOTS, "state-loading.png"), "wb") as f:
-        f.write(subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout)
-    ns = nodes("state-loading")
+    ns = []
+    end = time.time() + 20
+    while time.time() < end:
+        ns = nodes()
+        if find("Loading assets", ns) or find("Needs attention", ns):
+            break
+    if find("Loading assets", ns):
+        with open(os.path.join(SHOTS, "state-loading.png"), "wb") as f:
+            f.write(subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout)
+        nodes("state-loading")
     check("E01.loading_state", find("Loading assets", ns) is not None)
     wait_for("Needs attention", 15)
     stop(); launch(("--es", "data_mode", "save-error")); wait_for("Needs attention", 15)
