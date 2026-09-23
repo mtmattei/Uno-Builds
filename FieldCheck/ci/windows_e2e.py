@@ -304,7 +304,7 @@ def run_full():
     check("C10.persisted_after_relaunch", app.exists("INS-24092"), f"startup={app.startup_s}s")
     app.shot("persistence-after-relaunch")
     # Minimize / restore
-    app.win.minimize(); time.sleep(1); app.win.restore(); time.sleep(1)
+    user32.ShowWindow(app.win.handle, 6); time.sleep(1.5); user32.ShowWindow(app.win.handle, 9); time.sleep(1.5)
     check("J06.minimize_restore", app.exists("INS-24092"))
     app.kill()
 
