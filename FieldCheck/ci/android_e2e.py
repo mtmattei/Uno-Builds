@@ -129,6 +129,22 @@ def launch(extra=(), wait=True):
     return int(m.group(1)) if m else None
 
 
+def clear_data():
+    # pm clear force-stops asynchronously; give it time so it doesn't kill the next launch.
+    adb("shell", "pm", "clear", PKG)
+    time.sleep(4)
+
+
+def launch_ready(expect="Needs attention", extra=()):
+    t = launch(extra)
+    if wait_for(expect, 20):
+        return t
+    stop()
+    t = launch(extra)
+    wait_for(expect, 25)
+    return t
+
+
 def stop():
     adb("shell", "am", "force-stop", PKG)
     time.sleep(1)
@@ -155,9 +171,13 @@ print("main:", MAIN, "screen:", screen_w, screen_h)
 
 def run_full():
     # --- Clean install / first run ---
-    adb("shell", "pm", "clear", PKG)
+    clear_data()
     t = launch()
-    check("J04.clean_first_run", wait_for("Needs attention", 20) is not None, f"cold start TotalTime={t}ms")
+    ok = wait_for("Needs attention", 25) is not None
+    if not ok:
+        t = launch_ready()
+        ok = find("Needs attention") is not None
+    check("J04.clean_first_run", ok, f"cold start TotalTime={t}ms")
     shot("01-dashboard"); ns = nodes("01-dashboard")
     check("A05.dashboard_usable", find("12", ns, exact=True) and find("Operational", ns) and find("View all assets", ns))
     check("C02.counts_7_3_2", all(find(v, ns, exact=True) for v in ["7", "3", "2"]))
@@ -423,7 +443,7 @@ try:
     if SCENARIO in ("states", "all", "full"):
         run_states()
     if SCENARIO == "smoke":
-        adb("shell", "pm", "clear", PKG)
+        clear_data()
         t = launch(); time.sleep(4)
         shot("smoke-dashboard"); nodes("smoke-dashboard")
         check("A05.launch", pid() != "", f"TotalTime={t}")
