@@ -104,3 +104,11 @@ Per ACCEPTANCE_CRITERIA H this is rasterization/font difference, not structural 
 No structural divergence and no redesign. The remaining differences are font metrics, real icons in place of
 placeholder glyphs, and additions the spec requires but the references omit: Notes, Cancel, the inspector on rows,
 and all Needs-attention assets.
+
+## State captures
+
+- **Loading**: `screenshots/windows/state-loading.png` shows the spinner and "Loading assets…".
+  - On Android the loading state was detected in the accessibility tree ("Loading assets…").
+    The screencap taken right after was blank, because the software-GPU emulator hadn't drawn the first Skia frame yet.
+    That capture is not included; E01 on Android rests on the accessibility check.
+- **Empty, error, retry-recovered and save-error** captures are included for both targets.
