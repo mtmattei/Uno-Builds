@@ -1,0 +1,142 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "startup=0.69s"
+  },
+  {
+    "id": "A06.dashboard_usable",
+    "pass": true,
+    "detail": "client=(1440, 900)"
+  },
+  {
+    "id": "C02.counts",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_history",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_dashboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B10.master_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F03.reference_viewport",
+    "pass": true,
+    "detail": "(1440, 900)"
+  },
+  {
+    "id": "C03.search_type",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E05.no_results",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.filter_critical",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F07.keyboard_tab_reaches_controls",
+    "pass": true,
+    "detail": "['Show all statuses', 'Filter Operational', 'Filter Attention', 'Filter Critical', 'Booster Pump 104, PMP-104, Operational', 'Air Handler 203, AHU-203, Attention', 'Compressor 012, CMP-012, Operational', 'Cooling Tower 07, CT-007, Critical']"
+  },
+  {
+    "id": "B04.new_inspection",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D14.submit_disabled",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B11.cancel_returns",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D04.temp_error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D07.picker_opens",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D09.picker_cancel",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D08.picker_filename",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B05.success",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D18.asset_reflects_newest",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C09.history_new_first",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C07.history_search",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C08.history_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F04.narrow_single_pane",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C10.persisted_after_relaunch",
+    "pass": true,
+    "detail": "startup=0.57s"
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "Traceback (most recent call last):\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\uia_defines.py\", line 234, in get_elem_interface\n    iface = cur_ptrn.QueryInterface(cls_name)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\comtypes\\_post_coinit\\unknwn.py\", line 406, in QueryInterface\n    self.__com_QueryInterface(byref(iid), byref(p))  # type: ignore\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: NULL COM pointer access\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 373, in <module>\n    run_full()\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 307, in run_full\n    app.win.minimize(); time.sleep(1); app.win.restore(); time.sleep(1)\n    ^^^^^^^^^^^^^^^^^^\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\controls\\uiawrapper.py\", line 449, in minimize\n    iface = self.iface_window\n            ^^^^^^^^^^^^^^^^^\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\controls\\uiawrapper.py\", line 132, in __get__\n    value = self.fget(obj)\n            ^^^^^^^^^^^^^^\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\controls\\uiawrapper.py\", line 322, in iface_window\n    return uia_defs.get_elem_interface(elem, \"Window\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\uia_defines.py\", line 236, in get_elem_interface\n    raise NoPatternInterfaceError()\npywinauto.uia_defines.NoPatternInterfaceError\n"
+  }
+]
