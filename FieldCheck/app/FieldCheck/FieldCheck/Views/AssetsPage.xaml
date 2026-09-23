@@ -139,7 +139,7 @@
             <AdaptiveTrigger MinWindowWidth="1000" />
           </VisualState.StateTriggers>
           <VisualState.Setters>
-            <Setter Target="MasterColumn.Width" Value="461" />
+            <Setter Target="MasterColumn.Width" Value="380" />
             <Setter Target="DetailColumn.Width" Value="*" />
             <Setter Target="DetailPane.Visibility" Value="Visible" />
             <Setter Target="Master.Background" Value="{StaticResource CanvasRaisedBrush}" />
@@ -150,6 +150,18 @@
             <Setter Target="List.Padding" Value="20,6,20,20" />
             <Setter Target="List.SelectionMode" Value="Single" />
             <Setter Target="List.ItemTemplate" Value="{StaticResource WideRowTemplate}" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+      <VisualStateGroup>
+        <VisualState x:Name="MasterCompact" />
+        <VisualState x:Name="MasterFull">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="1280" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="MasterColumn.MaxWidth" Value="461" />
+            <Setter Target="MasterColumn.MinWidth" Value="461" />
           </VisualState.Setters>
         </VisualState>
       </VisualStateGroup>

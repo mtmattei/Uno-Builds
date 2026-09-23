@@ -143,6 +143,10 @@ def hide_keyboard():
         key(111)  # ESC closes the IME without triggering back navigation
 
 
+# Keep emulator system ANR/crash dialogs (e.g. an idle Pixel Launcher) from covering the app.
+adb("shell", "settings", "put", "global", "hide_error_dialogs", "1")
+adb("shell", "settings", "put", "secure", "anr_show_background", "0")
+adb("shell", "am", "broadcast", "-a", "android.intent.action.CLOSE_SYSTEM_DIALOGS")
 MAIN = adb("shell", "cmd", "package", "resolve-activity", "--brief", PKG).strip().splitlines()[-1]
 screen = re.search(r"(\d+)x(\d+)", adb("shell", "wm", "size"))
 screen_w, screen_h = int(screen.group(1)), int(screen.group(2))

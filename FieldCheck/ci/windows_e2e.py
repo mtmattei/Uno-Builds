@@ -89,7 +89,8 @@ class App:
         gdi32.DeleteObject(bmp); gdi32.DeleteDC(mdc); user32.ReleaseDC(hwnd, hdc)
 
     def find(self, name, ctype=None, timeout=8, regex=False):
-        crit = {"title_re" if regex else "title": name}
+        # pywinauto title_re uses re.match (anchored at start); search anywhere in the name instead.
+        crit = {"title_re": f"(?is).*(?:{name})"} if regex else {"title": name}
         if ctype:
             crit["control_type"] = ctype
         el = self.win.child_window(**crit, found_index=0)
@@ -322,8 +323,43 @@ def run_states():
     app.kill()
 
 
+def set_resolution(w, h):
+    class DEVMODE(ctypes.Structure):
+        _fields_ = [("dmDeviceName", ctypes.c_wchar * 32), ("dmSpecVersion", ctypes.c_ushort), ("dmDriverVersion", ctypes.c_ushort),
+                    ("dmSize", ctypes.c_ushort), ("dmDriverExtra", ctypes.c_ushort), ("dmFields", ctypes.c_ulong),
+                    ("dmPositionX", ctypes.c_long), ("dmPositionY", ctypes.c_long), ("dmDisplayOrientation", ctypes.c_ulong),
+                    ("dmDisplayFixedOutput", ctypes.c_ulong), ("dmColor", ctypes.c_short), ("dmDuplex", ctypes.c_short),
+                    ("dmYResolution", ctypes.c_short), ("dmTTOption", ctypes.c_short), ("dmCollate", ctypes.c_short),
+                    ("dmFormName", ctypes.c_wchar * 32), ("dmLogPixels", ctypes.c_ushort), ("dmBitsPerPel", ctypes.c_ulong),
+                    ("dmPelsWidth", ctypes.c_ulong), ("dmPelsHeight", ctypes.c_ulong), ("dmDisplayFlags", ctypes.c_ulong),
+                    ("dmDisplayFrequency", ctypes.c_ulong), ("dmICMMethod", ctypes.c_ulong), ("dmICMIntent", ctypes.c_ulong),
+                    ("dmMediaType", ctypes.c_ulong), ("dmDitherType", ctypes.c_ulong), ("dmReserved1", ctypes.c_ulong),
+                    ("dmReserved2", ctypes.c_ulong), ("dmPanningWidth", ctypes.c_ulong), ("dmPanningHeight", ctypes.c_ulong)]
+    dm = DEVMODE(); dm.dmSize = ctypes.sizeof(DEVMODE)
+    user32.EnumDisplaySettingsW(None, -1, ctypes.byref(dm))
+    dm.dmPelsWidth, dm.dmPelsHeight = w, h
+    dm.dmFields = 0x80000 | 0x100000
+    return user32.ChangeDisplaySettingsW(ctypes.byref(dm), 0)
+
+
+def dump_tree(name):
+    try:
+        wins = [w for w in Desktop(backend="uia").windows() if "FieldCheck" in w.window_text()]
+        lines = []
+        for w in wins:
+            for e in w.descendants():
+                ei = e.element_info
+                lines.append(f"{ei.control_type}\t{ei.name!r}\t{ei.automation_id!r}\t{e.rectangle()}")
+        open(os.path.join(OUT, name + ".txt"), "w", encoding="utf-8").write("\n".join(lines))
+    except Exception as ex:
+        open(os.path.join(OUT, name + ".txt"), "w").write(repr(ex))
+
+
 try:
+    rc = set_resolution(1920, 1080)
+    time.sleep(2)
     with open(os.path.join(OUT, "screen.txt"), "w") as f:
+        f.write(f"ChangeDisplaySettings rc={rc}\n")
         f.write(f"{user32.GetSystemMetrics(0)}x{user32.GetSystemMetrics(1)}\n")
     if SCENARIO in ("full", "all"):
         run_full()
@@ -342,6 +378,7 @@ try:
 except Exception as ex:
     import traceback
     check("driver.exception", False, traceback.format_exc())
+    dump_tree("uia-tree-at-failure")
 finally:
     json.dump(checks, open(os.path.join(OUT, "checks.json"), "w"), indent=2)
     print(f"{sum(c['pass'] for c in checks)}/{len(checks)} checks passed")

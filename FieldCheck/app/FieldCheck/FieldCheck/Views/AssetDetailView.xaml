@@ -11,11 +11,15 @@
                   EmptyMessage="This asset is no longer in the local register." />
 
     <StackPanel Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">
-      <Grid ColumnSpacing="24">
+      <Grid x:Name="HeaderGrid" ColumnSpacing="24" RowSpacing="16">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <StackPanel Spacing="10">
           <TextBlock x:Name="AssetName" Style="{StaticResource ScreenTitleStyle}" Text="{x:Bind ViewModel.Asset.Name, Mode=OneWay}" />
           <c:StatusChip Status="{x:Bind ViewModel.Asset.StatusText, Mode=OneWay}" />
