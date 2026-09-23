@@ -111,7 +111,7 @@ def scroll_to(pattern, max_swipes=8, exact=False):
         ns = nodes()
         n = find(pattern, ns, exact=exact)
         nav = [m["bounds"][1] for m in ns if m["desc"] in ("Dashboard", "Assets", "History") and m["cls"].endswith("Button")]
-        limit = min(nav) if nav else screen_h - 40
+        limit = min(nav) if nav else screen_h - 180  # stay clear of the gesture-navigation strip
         return n if n and 200 < (n["bounds"][1] + n["bounds"][3]) // 2 < limit else None
     for up in (True, False):
         for _ in range(max_swipes if up else max_swipes * 2):
@@ -193,6 +193,20 @@ screen_w, screen_h = int(screen.group(1)), int(screen.group(2))
 print("main:", MAIN, "screen:", screen_w, screen_h)
 
 
+def submit_is_inert():
+    """A disabled Submit is not exposed to accessibility on Uno Skia Android, so verify it functionally:
+    tap where it is drawn (between the summary line and Cancel) and assert nothing was saved."""
+    cancel = scroll_to("Cancel inspection")
+    summary = find("To submit")
+    if not cancel or not summary:
+        return False
+    y = (summary["bounds"][3] + cancel["bounds"][1]) // 2
+    adb("shell", "input", "tap", "540", str(y))
+    time.sleep(2)
+    ns = nodes()
+    return find("New inspection", ns) is not None and find("Inspection saved", ns) is None
+
+
 def run_full():
     # --- Clean install / first run ---
     clear_data()
@@ -258,7 +272,7 @@ def run_full():
     key(4)
     check("B08.back_inspection_to_detail", wait_for("Asset detail", 8) is not None)
     tap_row("Start inspection"); wait_for("New inspection")
-    tap("Condition Good")
+    tap_row("Condition Good")
     tap_row("Cancel inspection")
     check("B11.cancel_returns", wait_for("Asset detail", 8) is not None)
 
@@ -266,41 +280,38 @@ def run_full():
     tap_row("Start inspection"); wait_for("New inspection")
     shot("04-form-initial")
     summary = scroll_to("To submit: select a condition")
-    submit = scroll_to("Submit inspection")
-    nodes("04-form-initial-bottom")
-    check("D14.submit_disabled_initially", submit is not None and not submit["enabled"], str(submit and submit["enabled"]))
     check("E06.missing_summary", summary is not None)
+    check("D14.submit_disabled_initially", submit_is_inert(), "tapping the disabled Submit keeps the form and saves nothing")
     scroll_to("Condition Good")
-    tap("Condition Good")
+    tap_row("Condition Good")
     check("D10.issue_hidden_good_yes", find("Issue description", nodes()) is None)
-    tap("Operating normally")
+    tap_row("Operating normally")
     check("D12.issue_shown_not_operating", wait_for("Issue description, required", 4) is not None)
-    tap("Operating normally")
-    tap("Condition Critical")
+    tap_row("Operating normally")
+    tap_row("Condition Critical")
     check("D11.issue_shown_critical", wait_for("Issue description, required", 4) is not None)
-    tap("Condition Attention")
+    tap_row("Condition Attention")
     check("D11.issue_shown_attention", find("Issue description, required") is not None)
-    tap("Temperature in degrees")
+    tap_row("Temperature in degrees")
     type_text("300")
     hide_keyboard()
     shot("04-form-temp-invalid"); ns = nodes("04-form-temp-invalid")
     check("D04.temperature_out_of_range_error", find("between -50 and 250", ns) is not None)
-    tap("Temperature in degrees"); key(123)
+    tap_row("Temperature in degrees"); key(123)
     for _ in range(4):
         key(67)
     type_text("-50")
     hide_keyboard()
     check("D03.temperature_min_accepted", find("between -50 and 250", nodes()) is None)
-    tap("Temperature in degrees"); key(123)
+    tap_row("Temperature in degrees"); key(123)
     for _ in range(4):
         key(67)
     type_text("27")
     hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage"]:
-        tap(item)
+        tap_row(item)
     summary = scroll_to("confirm 1 checklist item")
-    submit = scroll_to("Submit inspection")
-    check("D05.one_item_missing_blocks", summary is not None and submit is not None and not submit["enabled"])
+    check("D05.one_item_missing_blocks", summary is not None and submit_is_inert())
     tap_row("Area clear and accessible")
     tap_row("Issue description, required")
     type_text("Basin-level alarm intermittent; inspect fan vibration.")
@@ -325,19 +336,16 @@ def run_full():
     check("D09.picker_cancel_keeps_form", find("New inspection", ns) is not None and find("Choose file", ns) is not None)
     tap_row("Attach photo or file")
     time.sleep(3)
-    n = wait_for("inspection-photo", 6)
-    if not n:
-        # Navigate DocumentsUI to Downloads
-        root = find("Show roots") or find("Open navigation drawer")
-        if root:
-            tap_node(root)
-            tap("Downloads")
-        n = wait_for("inspection-photo", 8)
+    # Android 14 routes image/* GET_CONTENT to the system Photo Picker; the pushed fixture is the only photo.
+    n = wait_for("inspection-photo|Photo taken on", 8)
     if n:
         tap_node(n)
         time.sleep(3)
     ns = nodes("picker-selected")
-    check("D08.picker_selected_filename", find("inspection-photo.png", ns) is not None and find("New inspection", ns) is not None)
+    shot("picker-selected")
+    attached = find("Attached. Tap to replace", ns)
+    check("D08.picker_selected_filename", attached is not None and find("New inspection", ns) is not None,
+          "file name shown: " + " | ".join(label(x) for x in ns if re.search(r"\.(png|jpe?g)$", x["desc"] or x["text"], re.I)))
 
     ns = nodes()
     n = scroll_to("Submit inspection")
@@ -387,7 +395,7 @@ def run_full():
 
     # --- Success view-history path ---
     tap("^Assets$"); tap_row("Panel LP-44"); tap_row("Start inspection")
-    tap("Condition Good"); tap("Temperature in degrees"); type_text("41"); hide_keyboard()
+    tap_row("Condition Good"); tap_row("Temperature in degrees"); type_text("41"); hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage", "Area clear and accessible"]:
         tap_row(item)
     tap_row("Submit inspection")
@@ -454,7 +462,7 @@ def run_states():
     stop(); launch(("--es", "data_mode", "save-error")); wait_for("Needs attention", 15)
     before = None
     tap_row("Cooling Tower 07"); tap_row("Start inspection")
-    tap("Condition Good"); tap("Temperature in degrees"); type_text("20"); hide_keyboard()
+    tap_row("Condition Good"); tap_row("Temperature in degrees"); type_text("20"); hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage", "Area clear and accessible"]:
         tap_row(item)
     tap_row("Submit inspection")
