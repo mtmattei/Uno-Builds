@@ -462,7 +462,8 @@ def run_states():
     end = time.time() + 20
     while time.time() < end:
         ns = nodes()
-        if find("Loading assets", ns) or find("Needs attention", ns):
+        # Only the loading text is conclusive: collapsed (not yet visible) panels can still be in the tree.
+        if find("Loading assets", ns):
             break
     if find("Loading assets", ns):
         with open(os.path.join(SHOTS, "state-loading.png"), "wb") as f:
