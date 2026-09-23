@@ -159,7 +159,7 @@ def pid():
 
 def hide_keyboard():
     if "mInputShown=true" in adb("shell", "dumpsys", "input_method"):
-        key(111)  # ESC closes the IME without triggering back navigation
+        key(4)  # Back while the IME is shown only closes the keyboard (standard Android behaviour)
 
 
 # Keep emulator system ANR/crash dialogs (e.g. an idle Pixel Launcher) from covering the app.
@@ -208,7 +208,8 @@ def run_full():
     shot("02-assets-no-results"); ns = nodes("02-assets-no-results")
     check("E05.no_results_state", find("No matching assets", ns) is not None)
     tap("Clear search")
-    ns = nodes()
+    time.sleep(1)
+    shot("02-assets-after-clear"); ns = nodes("02-assets-after-clear")
     check("C04.filter_reset_all", find("Booster Pump 104", ns) is not None)
     tap("Filter Attention")
     ns = nodes("02-assets-filter-attention")
