@@ -2,40 +2,47 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:c="using:FieldCheck.Controls"
-      xmlns:m="using:FieldCheck.Models"
+      xmlns:vm="using:FieldCheck.ViewModels"
       xmlns:v="using:FieldCheck.Views"
       NavigationCacheMode="Required"
       Background="{StaticResource CanvasBrush}">
 
   <Page.Resources>
-    <DataTemplate x:Key="NarrowRowTemplate" x:DataType="m:Asset">
-      <Grid Padding="0,13,0,13" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Spacing="3">
-          <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind IdAndType}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind Location}" />
-        </StackPanel>
-        <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
-        <Path Grid.Column="2" Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
-      </Grid>
+    <DataTemplate x:Key="NarrowRowTemplate" x:DataType="vm:AssetRow">
+      <Button Style="{StaticResource RowButtonStyle}" Click="OnAssetClick" AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid Padding="0,13,0,13" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Spacing="3">
+            <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind IdAndType}" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind Location}" />
+          </StackPanel>
+          <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
+          <Path Grid.Column="2" Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
+        </Grid>
+      </Button>
     </DataTemplate>
-    <DataTemplate x:Key="WideRowTemplate" x:DataType="m:Asset">
-      <Grid Height="84" Padding="20,0,20,0" ColumnSpacing="12">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <StackPanel VerticalAlignment="Center" Spacing="5">
-          <TextBlock Style="{StaticResource RowTitleStyle}" FontSize="15" Text="{x:Bind Name}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="11" Text="{x:Bind IdAndLocation}" />
-        </StackPanel>
-        <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
-      </Grid>
+    <DataTemplate x:Key="WideRowTemplate" x:DataType="vm:AssetRow">
+      <Button Style="{StaticResource RowButtonStyle}" Click="OnAssetClick" AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid Height="84" Background="{x:Bind c:StatusVisuals.SelectedFill(IsSelected), Mode=OneWay}">
+          <Border Width="4" HorizontalAlignment="Left" Background="{StaticResource AccentBrush}" Visibility="{x:Bind c:StatusVisuals.Show(IsSelected), Mode=OneWay}" />
+          <Grid Padding="20,0,20,0" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Spacing="5">
+              <TextBlock Style="{StaticResource RowTitleStyle}" FontSize="15" Text="{x:Bind Name}" />
+              <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="11" Text="{x:Bind IdAndLocation}" />
+            </StackPanel>
+            <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
+          </Grid>
+        </Grid>
+      </Button>
     </DataTemplate>
   </Page.Resources>
 
@@ -94,14 +101,14 @@
           <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Command="{x:Bind ViewModel.ClearSearchCommand}" />
         </StackPanel>
 
-        <ListView x:Name="List"
-                  Padding="20,0,20,20"
-                  Style="{StaticResource RowListViewStyle}"
-                  ItemsSource="{x:Bind ViewModel.Items}"
-                  ItemTemplate="{StaticResource NarrowRowTemplate}"
-                  ItemClick="OnAssetClick"
-                  AutomationProperties.Name="Assets"
-                  Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}" />
+        <ScrollViewer Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">
+          <ItemsControl x:Name="List"
+                        Margin="20,0,20,20"
+                        IsTabStop="False"
+                        ItemsSource="{x:Bind ViewModel.Items}"
+                        ItemTemplate="{StaticResource NarrowRowTemplate}"
+                        AutomationProperties.Name="Asset list" />
+        </ScrollViewer>
       </Grid>
     </Grid>
 
@@ -131,7 +138,7 @@
             <Setter Target="Header.Padding" Value="40,44,40,0" />
             <Setter Target="States.Margin" Value="40,0,40,0" />
             <Setter Target="NoResults.Margin" Value="40,28,40,0" />
-            <Setter Target="List.Padding" Value="40,0,40,20" />
+            <Setter Target="List.Margin" Value="40,0,40,20" />
           </VisualState.Setters>
         </VisualState>
         <VisualState x:Name="Wide">
@@ -147,8 +154,7 @@
             <Setter Target="Header.Padding" Value="40,44,40,0" />
             <Setter Target="States.Margin" Value="40,0,40,0" />
             <Setter Target="NoResults.Margin" Value="40,28,40,0" />
-            <Setter Target="List.Padding" Value="20,6,20,20" />
-            <Setter Target="List.SelectionMode" Value="Single" />
+            <Setter Target="List.Margin" Value="20,6,20,20" />
             <Setter Target="List.ItemTemplate" Value="{StaticResource WideRowTemplate}" />
           </VisualState.Setters>
         </VisualState>

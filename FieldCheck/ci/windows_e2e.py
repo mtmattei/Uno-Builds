@@ -89,13 +89,21 @@ class App:
         gdi32.DeleteObject(bmp); gdi32.DeleteDC(mdc); user32.ReleaseDC(hwnd, hdc)
 
     def find(self, name, ctype=None, timeout=8, regex=False):
-        # pywinauto title_re uses re.match (anchored at start); search anywhere in the name instead.
-        crit = {"title_re": f"(?is).*(?:{name})"} if regex else {"title": name}
-        if ctype:
-            crit["control_type"] = ctype
-        el = self.win.child_window(**crit, found_index=0)
-        el.wait("exists", timeout=timeout)
-        return el
+        """Finds a descendant by UIA Name (exact, or regex search anywhere in the name)."""
+        rx = re.compile(name, re.I | re.S) if regex else None
+        end = time.time() + timeout
+        while True:
+            try:
+                elements = self.win.descendants(control_type=ctype) if ctype else self.win.descendants()
+            except Exception:
+                elements = []
+            for e in elements:
+                n = e.element_info.name or ""
+                if (rx.search(n) if rx else n == name):
+                    return e
+            if time.time() > end:
+                raise TimeoutError(f"not found: {name} ({ctype})")
+            time.sleep(0.4)
 
     def exists(self, name, ctype=None, timeout=2, regex=True):
         try:
@@ -190,7 +198,7 @@ def run_full():
     app.shot("02-assets-no-selection")
 
     # Master/detail
-    item = app.find("Cooling Tower 07, CT-007, Critical", "ListItem")
+    item = app.find("Cooling Tower 07, CT-007, Critical", "Button")
     item.click_input(); time.sleep(1.5)
     check("B10.master_detail", app.exists("Start inspection") and app.exists("Equipment records|equipment records") and has(app, "Open-circuit cooling tower"))
     app.shot("02-assets-master-detail")
@@ -217,7 +225,7 @@ def run_full():
     check("F07.keyboard_tab_reaches_controls", "Filter Critical" in focus_names or "Show all statuses" in focus_names, str(focus_names))
 
     # Start inspection -> cancel does not save
-    app.find("Cooling Tower 07, CT-007, Critical", "ListItem").click_input(); time.sleep(1)
+    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1)
     app.invoke("Start inspection")
     check("B04.new_inspection", app.exists("New inspection"))
     app.shot("03-new-inspection-empty")
@@ -227,7 +235,7 @@ def run_full():
     check("B11.cancel_returns", app.exists("equipment records") and not has(app, "INS-24092"))
 
     # Fill the form
-    app.find("Cooling Tower 07, CT-007, Critical", "ListItem").click_input(); time.sleep(1)
+    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1)
     app.invoke("Start inspection")
     select(app, "Condition Attention")
     check("D11.issue_shown", app.exists("Issue description, required", "Edit"))
@@ -282,7 +290,7 @@ def run_full():
         app.resize(w, 800); time.sleep(1)
         app.shot(f"responsive-history-{w}")
     app.invoke("Assets"); app.shot("responsive-assets-760")
-    app.find("Cooling Tower 07, CT-007, Critical", "ListItem").click_input(); time.sleep(1.5)
+    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1.5)
     check("F04.narrow_single_pane", app.exists("Asset detail"))
     app.shot("responsive-detail-760")
     app.invoke("Start inspection"); app.shot("responsive-form-760")
@@ -315,7 +323,7 @@ def run_states():
     check("E01.loading", app.exists("Loading assets", timeout=3)); app.shot("state-loading")
     app.kill()
     app = App(mode="save-error")
-    app.invoke("Assets"); app.find("Panel LP-44, PNL-044, Operational", "ListItem").click_input(); time.sleep(1)
+    app.invoke("Assets"); app.find("Panel LP-44, PNL-044, Operational", "Button").click_input(); time.sleep(1)
     app.invoke("Start inspection"); fill_valid(app)
     app.invoke("Submit inspection")
     check("E08.save_error", app.exists("wasn't saved", timeout=6) and not app.exists("Inspection saved", timeout=1))

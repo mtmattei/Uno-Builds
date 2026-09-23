@@ -16,5 +16,5 @@ public sealed partial class DashboardPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e) => _ = ViewModel.EnsureLoadedAsync();
 
-    private void OnAssetClick(object sender, ItemClickEventArgs e) => ViewModel.OpenAsset((Asset)e.ClickedItem);
+    private void OnAssetClick(object sender, RoutedEventArgs e) => ViewModel.OpenAsset((Asset)((FrameworkElement)sender).DataContext);
 }

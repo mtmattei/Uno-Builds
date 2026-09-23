@@ -27,6 +27,9 @@ public sealed record Asset(
     [JsonIgnore]
     public string IdAndLocation => $"{Id} · {Location}";
 
-    // Used by list item automation peers as the accessible name.
+    [JsonIgnore]
+    public string SpokenText => ToString();
+
+    // Accessible name for list rows.
     public override string ToString() => $"{Name}, {Id}, {Status}";
 }

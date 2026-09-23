@@ -366,25 +366,24 @@
     </Setter>
   </Style>
 
-  <!-- List rows: separators instead of cards; selected row = surface + accent bar (master/detail). -->
-  <Style x:Key="RowListViewItemStyle" TargetType="ListViewItem">
+  <!-- Clickable list row (Button so every row is a focusable, named accessibility element on all heads). -->
+  <Style x:Key="RowButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{StaticResource TransparentBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="0" />
-    <Setter Property="Margin" Value="0" />
+    <Setter Property="CornerRadius" Value="0" />
     <Setter Property="MinHeight" Value="44" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="FocusVisualMargin" Value="0" />
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="ListViewItem">
-          <Grid x:Name="Root" Background="{StaticResource TransparentBrush}">
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root" Background="{TemplateBinding Background}">
             <Border x:Name="Tint" Background="{StaticResource TransparentBrush}" />
-            <Border x:Name="SelectionBar"
-                    Width="4"
-                    HorizontalAlignment="Left"
-                    Background="{StaticResource AccentBrush}"
-                    Visibility="Collapsed" />
             <ContentPresenter x:Name="ContentPart"
                               Padding="{TemplateBinding Padding}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -404,25 +403,7 @@
                     <Setter Target="Tint.Background" Value="{StaticResource PressedTintBrush}" />
                   </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Selected">
-                  <VisualState.Setters>
-                    <Setter Target="Root.Background" Value="{StaticResource SurfaceBrush}" />
-                    <Setter Target="SelectionBar.Visibility" Value="Visible" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="PointerOverSelected">
-                  <VisualState.Setters>
-                    <Setter Target="Root.Background" Value="{StaticResource SurfaceBrush}" />
-                    <Setter Target="SelectionBar.Visibility" Value="Visible" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="PressedSelected">
-                  <VisualState.Setters>
-                    <Setter Target="Root.Background" Value="{StaticResource SurfaceBrush}" />
-                    <Setter Target="SelectionBar.Visibility" Value="Visible" />
-                    <Setter Target="Tint.Background" Value="{StaticResource PressedTintBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
+                <VisualState x:Name="Disabled" />
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
           </Grid>
@@ -431,12 +412,6 @@
     </Setter>
   </Style>
 
-  <Style x:Key="RowListViewStyle" TargetType="ListView">
-    <Setter Property="SelectionMode" Value="None" />
-    <Setter Property="IsItemClickEnabled" Value="True" />
-    <Setter Property="ItemContainerStyle" Value="{StaticResource RowListViewItemStyle}" />
-    <Setter Property="Padding" Value="0" />
-  </Style>
 
   <!-- Inputs -->
   <Style x:Key="FieldTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">

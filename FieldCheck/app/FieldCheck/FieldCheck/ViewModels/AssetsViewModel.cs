@@ -30,7 +30,7 @@ public sealed partial class AssetsViewModel : LoadableViewModel
     /// <summary>Detail pane used by the wide master/detail layout.</summary>
     public AssetDetailViewModel Detail { get; }
 
-    public ObservableCollection<Asset> Items { get; } = [];
+    public ObservableCollection<AssetRow> Items { get; } = [];
 
     [ObservableProperty]
     public partial string Subtitle { get; private set; } = string.Empty;
@@ -66,12 +66,19 @@ public sealed partial class AssetsViewModel : LoadableViewModel
 
     public bool IsCritical { get => Filter == AssetFilter.Critical; set { if (value) Filter = AssetFilter.Critical; } }
 
+    partial void OnIsWideChanged(bool value) => OnSelectedAssetChanged(SelectedAsset);
+
     partial void OnSearchTextChanged(string value) => ApplyFilter();
 
     partial void OnFilterChanged(AssetFilter value) => ApplyFilter();
 
     partial void OnSelectedAssetChanged(Asset? value)
     {
+        foreach (var row in Items)
+        {
+            row.IsSelected = IsWide && value is not null && row.Asset.Id == value.Id;
+        }
+
         if (value is not null)
         {
             Detail.Load(value.Id);
@@ -120,13 +127,13 @@ public sealed partial class AssetsViewModel : LoadableViewModel
         Items.Clear();
         foreach (var asset in _all.Where(a => Matches(a, SearchText, Filter)))
         {
-            Items.Add(asset);
+            Items.Add(new AssetRow(asset) { IsSelected = IsWide && asset.Id == selected?.Id });
         }
 
         HasNoResults = _all.Count > 0 && Items.Count == 0;
 
         // Clearing the list resets list selection in the view; restore it.
-        SelectedAsset = selected is null ? null : Items.FirstOrDefault(a => a.Id == selected.Id) ?? selected;
+        SelectedAsset = selected is null ? null : Items.FirstOrDefault(r => r.Asset.Id == selected.Id)?.Asset ?? selected;
     }
 
     public void OpenAsset(Asset asset)

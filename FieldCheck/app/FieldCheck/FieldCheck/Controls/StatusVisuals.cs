@@ -16,6 +16,9 @@ public static class StatusVisuals
     /// <summary>Navigation item text/icon brush: Ink when active, Muted otherwise.</summary>
     public static Brush Nav(bool active) => (Brush)Application.Current.Resources[active ? "InkBrush" : "MutedBrush"];
 
+    /// <summary>Selected master row fill (Surface) vs transparent.</summary>
+    public static Brush SelectedFill(bool selected) => (Brush)Application.Current.Resources[selected ? "SurfaceBrush" : "TransparentBrush"];
+
     public static Visibility Show(bool value) => value ? Visibility.Visible : Visibility.Collapsed;
 
     public static Visibility Hide(bool value) => value ? Visibility.Collapsed : Visibility.Visible;

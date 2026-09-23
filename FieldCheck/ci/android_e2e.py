@@ -53,7 +53,7 @@ def nodes(save=None, _depth=0):
         x1, y1, x2, y2 = map(int, b)
         out.append({"text": n.get("text", ""), "desc": n.get("content-desc", ""), "cls": n.get("class", ""),
                     "checked": n.get("checked") == "true", "enabled": n.get("enabled") == "true",
-                    "focused": n.get("focused") == "true", "bounds": (x1, y1, x2, y2), "pkg": n.get("package", "")})
+                    "focused": n.get("focused") == "true", "clickable": n.get("clickable") == "true", "bounds": (x1, y1, x2, y2), "pkg": n.get("package", "")})
     return out
 
 
@@ -62,14 +62,17 @@ def label(n):
 
 
 def find(pattern, ns=None, exact=False):
+    """Exact patterns are case-sensitive; clickable nodes win over plain text nodes."""
     ns = ns if ns is not None else nodes()
-    rx = re.compile(("^" + pattern + "$") if exact else pattern, re.I)
+    rx = re.compile("^" + pattern + "$") if exact or (pattern.startswith("^") and pattern.endswith("$")) else re.compile(pattern, re.I)
+    hits = []
     for n in ns:
         if (n["text"] and rx.search(n["text"])) or (n["desc"] and rx.search(n["desc"])):
             x1, y1, x2, y2 = n["bounds"]
             if x2 > x1 and y2 > y1:
-                return n
-    return None
+                hits.append(n)
+    clickable = [n for n in hits if n["cls"].endswith("Button") or n.get("clickable")]
+    return (clickable or hits or [None])[0]
 
 
 def wait_for(pattern, timeout=15, exact=False):

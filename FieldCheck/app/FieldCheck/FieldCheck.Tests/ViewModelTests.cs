@@ -56,7 +56,7 @@ public class ViewModelTests
         vm.SearchText = search;
         vm.Filter = filter;
 
-        vm.Items.Select(a => a.Id).Should().Equal(expected);
+        vm.Items.Select(r => r.Asset.Id).Should().Equal(expected);
         vm.HasNoResults.Should().BeFalse();
     }
 
@@ -84,7 +84,7 @@ public class ViewModelTests
         var nav = new RecordingNavigator();
         var vm = new AssetsViewModel(repo, nav, new AssetDetailViewModel(repo, nav));
         await vm.LoadAsync();
-        var ct = vm.Items.Single(a => a.Id == "CT-007");
+        var ct = vm.Items.Single(r => r.Asset.Id == "CT-007").Asset;
 
         vm.OpenAsset(ct);
         nav.Calls.Should().Equal("asset:CT-007");
@@ -92,6 +92,7 @@ public class ViewModelTests
         vm.IsWide = true;
         vm.OpenAsset(ct);
         vm.SelectedAsset.Should().Be(ct);
+        vm.Items.Single(r => r.IsSelected).Asset.Id.Should().Be("CT-007");
         nav.Calls.Should().HaveCount(1);
     }
 

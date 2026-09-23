@@ -8,35 +8,39 @@
 
   <Page.Resources>
     <DataTemplate x:Key="NarrowRowTemplate" x:DataType="m:Asset">
-      <Grid Padding="0,13,0,13" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Spacing="3">
-          <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind IdAndType}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind Location}" />
-        </StackPanel>
-        <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
-        <Path Grid.Column="2" Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
-      </Grid>
+      <Button Style="{StaticResource RowButtonStyle}" Click="OnAssetClick" AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid Padding="0,13,0,13" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Spacing="3">
+            <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind IdAndType}" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind Location}" />
+          </StackPanel>
+          <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
+          <Path Grid.Column="2" Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
+        </Grid>
+      </Button>
     </DataTemplate>
     <DataTemplate x:Key="WideRowTemplate" x:DataType="m:Asset">
-      <Grid Height="86" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="200" />
-          <ColumnDefinition Width="40" />
-        </Grid.ColumnDefinitions>
-        <StackPanel VerticalAlignment="Center" Spacing="5">
-          <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
-          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="12" Text="{x:Bind IdAndLocation}" />
-        </StackPanel>
-        <c:StatusChip Grid.Column="1" Margin="0,0,0,8" Status="{x:Bind StatusText}" />
-        <Path Grid.Column="2" Width="12" Height="12" HorizontalAlignment="Left" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
-      </Grid>
+      <Button Style="{StaticResource RowButtonStyle}" Click="OnAssetClick" AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid Height="86" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="40" />
+          </Grid.ColumnDefinitions>
+          <StackPanel VerticalAlignment="Center" Spacing="5">
+            <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="12" Text="{x:Bind IdAndLocation}" />
+          </StackPanel>
+          <c:StatusChip Grid.Column="1" Margin="0,0,0,8" Status="{x:Bind StatusText}" />
+          <Path Grid.Column="2" Width="12" Height="12" HorizontalAlignment="Left" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
+        </Grid>
+      </Button>
     </DataTemplate>
   </Page.Resources>
 
@@ -82,13 +86,11 @@
           <Border Margin="0,28,0,0" Style="{StaticResource RuleStyle}" />
           <TextBlock x:Name="NeedsAttentionLabel" Margin="0,30,0,4" Style="{StaticResource MicroLabelStyle}" Text="NEEDS ATTENTION" />
 
-          <ListView x:Name="AttentionList"
-                    Style="{StaticResource RowListViewStyle}"
-                    ItemsSource="{x:Bind ViewModel.NeedsAttention}"
-                    ItemTemplate="{StaticResource NarrowRowTemplate}"
-                    ItemClick="OnAssetClick"
-                    ScrollViewer.VerticalScrollMode="Disabled"
-                    AutomationProperties.Name="Assets needing attention" />
+          <ItemsControl x:Name="AttentionList"
+                        IsTabStop="False"
+                        ItemsSource="{x:Bind ViewModel.NeedsAttention}"
+                        ItemTemplate="{StaticResource NarrowRowTemplate}"
+                        AutomationProperties.Name="Assets needing attention" />
 
           <TextBlock Margin="0,12,0,0"
                      Style="{StaticResource BodyStyle}"
