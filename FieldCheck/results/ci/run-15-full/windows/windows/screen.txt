@@ -1,0 +1,2 @@
+ChangeDisplaySettings rc=0
+1920x1080

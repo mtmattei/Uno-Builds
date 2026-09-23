@@ -1,0 +1,10 @@
+  Determining projects to restore...
+  Restored /home/runner/work/Uno-Builds/Uno-Builds/FieldCheck/app/FieldCheck/FieldCheck/FieldCheck.csproj (in 8.91 sec).
+  Restored /home/runner/work/Uno-Builds/Uno-Builds/FieldCheck/app/FieldCheck/FieldCheck.Tests/FieldCheck.Tests.csproj (in 10.1 sec).
+  FieldCheck -> /home/runner/work/Uno-Builds/Uno-Builds/FieldCheck/app/FieldCheck/FieldCheck/bin/Release/net10.0/FieldCheck.dll
+  FieldCheck.Tests -> /home/runner/work/Uno-Builds/Uno-Builds/FieldCheck/app/FieldCheck/FieldCheck.Tests/bin/Release/net10.0/FieldCheck.Tests.dll
+Test run for /home/runner/work/Uno-Builds/Uno-Builds/FieldCheck/app/FieldCheck/FieldCheck.Tests/bin/Release/net10.0/FieldCheck.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /home/runner/work/Uno-Builds/Uno-Builds/out/unit-tests.trx
+
+Passed!  - Failed:     0, Passed:    47, Skipped:     0, Total:    47, Duration: 10 s - FieldCheck.Tests.dll (net10.0)
