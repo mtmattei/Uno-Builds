@@ -17,9 +17,13 @@ public sealed partial class HistoryPage : Page
 
     private void OnClearSearch(object sender, RoutedEventArgs e)
     {
-        // Take focus off the search box first so the platform text input (Android IME) can't push the old text back.
+        // Take focus off the search box first. On Android the IME commits the box's text when it loses
+        // focus, so the clear is queued behind that commit instead of racing it.
         ((Control)sender).Focus(FocusState.Programmatic);
-        HistorySearch.Text = string.Empty;
-        ViewModel.ClearSearchCommand.Execute(null);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            HistorySearch.Text = string.Empty;
+            ViewModel.ClearSearchCommand.Execute(null);
+        });
     }
 }

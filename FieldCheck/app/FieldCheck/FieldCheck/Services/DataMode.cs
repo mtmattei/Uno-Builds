@@ -47,7 +47,7 @@ public static class DataModeParser
 /// <summary>Wraps the real repository and applies a <see cref="DataMode"/>.</summary>
 public sealed class DataModeRepository(IFieldCheckRepository inner, DataMode mode) : IFieldCheckRepository
 {
-    public static readonly TimeSpan SlowDelay = TimeSpan.FromSeconds(1.5);
+    public static readonly TimeSpan SlowDelay = TimeSpan.FromSeconds(4);
 
     private bool _assetsFailed;
     private bool _inspectionsFailed;
