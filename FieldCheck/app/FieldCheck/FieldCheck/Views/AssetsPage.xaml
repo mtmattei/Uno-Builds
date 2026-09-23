@@ -5,6 +5,8 @@
       xmlns:vm="using:FieldCheck.ViewModels"
       xmlns:v="using:FieldCheck.Views"
       NavigationCacheMode="Required"
+      IsTabStop="True"
+      UseSystemFocusVisuals="False"
       Background="{StaticResource CanvasBrush}">
 
   <Page.Resources>

@@ -108,8 +108,11 @@ def swipe(up=True):
 def scroll_to(pattern, max_swipes=8, exact=False):
     """Scrolls down, then back up, until the element is on screen above the bottom navigation."""
     def visible():
-        n = find(pattern, exact=exact)
-        return n if n and 200 < (n["bounds"][1] + n["bounds"][3]) // 2 < screen_h - 280 else None
+        ns = nodes()
+        n = find(pattern, ns, exact=exact)
+        nav = [m["bounds"][1] for m in ns if m["desc"] in ("Dashboard", "Assets", "History") and m["cls"].endswith("Button")]
+        limit = min(nav) if nav else screen_h - 40
+        return n if n and 200 < (n["bounds"][1] + n["bounds"][3]) // 2 < limit else None
     for up in (True, False):
         for _ in range(max_swipes if up else max_swipes * 2):
             n = visible()
