@@ -98,7 +98,7 @@
         <StackPanel x:Name="NoResults" Margin="20,28,20,0" Spacing="8" Visibility="{x:Bind ViewModel.HasNoResults, Mode=OneWay}">
           <TextBlock Style="{StaticResource SectionTitleStyle}" Text="No matching assets" />
           <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="14" Text="Try a different name, ID, type or location, or clear the status filter." />
-          <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Command="{x:Bind ViewModel.ClearSearchCommand}" />
+          <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Click="OnClearSearch" />
         </StackPanel>
 
         <ScrollViewer Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">

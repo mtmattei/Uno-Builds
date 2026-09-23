@@ -198,7 +198,7 @@ def run_full():
     app.shot("02-assets-no-selection")
 
     # Master/detail
-    item = app.find("Cooling Tower 07, CT-007, Critical", "Button")
+    item = app.find("^Cooling Tower 07, CT-007", "Button", regex=True)
     item.click_input(); time.sleep(1.5)
     check("B10.master_detail", app.exists("Start inspection") and app.exists("Equipment records|equipment records") and has(app, "Open-circuit cooling tower"))
     app.shot("02-assets-master-detail")
@@ -225,7 +225,7 @@ def run_full():
     check("F07.keyboard_tab_reaches_controls", "Filter Critical" in focus_names or "Show all statuses" in focus_names, str(focus_names))
 
     # Start inspection -> cancel does not save
-    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1)
+    app.find("^Cooling Tower 07, CT-007", "Button", regex=True).click_input(); time.sleep(1)
     app.invoke("Start inspection")
     check("B04.new_inspection", app.exists("New inspection"))
     app.shot("03-new-inspection-empty")
@@ -235,7 +235,7 @@ def run_full():
     check("B11.cancel_returns", app.exists("equipment records") and not has(app, "INS-24092"))
 
     # Fill the form
-    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1)
+    app.find("^Cooling Tower 07, CT-007", "Button", regex=True).click_input(); time.sleep(1)
     app.invoke("Start inspection")
     select(app, "Condition Attention")
     check("D11.issue_shown", app.exists("Issue description, required", "Edit"))
@@ -290,7 +290,7 @@ def run_full():
         app.resize(w, 800); time.sleep(1)
         app.shot(f"responsive-history-{w}")
     app.invoke("Assets"); app.shot("responsive-assets-760")
-    app.find("Cooling Tower 07, CT-007, Critical", "Button").click_input(); time.sleep(1.5)
+    app.find("^Cooling Tower 07, CT-007", "Button", regex=True).click_input(); time.sleep(1.5)
     check("F04.narrow_single_pane", app.exists("Asset detail"))
     app.shot("responsive-detail-760")
     app.invoke("Start inspection"); app.shot("responsive-form-760")

@@ -27,4 +27,12 @@ public sealed partial class AssetsPage : Page
     }
 
     private void OnAssetClick(object sender, RoutedEventArgs e) => ViewModel.OpenAsset(((AssetRow)((FrameworkElement)sender).DataContext).Asset);
+
+    private void OnClearSearch(object sender, RoutedEventArgs e)
+    {
+        // Take focus off the search box first so the platform text input (Android IME) can't push the old text back.
+        ((Control)sender).Focus(FocusState.Programmatic);
+        Search.Text = string.Empty;
+        ViewModel.ClearSearchCommand.Execute(null);
+    }
 }

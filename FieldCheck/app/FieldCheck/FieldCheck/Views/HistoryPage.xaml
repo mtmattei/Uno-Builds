@@ -61,7 +61,8 @@
       </StackPanel>
 
       <Grid Grid.Row="1" Margin="0,14,0,0">
-        <TextBox Style="{StaticResource SearchTextBoxStyle}"
+        <TextBox x:Name="HistorySearch"
+                 Style="{StaticResource SearchTextBoxStyle}"
                  PlaceholderText="Search inspections"
                  InputScope="Search"
                  AutomationProperties.Name="Search inspections by asset name or ID"
@@ -92,7 +93,7 @@
         <StackPanel Margin="0,24,0,0" Spacing="8" Visibility="{x:Bind ViewModel.HasNoResults, Mode=OneWay}">
           <TextBlock Style="{StaticResource SectionTitleStyle}" Text="No matching inspections" />
           <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="14" Text="Try a different asset name or ID, or clear the condition filter." />
-          <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Command="{x:Bind ViewModel.ClearSearchCommand}" />
+          <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Click="OnClearSearch" />
         </StackPanel>
 
         <StackPanel Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">
