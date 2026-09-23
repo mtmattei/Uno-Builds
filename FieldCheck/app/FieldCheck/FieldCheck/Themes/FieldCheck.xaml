@@ -255,7 +255,7 @@
     <Setter Property="FontSize" Value="13" />
     <Setter Property="MinWidth" Value="0" />
     <Setter Property="MinHeight" Value="44" />
-    <Setter Property="Padding" Value="20,0" />
+    <Setter Property="Padding" Value="17,0" />
     <Setter Property="Margin" Value="0,0,8,0" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="FocusVisualMargin" Value="-2,3" />

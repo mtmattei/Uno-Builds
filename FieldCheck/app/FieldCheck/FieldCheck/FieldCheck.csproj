@@ -42,6 +42,9 @@
 
     <!-- Unpackaged Windows build: runs directly from the build output, self-contained Windows App SDK. -->
     <WindowsPackageType>None</WindowsPackageType>
+
+    <!-- DESIGN_SPEC: use the platform system sans (Segoe UI on Windows, Roboto on Android) instead of bundled Open Sans. -->
+    <UnoDefaultFont>None</UnoDefaultFont>
   </PropertyGroup>
 
   <ItemGroup>

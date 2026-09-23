@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:c="using:FieldCheck.Controls"
       xmlns:utu="using:Uno.Toolkit.UI"
+      KeyboardAcceleratorPlacementMode="Hidden"
       Background="{StaticResource CanvasBrush}">
 
   <Grid x:Name="Root" utu:SafeArea.Insets="VisibleBounds">
