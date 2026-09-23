@@ -4,71 +4,73 @@
       xmlns:c="using:FieldCheck.Controls"
       Background="{StaticResource CanvasBrush}">
 
-  <ScrollViewer>
-    <Grid x:Name="Body" Padding="20,130,20,32" HorizontalAlignment="Stretch">
-      <StackPanel x:Name="Column" MaxWidth="413" HorizontalAlignment="Stretch">
-        <StackPanel x:Name="Summary" Padding="36,0,36,0">
-          <Border Width="68" Height="68" CornerRadius="34" HorizontalAlignment="Center" Background="{StaticResource AccentBrush}" BorderBrush="{StaticResource AccentPressedBrush}" BorderThickness="1">
-            <Path Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M5,12.5 L10,17.5 L19,7" />
-          </Border>
-          <TextBlock Margin="0,14,0,0" HorizontalAlignment="Center" Style="{StaticResource ScreenTitleStyle}" FontSize="32" Text="Inspection saved" AutomationProperties.LiveSetting="Polite" />
-          <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" Style="{StaticResource SecondaryStyle}" FontSize="13" Text="{x:Bind ViewModel.InspectionId, Mode=OneWay}" AutomationProperties.Name="{x:Bind ViewModel.InspectionId, Mode=OneWay}" />
+  <Grid>
+    <ScrollViewer>
+      <Grid x:Name="Body" Padding="20,130,20,32" HorizontalAlignment="Stretch">
+        <StackPanel x:Name="Column" MaxWidth="413" HorizontalAlignment="Stretch">
+          <StackPanel x:Name="Summary" Padding="36,0,36,0">
+            <Border Width="68" Height="68" CornerRadius="34" HorizontalAlignment="Center" Background="{StaticResource AccentBrush}" BorderBrush="{StaticResource AccentPressedBrush}" BorderThickness="1">
+              <Path Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M5,12.5 L10,17.5 L19,7" />
+            </Border>
+            <TextBlock Margin="0,14,0,0" HorizontalAlignment="Center" Style="{StaticResource ScreenTitleStyle}" FontSize="32" Text="Inspection saved" AutomationProperties.LiveSetting="Polite" />
+            <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" Style="{StaticResource SecondaryStyle}" FontSize="13" Text="{x:Bind ViewModel.InspectionId, Mode=OneWay}" AutomationProperties.Name="{x:Bind ViewModel.InspectionId, Mode=OneWay}" />
 
-          <Border Margin="0,44,0,0" Style="{StaticResource RuleStyle}" />
-          <Grid Margin="0,24,0,0" ColumnSpacing="12">
+            <Border Margin="0,44,0,0" Style="{StaticResource RuleStyle}" />
+            <Grid Margin="0,24,0,0" ColumnSpacing="12">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Style="{StaticResource SectionTitleStyle}" Text="{x:Bind ViewModel.AssetName, Mode=OneWay}" />
+              <c:StatusChip Grid.Column="1" VerticalAlignment="Top" Status="{x:Bind ViewModel.ConditionText, Mode=OneWay}" />
+            </Grid>
+            <TextBlock Margin="0,12,0,0" Style="{StaticResource SecondaryStyle}" Text="{x:Bind ViewModel.DetailLine, Mode=OneWay}" />
+            <TextBlock Margin="0,28,0,0" Style="{StaticResource SecondaryStyle}" FontSize="14" LineHeight="22" Text="The inspection is stored locally and will remain available after the app restarts." />
+          </StackPanel>
+
+          <Grid x:Name="ButtonsGrid" Margin="0,80,0,0" RowSpacing="13" ColumnSpacing="15">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition x:Name="SecondButtonColumn" Width="0" />
             </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" Style="{StaticResource SectionTitleStyle}" Text="{x:Bind ViewModel.AssetName, Mode=OneWay}" />
-            <c:StatusChip Grid.Column="1" VerticalAlignment="Top" Status="{x:Bind ViewModel.ConditionText, Mode=OneWay}" />
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button HorizontalAlignment="Stretch" Style="{StaticResource PrimaryButtonStyle}" MinHeight="55" Content="View asset" Command="{x:Bind ViewModel.ViewAssetCommand}" />
+            <Button x:Name="HistoryButton" Grid.Row="1" HorizontalAlignment="Stretch" Style="{StaticResource SecondaryButtonStyle}" MinHeight="55" Content="View history" Command="{x:Bind ViewModel.ViewHistoryCommand}" />
           </Grid>
-          <TextBlock Margin="0,12,0,0" Style="{StaticResource SecondaryStyle}" Text="{x:Bind ViewModel.DetailLine, Mode=OneWay}" />
-          <TextBlock Margin="0,28,0,0" Style="{StaticResource SecondaryStyle}" FontSize="14" LineHeight="22" Text="The inspection is stored locally and will remain available after the app restarts." />
         </StackPanel>
+      </Grid>
+    </ScrollViewer>
 
-        <Grid x:Name="ButtonsGrid" Margin="0,80,0,0" RowSpacing="13" ColumnSpacing="15">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition x:Name="SecondButtonColumn" Width="0" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Button HorizontalAlignment="Stretch" Style="{StaticResource PrimaryButtonStyle}" MinHeight="55" Content="View asset" Command="{x:Bind ViewModel.ViewAssetCommand}" />
-          <Button x:Name="HistoryButton" Grid.Row="1" HorizontalAlignment="Stretch" Style="{StaticResource SecondaryButtonStyle}" MinHeight="55" Content="View history" Command="{x:Bind ViewModel.ViewHistoryCommand}" />
-        </Grid>
-      </StackPanel>
-    </Grid>
-  </ScrollViewer>
-
-  <VisualStateManager.VisualStateGroups>
-    <VisualStateGroup>
-      <VisualState x:Name="Narrow">
-        <VisualState.StateTriggers>
-          <AdaptiveTrigger MinWindowWidth="0" />
-        </VisualState.StateTriggers>
-        <VisualState.Setters>
-          <Setter Target="Column.MaxWidth" Value="10000" />
-        </VisualState.Setters>
-      </VisualState>
-      <VisualState x:Name="Wide">
-        <VisualState.StateTriggers>
-          <AdaptiveTrigger MinWindowWidth="720" />
-        </VisualState.StateTriggers>
-        <VisualState.Setters>
-          <Setter Target="Body.Padding" Value="40,174,40,40" />
-          <Setter Target="Summary.Padding" Value="0" />
-          <Setter Target="SecondButtonColumn.Width" Value="*" />
-          <Setter Target="HistoryButton.(Grid.Row)" Value="0" />
-          <Setter Target="HistoryButton.(Grid.Column)" Value="1" />
-          <Setter Target="ButtonsGrid.Margin" Value="0,56,0,0" />
-          <Setter Target="ButtonsGrid.MaxWidth" Value="397" />
-          <Setter Target="ButtonsGrid.HorizontalAlignment" Value="Left" />
-          <Setter Target="ButtonsGrid.Width" Value="397" />
-        </VisualState.Setters>
-      </VisualState>
-    </VisualStateGroup>
-  </VisualStateManager.VisualStateGroups>
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Column.MaxWidth" Value="10000" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Body.Padding" Value="40,174,40,40" />
+            <Setter Target="Summary.Padding" Value="0" />
+            <Setter Target="SecondButtonColumn.Width" Value="*" />
+            <Setter Target="HistoryButton.(Grid.Row)" Value="0" />
+            <Setter Target="HistoryButton.(Grid.Column)" Value="1" />
+            <Setter Target="ButtonsGrid.Margin" Value="0,56,0,0" />
+            <Setter Target="ButtonsGrid.MaxWidth" Value="397" />
+            <Setter Target="ButtonsGrid.HorizontalAlignment" Value="Left" />
+            <Setter Target="ButtonsGrid.Width" Value="397" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
 </Page>
