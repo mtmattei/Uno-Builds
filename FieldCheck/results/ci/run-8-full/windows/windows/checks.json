@@ -1,0 +1,47 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "startup=0.87s"
+  },
+  {
+    "id": "A06.dashboard_usable",
+    "pass": true,
+    "detail": "client=(1440, 900)"
+  },
+  {
+    "id": "C02.counts",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_history",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_dashboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B10.master_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F03.reference_viewport",
+    "pass": true,
+    "detail": "(1440, 900)"
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "Traceback (most recent call last):\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 365, in <module>\n    run_full()\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 200, in run_full\n    app.set_text(\"Search assets by name, ID, type or location\", \"compressor\")\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 120, in set_text\n    el = self.find(name, \"Edit\")\n         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\Uno-Builds\\Uno-Builds\\FieldCheck\\ci\\windows_e2e.py\", line 97, in find\n    el.wait(\"exists\", timeout=timeout)\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\application.py\", line 529, in wait\n    wait_until(timeout, retry_interval,\n  File \"C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\pywinauto\\timings.py\", line 375, in wait_until\n    raise err\npywinauto.timings.TimeoutError: timed out\n"
+  }
+]
