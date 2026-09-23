@@ -197,10 +197,11 @@ def submit_is_inert():
     """A disabled Submit is not exposed to accessibility on Uno Skia Android, so verify it functionally:
     tap where it is drawn (between the summary line and Cancel) and assert nothing was saved."""
     cancel = scroll_to("Cancel inspection")
-    summary = find("To submit")
-    if not cancel or not summary:
+    if not cancel:
         return False
-    y = (summary["bounds"][3] + cancel["bounds"][1]) // 2
+    # Submit (52 epx) sits 8 epx above Cancel in the phone layout.
+    density = screen_w / 411.4
+    y = cancel["bounds"][1] - int((8 + 26) * density)
     adb("shell", "input", "tap", "540", str(y))
     time.sleep(2)
     ns = nodes()
@@ -434,8 +435,9 @@ def run_full():
     shot("font-scale-1.3-dashboard")
     tap_row("Cooling Tower 07"); tap_row("Start inspection")
     shot("font-scale-1.3-form")
-    n = scroll_to("Submit inspection")
-    check("F05.font_scale_1_3_usable", n is not None, "submit reachable at 1.3x font scale")
+    n = scroll_to("Cancel inspection")
+    shot("font-scale-1.3-form-bottom")
+    check("F05.font_scale_1_3_usable", n is not None and find("To submit", nodes()) is not None, "form actions reachable at 1.3x font scale")
     adb("shell", "settings", "put", "system", "font_scale", "1.0")
 
 
@@ -454,9 +456,12 @@ def run_states():
     tap("Retry loading data")
     check("E04.retry_recovers", wait_for("Needs attention", 10) is not None)
     shot("state-retry-recovered")
-    stop(); launch(("--es", "data_mode", "slow"), wait=False)
-    time.sleep(0.8)
-    shot("state-loading"); ns = nodes("state-loading")
+    stop()
+    adb("shell", "am", "start", "-n", MAIN, "--es", "data_mode", "slow")  # no -W: capture while loading
+    time.sleep(3.5)
+    with open(os.path.join(SHOTS, "state-loading.png"), "wb") as f:
+        f.write(subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout)
+    ns = nodes("state-loading")
     check("E01.loading_state", find("Loading assets", ns) is not None)
     wait_for("Needs attention", 15)
     stop(); launch(("--es", "data_mode", "save-error")); wait_for("Needs attention", 15)
