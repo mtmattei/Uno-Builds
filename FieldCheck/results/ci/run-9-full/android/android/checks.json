@@ -1,0 +1,62 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "cold start TotalTime=7609ms"
+  },
+  {
+    "id": "A05.dashboard_usable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C02.counts_7_3_2",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B01.needs_attention_rows",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B07.bottom_nav_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C03.search_location_case_insensitive",
+    "pass": true,
+    "detail": "['Air Handler 203', 'Cooling Tower 07', 'Exhaust Fan 305']"
+  },
+  {
+    "id": "C05.search_plus_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E05.no_results_state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.filter_reset_all",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "C04.status_filter_attention",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "RuntimeError('element not found: Cooling Tower 07')"
+  },
+  {
+    "id": "J03.no_crash_in_logcat_crash_buffer",
+    "pass": true,
+    "detail": ""
+  }
+]
