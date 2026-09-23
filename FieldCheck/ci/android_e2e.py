@@ -21,11 +21,12 @@ def adb(*args, timeout=60):
 
 
 def shot(name):
+    nodes()  # clears any system ANR dialog before capturing
     with open(os.path.join(SHOTS, name + ".png"), "wb") as f:
         f.write(subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout)
 
 
-def nodes(save=None):
+def nodes(save=None, _depth=0):
     for _ in range(3):
         adb("shell", "uiautomator", "dump", "/sdcard/ui.xml")
         xml = adb("shell", "cat", "/sdcard/ui.xml")
@@ -38,6 +39,14 @@ def nodes(save=None):
         root = ET.fromstring(xml[xml.index("<hierarchy"):])
     except Exception:
         return []
+    # Emulator system ANR dialogs (e.g. "Pixel Launcher isn't responding") steal focus: dismiss and re-read.
+    if _depth < 3 and "t responding" in xml:
+        m = re.search(r'text="Wait"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml)
+        if m:
+            x1, y1, x2, y2 = map(int, m.groups())
+            adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
+            time.sleep(1.5)
+            return nodes(save, _depth + 1)
     out = []
     for n in root.iter("node"):
         b = re.findall(r"\d+", n.get("bounds", "[0,0][0,0]"))

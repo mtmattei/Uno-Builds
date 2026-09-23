@@ -30,6 +30,14 @@ public partial class App : Application
         }
 
         MainWindow.SetWindowIcon();
+#if !HAS_UNO
+        // Windows keeps the persistent sidebar: the window can shrink until the single-pane layout, not to phone width.
+        if (MainWindow.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+        {
+            presenter.PreferredMinimumWidth = 760;
+            presenter.PreferredMinimumHeight = 560;
+        }
+#endif
         MainWindow.Activate();
     }
 
