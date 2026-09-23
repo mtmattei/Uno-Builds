@@ -1,0 +1,11 @@
+main activity: com.fieldcheck.app/crc6498d17d64ad8ab35f.MainActivity
+Starting: Intent { cmp=com.fieldcheck.app/crc6498d17d64ad8ab35f.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.fieldcheck.app/crc6498d17d64ad8ab35f.MainActivity
+TotalTime: 5627
+WaitTime: 5632
+Complete
+
+pid: 4127
+
