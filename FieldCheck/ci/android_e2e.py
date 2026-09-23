@@ -264,10 +264,13 @@ def run_full():
 
     # --- New inspection form validation + conditional issue description ---
     tap_row("Start inspection"); wait_for("New inspection")
-    ns = nodes("04-form-initial")
-    submit = find("Submit inspection", ns)
+    shot("04-form-initial")
+    summary = scroll_to("To submit: select a condition")
+    submit = scroll_to("Submit inspection")
+    nodes("04-form-initial-bottom")
     check("D14.submit_disabled_initially", submit is not None and not submit["enabled"], str(submit and submit["enabled"]))
-    check("E06.missing_summary", find("To submit: select a condition", ns) is not None)
+    check("E06.missing_summary", summary is not None)
+    scroll_to("Condition Good")
     tap("Condition Good")
     check("D10.issue_hidden_good_yes", find("Issue description", nodes()) is None)
     tap("Operating normally")
@@ -295,8 +298,9 @@ def run_full():
     hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage"]:
         tap(item)
-    ns = nodes()
-    check("D05.one_item_missing_blocks", find("confirm 1 checklist item", ns) is not None and not find("Submit inspection", ns)["enabled"])
+    summary = scroll_to("confirm 1 checklist item")
+    submit = scroll_to("Submit inspection")
+    check("D05.one_item_missing_blocks", summary is not None and submit is not None and not submit["enabled"])
     tap_row("Area clear and accessible")
     tap_row("Issue description, required")
     type_text("Basin-level alarm intermittent; inspect fan vibration.")
