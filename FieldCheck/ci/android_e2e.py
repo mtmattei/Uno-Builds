@@ -99,14 +99,32 @@ def tap(pattern, timeout=10, exact=False):
     return n
 
 
+def swipe(up=True):
+    a, b = (int(screen_h * 0.7), int(screen_h * 0.35)) if up else (int(screen_h * 0.35), int(screen_h * 0.7))
+    adb("shell", "input", "swipe", "540", str(a), "540", str(b), "400")
+    time.sleep(1)
+
+
 def scroll_to(pattern, max_swipes=8, exact=False):
-    for _ in range(max_swipes):
+    """Scrolls down, then back up, until the element is on screen above the bottom navigation."""
+    def visible():
         n = find(pattern, exact=exact)
-        if n and n["bounds"][3] < screen_h - 250:
-            return n
-        adb("shell", "input", "swipe", "540", str(int(screen_h * 0.7)), "540", str(int(screen_h * 0.35)), "400")
-        time.sleep(1)
-    return find(pattern, exact=exact)
+        return n if n and 200 < (n["bounds"][1] + n["bounds"][3]) // 2 < screen_h - 280 else None
+    for up in (True, False):
+        for _ in range(max_swipes if up else max_swipes * 2):
+            n = visible()
+            if n:
+                return n
+            swipe(up)
+    return visible()
+
+
+def tap_row(pattern):
+    n = scroll_to(pattern)
+    if not n:
+        raise RuntimeError(f"element not found after scrolling: {pattern}")
+    tap_node(n)
+    return n
 
 
 def type_text(text):
@@ -217,7 +235,7 @@ def run_full():
     tap("Show all statuses")
 
     # --- Asset detail (from Assets) + back returns to list with state ---
-    tap("Cooling Tower 07")
+    tap_row("Cooling Tower 07")
     wait_for("Asset detail")
     shot("03-asset-detail"); ns = nodes("03-asset-detail")
     check("B03.asset_detail", find("CT-007", ns) and find("Sep 8, 2026", ns) and find("Critical condition", ns))
@@ -227,23 +245,22 @@ def run_full():
     check("E07.long_description_reachable", n is not None and find("narrow and wide layouts", nodes()) is not None)
     key(4)  # system back
     ns = nodes()
-    check("B08.back_detail_to_assets", find("equipment records", ns) is not None and find("Cooling Tower 07", ns) is not None)
+    check("B08.back_detail_to_assets", find("equipment records", ns) is not None and find("Show all statuses", ns) is not None)
 
     # --- New inspection: back + cancel don't save ---
-    tap("Cooling Tower 07"); wait_for("Asset detail")
-    tap(scroll_to("Start inspection")["text"] or "Start inspection")
+    tap_row("Cooling Tower 07"); wait_for("Asset detail")
+    tap_row("Start inspection")
     wait_for("New inspection")
     check("B04.new_inspection", find("Cooling Tower 07 · CT-007") is not None)
     key(4)
     check("B08.back_inspection_to_detail", wait_for("Asset detail", 8) is not None)
-    tap(scroll_to("Start inspection")["text"] or "Start inspection"); wait_for("New inspection")
+    tap_row("Start inspection"); wait_for("New inspection")
     tap("Condition Good")
-    n = scroll_to("Cancel inspection")
-    tap_node(n)
+    tap_row("Cancel inspection")
     check("B11.cancel_returns", wait_for("Asset detail", 8) is not None)
 
     # --- New inspection form validation + conditional issue description ---
-    tap(scroll_to("Start inspection")["text"] or "Start inspection"); wait_for("New inspection")
+    tap_row("Start inspection"); wait_for("New inspection")
     ns = nodes("04-form-initial")
     submit = find("Submit inspection", ns)
     check("D14.submit_disabled_initially", submit is not None and not submit["enabled"], str(submit and submit["enabled"]))
@@ -277,20 +294,19 @@ def run_full():
         tap(item)
     ns = nodes()
     check("D05.one_item_missing_blocks", find("confirm 1 checklist item", ns) is not None and not find("Submit inspection", ns)["enabled"])
-    tap(scroll_to("Area clear and accessible")["text"] or "Area clear and accessible")
-    n = scroll_to("Issue description, required")
-    tap_node(n)
+    tap_row("Area clear and accessible")
+    tap_row("Issue description, required")
     type_text("Basin-level alarm intermittent; inspect fan vibration.")
     hide_keyboard()
     shot("04-form-keyboard-dismissed")
-    n = scroll_to("Notes, optional"); tap_node(n)
+    tap_row("Notes, optional")
     type_text("Line one"); key(66); type_text("Line two")
     shot("04-form-keyboard-visible")
     check("F02.form_scrolls_with_keyboard", find("Notes, optional", nodes("04-form-keyboard-visible")) is not None)
     hide_keyboard()
 
     # --- File picker: cancel then select ---
-    tap(scroll_to("Attach photo or file")["desc"] or "Attach photo or file")
+    tap_row("Attach photo or file")
     time.sleep(3)
     ns = nodes("picker-open")
     picker_pkg = next((n["pkg"] for n in ns if n["pkg"] and n["pkg"] != PKG), "")
@@ -300,7 +316,7 @@ def run_full():
     time.sleep(2)
     ns = nodes("picker-cancelled")
     check("D09.picker_cancel_keeps_form", find("New inspection", ns) is not None and find("Choose file", ns) is not None)
-    tap(scroll_to("Attach photo or file")["desc"] or "Attach photo or file")
+    tap_row("Attach photo or file")
     time.sleep(3)
     n = wait_for("inspection-photo", 6)
     if not n:
@@ -363,11 +379,11 @@ def run_full():
     tap("Show all conditions")
 
     # --- Success view-history path ---
-    tap("^Assets$"); tap("Panel LP-44"); tap(scroll_to("Start inspection")["text"] or "Start inspection")
+    tap("^Assets$"); tap_row("Panel LP-44"); tap_row("Start inspection")
     tap("Condition Good"); tap("Temperature in degrees"); type_text("41"); hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage", "Area clear and accessible"]:
-        tap(scroll_to(item)["text"] or item)
-    tap(scroll_to("Submit inspection")["desc"] or "Submit inspection")
+        tap_row(item)
+    tap_row("Submit inspection")
     wait_for("Inspection saved")
     tap("View history")
     ns = nodes()
@@ -393,7 +409,7 @@ def run_full():
     check("C02.counts_updated_after_save", find("Operational", ns) is not None)
 
     # --- System back at section root does not crash; detail back stack ---
-    tap("Cooling Tower 07"); wait_for("Asset detail")
+    tap_row("Cooling Tower 07"); wait_for("Asset detail")
     key(4)
     check("F06.back_detail_to_dashboard", wait_for("Needs attention", 6) is not None)
 
@@ -401,7 +417,7 @@ def run_full():
     adb("shell", "settings", "put", "system", "font_scale", "1.3")
     stop(); launch(); wait_for("Needs attention", 20)
     shot("font-scale-1.3-dashboard")
-    tap("Cooling Tower 07"); tap(scroll_to("Start inspection")["text"] or "Start inspection")
+    tap_row("Cooling Tower 07"); tap_row("Start inspection")
     shot("font-scale-1.3-form")
     n = scroll_to("Submit inspection")
     check("F05.font_scale_1_3_usable", n is not None, "submit reachable at 1.3x font scale")
@@ -430,11 +446,11 @@ def run_states():
     wait_for("Needs attention", 15)
     stop(); launch(("--es", "data_mode", "save-error")); wait_for("Needs attention", 15)
     before = None
-    tap("Cooling Tower 07"); tap(scroll_to("Start inspection")["text"] or "Start inspection")
+    tap_row("Cooling Tower 07"); tap_row("Start inspection")
     tap("Condition Good"); tap("Temperature in degrees"); type_text("20"); hide_keyboard()
     for item in ["Guards and covers secure", "No visible leaks or damage", "Area clear and accessible"]:
-        tap(scroll_to(item)["text"] or item)
-    tap(scroll_to("Submit inspection")["desc"] or "Submit inspection")
+        tap_row(item)
+    tap_row("Submit inspection")
     n = wait_for("wasn't saved", 8)
     shot("state-save-error"); ns = nodes("state-save-error")
     check("E08.save_failure_not_silent", n is not None and find("Inspection saved", ns) is None)
