@@ -121,6 +121,15 @@ class App:
         time.sleep(1.2)
         return el
 
+    def click(self, name, ctype="Button"):
+        """Real mouse click at the element's centre. Used where Invoke would block (a modal dialog opened on the
+        UI thread, e.g. the Skia Win32 file dialog makes UIA Invoke time out)."""
+        from pywinauto import mouse
+        el = self.find(name, ctype)
+        r = el.rectangle()
+        mouse.click(coords=((r.left + r.right) // 2, (r.top + r.bottom) // 2))
+        time.sleep(1.2)
+
     def texts(self):
         return [e.window_text() for e in self.win.descendants() if e.window_text()]
 
@@ -248,13 +257,13 @@ def run_full():
     app.set_text("Issue description, required", "Basin-level alarm intermittent; inspect fan vibration.")
 
     # File picker: cancel, then select
-    app.invoke("Attach photo or file")
+    app.click("Attach photo or file")
     dlg = picker_window()
     check("D07.picker_opens", dlg is not None)
     if dlg:
         keyboard.send_keys("{ESC}"); time.sleep(1.5)
     check("D09.picker_cancel", app.exists("Choose file") and app.find("Submit inspection", "Button").is_enabled())
-    app.invoke("Attach photo or file")
+    app.click("Attach photo or file")
     dlg = picker_window()
     if dlg:
         time.sleep(1)
@@ -264,7 +273,7 @@ def run_full():
     check("D08.picker_filename", app.exists("inspection-photo.png"))
     app.invoke("Remove attachment")
     check("J02.remove_attachment", app.exists("Choose file") and not app.exists("inspection-photo.png", timeout=1))
-    app.invoke("Attach photo or file")
+    app.click("Attach photo or file")
     dlg = picker_window()
     if dlg:
         time.sleep(1)
