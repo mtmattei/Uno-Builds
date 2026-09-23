@@ -1,0 +1,68 @@
+[
+  {
+    "id": "INS-24091",
+    "assetId": "PMP-104",
+    "assetName": "Booster Pump 104",
+    "date": "2026-09-18T09:24:00",
+    "condition": "Good",
+    "operatingNormally": true,
+    "temperatureC": 63,
+    "inspector": "Alex Morgan",
+    "notes": "No leaks or abnormal vibration observed."
+  },
+  {
+    "id": "INS-24086",
+    "assetId": "AHU-203",
+    "assetName": "Air Handler 203",
+    "date": "2026-09-12T14:40:00",
+    "condition": "Attention",
+    "operatingNormally": true,
+    "temperatureC": 31,
+    "inspector": "Alex Morgan",
+    "notes": "Belt shows light edge wear. Recheck next service window."
+  },
+  {
+    "id": "INS-24072",
+    "assetId": "CT-007",
+    "assetName": "Cooling Tower 07",
+    "date": "2026-09-08T11:05:00",
+    "condition": "Critical",
+    "operatingNormally": false,
+    "temperatureC": 27,
+    "inspector": "Sam Rivera",
+    "notes": "Fan vibration above normal. Unit requires maintenance review."
+  },
+  {
+    "id": "INS-24065",
+    "assetId": "CNV-018",
+    "assetName": "Conveyor 18",
+    "date": "2026-09-11T08:15:00",
+    "condition": "Attention",
+    "operatingNormally": true,
+    "temperatureC": 41,
+    "inspector": "Priya Shah",
+    "notes": "Belt tracking slightly toward drive side."
+  },
+  {
+    "id": "INS-24058",
+    "assetId": "BLR-002",
+    "assetName": "Boiler 02",
+    "date": "2026-09-10T15:32:00",
+    "condition": "Attention",
+    "operatingNormally": true,
+    "temperatureC": 74,
+    "inspector": "Alex Morgan",
+    "notes": "Minor condensate staining below trap connection."
+  },
+  {
+    "id": "INS-24044",
+    "assetId": "CMP-012",
+    "assetName": "Compressor 012",
+    "date": "2026-09-17T07:58:00",
+    "condition": "Good",
+    "operatingNormally": true,
+    "temperatureC": 82,
+    "inspector": "Sam Rivera",
+    "notes": "Operating normally."
+  }
+]

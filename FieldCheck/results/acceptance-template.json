@@ -1,0 +1,13 @@
+{
+  "run": {
+    "framework": null,
+    "status": "IN_PROGRESS",
+    "core_complete": false
+  },
+  "counts": {
+    "pass": 0,
+    "fail": 0,
+    "not_tested": 0
+  },
+  "criteria": []
+}

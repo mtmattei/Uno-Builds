@@ -1,0 +1,15 @@
+{
+  "start_utc": null,
+  "os": null,
+  "cpu": null,
+  "ram": null,
+  "dotnet_sdks": [],
+  "framework": null,
+  "framework_version": null,
+  "android_tooling": null,
+  "windows_tooling": null,
+  "claude_code_version": null,
+  "claude_model": null,
+  "git_state": null,
+  "cache_policy": "warm"
+}

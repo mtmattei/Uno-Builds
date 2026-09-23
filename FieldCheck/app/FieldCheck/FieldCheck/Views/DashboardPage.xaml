@@ -1,0 +1,136 @@
+<Page x:Class="FieldCheck.Views.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="using:FieldCheck.Controls"
+      xmlns:m="using:FieldCheck.Models"
+      NavigationCacheMode="Required"
+      Background="{StaticResource CanvasBrush}">
+
+  <Page.Resources>
+    <DataTemplate x:Key="NarrowRowTemplate" x:DataType="m:Asset">
+      <Grid Padding="0,13,0,13" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="3">
+          <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind IdAndType}" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" Text="{x:Bind Location}" />
+        </StackPanel>
+        <c:StatusChip Grid.Column="1" Status="{x:Bind StatusText}" />
+        <Path Grid.Column="2" Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="WideRowTemplate" x:DataType="m:Asset">
+      <Grid Height="86" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="200" />
+          <ColumnDefinition Width="40" />
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Center" Spacing="5">
+          <TextBlock Style="{StaticResource RowTitleStyle}" Text="{x:Bind Name}" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="12" Text="{x:Bind IdAndLocation}" />
+        </StackPanel>
+        <c:StatusChip Grid.Column="1" Margin="0,0,0,8" Status="{x:Bind StatusText}" />
+        <Path Grid.Column="2" Width="12" Height="12" HorizontalAlignment="Left" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M9,5 L16,12 L9,19" />
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <ScrollViewer>
+    <StackPanel x:Name="Body" Padding="20,36,20,32">
+      <TextBlock x:Name="Brand" Style="{StaticResource MicroLabelStyle}" Foreground="{StaticResource InkBrush}" FontWeight="Medium" Text="FIELDCHECK" Margin="0,0,0,16" />
+      <TextBlock Style="{StaticResource ScreenTitleStyle}" Text="{x:Bind ViewModel.Greeting, Mode=OneWay}" />
+      <TextBlock Margin="0,2,0,0" Style="{StaticResource SecondaryStyle}" FontSize="14" Text="{x:Bind ViewModel.FacilityLine, Mode=OneWay}" />
+
+      <c:StatePanel State="{x:Bind ViewModel.State, Mode=OneWay}"
+                    RetryCommand="{x:Bind ViewModel.LoadCommand}"
+                    LoadingText="Loading assets…"
+                    EmptyTitle="No assets registered"
+                    EmptyMessage="The local asset register is empty. Assets appear here once they are added to this device's data." />
+
+      <StackPanel Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">
+        <StackPanel x:Name="TotalRow" Margin="0,38,0,0" Orientation="Horizontal" Spacing="12">
+          <TextBlock Style="{StaticResource MetricStyle}" Text="{x:Bind ViewModel.TotalCount, Mode=OneWay}" />
+          <TextBlock VerticalAlignment="Center" Margin="0,4,0,0" FontSize="19" Foreground="{StaticResource MutedBrush}" Text="{x:Bind ViewModel.TotalLabel, Mode=OneWay}" />
+        </StackPanel>
+
+        <Grid x:Name="Summary" Margin="0,24,0,0" ColumnSpacing="8">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="SummaryCol0" Width="*" />
+            <ColumnDefinition x:Name="SummaryCol1" Width="*" />
+            <ColumnDefinition x:Name="SummaryCol2" Width="*" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock FontSize="26" Foreground="{StaticResource SuccessBrush}" Text="{x:Bind ViewModel.OperationalCount, Mode=OneWay}" />
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource SecondaryStyle}" FontSize="12" Text="Operational" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12">
+            <TextBlock FontSize="26" Foreground="{StaticResource AttentionBrush}" Text="{x:Bind ViewModel.AttentionCount, Mode=OneWay}" />
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource SecondaryStyle}" FontSize="12" Text="Attention" />
+          </StackPanel>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12">
+            <TextBlock FontSize="26" Foreground="{StaticResource CriticalBrush}" Text="{x:Bind ViewModel.CriticalCount, Mode=OneWay}" />
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource SecondaryStyle}" FontSize="12" Text="Critical" />
+          </StackPanel>
+        </Grid>
+
+        <Border Margin="0,28,0,0" Style="{StaticResource RuleStyle}" />
+        <TextBlock x:Name="NeedsAttentionLabel" Margin="0,30,0,4" Style="{StaticResource MicroLabelStyle}" Text="NEEDS ATTENTION" />
+
+        <ListView x:Name="AttentionList"
+                  Style="{StaticResource RowListViewStyle}"
+                  ItemsSource="{x:Bind ViewModel.NeedsAttention}"
+                  ItemTemplate="{StaticResource NarrowRowTemplate}"
+                  ItemClick="OnAssetClick"
+                  ScrollViewer.VerticalScrollMode="Disabled"
+                  AutomationProperties.Name="Assets needing attention" />
+
+        <TextBlock Margin="0,12,0,0"
+                   Style="{StaticResource BodyStyle}"
+                   Foreground="{StaticResource MutedBrush}"
+                   Visibility="{x:Bind ViewModel.HasNothingNeedingAttention, Mode=OneWay}"
+                   Text="Every asset is operational. Nothing needs attention." />
+
+        <Button x:Name="ViewAllButton"
+                Margin="0,38,0,0"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource PrimaryButtonStyle}"
+                Command="{x:Bind ViewModel.ViewAllAssetsCommand}"
+                Content="View all assets" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+
+  <VisualStateManager.VisualStateGroups>
+    <VisualStateGroup>
+      <VisualState x:Name="Narrow">
+        <VisualState.StateTriggers>
+          <AdaptiveTrigger MinWindowWidth="0" />
+        </VisualState.StateTriggers>
+      </VisualState>
+      <VisualState x:Name="Wide">
+        <VisualState.StateTriggers>
+          <AdaptiveTrigger MinWindowWidth="720" />
+        </VisualState.StateTriggers>
+        <VisualState.Setters>
+          <Setter Target="Body.Padding" Value="40,44,47,40" />
+          <Setter Target="Brand.Visibility" Value="Collapsed" />
+          <Setter Target="TotalRow.Margin" Value="0,72,0,0" />
+          <Setter Target="Summary.Margin" Value="0,20,0,0" />
+          <Setter Target="SummaryCol0.Width" Value="182" />
+          <Setter Target="SummaryCol1.Width" Value="182" />
+          <Setter Target="SummaryCol2.Width" Value="182" />
+          <Setter Target="NeedsAttentionLabel.Margin" Value="0,34,0,0" />
+          <Setter Target="AttentionList.ItemTemplate" Value="{StaticResource WideRowTemplate}" />
+          <Setter Target="ViewAllButton.HorizontalAlignment" Value="Left" />
+          <Setter Target="ViewAllButton.MinWidth" Value="169" />
+          <Setter Target="ViewAllButton.Padding" Value="24,12" />
+        </VisualState.Setters>
+      </VisualState>
+    </VisualStateGroup>
+  </VisualStateManager.VisualStateGroups>
+</Page>

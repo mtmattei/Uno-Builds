@@ -1,0 +1,110 @@
+[
+  {
+    "id": "PMP-104",
+    "name": "Booster Pump 104",
+    "type": "Centrifugal Pump",
+    "location": "Mechanical Room A",
+    "status": "Operational",
+    "lastInspection": "2026-09-18",
+    "description": "Primary pressure-boosting pump serving the north process loop. Inspect seals, vibration, guard condition and operating temperature."
+  },
+  {
+    "id": "AHU-203",
+    "name": "Air Handler 203",
+    "type": "Air Handling Unit",
+    "location": "Roof Level 2",
+    "status": "Attention",
+    "lastInspection": "2026-09-12",
+    "description": "Variable-air-volume handling unit. Belt wear was noted on the previous inspection; verify tension, filter condition and condensate drainage."
+  },
+  {
+    "id": "CMP-012",
+    "name": "Compressor 012",
+    "type": "Rotary Screw Compressor",
+    "location": "Compressor Bay",
+    "status": "Operational",
+    "lastInspection": "2026-09-17",
+    "description": "Main shop air compressor. Check oil level, discharge temperature, vibration and audible leaks."
+  },
+  {
+    "id": "CT-007",
+    "name": "Cooling Tower 07",
+    "type": "Cooling Tower",
+    "location": "Roof West",
+    "status": "Critical",
+    "lastInspection": "2026-09-08",
+    "description": "Open-circuit cooling tower supporting process cooling. Previous inspection found abnormal fan vibration and intermittent basin-level alarm. Verify fan assembly, guards, water level, drift eliminators and visible corrosion. This intentionally long description is used to validate long-content behavior on narrow and wide layouts."
+  },
+  {
+    "id": "PNL-044",
+    "name": "Panel LP-44",
+    "type": "Electrical Panel",
+    "location": "Electrical Room B",
+    "status": "Operational",
+    "lastInspection": "2026-09-20",
+    "description": "Lighting and receptacle distribution panel. Inspect enclosure, labeling, clearance and signs of heat damage."
+  },
+  {
+    "id": "CNV-018",
+    "name": "Conveyor 18",
+    "type": "Belt Conveyor",
+    "location": "Packaging Line 1",
+    "status": "Attention",
+    "lastInspection": "2026-09-11",
+    "description": "Packaging transfer conveyor. Check belt tracking, guards, emergency stop access and drive noise."
+  },
+  {
+    "id": "FAN-305",
+    "name": "Exhaust Fan 305",
+    "type": "Roof Exhaust Fan",
+    "location": "Roof East",
+    "status": "Operational",
+    "lastInspection": "2026-09-19",
+    "description": "General exhaust fan. Inspect vibration, belt condition, weather seal and guard fasteners."
+  },
+  {
+    "id": "BLR-002",
+    "name": "Boiler 02",
+    "type": "Condensing Boiler",
+    "location": "Boiler Room",
+    "status": "Attention",
+    "lastInspection": "2026-09-10",
+    "description": "Secondary hot-water boiler. Inspect condensate, venting, pressure and visible fault indicators."
+  },
+  {
+    "id": "MTR-219",
+    "name": "Motor 219",
+    "type": "3-Phase Motor",
+    "location": "Process Line 3",
+    "status": "Operational",
+    "lastInspection": "2026-09-21",
+    "description": "Drive motor for process mixer. Check vibration, temperature, coupling guard and mounting hardware."
+  },
+  {
+    "id": "PMP-220",
+    "name": "Transfer Pump 220",
+    "type": "Positive Displacement Pump",
+    "location": "Tank Farm",
+    "status": "Operational",
+    "lastInspection": "2026-09-16",
+    "description": "Chemical transfer pump. Inspect hoses, fittings, seal area and containment tray."
+  },
+  {
+    "id": "DB-011",
+    "name": "Dock Door 11",
+    "type": "Powered Dock Door",
+    "location": "Shipping Dock",
+    "status": "Operational",
+    "lastInspection": "2026-09-15",
+    "description": "Powered overhead door. Inspect photo-eyes, track, controls, weather seal and emergency release."
+  },
+  {
+    "id": "EF-090",
+    "name": "Emergency Fan 90",
+    "type": "Smoke Exhaust Fan",
+    "location": "Stair Core C",
+    "status": "Critical",
+    "lastInspection": "2026-09-13",
+    "description": "Emergency smoke exhaust equipment. Inspect controls, labeling, access and visible mechanical condition."
+  }
+]
