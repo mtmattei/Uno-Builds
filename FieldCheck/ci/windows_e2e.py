@@ -262,6 +262,16 @@ def run_full():
         keyboard.send_keys(PHOTO.replace(" ", "{SPACE}"), with_spaces=True); time.sleep(0.3)
         keyboard.send_keys("{ENTER}"); time.sleep(2)
     check("D08.picker_filename", app.exists("inspection-photo.png"))
+    app.invoke("Remove attachment")
+    check("J02.remove_attachment", app.exists("Choose file") and not app.exists("inspection-photo.png", timeout=1))
+    app.invoke("Attach photo or file")
+    dlg = picker_window()
+    if dlg:
+        time.sleep(1)
+        keyboard.send_keys("%n"); time.sleep(0.3)
+        keyboard.send_keys(PHOTO.replace(" ", "{SPACE}"), with_spaces=True); time.sleep(0.3)
+        keyboard.send_keys("{ENTER}"); time.sleep(2)
+    check("D08.picker_reselect_after_remove", app.exists("inspection-photo.png"))
     app.shot("03-new-inspection")
 
     # Submit (double activation)
@@ -307,6 +317,24 @@ def run_full():
     user32.ShowWindow(app.win.handle, 6); time.sleep(1.5); user32.ShowWindow(app.win.handle, 9); time.sleep(1.5)
     check("J06.minimize_restore", app.exists("INS-24092"))
     app.kill()
+
+
+def run_text_scale():
+    """Windows 'Make text bigger' (Accessibility TextScaleFactor) at 130%."""
+    import winreg
+    key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Accessibility")
+    winreg.SetValueEx(key, "TextScaleFactor", 0, winreg.REG_DWORD, 130)
+    try:
+        app = App()
+        app.shot("text-scale-130-dashboard")
+        app.invoke("Assets")
+        app.find("^Cooling Tower 07, CT-007", "Button", regex=True).click_input(); time.sleep(1.5)
+        app.invoke("Start inspection")
+        app.shot("text-scale-130-form")
+        check("F05.windows_text_scale_130", app.exists("Submit inspection") and app.exists("Cancel inspection"))
+        app.kill()
+    finally:
+        winreg.SetValueEx(key, "TextScaleFactor", 0, winreg.REG_DWORD, 100)
 
 
 def run_states():
@@ -373,6 +401,8 @@ try:
         run_full()
     if SCENARIO in ("full", "states", "all"):
         run_states()
+    if SCENARIO in ("full", "all"):
+        run_text_scale()
     if SCENARIO == "smoke":
         app = App(clean=True)
         check("A06.launch", app.exists("Needs attention|NEEDS ATTENTION", timeout=20), f"startup={app.startup_s}s")
