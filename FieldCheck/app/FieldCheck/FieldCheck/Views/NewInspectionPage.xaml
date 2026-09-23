@@ -12,12 +12,12 @@
       </Grid.RowDefinitions>
 
       <!-- Header -->
-      <Grid ColumnSpacing="8" Margin="0,0,0,20">
+      <Grid Margin="0,0,0,20">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button x:Name="BackButton" Margin="-12,0,0,0" VerticalAlignment="Top" Style="{StaticResource BackButtonStyle}" Command="{x:Bind ViewModel.CancelCommand}" AutomationProperties.Name="Back, discard inspection">
+        <Button x:Name="BackButton" Margin="-12,0,8,0" VerticalAlignment="Top" Style="{StaticResource BackButtonStyle}" Command="{x:Bind ViewModel.CancelCommand}" AutomationProperties.Name="Back, discard inspection">
           <Path Width="14" Height="14" Style="{StaticResource IconPathStyle}" StrokeThickness="2.2" Data="M15,5 L8,12 L15,19" />
         </Button>
         <StackPanel Grid.Column="1">
@@ -140,12 +140,13 @@
                    Text="{x:Bind ViewModel.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
           <TextBlock Margin="0,20,0,8" Style="{StaticResource MicroLabelStyle}" Text="ATTACH PHOTO / FILE" />
-          <Grid ColumnSpacing="8">
+          <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition x:Name="AttachColumn" Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Style="{StaticResource SecondaryButtonStyle}"
+                    MinWidth="240"
                     BorderBrush="{StaticResource RuleBrush}"
                     MinHeight="46"
                     Padding="18,10"
@@ -163,6 +164,7 @@
               </StackPanel>
             </Button>
             <Button Grid.Column="1"
+                    Margin="8,0,0,0"
                     Style="{StaticResource QuietButtonStyle}"
                     Content="Remove"
                     Visibility="{x:Bind ViewModel.HasAttachment, Mode=OneWay}"
@@ -191,7 +193,7 @@
         </StackPanel>
 
         <!-- Actions -->
-        <Grid x:Name="Actions" Grid.Row="5" Grid.ColumnSpan="3" Margin="0,16,0,0" RowSpacing="8" ColumnSpacing="24">
+        <Grid x:Name="Actions" Grid.Row="5" Grid.ColumnSpan="3" Margin="0,16,0,0" RowSpacing="8">
           <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="ActionsSpacer" Width="0" />
             <ColumnDefinition Width="Auto" />
@@ -241,6 +243,7 @@
           <Setter Target="ActionsSpacer.Width" Value="*" />
           <Setter Target="SubmitColumn.Width" Value="Auto" />
           <Setter Target="SubmitButton.MinWidth" Value="195" />
+          <Setter Target="Actions.ColumnSpacing" Value="24" />
           <Setter Target="CancelButton.(Grid.Row)" Value="0" />
           <Setter Target="CancelButton.(Grid.Column)" Value="1" />
           <Setter Target="CancelButton.MinWidth" Value="100" />
@@ -266,6 +269,7 @@
           <Setter Target="ActionsSpacer.Width" Value="*" />
           <Setter Target="SubmitColumn.Width" Value="Auto" />
           <Setter Target="SubmitButton.MinWidth" Value="195" />
+          <Setter Target="Actions.ColumnSpacing" Value="24" />
           <Setter Target="CancelButton.(Grid.Row)" Value="0" />
           <Setter Target="CancelButton.(Grid.Column)" Value="1" />
           <Setter Target="CancelButton.MinWidth" Value="100" />

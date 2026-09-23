@@ -108,7 +108,7 @@
     <!-- Detail (wide only) -->
     <Grid x:Name="DetailPane" Grid.Column="1" Visibility="Collapsed">
       <ScrollViewer>
-        <v:AssetDetailView Padding="47,46,47,40" ViewModel="{x:Bind ViewModel.Detail}" Visibility="{x:Bind ViewModel.HasSelection, Mode=OneWay}" />
+        <v:AssetDetailView Margin="47,46,47,40" ViewModel="{x:Bind ViewModel.Detail}" Visibility="{x:Bind ViewModel.HasSelection, Mode=OneWay}" />
       </ScrollViewer>
       <StackPanel Margin="47,52,47,0" Spacing="8" Visibility="{x:Bind ViewModel.ShowSelectionPrompt, Mode=OneWay}">
         <TextBlock Style="{StaticResource SectionTitleStyle}" Text="Select an asset" />

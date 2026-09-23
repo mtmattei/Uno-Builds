@@ -9,7 +9,7 @@ on:
       scenario:
         description: "Verification scenario"
         required: false
-        default: "smoke"
+        default: "full"
 
 permissions:
   contents: read
@@ -18,7 +18,7 @@ env:
   DOTNET_NOLOGO: "1"
   DOTNET_CLI_TELEMETRY_OPTOUT: "1"
   APP_DIR: FieldCheck/app/FieldCheck
-  SCENARIO: ${{ github.event.inputs.scenario || 'smoke' }}
+  SCENARIO: ${{ github.event.inputs.scenario || 'full' }}
 
 jobs:
   unit-tests:
@@ -101,7 +101,7 @@ jobs:
           dotnet --info | Out-File "$env:GITHUB_WORKSPACE/out/windows-toolchain.txt"
           dotnet build -c Release -f net10.0-windows10.0.26100 -p:OverrideTargetFrameworks=net10.0-windows10.0.26100 -p:Platform=x64 2>&1 | Tee-Object "$env:GITHUB_WORKSPACE/out/windows-build.txt"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Get-ChildItem -Recurse bin/Release -Filter FieldCheck.exe | Select-Object -ExpandProperty FullName | Tee-Object "$env:GITHUB_WORKSPACE/out/windows-exe-path.txt"
+          Get-ChildItem -Recurse bin -Filter FieldCheck.exe | Where-Object { $_.FullName -match "Release" } | Select-Object -ExpandProperty FullName | Tee-Object "$env:GITHUB_WORKSPACE/out/windows-exe-path.txt"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
