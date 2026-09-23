@@ -60,6 +60,18 @@ FieldCheck/                     benchmark run folder (copied from 01-uno/)
 - `UserControl.Padding` is not applied (no template); used `Margin`.
 - Grid `ColumnSpacing` still applies around zero-width columns; spacing is set only in the wide visual state.
 - Template `NUnit3TestAdapter 4.5.0` is not discovered by VSTest 18; bumped test packages.
+- **WinUI vs Uno difference**: `VisualStateManager.VisualStateGroups` attached to the `Page` itself worked on Uno
+  (Android/Desktop) but is ignored by WinUI, so Windows stayed in the phone layout. Groups now live on each page's
+  root Grid. Found by the Windows CI screenshots.
+- **Android Skia accessibility**: with `ListView`, only the first realized `ListViewItem` appeared in the
+  uiautomator/TalkBack tree. Rows are now `Button`s in an `ItemsControl` (12 items; no virtualization needed) so
+  every row is a named, focusable element on all heads. Master/detail selection moved to `AssetRow.IsSelected`.
+- **Hit-testing defect**: the empty list's `ScrollViewer` was layered above the "No matching assets" panel and
+  swallowed taps on "Clear search". UIA `Invoke` on Windows bypasses hit-testing, so only real pointer input
+  (Android taps, Desktop clicks) exposed it. Fixed by z-ordering; reproduced and verified on the Desktop head.
+- A 1000–1280 px Windows width left the detail pane ~330 px wide and squeezed the title to one letter per line;
+  the detail header now stacks the Start button under the title below 560 px of pane width and the master column
+  is 380 px until 1280 px.
 
 ## Environment constraints (declared asymmetry)
 
