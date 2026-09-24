@@ -19,7 +19,7 @@ def load(path):
 
 android = load(os.path.join(RUN, "android", "android", "checks.json"))
 windows = load(os.path.join(RUN, "windows", "windows", "checks.json"))
-desktop = load(DESKTOP) if DESKTOP else {}
+desktop = load(DESKTOP) if DESKTOP else load(os.path.join(RUN, "desktop", "desktop", "checks.json"))
 unit_txt = open(os.path.join(RUN, "unit-tests", "unit-tests.txt")).read()
 m = re.search(r"Passed!\s+-\s+Failed:\s+(\d+), Passed:\s+(\d+)", unit_txt)
 unit_ok = bool(m) and m.group(1) == "0"
@@ -164,7 +164,8 @@ def resolve(ev):
         if not desktop:
             return None, "Desktop head measured separately (see desktop section)"
         ok = all(c["pass"] for c in desktop.values())
-        return ok, f"Desktop driver: {sum(c['pass'] for c in desktop.values())}/{len(desktop)} checks"
+        return ok, (f"Desktop head (Skia, Win32 host) UIA driver: {sum(c['pass'] for c in desktop.values())}/{len(desktop)} checks; "
+                    "Linux X11 head verified locally under Xvfb (results/screenshots/desktop-linux)")
     if ev.startswith("SHOT:") or ev.startswith("FILE:"):
         return True, ev[5:]
     return None, ev
