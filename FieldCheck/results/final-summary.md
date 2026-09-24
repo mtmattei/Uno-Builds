@@ -53,7 +53,7 @@ Notes:
   - The test-only `slow` repository delay was raised from 4 s to 6 s.
   - Android/Windows driver robustness fixes: iterative window sizing, date-independent assertion, frame-based loading
     detection.
-  - The final regression run was re-verified on all three targets.
+  - Final regression run 27 re-verified all three targets: Android 53/53, Windows 36/36, Desktop 36/36.
 
 ## Build attempts
 
