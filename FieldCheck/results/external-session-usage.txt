@@ -35,6 +35,22 @@ Notes
 - Cost: not computed here. The dollar figure should come from Claude Code's own /usage (/cost) output or from
   billing, not be recomputed from these counts (METRICS_CAPTURE.md). Paste the /usage output below.
 
-/usage output (to be pasted from the session UI)
-------------------------------------------------
-<not yet captured>
+Session usage panel (claude.ai/code "This session", captured 2026-09-24 after run_finish, pasted by the user)
+------------------------------------------------------------------------------------------------------------
+Cost            $102.65
+API duration    54m 49s
+Active          1h 14m
+Lines           +2324 -0
+Model share     Opus 99%, Haiku 1%
+Cache hit       99%
+Opus 5.5        input 860, output 8.1k, cache read 176.9M, cache write 1.4M
+
+Reconciliation with the transcript counts above
+- The panel covers the whole session, including the post-benchmark questions and helper agents
+  (e.g. the Haiku 1%). The transcript table above splits by phase and covers main-session calls only.
+- Input (860 vs 854 all-phase), cache read (176.9M vs 174.8M) and cache write (1.4M vs 1.37M) agree closely.
+- Output differs: 8.1k on the panel vs 333,597 summed from the transcript usage blocks. The transcript value
+  is what the per-response usage blocks record; the panel's accounting of output tokens is not documented.
+  Both are reported as-is. Treat the panel's $102.65 as the session cost figure; it is not recomputed here.
+- The $102.65 covers the whole session. No usage snapshot was taken at core_complete, so the Desktop
+  incremental cost in dollars is unavailable; its token share is in the phase table above.

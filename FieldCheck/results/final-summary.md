@@ -166,8 +166,14 @@ Model: claude-opus-5-5.
 | Final verification (after core) | 33 | 76 | 20,574 | 21,583,765 | 45,079 |
 | **Benchmark total** | **395** | **840** | **328,895** | **170,744,352** | **670,588** |
 
-Cost in USD is not computed here. Take it from Claude Code's `/usage` (`/cost`) output for the session, pasted into
-`external-session-usage.txt`, or from billing (METRICS_CAPTURE.md).
+**Session cost (Claude Code usage panel): $102.65**:
+- Covers the whole session, post-benchmark questions included.
+- API time 54m 49s; model share Opus 99% / Haiku 1%; cache hit 99%.
+- The panel's Opus figures are input 860 / output 8.1k / cache read 176.9M / cache write 1.4M.
+- Its output count differs from the transcript sum (333,597). Both are reported as-is; see
+  `external-session-usage.txt` for the reconciliation.
+- No dollar snapshot exists at `core_complete`, so the Desktop incremental cost in USD is unavailable.
+  Its token share is in the table above.
 
 ## Known remaining defects
 
