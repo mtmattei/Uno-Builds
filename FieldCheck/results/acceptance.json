@@ -1,15 +1,15 @@
 {
   "run": {
     "framework": "Uno Platform (Uno.Sdk 6.7.30, .NET 10)",
-    "status": "COMPLETE",
-    "core_complete": true,
-    "evidence_run": "run-21-full",
-    "source_commit": "3efdeeb9c9171a7c6028e5102375a2942b90b1ab"
+    "status": "IN_PROGRESS",
+    "core_complete": false,
+    "evidence_run": "run-25-full",
+    "source_commit": "8bd3a03192425844868e780e2ffa0472c685d002"
   },
   "counts": {
     "pass": 95,
-    "fail": 0,
-    "not_tested": 1
+    "fail": 1,
+    "not_tested": 0
   },
   "criteria": [
     {
@@ -54,7 +54,7 @@
       "status": "PASS",
       "evidence": [
         "A:A05.dashboard_usable: pass",
-        "A:J04.clean_first_run: pass (cold start TotalTime=6218ms)"
+        "A:J04.clean_first_run: pass (cold start TotalTime=5524ms)"
       ],
       "note": ""
     },
@@ -64,7 +64,7 @@
       "status": "PASS",
       "evidence": [
         "W:A06.dashboard_usable: pass (client=(1440, 900))",
-        "W:J04.clean_first_run: pass (startup=5.99s)"
+        "W:J04.clean_first_run: pass (startup=1.75s)"
       ],
       "note": ""
     },
@@ -80,9 +80,9 @@
     {
       "id": "A08",
       "title": "Desktop head builds and launches; incremental effort recorded separately",
-      "status": "NOT TESTED",
+      "status": "PASS",
       "evidence": [
-        "Desktop head measured separately (see desktop section)"
+        "Desktop head (Skia, Win32 host) UIA driver: 36/36 checks; Linux X11 head verified locally under Xvfb (results/screenshots/desktop-linux)"
       ],
       "note": "Uno-only, after core checkpoint"
     },
@@ -155,7 +155,7 @@
       "evidence": [
         "A:B07.bottom_nav_assets: pass",
         "A:B12.view_history: pass",
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3246ms)",
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
         "A:C02.counts_updated_after_save: pass"
       ],
       "note": "bottom navigation used for all three destinations"
@@ -319,8 +319,8 @@
       "status": "PASS",
       "evidence": [
         "unit tests: 47 passed, 0 failed",
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3246ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.73s)"
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.79s)"
       ],
       "note": "Android: am force-stop + relaunch; Windows: process kill + relaunch"
     },
@@ -538,9 +538,9 @@
     {
       "id": "E01",
       "title": "Initial data load has an intentional loading state",
-      "status": "PASS",
+      "status": "FAIL",
       "evidence": [
-        "A:E01.loading_state: pass",
+        "A:E01.loading_state: FAIL",
         "W:E01.loading: pass"
       ],
       "note": "deterministic 'slow' repository mode"
@@ -918,8 +918,8 @@
       "title": "Clean install / first run succeeds",
       "status": "PASS",
       "evidence": [
-        "A:J04.clean_first_run: pass (cold start TotalTime=6218ms)",
-        "W:J04.clean_first_run: pass (startup=5.99s)"
+        "A:J04.clean_first_run: pass (cold start TotalTime=5524ms)",
+        "W:J04.clean_first_run: pass (startup=1.75s)"
       ],
       "note": ""
     },
@@ -928,8 +928,8 @@
       "title": "Process kill + relaunch preserves submitted inspection",
       "status": "PASS",
       "evidence": [
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3246ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.73s)"
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.79s)"
       ],
       "note": ""
     },
@@ -968,8 +968,8 @@
       "title": "Primary workflow exercised end-to-end on Android and Windows",
       "status": "PASS",
       "evidence": [
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3246ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.73s)",
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.79s)",
         "A:B05.success: pass",
         "W:B05.success: pass"
       ],

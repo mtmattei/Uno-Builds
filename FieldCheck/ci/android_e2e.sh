@@ -7,6 +7,7 @@ PKG=com.fieldcheck.app
 mkdir -p "$OUT"
 export OUT PKG
 adb wait-for-device
+python3 -m pip install --quiet pillow >/dev/null 2>&1 || true
 adb shell getprop ro.build.version.release > "$OUT/device-android-version.txt"
 adb shell wm size > "$OUT/device-screen.txt"; adb shell wm density >> "$OUT/device-screen.txt"
 adb install -r "$APK" > "$OUT/install.txt" 2>&1

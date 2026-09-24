@@ -459,21 +459,34 @@ def run_states():
     shot("state-retry-recovered")
     stop()
     adb("shell", "am", "start", "-n", MAIN, "--es", "data_mode", "slow")  # no -W: capture while loading
-    ns = []
+    # uiautomator waits for UI idle, and the spinning ProgressRing keeps the UI busy until loading ends,
+    # so sample raw frames instead and classify them by pixels.
+    frames = []
     t0 = time.time()
-    end = t0 + 20
-    poll = 0
-    while time.time() < end:
-        poll += 1
-        ns = nodes(f"state-loading-poll-{poll}-{time.time() - t0:.1f}s")
-        # Only the loading text is conclusive: collapsed (not yet visible) panels can still be in the tree.
-        if find("Loading assets", ns):
-            break
-    if find("Loading assets", ns):
+    while time.time() - t0 < 14:
+        png = subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout
+        frames.append((round(time.time() - t0, 1), png))
+    loading_frame = None
+    try:
+        from PIL import Image
+        import io
+        for t, png in frames:
+            img = Image.open(io.BytesIO(png)).convert("RGB").resize((270, 600))
+            px = list(img.getdata())
+            near = lambda c, rgb: abs(c[0] - rgb[0]) < 6 and abs(c[1] - rgb[1]) < 6 and abs(c[2] - rgb[2]) < 6
+            ink = sum(1 for c in px[:270 * 120] if near(c, (0x17, 0x19, 0x18)))      # greeting text drawn
+            chips = sum(1 for c in px if near(c, (0xF8, 0xE8, 0xE6)) or near(c, (0xF7, 0xED, 0xDF)))  # rows drawn
+            if ink > 150 and chips == 0:
+                loading_frame = (t, png)
+                break
+    except Exception as ex:
+        print("frame analysis failed:", ex)
+    if loading_frame:
         with open(os.path.join(SHOTS, "state-loading.png"), "wb") as f:
-            f.write(subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True).stdout)
-        nodes("state-loading")
-    check("E01.loading_state", find("Loading assets", ns) is not None)
+            f.write(loading_frame[1])
+    check("E01.loading_state", loading_frame is not None,
+          f"loading frame (greeting drawn, no list rows yet) at {loading_frame[0]}s; {len(frames)} frames sampled" if loading_frame else f"{len(frames)} frames sampled, none in loading state")
+    wait_for("Needs attention", 15)
     wait_for("Needs attention", 15)
     stop(); launch(("--es", "data_mode", "save-error")); wait_for("Needs attention", 15)
     before = None
