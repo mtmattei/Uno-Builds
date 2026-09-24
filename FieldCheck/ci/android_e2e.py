@@ -459,9 +459,12 @@ def run_states():
     stop()
     adb("shell", "am", "start", "-n", MAIN, "--es", "data_mode", "slow")  # no -W: capture while loading
     ns = []
-    end = time.time() + 20
+    t0 = time.time()
+    end = t0 + 20
+    poll = 0
     while time.time() < end:
-        ns = nodes()
+        poll += 1
+        ns = nodes(f"state-loading-poll-{poll}-{time.time() - t0:.1f}s")
         # Only the loading text is conclusive: collapsed (not yet visible) panels can still be in the tree.
         if find("Loading assets", ns):
             break

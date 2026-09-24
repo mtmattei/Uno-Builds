@@ -51,13 +51,17 @@ class App:
         self.resize(1440, 900)
 
     def resize(self, cw, ch):
+        """Sizes the window so the client area is exactly cw x ch (retries while the frame settles)."""
         hwnd = self.win.handle
-        rect, client = wintypes.RECT(), wintypes.RECT()
-        user32.GetWindowRect(hwnd, ctypes.byref(rect)); user32.GetClientRect(hwnd, ctypes.byref(client))
-        dw = (rect.right - rect.left) - client.right; dh = (rect.bottom - rect.top) - client.bottom
         user32.ShowWindow(hwnd, 9)  # SW_RESTORE
-        user32.SetWindowPos(hwnd, 0, 0, 0, cw + dw, ch + dh, 0x0004 | 0x0040)
-        time.sleep(1.5)
+        for _ in range(6):
+            rect, client = wintypes.RECT(), wintypes.RECT()
+            user32.GetWindowRect(hwnd, ctypes.byref(rect)); user32.GetClientRect(hwnd, ctypes.byref(client))
+            if (client.right, client.bottom) == (cw, ch):
+                break
+            dw = (rect.right - rect.left) - client.right; dh = (rect.bottom - rect.top) - client.bottom
+            user32.SetWindowPos(hwnd, 0, 0, 0, cw + dw, ch + dh, 0x0004 | 0x0040)
+            time.sleep(1.2)
         try:
             self.win.set_focus()
         except Exception:
