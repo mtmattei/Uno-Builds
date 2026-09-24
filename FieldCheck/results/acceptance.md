@@ -1,8 +1,8 @@
 # FieldCheck — Acceptance results (Uno Platform)
 
-Evidence run: `run-26-full` (source commit `430782a`), CI outputs in `results/ci/run-26-full/`.
+Evidence run: `run-27-full` (source commit `e26bec1`), CI outputs in `results/ci/run-27-full/`.
 
-**PASS 95 · FAIL 1 · NOT TESTED 0**
+**PASS 96 · FAIL 0 · NOT TESTED 0**
 
 Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` Desktop driver check, unit tests = NUnit suite on net10.0.
 
@@ -12,8 +12,8 @@ Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` 
 | A02 | Exact framework/SDK versions recorded | **PASS** | results/environment.json, results/dependencies.txt |
 | A03 | Android Release restores and builds with zero errors | **PASS** | Android Release build: succeeded, 0 warning(s) |
 | A04 | Windows Release restores and builds with zero errors | **PASS** | Windows Release build: succeeded, 0 warning(s) |
-| A05 | Android launches to a usable Dashboard | **PASS** | A:A05.dashboard_usable: pass<br>A:J04.clean_first_run: pass (cold start TotalTime=5900ms) |
-| A06 | Windows launches to a usable Dashboard | **PASS** | W:A06.dashboard_usable: pass (client=(1440, 900))<br>W:J04.clean_first_run: pass (startup=0.86s) |
+| A05 | Android launches to a usable Dashboard | **PASS** | A:A05.dashboard_usable: pass<br>A:J04.clean_first_run: pass (cold start TotalTime=5582ms) |
+| A06 | Windows launches to a usable Dashboard | **PASS** | W:A06.dashboard_usable: pass (client=(1440, 900))<br>W:J04.clean_first_run: pass (startup=1.2s) |
 | A07 | Compiler warnings recorded; avoidable app warnings resolved | **PASS** | Android 0 / Windows 0 warning(s) in Release builds |
 | A08 | Desktop head builds and launches; incremental effort recorded separately | **PASS** | Desktop head (Skia, Win32 host) UIA driver: 36/36 checks; Linux X11 head verified locally under Xvfb (results/screenshots/desktop-linux)<br>*Uno-only, after core checkpoint* |
 | B01 | Dashboard exists and matches reference hierarchy | **PASS** | A:B01.needs_attention_rows: pass<br>A:C02.counts_7_3_2: pass<br>W:C02.counts: pass<br>H01 |
@@ -22,7 +22,7 @@ Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` 
 | B04 | New Inspection exists | **PASS** | A:B04.new_inspection: pass<br>W:B04.new_inspection: pass |
 | B05 | Inspection Success exists | **PASS** | A:B05.success: pass<br>W:B05.success: pass |
 | B06 | History exists | **PASS** | A:C09.history_contains_new: pass<br>W:C09.history_new_first: pass |
-| B07 | Android primary navigation reaches Dashboard / Assets / History | **PASS** | A:B07.bottom_nav_assets: pass<br>A:B12.view_history: pass<br>A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)<br>A:C02.counts_updated_after_save: pass<br>*bottom navigation used for all three destinations* |
+| B07 | Android primary navigation reaches Dashboard / Assets / History | **PASS** | A:B07.bottom_nav_assets: pass<br>A:B12.view_history: pass<br>A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3507ms)<br>A:C02.counts_updated_after_save: pass<br>*bottom navigation used for all three destinations* |
 | B08 | Android back: Inspection -> Asset Detail -> originating list | **PASS** | A:B08.back_inspection_to_detail: pass<br>A:B08.back_detail_to_assets: pass<br>A:F06.back_detail_to_dashboard: pass<br>A:B08.bottom_nav_hidden_on_detail: pass |
 | B09 | Windows sidebar reaches Dashboard / Assets / History | **PASS** | W:B09.sidebar_dashboard: pass<br>W:B09.sidebar_assets: pass<br>W:B09.sidebar_history: pass |
 | B10 | Windows wide Assets view is master/detail | **PASS** | W:B10.master_detail: pass<br>W:F03.reference_viewport: pass ((1440, 900)) |
@@ -37,7 +37,7 @@ Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` 
 | C07 | History search matches asset name or ID | **PASS** | unit tests: 47 passed, 0 failed<br>A:C07.history_search_id: pass<br>W:C07.history_search: pass |
 | C08 | History condition filter works | **PASS** | unit tests: 47 passed, 0 failed<br>A:C08.history_condition_filter: pass<br>W:C08.history_filter: pass |
 | C09 | Submitted inspection persisted locally | **PASS** | unit tests: 47 passed, 0 failed<br>A:C09.history_contains_new: pass<br>W:C09.history_new_first: pass |
-| C10 | Inspection remains after full process termination and relaunch | **PASS** | unit tests: 47 passed, 0 failed<br>A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.74s)<br>*Android: am force-stop + relaunch; Windows: process kill + relaunch* |
+| C10 | Inspection remains after full process termination and relaunch | **PASS** | unit tests: 47 passed, 0 failed<br>A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3507ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.8s)<br>*Android: am force-stop + relaunch; Windows: process kill + relaunch* |
 | C11 | Saving does not mutate benchmark fixture files | **PASS** | unit tests: 47 passed, 0 failed<br>*SHA-256 of mock-data before/after save; fixtures are embedded read-only* |
 | C12 | Generated inspection IDs unique and persisted | **PASS** | unit tests: 47 passed, 0 failed<br>A:C12.ids_unique: pass (['INS-24092', 'INS-24091', 'INS-24044', 'INS-24086', 'INS-24065', 'INS-24058', 'INS-24072']) |
 | D01 | Condition supports Good / Attention / Critical | **PASS** | A:D10.issue_hidden_good_yes: pass<br>A:D11.issue_shown_critical: pass<br>A:D11.issue_shown_attention: pass<br>W:D11.issue_shown: pass |
@@ -58,7 +58,7 @@ Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` 
 | D16 | Successful submit creates exactly one inspection | **PASS** | unit tests: 47 passed, 0 failed<br>A:C09.history_contains_new: pass<br>*History shows 7 completed inspections after one submit* |
 | D17 | Success view shows generated ID, asset and result | **PASS** | A:D17.success_details: pass<br>A:B05.success: pass<br>W:B05.success: pass<br>unit tests: 47 passed, 0 failed |
 | D18 | Asset Detail reflects the newest inspection after save | **PASS** | A:D18.asset_reflects_newest: pass<br>W:D18.asset_reflects_newest: pass<br>unit tests: 47 passed, 0 failed |
-| E01 | Initial data load has an intentional loading state | **FAIL** | A:E01.loading_state: FAIL (30 frames sampled, none in loading state)<br>W:E01.loading: pass<br>*deterministic 'slow' repository mode* |
+| E01 | Initial data load has an intentional loading state | **PASS** | A:E01.loading_state: pass (loading frame (greeting drawn, no list rows yet) at 7.8s; 30 frames sampled)<br>W:E01.loading: pass<br>*deterministic 'slow' repository mode* |
 | E02 | Empty repository mode shows a deliberate empty state | **PASS** | A:E02.empty_state: pass<br>A:E02.empty_history: pass<br>W:E02.empty: pass<br>unit tests: 47 passed, 0 failed |
 | E03 | Read failure shows a user-safe error state | **PASS** | A:E03.error_state: pass<br>W:E03.error: pass<br>unit tests: 47 passed, 0 failed |
 | E04 | Error state exposes Retry and recovers | **PASS** | A:E04.retry_recovers: pass<br>W:E04.retry: pass<br>unit tests: 47 passed, 0 failed |
@@ -97,10 +97,10 @@ Legend: `A:` Android emulator driver check, `W:` Windows UIA driver check, `D:` 
 | J01 | No placeholder/lorem ipsum/debug UI | **PASS** | all screens |
 | J02 | No dead buttons or links | **PASS** | W:J02.remove_attachment: pass<br>A:B12.view_history: pass<br>A:E04.retry_recovers: pass<br>A:C04.filter_reset_all: pass<br>*every button exercised on at least one platform* |
 | J03 | No reproducible crash in the required workflow | **PASS** | A:J03.no_crash_in_logcat_crash_buffer: pass<br>Windows driver completed without exception |
-| J04 | Clean install / first run succeeds | **PASS** | A:J04.clean_first_run: pass (cold start TotalTime=5900ms)<br>W:J04.clean_first_run: pass (startup=0.86s) |
-| J05 | Process kill + relaunch preserves submitted inspection | **PASS** | A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.74s) |
+| J04 | Clean install / first run succeeds | **PASS** | A:J04.clean_first_run: pass (cold start TotalTime=5582ms)<br>W:J04.clean_first_run: pass (startup=1.2s) |
+| J05 | Process kill + relaunch preserves submitted inspection | **PASS** | A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3507ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.8s) |
 | J06 | Background/resume does not corrupt state | **PASS** | A:J06.background_resume: pass (state preserved after HOME + relaunch)<br>W:J06.minimize_restore: pass |
 | J07 | Picker cancel and failure paths don't break the app | **PASS** | A:D09.picker_cancel_keeps_form: pass<br>W:D09.picker_cancel: pass<br>unit tests: 47 passed, 0 failed<br>*failure path (picker throws) verified by unit test* |
 | J08 | No secrets/credentials in source or output | **PASS** | grep for keys/tokens/passwords: none |
-| J09 | Primary workflow exercised end-to-end on Android and Windows | **PASS** | A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.74s)<br>A:B05.success: pass<br>W:B05.success: pass |
+| J09 | Primary workflow exercised end-to-end on Android and Windows | **PASS** | A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3507ms)<br>W:C10.persisted_after_relaunch: pass (startup=0.8s)<br>A:B05.success: pass<br>W:B05.success: pass |
 | J10 | Release builds used for final verification | **PASS** | Android Release build: succeeded, 0 warning(s)<br>Windows Release build: succeeded, 0 warning(s)<br>*CI builds -c Release; the drivers run those binaries* |

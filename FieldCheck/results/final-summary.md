@@ -7,11 +7,11 @@ The Uno Desktop head also passes; it was measured separately after the core chec
 
 | | Result |
 |---|---|
-| Acceptance (results/acceptance.json) | **__PASS__ PASS · __FAIL__ FAIL · __NT__ NOT TESTED** (96 criteria incl. A08 Desktop) |
-| Final evidence run | `results/ci/__RUN__/` (source commit `__SHA__`) |
-| Android end-to-end driver | __AND__ checks passed (emulator API 34, pixel_6, Release APK) |
-| Windows end-to-end driver | __WIN__ checks passed (windows-latest, Release, unpackaged WinAppSDK, 1440×900 client) |
-| Desktop head end-to-end driver | __DSK__ checks passed (Skia renderer, Win32 host, Release) + Linux X11 head verified locally |
+| Acceptance (results/acceptance.json) | **96 PASS · 0 FAIL · 0 NOT TESTED** (96 criteria incl. A08 Desktop) |
+| Final evidence run | `results/ci/run-27-full/` (source commit `e26bec1`) |
+| Android end-to-end driver | 53 / 53 checks passed (emulator API 34, pixel_6, Release APK) |
+| Windows end-to-end driver | 36 / 36 checks passed (windows-latest, Release, unpackaged WinAppSDK, 1440×900 client) |
+| Desktop head end-to-end driver | 36 / 36 checks passed (Skia renderer, Win32 host, Release) + Linux X11 head verified locally |
 | Unit tests | 47 / 47 passed (NUnit, net10.0) |
 | Release build warnings | Android 0 · Windows 0 · Desktop 0 (0 errors) |
 
@@ -39,7 +39,7 @@ The Uno Desktop head also passes; it was measured separately after the core chec
 | verification_start | 22:38:48 | 2:42 |
 | **core_complete** (Android + Windows) | **23:27:50** | **3:31** |
 | **desktop_head_complete** | **2026-09-24 00:01:33** | **4:05** |
-| run_finish | see timing.jsonl | |
+| run_finish | 2026-09-24 01:09:40 | 5:13 |
 
 Notes:
 - The Windows and Android build milestones were marked when the CI job result was observed. The actual
@@ -61,7 +61,7 @@ Notes:
   - 1 failed restore — `NETSDK1147`: the Android workload was missing from the Android TFM.
   - 2 failed XAML builds (`CS1061 _ContentSubject`: a template part named `Content`, and a VSM targeting a later part).
   - Many successful incremental Debug builds while iterating (not counted individually).
-- **CI**: 26 workflow runs (4 cancelled by the concurrency group when superseded).
+- **CI**: 27 workflow runs (4 cancelled by the concurrency group when superseded).
   - Failed build steps: 1 Android (run 1, invalid `-warnaserror-` switch) and 1 Windows (run 1).
   - Every later Android, Windows and Desktop Release build succeeded.
 
@@ -113,7 +113,7 @@ They are recorded in the commit history.
   06-history, plus state, keyboard, picker and font-scale captures.
 - `results/screenshots/windows/` — 01-dashboard, 02-assets-master-detail, 03-new-inspection, 04-inspection-success,
   05-history, plus responsive, focus, state and text-scale captures.
-- `results/screenshots/desktop-linux/` — Linux X11 Desktop head captures.
+- `results/screenshots/desktop-win32/` and `results/screenshots/desktop-linux/` — Desktop head captures.
 - Visual comparison: `results/visual-review.md`.
 
 ## Architecture summary

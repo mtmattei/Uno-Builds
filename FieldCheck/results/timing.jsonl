@@ -9,3 +9,4 @@
 {"timestamp_utc": "2026-09-23T22:38:47.767840+00:00", "event": "verification_start"}
 {"timestamp_utc": "2026-09-23T23:27:49.874984+00:00", "event": "core_complete"}
 {"timestamp_utc": "2026-09-24T00:01:32.659777+00:00", "event": "desktop_head_complete"}
+{"timestamp_utc": "2026-09-24T01:09:39.999363+00:00", "event": "run_finish"}

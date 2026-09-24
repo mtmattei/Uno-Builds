@@ -1,7 +1,7 @@
 # FieldCheck — Visual review (Uno Platform)
 
 Implementation screenshots: `results/screenshots/android/` and `results/screenshots/windows/`.
-They come from the final CI verification run; the raw per-run captures are in `results/ci/run-*/`.
+They come from the final CI verification run (`results/ci/run-27-full/`); the raw per-run captures are in `results/ci/run-*/`.
 
 ## Capture conditions
 
@@ -107,8 +107,7 @@ and all Needs-attention assets.
 
 ## State captures
 
-- **Loading**: `screenshots/windows/state-loading.png` shows the spinner and "Loading assets…".
-  - On Android the loading state was detected in the accessibility tree ("Loading assets…").
-    The screencap taken right after was blank, because the software-GPU emulator hadn't drawn the first Skia frame yet.
-    That capture is not included; E01 on Android rests on the accessibility check.
+- **Loading**: `screenshots/android/state-loading.png` and `screenshots/windows/state-loading.png` both show the
+  spinner and "Loading assets…". The Android frame was picked from raw screencaps sampled every ~0.3 s:
+  uiautomator waits for UI idle, and the spinner keeps the UI busy.
 - **Empty, error, retry-recovered and save-error** captures are included for both targets.
