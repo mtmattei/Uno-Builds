@@ -3,8 +3,8 @@
     "framework": "Uno Platform (Uno.Sdk 6.7.30, .NET 10)",
     "status": "IN_PROGRESS",
     "core_complete": false,
-    "evidence_run": "run-25-full",
-    "source_commit": "8bd3a03192425844868e780e2ffa0472c685d002"
+    "evidence_run": "run-26-full",
+    "source_commit": "430782a6ce5d2131c56107963f2437548d8c87e1"
   },
   "counts": {
     "pass": 95,
@@ -54,7 +54,7 @@
       "status": "PASS",
       "evidence": [
         "A:A05.dashboard_usable: pass",
-        "A:J04.clean_first_run: pass (cold start TotalTime=5524ms)"
+        "A:J04.clean_first_run: pass (cold start TotalTime=5900ms)"
       ],
       "note": ""
     },
@@ -64,7 +64,7 @@
       "status": "PASS",
       "evidence": [
         "W:A06.dashboard_usable: pass (client=(1440, 900))",
-        "W:J04.clean_first_run: pass (startup=1.75s)"
+        "W:J04.clean_first_run: pass (startup=0.86s)"
       ],
       "note": ""
     },
@@ -155,7 +155,7 @@
       "evidence": [
         "A:B07.bottom_nav_assets: pass",
         "A:B12.view_history: pass",
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)",
         "A:C02.counts_updated_after_save: pass"
       ],
       "note": "bottom navigation used for all three destinations"
@@ -319,8 +319,8 @@
       "status": "PASS",
       "evidence": [
         "unit tests: 47 passed, 0 failed",
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.79s)"
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.74s)"
       ],
       "note": "Android: am force-stop + relaunch; Windows: process kill + relaunch"
     },
@@ -540,7 +540,7 @@
       "title": "Initial data load has an intentional loading state",
       "status": "FAIL",
       "evidence": [
-        "A:E01.loading_state: FAIL",
+        "A:E01.loading_state: FAIL (30 frames sampled, none in loading state)",
         "W:E01.loading: pass"
       ],
       "note": "deterministic 'slow' repository mode"
@@ -918,8 +918,8 @@
       "title": "Clean install / first run succeeds",
       "status": "PASS",
       "evidence": [
-        "A:J04.clean_first_run: pass (cold start TotalTime=5524ms)",
-        "W:J04.clean_first_run: pass (startup=1.75s)"
+        "A:J04.clean_first_run: pass (cold start TotalTime=5900ms)",
+        "W:J04.clean_first_run: pass (startup=0.86s)"
       ],
       "note": ""
     },
@@ -928,8 +928,8 @@
       "title": "Process kill + relaunch preserves submitted inspection",
       "status": "PASS",
       "evidence": [
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.79s)"
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.74s)"
       ],
       "note": ""
     },
@@ -968,8 +968,8 @@
       "title": "Primary workflow exercised end-to-end on Android and Windows",
       "status": "PASS",
       "evidence": [
-        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3428ms)",
-        "W:C10.persisted_after_relaunch: pass (startup=0.79s)",
+        "A:C10.persisted_after_relaunch: pass (relaunch TotalTime=3442ms)",
+        "W:C10.persisted_after_relaunch: pass (startup=0.74s)",
         "A:B05.success: pass",
         "W:B05.success: pass"
       ],

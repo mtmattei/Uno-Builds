@@ -470,15 +470,17 @@ def run_states():
     try:
         from PIL import Image
         import io
+        fdir = os.path.join(OUT, "loading-frames"); os.makedirs(fdir, exist_ok=True)
         for t, png in frames:
-            img = Image.open(io.BytesIO(png)).convert("RGB").resize((270, 600))
+            img = Image.open(io.BytesIO(png)).convert("RGB").resize((216, 480))
+            img.save(os.path.join(fdir, f"frame-{t:05.1f}s.png"))
             px = list(img.getdata())
-            near = lambda c, rgb: abs(c[0] - rgb[0]) < 6 and abs(c[1] - rgb[1]) < 6 and abs(c[2] - rgb[2]) < 6
-            ink = sum(1 for c in px[:270 * 120] if near(c, (0x17, 0x19, 0x18)))      # greeting text drawn
-            chips = sum(1 for c in px if near(c, (0xF8, 0xE8, 0xE6)) or near(c, (0xF7, 0xED, 0xDF)))  # rows drawn
-            if ink > 150 and chips == 0:
+            near = lambda c, rgb, tol=4: all(abs(c[k] - rgb[k]) <= tol for k in range(3))
+            canvas = sum(1 for c in px if near(c, (0xF3, 0xF2, 0xED)))           # app background drawn (splash is white)
+            chips = sum(1 for c in px if near(c, (0xF8, 0xE8, 0xE6)) or near(c, (0xF7, 0xED, 0xDF)))  # list rows drawn
+            print(f"frame {t}s canvas={canvas} chips={chips}")
+            if canvas > len(px) * 0.5 and chips == 0 and loading_frame is None:
                 loading_frame = (t, png)
-                break
     except Exception as ex:
         print("frame analysis failed:", ex)
     if loading_frame:
