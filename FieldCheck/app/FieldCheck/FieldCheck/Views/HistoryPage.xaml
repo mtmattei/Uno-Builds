@@ -1,0 +1,158 @@
+<Page x:Class="FieldCheck.Views.HistoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="using:FieldCheck.Controls"
+      xmlns:vm="using:FieldCheck.ViewModels"
+      NavigationCacheMode="Required"
+      IsTabStop="True"
+      UseSystemFocusVisuals="False"
+      Background="{StaticResource CanvasBrush}">
+
+  <Page.Resources>
+    <DataTemplate x:Key="NarrowRowTemplate" x:DataType="vm:HistoryRow">
+      <Grid Padding="0,14,0,14" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" ColumnSpacing="12"
+            AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="4">
+          <TextBlock Style="{StaticResource RowTitleStyle}" FontSize="16" Text="{x:Bind AssetName}" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="12" Text="{x:Bind IdAndTime}" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="12" Text="{x:Bind Inspector}" />
+        </StackPanel>
+        <c:StatusChip Grid.Column="1" Status="{x:Bind Condition}" />
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="WideRowTemplate" x:DataType="vm:HistoryRow">
+      <Grid Height="66" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" AutomationProperties.Name="{x:Bind SpokenText}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="230" />
+          <ColumnDefinition Width="240" />
+          <ColumnDefinition Width="153" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Margin="0,8,16,0" Style="{StaticResource RowTitleStyle}" FontSize="16" Text="{x:Bind AssetName}" />
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="0,8,12,0" Style="{StaticResource SecondaryStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{x:Bind IdAndTime}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,8,12,0" FontSize="13" Foreground="{StaticResource InkBrush}" Text="{x:Bind Inspector}" />
+        <c:StatusChip Grid.Column="3" Status="{x:Bind Condition}" />
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Grid x:Name="Header" Padding="20,40,20,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="SearchColumn" Width="*" />
+        <ColumnDefinition x:Name="ChipsColumn" Width="0" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <StackPanel Grid.ColumnSpan="2">
+        <TextBlock Style="{StaticResource ScreenTitleStyle}" Text="History" />
+        <TextBlock Margin="0,1,0,0" Style="{StaticResource SecondaryStyle}" FontSize="13" Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
+      </StackPanel>
+
+      <Grid Grid.Row="1" Margin="0,14,0,0">
+        <TextBox Style="{StaticResource SearchTextBoxStyle}"
+                 PlaceholderText="Search inspections"
+                 InputScope="Search"
+                 AutomationProperties.Name="Search inspections by asset name or ID"
+                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Path Margin="16,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="16" Height="16" IsHitTestVisible="False"
+              Style="{StaticResource IconPathStyle}" Stroke="{StaticResource MutedBrush}"
+              Data="M10,3 C13.9,3 17,6.1 17,10 C17,13.9 13.9,17 10,17 C6.1,17 3,13.9 3,10 C3,6.1 6.1,3 10,3 Z M15,15 L21,21" />
+      </Grid>
+
+      <ScrollViewer x:Name="Chips" Grid.Row="2" Margin="0,6,0,4" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal" AutomationProperties.Name="Condition filter">
+          <RadioButton GroupName="HistoryFilter" Style="{StaticResource ChipRadioButtonStyle}" Content="All" IsChecked="{x:Bind ViewModel.IsAll, Mode=TwoWay}" AutomationProperties.Name="Show all conditions" />
+          <RadioButton GroupName="HistoryFilter" Style="{StaticResource ChipRadioButtonStyle}" Content="Good" IsChecked="{x:Bind ViewModel.IsGood, Mode=TwoWay}" AutomationProperties.Name="Filter Good" />
+          <RadioButton GroupName="HistoryFilter" Style="{StaticResource ChipRadioButtonStyle}" Content="Attention" IsChecked="{x:Bind ViewModel.IsAttention, Mode=TwoWay}" AutomationProperties.Name="Filter Attention" />
+          <RadioButton GroupName="HistoryFilter" Style="{StaticResource ChipRadioButtonStyle}" Content="Critical" IsChecked="{x:Bind ViewModel.IsCritical, Mode=TwoWay}" AutomationProperties.Name="Filter Critical" />
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+
+    <ScrollViewer Grid.Row="1">
+      <StackPanel x:Name="Body" Padding="20,0,20,24">
+        <c:StatePanel State="{x:Bind ViewModel.State, Mode=OneWay}"
+                      RetryCommand="{x:Bind ViewModel.LoadCommand}"
+                      LoadingText="Loading inspections…"
+                      EmptyTitle="No inspections yet"
+                      EmptyMessage="Completed inspections appear here. Start one from an asset's detail page." />
+
+        <StackPanel Margin="0,24,0,0" Spacing="8" Visibility="{x:Bind ViewModel.HasNoResults, Mode=OneWay}">
+          <TextBlock Style="{StaticResource SectionTitleStyle}" Text="No matching inspections" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="14" Text="Try a different asset name or ID, or clear the condition filter." />
+          <Button Margin="0,8,0,0" Style="{StaticResource SecondaryButtonStyle}" MinWidth="160" HorizontalAlignment="Left" Content="Clear search" Command="{x:Bind ViewModel.ClearSearchCommand}" />
+        </StackPanel>
+
+        <StackPanel Visibility="{x:Bind ViewModel.IsReady, Mode=OneWay}">
+          <Grid x:Name="TableHeader" Height="36" Margin="0,26,0,0" Visibility="Collapsed" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="230" />
+              <ColumnDefinition Width="240" />
+              <ColumnDefinition Width="153" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource MicroLabelStyle}" Text="ASSET" />
+            <TextBlock Grid.Column="1" Style="{StaticResource MicroLabelStyle}" Text="INSPECTION" />
+            <TextBlock Grid.Column="2" Style="{StaticResource MicroLabelStyle}" Text="INSPECTOR" />
+            <TextBlock Grid.Column="3" Style="{StaticResource MicroLabelStyle}" Text="RESULT" />
+          </Grid>
+          <ItemsControl x:Name="Rows"
+                        ItemsSource="{x:Bind ViewModel.Items}"
+                        ItemTemplate="{StaticResource NarrowRowTemplate}"
+                        IsTabStop="False"
+                        AutomationProperties.Name="Completed inspections" />
+        </StackPanel>
+      </StackPanel>
+    </ScrollViewer>
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Medium">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Header.Padding" Value="40,44,47,0" />
+            <Setter Target="Body.Padding" Value="40,0,47,40" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="1100" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Header.Padding" Value="40,44,47,0" />
+            <Setter Target="Body.Padding" Value="40,0,47,40" />
+            <Setter Target="SearchColumn.Width" Value="415" />
+            <Setter Target="ChipsColumn.Width" Value="*" />
+            <Setter Target="Chips.(Grid.Row)" Value="1" />
+            <Setter Target="Chips.(Grid.Column)" Value="1" />
+            <Setter Target="Chips.Margin" Value="28,14,0,0" />
+            <Setter Target="Chips.VerticalAlignment" Value="Center" />
+            <Setter Target="TableHeader.Visibility" Value="Visible" />
+            <Setter Target="Rows.ItemTemplate" Value="{StaticResource WideRowTemplate}" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
+</Page>

@@ -1,0 +1,8 @@
+main: com.fieldcheck.app/crc6498d17d64ad8ab35f.MainActivity screen: 1080 2400
+FAIL J04.clean_first_run cold start TotalTime=5469ms
+FAIL A05.dashboard_usable 
+FAIL C02.counts_7_3_2 
+FAIL B01.needs_attention_rows 
+FAIL driver.exception RuntimeError('element not found: ^Assets$')
+PASS J03.no_crash_in_logcat_crash_buffer 
+1/6 checks passed

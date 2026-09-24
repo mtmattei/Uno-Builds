@@ -1,0 +1,56 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-windows10.0.26100;net10.0-desktop;net10.0</TargetFrameworks>
+    <!-- Lets CI/local builds restrict heads (e.g. no Android workload on the machine) without editing the list. -->
+    <TargetFrameworks Condition="'$(OverrideTargetFrameworks)' != ''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>FieldCheck</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.fieldcheck.app</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>FieldCheck</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>FieldCheck powered by Uno Platform.</Description>
+    <!--
+      If you encounter this error message:
+
+        error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+        Please update to a newer .NET SDK in order to reference this assembly.
+
+      This means that the two packages below must be aligned with the "build" version number of
+      the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+      must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+    -->
+    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Mvvm;
+      Toolkit;
+      SkiaRenderer;
+    </UnoFeatures>
+
+    <!-- Unpackaged Windows build: runs directly from the build output, self-contained Windows App SDK. -->
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <!-- DESIGN_SPEC: use the platform system sans (Segoe UI on Windows, Roboto on Android) instead of bundled Open Sans. -->
+    <UnoDefaultFont>None</UnoDefaultFont>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Benchmark fixtures, embedded read-only as first-run seed data. The source files are never written. -->
+    <EmbeddedResource Include="..\..\..\mock-data\assets.json" LogicalName="FieldCheck.Seed.assets.json" Link="Seed\assets.json" />
+    <EmbeddedResource Include="..\..\..\mock-data\inspections.json" LogicalName="FieldCheck.Seed.inspections.json" Link="Seed\inspections.json" />
+  </ItemGroup>
+
+</Project>

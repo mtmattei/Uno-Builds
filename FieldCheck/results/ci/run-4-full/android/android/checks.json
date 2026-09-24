@@ -1,0 +1,32 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": false,
+    "detail": "cold start TotalTime=Nonems"
+  },
+  {
+    "id": "A05.dashboard_usable",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "C02.counts_7_3_2",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "B01.needs_attention_rows",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "RuntimeError('element not found: ^Assets$')"
+  },
+  {
+    "id": "J03.no_crash_in_logcat_crash_buffer",
+    "pass": true,
+    "detail": ""
+  }
+]

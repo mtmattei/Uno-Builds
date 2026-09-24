@@ -1,0 +1,284 @@
+<Page x:Class="FieldCheck.Views.NewInspectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="using:FieldCheck.Controls"
+      Background="{StaticResource CanvasBrush}">
+
+  <Grid>
+    <ScrollViewer x:Name="Scroller">
+      <Grid x:Name="Body" Padding="20,40,20,32">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Margin="0,0,0,20">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Button x:Name="BackButton" Margin="-12,0,8,0" VerticalAlignment="Top" Style="{StaticResource BackButtonStyle}" Command="{x:Bind ViewModel.CancelCommand}" AutomationProperties.Name="Back, discard inspection">
+            <Path Width="14" Height="14" Style="{StaticResource IconPathStyle}" StrokeThickness="2.2" Data="M15,5 L8,12 L15,19" />
+          </Button>
+          <StackPanel Grid.Column="1">
+            <TextBlock Style="{StaticResource ScreenTitleStyle}" Text="New inspection" />
+            <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="14" Text="{x:Bind ViewModel.AssetLine, Mode=OneWay}" />
+          </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Spacing="12" Visibility="{x:Bind ViewModel.IsAssetMissing, Mode=OneWay}">
+          <TextBlock Style="{StaticResource SectionTitleStyle}" Text="Asset unavailable" />
+          <TextBlock Style="{StaticResource SecondaryStyle}" FontSize="14" Text="The asset for this inspection couldn't be loaded. Go back and try again." />
+          <Button Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left" MinWidth="140" Content="Go back" Command="{x:Bind ViewModel.CancelCommand}" />
+        </StackPanel>
+
+        <Grid x:Name="Form" Grid.Row="1" Visibility="{x:Bind c:StatusVisuals.Hide(ViewModel.IsAssetMissing), Mode=OneWay}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="LeftColumn" Width="*" />
+            <ColumnDefinition x:Name="GapColumn" Width="0" />
+            <ColumnDefinition x:Name="RightColumn" Width="0" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <!-- Condition / operating / temperature -->
+          <StackPanel Spacing="0">
+            <TextBlock Style="{StaticResource MicroLabelStyle}" Text="CONDITION" Margin="0,0,0,10" />
+            <Grid ColumnSpacing="8" AutomationProperties.Name="Condition">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <RadioButton GroupName="Condition" Style="{StaticResource SegmentRadioButtonStyle}" Content="Good" IsChecked="{x:Bind ViewModel.IsGood, Mode=TwoWay}" AutomationProperties.Name="Condition Good" />
+              <RadioButton Grid.Column="1" GroupName="Condition" Style="{StaticResource SegmentRadioButtonStyle}" Content="Attention" IsChecked="{x:Bind ViewModel.IsAttention, Mode=TwoWay}" AutomationProperties.Name="Condition Attention" />
+              <RadioButton Grid.Column="2" GroupName="Condition" Style="{StaticResource SegmentRadioButtonStyle}" Content="Critical" IsChecked="{x:Bind ViewModel.IsCritical, Mode=TwoWay}" AutomationProperties.Name="Condition Critical" />
+            </Grid>
+
+            <Grid Margin="0,18,0,0" MinHeight="44">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Style="{StaticResource MicroLabelStyle}" Text="OPERATING NORMALLY" />
+              <TextBlock Grid.Column="1" Margin="0,0,14,0" VerticalAlignment="Center" FontSize="15" Foreground="{StaticResource InkBrush}" Text="{x:Bind ViewModel.OperatingNormallyText, Mode=OneWay}" />
+              <ToggleSwitch Grid.Column="2"
+                            MinWidth="0"
+                            OnContent=""
+                            OffContent=""
+                            IsOn="{x:Bind ViewModel.OperatingNormally, Mode=TwoWay}"
+                            AutomationProperties.Name="Operating normally" />
+            </Grid>
+
+            <TextBlock Margin="0,18,0,8" Style="{StaticResource MicroLabelStyle}" Text="TEMPERATURE °C" />
+            <TextBox x:Name="Temperature"
+                     Style="{StaticResource FieldTextBoxStyle}"
+                     InputScope="Number"
+                     PlaceholderText="-50 to 250"
+                     AutomationProperties.Name="Temperature in degrees Celsius, required, -50 to 250"
+                     Text="{x:Bind ViewModel.TemperatureText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="0,6,0,0"
+                       Style="{StaticResource ErrorTextStyle}"
+                       Visibility="{x:Bind ViewModel.HasTemperatureError, Mode=OneWay}"
+                       Text="{x:Bind ViewModel.TemperatureError, Mode=OneWay}"
+                       AutomationProperties.LiveSetting="Assertive" />
+          </StackPanel>
+
+          <!-- Checklist -->
+          <StackPanel x:Name="Checklist" Grid.Row="1" Margin="0,22,0,0">
+            <TextBlock Style="{StaticResource MicroLabelStyle}" Text="CHECKLIST" Margin="0,0,0,2" />
+            <CheckBox Style="{StaticResource ChecklistCheckBoxStyle}" Content="Guards and covers secure" IsChecked="{x:Bind ViewModel.GuardsSecure, Mode=TwoWay}" />
+            <CheckBox Style="{StaticResource ChecklistCheckBoxStyle}" Content="No visible leaks or damage" IsChecked="{x:Bind ViewModel.NoLeaksOrDamage, Mode=TwoWay}" />
+            <CheckBox Style="{StaticResource ChecklistCheckBoxStyle}" Content="Area clear and accessible" IsChecked="{x:Bind ViewModel.AreaClear, Mode=TwoWay}" />
+          </StackPanel>
+
+          <Border x:Name="FormRule" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,28,0,0" Visibility="Collapsed" Style="{StaticResource RuleStyle}" />
+
+          <!-- Issue / notes / attachment -->
+          <Grid Grid.Row="3" Grid.ColumnSpan="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="LowerColumn" Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel x:Name="Lower">
+            <StackPanel Margin="0,16,0,0" Visibility="{x:Bind ViewModel.IsIssueDescriptionVisible, Mode=OneWay}">
+              <StackPanel Orientation="Horizontal" Spacing="30" Margin="0,0,0,8">
+                <TextBlock Style="{StaticResource MicroLabelStyle}" Text="ISSUE DESCRIPTION" />
+                <TextBlock FontSize="11" Foreground="{StaticResource AttentionBrush}" Text="Required" />
+              </StackPanel>
+              <TextBox x:Name="IssueDescription"
+                       Style="{StaticResource FieldTextBoxStyle}"
+                       MinHeight="64"
+                       AcceptsReturn="True"
+                       TextWrapping="Wrap"
+                       VerticalContentAlignment="Top"
+                       PlaceholderText="What needs attention?"
+                       AutomationProperties.Name="Issue description, required"
+                       Text="{x:Bind ViewModel.IssueDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,6,0,0"
+                         Style="{StaticResource ErrorTextStyle}"
+                         Visibility="{x:Bind ViewModel.HasIssueDescriptionError, Mode=OneWay}"
+                         Text="{x:Bind ViewModel.IssueDescriptionError, Mode=OneWay}"
+                         AutomationProperties.LiveSetting="Assertive" />
+            </StackPanel>
+
+            <TextBlock Margin="0,20,0,8" Style="{StaticResource MicroLabelStyle}" Text="NOTES" />
+            <TextBox Style="{StaticResource FieldTextBoxStyle}"
+                     MinHeight="64"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     PlaceholderText="Optional notes…"
+                     AutomationProperties.Name="Notes, optional"
+                     Text="{x:Bind ViewModel.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Margin="0,20,0,8" Style="{StaticResource MicroLabelStyle}" Text="ATTACH PHOTO / FILE" />
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="AttachColumn" Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Button Style="{StaticResource SecondaryButtonStyle}"
+                      MinWidth="240"
+                      BorderBrush="{StaticResource RuleBrush}"
+                      MinHeight="46"
+                      Padding="18,10"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Left"
+                      Command="{x:Bind ViewModel.PickFileCommand}"
+                      AutomationProperties.Name="Attach photo or file">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <Path Width="12" Height="12" Style="{StaticResource IconPathStyle}" StrokeThickness="2" Data="M12,5 L12,19 M5,12 L19,12"
+                        Visibility="{x:Bind c:StatusVisuals.Hide(ViewModel.HasAttachment), Mode=OneWay}" />
+                  <Path Width="14" Height="14" Style="{StaticResource IconPathStyle}" Stroke="{StaticResource SuccessBrush}" StrokeThickness="2" Data="M5,12.5 L10,17.5 L19,7"
+                        Visibility="{x:Bind ViewModel.HasAttachment, Mode=OneWay}" />
+                  <TextBlock FontSize="15" Text="Choose file" Visibility="{x:Bind c:StatusVisuals.Hide(ViewModel.HasAttachment), Mode=OneWay}" />
+                  <TextBlock FontSize="15" TextTrimming="CharacterEllipsis" Text="{x:Bind ViewModel.AttachmentName, Mode=OneWay}" Visibility="{x:Bind ViewModel.HasAttachment, Mode=OneWay}" />
+                </StackPanel>
+              </Button>
+              <Button Grid.Column="1"
+                      Margin="8,0,0,0"
+                      Style="{StaticResource QuietButtonStyle}"
+                      Content="Remove"
+                      Visibility="{x:Bind ViewModel.HasAttachment, Mode=OneWay}"
+                      Command="{x:Bind ViewModel.RemoveAttachmentCommand}"
+                      AutomationProperties.Name="Remove attachment" />
+            </Grid>
+            <TextBlock Margin="0,6,0,0" Style="{StaticResource SecondaryStyle}" Visibility="{x:Bind ViewModel.HasAttachment, Mode=OneWay}" Text="Attached. Tap to replace." />
+            <TextBlock Margin="0,6,0,0" Style="{StaticResource ErrorTextStyle}" Visibility="{x:Bind c:StatusVisuals.ShowText(ViewModel.AttachmentError), Mode=OneWay}" Text="{x:Bind ViewModel.AttachmentError, Mode=OneWay}" />
+          </StackPanel>
+          </Grid>
+
+          <!-- Status messages -->
+          <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Margin="0,20,0,0" Spacing="8">
+            <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.HasMissingSummary, Mode=OneWay}">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Path Width="14" Height="14" VerticalAlignment="Top" Margin="0,2,0,0" Style="{StaticResource IconPathStyle}" Stroke="{StaticResource AttentionBrush}" Data="M12,3 L22,20 L2,20 Z M12,9 L12,14 M12,16.5 L12,17.5" />
+              <TextBlock Grid.Column="1" Style="{StaticResource SecondaryStyle}" Foreground="{StaticResource InkBrush}" Text="{x:Bind ViewModel.MissingSummary, Mode=OneWay}" AutomationProperties.LiveSetting="Polite" />
+            </Grid>
+            <TextBlock Style="{StaticResource ErrorTextStyle}" FontSize="14"
+                       Visibility="{x:Bind c:StatusVisuals.ShowText(ViewModel.SubmitError), Mode=OneWay}"
+                       Text="{x:Bind ViewModel.SubmitError, Mode=OneWay}"
+                       AutomationProperties.LiveSetting="Assertive" />
+          </StackPanel>
+
+          <!-- Actions -->
+          <Grid x:Name="Actions" Grid.Row="5" Grid.ColumnSpan="3" Margin="0,16,0,0" RowSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition x:Name="ActionsSpacer" Width="0" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition x:Name="SubmitColumn" Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button x:Name="SubmitButton"
+                    Grid.Column="2"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{x:Bind ViewModel.SubmitCommand}"
+                    Content="{x:Bind ViewModel.SubmitText, Mode=OneWay}"
+                    AutomationProperties.Name="Submit inspection" />
+            <Button x:Name="CancelButton"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource QuietButtonStyle}"
+                    MinHeight="48"
+                    Content="Cancel"
+                    Command="{x:Bind ViewModel.CancelCommand}"
+                    AutomationProperties.Name="Cancel inspection" />
+          </Grid>
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Medium">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Body.Padding" Value="40,44,47,40" />
+            <Setter Target="BackButton.Visibility" Value="Collapsed" />
+            <Setter Target="Body.MaxWidth" Value="1200" />
+            <Setter Target="Body.HorizontalAlignment" Value="Left" />
+            <Setter Target="ActionsSpacer.Width" Value="*" />
+            <Setter Target="SubmitColumn.Width" Value="Auto" />
+            <Setter Target="SubmitButton.MinWidth" Value="195" />
+            <Setter Target="Actions.ColumnSpacing" Value="24" />
+            <Setter Target="CancelButton.(Grid.Row)" Value="0" />
+            <Setter Target="CancelButton.(Grid.Column)" Value="1" />
+            <Setter Target="CancelButton.MinWidth" Value="100" />
+            <Setter Target="CancelButton.MinHeight" Value="52" />
+            <Setter Target="AttachColumn.Width" Value="Auto" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="1100" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Body.Padding" Value="40,44,47,40" />
+            <Setter Target="BackButton.Visibility" Value="Collapsed" />
+            <Setter Target="LeftColumn.Width" Value="381" />
+            <Setter Target="GapColumn.Width" Value="91" />
+            <Setter Target="RightColumn.Width" Value="*" />
+            <Setter Target="Checklist.(Grid.Row)" Value="0" />
+            <Setter Target="Checklist.(Grid.Column)" Value="2" />
+            <Setter Target="Checklist.Margin" Value="0,0,0,0" />
+            <Setter Target="FormRule.Visibility" Value="Visible" />
+            <Setter Target="LowerColumn.MaxWidth" Value="821" />
+            <Setter Target="ActionsSpacer.Width" Value="*" />
+            <Setter Target="SubmitColumn.Width" Value="Auto" />
+            <Setter Target="SubmitButton.MinWidth" Value="195" />
+            <Setter Target="Actions.ColumnSpacing" Value="24" />
+            <Setter Target="CancelButton.(Grid.Row)" Value="0" />
+            <Setter Target="CancelButton.(Grid.Column)" Value="1" />
+            <Setter Target="CancelButton.MinWidth" Value="100" />
+            <Setter Target="CancelButton.MinHeight" Value="52" />
+            <Setter Target="AttachColumn.Width" Value="Auto" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
+</Page>

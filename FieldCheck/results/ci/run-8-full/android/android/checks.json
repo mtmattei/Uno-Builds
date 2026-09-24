@@ -1,0 +1,37 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "cold start TotalTime=6169ms"
+  },
+  {
+    "id": "A05.dashboard_usable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C02.counts_7_3_2",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B01.needs_attention_rows",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "B07.bottom_nav_assets",
+    "pass": false,
+    "detail": ""
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "TypeError(\"'NoneType' object is not subscriptable\")"
+  },
+  {
+    "id": "J03.no_crash_in_logcat_crash_buffer",
+    "pass": true,
+    "detail": ""
+  }
+]

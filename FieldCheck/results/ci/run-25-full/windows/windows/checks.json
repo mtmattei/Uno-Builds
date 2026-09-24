@@ -1,0 +1,182 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "startup=1.75s"
+  },
+  {
+    "id": "A06.dashboard_usable",
+    "pass": true,
+    "detail": "client=(1440, 900)"
+  },
+  {
+    "id": "C02.counts",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_history",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_dashboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B09.sidebar_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B10.master_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F03.reference_viewport",
+    "pass": true,
+    "detail": "(1440, 900)"
+  },
+  {
+    "id": "C03.search_type",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E05.no_results",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.filter_critical",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F07.keyboard_tab_reaches_controls",
+    "pass": true,
+    "detail": "['Show all statuses', 'Filter Operational', 'Filter Attention', 'Filter Critical', 'Booster Pump 104, PMP-104, Operational', 'Air Handler 203, AHU-203, Attention', 'Compressor 012, CMP-012, Operational', 'Cooling Tower 07, CT-007, Critical']"
+  },
+  {
+    "id": "B04.new_inspection",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D14.submit_disabled",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B11.cancel_returns",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D04.temp_error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D07.picker_opens",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D09.picker_cancel",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D08.picker_filename",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "J02.remove_attachment",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D08.picker_reselect_after_remove",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B05.success",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D18.asset_reflects_newest",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C09.history_new_first",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C07.history_search",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C08.history_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F04.narrow_single_pane",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C10.persisted_after_relaunch",
+    "pass": true,
+    "detail": "startup=0.79s"
+  },
+  {
+    "id": "J06.minimize_restore",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E02.empty",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E03.error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E04.retry",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E01.loading",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E08.save_error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F05.windows_text_scale_130",
+    "pass": true,
+    "detail": ""
+  }
+]

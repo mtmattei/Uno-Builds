@@ -1,0 +1,267 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "cold start TotalTime=5582ms"
+  },
+  {
+    "id": "A05.dashboard_usable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C02.counts_7_3_2",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B01.needs_attention_rows",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B07.bottom_nav_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C03.search_location_case_insensitive",
+    "pass": true,
+    "detail": "['Air Handler 203', 'Cooling Tower 07', 'Exhaust Fan 305']"
+  },
+  {
+    "id": "C05.search_plus_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E05.no_results_state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.filter_reset_all",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.status_filter_attention",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B03.asset_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.bottom_nav_hidden_on_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E07.long_description_reachable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.back_detail_to_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B04.new_inspection",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.back_inspection_to_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B11.cancel_returns",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E06.missing_summary",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D14.submit_disabled_initially",
+    "pass": true,
+    "detail": "tapping the disabled Submit keeps the form and saves nothing"
+  },
+  {
+    "id": "D10.issue_hidden_good_yes",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D12.issue_shown_not_operating",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown_critical",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown_attention",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D04.temperature_out_of_range_error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D03.temperature_min_accepted",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D05.one_item_missing_blocks",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F02.form_scrolls_with_keyboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D07.picker_opens",
+    "pass": true,
+    "detail": "com.google.android.providers.media.module"
+  },
+  {
+    "id": "D09.picker_cancel_keeps_form",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D08.picker_selected_filename",
+    "pass": true,
+    "detail": "file name shown: | 1000000016.png"
+  },
+  {
+    "id": "D14.submit_enabled_when_valid",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B05.success",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D17.success_details",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D18.asset_reflects_newest",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B12.view_asset",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C09.history_contains_new",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C06.history_newest_first",
+    "pass": true,
+    "detail": "['INS-24092', 'INS-24091', 'INS-24044', 'INS-24086', 'INS-24065', 'INS-24058', 'INS-24072']"
+  },
+  {
+    "id": "C12.ids_unique",
+    "pass": true,
+    "detail": "['INS-24092', 'INS-24091', 'INS-24044', 'INS-24086', 'INS-24065', 'INS-24058', 'INS-24072']"
+  },
+  {
+    "id": "C07.history_search_id",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C08.history_condition_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B12.view_history",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "J06.background_resume",
+    "pass": true,
+    "detail": "state preserved after HOME + relaunch"
+  },
+  {
+    "id": "C10.persisted_after_relaunch",
+    "pass": true,
+    "detail": "relaunch TotalTime=3507ms"
+  },
+  {
+    "id": "C02.counts_updated_after_save",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F06.back_detail_to_dashboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "F05.font_scale_1_3_usable",
+    "pass": true,
+    "detail": "form actions reachable at 1.3x font scale"
+  },
+  {
+    "id": "E02.empty_state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E02.empty_history",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E03.error_state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E04.retry_recovers",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E01.loading_state",
+    "pass": true,
+    "detail": "loading frame (greeting drawn, no list rows yet) at 7.8s; 30 frames sampled"
+  },
+  {
+    "id": "E08.save_failure_not_silent",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "J03.no_crash_in_logcat_crash_buffer",
+    "pass": true,
+    "detail": ""
+  }
+]

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "J04.clean_first_run",
+    "pass": true,
+    "detail": "cold start TotalTime=7449ms"
+  },
+  {
+    "id": "A05.dashboard_usable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C02.counts_7_3_2",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B01.needs_attention_rows",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B07.bottom_nav_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C03.search_location_case_insensitive",
+    "pass": true,
+    "detail": "['Air Handler 203', 'Cooling Tower 07', 'Exhaust Fan 305']"
+  },
+  {
+    "id": "C05.search_plus_filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E05.no_results_state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.filter_reset_all",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "C04.status_filter_attention",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B03.asset_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.bottom_nav_hidden_on_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "E07.long_description_reachable",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.back_detail_to_assets",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B04.new_inspection",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B08.back_inspection_to_detail",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "B11.cancel_returns",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D14.submit_disabled_initially",
+    "pass": false,
+    "detail": "None"
+  },
+  {
+    "id": "E06.missing_summary",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D10.issue_hidden_good_yes",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D12.issue_shown_not_operating",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown_critical",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D11.issue_shown_attention",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D04.temperature_out_of_range_error",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D03.temperature_min_accepted",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "driver.exception",
+    "pass": false,
+    "detail": "TypeError(\"'NoneType' object is not subscriptable\")"
+  },
+  {
+    "id": "J03.no_crash_in_logcat_crash_buffer",
+    "pass": true,
+    "detail": ""
+  }
+]

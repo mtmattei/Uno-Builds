@@ -1,0 +1,38 @@
+<Page x:Class="FieldCheck.Views.AssetDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:v="using:FieldCheck.Views"
+      Background="{StaticResource CanvasBrush}">
+
+  <Grid>
+    <ScrollViewer>
+      <StackPanel x:Name="Body" Padding="20,40,20,24">
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="-12,0,0,22">
+          <Button Style="{StaticResource BackButtonStyle}" Command="{x:Bind ViewModel.GoBackCommand}" AutomationProperties.Name="Back">
+            <Path Width="14" Height="14" Style="{StaticResource IconPathStyle}" StrokeThickness="2.2" Data="M15,5 L8,12 L15,19" />
+          </Button>
+          <TextBlock VerticalAlignment="Center" Style="{StaticResource ScreenTitleStyle}" Text="Asset detail" />
+        </StackPanel>
+        <v:AssetDetailView ViewModel="{x:Bind ViewModel}" />
+      </StackPanel>
+    </ScrollViewer>
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Body.Padding" Value="40,44,47,40" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
+</Page>

@@ -1,0 +1,62 @@
+FieldCheck — Uno Platform run — session usage
+==============================================
+
+Source
+------
+Claude Code session transcript for this cloud session
+(/root/.claude/projects/-home-user-Uno-Builds/f79a2145-3427-59cc-a087-b0f9076ce192.jsonl).
+Claude Code writes each API response's `usage` block (input_tokens, output_tokens,
+cache_read_input_tokens, cache_creation_input_tokens) into the transcript as the session runs.
+These are recorded values, not estimates.
+
+Method: each API response is counted once, deduplicated by message id, because one response can span several
+transcript lines. Responses are split into phases by their timestamps against results/timing.jsonl.
+
+Model: claude-opus-5-5 (every call). Session: https://claude.ai/code/session_014DwZG7koSPTV4mBrftCrZ4
+Session start 2026-09-23T19:56:33Z, run_finish 2026-09-24T01:09:40Z.
+
+Tokens by phase
+---------------
+Phase                                                   Calls   Input   Output    Cache read     Cache write
+Core (run_start -> core_complete 23:27:49Z)               327     692   291,571   127,681,486       595,003
+Desktop head (core_complete -> desktop_head_complete)      35      72    16,750    21,479,101        30,506
+Final verification (desktop_head_complete -> run_finish)   33      76    20,574    21,583,765        45,079
+---------------------------------------------------------------------------------------------------------
+Benchmark total (run_start -> run_finish)                 395     840   328,895   170,744,352       670,588
+
+After run_finish (post-benchmark questions, excluded)       7      14     4,702     4,098,325       697,392
+
+Notes
+-----
+- Core = the primary Android + Windows measurement. Desktop head = the Uno-only incremental measurement (K06/K07).
+- Final verification covered fixes to the test drivers' loading-state detection and window sizing, plus the
+  final regression runs. It came after core_complete, so it is reported separately and not added to either figure.
+- Not included: a helper agent used after run_finish to look up usage-export docs (reported ~74k tokens).
+- Cost: not computed here. The dollar figure should come from Claude Code's own /usage (/cost) output or from
+  billing, not be recomputed from these counts (METRICS_CAPTURE.md). Paste the /usage output below.
+
+Session usage panel (claude.ai/code "This session", captured 2026-09-24 after run_finish, pasted by the user)
+------------------------------------------------------------------------------------------------------------
+Cost            $102.65
+API duration    54m 49s
+Active          1h 14m
+Lines           +2324 -0
+Model share     Opus 99%, Haiku 1%
+Cache hit       99%
+Opus 5.5        input 860, output 8.1k, cache read 176.9M, cache write 1.4M
+
+Claude Code usage report (2026-09-24T03:24:49Z, pasted by the user; plan-limit lines omitted)
+- Opus 5.5: 862 in / 8.1k out / 177.6M cache read / 1.4M cache write
+- Cost: $102.65 | API 55m | Wall 75m
+- "Wall 75m" is Claude Code's active-session time. Benchmark wall-clock time from timing.jsonl is 5h13m
+  (run_start -> run_finish), which includes waiting on CI runners.
+
+Reconciliation with the transcript counts above
+- The panel covers the whole session, including the post-benchmark questions and helper agents
+  (e.g. the Haiku 1%). The transcript table above splits by phase and covers main-session calls only.
+- Input (860 vs 854 all-phase), cache read (176.9M vs 174.8M) and cache write (1.4M vs 1.37M) agree closely.
+- Output differs: 8.1k on the panel vs 333,597 summed from the transcript usage blocks. The transcript value
+  is what the per-response usage blocks record; the panel's accounting of output tokens is not documented.
+  Both are reported as-is. Treat the panel's $102.65 as the session cost figure; it is not recomputed here.
+- The $102.65 covers the whole session. No usage snapshot was taken at core_complete, so the Desktop
+  incremental cost in dollars is unavailable; its token share is in the phase table above.
