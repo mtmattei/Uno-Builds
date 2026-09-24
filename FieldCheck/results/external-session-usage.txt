@@ -45,6 +45,12 @@ Model share     Opus 99%, Haiku 1%
 Cache hit       99%
 Opus 5.5        input 860, output 8.1k, cache read 176.9M, cache write 1.4M
 
+Claude Code usage report (2026-09-24T03:24:49Z, pasted by the user; plan-limit lines omitted)
+- Opus 5.5: 862 in / 8.1k out / 177.6M cache read / 1.4M cache write
+- Cost: $102.65 | API 55m | Wall 75m
+- "Wall 75m" is Claude Code's active-session time. Benchmark wall-clock time from timing.jsonl is 5h13m
+  (run_start -> run_finish), which includes waiting on CI runners.
+
 Reconciliation with the transcript counts above
 - The panel covers the whole session, including the post-benchmark questions and helper agents
   (e.g. the Haiku 1%). The transcript table above splits by phase and covers main-session calls only.
