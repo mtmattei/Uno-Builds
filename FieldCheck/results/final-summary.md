@@ -155,10 +155,19 @@ They are recorded in the commit history.
 
 ## Token usage / cost
 
-Not available from inside the session. Claude Code does not expose session token or cost telemetry to the agent here,
-so no values are estimated. **Attach the external session usage export as `results/external-session-usage.txt`**
-(see METRICS_CAPTURE.md). No core-checkpoint usage snapshot could be taken, so the Desktop incremental tokens/cost
-must be derived from external telemetry if it has timestamps, or recorded as unavailable.
+Taken from the session transcript: Claude Code records each API response's `usage` block as the session runs.
+The figures are recorded, not estimated. Full table and method: `results/external-session-usage.txt`.
+Model: claude-opus-5-5.
+
+| Phase | API calls | Input | Output | Cache read | Cache write |
+|---|---|---|---|---|---|
+| Core (Android + Windows) | 327 | 692 | 291,571 | 127,681,486 | 595,003 |
+| Desktop head (incremental) | 35 | 72 | 16,750 | 21,479,101 | 30,506 |
+| Final verification (after core) | 33 | 76 | 20,574 | 21,583,765 | 45,079 |
+| **Benchmark total** | **395** | **840** | **328,895** | **170,744,352** | **670,588** |
+
+Cost in USD is not computed here. Take it from Claude Code's `/usage` (`/cost`) output for the session, pasted into
+`external-session-usage.txt`, or from billing (METRICS_CAPTURE.md).
 
 ## Known remaining defects
 
