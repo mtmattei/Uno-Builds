@@ -4,7 +4,7 @@ Drives the Release APK through the acceptance workflows with adb + uiautomator, 
 screenshots, UI dumps and a machine-readable checks.json. Elements are located through the
 accessibility tree Uno's Skia renderer exposes (text / content-desc), never by fixed coordinates.
 """
-import json, os, re, subprocess, sys, time
+import datetime, json, os, re, subprocess, sys, time
 import xml.etree.ElementTree as ET
 
 OUT = os.environ["OUT"]; PKG = os.environ["PKG"]
@@ -12,6 +12,7 @@ SCENARIO = sys.argv[1] if len(sys.argv) > 1 else "full"
 SHOTS = os.path.join(OUT, "screens"); DUMPS = os.path.join(OUT, "dumps")
 os.makedirs(SHOTS, exist_ok=True); os.makedirs(DUMPS, exist_ok=True)
 checks = []
+TODAY = "{d:%b} {d.day}, {d.year}".format(d=datetime.date.today())  # app formats dates as "Sep 8, 2026"
 MAIN = None
 
 
@@ -369,7 +370,7 @@ def run_full():
     wait_for("Asset detail")
     ns = nodes("06-asset-after-save")
     shot("06-asset-after-save")
-    check("D18.asset_reflects_newest", find("Attention condition", ns) and find("Sep 23, 2026", ns) or find("INS-24092", ns))
+    check("D18.asset_reflects_newest", find("Attention condition", ns) and find(TODAY, ns) and find("INS-24092", ns))
     check("B12.view_asset", find("Asset detail", ns) is not None)
     key(4)
     # --- History ---

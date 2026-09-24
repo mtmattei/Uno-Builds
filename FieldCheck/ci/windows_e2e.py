@@ -5,7 +5,7 @@ viewport, drives the workflows through UI Automation (pywinauto 'uia' backend) a
 screenshots plus checks.json. Screenshots use PrintWindow(PW_RENDERFULLCONTENT) so they are
 independent of desktop resolution/occlusion.
 """
-import ctypes, json, os, re, subprocess, sys, time
+import ctypes, datetime, json, os, re, subprocess, sys, time
 from ctypes import wintypes
 
 from PIL import Image
@@ -17,6 +17,7 @@ SHOTS = os.path.join(OUT, "screens"); os.makedirs(SHOTS, exist_ok=True)
 DATA_DIR = os.path.join(os.environ["LOCALAPPDATA"], "FieldCheck")
 PHOTO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "mock-data", "inspection-photo.png"))
 checks = []
+TODAY = "{d:%b} {d.day}, {d.year}".format(d=datetime.date.today())  # app formats dates as "Sep 8, 2026"
 user32 = ctypes.windll.user32
 gdi32 = ctypes.windll.gdi32
 user32.SetProcessDPIAware()
@@ -296,7 +297,7 @@ def run_full():
     check("B05.success", app.exists("Inspection saved", timeout=10) and app.exists("INS-24092"))
     app.shot("04-inspection-success")
     app.invoke("View asset")
-    check("D18.asset_reflects_newest", app.exists("Attention condition") and app.exists("INS-24092") and app.exists("Sep 23, 2026"))
+    check("D18.asset_reflects_newest", app.exists("Attention condition") and app.exists("INS-24092") and app.exists(TODAY))
     app.shot("after-save-master-detail")
     app.invoke("History")
     check("C09.history_new_first", app.exists("INS-24092"))
