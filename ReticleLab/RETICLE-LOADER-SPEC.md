@@ -2,7 +2,7 @@
 
 Component B from the **HUD Ring Components** canvas. It is a HUD-style loading ring built as a **keyed retemplate of the stock WinUI `ProgressRing`**, with three states: Scan, Lock and Idle. The deliverable is the control template plus a single-page sample app that demonstrates it.
 
-- **Status:** Draft. Resolve the unresolved questions before scaffolding.
+- **Status:** Built (2026-09-28). The open questions were answered with the defaults listed under Unresolved Questions. See the README for measurements.
 - **Date:** 2026-09-28
 - **Visual source of truth:** the canvas board "B — Reticle Loader" (HTML prototype). This spec's geometry is generated from the same math (Appendix A).
 - **Framework evidence:** `unoplatform/uno` main @ `bd31521` (2026-09-26): `src/Uno.UI/UI/Xaml/Controls/ProgressRing/ProgressRing.{cs,xaml}`, `ProgressRingAutomationPeer.cs`.
@@ -23,7 +23,7 @@ Show that a stock `ProgressRing` can become a layered, animated HUD instrument w
 | Item | Value | Note |
 |---|---|---|
 | .NET | `net10.0` | .NET 9 is out of scope |
-| Uno.Sdk | Latest stable at scaffold time. Known-good reference: `6.6.42` (BillCal, Measures, LightWidget) | Check NuGet first and record the version here |
+| Uno.Sdk | **`6.7.30`** (latest stable on NuGet at scaffold time, 2026-09-28) | Known-good reference was `6.6.42` |
 | Template | `dotnet new unoapp -preset recommended -presentation mvvm` | Skia renderer everywhere (the default since Uno.Sdk 6.0) |
 | Targets | `net10.0-desktop` (primary), `net10.0-browserwasm`, `net10.0-android` | iOS is an open question |
 | Lottie package | **Not referenced** | The custom template has no `AnimatedVisualPlayer`. `_player?` is null-safe in Uno's `ProgressRing.cs` |
@@ -308,6 +308,22 @@ The spacing uses an 8 px grid: page padding 48/16, section spacing 24, segment s
 
 If any spike goes past its time box, stop and write a Debug Checkpoint.
 
+### Spike outcomes (Uno.Sdk 6.7.30, `net10.0-desktop` on Linux X11/Xvfb)
+
+| # | Outcome |
+|---|---|
+| R1 | **Pass.** The keyed template builds and renders with no Lottie package and no `Uno0001` warnings. |
+| R2 | **Pass, with a different mechanism.** Uno's VSM ignores `GeneratedDuration`, but `TurnOverAnimationsTo` pauses outgoing animations at their live value. Each state storyboard animates every property with From-less keyframes, and Scan→Lock eases from the live angle (confirmed with a frame burst). |
+| R3 | **Pass.** Release CPU is about 2.2 cores in Scan (software GL under Xvfb) and 0.0–0.2% in Lock and Idle. |
+| R4 | **Pass.** The `StrokeThickness` keyframe animation (`EnableDependentAnimation`) renders on Skia. |
+| R5 | **Pass by construction.** The generated setter runs `OnModeChanged` (which sets `IsIndeterminate`) before `PropertyChanged(IsActive)`. |
+| R6 | Not run (no Android here). |
+| R7 | Not run (no App MCP here). Driven with X11 XTEST input and Playwright on WASM instead. |
+
+Also found during the build:
+- The 6.7 `recommended` preset defaults to `SimpleTheme` and generates no Shell. The app was scaffolded with `-theme material`, and the generated `Main` route is kept.
+- `XYFocusKeyboardNavigation` has no effect on the segment row, so arrow-key navigation is open (see the README).
+
 ---
 
 ## Implementation Plan
@@ -330,6 +346,9 @@ Each step ends with a build and a commit.
 ---
 
 ## Unresolved Questions
+
+> Built with these defaults. Each is easy to reverse:
+> standalone `ReticleLab` · keep the Idle split (Hero 35% / Compact hidden) · determinate = Lock · decoration stays in the Hero template · no in-app Motion toggle · no iOS · compact 64/40/24 · fallback not needed (R2/R3 passed).
 
 - **Home:** standalone `ReticleLab`, or folded into the hardware-panel retemplating demo as one more stock control?
 - **Idle visibility:** Hero stays visible at 35% (prototype) while Compact hides (WinUI convention). Keep that split, or hide both?
