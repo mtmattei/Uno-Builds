@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "ReticleLab",
+  "display": "standalone",
+  "name": "ReticleLab",
+  "short_name": "ReticleLab",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

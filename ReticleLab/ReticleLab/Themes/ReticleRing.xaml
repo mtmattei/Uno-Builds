@@ -1,0 +1,324 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Reticle Loader: a keyed retemplate of the stock ProgressRing. No subclass, no code-behind.
+
+    Uno drives three CommonStates, mapped 1:1:
+      Active            (IsActive, IsIndeterminate)  → Scan
+      DeterminateActive (IsActive, !IsIndeterminate) → Lock
+      Inactive          (!IsActive)                  → Idle
+
+    Every state storyboard animates every animated property, with keyframes that have no From.
+    Uno's VSM pauses outgoing animations on properties the incoming storyboard also targets,
+    so each state eases from the live value instead of snapping back to the base value first.
+    Keep TargetName/TargetProperty strings identical across states: that is how the handoff matches.
+
+    Path Data comes from tools/reticle-geometry.cs (spec Appendix A). Regenerate, don't hand-edit.
+    Easing: KeySpline 0.2,0.8 0.2,1 is the Lock spline; 0.33,1 0.68,1 is cubic ease-out.
+  -->
+
+  <!-- Hero: 600-unit design canvas, 240–480 px. Stroke units at 320 px nominal: hairline 1.3, standard 1.75, heavy 2.6, lock 4.4. -->
+  <Style x:Key="ReticleRingStyle" TargetType="ProgressRing">
+    <Setter Property="Foreground" Value="{StaticResource HudInkBrush}" />
+    <Setter Property="Background" Value="{StaticResource HudDimBrush}" />
+    <Setter Property="Width" Value="320" />
+    <Setter Property="Height" Value="320" />
+    <Setter Property="IsHitTestVisible" Value="False" />
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ProgressRing">
+          <Grid x:Name="LayoutRoot" Background="Transparent">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+
+                <!-- Scan: four layers counter-rotating at unrelated speeds; reticle, ring and lock dot return home. -->
+                <VisualState x:Name="Active">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.3" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimation Storyboard.TargetName="OuterArcsRotation" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:28" RepeatBehavior="Forever" />
+                    <DoubleAnimation Storyboard.TargetName="TickScaleRotation" Storyboard.TargetProperty="Angle" From="0" To="-360" Duration="0:0:16" RepeatBehavior="Forever" />
+                    <DoubleAnimation Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:2.8" RepeatBehavior="Forever" />
+                    <DoubleAnimation Storyboard.TargetName="BandRotation" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:7" RepeatBehavior="Forever" />
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="Rotation">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleX">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleY">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="InnerRing" Storyboard.TargetProperty="StrokeThickness" EnableDependentAnimation="True">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="1.75" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+                <!-- Lock: layers align to home, reticle closes to a plus, ring thickens and pulses once, lock dot fades in. -->
+                <VisualState x:Name="DeterminateActive">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.3" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OuterArcsRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TickScaleRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BandRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="Rotation">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="45" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleX">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0.5" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleY">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0.5" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="InnerRing" Storyboard.TargetProperty="StrokeThickness" EnableDependentAnimation="True">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.3" KeySpline="0.2,0.8 0.2,1" Value="4.4" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Pulse" Storyboard.TargetProperty="Opacity">
+                      <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.9" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.9" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PulseScale" Storyboard.TargetProperty="ScaleX">
+                      <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.9" KeySpline="0.33,1 0.68,1" Value="1.28" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PulseScale" Storyboard.TargetProperty="ScaleY">
+                      <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.9" KeySpline="0.33,1 0.68,1" Value="1.28" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <DiscreteDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+                <!-- Idle: dims to 35% and settles home. -->
+                <VisualState x:Name="Inactive">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0.35" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OuterArcsRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TickScaleRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BandRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="Rotation">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleX">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReticleTransform" Storyboard.TargetProperty="ScaleY">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="InnerRing" Storyboard.TargetProperty="StrokeThickness" EnableDependentAnimation="True">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="1.75" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Viewbox Stretch="Uniform">
+              <Grid Width="600" Height="600">
+                <!-- L1 -->
+                <Path x:Name="OuterArcs" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M300,60 A240,240 0 1 1 237.88,531.82 M434.79,107.5 A235,235 0 0 1 534.86,291.8 M540,300 L548,300">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="OuterArcsRotation" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L2 -->
+                <Path x:Name="TickScale" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M224.07,508.61 L219.97,519.89 M213.26,504.35 L210.52,510.8 M202.68,499.53 L199.61,505.82 M192.37,494.17 L188.98,500.29 M182.36,488.27 L178.65,494.2 M172.67,481.85 L165.78,491.68 M163.32,474.94 L159.01,480.45 M154.35,467.55 L149.76,472.83 M145.79,459.69 L140.92,464.73 M137.64,451.4 L132.52,456.18 M129.94,442.7 L120.75,450.41 M122.7,433.6 L117.11,437.82 M115.95,424.14 L110.15,428.06 M109.71,414.34 L103.71,417.94 M103.99,404.22 L97.81,407.51 M98.8,393.82 L87.92,398.89 M94.17,383.16 L87.67,385.78 M90.09,372.28 L83.48,374.56 M86.6,361.19 L79.87,363.12 M83.69,349.94 L76.87,351.51 M81.37,338.55 L69.55,340.63 M79.65,327.05 L72.71,327.91 M78.54,315.49 L71.56,315.97 M78.03,303.87 L71.03,304 M78.14,292.25 L71.14,292.01 M78.84,280.65 L66.89,279.61 M80.16,269.1 L73.23,268.13 M82.08,257.64 L75.21,256.3 M84.59,246.29 L77.8,244.6 M87.7,235.09 L81.01,233.05 M91.39,224.07 L80.11,219.97 M95.65,213.26 L89.2,210.52 M100.47,202.68 L94.18,199.61 M105.83,192.37 L99.71,188.98 M111.73,182.36 L105.8,178.65 M118.15,172.67 L108.32,165.78 M125.06,163.32 L119.55,159.01 M132.45,154.35 L127.17,149.76 M140.31,145.79 L135.27,140.92 M148.6,137.64 L143.82,132.52 M157.3,129.94 L149.59,120.75 M166.4,122.7 L162.18,117.11 M175.86,115.95 L171.94,110.15 M185.66,109.71 L182.06,103.71 M195.78,103.99 L192.49,97.81 M206.18,98.8 L201.11,87.92 M216.84,94.17 L214.22,87.67 M227.72,90.09 L225.44,83.48 M238.81,86.6 L236.88,79.87 M250.06,83.69 L248.49,76.87 M261.45,81.37 L259.37,69.55 M272.95,79.65 L272.09,72.71 M284.51,78.54 L284.03,71.56">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="TickScaleRotation" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L3: the knob is filled with ground so it punches through the half ring. -->
+                <Path x:Name="MainHalf" Stroke="{TemplateBinding Foreground}" StrokeThickness="2.6"
+                      Data="M300,515 A215,215 0 0 1 300,85" />
+                <Path x:Name="Knob" Fill="{StaticResource HudGroundBrush}" Stroke="{TemplateBinding Foreground}" StrokeThickness="2.6"
+                      Data="M296.5,85 A3.5,3.5 0 1 1 303.5,85 A3.5,3.5 0 1 1 296.5,85 Z" />
+                <!-- L4 -->
+                <Path x:Name="InnerRing" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.75"
+                      Data="M135,300 A165,165 0 1 1 465,300 A165,165 0 1 1 135,300 Z" />
+                <!-- L5 -->
+                <Path x:Name="Pulse" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.75" Opacity="0"
+                      Data="M135,300 A165,165 0 1 1 465,300 A165,165 0 1 1 135,300 Z">
+                  <Path.RenderTransform>
+                    <ScaleTransform x:Name="PulseScale" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L6 -->
+                <Path x:Name="GapArc" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.75"
+                      Data="M378,435.1 A156,156 0 1 1 435.1,222">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="GapArcRotation" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L7 -->
+                <Path x:Name="Band" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M467.36,314.64 L480.31,315.78 M466.75,320.47 L474.69,321.45 M465.93,326.28 L473.83,327.53 M464.91,332.06 L472.77,333.58 M463.69,337.79 L471.49,339.59 M462.28,343.48 L470,345.55 M460.66,349.12 L473.09,352.92 M458.85,354.7 L466.41,357.3 M456.84,360.21 L464.31,363.07 M454.64,365.64 L462.01,368.77 M452.26,371 L459.51,374.38 M449.69,376.27 L456.82,379.9 M446.94,381.45 L458.31,387.75 M444,386.53 L450.86,390.65 M440.9,391.5 L447.61,395.86 M437.62,396.36 L444.17,400.95 M434.17,401.1 L440.56,405.92 M430.56,405.73 L436.78,410.76 M426.79,410.22 L436.6,418.75 M422.87,414.58 L428.72,420.03 M418.79,418.79 L424.45,424.45 M414.58,422.87 L420.03,428.72 M410.22,426.79 L415.47,432.83 M405.73,430.56 L410.76,436.78 M401.1,434.17 L408.93,444.55 M396.36,437.62 L400.95,444.17 M391.5,440.9 L395.86,447.61 M386.53,444 L390.65,450.86 M381.45,446.94 L385.33,453.93 M376.27,449.69 L379.9,456.82 M371,452.26 L376.49,464.04 M365.64,454.64 L368.77,462.01 M360.21,456.84 L363.07,464.31 M354.7,458.85 L357.3,466.41 M349.12,460.66 L351.46,468.31 M343.48,462.28 L345.55,470 M337.79,463.69 L340.72,476.36 M332.06,464.91 L333.58,472.77 M326.28,465.93 L327.53,473.83 M320.47,466.75 L321.45,474.69 M314.64,467.36 L315.34,475.33 M308.79,467.77 L309.21,475.76 M302.93,467.97 L303.16,480.97 M297.07,467.97 L296.93,475.97 M291.21,467.77 L290.79,475.76 M285.36,467.36 L284.66,475.33 M279.53,466.75 L278.55,474.69 M273.72,465.93 L272.47,473.83">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="BandRotation" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L8 -->
+                <Path x:Name="Radials" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M475.8,347.11 L498.98,353.32 M454.34,396.45 L474.7,409.16 M416.99,439.42 L432.41,457.81 M368.18,468.75 L377.17,491 M175.55,424.45 L165.65,434.35 M175.55,175.55 L165.65,165.65 M300,130 L300,115 M128,300 L110,300 M68,300 L38,300 M480,300 L514,300" />
+                <!-- L9 -->
+                <Path x:Name="Reticle" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.75"
+                      Data="M315.56,284.44 L324.04,275.96 M315.56,315.56 L324.04,324.04 M284.44,315.56 L275.96,324.04 M284.44,284.44 L275.96,275.96">
+                  <Path.RenderTransform>
+                    <CompositeTransform x:Name="ReticleTransform" CenterX="300" CenterY="300" />
+                  </Path.RenderTransform>
+                </Path>
+                <!-- L10 -->
+                <Path x:Name="LockDot" Fill="{TemplateBinding Foreground}" Opacity="0"
+                      Data="M297,300 A3,3 0 1 1 303,300 A3,3 0 1 1 297,300 Z" />
+                <!-- L11 -->
+                <Path x:Name="Callouts" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M405,150 L450,78 L532,78 M478,470 L543,528 M175,478 L175,500 A240,240 0 0 0 235,535 L230,543 L55,543" />
+                <Path x:Name="Marker" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.75" StrokeLineJoin="Round"
+                      Data="M42,62 L72,62 L57,87 Z" />
+                <Path x:Name="MarkerDot" Fill="{TemplateBinding Background}"
+                      Data="M40.5,88 A2.5,2.5 0 1 1 45.5,88 A2.5,2.5 0 1 1 40.5,88 Z" />
+                <!-- L12: on = Fg fill, dim = Bg fill, off = Fg hairline ring. -->
+                <Path x:Name="DotsOn" Fill="{TemplateBinding Foreground}"
+                      Data="M545.5,68 A3.5,3.5 0 1 1 552.5,68 A3.5,3.5 0 1 1 545.5,68 Z M546.5,513 A3.5,3.5 0 1 1 553.5,513 A3.5,3.5 0 1 1 546.5,513 Z M65.5,533 A3.5,3.5 0 1 1 72.5,533 A3.5,3.5 0 1 1 65.5,533 Z M86.5,533 A3.5,3.5 0 1 1 93.5,533 A3.5,3.5 0 1 1 86.5,533 Z" />
+                <Path x:Name="DotsDim" Fill="{TemplateBinding Background}"
+                      Data="M535.5,68 A3.5,3.5 0 1 1 542.5,68 A3.5,3.5 0 1 1 535.5,68 Z M546.5,522 A3.5,3.5 0 1 1 553.5,522 A3.5,3.5 0 1 1 546.5,522 Z M54.5,533 A3.5,3.5 0 1 1 61.5,533 A3.5,3.5 0 1 1 54.5,533 Z M75.5,533 A3.5,3.5 0 1 1 82.5,533 A3.5,3.5 0 1 1 75.5,533 Z" />
+                <Path x:Name="DotsOff" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.3"
+                      Data="M536,78 A3,3 0 1 1 542,78 A3,3 0 1 1 536,78 Z M547,540 A3,3 0 1 1 553,540 A3,3 0 1 1 547,540 Z" />
+              </Grid>
+            </Viewbox>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Compact: 40-unit design canvas, 24–64 px. Hides on Idle (WinUI convention). -->
+  <Style x:Key="ReticleRingCompactStyle" TargetType="ProgressRing">
+    <Setter Property="Foreground" Value="{StaticResource HudInkBrush}" />
+    <Setter Property="Background" Value="{StaticResource HudDimBrush}" />
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="IsHitTestVisible" Value="False" />
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ProgressRing">
+          <Grid x:Name="LayoutRoot" Background="Transparent">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+
+                <VisualState x:Name="Active">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.3" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimation Storyboard.TargetName="SweepArcRotation" Storyboard.TargetProperty="Angle" From="0" To="-360" Duration="0:0:7" RepeatBehavior="Forever" />
+                    <DoubleAnimation Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:2.8" RepeatBehavior="Forever" />
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="DeterminateActive">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.3" KeySpline="0.33,1 0.68,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SweepArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <DiscreteDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.55" KeySpline="0.2,0.8 0.2,1" Value="1" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="Inactive">
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SweepArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GapArcRotation" Storyboard.TargetProperty="Angle">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LockDot" Storyboard.TargetProperty="Opacity">
+                      <SplineDoubleKeyFrame KeyTime="0:0:0.5" KeySpline="0.33,1 0.68,1" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Viewbox Stretch="Uniform">
+              <Grid Width="40" Height="40">
+                <Path x:Name="Track" Stroke="{TemplateBinding Background}" StrokeThickness="1"
+                      Data="M2,20 A18,18 0 1 1 38,20 A18,18 0 1 1 2,20 Z" />
+                <Path x:Name="SweepArc" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.25"
+                      Data="M20,2 A18,18 0 0 1 36.91,13.84">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="SweepArcRotation" CenterX="20" CenterY="20" />
+                  </Path.RenderTransform>
+                </Path>
+                <Path x:Name="GapArc" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.25"
+                      Data="M26,30.39 A12,12 0 1 1 30.39,14">
+                  <Path.RenderTransform>
+                    <RotateTransform x:Name="GapArcRotation" CenterX="20" CenterY="20" />
+                  </Path.RenderTransform>
+                </Path>
+                <Path x:Name="LockDot" Fill="{TemplateBinding Foreground}" Opacity="0"
+                      Data="M17.5,20 A2.5,2.5 0 1 1 22.5,20 A2.5,2.5 0 1 1 17.5,20 Z" />
+              </Grid>
+            </Viewbox>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

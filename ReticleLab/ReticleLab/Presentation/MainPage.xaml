@@ -1,0 +1,158 @@
+<Page x:Class="ReticleLab.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ReticleLab.Presentation"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      RequestedTheme="Dark"
+      Background="{StaticResource HudGroundBrush}">
+
+  <Grid Background="{StaticResource HudGroundBrush}" utu:SafeArea.Insets="VisibleBounds">
+    <VisualStateManager.VisualStateGroups>
+      <!-- Below 600 px: tight padding, 240 px hero. -->
+      <VisualStateGroup x:Name="LayoutStates">
+        <VisualState x:Name="Narrow" />
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="600" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Body.Padding" Value="48" />
+            <Setter Target="Hero.Width" Value="320" />
+            <Setter Target="Hero.Height" Value="320" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+
+      <!-- Status dots: Scan = on/dim/off (default), Lock = on/on/on, Idle = all hollow. -->
+      <VisualStateGroup x:Name="ModeStates">
+        <VisualState x:Name="ScanState">
+          <VisualState.StateTriggers>
+            <StateTrigger IsActive="{x:Bind ViewModel.IsScan, Mode=OneWay, FallbackValue=False}" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="LockState">
+          <VisualState.StateTriggers>
+            <StateTrigger IsActive="{x:Bind ViewModel.IsLock, Mode=OneWay, FallbackValue=False}" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Dot2.Fill" Value="{StaticResource HudInkBrush}" />
+            <Setter Target="Dot3.Fill" Value="{StaticResource HudInkBrush}" />
+            <Setter Target="Dot3.StrokeThickness" Value="0" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="IdleState">
+          <VisualState.StateTriggers>
+            <StateTrigger IsActive="{x:Bind ViewModel.IsIdle, Mode=OneWay, FallbackValue=False}" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Dot1.Fill" Value="{x:Null}" />
+            <Setter Target="Dot1.StrokeThickness" Value="1" />
+            <Setter Target="Dot2.Fill" Value="{x:Null}" />
+            <Setter Target="Dot2.Stroke" Value="{StaticResource HudInkBrush}" />
+            <Setter Target="Dot2.StrokeThickness" Value="1" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel x:Name="Body"
+                  MaxWidth="720"
+                  Padding="16"
+                  Spacing="24"
+                  VerticalAlignment="Center">
+
+        <Grid>
+          <TextBlock Text="B — RETICLE LOADER" Style="{StaticResource HudTitleStyle}" />
+          <TextBlock Text="PROGRESSRING TEMPLATE"
+                     Style="{StaticResource HudLabelStyle}"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- Each pill is a tab stop; Space selects. Arrow-key group navigation is open (see README). -->
+        <StackPanel Orientation="Horizontal"
+                    Spacing="8"
+                    HorizontalAlignment="Center">
+          <RadioButton Content="SCAN"
+                       GroupName="Mode"
+                       Style="{StaticResource HudSegmentStyle}"
+                       IsChecked="{x:Bind ViewModel.IsScan, Mode=OneWay, FallbackValue=False}"
+                       Command="{x:Bind ViewModel.SetModeCommand}"
+                       CommandParameter="{x:Bind local:ReticleMode.Scan}"
+                       AutomationProperties.AutomationId="ScanSegment" />
+          <RadioButton Content="LOCK"
+                       GroupName="Mode"
+                       Style="{StaticResource HudSegmentStyle}"
+                       IsChecked="{x:Bind ViewModel.IsLock, Mode=OneWay, FallbackValue=False}"
+                       Command="{x:Bind ViewModel.SetModeCommand}"
+                       CommandParameter="{x:Bind local:ReticleMode.Lock}"
+                       AutomationProperties.AutomationId="LockSegment" />
+          <RadioButton Content="IDLE"
+                       GroupName="Mode"
+                       Style="{StaticResource HudSegmentStyle}"
+                       IsChecked="{x:Bind ViewModel.IsIdle, Mode=OneWay, FallbackValue=False}"
+                       Command="{x:Bind ViewModel.SetModeCommand}"
+                       CommandParameter="{x:Bind local:ReticleMode.Idle}"
+                       AutomationProperties.AutomationId="IdleSegment" />
+        </StackPanel>
+
+        <ProgressRing x:Name="Hero"
+                      Style="{StaticResource ReticleRingStyle}"
+                      Width="240"
+                      Height="240"
+                      HorizontalAlignment="Center"
+                      Value="100"
+                      IsIndeterminate="{x:Bind ViewModel.IsIndeterminate, Mode=OneWay, FallbackValue=True}"
+                      IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay, FallbackValue=True}"
+                      AutomationProperties.Name="Reticle loader"
+                      AutomationProperties.AutomationId="HeroRing" />
+
+        <StackPanel Orientation="Horizontal" Spacing="14" HorizontalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+            <Ellipse x:Name="Dot1" Width="8" Height="8" Fill="{StaticResource HudInkBrush}" Stroke="{StaticResource HudInkBrush}" StrokeThickness="0" />
+            <Ellipse x:Name="Dot2" Width="8" Height="8" Fill="{StaticResource HudDimBrush}" StrokeThickness="0" />
+            <Ellipse x:Name="Dot3" Width="8" Height="8" Stroke="{StaticResource HudInkBrush}" StrokeThickness="1" />
+          </StackPanel>
+          <TextBlock Text="{x:Bind ViewModel.StatusText, Mode=OneWay, FallbackValue=''}"
+                     Style="{StaticResource HudStatusStyle}"
+                     VerticalAlignment="Center"
+                     AutomationProperties.LiveSetting="Polite"
+                     AutomationProperties.AutomationId="StatusText" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="56" HorizontalAlignment="Center">
+          <StackPanel Spacing="8">
+            <Grid Height="64">
+              <ProgressRing Style="{StaticResource ReticleRingCompactStyle}" Width="64" Height="64" Value="100"
+                            IsIndeterminate="{x:Bind ViewModel.IsIndeterminate, Mode=OneWay, FallbackValue=True}"
+                            IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay, FallbackValue=True}"
+                            AutomationProperties.Name="Reticle loader, 64 pixels" />
+            </Grid>
+            <TextBlock Text="64 PX" Style="{StaticResource HudLabelStyle}" HorizontalAlignment="Center" />
+          </StackPanel>
+          <StackPanel Spacing="8">
+            <Grid Height="64">
+              <ProgressRing Style="{StaticResource ReticleRingCompactStyle}" Width="40" Height="40" Value="100"
+                            IsIndeterminate="{x:Bind ViewModel.IsIndeterminate, Mode=OneWay, FallbackValue=True}"
+                            IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay, FallbackValue=True}"
+                            AutomationProperties.Name="Reticle loader, 40 pixels" />
+            </Grid>
+            <TextBlock Text="40 PX" Style="{StaticResource HudLabelStyle}" HorizontalAlignment="Center" />
+          </StackPanel>
+          <StackPanel Spacing="8">
+            <Grid Height="64">
+              <ProgressRing Style="{StaticResource ReticleRingCompactStyle}" Width="24" Height="24" Value="100"
+                            IsIndeterminate="{x:Bind ViewModel.IsIndeterminate, Mode=OneWay, FallbackValue=True}"
+                            IsActive="{x:Bind ViewModel.IsActive, Mode=OneWay, FallbackValue=True}"
+                            AutomationProperties.Name="Reticle loader, 24 pixels" />
+            </Grid>
+            <TextBlock Text="24 PX" Style="{StaticResource HudLabelStyle}" HorizontalAlignment="Center" />
+          </StackPanel>
+        </StackPanel>
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>
