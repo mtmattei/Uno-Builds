@@ -34,8 +34,23 @@ Print("Hero.Reticle", string.Join(" ",
 Print("Hero.Callouts", "M405,150 L450,78 L532,78 M478,470 L543,528 M175,478 L175,500 A240,240 0 0 0 235,535 L230,543 L55,543");
 Print("Hero.Marker", "M42,62 L72,62 L57,87 Z");
 
+// Circles as two circular arcs, so every layer is absolute-coordinate Path Data.
+Print("Hero.Knob", Polar.Circle(300, 85, 3.5));
+Print("Hero.InnerRing", Polar.Circle(300, 300, 165));
+Print("Hero.LockDot", Polar.Circle(300, 300, 3));
+Print("Hero.MarkerDot", Polar.Circle(43, 88, 2.5));
+// Hero.Dots grouped by style: on = Fill Fg, dim = Fill Bg, off = Stroke Fg 1.3.
+Print("Hero.DotsOn", string.Join(" ",
+    Polar.Circle(549, 68, 3.5), Polar.Circle(550, 513, 3.5), Polar.Circle(69, 533, 3.5), Polar.Circle(90, 533, 3.5)));
+Print("Hero.DotsDim", string.Join(" ",
+    Polar.Circle(539, 68, 3.5), Polar.Circle(550, 522, 3.5), Polar.Circle(58, 533, 3.5), Polar.Circle(79, 533, 3.5)));
+Print("Hero.DotsOff", string.Join(" ",
+    Polar.Circle(539, 78, 3), Polar.Circle(550, 540, 3)));
+
 Print("CompactArc", compact.Arc(18, 0, 70));
 Print("CompactGap", compact.Arc(12, 150, 420));
+Print("CompactTrack", Polar.Circle(20, 20, 18));
+Print("CompactLockDot", Polar.Circle(20, 20, 2.5));
 
 static void Print(string name, string data) => Console.WriteLine($"{name}\n{data}\n");
 
@@ -53,6 +68,9 @@ readonly record struct Polar(double Cx, double Cy)
         var large = to - from > 180 ? 1 : 0;
         return $"M{P(r, from)} A{N(r)},{N(r)} 0 {large} 1 {P(r, to)}";
     }
+
+    public static string Circle(double cx, double cy, double r) =>
+        $"M{N(cx - r)},{N(cy)} A{N(r)},{N(r)} 0 1 1 {N(cx + r)},{N(cy)} A{N(r)},{N(r)} 0 1 1 {N(cx - r)},{N(cy)} Z";
 
     public string Tick(double r0, double r1, double deg) => $"M{P(r0, deg)} L{P(r1, deg)}";
 

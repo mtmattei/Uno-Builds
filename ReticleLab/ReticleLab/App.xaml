@@ -20,9 +20,9 @@
             </ResourceDictionary>
           </utum:MaterialToolkitTheme.FontOverrideDictionary> -->
         </utum:MaterialToolkitTheme>
+        <ResourceDictionary Source="ms-appx:///Themes/Hud.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/ReticleRing.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
-      <!-- Add resources here -->
 
     </ResourceDictionary>
   </Application.Resources>
