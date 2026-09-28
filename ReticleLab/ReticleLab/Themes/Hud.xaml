@@ -59,6 +59,7 @@
     <Setter Property="Height" Value="44" />
     <Setter Property="MinWidth" Value="0" />
     <Setter Property="Padding" Value="20,0" />
+    <Setter Property="CornerRadius" Value="22" />
     <Setter Property="FontFamily" Value="{StaticResource HudMonoMediumFontFamily}" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="FocusVisualPrimaryBrush" Value="{StaticResource HudInkBrush}" />
@@ -99,7 +100,7 @@
             </VisualStateManager.VisualStateGroups>
 
             <Border x:Name="Outline"
-                    CornerRadius="22"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     BorderThickness="1"
                     BorderBrush="{StaticResource HudTrackBrush}" />
             <ContentPresenter x:Name="Label"
@@ -109,7 +110,7 @@
                               Content="{TemplateBinding Content}"
                               Foreground="{StaticResource HudMutedBrush}" />
             <Border x:Name="CheckedPlate"
-                    CornerRadius="22"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     Background="{StaticResource HudInkBrush}"
                     Visibility="Collapsed">
               <ContentPresenter Margin="{TemplateBinding Padding}"

@@ -71,12 +71,10 @@
                      VerticalAlignment="Center" />
         </Grid>
 
-        <!-- One tab stop for the group; arrows move between pills, Space selects. -->
+        <!-- Each pill is a tab stop; Space selects. Arrow-key group navigation is open (see README). -->
         <StackPanel Orientation="Horizontal"
                     Spacing="8"
-                    HorizontalAlignment="Center"
-                    TabFocusNavigation="Once"
-                    XYFocusKeyboardNavigation="Enabled">
+                    HorizontalAlignment="Center">
           <RadioButton Content="SCAN"
                        GroupName="Mode"
                        Style="{StaticResource HudSegmentStyle}"
