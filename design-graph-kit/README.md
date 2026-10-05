@@ -34,6 +34,12 @@ The goal is not to prove that an LLM can emit JSON. The goal is to test whether 
 - `scripts/score_graph.py` — basic deterministic comparison against a gold graph.
 - `requirements.txt` — Python dependency for schema validation.
 
+Related: `AppOrbit/graph/app-graph.schema.json` extends this ontology with
+behaviour (view models, properties, commands, routes, features, and
+`binds-to` / `invokes` / `navigates-to` / `depends-on` edges) and keeps the
+same evidence model. `AppOrbit/` consumes it in a spatial inspector
+prototype; its hand-authored `orderly.graph.json` is a worked example.
+
 ## What a graph looks like
 
 An abridged excerpt from a real one: `evals/05-orbital-settings/gold.graph.json`
