@@ -36,6 +36,11 @@ public sealed partial class BrewingCup : UserControl
         return GetCoffeeHeight(progress) - 6;
     }
 
+    public static Thickness GetCremaMargin(double progress)
+    {
+        return new Thickness(0, 0, 0, GetCremaOffset(progress));
+    }
+
     public static double GetCremaOpacity(double progress)
     {
         return progress > 10 ? 0.9 : 0;

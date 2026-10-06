@@ -1,0 +1,57 @@
+<svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <filter id="ms" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Modal card -->
+  <rect width="480" height="320" rx="16" fill="#FFFFFF" filter="url(#ms)"/>
+
+  <!-- Header -->
+  <text x="24" y="40" font-size="18" font-weight="600" fill="#1F2937">Add Line Item</text>
+  <!-- Close button -->
+  <circle cx="448" cy="32" r="16" fill="#F3F4F6"/>
+  <text x="448" y="37" text-anchor="middle" font-size="16" fill="#6B7280">✕</text>
+  <line x1="0" y1="56" x2="480" y2="56" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Body -->
+  <!-- Description field -->
+  <text x="24" y="82" font-size="12" font-weight="500" fill="#6B7280">Description</text>
+  <rect x="24" y="90" width="432" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="38" y="115" font-size="14" fill="#6B7280">e.g. Sink Installation</text>
+
+  <!-- Unit Price + Quantity side by side -->
+  <text x="24" y="152" font-size="12" font-weight="500" fill="#6B7280">Unit Price</text>
+  <rect x="24" y="160" width="200" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="38" y="185" font-size="14" fill="#6B7280">$</text>
+  <text x="54" y="185" font-size="14" fill="#1F2937">350.00</text>
+
+  <text x="244" y="152" font-size="12" font-weight="500" fill="#6B7280">Quantity</text>
+  <!-- Stepper inline -->
+  <rect x="244" y="160" width="124" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect x="244" y="160" width="38" height="40" rx="8 0 0 8" fill="#F3F4F6"/>
+  <text x="263" y="185" text-anchor="middle" font-size="18" font-weight="600" fill="#2B4C7E">−</text>
+  <line x1="282" y1="160" x2="282" y2="200" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="306" y="185" text-anchor="middle" font-size="15" font-weight="600" fill="#1F2937">1</text>
+  <line x1="330" y1="160" x2="330" y2="200" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect x="330" y="160" width="38" height="40" rx="0 8 8 0" fill="#F3F4F6"/>
+  <text x="349" y="185" text-anchor="middle" font-size="18" font-weight="600" fill="#2B4C7E">+</text>
+
+  <!-- Line total -->
+  <line x1="24" y1="218" x2="456" y2="218" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="24" y="244" font-size="15" font-weight="600" fill="#1F2937">Line Total</text>
+  <text x="456" y="244" font-size="20" font-weight="700" fill="#2B4C7E" text-anchor="end" font-family="'JetBrains Mono', monospace">$350.00</text>
+
+  <!-- Footer -->
+  <line x1="0" y1="264" x2="480" y2="264" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- Cancel -->
+  <rect x="280" y="278" width="80" height="36" rx="8" fill="none" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="320" y="301" text-anchor="middle" font-size="14" font-weight="600" fill="#6B7280">Cancel</text>
+  <!-- Add to Quote -->
+  <rect x="370" y="278" width="86" height="36" rx="8" fill="#2B4C7E"/>
+  <text x="413" y="301" text-anchor="middle" font-size="14" font-weight="600" fill="white">Add</text>
+</svg>

@@ -15,7 +15,6 @@
     </Page.Background>
 
     <Grid x:Name="RootGrid">
-        <!-- Background Year Indicator (atmospheric, behind content) -->
         <Viewbox HorizontalAlignment="Center"
                  VerticalAlignment="Center"
                  MaxWidth="480"
@@ -39,7 +38,6 @@
             </TextBlock>
         </Viewbox>
 
-        <!-- 3D Canvas Area -->
         <Canvas x:Name="Canvas3D"
                 PointerPressed="OnPointerPressed"
                 PointerMoved="OnPointerMoved"
@@ -48,7 +46,6 @@
                 ManipulationMode="All"
                 ManipulationDelta="OnManipulationDelta" />
 
-        <!-- Vignette Overlay -->
         <Border x:Name="VignetteOverlay"
                 IsHitTestVisible="False">
             <Border.Background>
@@ -62,19 +59,15 @@
             </Border.Background>
         </Border>
 
-        <!-- Center Reticle -->
         <Grid HorizontalAlignment="Center"
               VerticalAlignment="Center"
               IsHitTestVisible="False"
               Opacity="0.5">
-            <!-- Crosshair lines -->
             <Border Width="20" Height="2" Background="{StaticResource WhiteBrush38}" CornerRadius="1" />
             <Border Width="2" Height="20" Background="{StaticResource WhiteBrush38}" CornerRadius="1" />
-            <!-- Center dot -->
             <Ellipse Width="4" Height="4" Fill="{ThemeResource PrimaryBrush}" />
         </Grid>
 
-        <!-- Top-Center: Upload Photos Button -->
         <Button Margin="0,20,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -97,7 +90,6 @@
             </StackPanel>
         </Button>
 
-        <!-- Top-Right: Coordinates Panel -->
         <Border Margin="20"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -184,7 +176,6 @@
             </Grid>
         </Border>
 
-        <!-- Bottom-Left: Navigation Help -->
         <Border Margin="20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
@@ -249,7 +240,6 @@
             </StackPanel>
         </Border>
 
-        <!-- Bottom-Right: Stats -->
         <Border Margin="20"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
@@ -309,13 +299,11 @@
             </StackPanel>
         </Border>
 
-        <!-- Bottom-Center: Timeline Scrubber and Speed Bar -->
         <StackPanel Margin="0,0,0,24"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Spacing="12">
 
-            <!-- Timeline Scrubber (visible only in library mode) -->
             <controls:TimelineScrubberControl x:Name="TimelineScrubber"
                                                Visibility="{x:Bind _viewModel.IsLibraryMode, Mode=OneWay}"
                                                CurrentZ="{x:Bind _viewModel.CurrentTimelineZ, Mode=TwoWay}"
@@ -323,12 +311,9 @@
                                                EarliestDate="{x:Bind _viewModel.EarliestDate, Mode=OneWay}"
                                                LatestDate="{x:Bind _viewModel.LatestDate, Mode=OneWay}" />
 
-            <!-- Speed Bar -->
             <Grid Width="240" Height="6" IsHitTestVisible="False">
-                <!-- Background track -->
                 <Border CornerRadius="3"
                         Background="{StaticResource WhiteBrush12}" />
-                <!-- Active bar with glow -->
                 <Border CornerRadius="3"
                         HorizontalAlignment="Left"
                         Width="{x:Bind _viewModel.SpeedBarWidth, Mode=OneWay}"
@@ -355,7 +340,6 @@
             </StackPanel>
         </StackPanel>
 
-        <!-- Motion Blur Glow (scales with Z velocity) -->
         <Border IsHitTestVisible="False"
                 Opacity="{x:Bind _viewModel.MotionGlowOpacity, Mode=OneWay}">
             <Border.Background>

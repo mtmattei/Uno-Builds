@@ -1,0 +1,22 @@
+<svg viewBox="0 0 440 120" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Row 1: 2-column grid -->
+  <!-- Field 1 -->
+  <text x="0" y="14" font-size="12" font-weight="500" fill="#6B7280">Title</text>
+  <rect x="0" y="22" width="208" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="14" y="47" font-size="14" fill="#6B7280">e.g. Kitchen Renovation</text>
+
+  <!-- Field 2 -->
+  <text x="224" y="14" font-size="12" font-weight="500" fill="#6B7280">Valid Until</text>
+  <rect x="224" y="22" width="208" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="238" y="47" font-size="14" fill="#1F2937">Feb 25, 2026</text>
+
+  <!-- Row 2: full-width -->
+  <text x="0" y="84" font-size="12" font-weight="500" fill="#6B7280">Client</text>
+  <rect x="0" y="92" width="432" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="14" y="117" font-size="14" fill="#1F2937">Bob Johnson</text>
+  <path d="M414 108 L420 114 L426 108" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

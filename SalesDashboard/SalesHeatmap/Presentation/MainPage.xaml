@@ -1,0 +1,25 @@
+<Page x:Class="SalesHeatmap.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SalesHeatmap.Presentation"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource SurfaceVariantBrush}">
+
+    <Grid utu:SafeArea.Insets="All" Padding="24">
+        <mvux:FeedView Source="{Binding Snapshot}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+            <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                    <local:SalesHeatmapWidget MaxWidth="400" Snapshot="{Binding Data}" />
+                </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
+            <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                    <ProgressRing IsActive="True" Width="48" Height="48" />
+                </DataTemplate>
+            </mvux:FeedView.ProgressTemplate>
+        </mvux:FeedView>
+    </Grid>
+</Page>

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -8,65 +9,50 @@ namespace InfiniteImage.Services;
 
 public class PhotoLibraryService
 {
-    private PhotoLibrary? _currentLibrary;
     private const string LibraryFileName = "photo-library.json";
-    private readonly string[] _supportedExtensions = { ".jpg", ".jpeg", ".png", ".heic" };
+
+    private static readonly string[] SupportedExtensions = [".jpg", ".jpeg", ".png", ".heic"];
+
+    private static readonly Regex[] FilenameDateRegexes =
+    [
+        new(@"(\d{4})-(\d{2})-(\d{2})", RegexOptions.Compiled),
+        new(@"(\d{4})(\d{2})(\d{2})", RegexOptions.Compiled),
+        new(@"(\d{2})-(\d{2})-(\d{4})", RegexOptions.Compiled),
+        new(@"(\d{2})(\d{2})(\d{4})", RegexOptions.Compiled),
+    ];
+
+    private readonly ILogger<PhotoLibraryService>? _logger;
+
+    public PhotoLibraryService(ILogger<PhotoLibraryService>? logger = null)
+    {
+        _logger = logger;
+    }
 
     public LibraryMode CurrentMode { get; private set; } = LibraryMode.Random;
-    public PhotoLibrary? CurrentLibrary => _currentLibrary;
+    public PhotoLibrary? CurrentLibrary { get; private set; }
 
     public async Task<PhotoLibrary?> SelectAndScanFolderAsync(Window? window = null)
     {
         try
         {
-            Console.WriteLine("SelectAndScanFolderAsync called");
-
-            var folderPicker = new FolderPicker();
-            folderPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            var folderPicker = new FolderPicker
+            {
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
             folderPicker.FileTypeFilter.Add("*");
 
-            Console.WriteLine("FolderPicker created");
-
-            // Initialize picker with window handle (required for Desktop/WinUI)
-            if (window != null)
+            if (window is not null)
             {
-                try
-                {
-                    Console.WriteLine("Attempting to get window handle...");
-                    var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-                    Console.WriteLine($"Window handle obtained: {hwnd}");
-
-                    WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
-                    Console.WriteLine("Folder picker initialized with window handle successfully");
-                }
-                catch (Exception initEx)
-                {
-                    Console.WriteLine($"ERROR initializing picker with window: {initEx.Message}");
-                    Console.WriteLine($"Stack trace: {initEx.StackTrace}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("ERROR: No window provided for picker initialization!");
+                var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+                WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
             }
 
-            Console.WriteLine("Calling PickSingleFolderAsync...");
             var folder = await folderPicker.PickSingleFolderAsync();
-            Console.WriteLine("PickSingleFolderAsync returned");
-
-            if (folder == null)
-            {
-                Console.WriteLine("Folder picker cancelled (no folder selected)");
-                return null;
-            }
-
-            Console.WriteLine($"Selected folder: {folder.Path}");
-            return await ScanFolderAsync(folder);
+            return folder is null ? null : await ScanFolderAsync(folder);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"ERROR in SelectAndScanFolderAsync: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            _logger?.LogError(ex, "Folder pick or scan failed");
             return null;
         }
     }
@@ -75,80 +61,20 @@ public class PhotoLibraryService
     {
         try
         {
-            Console.WriteLine($"Scanning folder: {folder.Path}");
-            var photos = new List<Photo>();
-
-            // Recursively get all image files
             var files = await GetImageFilesRecursiveAsync(folder);
-            Console.WriteLine($"Found {files.Count} image files");
 
-            // Read EXIF data and create Photo objects
-            var tasks = files.Select(async file =>
-            {
-                try
-                {
-                    DateTimeOffset dateTaken;
-                    int width = 800;  // Default dimensions
-                    int height = 600;
-
-                    // Try to read EXIF date
-                    var exifDate = await ReadExifDateAsync(file);
-                    if (exifDate.HasValue)
-                    {
-                        dateTaken = exifDate.Value;
-                    }
-                    else
-                    {
-                        // Fall back to file date (parse from filename if possible, otherwise use modified date)
-                        dateTaken = TryParseDateFromFilename(file.Name) ??
-                                   (await file.GetBasicPropertiesAsync()).DateModified;
-                    }
-
-                    // Try to get image dimensions, but don't fail if not available
-                    try
-                    {
-                        var properties = await file.Properties.GetImagePropertiesAsync();
-                        if (properties.Width > 0) width = (int)properties.Width;
-                        if (properties.Height > 0) height = (int)properties.Height;
-                    }
-                    catch
-                    {
-                        // Use default dimensions if reading fails
-                    }
-
-                    return new Photo
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        FilePath = file.Path,
-                        DateTaken = dateTaken,
-                        Title = Path.GetFileNameWithoutExtension(file.Name),
-                        Width = width,
-                        Height = height,
-                        ZCoordinate = 0 // Will be calculated after sorting
-                    };
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error reading {file.Name}: {ex.Message}");
-                    return null;
-                }
-            });
-
-            var photoResults = await Task.WhenAll(tasks);
-            photos = photoResults.Where(p => p != null).ToList()!;
+            var photoResults = await Task.WhenAll(files.Select(BuildPhotoAsync));
+            var photos = photoResults.Where(p => p is not null).Select(p => p!).ToList();
 
             if (photos.Count == 0)
             {
-                Console.WriteLine("No valid photos found");
                 return null;
             }
 
-            // Sort by date
-            photos = photos.OrderBy(p => p.DateTaken).ToList();
+            photos.Sort((a, b) => a.DateTaken.CompareTo(b.DateTaken));
 
-            // Calculate Z-coordinates
-            var earliestDate = photos.First().DateTaken;
-            var latestDate = photos.Last().DateTaken;
+            var earliestDate = photos[0].DateTaken;
+            var latestDate = photos[^1].DateTaken;
 
             foreach (var photo in photos)
             {
@@ -164,19 +90,54 @@ public class PhotoLibraryService
                 TotalPhotos = photos.Count
             };
 
-            // Save library
             await SaveLibraryAsync(library);
 
-            // Set as current library
-            _currentLibrary = library;
+            CurrentLibrary = library;
             CurrentMode = LibraryMode.Personal;
 
-            Console.WriteLine($"Library created: {photos.Count} photos from {earliestDate:d} to {latestDate:d}");
             return library;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error scanning folder: {ex.Message}");
+            _logger?.LogError(ex, "Error scanning folder {Path}", folder.Path);
+            return null;
+        }
+    }
+
+    private async Task<Photo?> BuildPhotoAsync(StorageFile file)
+    {
+        try
+        {
+            var dateTaken = await ReadExifDateAsync(file)
+                ?? TryParseDateFromFilename(file.Name)
+                ?? (await file.GetBasicPropertiesAsync()).DateModified;
+
+            int width = 800;
+            int height = 600;
+            try
+            {
+                var properties = await file.Properties.GetImagePropertiesAsync();
+                if (properties.Width > 0) width = (int)properties.Width;
+                if (properties.Height > 0) height = (int)properties.Height;
+            }
+            catch
+            {
+            }
+
+            return new Photo
+            {
+                Id = Guid.NewGuid().ToString(),
+                FilePath = file.Path,
+                DateTaken = dateTaken,
+                Title = Path.GetFileNameWithoutExtension(file.Name),
+                Width = width,
+                Height = height,
+                ZCoordinate = 0
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogWarning(ex, "Error reading {File}", file.Name);
             return null;
         }
     }
@@ -187,32 +148,29 @@ public class PhotoLibraryService
 
         try
         {
-            var files = await folder.GetFilesAsync();
-            foreach (var file in files)
+            foreach (var file in await folder.GetFilesAsync())
             {
                 var extension = Path.GetExtension(file.Name).ToLowerInvariant();
-                if (_supportedExtensions.Contains(extension))
+                if (SupportedExtensions.Contains(extension))
                 {
                     imageFiles.Add(file);
                 }
             }
 
-            var subfolders = await folder.GetFoldersAsync();
-            foreach (var subfolder in subfolders)
+            foreach (var subfolder in await folder.GetFoldersAsync())
             {
-                var subFiles = await GetImageFilesRecursiveAsync(subfolder);
-                imageFiles.AddRange(subFiles);
+                imageFiles.AddRange(await GetImageFilesRecursiveAsync(subfolder));
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error reading folder {folder.Path}: {ex.Message}");
+            _logger?.LogWarning(ex, "Error reading folder {Path}", folder.Path);
         }
 
         return imageFiles;
     }
 
-    private async Task<DateTimeOffset?> ReadExifDateAsync(StorageFile file)
+    private static async Task<DateTimeOffset?> ReadExifDateAsync(StorageFile file)
     {
         try
         {
@@ -222,63 +180,41 @@ public class PhotoLibraryService
                 new[] { "System.Photo.DateTaken" });
 
             if (properties.TryGetValue("System.Photo.DateTaken", out var dateProp)
-                && dateProp.Value != null)
+                && dateProp.Value is not null
+                && DateTimeOffset.TryParse(dateProp.Value.ToString(), out var date))
             {
-                if (DateTimeOffset.TryParse(dateProp.Value.ToString(), out var date))
-                {
-                    return date;
-                }
+                return date;
             }
         }
         catch
         {
-            // EXIF reading failed, will fall back to file date
         }
 
         return null;
     }
 
-    private DateTimeOffset? TryParseDateFromFilename(string filename)
+    private static DateTimeOffset? TryParseDateFromFilename(string filename)
     {
         try
         {
-            // Try to find date patterns in filename like "Screenshot 2025-03-17" or "IMG_20250317" or "2025-03-17"
-            var patterns = new[]
+            foreach (var pattern in FilenameDateRegexes)
             {
-                @"(\d{4})-(\d{2})-(\d{2})",              // 2025-03-17
-                @"(\d{4})(\d{2})(\d{2})",                // 20250317
-                @"(\d{2})-(\d{2})-(\d{4})",              // 17-03-2025
-                @"(\d{2})(\d{2})(\d{4})"                 // 17032025
-            };
+                var match = pattern.Match(filename);
+                if (!match.Success) continue;
 
-            foreach (var pattern in patterns)
-            {
-                var match = System.Text.RegularExpressions.Regex.Match(filename, pattern);
-                if (match.Success)
+                var yearFirst = match.Groups[1].Value.Length == 4;
+                var iso = yearFirst
+                    ? $"{match.Groups[1].Value}-{match.Groups[2].Value}-{match.Groups[3].Value}"
+                    : $"{match.Groups[3].Value}-{match.Groups[2].Value}-{match.Groups[1].Value}";
+
+                if (DateTime.TryParse(iso, out var date))
                 {
-                    // Try both year-first and day-first formats
-                    if (match.Groups[1].Value.Length == 4) // Year first
-                    {
-                        if (DateTime.TryParse($"{match.Groups[1].Value}-{match.Groups[2].Value}-{match.Groups[3].Value}",
-                            out var date))
-                        {
-                            return new DateTimeOffset(date);
-                        }
-                    }
-                    else // Day first (assume DD-MM-YYYY)
-                    {
-                        if (DateTime.TryParse($"{match.Groups[3].Value}-{match.Groups[2].Value}-{match.Groups[1].Value}",
-                            out var date))
-                        {
-                            return new DateTimeOffset(date);
-                        }
-                    }
+                    return new DateTimeOffset(date);
                 }
             }
         }
         catch
         {
-            // Parsing failed
         }
 
         return null;
@@ -292,11 +228,10 @@ public class PhotoLibraryService
             var file = await localFolder.CreateFileAsync(LibraryFileName, CreationCollisionOption.ReplaceExisting);
             var json = JsonSerializer.Serialize(library, new JsonSerializerOptions { WriteIndented = true });
             await FileIO.WriteTextAsync(file, json);
-            Console.WriteLine($"Library saved to {file.Path}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error saving library: {ex.Message}");
+            _logger?.LogError(ex, "Error saving library");
         }
     }
 
@@ -305,58 +240,68 @@ public class PhotoLibraryService
         try
         {
             var localFolder = ApplicationData.Current.LocalFolder;
-            var file = await localFolder.TryGetItemAsync(LibraryFileName) as StorageFile;
-            if (file == null)
+            if (await localFolder.TryGetItemAsync(LibraryFileName) is not StorageFile file)
+            {
                 return null;
+            }
 
             var json = await FileIO.ReadTextAsync(file);
             var library = JsonSerializer.Deserialize<PhotoLibrary>(json);
 
-            if (library != null && library.TotalPhotos > 0)
+            if (library is { TotalPhotos: > 0 })
             {
-                _currentLibrary = library;
+                CurrentLibrary = library;
                 CurrentMode = LibraryMode.Personal;
-                Console.WriteLine($"Library loaded: {library.TotalPhotos} photos");
                 return library;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error loading library: {ex.Message}");
+            _logger?.LogError(ex, "Error loading library");
         }
 
         return null;
     }
 
-    public Photo? GetPhotoById(string photoId)
-    {
-        return _currentLibrary?.Photos.FirstOrDefault(p => p.Id == photoId);
-    }
+    public Photo? GetPhotoById(string photoId) =>
+        CurrentLibrary?.Photos.FirstOrDefault(p => p.Id == photoId);
 
     public Photo? GetPhotoForCoordinate(float z)
     {
-        if (_currentLibrary == null || _currentLibrary.Photos.Count == 0)
+        if (CurrentLibrary is null || CurrentLibrary.Photos.Count == 0)
             return null;
 
-        // Find nearest photo to Z position
-        return _currentLibrary.Photos
-            .OrderBy(p => Math.Abs(p.ZCoordinate - z))
-            .FirstOrDefault();
+        Photo? closest = null;
+        var minDistance = float.MaxValue;
+        foreach (var photo in CurrentLibrary.Photos)
+        {
+            var d = Math.Abs(photo.ZCoordinate - z);
+            if (d < minDistance)
+            {
+                minDistance = d;
+                closest = photo;
+            }
+        }
+        return closest;
     }
 
     public List<Photo> GetPhotosInZRange(float zMin, float zMax)
     {
-        if (_currentLibrary == null)
-            return new List<Photo>();
+        if (CurrentLibrary is null)
+            return [];
 
-        return _currentLibrary.Photos
-            .Where(p => p.ZCoordinate >= zMin && p.ZCoordinate < zMax)
-            .ToList();
+        var result = new List<Photo>();
+        foreach (var photo in CurrentLibrary.Photos)
+        {
+            if (photo.ZCoordinate >= zMin && photo.ZCoordinate < zMax)
+                result.Add(photo);
+        }
+        return result;
     }
 
     public void ClearLibrary()
     {
-        _currentLibrary = null;
+        CurrentLibrary = null;
         CurrentMode = LibraryMode.Random;
     }
 }

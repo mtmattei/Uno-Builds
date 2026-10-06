@@ -1,0 +1,117 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--
+    Freewrite palette per Design Brief §4.1 / §4.3.
+    Six tokens per theme, mapped onto Material's named keys so MaterialToolkitTheme picks them up.
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <!-- Brief tokens -->
+      <Color x:Key="FreewriteSurfaceColor">#FAF9F6</Color>
+      <Color x:Key="FreewriteOnSurfaceColor">#2B2B2B</Color>
+      <Color x:Key="FreewriteOnSurfaceMutedColor">#8A857E</Color>
+      <Color x:Key="FreewriteOnSurfaceFaintColor">#C9C4BE</Color>
+      <Color x:Key="FreewriteOutlineColor">#EAE7E1</Color>
+      <Color x:Key="FreewriteBackgroundAccentColor">#F0EDE6</Color>
+      <Color x:Key="FreewriteSelectionColor">#2B2B2B</Color>
+
+      <!-- Material override mappings -->
+      <Color x:Key="PrimaryColor">#2B2B2B</Color>
+      <Color x:Key="OnPrimaryColor">#FAF9F6</Color>
+      <Color x:Key="PrimaryContainerColor">#F0EDE6</Color>
+      <Color x:Key="OnPrimaryContainerColor">#2B2B2B</Color>
+      <Color x:Key="SecondaryColor">#8A857E</Color>
+      <Color x:Key="OnSecondaryColor">#FAF9F6</Color>
+      <Color x:Key="SecondaryContainerColor">#F0EDE6</Color>
+      <Color x:Key="OnSecondaryContainerColor">#2B2B2B</Color>
+      <Color x:Key="TertiaryColor">#8A857E</Color>
+      <Color x:Key="OnTertiaryColor">#FAF9F6</Color>
+      <Color x:Key="TertiaryContainerColor">#F0EDE6</Color>
+      <Color x:Key="OnTertiaryContainerColor">#2B2B2B</Color>
+      <Color x:Key="ErrorColor">#2B2B2B</Color>
+      <Color x:Key="ErrorContainerColor">#EAE7E1</Color>
+      <Color x:Key="OnErrorColor">#FAF9F6</Color>
+      <Color x:Key="OnErrorContainerColor">#2B2B2B</Color>
+      <Color x:Key="BackgroundColor">#FAF9F6</Color>
+      <Color x:Key="OnBackgroundColor">#2B2B2B</Color>
+      <Color x:Key="SurfaceColor">#FAF9F6</Color>
+      <Color x:Key="OnSurfaceColor">#2B2B2B</Color>
+      <Color x:Key="SurfaceVariantColor">#F0EDE6</Color>
+      <Color x:Key="OnSurfaceVariantColor">#8A857E</Color>
+      <Color x:Key="OutlineColor">#EAE7E1</Color>
+      <Color x:Key="OnSurfaceInverseColor">#FAF9F6</Color>
+      <Color x:Key="SurfaceInverseColor">#2B2B2B</Color>
+      <Color x:Key="PrimaryInverseColor">#FAF9F6</Color>
+      <Color x:Key="SurfaceTintColor">#2B2B2B</Color>
+      <Color x:Key="OutlineVariantColor">#EAE7E1</Color>
+
+      <!-- Semantic brush aliases (Design Brief §4.3) -->
+      <SolidColorBrush x:Key="EditorBackgroundBrush" Color="#FAF9F6" />
+      <SolidColorBrush x:Key="EditorTextBrush" Color="#2B2B2B" />
+      <SolidColorBrush x:Key="EditorCaretBrush" Color="#2B2B2B" />
+      <SolidColorBrush x:Key="EditorSelectionBrush" Color="#2B2B2B" Opacity="0.14" />
+      <SolidColorBrush x:Key="ChromeIconBrushActive" Color="#2B2B2B" />
+      <SolidColorBrush x:Key="ChromeIconBrushInactive" Color="#8A857E" />
+      <SolidColorBrush x:Key="ChromeIconBrushFaint" Color="#C9C4BE" />
+      <SolidColorBrush x:Key="ChromeOutlineBrush" Color="#EAE7E1" />
+      <SolidColorBrush x:Key="ChromeBackgroundBrush" Color="#FAF9F6" />
+      <SolidColorBrush x:Key="SidebarRowBrushSelected" Color="#F0EDE6" />
+      <SolidColorBrush x:Key="SidebarMetaBrush" Color="#8A857E" />
+      <SolidColorBrush x:Key="BackspaceFlashBrush" Color="#F0EDE6" />
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Dark">
+      <!-- Brief tokens -->
+      <Color x:Key="FreewriteSurfaceColor">#1A1916</Color>
+      <Color x:Key="FreewriteOnSurfaceColor">#E6E3DE</Color>
+      <Color x:Key="FreewriteOnSurfaceMutedColor">#7A766F</Color>
+      <Color x:Key="FreewriteOnSurfaceFaintColor">#3A3833</Color>
+      <Color x:Key="FreewriteOutlineColor">#2A2823</Color>
+      <Color x:Key="FreewriteBackgroundAccentColor">#252320</Color>
+      <Color x:Key="FreewriteSelectionColor">#E6E3DE</Color>
+
+      <!-- Material override mappings -->
+      <Color x:Key="PrimaryColor">#E6E3DE</Color>
+      <Color x:Key="OnPrimaryColor">#1A1916</Color>
+      <Color x:Key="PrimaryContainerColor">#252320</Color>
+      <Color x:Key="OnPrimaryContainerColor">#E6E3DE</Color>
+      <Color x:Key="SecondaryColor">#7A766F</Color>
+      <Color x:Key="OnSecondaryColor">#1A1916</Color>
+      <Color x:Key="SecondaryContainerColor">#252320</Color>
+      <Color x:Key="OnSecondaryContainerColor">#E6E3DE</Color>
+      <Color x:Key="TertiaryColor">#7A766F</Color>
+      <Color x:Key="OnTertiaryColor">#1A1916</Color>
+      <Color x:Key="TertiaryContainerColor">#252320</Color>
+      <Color x:Key="OnTertiaryContainerColor">#E6E3DE</Color>
+      <Color x:Key="ErrorColor">#E6E3DE</Color>
+      <Color x:Key="ErrorContainerColor">#2A2823</Color>
+      <Color x:Key="OnErrorColor">#1A1916</Color>
+      <Color x:Key="OnErrorContainerColor">#E6E3DE</Color>
+      <Color x:Key="BackgroundColor">#1A1916</Color>
+      <Color x:Key="OnBackgroundColor">#E6E3DE</Color>
+      <Color x:Key="SurfaceColor">#1A1916</Color>
+      <Color x:Key="OnSurfaceColor">#E6E3DE</Color>
+      <Color x:Key="SurfaceVariantColor">#252320</Color>
+      <Color x:Key="OnSurfaceVariantColor">#7A766F</Color>
+      <Color x:Key="OutlineColor">#2A2823</Color>
+      <Color x:Key="OnSurfaceInverseColor">#1A1916</Color>
+      <Color x:Key="SurfaceInverseColor">#E6E3DE</Color>
+      <Color x:Key="PrimaryInverseColor">#1A1916</Color>
+      <Color x:Key="SurfaceTintColor">#E6E3DE</Color>
+      <Color x:Key="OutlineVariantColor">#2A2823</Color>
+
+      <!-- Semantic brush aliases (Design Brief §4.3) -->
+      <SolidColorBrush x:Key="EditorBackgroundBrush" Color="#1A1916" />
+      <SolidColorBrush x:Key="EditorTextBrush" Color="#E6E3DE" />
+      <SolidColorBrush x:Key="EditorCaretBrush" Color="#E6E3DE" />
+      <SolidColorBrush x:Key="EditorSelectionBrush" Color="#E6E3DE" Opacity="0.16" />
+      <SolidColorBrush x:Key="ChromeIconBrushActive" Color="#E6E3DE" />
+      <SolidColorBrush x:Key="ChromeIconBrushInactive" Color="#7A766F" />
+      <SolidColorBrush x:Key="ChromeIconBrushFaint" Color="#3A3833" />
+      <SolidColorBrush x:Key="ChromeOutlineBrush" Color="#2A2823" />
+      <SolidColorBrush x:Key="ChromeBackgroundBrush" Color="#1A1916" />
+      <SolidColorBrush x:Key="SidebarRowBrushSelected" Color="#252320" />
+      <SolidColorBrush x:Key="SidebarMetaBrush" Color="#7A766F" />
+      <SolidColorBrush x:Key="BackspaceFlashBrush" Color="#252320" />
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

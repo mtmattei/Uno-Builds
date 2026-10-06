@@ -1,0 +1,22 @@
+<svg viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Avatar 1 -->
+  <circle cx="24" cy="24" r="21" fill="#D6E4F0"/>
+  <text x="24" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="#2B4C7E">BJ</text>
+  <text x="24" y="52" text-anchor="middle" font-size="9" fill="#6B7280">42×42dp</text>
+
+  <!-- Avatar 2 -->
+  <circle cx="84" cy="24" r="21" fill="#D6E4F0"/>
+  <text x="84" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="#2B4C7E">MG</text>
+
+  <!-- Avatar 3 -->
+  <circle cx="144" cy="24" r="21" fill="#D6E4F0"/>
+  <text x="144" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="#2B4C7E">TW</text>
+
+  <!-- Avatar 4 -->
+  <circle cx="204" cy="24" r="21" fill="#D6E4F0"/>
+  <text x="204" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="#2B4C7E">SC</text>
+</svg>

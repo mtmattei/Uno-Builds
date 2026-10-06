@@ -31,7 +31,6 @@
       Extensions;
       ExtensionsCore;
       Navigation;
-      ThemeService;
       SkiaRenderer;
     </UnoFeatures>
   </PropertyGroup>

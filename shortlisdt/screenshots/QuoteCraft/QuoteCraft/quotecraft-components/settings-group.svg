@@ -1,0 +1,30 @@
+<svg viewBox="0 0 480 170" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <filter id="sgs" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Group title -->
+  <text x="4" y="14" font-size="11" font-weight="700" fill="#6B7280" letter-spacing="1">BUSINESS INFO</text>
+
+  <!-- Settings card -->
+  <rect x="0" y="24" width="480" height="140" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#sgs)"/>
+
+  <!-- Row 1 -->
+  <text x="20" y="58" font-size="14" font-weight="500" fill="#1F2937">Business Name</text>
+  <text x="460" y="58" font-size="14" fill="#6B7280" text-anchor="end">Smith Plumbing LLC</text>
+  <line x1="0" y1="72" x2="480" y2="72" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Row 2 -->
+  <text x="20" y="100" font-size="14" font-weight="500" fill="#1F2937">Phone</text>
+  <text x="460" y="100" font-size="14" fill="#6B7280" text-anchor="end">(555) 123-4567</text>
+  <line x1="0" y1="114" x2="480" y2="114" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Row 3 -->
+  <text x="20" y="142" font-size="14" font-weight="500" fill="#1F2937">Email</text>
+  <text x="460" y="142" font-size="14" fill="#6B7280" text-anchor="end">info@smithplumbing.com</text>
+</svg>

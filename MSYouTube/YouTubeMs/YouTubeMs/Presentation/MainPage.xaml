@@ -68,7 +68,7 @@
                         VerticalAlignment="Center"
                         Visibility="{utu:Responsive Narrow=Visible, Normal=Collapsed}"
                         AutomationProperties.Name="Menu">
-                    <FontIcon Glyph="&#xE700;" FontSize="18" Foreground="#F3F8FB" />
+                    <FontIcon Glyph="&#xE700;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
                 </Button>
 
                 <!-- Search pill (transparent w/ focus glow) -->
@@ -83,7 +83,7 @@
                              PlaceholderText="Search videos, channels, topics…"
                              Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource SearchPillTextBoxStyle}"
-                             Foreground="#F3F8FB"
+                             Foreground="{ThemeResource OnSurfaceBrush}"
                              Padding="44,8,16,8"
                              TextChanged="OnSearchTextChanged"
                              GotFocus="OnSearchFocus"
@@ -95,7 +95,7 @@
                               Margin="20,0,0,0"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
-                              Foreground="#8FA1AB"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}"
                               IsHitTestVisible="False"
                               Opacity="0.7"
                               AutomationProperties.AccessibilityView="Raw" />
@@ -118,7 +118,7 @@
                             <FontIcon x:Name="BellIcon"
                                       Glyph="&#xEA8F;"
                                       FontSize="20"
-                                      Foreground="#F3F8FB"
+                                      Foreground="{ThemeResource OnSurfaceBrush}"
                                       RenderTransformOrigin="0.5,0">
                                 <FontIcon.RenderTransform>
                                     <RotateTransform x:Name="BellRotate" Angle="0" />
@@ -221,11 +221,11 @@
                                 <TextBlock Text="YouTube"
                                            FontSize="20"
                                            FontWeight="SemiBold"
-                                           Foreground="#F3F8FB"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
                                            TextWrapping="NoWrap" />
                                 <TextBlock Text="Powered by Microsoft"
                                            FontSize="10"
-                                           Foreground="#8FA1AB"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                            TextWrapping="NoWrap" />
                             </StackPanel>
                         </StackPanel>
@@ -262,20 +262,20 @@
                             </utu:TabBar.ItemsPanel>
                             <utu:TabBarItem uen:Region.Name="Home" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Home" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Home" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                             <utu:TabBarItem uen:Region.Name="Explore" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Explore" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Explore" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                             <utu:TabBarItem uen:Region.Name="Subscriptions" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Subscriptions" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Subscriptions" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                         </utu:TabBar>
@@ -295,26 +295,26 @@
                             </utu:TabBar.ItemsPanel>
                             <utu:TabBarItem uen:Region.Name="Library" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Library" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Library" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                             <utu:TabBarItem uen:Region.Name="History" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="History" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="History" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                             <utu:TabBarItem uen:Region.Name="WatchLater" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Watch Later" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Watch Later" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                             <utu:TabBarItem uen:Region.Name="Liked" Style="{StaticResource SidebarTabBarItemStyle}">
                                 <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="#F3F8FB" />
-                                    <TextBlock Text="Liked Videos" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                    <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Liked Videos" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </utu:TabBarItem>
                         </utu:TabBar>
@@ -323,7 +323,7 @@
 
                         <TextBlock Text="Subscriptions"
                                    Style="{StaticResource SidebarSectionHeaderStyle}"
-                                   Foreground="#8FA1AB"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                    Margin="6,16,0,4" />
 
                         <ItemsRepeater ItemsSource="{Binding Subscriptions}">
@@ -340,7 +340,7 @@
                                             </Border>
                                             <TextBlock Text="{x:Bind Channel.Name}"
                                                        FontSize="14"
-                                                       Foreground="#F3F8FB"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
                                                        VerticalAlignment="Center" />
                                             <Ellipse Width="6" Height="6"
                                                      Fill="#2EE0E0"
@@ -358,10 +358,10 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE70D;" FontSize="14" Foreground="#8FA1AB" />
+                                <FontIcon Glyph="&#xE70D;" FontSize="14" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                 <TextBlock Text="Show More"
                                            FontSize="14"
-                                           Foreground="#8FA1AB"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                            VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -395,9 +395,9 @@
                                 <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="2">
                                     <TextBlock Text="Results" Style="{StaticResource SectionHeaderTextStyle}" />
                                     <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <TextBlock Text="for &quot;" FontSize="13" Foreground="#8FA1AB" />
-                                        <TextBlock Text="{Binding Query}" FontSize="13" Foreground="#F3F8FB" FontWeight="SemiBold" />
-                                        <TextBlock Text="&quot;" FontSize="13" Foreground="#8FA1AB" />
+                                        <TextBlock Text="for &quot;" FontSize="13" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                        <TextBlock Text="{Binding Query}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" FontWeight="SemiBold" />
+                                        <TextBlock Text="&quot;" FontSize="13" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                     </StackPanel>
                                 </StackPanel>
                                 <Button Grid.Column="1"
@@ -407,8 +407,8 @@
                                         VerticalAlignment="Center"
                                         AutomationProperties.Name="Clear search">
                                     <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <FontIcon Glyph="&#xE894;" FontSize="11" Foreground="#F3F8FB" />
-                                        <TextBlock Text="Clear" FontSize="12" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                        <FontIcon Glyph="&#xE894;" FontSize="11" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <TextBlock Text="Clear" FontSize="12" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
                             </Grid>
@@ -471,32 +471,32 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="YouTube" FontSize="20" FontWeight="SemiBold" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Text="YouTube" FontSize="20" FontWeight="SemiBold" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Click="OnMobileNavBackdropTapped"
                                     Style="{StaticResource FlatItemButtonStyle}"
                                     Width="36" Height="36"
                                     AutomationProperties.Name="Close menu">
-                                <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="#F3F8FB" />
+                                <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" />
                             </Button>
                         </Grid>
 
                         <Button Tag="Home" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Home" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE80F;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Home" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Tag="Explore" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Explore" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE7C5;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Explore" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Tag="Subscriptions" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Subscriptions" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE74A;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Subscriptions" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
 
@@ -504,26 +504,26 @@
 
                         <Button Tag="Library" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Library" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE82D;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Library" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Tag="History" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="History" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE81C;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="History" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Tag="WatchLater" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Watch Later" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE916;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Watch Later" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Tag="Liked" Click="OnMobileNavItemClicked" Style="{StaticResource FlatItemButtonStyle}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="12,10">
                             <StackPanel Orientation="Horizontal" Spacing="14">
-                                <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="#F3F8FB" />
-                                <TextBlock Text="Liked Videos" FontSize="14" Foreground="#F3F8FB" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE19F;" FontSize="18" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="Liked Videos" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -563,7 +563,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Grid Grid.Row="0" Padding="20,14,12,14" Background="#142E3A">
+                    <Grid Grid.Row="0" Padding="20,14,12,14" Background="{ThemeResource SurfaceVariantBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -572,11 +572,11 @@
                             <TextBlock x:Name="OverlayTitle"
                                        FontSize="16"
                                        FontWeight="SemiBold"
-                                       Foreground="#F3F8FB"
+                                       Foreground="{ThemeResource OnSurfaceBrush}"
                                        TextTrimming="CharacterEllipsis" />
                             <TextBlock x:Name="OverlayChannel"
                                        FontSize="12"
-                                       Foreground="#8FA1AB"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        TextTrimming="CharacterEllipsis" />
                         </StackPanel>
                         <Button Grid.Column="1"
@@ -588,7 +588,7 @@
                                 CornerRadius="20"
                                 Click="OnCloseOverlayClick"
                                 AutomationProperties.Name="Close video">
-                            <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="#F3F8FB" />
+                            <FontIcon Glyph="&#xE894;" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" />
                         </Button>
                     </Grid>
 
@@ -621,12 +621,12 @@
                                 <TextBlock Text="Open this video on YouTube"
                                            FontSize="18"
                                            FontWeight="SemiBold"
-                                           Foreground="#F3F8FB"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
                                            HorizontalAlignment="Center"
                                            TextAlignment="Center" />
                                 <TextBlock Text="In-app playback isn't available on this build target."
                                            FontSize="13"
-                                           Foreground="#8FA1AB"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                            HorizontalAlignment="Center"
                                            TextAlignment="Center"
                                            TextWrapping="Wrap" />

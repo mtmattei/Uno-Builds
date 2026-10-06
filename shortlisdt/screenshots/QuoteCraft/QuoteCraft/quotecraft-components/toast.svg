@@ -1,0 +1,14 @@
+<svg viewBox="0 0 260 48" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <filter id="tst" x="-6%" y="-10%" width="112%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Toast pill -->
+  <rect x="0" y="4" width="240" height="40" rx="24" fill="#1F2937" filter="url(#tst)"/>
+  <text x="120" y="29" text-anchor="middle" font-size="14" font-weight="500" fill="white">✓ Item added</text>
+</svg>

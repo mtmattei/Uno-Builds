@@ -142,7 +142,7 @@
                 <!-- Crema layer -->
                 <Border Height="12"
                         VerticalAlignment="Bottom"
-                        Margin="0,0,0,{x:Bind local:BrewingCup.GetCremaOffset(Progress), Mode=OneWay}"
+                        Margin="{x:Bind local:BrewingCup.GetCremaMargin(Progress), Mode=OneWay}"
                         Opacity="{x:Bind local:BrewingCup.GetCremaOpacity(Progress), Mode=OneWay}"
                         CornerRadius="6">
                     <Border.Background>

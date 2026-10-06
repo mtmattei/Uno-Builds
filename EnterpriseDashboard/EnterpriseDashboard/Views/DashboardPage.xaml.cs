@@ -24,6 +24,7 @@ namespace EnterpriseDashboard.Views;
 public sealed partial class DashboardPage : Page
 {
     private readonly IDashboardService _service;
+    private readonly CancellationTokenSource _pageCts = new();
     private IImmutableList<ChartDataPoint>? _revenueData;
     private IImmutableList<ChartDataPoint>? _regionData;
     private bool _initialized;
@@ -36,27 +37,39 @@ public sealed partial class DashboardPage : Page
         DataContext = new DashboardViewModel(_service);
 
         this.Loaded += DashboardPage_Loaded;
+        this.Unloaded += DashboardPage_Unloaded;
+    }
+
+    private void DashboardPage_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _pageCts.Cancel();
+        _pageCts.Dispose();
     }
 
     private async void DashboardPage_Loaded(object sender, RoutedEventArgs e)
     {
         RunEntranceAnimations();
 
-        // Apply initial palette if not monochrome
         if (ThemeManager.Current == DashboardTheme.Terminal)
         {
-            SwapColorPalette(true);
+            ThemeManager.SwapColorPalette(true, this.XamlRoot?.Content as FrameworkElement);
             ThemeLabel.Text = "TERMINAL NEON";
         }
 
-        // Cache data for theme switching
-        var ct = CancellationToken.None;
-        _revenueData = await _service.GetRevenueSeriesAsync(ct);
-        _regionData = await _service.GetRegionRevenueBreakdownAsync(ct);
+        var ct = _pageCts.Token;
+        var revenueTask = _service.GetRevenueSeriesAsync(ct).AsTask();
+        var regionTask = _service.GetRegionRevenueBreakdownAsync(ct).AsTask();
+        var salesTask = _service.GetSalesAsync(ct).AsTask();
+        var regionsTask = _service.GetRegionsAsync(ct).AsTask();
+
+        await Task.WhenAll(revenueTask, regionTask, salesTask, regionsTask);
+
+        _revenueData = revenueTask.Result;
+        _regionData = regionTask.Result;
 
         ApplyChartTheme();
-        await InitializeTableAsync();
-        await InitializeMapAsync();
+        SalesTableView.ItemsSource = salesTask.Result.ToList();
+        await InitializeMapAsync(regionsTask.Result);
         ApplyXamlAccents();
         _initialized = true;
     }
@@ -68,10 +81,8 @@ public sealed partial class DashboardPage : Page
         var isTerminal = ThemeToggle.IsOn;
         ThemeManager.Current = isTerminal ? DashboardTheme.Terminal : DashboardTheme.Monochrome;
 
-        // Swap the Material color palette at runtime
-        SwapColorPalette(isTerminal);
+        ThemeManager.SwapColorPalette(isTerminal, this.XamlRoot?.Content as FrameworkElement);
 
-        // Re-apply all vendor control styling
         ApplyChartTheme();
         ApplyMapTheme();
         ApplyXamlAccents();
@@ -79,60 +90,15 @@ public sealed partial class DashboardPage : Page
         ThemeLabel.Text = isTerminal ? "TERMINAL NEON" : "OBSIDIAN MONO";
     }
 
-    private void SwapColorPalette(bool terminal)
-    {
-        var app = Application.Current;
-        var mergedDicts = app.Resources.MergedDictionaries;
-
-        // Find and remove the current MaterialToolkitTheme, then re-add with new palette
-        // Since we can't easily swap ColorOverrideSource at runtime, we'll overlay
-        // key color resources directly onto the application resources
-        var palettePath = terminal
-            ? "ms-appx:///Styles/TerminalPaletteOverride.xaml"
-            : "ms-appx:///Styles/ColorPaletteOverride.xaml";
-
-        var paletteDict = new ResourceDictionary();
-        paletteDict.Source = new Uri(palettePath);
-
-        // Remove any previously injected palette overlay
-        for (int i = mergedDicts.Count - 1; i >= 0; i--)
-        {
-            if (mergedDicts[i] is ResourceDictionary rd && rd.Source?.OriginalString.Contains("PaletteOverride") == true)
-            {
-                mergedDicts.RemoveAt(i);
-            }
-        }
-
-        mergedDicts.Add(paletteDict);
-
-        // Force theme refresh on the page tree
-        if (this.XamlRoot?.Content is FrameworkElement root)
-        {
-            root.RequestedTheme = ElementTheme.Light;
-            root.RequestedTheme = ElementTheme.Dark;
-        }
-    }
-
     private void ApplyXamlAccents()
     {
-        var colors = ThemeManager.GetColors();
-        var accentColor = ParseColor(colors.AccentHex);
-        var accentBgColor = ParseColor(colors.AccentBgHex);
-        var glowColor = ParseColor(colors.GlowBorderHex);
-        var altRowColor = ParseColor(colors.AlternateRowHex);
+        ThemeManager.ApplyAccentBrushes();
 
-        // Update page-level badge brushes
-        Resources["VendorBadgeBrush"] = new SolidColorBrush(accentColor);
-        Resources["VendorBadgeBgBrush"] = new SolidColorBrush(accentBgColor);
-
-        // Update table alternate row
-        SalesTableView.AlternateRowBackground = new SolidColorBrush(altRowColor);
-
-        // Update all card panel borders with glow effect
+        var glowBrush = new SolidColorBrush(ThemeManager.GetGlowBorderColor());
         var panels = new Border[] { ChartLeftPanel, ChartRightPanel, TablePanel, MapPanel };
         foreach (var panel in panels)
         {
-            panel.BorderBrush = new SolidColorBrush(glowColor);
+            panel.BorderBrush = glowBrush;
         }
     }
 
@@ -142,7 +108,6 @@ public sealed partial class DashboardPage : Page
 
         var colors = ThemeManager.GetColors();
 
-        // Revenue line chart
         RevenueChart.AnimationsSpeed = TimeSpan.FromMilliseconds(800);
         RevenueChart.EasingFunction = LiveChartsCore.EasingFunctions.CubicOut;
 
@@ -179,7 +144,6 @@ public sealed partial class DashboardPage : Page
             }
         };
 
-        // Pie chart
         RegionPieChart.AnimationsSpeed = TimeSpan.FromMilliseconds(1000);
         RegionPieChart.EasingFunction = LiveChartsCore.EasingFunctions.BounceOut;
         RegionPieChart.Series = _regionData
@@ -198,7 +162,6 @@ public sealed partial class DashboardPage : Page
         var colors = ThemeManager.GetColors();
         var map = RegionMap.Map;
 
-        // Update pin layer colors
         var pinLayer = map.Layers.FirstOrDefault(l => l.Name == "Region Pins") as MemoryLayer;
         if (pinLayer != null)
         {
@@ -212,7 +175,6 @@ public sealed partial class DashboardPage : Page
             }
         }
 
-        // Update route layer colors
         var routeLayer = map.Layers.FirstOrDefault(l => l.Name == "Driving Route") as MemoryLayer;
         if (routeLayer != null)
         {
@@ -225,7 +187,6 @@ public sealed partial class DashboardPage : Page
             }
         }
 
-        // Also check fallback route
         var fallbackLayer = map.Layers.FirstOrDefault(l => l.Name == "Route Fallback") as MemoryLayer;
         if (fallbackLayer != null)
         {
@@ -280,22 +241,13 @@ public sealed partial class DashboardPage : Page
         }
     }
 
-    private async Task InitializeTableAsync()
+    private async Task InitializeMapAsync(IImmutableList<RegionMetric> regions)
     {
-        var ct = CancellationToken.None;
-        var sales = await _service.GetSalesAsync(ct);
-        SalesTableView.ItemsSource = sales.ToList();
-    }
-
-    private async Task InitializeMapAsync()
-    {
-        var ct = CancellationToken.None;
-        var regions = await _service.GetRegionsAsync(ct);
+        var ct = _pageCts.Token;
         var colors = ThemeManager.GetColors();
 
         var map = RegionMap.Map;
 
-        // CARTO Dark Matter tiles
         var cartoDarkSource = new HttpTileSource(
             new GlobalSphericalMercator(),
             "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
@@ -307,7 +259,6 @@ public sealed partial class DashboardPage : Page
         );
         map.Layers.Add(new TileLayer(cartoDarkSource) { Name = "Dark Basemap" });
 
-        // Region pin layer
         var pinLayer = new MemoryLayer
         {
             Name = "Region Pins",
@@ -329,7 +280,6 @@ public sealed partial class DashboardPage : Page
         };
         map.Layers.Add(pinLayer);
 
-        // Fetch real driving directions from OSRM
         var waypointCoords = new (double Lon, double Lat)[]
         {
             (2.3522, 48.8566),     // Paris
@@ -345,9 +295,11 @@ public sealed partial class DashboardPage : Page
 
         try
         {
+            using var osrmCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            osrmCts.CancelAfter(TimeSpan.FromSeconds(5));
             using var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "EnterpriseDashboard/1.0");
-            var json = await httpClient.GetStringAsync(osrmUrl);
+            var json = await httpClient.GetStringAsync(osrmUrl, osrmCts.Token);
             var doc = JsonDocument.Parse(json);
 
             var coordinates = doc.RootElement
@@ -407,20 +359,10 @@ public sealed partial class DashboardPage : Page
             }
         }
 
-        // Zoom to Western Europe
         var minBounds = SphericalMercator.FromLonLat(-1, 47);
         var maxBounds = SphericalMercator.FromLonLat(16, 54);
         map.Navigator.ZoomToBox(new MRect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y));
         map.BackColor = new Mapsui.Styles.Color(0, 0, 0);
     }
 
-    private static Windows.UI.Color ParseColor(string hex)
-    {
-        hex = hex.TrimStart('#');
-        byte a = byte.Parse(hex[..2], System.Globalization.NumberStyles.HexNumber);
-        byte r = byte.Parse(hex[2..4], System.Globalization.NumberStyles.HexNumber);
-        byte g = byte.Parse(hex[4..6], System.Globalization.NumberStyles.HexNumber);
-        byte b = byte.Parse(hex[6..8], System.Globalization.NumberStyles.HexNumber);
-        return Windows.UI.Color.FromArgb(a, r, g, b);
-    }
 }

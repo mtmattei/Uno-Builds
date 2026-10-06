@@ -30,7 +30,6 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Top brand -->
                 <TextBlock Grid.Row="0"
                            HorizontalAlignment="Center">
                     <Run Text="MEMORY"
@@ -46,7 +45,6 @@
                          FontFamily="Georgia" />
                 </TextBlock>
 
-                <!-- Tagline -->
                 <TextBlock Grid.Row="2"
                            Text="// YOUR MEMORIES, REIMAGINED"
                            FontSize="11"
@@ -55,7 +53,6 @@
                            CharacterSpacing="120"
                            HorizontalAlignment="Center" />
 
-                <!-- Main title -->
                 <StackPanel Grid.Row="4"
                             HorizontalAlignment="Center"
                             Spacing="0">
@@ -75,7 +72,6 @@
                                Margin="0,-16,0,0" />
                 </StackPanel>
 
-                <!-- Subtitle -->
                 <TextBlock Grid.Row="6"
                            Text="Dive beneath the surface of your past"
                            FontSize="20"
@@ -84,7 +80,6 @@
                            Foreground="#6B6875"
                            HorizontalAlignment="Center" />
 
-                <!-- Body text -->
                 <TextBlock Grid.Row="8"
                            TextAlignment="Center"
                            MaxWidth="540"
@@ -103,7 +98,6 @@
                     <Run Text="who you are." />
                 </TextBlock>
 
-                <!-- Platform checkboxes -->
                 <StackPanel Grid.Row="10"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
@@ -126,13 +120,11 @@
                               FontFamily="Consolas" />
                 </StackPanel>
 
-                <!-- Buttons -->
                 <StackPanel Grid.Row="11"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             Spacing="24"
                             Margin="0,48,0,0">
-                    <!-- Begin button (filled) -->
                     <Button x:Name="BeginButton"
                             Click="OnBeginClick"
                             Padding="56,20"
@@ -145,7 +137,6 @@
                                    CharacterSpacing="40" />
                     </Button>
 
-                    <!-- Upload button (outline) -->
                     <Button x:Name="UploadButton"
                             Click="OnUploadClick"
                             Padding="56,20"

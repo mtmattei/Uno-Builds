@@ -48,9 +48,7 @@
             <StackPanel x:Name="ForYouSection"
                         Orientation="Vertical"
                         Spacing="16"
-                        Opacity="0"
-                        AutomationProperties.LiveSetting="Polite"
-                        AutomationProperties.Name="For You section loaded">
+                        Opacity="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -136,7 +134,7 @@
                             IsHitTestVisible="False"
                             Click="OnForYouScrollLeft"
                             AutomationProperties.Name="Scroll left">
-                        <FontIcon Glyph="&#xE76B;" FontSize="14" Foreground="#F3F8FB" />
+                        <FontIcon Glyph="&#xE76B;" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" />
                     </Button>
 
                     <!-- Right chevron — centered on thumbnail -->
@@ -154,7 +152,7 @@
                             IsHitTestVisible="False"
                             Click="OnForYouScrollRight"
                             AutomationProperties.Name="Scroll right">
-                        <FontIcon Glyph="&#xE76C;" FontSize="14" Foreground="#F3F8FB" />
+                        <FontIcon Glyph="&#xE76C;" FontSize="14" Foreground="{ThemeResource OnSurfaceBrush}" />
                     </Button>
                 </Grid>
             </StackPanel>
@@ -163,9 +161,7 @@
             <StackPanel x:Name="TrendingSection"
                         Orientation="Vertical"
                         Spacing="16"
-                        Opacity="0"
-                        AutomationProperties.LiveSetting="Polite"
-                        AutomationProperties.Name="Trending section loaded">
+                        Opacity="0">
                 <TextBlock Text="Trending"
                            Style="{StaticResource SectionHeaderTextStyle}" />
                 <mvux:FeedView Source="{Binding Trending}">

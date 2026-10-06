@@ -62,9 +62,10 @@
 
     <Grid x:Name="RootGrid">
         <!-- Ambient Background Layer -->
-        <Canvas IsHitTestVisible="False">
+        <Grid IsHitTestVisible="False">
             <Ellipse Width="384" Height="384"
-                     Canvas.Top="80" Canvas.Right="-128"
+                     HorizontalAlignment="Right" VerticalAlignment="Top"
+                     Margin="0,80,-128,0"
                      Opacity="0.4">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -74,7 +75,8 @@
                 </Ellipse.Fill>
             </Ellipse>
             <Ellipse Width="384" Height="384"
-                     Canvas.Bottom="-128" Canvas.Left="-128"
+                     HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                     Margin="-128,0,0,-128"
                      Opacity="0.5">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -83,7 +85,7 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-        </Canvas>
+        </Grid>
 
         <Grid utu:SafeArea.Insets="VisibleBounds">
             <Grid.RowDefinitions>

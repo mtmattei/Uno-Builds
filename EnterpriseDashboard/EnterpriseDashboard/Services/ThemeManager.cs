@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Media;
 using SkiaSharp;
 
 namespace EnterpriseDashboard.Services;
@@ -98,4 +99,58 @@ public static class ThemeManager
         AlternateRowHex = "#FF061206",
         GlowBorderHex = "#FF003311",
     };
+
+    public static Windows.UI.Color ParseColor(string hex)
+    {
+        hex = hex.TrimStart('#');
+        byte a = byte.Parse(hex[..2], System.Globalization.NumberStyles.HexNumber);
+        byte r = byte.Parse(hex[2..4], System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(hex[4..6], System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(hex[6..8], System.Globalization.NumberStyles.HexNumber);
+        return Windows.UI.Color.FromArgb(a, r, g, b);
+    }
+
+    public static void SwapColorPalette(bool terminal, FrameworkElement? rootElement)
+    {
+        var palettePath = terminal
+            ? "ms-appx:///Styles/TerminalPaletteOverride.xaml"
+            : "ms-appx:///Styles/ColorPaletteOverride.xaml";
+
+        var mergedDicts = Application.Current.Resources.MergedDictionaries;
+        for (int i = mergedDicts.Count - 1; i >= 0; i--)
+        {
+            if (mergedDicts[i] is ResourceDictionary rd
+                && rd.Source?.OriginalString.Contains("PaletteOverride") == true)
+            {
+                mergedDicts.RemoveAt(i);
+            }
+        }
+        mergedDicts.Add(new ResourceDictionary { Source = new Uri(palettePath) });
+
+        if (rootElement is not null)
+        {
+            rootElement.RequestedTheme = ElementTheme.Light;
+            rootElement.RequestedTheme = ElementTheme.Dark;
+        }
+    }
+
+    public static void ApplyAccentBrushes()
+    {
+        var colors = GetColors();
+        var resources = Application.Current.Resources;
+
+        SetBrushColor(resources, "VendorBadgeBrush", colors.AccentHex);
+        SetBrushColor(resources, "VendorBadgeBgBrush", colors.AccentBgHex);
+        SetBrushColor(resources, "TableAlternateRowBrush", colors.AlternateRowHex);
+    }
+
+    public static Windows.UI.Color GetGlowBorderColor() => ParseColor(GetColors().GlowBorderHex);
+
+    private static void SetBrushColor(ResourceDictionary resources, string key, string hex)
+    {
+        if (resources.TryGetValue(key, out var resource) && resource is SolidColorBrush brush)
+        {
+            brush.Color = ParseColor(hex);
+        }
+    }
 }

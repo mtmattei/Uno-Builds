@@ -1,0 +1,29 @@
+<svg viewBox="0 0 520 44" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- All (active) -->
+  <rect x="0" y="6" width="46" height="32" rx="16" fill="#D6E4F0" stroke="#2B4C7E" stroke-width="1.5"/>
+  <text x="23" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#2B4C7E">All</text>
+
+  <!-- Draft -->
+  <rect x="54" y="6" width="68" height="32" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="88" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#6B7280">Draft 2</text>
+
+  <!-- Sent -->
+  <rect x="130" y="6" width="60" height="32" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="160" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#6B7280">Sent 2</text>
+
+  <!-- Viewed -->
+  <rect x="198" y="6" width="78" height="32" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="237" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#6B7280">Viewed 1</text>
+
+  <!-- Accepted -->
+  <rect x="284" y="6" width="88" height="32" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="328" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#6B7280">Accepted 2</text>
+
+  <!-- Declined -->
+  <rect x="380" y="6" width="84" height="32" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="422" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#6B7280">Declined 1</text>
+</svg>

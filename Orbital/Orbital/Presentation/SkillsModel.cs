@@ -6,6 +6,16 @@ public partial record SkillsModel(ISkillsService Skills)
 {
     public IListFeed<SkillInfo> AllSkills => ListFeed.Async(Skills.GetSkillsAsync);
 
+    public IListFeed<SkillGroup> Groups => ListFeed.Async(async ct =>
+    {
+        var skills = await Skills.GetSkillsAsync(ct);
+        return skills
+            .GroupBy(s => s.Category)
+            .Select(g => new SkillGroup(g.Key, g.ToImmutableList()))
+            .OrderBy(g => g.SortOrder)
+            .ToImmutableList();
+    });
+
     public IFeed<string> InstalledCount => AllSkills
         .AsFeed()
         .Select(list => list.Count.ToString());

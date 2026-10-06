@@ -1,0 +1,13 @@
+<svg viewBox="0 0 320 48" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Dashed: + Add Line Item -->
+  <rect x="0" y="6" width="150" height="36" rx="8" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="75" y="29" text-anchor="middle" font-size="13" font-weight="500" fill="#2B4C7E">+ Add Line Item</text>
+
+  <!-- Solid amber: From Catalog -->
+  <rect x="162" y="6" width="128" height="36" rx="8" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="226" y="29" text-anchor="middle" font-size="13" font-weight="500" fill="#92400E">From Catalog</text>
+</svg>

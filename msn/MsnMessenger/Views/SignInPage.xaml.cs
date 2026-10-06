@@ -6,75 +6,74 @@ namespace MsnMessenger.Views;
 
 public sealed partial class SignInPage : Page
 {
+    private readonly List<Storyboard> _ambientStoryboards = new();
+    private bool _ambientStarted;
+
     public SignInPage()
     {
         this.InitializeComponent();
         this.Loaded += OnLoaded;
+        this.Unloaded += OnUnloaded;
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
         StartFloatingAnimations();
 
-        // Animate entrance of sign in button
         await Task.Delay(200);
         MicroAnimations.AnimateEntrance(SignInButton, 0);
     }
 
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        foreach (var sb in _ambientStoryboards)
+        {
+            sb.Stop();
+        }
+        _ambientStoryboards.Clear();
+        _ambientStarted = false;
+    }
+
     private void StartFloatingAnimations()
     {
-        StartFloatingAnimation(Circle1Transform, 10, TimeSpan.FromSeconds(4));
-        StartFloatingAnimation(Circle2Transform, -8, TimeSpan.FromSeconds(3.2));
-        StartFloatingAnimation(Circle3Transform, 12, TimeSpan.FromSeconds(3.8));
-        StartFloatingAnimation(Circle4Transform, -10, TimeSpan.FromSeconds(4.5));
+        if (_ambientStarted) return;
+        _ambientStarted = true;
+
+        StartBob(Circle1Transform, 10, TimeSpan.FromSeconds(4));
+        StartBob(Circle2Transform, -8, TimeSpan.FromSeconds(3.2));
+        StartBob(Circle3Transform, 12, TimeSpan.FromSeconds(3.8));
+        StartBob(Circle4Transform, -10, TimeSpan.FromSeconds(4.5));
     }
 
-    private void StartFloatingAnimation(TranslateTransform transform, double targetY, TimeSpan duration)
+    private void StartBob(TranslateTransform transform, double targetY, TimeSpan halfDuration)
     {
-        AnimateToValue(transform, targetY, duration);
-    }
+        var ease = new SineEase { EasingMode = EasingMode.EaseInOut };
+        var anim = new DoubleAnimationUsingKeyFrames();
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.Zero, Value = 0, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = halfDuration, Value = targetY, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = halfDuration + halfDuration, Value = 0, EasingFunction = ease });
+        Storyboard.SetTarget(anim, transform);
+        Storyboard.SetTargetProperty(anim, "Y");
 
-    private void AnimateToValue(TranslateTransform transform, double targetY, TimeSpan duration)
-    {
-        var animation = new DoubleAnimation
-        {
-            To = targetY,
-            Duration = new Duration(duration),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(animation);
-        Storyboard.SetTarget(animation, transform);
-        Storyboard.SetTargetProperty(animation, "Y");
-
-        storyboard.Completed += (s, e) =>
-        {
-            // Reverse direction: if we went to targetY, go back to 0, and vice versa
-            var nextTarget = transform.Y == 0 ? targetY : 0;
-            AnimateToValue(transform, nextTarget, duration);
-        };
-
-        storyboard.Begin();
+        var sb = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        sb.Children.Add(anim);
+        _ambientStoryboards.Add(sb);
+        sb.Begin();
     }
 
     private async void OnSignInClick(object sender, RoutedEventArgs e)
     {
-        // Animate button press
         await MicroAnimations.AnimatePress(SignInButton);
 
-        // Get selected status
         var selectedStatus = StatusComboBox.SelectedIndex switch
         {
             0 => PresenceStatus.Online,
             1 => PresenceStatus.Away,
             2 => PresenceStatus.Busy,
             3 => PresenceStatus.Offline,
-            _ => PresenceStatus.Online
+            _ => PresenceStatus.Online,
         };
 
-        // For now, just navigate to main page
-        // In a real app, you'd validate credentials here
         Frame.Navigate(typeof(MainPage), selectedStatus);
     }
 }

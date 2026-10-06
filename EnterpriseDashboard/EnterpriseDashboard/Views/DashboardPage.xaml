@@ -8,13 +8,6 @@
       xmlns:tv="using:WinUI.TableView"
       Background="{ThemeResource BackgroundBrush}">
 
-  <Page.Resources>
-    <!-- Accent color for vendor library badges (non-monochromatic) -->
-    <SolidColorBrush x:Key="VendorBadgeBrush" Color="#FF26A69A" />
-    <SolidColorBrush x:Key="VendorBadgeBgBrush" Color="#1A26A69A" />
-
-  </Page.Resources>
-
   <Grid Padding="16" RowSpacing="16" ColumnSpacing="16">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -264,7 +257,7 @@
                    Foreground="{ThemeResource OnSurfaceBrush}" />
         <tv:TableView x:Name="SalesTableView" Grid.Row="2"
                       AutoGenerateColumns="False"
-                      AlternateRowBackground="#FF111111"
+                      AlternateRowBackground="{StaticResource TableAlternateRowBrush}"
                       AlternateRowForeground="{ThemeResource OnSurfaceBrush}"
                       Background="{ThemeResource SurfaceBrush}"
                       Foreground="{ThemeResource OnSurfaceBrush}">

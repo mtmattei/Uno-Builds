@@ -1,10 +1,18 @@
 using InfiniteImage.Models;
-using Microsoft.UI.Xaml.Controls.Primitives;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace InfiniteImage.Controls;
 
-public sealed partial class TimelineScrubberControl : UserControl
+public sealed partial class TimelineScrubberControl : UserControl, INotifyPropertyChanged
 {
+    private const double TotalBarWidth = 240.0;
+
+    private string _currentDateText = string.Empty;
+    private string _earliestDateText = string.Empty;
+    private string _latestDateText = string.Empty;
+    private double _progressWidth;
+
     public TimelineScrubberControl()
     {
         this.InitializeComponent();
@@ -75,12 +83,38 @@ public sealed partial class TimelineScrubberControl : UserControl
         set => SetValue(LatestDateProperty, value);
     }
 
-    public string CurrentDateText { get; private set; } = "";
-    public string EarliestDateText { get; private set; } = "";
-    public string LatestDateText { get; private set; } = "";
-    public double ProgressWidth { get; private set; } = 0;
+    public string CurrentDateText
+    {
+        get => _currentDateText;
+        private set => SetField(ref _currentDateText, value);
+    }
 
-    private const double TotalBarWidth = 240.0;
+    public string EarliestDateText
+    {
+        get => _earliestDateText;
+        private set => SetField(ref _earliestDateText, value);
+    }
+
+    public string LatestDateText
+    {
+        get => _latestDateText;
+        private set => SetField(ref _latestDateText, value);
+    }
+
+    public double ProgressWidth
+    {
+        get => _progressWidth;
+        private set => SetField(ref _progressWidth, value);
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void SetField<T>(ref T field, T value, [CallerMemberName] string? name = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 
     private static void OnCurrentZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -105,28 +139,18 @@ public sealed partial class TimelineScrubberControl : UserControl
     {
         var date = TimelineConfig.CalculateDateForZ(CurrentZ, EarliestDate);
         CurrentDateText = date.ToString("yyyy");
-        Bindings.Update();
     }
 
     private void UpdateDateLabels()
     {
         EarliestDateText = EarliestDate.ToString("yyyy");
         LatestDateText = LatestDate.ToString("yyyy");
-        Bindings.Update();
     }
 
     private void UpdateProgressWidth()
     {
-        if (MaxZ > 0)
-        {
-            var progress = Math.Clamp(CurrentZ / MaxZ, 0.0, 1.0);
-            ProgressWidth = progress * TotalBarWidth;
-        }
-        else
-        {
-            ProgressWidth = 0;
-        }
-        Bindings.Update();
+        ProgressWidth = MaxZ > 0
+            ? Math.Clamp(CurrentZ / MaxZ, 0.0, 1.0) * TotalBarWidth
+            : 0;
     }
-
 }

@@ -1,0 +1,45 @@
+<svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+  <defs>
+    <filter id="shadow1" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+    <filter id="shadow-sel" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#2B4C7E" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Label -->
+  <text x="0" y="12" font-size="10" font-weight="600" fill="#6B7280" letter-spacing="1" text-transform="uppercase">DEFAULT</text>
+
+  <!-- Default state card -->
+  <rect x="0" y="20" width="348" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5" filter="url(#shadow1)"/>
+  <!-- Top row -->
+  <text x="14" y="42" font-size="14" font-weight="600" fill="#1F2937">Kitchen Renovation</text>
+  <!-- Status badge -->
+  <rect x="272" y="30" width="60" height="22" rx="10" fill="#DBEAFE"/>
+  <text x="302" y="45" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF" letter-spacing="0.5">↗ SENT</text>
+  <!-- Client -->
+  <text x="14" y="57" font-size="12" fill="#6B7280">Bob Johnson</text>
+  <!-- Divider -->
+  <line x1="14" y1="66" x2="334" y2="66" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- Bottom row -->
+  <text x="14" y="88" font-size="16" font-weight="700" fill="#2B4C7E" class="mono">$4,250</text>
+  <text x="312" y="88" font-size="11" fill="#6B7280" text-anchor="end">2 days ago</text>
+
+  <!-- Label -->
+  <text x="0" y="128" font-size="10" font-weight="600" fill="#6B7280" letter-spacing="1">SELECTED</text>
+
+  <!-- Selected state card -->
+  <rect x="0" y="136" width="348" height="80" rx="12" fill="#D6E4F0" stroke="#2B4C7E" stroke-width="1.5" filter="url(#shadow-sel)"/>
+  <text x="14" y="158" font-size="14" font-weight="600" fill="#1F2937">Kitchen Renovation</text>
+  <rect x="272" y="146" width="60" height="22" rx="10" fill="#DBEAFE"/>
+  <text x="302" y="161" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF" letter-spacing="0.5">↗ SENT</text>
+  <text x="14" y="173" font-size="12" fill="#6B7280">Bob Johnson</text>
+  <line x1="14" y1="182" x2="334" y2="182" stroke="#B8CDE0" stroke-width="1"/>
+  <text x="14" y="204" font-size="16" font-weight="700" fill="#2B4C7E" class="mono">$4,250</text>
+  <text x="312" y="204" font-size="11" fill="#6B7280" text-anchor="end">2 days ago</text>
+</svg>

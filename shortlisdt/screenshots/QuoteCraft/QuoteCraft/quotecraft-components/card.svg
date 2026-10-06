@@ -1,0 +1,28 @@
+<svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <filter id="cs" x="-2%" y="-2%" width="104%" height="110%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <rect width="420" height="180" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#cs)"/>
+
+  <!-- Header -->
+  <rect width="420" height="48" rx="12" fill="#FFFFFF"/>
+  <rect y="36" width="420" height="12" fill="#FFFFFF"/>
+  <line x1="0" y1="47.5" x2="420" y2="47.5" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="20" y="31" font-size="13" font-weight="700" fill="#6B7280" letter-spacing="0.8" text-transform="uppercase">CARD HEADER</text>
+
+  <!-- Body area indicator -->
+  <text x="20" y="78" font-size="14" font-weight="500" fill="#1F2937">Card body content area</text>
+  <text x="20" y="98" font-size="13" fill="#6B7280">Padding: 16px 20px</text>
+
+  <!-- Specs -->
+  <text x="20" y="130" font-size="11" fill="#6B7280">Background: #FFFFFF (Surface)</text>
+  <text x="20" y="148" font-size="11" fill="#6B7280">Border: 1px #E5E7EB · Radius: 12px · Shadow: sm</text>
+  <text x="20" y="166" font-size="11" fill="#6B7280">Header: 13px 700 uppercase · 0.8px tracking</text>
+</svg>

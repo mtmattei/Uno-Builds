@@ -7,6 +7,7 @@ public sealed partial class AgentsPage : Page
 {
     private ImmutableList<AgentSession> _sessions = ImmutableList<AgentSession>.Empty;
     private string? _selectedId;
+    private IAgentService? _agentService;
 
     public AgentsPage()
     {
@@ -17,15 +18,10 @@ public sealed partial class AgentsPage : Page
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        // Clean up dynamically attached event handlers
-        foreach (var child in SessionList.Children)
-        {
-            if (child is Border card)
-                card.Tapped -= OnSessionCardTapped;
-        }
+        SessionList.SelectionChanged -= OnSessionSelectionChanged;
+        NewSessionButton.Click -= OnNewSessionClick;
+        ReplayButton.Click -= OnReplayClick;
     }
-
-    private IAgentService? _agentService;
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
@@ -44,9 +40,9 @@ public sealed partial class AgentsPage : Page
         await Task.WhenAll(sessionsTask, mcpTask);
 
         _sessions = sessionsTask.Result;
-        BuildSessionList();
-        if (_sessions.Count > 0)
-            SelectSession(_sessions[0].Id);
+        SessionList.SelectionChanged += OnSessionSelectionChanged;
+        if (_sessions.Count > 0 && SessionList.Items.Count > 0)
+            SessionList.SelectedIndex = 0;
 
         PopulateMcpHealth(mcpTask.Result);
 
@@ -63,9 +59,13 @@ public sealed partial class AgentsPage : Page
         {
             await _agentService.CreateSessionAsync();
             _sessions = await _agentService.GetSessionsAsync(CancellationToken.None);
-            BuildSessionList();
+            // The ListView's ItemsSource binding refreshes via the model feed when it re-evaluates;
+            // re-select first item to drive the detail panel.
             if (_sessions.Count > 0)
-                SelectSession(_sessions[0].Id);
+            {
+                SessionList.SelectedItem = null;
+                SessionList.SelectedIndex = 0;
+            }
         }
         finally { NewSessionButton.IsEnabled = true; }
     }
@@ -81,96 +81,15 @@ public sealed partial class AgentsPage : Page
         finally { ReplayButton.IsEnabled = true; }
     }
 
-    private void BuildSessionList()
+    private void OnSessionSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        SessionList.Children.Clear();
-        foreach (var session in _sessions)
-        {
-            var card = CreateSessionCard(session);
-            SessionList.Children.Add(card);
-        }
-    }
-
-    private Border CreateSessionCard(AgentSession session)
-    {
-        var card = new Border
-        {
-            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalSurface1Brush"],
-            BorderBrush = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalSurface3Brush"],
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(12),
-            Padding = new Thickness(16),
-            Tag = session.Id,
-        };
-        card.Tapped += OnSessionCardTapped;
-
-        var stack = new StackPanel { Spacing = 8 };
-
-        // Status row
-        var statusRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        var dot = new Controls.StatusDot
-        {
-            Status = session.Status == SessionStatus.Active ? "ok" : "idle",
-            DotSize = 8,
-            VerticalAlignment = VerticalAlignment.Center,
-        };
-        statusRow.Children.Add(dot);
-
-        var name = new TextBlock
-        {
-            Text = session.Name,
-            Style = (Style)Application.Current.Resources["OrbitalBody"],
-            Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalText82Brush"],
-            VerticalAlignment = VerticalAlignment.Center,
-        };
-        statusRow.Children.Add(name);
-
-        if (session.Status == SessionStatus.Active)
-        {
-            var bars = new Controls.PulsingBars { BarCount = 3, BarColor = "violet", VerticalAlignment = VerticalAlignment.Center };
-            statusRow.Children.Add(bars);
-        }
-
-        stack.Children.Add(statusRow);
-
-        // Meta
-        var ageText = Helpers.OrbitalColors.TimeAgo(session.StartTime);
-        var meta = new TextBlock
-        {
-            Text = $"{session.ActionCount} actions · {session.ArtifactCount} artifacts · {ageText}",
-            Style = (Style)Application.Current.Resources["OrbitalMonoSmall"],
-            Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalText35Brush"],
-        };
-        stack.Children.Add(meta);
-
-        card.Child = stack;
-        return card;
-    }
-
-    private void OnSessionCardTapped(object sender, TappedRoutedEventArgs e)
-    {
-        if (sender is Border border && border.Tag is string id)
-            SelectSession(id);
+        if (SessionList.SelectedItem is AgentSession session)
+            SelectSession(session.Id);
     }
 
     private void SelectSession(string id)
     {
         _selectedId = id;
-
-        // Update card visuals
-        foreach (var child in SessionList.Children)
-        {
-            if (child is Border card)
-            {
-                var isSelected = (string)card.Tag == id;
-                card.Background = isSelected
-                    ? (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalSurface2Brush"]
-                    : (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalSurface1Brush"];
-                card.BorderBrush = isSelected
-                    ? (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalEmerald500_30Brush"]
-                    : (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalSurface3Brush"];
-            }
-        }
 
         // Populate detail
         var session = _sessions.FirstOrDefault(s => s.Id == id);
@@ -263,7 +182,10 @@ public sealed partial class AgentsPage : Page
                     .ToList();
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, "AgentsPage.ReadClaudePermissions");
+        }
 
         return ["file:read", "file:write"];
     }

@@ -8,16 +8,12 @@ using Windows.Foundation;
 
 namespace Liveline;
 
-/// <summary>
-/// SKCanvasElement subclass that performs all Skia drawing for the chart.
-/// State is captured into plain fields (safe for the render thread)
-/// and updated from the UI thread via UpdateState().
-/// </summary>
 public class LivelineChartCanvas : SKCanvasElement
 {
     private readonly LerpEngine _lerp = new();
+    private readonly RenderContext _rc = new();
     private ChartPalette _palette = ColorHelper.DerivePalette("#4CAF50", false);
-    private DateTimeOffset[] _times = Array.Empty<DateTimeOffset>();
+    private DateTimeOffset[] _times = [];
     private double _currentValue;
     private double _previousValue;
     private bool _showGrid = true;
@@ -56,16 +52,20 @@ public class LivelineChartCanvas : SKCanvasElement
             _previousValue = _currentValue;
             _currentValue = value;
 
-            var yValues = new double[data.Count];
-            var times = new DateTimeOffset[data.Count];
+            int count = data.Count;
+            var yValues = new double[count];
+            if (_times.Length != count)
+                _times = new DateTimeOffset[count];
+
             double minY = double.MaxValue, maxY = double.MinValue;
 
-            for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                yValues[i] = data[i].Value;
-                times[i] = data[i].Time;
-                if (data[i].Value < minY) minY = data[i].Value;
-                if (data[i].Value > maxY) maxY = data[i].Value;
+                var v = data[i].Value;
+                yValues[i] = v;
+                _times[i] = data[i].Time;
+                if (v < minY) minY = v;
+                if (v > maxY) maxY = v;
             }
 
             double padding = (maxY - minY) * 0.05;
@@ -73,40 +73,30 @@ public class LivelineChartCanvas : SKCanvasElement
             minY -= padding;
             maxY += padding;
 
-            _times = times;
             _lerp.SetTargets(yValues, minY, maxY, value);
             _hasData = true;
         }
 
         _momentumDirection = MomentumHelper.Resolve(momentum, _currentValue, _previousValue);
 
-        // Seed a flat line for the breathing animation when no real data yet
         if (!_hasData && _isLoading)
-        {
             _lerp.SeedFlatLine(BreathingPointCount, 0.0);
-        }
 
         Invalidate();
     }
 
-    /// <summary>
-    /// Called every frame from CompositionTarget.Rendering.
-    /// Always ticks the lerp and returns true if a redraw is needed.
-    /// </summary>
     public bool TickAnimation()
     {
         if (_isPaused) return false;
 
-        // Breathing animation while loading (before data arrives)
         if (!_hasData && _isLoading)
         {
             _breathPhase += 0.03;
-            return true; // always redraw during breathing
+            return true;
         }
 
         if (!_hasData) return false;
 
-        // Always tick - lerp converges smoothly over many frames
         return _lerp.Tick(_lerpSpeed);
     }
 
@@ -117,7 +107,6 @@ public class LivelineChartCanvas : SKCanvasElement
 
         canvas.Clear(_palette.Background);
 
-        // Breathing line animation while waiting for data
         if (!_hasData && _isLoading)
         {
             DrawBreathingLine(canvas, w, h);
@@ -133,23 +122,19 @@ public class LivelineChartCanvas : SKCanvasElement
         double minY = _lerp.CurrentMinY;
         double maxY = _lerp.CurrentMaxY;
 
-        // 1. Grid labels
         if (_showGrid)
-            GridRenderer.Draw(canvas, w, h, minY, maxY, _times, _palette);
+            GridRenderer.Draw(canvas, w, h, minY, maxY, _times, _palette, _rc);
 
-        // 2. Horizontal tracking line at the live dot Y
         double liveDotY = _lerp.CurrentY[^1];
-        GridRenderer.DrawTrackingLine(canvas, w, h, liveDotY, minY, maxY, _palette);
+        GridRenderer.DrawTrackingLine(canvas, w, h, liveDotY, minY, maxY, _palette, _rc);
 
-        // 3. Line + fill
-        LineRenderer.Draw(canvas, w, h, _lerp.CurrentY, minY, maxY, _showFill, _palette);
+        LineRenderer.Draw(canvas, w, h, _lerp.CurrentY, minY, maxY, _showFill, _palette, _rc);
 
-        // 4. Live dot + momentum arrow
-        MomentumRenderer.Draw(canvas, w, h, _lerp.CurrentY, minY, maxY, _momentumDirection, _palette);
+        if (_momentumDirection != MomentumDirection.Off)
+            MomentumRenderer.Draw(canvas, w, h, _lerp.CurrentY, minY, maxY, _palette, _rc);
 
-        // 5. Badge (drawn last so it overlays everything)
         if (_showBadge)
-            BadgeRenderer.Draw(canvas, w, h, _currentValue, _lerp.CurrentBadgeY, minY, maxY, _palette);
+            BadgeRenderer.Draw(canvas, w, h, _currentValue, _lerp.CurrentBadgeY, minY, maxY, _palette, _rc);
 
         if (_isLoading)
             DrawLoadingOrEmpty(canvas, w, h);
@@ -162,10 +147,9 @@ public class LivelineChartCanvas : SKCanvasElement
         float chartWidth = right - left;
         float centerY = top + chartHeight / 2f;
 
-        // Breathing: a gentle sine wave that pulses in amplitude and opacity
-        float breathAmplitude = (float)(Math.Sin(_breathPhase) * 0.5 + 0.5); // 0..1
-        float waveHeight = 4f + breathAmplitude * 12f; // 4..16px
-        byte alpha = (byte)(80 + breathAmplitude * 120); // 80..200
+        float breathAmplitude = (float)(Math.Sin(_breathPhase) * 0.5 + 0.5);
+        float waveHeight = 4f + breathAmplitude * 12f;
+        byte alpha = (byte)(80 + breathAmplitude * 120);
 
         using var path = new SKPath();
         path.MoveTo(left, centerY);
@@ -184,69 +168,43 @@ public class LivelineChartCanvas : SKCanvasElement
             path.CubicTo(prevX + cpOffset, prevY, x - cpOffset, y, x, y);
         }
 
-        // Gradient fill under breathing line
         using var fillPath = new SKPath(path);
         fillPath.LineTo(right, bottom);
         fillPath.LineTo(left, bottom);
         fillPath.Close();
 
-        using var fillPaint = new SKPaint
-        {
-            IsAntialias = true,
-            Style = SKPaintStyle.Fill,
-            Shader = SKShader.CreateLinearGradient(
-                new SKPoint(0, centerY - waveHeight),
-                new SKPoint(0, bottom),
-                new[] { ColorHelper.WithAlpha(_palette.LineColor, (byte)(alpha / 3)), ColorHelper.WithAlpha(_palette.LineColor, (byte)0) },
-                null,
-                SKShaderTileMode.Clamp)
-        };
-        canvas.DrawPath(fillPath, fillPaint);
+        using var gradient = SKShader.CreateLinearGradient(
+            new SKPoint(0, centerY - waveHeight),
+            new SKPoint(0, bottom),
+            [ColorHelper.WithAlpha(_palette.LineColor, (byte)(alpha / 3)), ColorHelper.WithAlpha(_palette.LineColor, 0)],
+            null,
+            SKShaderTileMode.Clamp);
 
-        // Line stroke
-        using var linePaint = new SKPaint
-        {
-            Color = ColorHelper.WithAlpha(_palette.LineColor, alpha),
-            StrokeWidth = 2.5f,
-            IsAntialias = true,
-            Style = SKPaintStyle.Stroke,
-            StrokeCap = SKStrokeCap.Round,
-            StrokeJoin = SKStrokeJoin.Round
-        };
-        canvas.DrawPath(path, linePaint);
+        _rc.Fill.Style = SKPaintStyle.Fill;
+        _rc.Fill.Color = SKColors.White;
+        _rc.Fill.Shader = gradient;
+        canvas.DrawPath(fillPath, _rc.Fill);
+        _rc.Fill.Shader = null;
 
-        // Pulsing dot at center
+        _rc.Stroke.Color = ColorHelper.WithAlpha(_palette.LineColor, alpha);
+        canvas.DrawPath(path, _rc.Stroke);
+
         float dotX = left + chartWidth / 2f;
         float dotY = centerY + (float)Math.Sin(_breathPhase * 2.0 + Math.PI) * waveHeight;
-        float dotAlpha = breathAmplitude;
 
-        using var dotGlow = new SKPaint
-        {
-            Color = ColorHelper.WithAlpha(_palette.LineColor, (byte)(30 + dotAlpha * 50)),
-            IsAntialias = true,
-            Style = SKPaintStyle.Fill
-        };
-        canvas.DrawCircle(dotX, dotY, 8f, dotGlow);
+        _rc.Fill.Color = ColorHelper.WithAlpha(_palette.LineColor, (byte)(30 + breathAmplitude * 50));
+        canvas.DrawCircle(dotX, dotY, 8f, _rc.Fill);
 
-        using var dotPaint = new SKPaint
-        {
-            Color = ColorHelper.WithAlpha(_palette.LineColor, alpha),
-            IsAntialias = true,
-            Style = SKPaintStyle.Fill
-        };
-        canvas.DrawCircle(dotX, dotY, 4f, dotPaint);
+        _rc.Fill.Color = ColorHelper.WithAlpha(_palette.LineColor, alpha);
+        canvas.DrawCircle(dotX, dotY, 4f, _rc.Fill);
     }
 
     private void DrawLoadingOrEmpty(SKCanvas canvas, float w, float h)
     {
-        using var font = new SKFont(SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Normal), 14f);
-        using var textPaint = new SKPaint
-        {
-            Color = _palette.TextDim,
-            IsAntialias = true
-        };
+        _rc.Fill.Style = SKPaintStyle.Fill;
+        _rc.Fill.Color = _palette.TextDim;
 
         string msg = _isLoading ? "Loading..." : "No data";
-        canvas.DrawText(msg, w / 2, h / 2, SKTextAlign.Center, font, textPaint);
+        canvas.DrawText(msg, w / 2, h / 2, SKTextAlign.Center, _rc.MessageFont, _rc.Fill);
     }
 }

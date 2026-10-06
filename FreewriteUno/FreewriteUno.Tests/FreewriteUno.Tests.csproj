@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FreewriteUno.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!--
+    Source-link the testable parts of the main project. This avoids a separate library and
+    matches the Architecture Brief §7.1 directive that EntryStore is testable via an
+    injectable-root constructor. EntryStore.WinRT.cs is NOT linked here — the test project
+    only uses the explicit-root constructor, never DefaultRoot().
+  -->
+  <ItemGroup>
+    <Compile Include="..\FreewriteUno\Models\Entry.cs" Link="Source\Entry.cs" />
+    <Compile Include="..\FreewriteUno\Services\IEntryStore.cs" Link="Source\IEntryStore.cs" />
+    <Compile Include="..\FreewriteUno\Services\EntryStore.cs" Link="Source\EntryStore.cs" />
+  </ItemGroup>
+
+  <!--
+    Inline AI: source-link the deterministic backend and its model dependencies. FakeAiService
+    has no MVUX/reactive dependency, so it tests in a plain xUnit host. The MVUX InlineAiModel
+    is NOT linked here — its IState/IListState transitions need the reactive runtime.
+  -->
+  <ItemGroup>
+    <Compile Include="..\FreewriteUno\InlineAi\Models\AiIntent.cs" Link="Source\InlineAi\AiIntent.cs" />
+    <Compile Include="..\FreewriteUno\InlineAi\Models\ToneOption.cs" Link="Source\InlineAi\ToneOption.cs" />
+    <Compile Include="..\FreewriteUno\InlineAi\Models\SelectionContext.cs" Link="Source\InlineAi\SelectionContext.cs" />
+    <Compile Include="..\FreewriteUno\InlineAi\Models\AiRequest.cs" Link="Source\InlineAi\AiRequest.cs" />
+    <Compile Include="..\FreewriteUno\InlineAi\Services\IAiService.cs" Link="Source\InlineAi\IAiService.cs" />
+    <Compile Include="..\FreewriteUno\InlineAi\Services\FakeAiService.cs" Link="Source\InlineAi\FakeAiService.cs" />
+  </ItemGroup>
+
+</Project>

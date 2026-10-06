@@ -78,8 +78,7 @@ public class ProjectContextService : IProjectContext
         var project = new OrbitalProject(
             name, solutionPath, rootDir, branch, DateTime.Now, status);
 
-        _recents ??= await LoadRecentsAsync();
-        await TouchRecentAsync(project);
+        await TouchRecentAsync(project, ct);
 
         _activeProject = project;
         ActiveProjectChanged?.Invoke();
@@ -88,22 +87,39 @@ public class ProjectContextService : IProjectContext
 
     public void RemoveRecentProject(string solutionPath)
     {
-        if (_recents is null) return;
-        _recents.RemoveAll(p => p.SolutionPath.Equals(solutionPath, StringComparison.OrdinalIgnoreCase));
-        _ = SaveRecentsAsync();
+        _ = RemoveRecentProjectAsync(solutionPath);
     }
 
     // --- Helpers ---
 
-    private async Task TouchRecentAsync(OrbitalProject project)
+    private async Task RemoveRecentProjectAsync(string solutionPath)
     {
-        _recents ??= await LoadRecentsAsync();
-        _recents.RemoveAll(p => p.SolutionPath.Equals(project.SolutionPath, StringComparison.OrdinalIgnoreCase));
-        _recents.Insert(0, project with { LastOpened = DateTime.Now });
-        // Keep at most 10 recents
-        if (_recents.Count > 10)
-            _recents.RemoveRange(10, _recents.Count - 10);
-        await SaveRecentsAsync();
+        await _lock.WaitAsync();
+        try
+        {
+            if (_recents is null) return;
+            _recents.RemoveAll(p => p.SolutionPath.Equals(solutionPath, StringComparison.OrdinalIgnoreCase));
+            await SaveRecentsAsync();
+        }
+        finally { _lock.Release(); }
+    }
+
+    private Task TouchRecentAsync(OrbitalProject project) => TouchRecentAsync(project, CancellationToken.None);
+
+    private async Task TouchRecentAsync(OrbitalProject project, CancellationToken ct)
+    {
+        await _lock.WaitAsync(ct);
+        try
+        {
+            _recents ??= await LoadRecentsAsync();
+            _recents.RemoveAll(p => p.SolutionPath.Equals(project.SolutionPath, StringComparison.OrdinalIgnoreCase));
+            _recents.Insert(0, project with { LastOpened = DateTime.Now });
+            // Keep at most 10 recents
+            if (_recents.Count > 10)
+                _recents.RemoveRange(10, _recents.Count - 10);
+            await SaveRecentsAsync();
+        }
+        finally { _lock.Release(); }
     }
 
     private static OrbitalProject? BuildOrbitalSelfProject()
@@ -149,7 +165,10 @@ public class ProjectContextService : IProjectContext
                     if (text.Contains("Uno.Sdk", StringComparison.OrdinalIgnoreCase))
                         return true;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Helpers.OrbitalLog.Warn(ex, $"ProjectContextService.IsUnoProject(globalJson={globalJson})");
+                }
             }
             dir = dir.Parent;
         }
@@ -165,7 +184,10 @@ public class ProjectContextService : IProjectContext
                     return true;
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Helpers.OrbitalLog.Warn(ex, $"ProjectContextService.IsUnoProject(scan={rootDir})");
+        }
 
         return false;
     }
@@ -188,13 +210,14 @@ public class ProjectContextService : IProjectContext
                 },
             };
             process.Start();
-            var output = await process.StandardOutput.ReadToEndAsync(ct);
-            await process.WaitForExitAsync(ct);
-            var branch = output.Trim();
+            var stdoutTask = process.StandardOutput.ReadToEndAsync(ct);
+            await Task.WhenAll(stdoutTask, process.WaitForExitAsync(ct));
+            var branch = stdoutTask.Result.Trim();
             return string.IsNullOrEmpty(branch) ? null : branch;
         }
-        catch
+        catch (Exception ex)
         {
+            Helpers.OrbitalLog.Warn(ex, $"ProjectContextService.GetGitBranchAsync({directory})");
             return null;
         }
     }
@@ -209,7 +232,10 @@ public class ProjectContextService : IProjectContext
                 return JsonSerializer.Deserialize<List<OrbitalProject>>(json) ?? [];
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Helpers.OrbitalLog.Warn(ex, $"ProjectContextService.LoadRecentsAsync({_recentsPath})");
+        }
         return [];
     }
 
@@ -222,6 +248,9 @@ public class ProjectContextService : IProjectContext
             var json = JsonSerializer.Serialize(_recents, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync(_recentsPath, json);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Helpers.OrbitalLog.Warn(ex, $"ProjectContextService.SaveRecentsAsync({_recentsPath})");
+        }
     }
 }

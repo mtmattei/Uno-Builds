@@ -4,20 +4,20 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using MsnMessenger.Models;
 using MsnMessenger.Services;
-using MsnMessenger.ViewModels;
 
 namespace MsnMessenger;
 
 public sealed partial class MainPage : Page, INotifyPropertyChanged
 {
     private readonly IMsnDataService _dataService;
-    private readonly MainViewModel _viewModel;
     private Contact? _selectedContact;
 
-    // Splitter drag state
     private bool _isDraggingSplitter;
     private double _dragStartX;
     private double _initialSidebarWidth;
+
+    private readonly List<Storyboard> _ambientStoryboards = new();
+    private bool _ambientAnimationsStarted;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -25,10 +25,11 @@ public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         this.InitializeComponent();
 
-        _dataService = new MsnDataService();
-        _viewModel = new MainViewModel(_dataService);
+        _dataService = App.Services?.GetService<IMsnDataService>()
+            ?? new MsnDataService();
 
         this.Loaded += OnPageLoaded;
+        this.Unloaded += OnPageUnloaded;
     }
 
     private void OnPageLoaded(object sender, RoutedEventArgs e)
@@ -39,162 +40,97 @@ public sealed partial class MainPage : Page, INotifyPropertyChanged
         ChatOverlay.DataService = _dataService;
         ChatOverlay.OnBackRequested += OnChatBackRequested;
 
-        // Start background orb animations
-        StartOrbAnimations();
-        StartButterflyAnimation();
-        StartFloatingButterflyAnimation();
+        StartAmbientAnimations();
     }
 
-    // Visibility properties - Sidebar is always visible in new layout
+    private void OnPageUnloaded(object sender, RoutedEventArgs e)
+    {
+        BuddiesView.OnContactSelected -= OnContactSelected;
+        ChatOverlay.OnBackRequested -= OnChatBackRequested;
+
+        foreach (var sb in _ambientStoryboards)
+        {
+            sb.Stop();
+        }
+        _ambientStoryboards.Clear();
+        _ambientAnimationsStarted = false;
+    }
+
     public Visibility IsBuddyListVisible => Visibility.Visible;
-    public Visibility IsChatVisible => _selectedContact != null ? Visibility.Visible : Visibility.Collapsed;
-    public Visibility IsEmptyStateVisible => _selectedContact == null ? Visibility.Visible : Visibility.Collapsed;
+    public Visibility IsChatVisible => _selectedContact is not null ? Visibility.Visible : Visibility.Collapsed;
+    public Visibility IsEmptyStateVisible => _selectedContact is null ? Visibility.Visible : Visibility.Collapsed;
 
     private void OnContactSelected(Contact contact)
     {
         _selectedContact = contact;
         ChatOverlay.LoadContact(contact);
-        NotifyAllProperties();
+        NotifyVisibilityChanged();
     }
 
     private void OnChatBackRequested()
     {
         _selectedContact = null;
-        NotifyAllProperties();
+        NotifyVisibilityChanged();
     }
 
-    private void NotifyAllProperties()
+    private void NotifyVisibilityChanged()
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBuddyListVisible)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChatVisible)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEmptyStateVisible)));
     }
 
-    #region Animations
-
-    private void StartOrbAnimations()
+    private void StartAmbientAnimations()
     {
-        // Teal Orb - 20s cycle, gentle movement
-        StartFloatingAnimation(TealOrbTransform, 30, 20, TimeSpan.FromSeconds(20));
+        // Loaded can re-fire on template re-mount; only start once per attached lifetime.
+        if (_ambientAnimationsStarted) return;
+        _ambientAnimationsStarted = true;
 
-        // Pink Orb - 25s cycle
-        StartFloatingAnimation(PinkOrbTransform, -25, -15, TimeSpan.FromSeconds(25));
+        StartFloatingOrb(TealOrbTransform, 30, 20, TimeSpan.FromSeconds(20));
+        StartFloatingOrb(PinkOrbTransform, -25, -15, TimeSpan.FromSeconds(25));
+        StartFloatingOrb(PurpleOrbTransform, 20, -25, TimeSpan.FromSeconds(18));
 
-        // Purple Orb - 18s cycle
-        StartFloatingAnimation(PurpleOrbTransform, 20, -25, TimeSpan.FromSeconds(18));
+        StartButterflyOscillation();
+        StartFloatingButterfly();
     }
 
-    private void StartFloatingAnimation(TranslateTransform transform, double targetX, double targetY, TimeSpan duration)
+    private void StartFloatingOrb(TranslateTransform transform, double targetX, double targetY, TimeSpan duration)
     {
-        AnimateOrbToPosition(transform, targetX, targetY, duration);
+        var sb = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        sb.Children.Add(BuildBounceAnimation(transform, "X", 0, targetX, duration));
+        sb.Children.Add(BuildBounceAnimation(transform, "Y", 0, targetY, duration));
+        _ambientStoryboards.Add(sb);
+        sb.Begin();
     }
 
-    private void AnimateOrbToPosition(TranslateTransform transform, double targetX, double targetY, TimeSpan duration)
+    private void StartButterflyOscillation()
     {
-        var animX = new DoubleAnimation
-        {
-            To = targetX,
-            Duration = new Duration(duration),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var animY = new DoubleAnimation
-        {
-            To = targetY,
-            Duration = new Duration(duration),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(animX);
-        storyboard.Children.Add(animY);
-
-        Storyboard.SetTarget(animX, transform);
-        Storyboard.SetTargetProperty(animX, "X");
-        Storyboard.SetTarget(animY, transform);
-        Storyboard.SetTargetProperty(animY, "Y");
-
-        storyboard.Completed += (s, e) =>
-        {
-            // Reverse direction
-            var nextX = transform.X == 0 ? targetX : 0;
-            var nextY = transform.Y == 0 ? targetY : 0;
-            AnimateOrbToPosition(transform, nextX, nextY, duration);
-        };
-
-        storyboard.Begin();
+        var sb = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        sb.Children.Add(BuildBounceAnimation(ButterflyTransform, "Rotation", 0, 5, TimeSpan.FromSeconds(3)));
+        sb.Children.Add(BuildBounceAnimation(ButterflyTransform, "ScaleX", 1.0, 1.1, TimeSpan.FromSeconds(3)));
+        _ambientStoryboards.Add(sb);
+        sb.Begin();
     }
 
-    private void StartButterflyAnimation()
+    private void StartFloatingButterfly()
     {
-        // Gentle rotation oscillation -5° to 5°
-        AnimateButterflyRotation(5);
+        var sb = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        sb.Children.Add(BuildBounceAnimation(FloatingButterflyTransform, "Y", 0, 15, TimeSpan.FromSeconds(2)));
+        _ambientStoryboards.Add(sb);
+        sb.Begin();
     }
 
-    private void AnimateButterflyRotation(double targetRotation)
+    private static DoubleAnimationUsingKeyFrames BuildBounceAnimation(DependencyObject target, string property, double start, double peak, TimeSpan halfDuration)
     {
-        var rotationAnim = new DoubleAnimation
-        {
-            To = targetRotation,
-            Duration = new Duration(TimeSpan.FromSeconds(3)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var scaleAnim = new DoubleAnimation
-        {
-            To = targetRotation > 0 ? 1.1 : 1.0,
-            Duration = new Duration(TimeSpan.FromSeconds(3)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(rotationAnim);
-        storyboard.Children.Add(scaleAnim);
-
-        Storyboard.SetTarget(rotationAnim, ButterflyTransform);
-        Storyboard.SetTargetProperty(rotationAnim, "Rotation");
-        Storyboard.SetTarget(scaleAnim, ButterflyTransform);
-        Storyboard.SetTargetProperty(scaleAnim, "ScaleX");
-
-        storyboard.Completed += (s, e) =>
-        {
-            AnimateButterflyRotation(-targetRotation);
-        };
-
-        storyboard.Begin();
+        var ease = new SineEase { EasingMode = EasingMode.EaseInOut };
+        var anim = new DoubleAnimationUsingKeyFrames();
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.Zero, Value = start, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = halfDuration, Value = peak, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = halfDuration + halfDuration, Value = start, EasingFunction = ease });
+        Storyboard.SetTarget(anim, target);
+        Storyboard.SetTargetProperty(anim, property);
+        return anim;
     }
-
-    private void StartFloatingButterflyAnimation()
-    {
-        AnimateFloatingButterfly(15);
-    }
-
-    private void AnimateFloatingButterfly(double targetY)
-    {
-        var anim = new DoubleAnimation
-        {
-            To = targetY,
-            Duration = new Duration(TimeSpan.FromSeconds(2)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(anim);
-
-        Storyboard.SetTarget(anim, FloatingButterflyTransform);
-        Storyboard.SetTargetProperty(anim, "Y");
-
-        storyboard.Completed += (s, e) =>
-        {
-            AnimateFloatingButterfly(-targetY);
-        };
-
-        storyboard.Begin();
-    }
-
-    #endregion
-
-    #region Splitter Resize
 
     private void OnSplitterPointerPressed(object sender, PointerRoutedEventArgs e)
     {
@@ -214,10 +150,7 @@ public sealed partial class MainPage : Page, INotifyPropertyChanged
 
         var currentX = e.GetCurrentPoint(this).Position.X;
         var delta = currentX - _dragStartX;
-        var newWidth = _initialSidebarWidth + delta;
-
-        // Clamp to min/max
-        newWidth = Math.Clamp(newWidth, 250, 450);
+        var newWidth = Math.Clamp(_initialSidebarWidth + delta, 250, 450);
         SidebarColumn.Width = new GridLength(newWidth);
 
         e.Handled = true;
@@ -235,20 +168,14 @@ public sealed partial class MainPage : Page, INotifyPropertyChanged
 
     private void OnSplitterPointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        // Highlight splitter on hover
         SplitterLine.Background = (Brush)Application.Current.Resources["TealPrimaryBrush"];
         SplitterLine.Width = 3;
     }
 
     private void OnSplitterPointerExited(object sender, PointerRoutedEventArgs e)
     {
-        if (!_isDraggingSplitter)
-        {
-            // Reset splitter appearance
-            SplitterLine.Background = (Brush)Application.Current.Resources["GlassBorderBrush"];
-            SplitterLine.Width = 2;
-        }
+        if (_isDraggingSplitter) return;
+        SplitterLine.Background = (Brush)Application.Current.Resources["GlassBorderBrush"];
+        SplitterLine.Width = 2;
     }
-
-    #endregion
 }

@@ -1,0 +1,15 @@
+<svg viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+
+  <!-- Card -->
+  <rect width="260" height="52" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Name -->
+  <text x="16" y="31" font-size="14" font-weight="500" fill="#1F2937">Sink Installation</text>
+
+  <!-- Price -->
+  <text x="244" y="31" font-size="14" font-weight="600" fill="#6B7280" text-anchor="end" class="mono">$350.00</text>
+</svg>

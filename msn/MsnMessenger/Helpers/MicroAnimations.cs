@@ -5,27 +5,6 @@ namespace MsnMessenger.Helpers;
 
 public static class MicroAnimations
 {
-    /// <summary>
-    /// Animate scale up on hover
-    /// </summary>
-    public static void AnimateHoverIn(UIElement element, double scale = 1.02)
-    {
-        var transform = GetOrCreateScaleTransform(element);
-        AnimateScale(transform, scale, TimeSpan.FromMilliseconds(150));
-    }
-
-    /// <summary>
-    /// Animate scale back to normal
-    /// </summary>
-    public static void AnimateHoverOut(UIElement element)
-    {
-        var transform = GetOrCreateScaleTransform(element);
-        AnimateScale(transform, 1.0, TimeSpan.FromMilliseconds(150));
-    }
-
-    /// <summary>
-    /// Animate press down effect
-    /// </summary>
     public static async Task AnimatePress(UIElement element)
     {
         var transform = GetOrCreateScaleTransform(element);
@@ -34,9 +13,6 @@ public static class MicroAnimations
         AnimateScale(transform, 1.0, TimeSpan.FromMilliseconds(120));
     }
 
-    /// <summary>
-    /// Animate entrance with fade and slide up
-    /// </summary>
     public static void AnimateEntrance(UIElement element, int delayMs = 0)
     {
         element.Opacity = 0;
@@ -49,7 +25,7 @@ public static class MicroAnimations
             To = 1,
             Duration = new Duration(TimeSpan.FromMilliseconds(300)),
             BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
 
         var slideAnim = new DoubleAnimation
@@ -58,41 +34,43 @@ public static class MicroAnimations
             To = 0,
             Duration = new Duration(TimeSpan.FromMilliseconds(300)),
             BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(fadeAnim);
-        storyboard.Children.Add(slideAnim);
 
         Storyboard.SetTarget(fadeAnim, element);
         Storyboard.SetTargetProperty(fadeAnim, "Opacity");
         Storyboard.SetTarget(slideAnim, translateTransform);
         Storyboard.SetTargetProperty(slideAnim, "Y");
 
+        var storyboard = new Storyboard();
+        storyboard.Children.Add(fadeAnim);
+        storyboard.Children.Add(slideAnim);
         storyboard.Begin();
     }
 
-    /// <summary>
-    /// Animate a subtle pulse effect
-    /// </summary>
-    public static void AnimatePulse(UIElement element, double maxScale = 1.1)
+    public static Storyboard AnimatePulse(UIElement element, double maxScale = 1.1)
     {
         var transform = GetOrCreateScaleTransform(element);
-        AnimatePulseLoop(transform, maxScale);
+
+        var storyboard = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        storyboard.Children.Add(BuildPulseAxis(transform, "ScaleX", maxScale));
+        storyboard.Children.Add(BuildPulseAxis(transform, "ScaleY", maxScale));
+        storyboard.Begin();
+        return storyboard;
     }
 
-    /// <summary>
-    /// Animate a breathing/glow effect on opacity
-    /// </summary>
-    public static void AnimateBreathing(UIElement element, double minOpacity = 0.7, double maxOpacity = 1.0)
+    private static DoubleAnimationUsingKeyFrames BuildPulseAxis(ScaleTransform transform, string property, double maxScale)
     {
-        AnimateBreathingLoop(element, minOpacity, maxOpacity);
+        var ease = new SineEase { EasingMode = EasingMode.EaseInOut };
+        var anim = new DoubleAnimationUsingKeyFrames();
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.Zero, Value = 1.0, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.FromMilliseconds(800), Value = maxScale, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.FromMilliseconds(1600), Value = 1.0, EasingFunction = ease });
+        Storyboard.SetTarget(anim, transform);
+        Storyboard.SetTargetProperty(anim, property);
+        return anim;
     }
 
-    /// <summary>
-    /// Shake animation for nudge effect
-    /// </summary>
     public static async Task AnimateShake(UIElement element)
     {
         var translateTransform = new TranslateTransform();
@@ -109,9 +87,6 @@ public static class MicroAnimations
         translateTransform.X = 0;
     }
 
-    /// <summary>
-    /// Pop in animation
-    /// </summary>
     public static void AnimatePopIn(UIElement element, int delayMs = 0)
     {
         var transform = GetOrCreateScaleTransform(element);
@@ -125,7 +100,7 @@ public static class MicroAnimations
             To = 1,
             Duration = new Duration(TimeSpan.FromMilliseconds(250)),
             BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 }
+            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 },
         };
 
         var scaleXAnim = new DoubleAnimation
@@ -134,7 +109,7 @@ public static class MicroAnimations
             To = 1,
             Duration = new Duration(TimeSpan.FromMilliseconds(250)),
             BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 }
+            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 },
         };
 
         var scaleYAnim = new DoubleAnimation
@@ -143,13 +118,8 @@ public static class MicroAnimations
             To = 1,
             Duration = new Duration(TimeSpan.FromMilliseconds(250)),
             BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 }
+            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 },
         };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(fadeAnim);
-        storyboard.Children.Add(scaleXAnim);
-        storyboard.Children.Add(scaleYAnim);
 
         Storyboard.SetTarget(fadeAnim, element);
         Storyboard.SetTargetProperty(fadeAnim, "Opacity");
@@ -158,6 +128,10 @@ public static class MicroAnimations
         Storyboard.SetTarget(scaleYAnim, transform);
         Storyboard.SetTargetProperty(scaleYAnim, "ScaleY");
 
+        var storyboard = new Storyboard();
+        storyboard.Children.Add(fadeAnim);
+        storyboard.Children.Add(scaleXAnim);
+        storyboard.Children.Add(scaleYAnim);
         storyboard.Begin();
     }
 
@@ -178,85 +152,23 @@ public static class MicroAnimations
         {
             To = targetScale,
             Duration = new Duration(duration),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
+        Storyboard.SetTarget(scaleXAnim, transform);
+        Storyboard.SetTargetProperty(scaleXAnim, "ScaleX");
 
         var scaleYAnim = new DoubleAnimation
         {
             To = targetScale,
             Duration = new Duration(duration),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
+        Storyboard.SetTarget(scaleYAnim, transform);
+        Storyboard.SetTargetProperty(scaleYAnim, "ScaleY");
 
         var storyboard = new Storyboard();
         storyboard.Children.Add(scaleXAnim);
         storyboard.Children.Add(scaleYAnim);
-
-        Storyboard.SetTarget(scaleXAnim, transform);
-        Storyboard.SetTargetProperty(scaleXAnim, "ScaleX");
-        Storyboard.SetTarget(scaleYAnim, transform);
-        Storyboard.SetTargetProperty(scaleYAnim, "ScaleY");
-
-        storyboard.Begin();
-    }
-
-    private static void AnimatePulseLoop(ScaleTransform transform, double maxScale)
-    {
-        var scaleUpX = new DoubleAnimation
-        {
-            To = maxScale,
-            Duration = new Duration(TimeSpan.FromMilliseconds(800)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var scaleUpY = new DoubleAnimation
-        {
-            To = maxScale,
-            Duration = new Duration(TimeSpan.FromMilliseconds(800)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(scaleUpX);
-        storyboard.Children.Add(scaleUpY);
-
-        Storyboard.SetTarget(scaleUpX, transform);
-        Storyboard.SetTargetProperty(scaleUpX, "ScaleX");
-        Storyboard.SetTarget(scaleUpY, transform);
-        Storyboard.SetTargetProperty(scaleUpY, "ScaleY");
-
-        storyboard.Completed += (s, e) =>
-        {
-            var nextScale = transform.ScaleX >= maxScale ? 1.0 : maxScale;
-            AnimatePulseLoop(transform, nextScale == 1.0 ? maxScale : nextScale);
-        };
-
-        storyboard.Begin();
-    }
-
-    private static void AnimateBreathingLoop(UIElement element, double minOpacity, double maxOpacity)
-    {
-        var currentOpacity = element.Opacity;
-        var targetOpacity = currentOpacity <= minOpacity ? maxOpacity : minOpacity;
-
-        var opacityAnim = new DoubleAnimation
-        {
-            To = targetOpacity,
-            Duration = new Duration(TimeSpan.FromMilliseconds(1500)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(opacityAnim);
-
-        Storyboard.SetTarget(opacityAnim, element);
-        Storyboard.SetTargetProperty(opacityAnim, "Opacity");
-
-        storyboard.Completed += (s, e) =>
-        {
-            AnimateBreathingLoop(element, minOpacity, maxOpacity);
-        };
-
         storyboard.Begin();
     }
 }

@@ -1,0 +1,21 @@
+<svg viewBox="0 0 600 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Primary -->
+  <rect x="0" y="10" width="110" height="40" rx="8" fill="#2B4C7E"/>
+  <text x="55" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="white">Primary</text>
+
+  <!-- Secondary -->
+  <rect x="130" y="10" width="120" height="40" rx="8" fill="#FFFFFF" stroke="#2B4C7E" stroke-width="1.5"/>
+  <text x="190" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#2B4C7E">Secondary</text>
+
+  <!-- Accent -->
+  <rect x="270" y="10" width="110" height="40" rx="8" fill="#F59E0B"/>
+  <text x="325" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#1F2937">Send ↗</text>
+
+  <!-- Ghost -->
+  <rect x="400" y="10" width="100" height="40" rx="8" fill="none" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="450" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#6B7280">Ghost</text>
+</svg>

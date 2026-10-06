@@ -14,9 +14,6 @@
         <Grid>
             <ScrollViewer>
                 <StackPanel>
-                    <!-- ═══════════════════════════════════════════════════════════════════ -->
-                    <!-- MY PROFILE SECTION -->
-                    <!-- ═══════════════════════════════════════════════════════════════════ -->
                     <Border Background="{StaticResource HeaderGradientBrush}"
                             Padding="16">
                         <StackPanel Spacing="12">
@@ -190,10 +187,6 @@
                                     <Ellipse Width="12" Height="12" Fill="{StaticResource OfflineBrush}" />
                                 </Button>
                             </Grid>
-
-                            <!-- ═══════════════════════════════════════════════════════════════════ -->
-                            <!-- NOW PLAYING - Spotify Integration -->
-                            <!-- ═══════════════════════════════════════════════════════════════════ -->
                             <Border x:Name="NowPlayingCard"
                                     Background="{StaticResource GlassBackgroundBrush}"
                                     BorderBrush="{StaticResource GlassBorderBrush}"
@@ -271,10 +264,6 @@
                             </Border>
                         </StackPanel>
                     </Border>
-
-                    <!-- ═══════════════════════════════════════════════════════════════════ -->
-                    <!-- CONTACTS SECTION -->
-                    <!-- ═══════════════════════════════════════════════════════════════════ -->
                     <Border Padding="16,12">
                         <!-- Section Header -->
                         <Grid Margin="0,0,0,12">

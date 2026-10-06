@@ -1,0 +1,47 @@
+<svg width="320" height="240" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Shift Information Panel -->
+  <!-- Used in: Production -->
+  
+  <!-- Background -->
+  <rect width="320" height="240" fill="#111113" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Shift Header -->
+  <g transform="translate(20, 20)">
+    <!-- Shift Badge -->
+    <rect x="0" y="0" width="80" height="36" fill="#18181b" stroke="#3f3f46" stroke-width="1"/>
+    <text x="40" y="24" font-family="IBM Plex Mono, monospace" font-size="14" fill="#fafafa" text-anchor="middle" letter-spacing="3">SHIFT B</text>
+    
+    <!-- Time Range -->
+    <text x="200" y="24" font-family="IBM Plex Mono, monospace" font-size="12" fill="#71717a" text-anchor="end">06:00 — 14:00</text>
+  </g>
+  
+  <!-- Shift Details Grid -->
+  <g transform="translate(20, 75)">
+    <!-- Supervisor -->
+    <rect x="0" y="0" width="85" height="55" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="42" y="20" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">SUPERVISOR</text>
+    <text x="42" y="42" font-family="Space Grotesk, sans-serif" font-size="16" fill="#fafafa" text-anchor="middle">M. Chen</text>
+    
+    <!-- Operators -->
+    <rect x="95" y="0" width="85" height="55" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="137" y="20" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">OPERATORS</text>
+    <text x="137" y="42" font-family="Space Grotesk, sans-serif" font-size="18" fill="#fafafa" text-anchor="middle">12</text>
+    
+    <!-- Breaks -->
+    <rect x="190" y="0" width="85" height="55" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="232" y="20" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">BREAKS TAKEN</text>
+    <text x="232" y="42" font-family="Space Grotesk, sans-serif" font-size="18" fill="#fafafa" text-anchor="middle">2/3</text>
+  </g>
+  
+  <!-- Progress Section -->
+  <g transform="translate(20, 155)">
+    <line x1="0" y1="0" x2="275" y2="0" stroke="#27272a" stroke-width="1"/>
+    
+    <text x="0" y="30" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">SHIFT PROGRESS</text>
+    <text x="275" y="30" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">67%</text>
+    
+    <!-- Progress Bar -->
+    <rect x="0" y="45" width="275" height="4" fill="#27272a"/>
+    <rect x="0" y="45" width="184" height="4" fill="#a1a1aa"/>
+  </g>
+</svg>

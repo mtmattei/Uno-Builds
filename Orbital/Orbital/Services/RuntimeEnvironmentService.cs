@@ -216,7 +216,8 @@ public class RuntimeEnvironmentService : IEnvironmentService
             var completed = await Task.WhenAny(readTask, Task.Delay(5000, ct));
             if (completed != readTask)
             {
-                try { process.Kill(); } catch { }
+                try { process.Kill(); }
+                catch (Exception ex) { Helpers.OrbitalLog.Warn(ex, "RuntimeEnvironmentService.WorkloadProbe.Kill"); }
                 _cachedWorkloadCount = 0;
                 return 0;
             }

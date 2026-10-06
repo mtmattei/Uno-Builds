@@ -89,7 +89,7 @@
             <StackPanel Height="84" Spacing="4" VerticalAlignment="Top">
                 <TextBlock Text="{x:Bind Video.Title, Mode=OneWay, FallbackValue=''}"
                            FontSize="14"
-                           Foreground="#F3F8FB"
+                           Foreground="{ThemeResource OnSurfaceBrush}"
                            TextWrapping="Wrap"
                            MaxLines="2"
                            LineHeight="20"
@@ -99,7 +99,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="4">
                     <TextBlock Text="{x:Bind Video.Channel.Name, Mode=OneWay, FallbackValue=''}"
                                FontSize="13"
-                               Foreground="#8FA1AB"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                VerticalAlignment="Center" />
                     <FontIcon x:Name="VerifiedIcon"
                               Glyph="&#xE73E;"
@@ -117,7 +117,7 @@
 
                 <TextBlock Text="{x:Bind Video.MetaLabel, Mode=OneWay, FallbackValue=''}"
                            FontSize="12"
-                           Foreground="#8FA1AB" />
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
             </StackPanel>
         </utu:AutoLayout>
 

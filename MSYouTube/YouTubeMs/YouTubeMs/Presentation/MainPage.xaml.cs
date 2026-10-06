@@ -115,7 +115,7 @@ public sealed partial class MainPage : Page
         // "/" focuses search (skip if focus is already in a text input)
         if (e.Key == (Windows.System.VirtualKey)191) // OEM_2 / forward slash on US layout
         {
-            if (FocusManager.GetFocusedElement(this.XamlRoot) is TextBox) return;
+            if (this.XamlRoot is { } root && FocusManager.GetFocusedElement(root) is TextBox) return;
             SearchTextBox.Focus(FocusState.Programmatic);
             e.Handled = true;
         }
@@ -161,7 +161,7 @@ public sealed partial class MainPage : Page
         PrimaryNavTabBar.SelectionChanged += OnSidebarSelectionChanged;
         LibraryTabBar.SelectionChanged += OnSidebarSelectionChanged;
         // Initial position once layout settles
-        this.Dispatcher.RunIdleAsync(_ => MoveSidebarPillToSelected(animated: false));
+        _ = this.Dispatcher.RunIdleAsync(_ => MoveSidebarPillToSelected(animated: false));
     }
 
     private void OnSidebarSelectionChanged(Uno.Toolkit.UI.TabBar sender, Uno.Toolkit.UI.TabBarSelectionChangedEventArgs e)

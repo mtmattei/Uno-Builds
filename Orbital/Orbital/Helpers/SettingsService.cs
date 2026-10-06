@@ -19,7 +19,7 @@ public static class SettingsService
     public static void SaveUsername(string name)
         => WriteSetting("username", name);
 
-    public static string? ReadSetting(string key)
+    private static string? ReadSetting(string key)
     {
         try
         {
@@ -29,11 +29,14 @@ public static class SettingsService
             if (doc.RootElement.TryGetProperty(key, out var val))
                 return val.GetString();
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, $"SettingsService.ReadSetting({key})");
+        }
         return null;
     }
 
-    public static void WriteSetting(string key, string value)
+    private static void WriteSetting(string key, string value)
     {
         try
         {
@@ -48,6 +51,9 @@ public static class SettingsService
             Directory.CreateDirectory(SettingsDir);
             File.WriteAllText(SettingsFile, System.Text.Json.JsonSerializer.Serialize(settings));
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, $"SettingsService.WriteSetting({key})");
+        }
     }
 }

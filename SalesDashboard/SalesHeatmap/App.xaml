@@ -1,0 +1,19 @@
+<Application x:Class="SalesHeatmap.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <FontFamily x:Key="WidgetMonoFamily">Consolas,Menlo,Monaco,Courier New,monospace</FontFamily>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

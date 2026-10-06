@@ -22,7 +22,14 @@ public record Artifact(string FileName, string Type, string Size, string Path, D
 public partial record AgentSession(
     string Id, string Name, string Repo, string Branch, string Goal,
     SessionStatus Status, int ActionCount, int ArtifactCount,
-    ImmutableList<AgentAction> Actions, DateTime StartTime);
+    ImmutableList<AgentAction> Actions, DateTime StartTime)
+{
+    // String keys consumed by status-driven UI controls (StatusDot, badges).
+    public string StatusKey => Status == SessionStatus.Active ? "ok" : "idle";
+    public bool IsActive => Status == SessionStatus.Active;
+    public string AgeText => Helpers.OrbitalColors.TimeAgo(StartTime);
+    public string MetaLine => $"{ActionCount} actions · {ArtifactCount} artifacts · {AgeText}";
+}
 public record AgentAction(DateTime Time, string Title, string Detail, ActionStatus Status);
 
 // Diagnostics
@@ -38,7 +45,22 @@ public record McpConnector(string Name, string Url, bool Connected, int ToolCoun
 // Skills
 public partial record SkillInfo(
     string Id, string Name, string Description, string Category,
-    bool IsActive, int Invocations, double Accuracy, string Path);
+    bool IsActive, int Invocations, double Accuracy, string Path)
+{
+    public string InvocationsText => $"{Invocations} calls";
+    public string AccuracyText => $"{Accuracy:P0} accuracy";
+}
+
+// Grouped projection of skills by category, ordered for display.
+public record SkillGroup(string Category, ImmutableList<SkillInfo> Skills)
+{
+    public string CategoryDisplay => Category.ToUpperInvariant();
+    public int SortOrder => Category switch
+    {
+        "core" => 0, "styling" => 1, "navigation" => 2,
+        "mvux" => 3, "toolkit" => 4, "testing" => 5, _ => 6,
+    };
+}
 
 // Project Context
 public record OrbitalProject(

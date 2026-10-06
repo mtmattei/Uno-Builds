@@ -231,9 +231,9 @@ public sealed partial class DashboardPage : Page
         VolumeChart.VolumeData = volume.ToList();
 
         // Load sparkline data once ItemsRepeater has materialized children
-        void OnLayoutReady(object s, object e)
+        void OnLayoutReady(object? s, object e)
         {
-            ((FrameworkElement)s).LayoutUpdated -= OnLayoutReady;
+            this.LayoutUpdated -= OnLayoutReady;
             _ = PopulateSparklines();
         }
         this.LayoutUpdated += OnLayoutReady;

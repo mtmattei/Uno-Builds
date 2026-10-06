@@ -1,8 +1,5 @@
 namespace Liveline.Models;
 
-/// <summary>
-/// Resolved momentum direction used internally by the renderer.
-/// </summary>
 public enum MomentumDirection
 {
     Off,
@@ -11,14 +8,13 @@ public enum MomentumDirection
     Flat
 }
 
-/// <summary>
-/// Helpers to parse the Momentum property value.
-/// Pass true for auto-detect, false for off, or "up"/"down"/"flat" to force.
-/// </summary>
 public static class MomentumHelper
 {
     /// <summary>
-    /// Resolves the Momentum property value into a concrete direction.
+    /// Resolves the <c>Momentum</c> property value into a concrete direction.
+    /// <c>false</c> → <see cref="MomentumDirection.Off"/>;
+    /// <c>"up"</c>/<c>"down"</c>/<c>"flat"</c> → forced direction;
+    /// otherwise auto-detect from delta.
     /// </summary>
     public static MomentumDirection Resolve(object? value, double currentValue, double previousValue)
     {
@@ -36,17 +32,14 @@ public static class MomentumHelper
             };
         }
 
-        // true or any other truthy value = auto-detect
-        if (value is true or not null)
-        {
-            double delta = currentValue - previousValue;
-            double threshold = Math.Max(Math.Abs(currentValue) * 0.001, 0.001);
+        if (value is null)
+            return MomentumDirection.Off;
 
-            if (delta > threshold) return MomentumDirection.Up;
-            if (delta < -threshold) return MomentumDirection.Down;
-            return MomentumDirection.Flat;
-        }
+        double delta = currentValue - previousValue;
+        double threshold = Math.Max(Math.Abs(currentValue) * 0.001, 0.001);
 
-        return MomentumDirection.Off;
+        if (delta > threshold) return MomentumDirection.Up;
+        if (delta < -threshold) return MomentumDirection.Down;
+        return MomentumDirection.Flat;
     }
 }

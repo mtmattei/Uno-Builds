@@ -1,0 +1,17 @@
+<svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Label -->
+  <text x="0" y="14" font-size="12" font-weight="500" fill="#6B7280">Unit Price</text>
+
+  <!-- Input box -->
+  <rect x="0" y="22" width="200" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+
+  <!-- $ prefix -->
+  <text x="14" y="47" font-size="14" fill="#6B7280">$</text>
+
+  <!-- Value -->
+  <text x="30" y="47" font-size="14" fill="#1F2937">350.00</text>
+</svg>

@@ -4,7 +4,7 @@
              x:Name="Self">
     <StackPanel Orientation="Vertical" Spacing="8">
         <!-- Thumbnail skeleton with shimmer -->
-        <Border Height="160" CornerRadius="12" Background="#142E3A">
+        <Border Height="160" CornerRadius="12" Background="{ThemeResource SurfaceVariantBrush}">
             <Rectangle x:Name="ThumbShimmer" Opacity="0.45">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -21,10 +21,10 @@
 
         <!-- Title lines + meta skeleton -->
         <StackPanel Orientation="Vertical" Spacing="6" Padding="0,4,0,0">
-            <Rectangle Height="14" RadiusX="3" RadiusY="3" Fill="#142E3A" />
-            <Rectangle Height="14" RadiusX="3" RadiusY="3" Fill="#142E3A" Width="180" HorizontalAlignment="Left" />
-            <Rectangle Height="12" RadiusX="3" RadiusY="3" Fill="#142E3A" Width="120" HorizontalAlignment="Left" Margin="0,4,0,0" />
-            <Rectangle Height="10" RadiusX="3" RadiusY="3" Fill="#142E3A" Width="160" HorizontalAlignment="Left" />
+            <Rectangle Height="14" RadiusX="3" RadiusY="3" Fill="{ThemeResource SurfaceVariantBrush}" />
+            <Rectangle Height="14" RadiusX="3" RadiusY="3" Fill="{ThemeResource SurfaceVariantBrush}" Width="180" HorizontalAlignment="Left" />
+            <Rectangle Height="12" RadiusX="3" RadiusY="3" Fill="{ThemeResource SurfaceVariantBrush}" Width="120" HorizontalAlignment="Left" Margin="0,4,0,0" />
+            <Rectangle Height="10" RadiusX="3" RadiusY="3" Fill="{ThemeResource SurfaceVariantBrush}" Width="160" HorizontalAlignment="Left" />
         </StackPanel>
     </StackPanel>
 </UserControl>

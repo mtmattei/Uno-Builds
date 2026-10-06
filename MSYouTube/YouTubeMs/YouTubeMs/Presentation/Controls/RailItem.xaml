@@ -6,7 +6,7 @@
 
     <Button x:Name="RailButton"
             Style="{StaticResource FlatItemButtonStyle}"
-            Background="#142E3A"
+            Background="{ThemeResource SurfaceVariantBrush}"
             BorderBrush="#22FFFFFF"
             BorderThickness="1"
             Padding="0"

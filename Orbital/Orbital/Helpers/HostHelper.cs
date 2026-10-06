@@ -73,7 +73,10 @@ public static class HostHelper
                 return (shortNames, tfms);
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, $"HostHelper.ReadTargetFrameworks({csprojPath})");
+        }
         return (["desktop"], ["net10.0-desktop"]);
     }
 }

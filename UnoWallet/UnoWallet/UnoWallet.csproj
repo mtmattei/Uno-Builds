@@ -38,15 +38,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <UnoImage Include="Assets\Images\avatar.svg" />
-    <UnoImage Include="Assets\Images\amazon.svg" />
-    <UnoImage Include="Assets\Images\temu.svg" />
-    <UnoImage Include="Assets\Images\ps5.svg" />
-    <UnoImage Include="Assets\Images\nikon.svg" />
-    <UnoImage Include="Assets\Images\laptop.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
   </ItemGroup>
 

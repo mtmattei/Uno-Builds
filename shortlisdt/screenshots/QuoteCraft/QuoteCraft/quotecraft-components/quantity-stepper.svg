@@ -1,0 +1,21 @@
+<svg viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Container -->
+  <rect x="0" y="4" width="124" height="38" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+
+  <!-- Minus button -->
+  <rect x="0" y="4" width="38" height="38" rx="8 0 0 8" fill="#F3F4F6"/>
+  <text x="19" y="28" text-anchor="middle" font-size="18" font-weight="600" fill="#2B4C7E">−</text>
+  <line x1="38" y1="4" x2="38" y2="42" stroke="#D1D5DB" stroke-width="1.5"/>
+
+  <!-- Value -->
+  <text x="62" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#1F2937">1</text>
+
+  <!-- Plus button -->
+  <line x1="86" y1="4" x2="86" y2="42" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect x="86" y="4" width="38" height="38" rx="0 8 8 0" fill="#F3F4F6"/>
+  <text x="105" y="28" text-anchor="middle" font-size="18" font-weight="600" fill="#2B4C7E">+</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg width="500" height="180" viewBox="0 0 500 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Alert / System Log Item -->
+  <!-- Used in: Overview -->
+  
+  <!-- Background -->
+  <rect width="500" height="180" fill="#111113"/>
+  
+  <!-- Alert Item 1: Info -->
+  <g transform="translate(0, 0)">
+    <rect x="0" y="0" width="500" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">14:32:08</text>
+    <circle cx="90" cy="23" r="2" fill="#60a5fa"/>
+    <text x="105" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Batch #4892 completed successfully</text>
+    <line x1="0" y1="44" x2="500" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Alert Item 2: Warning -->
+  <g transform="translate(0, 45)">
+    <rect x="0" y="0" width="500" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">14:28:41</text>
+    <circle cx="90" cy="23" r="2" fill="#fbbf24"/>
+    <text x="105" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Line C2 scheduled maintenance in progress</text>
+    <line x1="0" y1="44" x2="500" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Alert Item 3: Info -->
+  <g transform="translate(0, 90)">
+    <rect x="0" y="0" width="500" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">14:15:22</text>
+    <circle cx="90" cy="23" r="2" fill="#60a5fa"/>
+    <text x="105" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Energy optimization mode activated</text>
+    <line x1="0" y1="44" x2="500" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Alert Item 4: Success -->
+  <g transform="translate(0, 135)">
+    <rect x="0" y="0" width="500" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">13:58:03</text>
+    <circle cx="90" cy="23" r="2" fill="#4ade80"/>
+    <text x="105" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">System backup completed</text>
+  </g>
+</svg>

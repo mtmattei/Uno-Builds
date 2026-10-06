@@ -1,5 +1,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using MsnMessenger.Converters;
 using MsnMessenger.Models;
 
 namespace MsnMessenger.Controls;
@@ -57,11 +58,16 @@ public sealed partial class AvatarControl : UserControl
     public double StatusSize => Size * 0.3;
     public double StatusCornerRadius => StatusSize / 2;
 
-    public Brush FrameBrush => CreateFrameBrush();
-    public Brush StatusBrush => CreateStatusBrush();
+    private Brush _frameBrush;
+    private Brush _statusBrush;
+
+    public Brush FrameBrush => _frameBrush;
+    public Brush StatusBrush => _statusBrush;
 
     public AvatarControl()
     {
+        _frameBrush = BuildFrameBrush(null);
+        _statusBrush = StatusBrushes.ForStatus(PresenceStatus.Offline);
         this.InitializeComponent();
     }
 
@@ -69,11 +75,7 @@ public sealed partial class AvatarControl : UserControl
     {
         if (d is AvatarControl control)
         {
-            control.OnPropertyChanged(nameof(FrameCornerRadius));
-            control.OnPropertyChanged(nameof(AvatarCornerRadius));
-            control.OnPropertyChanged(nameof(InitialsFontSize));
-            control.OnPropertyChanged(nameof(StatusSize));
-            control.OnPropertyChanged(nameof(StatusCornerRadius));
+            control.Bindings.Update();
         }
     }
 
@@ -81,7 +83,8 @@ public sealed partial class AvatarControl : UserControl
     {
         if (d is AvatarControl control)
         {
-            control.OnPropertyChanged(nameof(StatusBrush));
+            control._statusBrush = StatusBrushes.ForStatus(control.Status);
+            control.Bindings.Update();
         }
     }
 
@@ -89,35 +92,20 @@ public sealed partial class AvatarControl : UserControl
     {
         if (d is AvatarControl control)
         {
-            control.OnPropertyChanged(nameof(FrameBrush));
+            control._frameBrush = BuildFrameBrush(control.FrameColor);
+            control.Bindings.Update();
         }
     }
 
-    private void OnPropertyChanged(string propertyName)
+    private static Brush BuildFrameBrush(string? frameColor)
     {
-        Bindings.Update();
-    }
-
-    private Brush CreateFrameBrush()
-    {
-        var startColor = ColorHelper.FromArgb(255, 0, 179, 119); // MsnGreen
-        if (!string.IsNullOrEmpty(FrameColor))
+        var startColor = ColorHelper.FromArgb(255, 0, 179, 119);
+        if (TryParseHex(frameColor, out var parsed))
         {
-            try
-            {
-                var hex = FrameColor.TrimStart('#');
-                if (hex.Length == 6)
-                {
-                    startColor = ColorHelper.FromArgb(255,
-                        Convert.ToByte(hex.Substring(0, 2), 16),
-                        Convert.ToByte(hex.Substring(2, 2), 16),
-                        Convert.ToByte(hex.Substring(4, 2), 16));
-                }
-            }
-            catch { }
+            startColor = parsed;
         }
 
-        var endColor = ColorHelper.FromArgb(255, 0, 120, 212); // MsnBlue
+        var endColor = ColorHelper.FromArgb(255, 0, 120, 212);
 
         return new LinearGradientBrush
         {
@@ -126,21 +114,26 @@ public sealed partial class AvatarControl : UserControl
             GradientStops =
             {
                 new GradientStop { Color = startColor, Offset = 0 },
-                new GradientStop { Color = endColor, Offset = 1 }
-            }
+                new GradientStop { Color = endColor, Offset = 1 },
+            },
         };
     }
 
-    private Brush CreateStatusBrush()
+    private static bool TryParseHex(string? value, out Windows.UI.Color color)
     {
-        var color = Status switch
+        color = default;
+        if (string.IsNullOrEmpty(value)) return false;
+
+        var hex = value.AsSpan().TrimStart('#');
+        if (hex.Length != 6) return false;
+
+        if (byte.TryParse(hex.Slice(0, 2), System.Globalization.NumberStyles.HexNumber, null, out var r)
+            && byte.TryParse(hex.Slice(2, 2), System.Globalization.NumberStyles.HexNumber, null, out var g)
+            && byte.TryParse(hex.Slice(4, 2), System.Globalization.NumberStyles.HexNumber, null, out var b))
         {
-            PresenceStatus.Online => ColorHelper.FromArgb(255, 0, 204, 102),
-            PresenceStatus.Away => ColorHelper.FromArgb(255, 255, 184, 0),
-            PresenceStatus.Busy => ColorHelper.FromArgb(255, 255, 59, 48),
-            PresenceStatus.Offline => ColorHelper.FromArgb(255, 142, 142, 147),
-            _ => Colors.Gray
-        };
-        return new SolidColorBrush(color);
+            color = ColorHelper.FromArgb(255, r, g, b);
+            return true;
+        }
+        return false;
     }
 }

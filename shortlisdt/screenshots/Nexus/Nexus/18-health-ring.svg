@@ -1,0 +1,55 @@
+<svg width="400" height="160" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Equipment Health Ring -->
+  <!-- Used in: Maintenance -->
+  
+  <!-- Background -->
+  <rect width="400" height="160" fill="#0a0a0b"/>
+  
+  <!-- Label -->
+  <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">EQUIPMENT HEALTH RINGS</text>
+  
+  <!-- Health Ring: 94% (Good) -->
+  <g transform="translate(40, 90)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#27272a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#4ade80" stroke-width="3" 
+            stroke-dasharray="176.7 188.5" transform="rotate(-90)"/>
+    <text x="0" y="5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fafafa" text-anchor="middle">94%</text>
+    <text x="0" y="50" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle">CNC Mill #1</text>
+  </g>
+  
+  <!-- Health Ring: 87% (Good) -->
+  <g transform="translate(120, 90)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#27272a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#4ade80" stroke-width="3" 
+            stroke-dasharray="163.5 188.5" transform="rotate(-90)"/>
+    <text x="0" y="5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fafafa" text-anchor="middle">87%</text>
+    <text x="0" y="50" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle">CNC Mill #2</text>
+  </g>
+  
+  <!-- Health Ring: 72% (Warning) -->
+  <g transform="translate(200, 90)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#27272a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#fbbf24" stroke-width="3" 
+            stroke-dasharray="135.3 188.5" transform="rotate(-90)"/>
+    <text x="0" y="5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fafafa" text-anchor="middle">72%</text>
+    <text x="0" y="50" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle">CNC Mill #3</text>
+  </g>
+  
+  <!-- Health Ring: 98% (Excellent) -->
+  <g transform="translate(280, 90)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#27272a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#4ade80" stroke-width="3" 
+            stroke-dasharray="184.2 188.5" transform="rotate(-90)"/>
+    <text x="0" y="5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fafafa" text-anchor="middle">98%</text>
+    <text x="0" y="50" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle">Robot R-05</text>
+  </g>
+  
+  <!-- Health Ring: 55% (Critical) -->
+  <g transform="translate(360, 90)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#27272a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#f87171" stroke-width="3" 
+            stroke-dasharray="103.4 188.5" transform="rotate(-90)"/>
+    <text x="0" y="5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fafafa" text-anchor="middle">55%</text>
+    <text x="0" y="50" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle">Press #1</text>
+  </g>
+</svg>

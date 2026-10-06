@@ -1,0 +1,51 @@
+<svg width="360" height="180" viewBox="0 0 360 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Defect Analysis Bar -->
+  <!-- Used in: Analytics -->
+  
+  <!-- Background -->
+  <rect width="360" height="180" fill="#111113"/>
+  
+  <!-- Item 1 -->
+  <g transform="translate(20, 15)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">#1</text>
+    <text x="30" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Surface Scratch</text>
+    <text x="300" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">23 units</text>
+    
+    <!-- Bar -->
+    <rect x="30" y="10" width="270" height="3" fill="#27272a"/>
+    <rect x="30" y="10" width="92" height="3" fill="#71717a"/>
+  </g>
+  
+  <!-- Item 2 -->
+  <g transform="translate(20, 55)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">#2</text>
+    <text x="30" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Dimensional Error</text>
+    <text x="300" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">18 units</text>
+    
+    <!-- Bar -->
+    <rect x="30" y="10" width="270" height="3" fill="#27272a"/>
+    <rect x="30" y="10" width="73" height="3" fill="#71717a"/>
+  </g>
+  
+  <!-- Item 3 -->
+  <g transform="translate(20, 95)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">#3</text>
+    <text x="30" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Assembly Gap</text>
+    <text x="300" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">14 units</text>
+    
+    <!-- Bar -->
+    <rect x="30" y="10" width="270" height="3" fill="#27272a"/>
+    <rect x="30" y="10" width="57" height="3" fill="#71717a"/>
+  </g>
+  
+  <!-- Item 4 -->
+  <g transform="translate(20, 135)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">#4</text>
+    <text x="30" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Color Deviation</text>
+    <text x="300" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">12 units</text>
+    
+    <!-- Bar -->
+    <rect x="30" y="10" width="270" height="3" fill="#27272a"/>
+    <rect x="30" y="10" width="49" height="3" fill="#71717a"/>
+  </g>
+</svg>

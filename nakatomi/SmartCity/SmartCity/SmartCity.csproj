@@ -1,0 +1,51 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <!-- Desktop-only build (Smart City Platform desktop app). Other TFMs intentionally dropped for this app. -->
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>SmartCity</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.smartcity</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!--
+      Preview SkiaSharp pin for the SKMesh-based 3D building twin (Decision 1).
+      SkiaSharpVersion drives ALL implicit SkiaSharp.* packages Uno.Sdk pulls (managed + native),
+      keeping them matched. Requires the matching Uno.Sdk dev build in global.json (6.6.0-dev.208,
+      confirmed against the SkiaSharp Uno gallery sample). UnoDisableLottieSkiaVersionCheck suppresses
+      Uno's Lottie/Skia version assert for the 4.x preview. SkiaRenderer is enabled via UnoFeatures.
+    -->
+    <SkiaSharpVersion>4.147.0-preview.2.1</SkiaSharpVersion>
+    <UnoDisableLottieSkiaVersionCheck>true</UnoDisableLottieSkiaVersionCheck>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>SmartCity</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>SmartCity powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Dsp;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      Serialization;
+      Localization;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+</Project>

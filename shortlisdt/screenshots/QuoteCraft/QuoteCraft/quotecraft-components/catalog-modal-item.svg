@@ -1,0 +1,30 @@
+<svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+
+  <!-- Group header -->
+  <text x="0" y="16" font-size="11" font-weight="700" fill="#6B7280" letter-spacing="1">INSTALLATIONS</text>
+  <line x1="0" y1="26" x2="420" y2="26" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Item row 1 — default -->
+  <text x="0" y="52" font-size="14" font-weight="500" fill="#1F2937">Sink Installation</text>
+  <text x="330" y="52" font-size="14" font-weight="600" fill="#6B7280" text-anchor="end" class="mono">$350.00</text>
+  <!-- Add button (primary) -->
+  <circle cx="370" cy="46" r="16" fill="#2B4C7E"/>
+  <text x="370" y="52" text-anchor="middle" font-size="18" fill="white">+</text>
+  <line x1="0" y1="66" x2="420" y2="66" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Item row 2 — "added" state -->
+  <text x="0" y="92" font-size="14" font-weight="500" fill="#1F2937">Toilet Installation</text>
+  <text x="330" y="92" font-size="14" font-weight="600" fill="#6B7280" text-anchor="end" class="mono">$275.00</text>
+  <!-- Add button (success / added) -->
+  <circle cx="370" cy="86" r="16" fill="#16A34A"/>
+  <text x="370" y="92" text-anchor="middle" font-size="16" fill="white">✓</text>
+  <line x1="0" y1="106" x2="420" y2="106" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Labels -->
+  <text x="398" y="52" font-size="9" fill="#6B7280">default</text>
+  <text x="398" y="92" font-size="9" fill="#16A34A">added</text>
+</svg>

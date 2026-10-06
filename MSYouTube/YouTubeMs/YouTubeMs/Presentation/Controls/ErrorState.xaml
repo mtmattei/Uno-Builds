@@ -21,7 +21,7 @@
         <Button x:Name="RetryButton"
                 Content="Try again"
                 Background="Transparent"
-                Foreground="#F3F8FB"
+                Foreground="{ThemeResource OnSurfaceBrush}"
                 BorderBrush="#33FFFFFF"
                 BorderThickness="1"
                 CornerRadius="20"
