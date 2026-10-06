@@ -1,0 +1,25 @@
+<svg viewBox="0 0 480 130" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Static value row -->
+  <rect width="480" height="48" rx="0" fill="#FFFFFF"/>
+  <text x="20" y="29" font-size="14" font-weight="500" fill="#1F2937">Business Name</text>
+  <text x="460" y="29" font-size="14" fill="#6B7280" text-anchor="end">Smith Plumbing LLC</text>
+  <line x1="0" y1="47.5" x2="480" y2="47.5" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Editable input row -->
+  <rect y="48" width="480" height="48" rx="0" fill="#FFFFFF"/>
+  <text x="20" y="77" font-size="14" font-weight="500" fill="#1F2937">Default Tax Rate</text>
+  <!-- Input box -->
+  <rect x="368" y="60" width="70" height="28" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="418" y="79" font-size="14" fill="#1F2937" text-anchor="end">8.50</text>
+  <text x="448" y="79" font-size="14" fill="#6B7280">%</text>
+  <line x1="0" y1="95.5" x2="480" y2="95.5" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Hover state row -->
+  <rect y="96" width="480" height="34" rx="0" fill="#FAFBFC"/>
+  <text x="20" y="118" font-size="14" font-weight="500" fill="#1F2937">Email</text>
+  <text x="460" y="118" font-size="14" fill="#6B7280" text-anchor="end">info@smithplumbing.com</text>
+</svg>

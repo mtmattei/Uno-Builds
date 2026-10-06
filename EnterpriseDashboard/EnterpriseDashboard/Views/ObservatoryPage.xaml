@@ -5,13 +5,6 @@
       xmlns:controls="using:EnterpriseDashboard.Controls"
       Background="{ThemeResource BackgroundBrush}">
 
-  <Page.Resources>
-    <SolidColorBrush x:Key="VendorBadgeBrush" Color="#FF26A69A" />
-    <SolidColorBrush x:Key="VendorBadgeBgBrush" Color="#1A26A69A" />
-    <SolidColorBrush x:Key="SkiaBadgeBrush" Color="#FF9E9E9E" />
-    <SolidColorBrush x:Key="SkiaBadgeBgBrush" Color="#1A9E9E9E" />
-  </Page.Resources>
-
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <Grid Padding="16" RowSpacing="16" ColumnSpacing="16">
       <Grid.RowDefinitions>

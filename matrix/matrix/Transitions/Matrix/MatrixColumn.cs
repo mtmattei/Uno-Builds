@@ -1,8 +1,5 @@
 namespace matrix.Transitions.Matrix;
 
-/// <summary>
-/// State for a single falling column of characters.
-/// </summary>
 public sealed class MatrixColumn
 {
     public float X { get; set; }
@@ -12,9 +9,4 @@ public sealed class MatrixColumn
     public int[] CharIndices { get; set; } = [];
     public float MutationTimer { get; set; }
     public bool IsActive { get; set; }
-
-    /// <summary>
-    /// Current horizontal offset from cursor deflection (smoothly animated).
-    /// </summary>
-    public float XOffset { get; set; }
 }

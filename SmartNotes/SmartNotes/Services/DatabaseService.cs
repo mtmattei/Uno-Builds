@@ -24,7 +24,7 @@ public class DatabaseService
         return notesCollection.FindAll().ToList();
     }
 
-    public Note? GetNotebyID(int id)
+    public Note? GetNoteById(int id)
     {
         var notesCollection = _database.GetCollection<Note>("notes");
         return notesCollection.FindById(id);
@@ -42,7 +42,7 @@ public class DatabaseService
         return notesCollection.Delete(id);
     }
 
-    public void EnsureVectorIndex(int dimensions)
+    public void EnsureVectorIndex(ushort dimensions)
     {
         var notesCollection = _database.GetCollection<Note>("notes");
         notesCollection.EnsureIndex(x => x.Embedding, new VectorIndexOptions(dimensions));
@@ -53,8 +53,7 @@ public class DatabaseService
         var notesCollection = _database.GetCollection<Note>("notes");
 
         return notesCollection.Query()
-            .OrderBySimilarity(x => x.Embedding, queryEmbedding)
-            .Limit(limit)
+            .TopKNear(x => x.Embedding, queryEmbedding, limit)
             .ToList();
     }
 }

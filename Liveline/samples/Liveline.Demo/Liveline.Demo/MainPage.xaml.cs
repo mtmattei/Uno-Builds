@@ -6,23 +6,23 @@ namespace Liveline.Demo;
 
 public sealed partial class MainPage : Page
 {
+    private const int MaxPoints = 60;
+
     private readonly DispatcherTimer _timer;
     private readonly DispatcherTimer _loadingTimer;
-    private readonly List<LivelinePoint> _data = new();
+    private readonly Queue<LivelinePoint> _data = new(MaxPoints);
     private readonly Random _rng = new();
     private double _currentValue = 100.0;
     private string _currentColor = "#4CAF50";
-    private const int MaxPoints = 60;
 
     public MainPage()
     {
         this.InitializeComponent();
 
         Chart.Theme = new LivelineTheme { Color = _currentColor, IsDark = true };
-        Chart.Momentum = true; // auto-detect direction
-        Chart.IsLoading = true; // start in loading state with breathing animation
+        Chart.Momentum = true;
+        Chart.IsLoading = true;
 
-        // Simulate connection delay - data arrives after 3 seconds
         _loadingTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
         _loadingTimer.Tick += OnLoadingComplete;
         _loadingTimer.Start();
@@ -35,12 +35,11 @@ public sealed partial class MainPage : Page
     {
         _loadingTimer.Stop();
 
-        // Seed initial data
         var now = DateTimeOffset.Now;
         for (int i = MaxPoints; i > 0; i--)
         {
             _currentValue += (_rng.NextDouble() - 0.5) * 4;
-            _data.Add(new LivelinePoint(now.AddMilliseconds(-i * 100), _currentValue));
+            _data.Enqueue(new LivelinePoint(now.AddMilliseconds(-i * 100), _currentValue));
         }
 
         Chart.IsLoading = false;
@@ -53,21 +52,20 @@ public sealed partial class MainPage : Page
     {
         // Volatile random walk: occasional large spikes and dips
         double step = (_rng.NextDouble() - 0.5) * 8;
-        if (_rng.NextDouble() < 0.08) // 8% chance of a big spike
+        if (_rng.NextDouble() < 0.08)
             step *= 6;
         _currentValue += step;
 
-        _data.Add(new LivelinePoint(DateTimeOffset.Now, _currentValue));
-
+        _data.Enqueue(new LivelinePoint(DateTimeOffset.Now, _currentValue));
         while (_data.Count > MaxPoints)
-            _data.RemoveAt(0);
+            _data.Dequeue();
 
         PushData();
     }
 
     private void PushData()
     {
-        Chart.Data = new List<LivelinePoint>(_data);
+        Chart.Data = _data.ToArray();
         Chart.Value = _currentValue;
     }
 

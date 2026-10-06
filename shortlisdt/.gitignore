@@ -1,0 +1,10 @@
+bin/
+obj/
+*.binlog
+.MSBuild_Logs/
+*.user
+
+# Local agent / IDE tooling — never ship to the public repo
+.claude/
+*.iml
+.idea/

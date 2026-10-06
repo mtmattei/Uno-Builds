@@ -35,24 +35,14 @@ public sealed partial class LiveActivityCard : UserControl
     private void UpdateUI()
     {
         if (_activity == null) return;
-
-        // Set icon and colors based on activity type
         var (icon, gradient) = GetActivityVisuals(_activity.Type);
         ActivityIcon.Text = icon;
         IconBadge.Background = gradient;
         ActionButton.Background = gradient;
-
-        // Set service label
         ServiceLabel.Text = _activity.ServiceLabel;
-
-        // Set title
         TitleText.Text = _activity.Title;
         ExpandedTitle.Text = _activity.Title;
-
-        // Set action button
         ActionButton.Content = _activity.ActionLabel ?? GetDefaultActionLabel(_activity.Type);
-
-        // Configure based on activity type
         switch (_activity.Type)
         {
             case ActivityType.Spotify:
@@ -71,23 +61,15 @@ public sealed partial class LiveActivityCard : UserControl
     private void ConfigureMusicActivity()
     {
         if (_activity == null) return;
-
-        // Show music-specific UI
         ProgressContainer.Visibility = Visibility.Visible;
         GamingStatusPanel.Visibility = Visibility.Collapsed;
-
-        // Set artist and album
         ArtistText.Text = _activity.Artist ?? "";
         AlbumText.Text = _activity.Album ?? "";
         AlbumText.Visibility = string.IsNullOrEmpty(_activity.Album) ? Visibility.Collapsed : Visibility.Visible;
-
-        // Set progress
         if (_activity.Progress > 0 && !string.IsNullOrEmpty(_activity.Duration))
         {
             UpdateProgressBar(_activity.Progress);
             TotalTime.Text = _activity.Duration;
-
-            // Calculate current time from progress
             if (TryParseDuration(_activity.Duration, out var totalSeconds))
             {
                 var currentSeconds = (int)(totalSeconds * _activity.Progress / 100.0);
@@ -98,40 +80,28 @@ public sealed partial class LiveActivityCard : UserControl
         {
             ProgressContainer.Visibility = Visibility.Collapsed;
         }
-
-        // Set album art placeholder icon
         UpdatePlaceholderIcon("🎵");
     }
 
     private void ConfigureGamingActivity()
     {
         if (_activity == null) return;
-
-        // Show gaming-specific UI
         ProgressContainer.Visibility = Visibility.Collapsed;
         GamingStatusPanel.Visibility = Visibility.Visible;
-
-        // Set gaming info
         ArtistText.Text = _activity.Platform ?? "PC";
         AlbumText.Visibility = Visibility.Collapsed;
 
         GameStatusText.Text = _activity.Status ?? "Playing";
         PartySizeText.Text = _activity.PartySize ?? "";
         PlayTimeText.Text = _activity.DisplayDuration;
-
-        // Update placeholder
         UpdatePlaceholderIcon("🎮");
     }
 
     private void ConfigureVideoActivity()
     {
         if (_activity == null) return;
-
-        // Show video-specific UI
         ProgressContainer.Visibility = Visibility.Collapsed;
         GamingStatusPanel.Visibility = Visibility.Collapsed;
-
-        // Set video info
         ArtistText.Text = _activity.Subtitle ?? _activity.Service ?? "";
         AlbumText.Visibility = Visibility.Collapsed;
 
@@ -140,8 +110,6 @@ public sealed partial class LiveActivityCard : UserControl
             AlbumText.Text = $"{_activity.ViewerCount:N0} watching";
             AlbumText.Visibility = Visibility.Visible;
         }
-
-        // Update placeholder
         UpdatePlaceholderIcon("📺");
     }
 
@@ -156,7 +124,6 @@ public sealed partial class LiveActivityCard : UserControl
 
     private void UpdateProgressBar(int progress)
     {
-        // Get the parent width and calculate fill width
         var containerWidth = ProgressContainer.ActualWidth;
         if (containerWidth > 0)
         {
@@ -208,16 +175,9 @@ public sealed partial class LiveActivityCard : UserControl
 
     private void Expand()
     {
-        // Show expanded content
         ExpandedContent.Visibility = Visibility.Visible;
-
-        // Animate chevron rotation
         AnimateChevron(180);
-
-        // Animate content fade in
         AnimateContentIn();
-
-        // Update progress bar width after layout
         DispatcherQueue.TryEnqueue(() =>
         {
             if (_activity != null)
@@ -229,10 +189,7 @@ public sealed partial class LiveActivityCard : UserControl
 
     private void Collapse()
     {
-        // Animate chevron rotation
         AnimateChevron(0);
-
-        // Animate content fade out then hide
         AnimateContentOut();
     }
 
@@ -294,10 +251,7 @@ public sealed partial class LiveActivityCard : UserControl
 
     private async void OnActionClick(object sender, RoutedEventArgs e)
     {
-        // Animate button press
         await MicroAnimations.AnimatePress(ActionButton);
-
-        // Fire event
         OnActionRequested?.Invoke();
 
         // If there's an action URL, try to launch it
@@ -309,7 +263,6 @@ public sealed partial class LiveActivityCard : UserControl
             }
             catch
             {
-                // Handle launch failure silently
             }
         }
     }

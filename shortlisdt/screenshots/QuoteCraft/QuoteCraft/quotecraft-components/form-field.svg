@@ -1,0 +1,17 @@
+<svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Default state -->
+  <text x="0" y="12" font-size="10" font-weight="600" fill="#6B7280" letter-spacing="1">DEFAULT</text>
+  <text x="0" y="32" font-size="12" font-weight="500" fill="#6B7280">Title</text>
+  <rect x="0" y="38" width="380" height="40" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="14" y="63" font-size="14" fill="#6B7280">e.g. Kitchen Renovation</text>
+
+  <!-- Focused state -->
+  <text x="0" y="100" font-size="10" font-weight="600" fill="#6B7280" letter-spacing="1">FOCUSED</text>
+  <text x="0" y="116" font-size="12" font-weight="500" fill="#6B7280">Title</text>
+  <rect x="0" y="122" width="380" height="40" rx="8" fill="#FFFFFF" stroke="#2B4C7E" stroke-width="1.5"/>
+  <text x="14" y="147" font-size="14" fill="#1F2937">Kitchen Renovation</text>
+</svg>

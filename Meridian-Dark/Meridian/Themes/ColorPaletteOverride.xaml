@@ -1,0 +1,172 @@
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--
+    Meridian Dark — "ink and brass".
+
+    The light theme is warm cream: printed paper. The dark theme is its reverse
+    printing, not a grayscale inversion — the ground is a warm brown-black
+    (bistre ink, hue ~40) and the type is the cream that used to be the paper,
+    so both themes sit on the same warm hue axis.
+
+    Neutrals carry a brass undertone rather than being neutral gray, which is
+    what keeps the surface reading as editorial duotone instead of a generic
+    black terminal. Semantic green/red are lifted to clear AA on the ink ground
+    while staying in the forest / oxblood families.
+
+    Contrast on the card ground (#1E1B16):
+      TextPrimary 14.7:1   TextMuted 5.5:1   TextSubtle 3.3:1
+      Gain 6.0:1           Loss 4.8:1        Accent 8.5:1
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- Both dictionaries carry the dark values: this variant forces Dark via
+         RequestedTheme, and mirroring keeps resolution correct either way. -->
+    <ResourceDictionary x:Key="Light">
+      <!-- Material System Overrides -->
+      <Color x:Key="PrimaryColor">#5CA87E</Color>
+      <Color x:Key="OnPrimaryColor">#0F2A1D</Color>
+      <Color x:Key="PrimaryContainerColor">#24553D</Color>
+      <Color x:Key="OnPrimaryContainerColor">#B7E4C7</Color>
+      <Color x:Key="SecondaryColor">#D2B278</Color>
+      <Color x:Key="OnSecondaryColor">#362A14</Color>
+      <Color x:Key="SecondaryContainerColor">#4A3B1F</Color>
+      <Color x:Key="OnSecondaryContainerColor">#F0E0C0</Color>
+      <Color x:Key="TertiaryColor">#D2B278</Color>
+      <Color x:Key="OnTertiaryColor">#362A14</Color>
+      <Color x:Key="TertiaryContainerColor">#4A3B1F</Color>
+      <Color x:Key="OnTertiaryContainerColor">#F0E0C0</Color>
+      <Color x:Key="ErrorColor">#DA6154</Color>
+      <Color x:Key="OnErrorColor">#3A0E09</Color>
+      <Color x:Key="ErrorContainerColor">#5C201A</Color>
+      <Color x:Key="OnErrorContainerColor">#F9DEDC</Color>
+      <Color x:Key="BackgroundColor">#15130F</Color>
+      <Color x:Key="OnBackgroundColor">#F2EDE3</Color>
+      <Color x:Key="SurfaceColor">#1E1B16</Color>
+      <Color x:Key="OnSurfaceColor">#F2EDE3</Color>
+      <Color x:Key="SurfaceVariantColor">#262219</Color>
+      <Color x:Key="OnSurfaceVariantColor">#9C917C</Color>
+      <Color x:Key="OutlineColor">#6A6357</Color>
+      <Color x:Key="OutlineVariantColor">#2E2A22</Color>
+      <Color x:Key="SurfaceInverseColor">#F2EDE3</Color>
+      <Color x:Key="OnSurfaceInverseColor">#15130F</Color>
+      <Color x:Key="PrimaryInverseColor">#2D6A4F</Color>
+      <Color x:Key="SurfaceTintColor">#5CA87E</Color>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="PrimaryColor">#5CA87E</Color>
+      <Color x:Key="OnPrimaryColor">#0F2A1D</Color>
+      <Color x:Key="PrimaryContainerColor">#24553D</Color>
+      <Color x:Key="OnPrimaryContainerColor">#B7E4C7</Color>
+      <Color x:Key="SecondaryColor">#D2B278</Color>
+      <Color x:Key="OnSecondaryColor">#362A14</Color>
+      <Color x:Key="SecondaryContainerColor">#4A3B1F</Color>
+      <Color x:Key="OnSecondaryContainerColor">#F0E0C0</Color>
+      <Color x:Key="TertiaryColor">#D2B278</Color>
+      <Color x:Key="OnTertiaryColor">#362A14</Color>
+      <Color x:Key="TertiaryContainerColor">#4A3B1F</Color>
+      <Color x:Key="OnTertiaryContainerColor">#F0E0C0</Color>
+      <Color x:Key="ErrorColor">#DA6154</Color>
+      <Color x:Key="OnErrorColor">#3A0E09</Color>
+      <Color x:Key="ErrorContainerColor">#5C201A</Color>
+      <Color x:Key="OnErrorContainerColor">#F9DEDC</Color>
+      <Color x:Key="BackgroundColor">#15130F</Color>
+      <Color x:Key="OnBackgroundColor">#F2EDE3</Color>
+      <Color x:Key="SurfaceColor">#1E1B16</Color>
+      <Color x:Key="OnSurfaceColor">#F2EDE3</Color>
+      <Color x:Key="SurfaceVariantColor">#262219</Color>
+      <Color x:Key="OnSurfaceVariantColor">#9C917C</Color>
+      <Color x:Key="OutlineColor">#6A6357</Color>
+      <Color x:Key="OutlineVariantColor">#2E2A22</Color>
+      <Color x:Key="SurfaceInverseColor">#F2EDE3</Color>
+      <Color x:Key="OnSurfaceInverseColor">#15130F</Color>
+      <Color x:Key="PrimaryInverseColor">#2D6A4F</Color>
+      <Color x:Key="SurfaceTintColor">#5CA87E</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- ═══ Meridian Semantic Colors ═══ -->
+  <!-- Root-level (not theme-scoped) on purpose: custom keys inside
+       ThemeDictionaries resolve unreliably from DataTemplates and code-behind. -->
+  <Color x:Key="MeridianBackground">#15130F</Color>
+  <Color x:Key="MeridianCardColor">#1E1B16</Color>
+  <Color x:Key="MeridianTextPrimary">#F2EDE3</Color>
+  <Color x:Key="MeridianTextMuted">#9C917C</Color>
+  <Color x:Key="MeridianTextSubtle">#736B5E</Color>
+  <Color x:Key="MeridianBorder">#383228</Color>
+  <Color x:Key="MeridianGain">#5CA87E</Color>
+  <Color x:Key="MeridianLoss">#DA6154</Color>
+  <Color x:Key="MeridianAccent">#D2B278</Color>
+  <Color x:Key="MeridianCardHover">#242019</Color>
+  <Color x:Key="MeridianSelectedHoldingBg">#1A5CA87E</Color>
+  <Color x:Key="MeridianExpandedBg">#221E18</Color>
+  <Color x:Key="MeridianGainBgTint">#245CA87E</Color>
+  <Color x:Key="MeridianLossBgTint">#24DA6154</Color>
+  <Color x:Key="MeridianAccentBgTint">#24D2B278</Color>
+  <Color x:Key="MeridianBackdrop">#99000000</Color>
+  <Color x:Key="MeridianRowSeparator">#14F2EDE3</Color>
+  <Color x:Key="MeridianBackgroundTransparent">#0015130F</Color>
+  <Color x:Key="MeridianSubmitDisabled">#2E2A22</Color>
+  <Color x:Key="MeridianSurfaceHover">#211D17</Color>
+  <Color x:Key="MeridianSurfaceTinted">#282319</Color>
+
+  <!-- ═══ Meridian Semantic Brushes ═══ -->
+  <SolidColorBrush x:Key="MeridianBackgroundBrush" Color="{StaticResource MeridianBackground}" />
+  <SolidColorBrush x:Key="MeridianCardBrush" Color="{StaticResource MeridianCardColor}" />
+  <SolidColorBrush x:Key="MeridianTextPrimaryBrush" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="MeridianTextMutedBrush" Color="{StaticResource MeridianTextMuted}" />
+  <SolidColorBrush x:Key="MeridianTextSubtleBrush" Color="{StaticResource MeridianTextSubtle}" />
+  <SolidColorBrush x:Key="MeridianBorderBrush" Color="{StaticResource MeridianBorder}" />
+  <SolidColorBrush x:Key="MeridianGainBrush" Color="{StaticResource MeridianGain}" />
+  <SolidColorBrush x:Key="MeridianLossBrush" Color="{StaticResource MeridianLoss}" />
+  <SolidColorBrush x:Key="MeridianAccentBrush" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="MeridianCardHoverBrush" Color="{StaticResource MeridianCardHover}" />
+  <SolidColorBrush x:Key="MeridianSelectedHoldingBgBrush" Color="{StaticResource MeridianSelectedHoldingBg}" />
+  <SolidColorBrush x:Key="MeridianExpandedBgBrush" Color="{StaticResource MeridianExpandedBg}" />
+  <SolidColorBrush x:Key="MeridianGainBgTintBrush" Color="{StaticResource MeridianGainBgTint}" />
+  <SolidColorBrush x:Key="MeridianLossBgTintBrush" Color="{StaticResource MeridianLossBgTint}" />
+  <SolidColorBrush x:Key="MeridianAccentBgTintBrush" Color="{StaticResource MeridianAccentBgTint}" />
+  <SolidColorBrush x:Key="MeridianBackdropBrush" Color="{StaticResource MeridianBackdrop}" />
+  <SolidColorBrush x:Key="MeridianRowSeparatorBrush" Color="{StaticResource MeridianRowSeparator}" />
+  <SolidColorBrush x:Key="MeridianSubmitDisabledBrush" Color="{StaticResource MeridianSubmitDisabled}" />
+  <SolidColorBrush x:Key="MeridianSurfaceHoverBrush" Color="{StaticResource MeridianSurfaceHover}" />
+  <SolidColorBrush x:Key="MeridianSurfaceTintedBrush" Color="{StaticResource MeridianSurfaceTinted}" />
+
+  <!-- ═══ Text input lightweight styling ═══ -->
+  <!-- Without these the focused TextBox falls back to the Windows system accent
+       (a blue-violet ring on this machine), which is the one place an unthemed
+       OS color leaks into the palette. Overriding the keys fixes every text
+       input at once — no template rewrite. -->
+  <SolidColorBrush x:Key="TextControlBackground" Color="{StaticResource MeridianCardColor}" />
+  <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{StaticResource MeridianCardHover}" />
+  <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{StaticResource MeridianCardHover}" />
+  <SolidColorBrush x:Key="TextControlBorderBrush" Color="{StaticResource MeridianBorder}" />
+  <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="{StaticResource MeridianTextSubtle}" />
+  <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="TextControlForeground" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="TextControlForegroundFocused" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="{StaticResource MeridianTextSubtle}" />
+  <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="{StaticResource MeridianTextMuted}" />
+  <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="{StaticResource MeridianTextMuted}" />
+  <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="{StaticResource MeridianAccentBgTint}" />
+  <SolidColorBrush x:Key="TextControlButtonForeground" Color="{StaticResource MeridianTextMuted}" />
+  <SolidColorBrush x:Key="TextControlButtonForegroundPointerOver" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="TextControlButtonBackground" Color="Transparent" />
+  <SolidColorBrush x:Key="TextControlButtonBackgroundPointerOver" Color="{StaticResource MeridianSurfaceTinted}" />
+
+  <!-- ═══ Button lightweight styling ═══ -->
+  <!-- Plain WinUI Buttons (quick-select, etc.) keep their local Background only
+       until a visual state fires — the hover/pressed states are set on the
+       template root and would otherwise paint the stock accent. -->
+  <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
+  <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource MeridianSurfaceTinted}" />
+  <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource MeridianAccentBgTint}" />
+  <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{StaticResource MeridianSubmitDisabled}" />
+  <SolidColorBrush x:Key="ButtonForeground" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{StaticResource MeridianTextPrimary}" />
+  <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{StaticResource MeridianTextSubtle}" />
+  <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource MeridianBorder}" />
+  <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{StaticResource MeridianAccent}" />
+  <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="{StaticResource MeridianBorder}" />
+</ResourceDictionary>

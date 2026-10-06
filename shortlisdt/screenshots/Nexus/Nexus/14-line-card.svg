@@ -1,0 +1,58 @@
+<svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Line Status Card -->
+  <!-- Used in: Production (Line Status Detail) -->
+  
+  <defs>
+    <linearGradient id="cardTopEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3f3f46"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Card Background -->
+  <rect x="1" y="1" width="178" height="218" fill="#111113" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Top Edge Accent -->
+  <line x1="1" y1="1" x2="179" y2="1" stroke="url(#cardTopEdge)" stroke-width="1"/>
+  
+  <!-- Header -->
+  <g transform="translate(16, 16)">
+    <!-- ID Badge -->
+    <rect x="0" y="0" width="36" height="36" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+    <text x="18" y="24" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa" text-anchor="middle">A1</text>
+    
+    <!-- Status -->
+    <circle cx="120" cy="18" r="3" fill="#4ade80"/>
+    <text x="130" y="22" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">ACTIVE</text>
+  </g>
+  
+  <!-- Line Name -->
+  <text x="16" y="75" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">Assembly Line A1</text>
+  
+  <!-- Metrics -->
+  <g transform="translate(16, 95)">
+    <!-- Output -->
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">OUTPUT</text>
+    <text x="132" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#a1a1aa" text-anchor="end">89%</text>
+    
+    <!-- Temp -->
+    <text x="0" y="24" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">TEMP</text>
+    <text x="132" y="24" font-family="IBM Plex Mono, monospace" font-size="10" fill="#a1a1aa" text-anchor="end">42.3°C</text>
+    
+    <!-- Pressure -->
+    <text x="0" y="48" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">PRESSURE</text>
+    <text x="132" y="48" font-family="IBM Plex Mono, monospace" font-size="10" fill="#a1a1aa" text-anchor="end">2.4 bar</text>
+  </g>
+  
+  <!-- Divider -->
+  <line x1="16" y1="165" x2="164" y2="165" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Action Buttons -->
+  <g transform="translate(16, 180)">
+    <rect x="0" y="0" width="68" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="34" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">DETAILS</text>
+    
+    <rect x="80" y="0" width="68" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="114" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">CONTROL</text>
+  </g>
+</svg>

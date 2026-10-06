@@ -1,0 +1,24 @@
+<svg viewBox="0 0 440 140" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <filter id="ns" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <rect width="440" height="140" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#ns)"/>
+
+  <!-- Header -->
+  <rect width="440" height="44" rx="12" fill="#FFFFFF"/>
+  <rect y="32" width="440" height="12" fill="#FFFFFF"/>
+  <line x1="0" y1="43.5" x2="440" y2="43.5" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="20" y="29" font-size="13" font-weight="700" fill="#6B7280" letter-spacing="0.8">NOTES</text>
+
+  <!-- Read-only mode (view) -->
+  <text x="20" y="70" font-size="14" fill="#6B7280" line-spacing="1.6">Includes all materials and labor.</text>
+  <text x="20" y="90" font-size="14" fill="#6B7280">Disposal of old fixtures included.</text>
+  <text x="20" y="110" font-size="14" fill="#6B7280">Work estimated at 3 days.</text>
+</svg>

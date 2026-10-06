@@ -1,0 +1,50 @@
+<svg width="400" height="150" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Badges & Tags -->
+  <!-- Used in: Production, Maintenance, Settings -->
+  
+  <!-- Background -->
+  <rect width="400" height="150" fill="#0a0a0b"/>
+  
+  <!-- Label -->
+  <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">ID BADGES</text>
+  
+  <!-- Small ID Badge -->
+  <g transform="translate(20, 50)">
+    <rect x="0" y="0" width="28" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+    <text x="14" y="19" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle">A1</text>
+    <circle cx="28" cy="0" r="2" fill="#3f3f46"/>
+  </g>
+  
+  <!-- Badge with text -->
+  <g transform="translate(70, 50)">
+    <rect x="0" y="0" width="60" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+    <text x="30" y="19" font-family="IBM Plex Mono, monospace" font-size="9" fill="#a1a1aa" text-anchor="middle">B-4893</text>
+  </g>
+  
+  <!-- Work Order Badge -->
+  <g transform="translate(150, 50)">
+    <rect x="0" y="0" width="70" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+    <text x="35" y="19" font-family="IBM Plex Mono, monospace" font-size="9" fill="#a1a1aa" text-anchor="middle">WO-2847</text>
+  </g>
+  
+  <!-- Label -->
+  <text x="20" y="105" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">TYPE TAGS</text>
+  
+  <!-- Maintenance Type -->
+  <g transform="translate(20, 115)">
+    <rect x="0" y="0" width="75" height="22" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="37" y="15" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="middle">Preventive</text>
+  </g>
+  
+  <!-- Role Tag -->
+  <g transform="translate(110, 115)">
+    <rect x="0" y="0" width="85" height="22" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="42" y="15" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="middle">Administrator</text>
+  </g>
+  
+  <!-- Shift Badge -->
+  <g transform="translate(210, 115)">
+    <rect x="0" y="0" width="80" height="28" fill="#18181b" stroke="#3f3f46" stroke-width="1"/>
+    <text x="40" y="19" font-family="IBM Plex Mono, monospace" font-size="14" fill="#fafafa" text-anchor="middle" letter-spacing="3">SHIFT B</text>
+  </g>
+</svg>

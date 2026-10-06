@@ -32,4 +32,15 @@
   <SolidColorBrush x:Key="ChartGridLineBrush" Color="{StaticResource ChartGridLineColor}" />
   <SolidColorBrush x:Key="ChartLabelBrush" Color="{StaticResource ChartLabelColor}" />
 
+  <!--
+    Vendor-library badge brushes (LiveCharts/Mapsui/TableView/MVUX/SkiaSharp).
+    Initial colors match the Monochrome theme; ThemeManager.ApplyAccentBrushes
+    mutates Color on theme toggle so {StaticResource} consumers stay in sync.
+  -->
+  <SolidColorBrush x:Key="VendorBadgeBrush" Color="#FF26A69A" />
+  <SolidColorBrush x:Key="VendorBadgeBgBrush" Color="#1A26A69A" />
+  <SolidColorBrush x:Key="SkiaBadgeBrush" Color="#FF9E9E9E" />
+  <SolidColorBrush x:Key="SkiaBadgeBgBrush" Color="#1A9E9E9E" />
+  <SolidColorBrush x:Key="TableAlternateRowBrush" Color="#FF111111" />
+
 </ResourceDictionary>

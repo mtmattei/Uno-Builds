@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using YouTubeMs.Presentation.Controls;
-using YouTubeMs.Services.Catalog;
 using YouTubeMs.Services.Motion;
 
 namespace YouTubeMs.Presentation.Home;
@@ -97,19 +96,6 @@ public sealed partial class HomePage : Page
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (DataContext is null)
-        {
-            try
-            {
-                var catalog = new MockCatalogService();
-                DataContext = new HomeFallbackVm(catalog);
-            }
-            catch
-            {
-                // Fall back silently
-            }
-        }
-
         PlayEntranceCascade();
     }
 
@@ -149,20 +135,6 @@ public sealed partial class HomePage : Page
         };
         Storyboard.SetTarget(anim, target);
         Storyboard.SetTargetProperty(anim, "Opacity");
-        new Storyboard { Children = { anim } }.Begin();
-    }
-
-    private static void AnimateDouble(DependencyObject target, string property, double to, double durationMs, double delayMs, EasingFunctionBase ease)
-    {
-        var anim = new DoubleAnimation
-        {
-            To = to,
-            Duration = new Duration(TimeSpan.FromMilliseconds(durationMs)),
-            BeginTime = TimeSpan.FromMilliseconds(delayMs),
-            EasingFunction = ease,
-        };
-        Storyboard.SetTarget(anim, target);
-        Storyboard.SetTargetProperty(anim, property);
         new Storyboard { Children = { anim } }.Begin();
     }
 
@@ -209,18 +181,3 @@ public sealed partial class HomePage : Page
     }
 }
 
-public sealed class HomeFallbackVm
-{
-    public HomeFallbackVm(ICatalogService catalog)
-    {
-        Featured = catalog.GetFeaturedAsync().AsTask().GetAwaiter().GetResult();
-        ForYou = catalog.GetForYouAsync().AsTask().GetAwaiter().GetResult();
-        Trending = catalog.GetTrendingAsync().AsTask().GetAwaiter().GetResult();
-        Recommendations = catalog.GetRailAsync().AsTask().GetAwaiter().GetResult();
-    }
-
-    public FeaturedVideo Featured { get; }
-    public IImmutableList<Video> ForYou { get; }
-    public IImmutableList<Video> Trending { get; }
-    public IImmutableList<RailVideo> Recommendations { get; }
-}

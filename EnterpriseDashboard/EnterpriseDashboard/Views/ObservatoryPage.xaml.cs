@@ -12,6 +12,7 @@ namespace EnterpriseDashboard.Views;
 public sealed partial class ObservatoryPage : Page
 {
     private readonly IObservatoryService _service;
+    private readonly CancellationTokenSource _pageCts = new();
     private bool _initialized;
 
     // Cached data for theme switching
@@ -28,11 +29,17 @@ public sealed partial class ObservatoryPage : Page
         this.InitializeComponent();
         _service = ((App)Application.Current).Host!.Services.GetRequiredService<IObservatoryService>();
         this.Loaded += ObservatoryPage_Loaded;
+        this.Unloaded += ObservatoryPage_Unloaded;
+    }
+
+    private void ObservatoryPage_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _pageCts.Cancel();
+        _pageCts.Dispose();
     }
 
     private async void ObservatoryPage_Loaded(object sender, RoutedEventArgs e)
     {
-        // Sync toggle with current theme
         if (ThemeManager.Current == DashboardTheme.Terminal)
         {
             ThemeToggle.IsOn = true;
@@ -40,21 +47,28 @@ public sealed partial class ObservatoryPage : Page
 
         RunEntranceAnimations();
 
-        var ct = CancellationToken.None;
+        var ct = _pageCts.Token;
 
-        // Load all data
-        _signalData = await _service.GetSignalAmplitudeAsync(ct);
-        _throughputData = await _service.GetMonthlyThroughputAsync(ct);
-        _stackedData = await _service.GetCumulativeLoadAsync(ct);
-        _scatterData = await _service.GetCorrelationDataAsync(ct);
-        _rankedData = await _service.GetRankedDistributionAsync(ct);
-        _radarData = await _service.GetRadarMetricsAsync(ct);
-        _candlestickData = await _service.GetCandlestickDataAsync(ct);
+        var signalT = _service.GetSignalAmplitudeAsync(ct).AsTask();
+        var throughputT = _service.GetMonthlyThroughputAsync(ct).AsTask();
+        var stackedT = _service.GetCumulativeLoadAsync(ct).AsTask();
+        var scatterT = _service.GetCorrelationDataAsync(ct).AsTask();
+        var rankedT = _service.GetRankedDistributionAsync(ct).AsTask();
+        var radarT = _service.GetRadarMetricsAsync(ct).AsTask();
+        var candlestickT = _service.GetCandlestickDataAsync(ct).AsTask();
 
-        // Apply LiveCharts2 theme
+        await Task.WhenAll(signalT, throughputT, stackedT, scatterT, rankedT, radarT, candlestickT);
+
+        _signalData = signalT.Result;
+        _throughputData = throughputT.Result;
+        _stackedData = stackedT.Result;
+        _scatterData = scatterT.Result;
+        _rankedData = rankedT.Result;
+        _radarData = radarT.Result;
+        _candlestickData = candlestickT.Result;
+
         ApplyLiveChartsTheme();
 
-        // Load custom SkiaSharp charts
         var isTerminal = ThemeManager.Current == DashboardTheme.Terminal;
         await LoadCustomChartsAsync(ct, isTerminal);
 
@@ -69,54 +83,18 @@ public sealed partial class ObservatoryPage : Page
         var isTerminal = ThemeToggle.IsOn;
         ThemeManager.Current = isTerminal ? DashboardTheme.Terminal : DashboardTheme.Monochrome;
 
-        // Swap Material palette
-        SwapColorPalette(isTerminal);
+        ThemeManager.SwapColorPalette(isTerminal, this.XamlRoot?.Content as FrameworkElement);
 
-        // Re-apply all chart themes
         ApplyLiveChartsTheme();
         UpdateCustomChartThemes(isTerminal);
         ApplyBadgeColors();
     }
 
-    private void SwapColorPalette(bool terminal)
-    {
-        var app = Application.Current;
-        var mergedDicts = app.Resources.MergedDictionaries;
-
-        var palettePath = terminal
-            ? "ms-appx:///Styles/TerminalPaletteOverride.xaml"
-            : "ms-appx:///Styles/ColorPaletteOverride.xaml";
-
-        var paletteDict = new ResourceDictionary();
-        paletteDict.Source = new Uri(palettePath);
-
-        for (int i = mergedDicts.Count - 1; i >= 0; i--)
-        {
-            if (mergedDicts[i] is ResourceDictionary rd && rd.Source?.OriginalString.Contains("PaletteOverride") == true)
-            {
-                mergedDicts.RemoveAt(i);
-            }
-        }
-
-        mergedDicts.Add(paletteDict);
-
-        if (this.XamlRoot?.Content is FrameworkElement root)
-        {
-            root.RequestedTheme = ElementTheme.Light;
-            root.RequestedTheme = ElementTheme.Dark;
-        }
-    }
-
     private void ApplyBadgeColors()
     {
-        var colors = ThemeManager.GetColors();
-        var accentColor = ParseColor(colors.AccentHex);
-        var accentBgColor = ParseColor(colors.AccentBgHex);
-        var glowColor = ParseColor(colors.GlowBorderHex);
+        ThemeManager.ApplyAccentBrushes();
 
-        Resources["VendorBadgeBrush"] = new SolidColorBrush(accentColor);
-        Resources["VendorBadgeBgBrush"] = new SolidColorBrush(accentBgColor);
-
+        var glowBrush = new SolidColorBrush(ThemeManager.GetGlowBorderColor());
         var cards = new Border[]
         {
             Card01, Card02, Card03, Card04, Card05, Card06,
@@ -125,7 +103,7 @@ public sealed partial class ObservatoryPage : Page
         };
         foreach (var card in cards)
         {
-            card.BorderBrush = new SolidColorBrush(glowColor);
+            card.BorderBrush = glowBrush;
         }
     }
 
@@ -437,26 +415,26 @@ public sealed partial class ObservatoryPage : Page
 
     private async Task LoadCustomChartsAsync(CancellationToken ct, bool terminal)
     {
-        var heatmapData = await _service.GetHeatmapDataAsync(ct);
-        HeatmapCanvas.SetData(heatmapData, terminal);
+        var heatmapT = _service.GetHeatmapDataAsync(ct).AsTask();
+        var arcT = _service.GetArcGaugeDataAsync(ct).AsTask();
+        var waffleT = _service.GetWaffleDataAsync(ct).AsTask();
+        var gaugeT = _service.GetGaugeValueAsync(ct).AsTask();
+        var networkT = _service.GetNetworkNodesAsync(ct).AsTask();
+        var treemapT = _service.GetTreemapDataAsync(ct).AsTask();
+        var funnelT = _service.GetFunnelDataAsync(ct).AsTask();
 
-        var arcData = await _service.GetArcGaugeDataAsync(ct);
-        ArcGaugeCanvas.SetData(arcData, terminal);
+        await Task.WhenAll(heatmapT, arcT, waffleT, gaugeT, networkT, treemapT, funnelT);
 
-        var (filled, total) = await _service.GetWaffleDataAsync(ct);
+        HeatmapCanvas.SetData(heatmapT.Result, terminal);
+        ArcGaugeCanvas.SetData(arcT.Result, terminal);
+        var (filled, total) = waffleT.Result;
         WaffleCanvas.SetData(filled, total, terminal);
-
-        var (value, min, max) = await _service.GetGaugeValueAsync(ct);
+        var (value, min, max) = gaugeT.Result;
         GaugeCanvas.SetData(value, min, max, terminal);
-
-        var (nodes, edges) = await _service.GetNetworkNodesAsync(ct);
+        var (nodes, edges) = networkT.Result;
         NetworkCanvas.SetData(nodes, edges, terminal);
-
-        var treemapData = await _service.GetTreemapDataAsync(ct);
-        TreemapCanvas.SetData(treemapData, terminal);
-
-        var funnelData = await _service.GetFunnelDataAsync(ct);
-        FunnelCanvas.SetData(funnelData, terminal);
+        TreemapCanvas.SetData(treemapT.Result, terminal);
+        FunnelCanvas.SetData(funnelT.Result, terminal);
     }
 
     private void UpdateCustomChartThemes(bool terminal)
@@ -520,14 +498,4 @@ public sealed partial class ObservatoryPage : Page
     }
 
     #endregion
-
-    private static Windows.UI.Color ParseColor(string hex)
-    {
-        hex = hex.TrimStart('#');
-        byte a = byte.Parse(hex[..2], System.Globalization.NumberStyles.HexNumber);
-        byte r = byte.Parse(hex[2..4], System.Globalization.NumberStyles.HexNumber);
-        byte g = byte.Parse(hex[4..6], System.Globalization.NumberStyles.HexNumber);
-        byte b = byte.Parse(hex[6..8], System.Globalization.NumberStyles.HexNumber);
-        return Windows.UI.Color.FromArgb(a, r, g, b);
-    }
 }

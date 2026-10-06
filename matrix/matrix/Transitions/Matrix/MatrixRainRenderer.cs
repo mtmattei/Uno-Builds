@@ -15,19 +15,25 @@ public sealed class MatrixRainRenderer : IDisposable
     private float _elapsedMs;
     private readonly Random _random = new();
 
-    // Cursor interaction
     private float _cursorX = -1000;
     private float _cursorY = -1000;
     private const float LogoSize = 350f;
-    private const float MaxDeflection = 250f;
 
-    // Logo mask
     private SKBitmap? _logoMask;
 
     private SKPaint? _headPaint;
     private SKPaint? _trailPaint;
     private SKFont? _font;
     private SKTypeface? _typeface;
+
+    // 8-neighborhood sample offsets for border detection. Static to avoid per-call array allocation.
+    private static readonly int[] BorderSampleDx = [-1, 0, 1, -1, 1, -1, 0, 1];
+    private static readonly int[] BorderSampleDy = [-1, -1, -1, 0, 0, 1, 1, 1];
+
+    // Cached single-char strings for the active character set; rebuilt only when the set changes.
+    // Eliminates per-frame char.ToString() allocations in Render().
+    private string[]? _charStrings;
+    private string? _cachedCharacterSet;
 
     public event Action<TransitionPhase>? PhaseChanged;
     public event Action? TransitionCompleted;
@@ -41,10 +47,9 @@ public sealed class MatrixRainRenderer : IDisposable
         _screenHeight = height;
         _options = options;
 
-        // Only create resources if not already created
         if (_typeface == null)
         {
-            // Prefer fonts with good Katakana support, fallback to monospace
+            // Prefer fonts with good Katakana support; fall back to monospace.
             _typeface = SKTypeface.FromFamilyName("MS Gothic", SKFontStyle.Bold)
                 ?? SKTypeface.FromFamilyName("Hiragino Kaku Gothic Pro", SKFontStyle.Bold)
                 ?? SKTypeface.FromFamilyName("Noto Sans JP", SKFontStyle.Bold)
@@ -68,6 +73,18 @@ public sealed class MatrixRainRenderer : IDisposable
 
             LoadLogoMask();
         }
+
+        if (!ReferenceEquals(_cachedCharacterSet, options.CharacterSet))
+        {
+            var set = options.CharacterSet;
+            var strings = new string[set.Length];
+            for (int i = 0; i < set.Length; i++)
+            {
+                strings[i] = set[i].ToString();
+            }
+            _charStrings = strings;
+            _cachedCharacterSet = set;
+        }
     }
 
     private void LoadLogoMask()
@@ -89,7 +106,7 @@ public sealed class MatrixRainRenderer : IDisposable
         }
         catch
         {
-            // Logo mask is optional - scatter will fall back to ellipse
+            // Logo mask is optional - scatter falls back to no deflection.
         }
     }
 
@@ -150,7 +167,6 @@ public sealed class MatrixRainRenderer : IDisposable
             {
                 if (IsContinuousMode)
                 {
-                    // Respawn at top instead of deactivating
                     RespawnColumn(column);
                 }
                 else
@@ -168,11 +184,17 @@ public sealed class MatrixRainRenderer : IDisposable
 
     public void Render(SKCanvas canvas)
     {
-        if (_font == null || _headPaint == null || _trailPaint == null)
+        if (_font == null || _headPaint == null || _trailPaint == null || _charStrings == null)
             return;
 
-        foreach (var column in _columns.Where(c => c.IsActive))
+        var charStrings = _charStrings;
+
+        // Manual loop avoids Where() enumerator allocation each frame.
+        for (int cIdx = 0; cIdx < _columns.Count; cIdx++)
         {
+            var column = _columns[cIdx];
+            if (!column.IsActive) continue;
+
             for (int i = 0; i < column.Length; i++)
             {
                 float charY = column.Y - (i * _charHeight);
@@ -186,12 +208,10 @@ public sealed class MatrixRainRenderer : IDisposable
                 var baseColor = i == 0 ? _options.GlowColor : _options.CharacterColor;
                 paint.Color = baseColor.WithAlpha((byte)(alpha * 255));
 
-                // Calculate per-character scatter
                 var (offsetX, offsetY) = CalculateCharacterScatter(column.X, charY);
 
                 int charIndex = column.CharIndices[i % column.CharIndices.Length];
-                char c = _options.CharacterSet[charIndex];
-                canvas.DrawText(c.ToString(), column.X + offsetX, charY + offsetY, _font, paint);
+                canvas.DrawText(charStrings[charIndex], column.X + offsetX, charY + offsetY, _font, paint);
             }
         }
     }
@@ -314,36 +334,30 @@ public sealed class MatrixRainRenderer : IDisposable
         float dx = charX - _cursorX;
         float dy = charY - _cursorY;
 
-        // Check if within logo bounds (with margin)
         float halfSize = LogoSize / 2f;
-        float margin = 30f;
+        const float margin = 30f;
         if (MathF.Abs(dx) > halfSize + margin || MathF.Abs(dy) > halfSize + margin)
             return (0f, 0f);
 
-        // Map character position to logo bitmap coordinates
         float u = (dx + halfSize) / LogoSize;
         float v = (dy + halfSize) / LogoSize;
 
         int px = Math.Clamp((int)(u * _logoMask.Width), 0, _logoMask.Width - 1);
         int py = Math.Clamp((int)(v * _logoMask.Height), 0, _logoMask.Height - 1);
 
-        // Check if near the border (within borderWidth pixels of an edge)
-        int borderWidth = 12;
+        const int borderWidth = 12;
         var (isNearBorder, normalX, normalY) = CheckNearBorder(px, py, borderWidth);
 
         if (!isNearBorder)
             return (0f, 0f);
 
-        // Scale from pixel space to world space
         float scale = LogoSize / _logoMask.Width;
 
-        // Push outward along the normal, plus slide downward
-        float pushStrength = 25f;
+        const float pushStrength = 25f;
         float pushX = normalX * pushStrength * scale;
         float pushY = normalY * pushStrength * scale;
 
-        // Add downward sliding effect along the border
-        // Tangent is perpendicular to normal - pick the one pointing more downward
+        // Slide along the border tangent that points downward, producing a "dripping" effect.
         float tangentX = -normalY;
         float tangentY = normalX;
         if (tangentY < 0)
@@ -352,7 +366,7 @@ public sealed class MatrixRainRenderer : IDisposable
             tangentY = -tangentY;
         }
 
-        float slideStrength = 15f;
+        const float slideStrength = 15f;
         pushX += tangentX * slideStrength * scale;
         pushY += tangentY * slideStrength * scale;
 
@@ -374,36 +388,30 @@ public sealed class MatrixRainRenderer : IDisposable
     {
         bool isInside = IsLogoPixel(px, py);
 
-        // Sample nearby pixels to find if we're near an edge
         float normalX = 0, normalY = 0;
         bool foundEdge = false;
 
         for (int checkDist = 1; checkDist <= borderWidth; checkDist++)
         {
-            // Check 8 directions
-            int[] dxs = { -1, 0, 1, -1, 1, -1, 0, 1 };
-            int[] dys = { -1, -1, -1, 0, 0, 1, 1, 1 };
-
             for (int i = 0; i < 8; i++)
             {
-                int checkX = px + dxs[i] * checkDist;
-                int checkY = py + dys[i] * checkDist;
+                int checkX = px + BorderSampleDx[i] * checkDist;
+                int checkY = py + BorderSampleDy[i] * checkDist;
 
                 bool checkInside = IsLogoPixel(checkX, checkY);
 
-                // Found a transition (edge)
                 if (checkInside != isInside)
                 {
-                    // Normal points from logo toward outside
+                    // Normal points from logo toward outside.
                     if (isInside)
                     {
-                        normalX += dxs[i];
-                        normalY += dys[i];
+                        normalX += BorderSampleDx[i];
+                        normalY += BorderSampleDy[i];
                     }
                     else
                     {
-                        normalX -= dxs[i];
-                        normalY -= dys[i];
+                        normalX -= BorderSampleDx[i];
+                        normalY -= BorderSampleDy[i];
                     }
                     foundEdge = true;
                 }
@@ -416,7 +424,6 @@ public sealed class MatrixRainRenderer : IDisposable
         if (!foundEdge)
             return (false, 0, 0);
 
-        // Normalize
         float len = MathF.Sqrt(normalX * normalX + normalY * normalY);
         if (len > 0.01f)
         {

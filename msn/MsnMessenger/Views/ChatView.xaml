@@ -20,10 +20,6 @@
             <!-- Input Area -->
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- CHAT HEADER -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
         <Border Grid.Row="0"
                 Background="{StaticResource HeaderGradientBrush}"
                 BorderThickness="0,0,0,1"
@@ -89,18 +85,10 @@
                 </StackPanel>
             </Grid>
         </Border>
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- LIVE ACTIVITY CARD -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
         <controls:LiveActivityCard x:Name="ActivityCard"
                                     Grid.Row="1"
                                     Margin="16,0"
                                     Visibility="Collapsed" />
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- MESSAGES AREA -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
         <ScrollViewer Grid.Row="2" x:Name="MessagesScroller">
             <Grid Padding="16,12">
                 <ItemsControl x:Name="MessagesList">
@@ -134,10 +122,6 @@
                 </ItemsControl>
             </Grid>
         </ScrollViewer>
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- EMOJI/WINK PANEL -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
         <Border Grid.Row="3"
                 x:Name="WinkPanel"
                 Background="{StaticResource GlassBackgroundBrush}"
@@ -214,10 +198,6 @@
                 </StackPanel>
             </Grid>
         </Border>
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- INPUT AREA -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
         <Border Grid.Row="4"
                 Background="{StaticResource GlassBackgroundBrush}"
                 BorderThickness="0,1,0,0"

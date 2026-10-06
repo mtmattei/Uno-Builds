@@ -1,0 +1,17 @@
+<svg viewBox="0 0 800 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="64" fill="#FFFFFF"/>
+  <line x1="0" y1="63.5" x2="800" y2="63.5" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Left: Title + Subtitle -->
+  <text x="32" y="37" font-size="20" font-weight="700" fill="#1F2937">Quotes</text>
+  <text x="101" y="37" font-size="13" font-weight="400" fill="#6B7280">· 7 total</text>
+
+  <!-- Right: Accent Button -->
+  <rect x="638" y="14" width="130" height="36" rx="8" fill="#F59E0B"/>
+  <text x="703" y="37" text-anchor="middle" font-size="14" font-weight="600" fill="#1F2937">+ New Quote</text>
+</svg>

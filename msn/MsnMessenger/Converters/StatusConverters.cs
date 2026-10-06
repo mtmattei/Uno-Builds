@@ -5,21 +5,34 @@ using MsnMessenger.Models;
 
 namespace MsnMessenger.Converters;
 
+public static class StatusBrushes
+{
+    public static Brush ForStatus(PresenceStatus status)
+    {
+        var key = status switch
+        {
+            PresenceStatus.Online => "OnlineBrush",
+            PresenceStatus.Away => "AwayBrush",
+            PresenceStatus.Busy => "BusyBrush",
+            PresenceStatus.Offline => "OfflineBrush",
+            _ => null,
+        };
+
+        if (key is not null && Application.Current.Resources.TryGetValue(key, out var value) && value is Brush brush)
+        {
+            return brush;
+        }
+        return new SolidColorBrush(Colors.Gray);
+    }
+}
+
 public class StatusToColorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
         if (value is PresenceStatus status)
         {
-            // Neo-Y2K Design Spec Colors
-            return status switch
-            {
-                PresenceStatus.Online => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 200, 150)),   // #00c896 Teal
-                PresenceStatus.Away => new SolidColorBrush(ColorHelper.FromArgb(255, 247, 183, 49)),    // #f7b731 Gold
-                PresenceStatus.Busy => new SolidColorBrush(ColorHelper.FromArgb(255, 235, 59, 90)),     // #eb3b5a Red
-                PresenceStatus.Offline => new SolidColorBrush(ColorHelper.FromArgb(255, 74, 74, 74)),   // #4a4a4a Gray
-                _ => new SolidColorBrush(Colors.Gray)
-            };
+            return StatusBrushes.ForStatus(status);
         }
         return new SolidColorBrush(Colors.Gray);
     }

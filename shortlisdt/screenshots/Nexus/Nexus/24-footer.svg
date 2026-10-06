@@ -1,0 +1,28 @@
+<svg width="600" height="60" viewBox="0 0 600 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Footer Bar -->
+  <!-- Used in: All pages -->
+  
+  <!-- Background -->
+  <rect width="600" height="60" fill="#0a0a0b"/>
+  
+  <!-- Top Border -->
+  <line x1="0" y1="0" x2="600" y2="0" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Footer Items -->
+  <g transform="translate(20, 35)">
+    <!-- Node Count -->
+    <circle cx="0" cy="-4" r="2" fill="#3f3f46"/>
+    <text x="12" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">NODE COUNT: 847</text>
+    
+    <!-- Last Sync -->
+    <circle cx="160" cy="-4" r="2" fill="#3f3f46"/>
+    <text x="172" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">LAST SYNC: 2.4s AGO</text>
+    
+    <!-- Latency -->
+    <circle cx="340" cy="-4" r="2" fill="#3f3f46"/>
+    <text x="352" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">LATENCY: 12ms</text>
+  </g>
+  
+  <!-- Version -->
+  <text x="575" y="35" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end" letter-spacing="2">v4.2.1</text>
+</svg>

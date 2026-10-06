@@ -30,7 +30,7 @@ public sealed class MatrixTransitionOverlay : SKCanvasElement
         PointerMoved += OnPointerMoved;
         PointerExited += OnPointerExited;
 
-        // Target 120fps (~8.33ms per frame)
+        // ~120fps cap.
         _frameTimer.Interval = TimeSpan.FromMilliseconds(8);
         _frameTimer.Tick += (_, _) => Invalidate();
     }
@@ -57,12 +57,9 @@ public sealed class MatrixTransitionOverlay : SKCanvasElement
         float delta = (float)_stopwatch.Elapsed.TotalMilliseconds;
         _stopwatch.Restart();
 
-        // Update size if changed
         _renderer.UpdateSize((float)area.Width, (float)area.Height);
-
         _renderer.Update(delta);
 
-        // Black background for the matrix effect
         canvas.Clear(new SKColor(0, 0, 0, 200));
         _renderer.Render(canvas);
 
@@ -208,6 +205,7 @@ public sealed class MatrixTransitionOverlay : SKCanvasElement
         Visibility = Visibility.Visible;
         UpdateLayout();
 
+        // Yield a frame so layout can resolve before measuring.
         await Task.Delay(16);
 
         var parent = Parent as FrameworkElement;
@@ -231,7 +229,7 @@ public sealed class MatrixTransitionOverlay : SKCanvasElement
 
     private void OnPhaseChanged(TransitionPhase phase)
     {
-        // Skip page animations in loop mode (no elements)
+        // Loop mode (no in/out elements) has nothing to animate.
         if (_outgoingElement == null && _incomingElement == null) return;
 
         DispatcherQueue.TryEnqueue(() =>

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_uno__uno_platform_agent_rules_init",
+      "mcp__claude_ai_uno__uno_platform_usage_rules_init",
+      "mcp__uno__uno_platform_agent_rules_init",
+      "mcp__uno__uno_platform_usage_rules_init",
+      "mcp__uno-app__uno_app_start",
+      "mcp__uno-app__uno_app_get_runtime_info",
+      "mcp__uno-app__uno_app_get_screenshot",
+      "mcp__uno-app__uno_app_visualtree_snapshot",
+      "mcp__uno-app__uno_app_element_peer_default_action",
+      "mcp__uno-app__uno_app_pointer_click",
+      "mcp__uno-app__uno_app_type_text",
+      "mcp__uno-app__uno_app_get_element_datacontext",
+      "WebFetch(domain:api.nuget.org)",
+      "WebFetch(domain:platform.uno)",
+      "mcp__uno__uno_platform_docs_search",
+      "mcp__uno__uno_platform_docs_fetch",
+      "Bash(tasklist *)",
+      "Bash(powershell *)",
+      "mcp__uno-app__uno_app_key_press",
+      "mcp__uno-app__uno_app_close",
+      "Bash(adb devices *)",
+      "Bash(where.exe adb *)",
+      "Bash(where.exe scrcpy *)"
+    ]
+  }
+}

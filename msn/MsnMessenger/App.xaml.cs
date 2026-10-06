@@ -1,5 +1,4 @@
 using MsnMessenger.Services;
-using MsnMessenger.ViewModels;
 using MsnMessenger.Views;
 using Uno.Resizetizer;
 
@@ -11,6 +10,8 @@ public partial class App : Application
     {
         this.InitializeComponent();
     }
+
+    public static IServiceProvider? Services { get; private set; }
 
     protected Window? MainWindow { get; private set; }
     protected IHost? Host { get; private set; }
@@ -34,10 +35,6 @@ public partial class App : Application
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<IMsnDataService, MsnDataService>();
-                    services.AddTransient<MainViewModel>();
-                    services.AddTransient<ProfileViewModel>();
-                    services.AddTransient<ChatViewModel>();
-                    services.AddTransient<SettingsViewModel>();
                 })
             );
         MainWindow = builder.Window;
@@ -47,16 +44,12 @@ public partial class App : Application
 #endif
         MainWindow.SetWindowIcon();
 
-        // Set window size constraints (less restrictive)
         var appWindow = MainWindow.AppWindow;
-        if (appWindow != null)
+        if (appWindow is not null)
         {
-            // Set initial size (mobile-ish but larger)
-            appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 480, Height = 820 });
+            appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 1100, Height = 780 });
 
-            // Set minimum size constraints
-            var presenter = appWindow.Presenter as Microsoft.UI.Windowing.OverlappedPresenter;
-            if (presenter != null)
+            if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
             {
                 presenter.IsResizable = true;
                 presenter.IsMaximizable = true;
@@ -64,6 +57,7 @@ public partial class App : Application
         }
 
         Host = builder.Build();
+        Services = Host.Services;
 
         if (MainWindow.Content is not Frame rootFrame)
         {
@@ -71,9 +65,8 @@ public partial class App : Application
             MainWindow.Content = rootFrame;
         }
 
-        if (rootFrame.Content == null)
+        if (rootFrame.Content is null)
         {
-            // Start with onboarding flow
             rootFrame.Navigate(typeof(OnboardingPage), args.Arguments);
         }
 

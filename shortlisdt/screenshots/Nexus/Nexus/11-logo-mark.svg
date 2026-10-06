@@ -1,0 +1,25 @@
+<svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Logo Mark & Header -->
+  <!-- Used in: All pages (header) -->
+  
+  <!-- Background -->
+  <rect width="300" height="100" fill="#0a0a0b"/>
+  
+  <!-- Logo Mark Container -->
+  <rect x="20" y="30" width="40" height="40" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+  
+  <!-- Inner Diamond -->
+  <rect x="34" y="44" width="12" height="12" fill="transparent" stroke="#a1a1aa" stroke-width="1" transform="rotate(45 40 50)"/>
+  
+  <!-- Corner Nodes -->
+  <circle cx="40" cy="28" r="2.5" fill="#e4e4e7"/>
+  <circle cx="40" cy="72" r="2.5" fill="#e4e4e7"/>
+  <circle cx="18" cy="50" r="2.5" fill="#e4e4e7"/>
+  <circle cx="62" cy="50" r="2.5" fill="#e4e4e7"/>
+  
+  <!-- Logo Text -->
+  <text x="80" y="47" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="300" fill="#fafafa" letter-spacing="4">NEXUS</text>
+  
+  <!-- Subtext -->
+  <text x="80" y="62" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="2">INDUSTRIAL CONTROL SYSTEM</text>
+</svg>

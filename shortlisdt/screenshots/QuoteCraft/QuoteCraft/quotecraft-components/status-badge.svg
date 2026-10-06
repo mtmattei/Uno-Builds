@@ -1,0 +1,25 @@
+<svg viewBox="0 0 520 48" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Draft -->
+  <rect x="0" y="8" width="72" height="24" rx="10" fill="#E5E7EB"/>
+  <text x="36" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" letter-spacing="0.5" text-transform="uppercase">✎ DRAFT</text>
+
+  <!-- Sent -->
+  <rect x="88" y="8" width="64" height="24" rx="10" fill="#DBEAFE"/>
+  <text x="120" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF" letter-spacing="0.5">↗ SENT</text>
+
+  <!-- Viewed -->
+  <rect x="168" y="8" width="80" height="24" rx="10" fill="#FEF3C7"/>
+  <text x="208" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#92400E" letter-spacing="0.5">👁 VIEWED</text>
+
+  <!-- Accepted -->
+  <rect x="264" y="8" width="90" height="24" rx="10" fill="#D1FAE5"/>
+  <text x="309" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#065F46" letter-spacing="0.5">✓ ACCEPTED</text>
+
+  <!-- Declined -->
+  <rect x="370" y="8" width="88" height="24" rx="10" fill="#FEE2E2"/>
+  <text x="414" y="24" text-anchor="middle" font-size="10" font-weight="600" fill="#991B1B" letter-spacing="0.5">✕ DECLINED</text>
+</svg>

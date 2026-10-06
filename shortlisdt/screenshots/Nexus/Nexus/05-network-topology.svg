@@ -1,0 +1,98 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Network Topology -->
+  <!-- Used in: Overview -->
+  
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="250" fill="#111113"/>
+  
+  <!-- Connection Lines -->
+  <line x1="60" y1="80" x2="140" y2="50" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="60" y1="80" x2="140" y2="110" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="140" y1="50" x2="220" y2="80" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="140" y1="110" x2="220" y2="80" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="140" y1="110" x2="220" y2="140" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="220" y1="80" x2="300" y2="95" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="220" y1="140" x2="300" y2="95" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="5s" repeatCount="indefinite"/>
+  </line>
+  
+  <!-- Node: PLC-01 -->
+  <g filter="url(#glow)">
+    <circle cx="60" cy="80" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="60" cy="80" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="60" y="105" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">PLC-01</text>
+  
+  <!-- Node: HMI-A -->
+  <g filter="url(#glow)">
+    <circle cx="140" cy="50" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="140" cy="50" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="140" y="75" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">HMI-A</text>
+  
+  <!-- Node: SCADA -->
+  <g filter="url(#glow)">
+    <circle cx="140" cy="110" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="140" cy="110" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="140" y="135" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">SCADA</text>
+  
+  <!-- Node: SERVER -->
+  <g filter="url(#glow)">
+    <circle cx="220" cy="80" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="220" cy="80" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="220" y="105" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">SERVER</text>
+  
+  <!-- Node: DB-01 -->
+  <g filter="url(#glow)">
+    <circle cx="220" cy="140" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="220" cy="140" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="220" y="165" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">DB-01</text>
+  
+  <!-- Node: CLOUD -->
+  <g filter="url(#glow)">
+    <circle cx="300" cy="95" r="6" fill="none" stroke="#3f3f46" stroke-width="1"/>
+    <circle cx="300" cy="95" r="3" fill="#e4e4e7">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <text x="300" y="120" font-family="IBM Plex Mono, monospace" font-size="8" fill="#71717a" text-anchor="middle" letter-spacing="1">CLOUD</text>
+  
+  <!-- Legend -->
+  <text x="20" y="220" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">NETWORK TOPOLOGY</text>
+  <line x1="20" y1="230" x2="380" y2="230" stroke="#27272a" stroke-width="1"/>
+</svg>

@@ -1,6 +1,6 @@
 namespace FormaEspresso.Models;
 
-public record EspressoItem(
+public partial record EspressoItem(
     string Id,
     string Name,
     string Volume,

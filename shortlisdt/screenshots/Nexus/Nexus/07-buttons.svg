@@ -1,0 +1,58 @@
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Buttons -->
+  <!-- Used in: All pages -->
+  
+  <!-- Background -->
+  <rect width="400" height="200" fill="#0a0a0b"/>
+  
+  <!-- Label -->
+  <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">GHOST BUTTONS</text>
+  
+  <!-- Default State -->
+  <g transform="translate(20, 50)">
+    <rect x="0" y="0" width="80" height="28" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="40" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="middle" letter-spacing="1">ACTION</text>
+    <text x="0" y="48" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3f3f46">Default</text>
+  </g>
+  
+  <!-- Hover State -->
+  <g transform="translate(120, 50)">
+    <rect x="0" y="0" width="80" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+    <text x="40" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#a1a1aa" text-anchor="middle" letter-spacing="1">ACTION</text>
+    <text x="0" y="48" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3f3f46">Hover</text>
+  </g>
+  
+  <!-- Primary Action -->
+  <g transform="translate(220, 50)">
+    <rect x="0" y="0" width="100" height="28" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="50" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="middle" letter-spacing="1">+ NEW BATCH</text>
+    <text x="0" y="48" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3f3f46">Primary</text>
+  </g>
+  
+  <!-- Label -->
+  <text x="20" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">SMALL BUTTONS</text>
+  
+  <!-- Small Button -->
+  <g transform="translate(20, 140)">
+    <rect x="0" y="0" width="60" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="30" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">EDIT</text>
+  </g>
+  
+  <!-- Small Button 2 -->
+  <g transform="translate(100, 140)">
+    <rect x="0" y="0" width="70" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="35" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">REMOVE</text>
+  </g>
+  
+  <!-- Small Button 3 -->
+  <g transform="translate(190, 140)">
+    <rect x="0" y="0" width="70" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="35" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">DETAILS</text>
+  </g>
+  
+  <!-- Small Button 4 -->
+  <g transform="translate(280, 140)">
+    <rect x="0" y="0" width="70" height="24" fill="transparent" stroke="#27272a" stroke-width="1"/>
+    <text x="35" y="16" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle" letter-spacing="1">CONTROL</text>
+  </g>
+</svg>

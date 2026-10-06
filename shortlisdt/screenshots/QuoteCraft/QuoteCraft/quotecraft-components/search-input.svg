@@ -1,0 +1,10 @@
+<svg viewBox="0 0 380 52" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Unfocused state -->
+  <rect x="0" y="4" width="380" height="44" rx="8" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="38" y="30" font-size="14" fill="#6B7280">Search quotes...</text>
+  <text x="14" y="32" font-size="16" fill="#6B7280">🔍</text>
+</svg>

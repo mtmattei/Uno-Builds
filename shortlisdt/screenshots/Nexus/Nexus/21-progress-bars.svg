@@ -1,0 +1,52 @@
+<svg width="400" height="180" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Progress Bars -->
+  <!-- Used in: Production, Overview -->
+  
+  <!-- Background -->
+  <rect width="400" height="180" fill="#0a0a0b"/>
+  
+  <!-- Label -->
+  <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">OUTPUT BARS (THIN)</text>
+  
+  <!-- Output Bar 89% -->
+  <g transform="translate(20, 50)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">89%</text>
+    <rect x="40" y="-7" width="80" height="3" fill="#27272a"/>
+    <rect x="40" y="-7" width="71" height="3" fill="#a1a1aa"/>
+  </g>
+  
+  <!-- Output Bar 94% -->
+  <g transform="translate(160, 50)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">94%</text>
+    <rect x="40" y="-7" width="80" height="3" fill="#27272a"/>
+    <rect x="40" y="-7" width="75" height="3" fill="#a1a1aa"/>
+  </g>
+  
+  <!-- Output Bar 0% -->
+  <g transform="translate(300, 50)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">0%</text>
+    <rect x="30" y="-7" width="60" height="3" fill="#27272a"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="20" y="95" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">SHIFT PROGRESS (MEDIUM)</text>
+  
+  <!-- Shift Progress 67% -->
+  <g transform="translate(20, 110)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">SHIFT PROGRESS</text>
+    <text x="340" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">67%</text>
+    <rect x="0" y="12" width="340" height="4" fill="#27272a"/>
+    <rect x="0" y="12" width="228" height="4" fill="#a1a1aa"/>
+  </g>
+  
+  <!-- Label -->
+  <text x="20" y="155" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3f3f46" letter-spacing="1">DEFECT BAR (WITH OFFSET)</text>
+  
+  <!-- Defect Bar -->
+  <g transform="translate(20, 170)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a">#1</text>
+    <rect x="30" y="-7" width="300" height="3" fill="#27272a"/>
+    <rect x="30" y="-7" width="102" height="3" fill="#71717a"/>
+    <text x="340" y="0" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" text-anchor="end">34%</text>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "SalesHeatmap",
+  "display": "standalone",
+  "name": "SalesHeatmap",
+  "short_name": "SalesHeatmap",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

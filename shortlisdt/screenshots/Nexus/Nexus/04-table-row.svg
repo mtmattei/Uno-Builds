@@ -1,0 +1,67 @@
+<svg width="600" height="140" viewBox="0 0 600 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Table Row (Production Lines) -->
+  <!-- Used in: Overview, Production -->
+  
+  <!-- Background -->
+  <rect width="600" height="140" fill="#0a0a0b"/>
+  
+  <!-- Header Row -->
+  <rect x="0" y="0" width="600" height="40" fill="#18181b"/>
+  <text x="20" y="25" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">UNIT</text>
+  <text x="180" y="25" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">STATUS</text>
+  <text x="300" y="25" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">OUTPUT</text>
+  <text x="420" y="25" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">TEMP °C</text>
+  <text x="520" y="25" font-family="IBM Plex Mono, monospace" font-size="10" fill="#71717a" letter-spacing="1">PRESSURE</text>
+  <line x1="0" y1="40" x2="600" y2="40" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Data Row -->
+  <rect x="0" y="40" width="600" height="50" fill="#111113"/>
+  
+  <!-- Unit ID Badge -->
+  <rect x="20" y="51" width="28" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+  <text x="34" y="70" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle">A1</text>
+  <circle cx="48" cy="51" r="2" fill="#3f3f46"/>
+  
+  <!-- Unit Name -->
+  <text x="60" y="70" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Assembly Line A1</text>
+  
+  <!-- Status -->
+  <circle cx="183" cy="65" r="3" fill="#4ade80"/>
+  <text x="194" y="68" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">ACTIVE</text>
+  
+  <!-- Output Bar -->
+  <rect x="300" y="61" width="60" height="3" fill="#27272a"/>
+  <rect x="300" y="61" width="53" height="3" fill="#a1a1aa"/>
+  
+  <!-- Temperature -->
+  <text x="420" y="68" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">42.3</text>
+  
+  <!-- Pressure -->
+  <text x="520" y="68" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">2.4 bar</text>
+  
+  <line x1="0" y1="90" x2="600" y2="90" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Data Row 2 (Standby) -->
+  <rect x="0" y="90" width="600" height="50" fill="#111113"/>
+  
+  <!-- Unit ID Badge -->
+  <rect x="20" y="101" width="28" height="28" fill="transparent" stroke="#3f3f46" stroke-width="1"/>
+  <text x="34" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" text-anchor="middle">B1</text>
+  <circle cx="48" cy="101" r="2" fill="#3f3f46"/>
+  
+  <!-- Unit Name -->
+  <text x="60" y="120" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">Processing Unit B1</text>
+  
+  <!-- Status -->
+  <circle cx="183" cy="115" r="3" fill="#fbbf24"/>
+  <text x="194" y="118" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">STANDBY</text>
+  
+  <!-- Output Bar (empty) -->
+  <rect x="300" y="111" width="60" height="3" fill="#27272a"/>
+  
+  <!-- Temperature -->
+  <text x="420" y="118" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">22.1</text>
+  
+  <!-- Pressure -->
+  <text x="520" y="118" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">1.0 bar</text>
+</svg>

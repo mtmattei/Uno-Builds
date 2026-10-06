@@ -1,0 +1,46 @@
+<svg width="400" height="180" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Network Configuration Rows -->
+  <!-- Used in: Settings -->
+  
+  <!-- Background -->
+  <rect width="400" height="180" fill="#111113"/>
+  
+  <!-- Row 1 -->
+  <g transform="translate(0, 0)">
+    <rect x="0" y="0" width="400" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">Primary Server</text>
+    <text x="180" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">192.168.1.100</text>
+    <circle cx="330" cy="22" r="3" fill="#4ade80"/>
+    <text x="340" y="26" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">CONNECTED</text>
+    <line x1="0" y1="44" x2="400" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Row 2 -->
+  <g transform="translate(0, 45)">
+    <rect x="0" y="0" width="400" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">Backup Server</text>
+    <text x="180" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">192.168.1.101</text>
+    <circle cx="330" cy="22" r="3" fill="#fbbf24"/>
+    <text x="340" y="26" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">STANDBY</text>
+    <line x1="0" y1="44" x2="400" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Row 3 -->
+  <g transform="translate(0, 90)">
+    <rect x="0" y="0" width="400" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">SCADA Gateway</text>
+    <text x="180" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">192.168.1.50</text>
+    <circle cx="330" cy="22" r="3" fill="#4ade80"/>
+    <text x="340" y="26" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">CONNECTED</text>
+    <line x1="0" y1="44" x2="400" y2="44" stroke="#27272a" stroke-width="1"/>
+  </g>
+  
+  <!-- Row 4 -->
+  <g transform="translate(0, 135)">
+    <rect x="0" y="0" width="400" height="44" fill="#111113"/>
+    <text x="20" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a">PLC Network</text>
+    <text x="180" y="27" font-family="IBM Plex Mono, monospace" font-size="11" fill="#a1a1aa">10.0.0.0/24</text>
+    <circle cx="330" cy="22" r="3" fill="#4ade80"/>
+    <text x="340" y="26" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">ACTIVE</text>
+  </g>
+</svg>

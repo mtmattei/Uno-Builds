@@ -6,8 +6,7 @@ using Microsoft.UI.Xaml.Media;
 namespace Liveline;
 
 /// <summary>
-/// A real-time animated line chart control.
-/// Wraps LivelineChartCanvas and drives the animation loop via CompositionTarget.Rendering.
+/// Real-time animated line chart driven by <see cref="CompositionTarget.Rendering"/>.
 /// </summary>
 public partial class LivelineChart : UserControl
 {
@@ -30,8 +29,6 @@ public partial class LivelineChart : UserControl
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-
-    #region DependencyProperties
 
     public static readonly DependencyProperty DataProperty =
         DependencyProperty.Register(nameof(Data), typeof(IList<LivelinePoint>), typeof(LivelineChart),
@@ -94,9 +91,9 @@ public partial class LivelineChart : UserControl
     }
 
     /// <summary>
-    /// Controls the momentum arrow on the live dot.
-    /// Set to true for auto-detect, false to disable,
-    /// or "up", "down", "flat" to force a direction.
+    /// Controls the momentum indicator on the live dot.
+    /// <c>true</c> = auto-detect direction, <c>false</c> = off,
+    /// or <c>"up"</c>/<c>"down"</c>/<c>"flat"</c> to force.
     /// </summary>
     public static readonly DependencyProperty MomentumProperty =
         DependencyProperty.Register(nameof(Momentum), typeof(object), typeof(LivelineChart),
@@ -138,16 +135,6 @@ public partial class LivelineChart : UserControl
         set => SetValue(IsPausedProperty, value);
     }
 
-    #endregion
-
-    // Keep ShowMomentum as a convenience alias
-    [Obsolete("Use Momentum property instead")]
-    public bool ShowMomentum
-    {
-        get => Momentum is true or not false;
-        set => Momentum = value;
-    }
-
     private static void OnRenderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is LivelineChart chart)
@@ -185,8 +172,6 @@ public partial class LivelineChart : UserControl
     private void OnCompositionRendering(object? sender, object e)
     {
         if (_canvas.TickAnimation())
-        {
             _canvas.Invalidate();
-        }
     }
 }

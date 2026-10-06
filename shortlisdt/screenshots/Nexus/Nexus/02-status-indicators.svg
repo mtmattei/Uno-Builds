@@ -1,0 +1,79 @@
+<svg width="280" height="120" viewBox="0 0 280 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Status Indicator -->
+  <!-- Used in: All pages for status display -->
+  
+  <!-- Background -->
+  <rect width="280" height="120" fill="#0a0a0b"/>
+  
+  <!-- Active Status -->
+  <g transform="translate(20, 20)">
+    <circle cx="3" cy="8" r="3" fill="#4ade80">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">ACTIVE</text>
+  </g>
+  
+  <!-- Standby Status -->
+  <g transform="translate(100, 20)">
+    <circle cx="3" cy="8" r="3" fill="#fbbf24">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">STANDBY</text>
+  </g>
+  
+  <!-- Maintenance Status -->
+  <g transform="translate(190, 20)">
+    <circle cx="3" cy="8" r="3" fill="#f87171">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">MAINTENANCE</text>
+  </g>
+  
+  <!-- Nominal Status -->
+  <g transform="translate(20, 50)">
+    <circle cx="3" cy="8" r="3" fill="#4ade80">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">NOMINAL</text>
+  </g>
+  
+  <!-- Scheduled Status -->
+  <g transform="translate(100, 50)">
+    <circle cx="3" cy="8" r="3" fill="#60a5fa">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">SCHEDULED</text>
+  </g>
+  
+  <!-- Pending Status -->
+  <g transform="translate(190, 50)">
+    <circle cx="3" cy="8" r="3" fill="#fbbf24">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">PENDING</text>
+  </g>
+  
+  <!-- Critical Status -->
+  <g transform="translate(20, 80)">
+    <circle cx="3" cy="8" r="3" fill="#f87171">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">CRITICAL</text>
+  </g>
+  
+  <!-- OK Status -->
+  <g transform="translate(100, 80)">
+    <circle cx="3" cy="8" r="3" fill="#4ade80">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">OK</text>
+  </g>
+  
+  <!-- Low Status -->
+  <g transform="translate(190, 80)">
+    <circle cx="3" cy="8" r="3" fill="#fbbf24">
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="14" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#71717a" letter-spacing="1">LOW</text>
+  </g>
+</svg>

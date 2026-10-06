@@ -1,9 +1,9 @@
-using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
+using MsnMessenger.Converters;
 using MsnMessenger.Helpers;
 using MsnMessenger.Models;
 using MsnMessenger.Services;
@@ -14,10 +14,13 @@ namespace MsnMessenger.Views;
 public sealed partial class BuddyListView : UserControl
 {
     private IMsnDataService? _dataService;
-    private bool _isEditingName = false;
-    private bool _isEditingMessage = false;
+    private bool _isEditingName;
+    private bool _isEditingMessage;
     private NowPlaying? _currentTrack;
     private DispatcherTimer? _progressTimer;
+    private Storyboard? _breathingStoryboard;
+    private Storyboard? _pulseStoryboard;
+    private bool _animationsStarted;
 
     public event Action<Contact>? OnContactSelected;
 
@@ -27,7 +30,7 @@ public sealed partial class BuddyListView : UserControl
         set
         {
             _dataService = value;
-            if (_dataService != null)
+            if (_dataService is not null)
             {
                 BindData();
             }
@@ -38,109 +41,87 @@ public sealed partial class BuddyListView : UserControl
     {
         this.InitializeComponent();
         this.Loaded += OnLoaded;
+        this.Unloaded += OnUnloaded;
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        // Animate header entrance
         await AnimateHeaderEntrance();
-
-        // Initialize Spotify Now Playing
         InitializeNowPlaying();
+        StartAmbientAnimations();
+    }
 
-        // Start status dot pulse animation
-        StartStatusDotPulse();
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (_progressTimer is not null)
+        {
+            _progressTimer.Stop();
+            _progressTimer.Tick -= OnProgressTimerTick;
+            _progressTimer = null;
+        }
 
-        // Start Now Playing card breathing animation
-        StartNowPlayingBreathing();
+        _breathingStoryboard?.Stop();
+        _breathingStoryboard = null;
+        _pulseStoryboard?.Stop();
+        _pulseStoryboard = null;
+        _animationsStarted = false;
     }
 
     private async Task AnimateHeaderEntrance()
     {
-        // Animate profile section entrance
         await Task.Delay(100);
         MicroAnimations.AnimateEntrance(UserAvatar, 0);
         await Task.Delay(50);
     }
 
-    private void StartStatusDotPulse()
+    private void StartAmbientAnimations()
     {
-        // Subtle pulse on the online status dot
+        if (_animationsStarted) return;
+        _animationsStarted = true;
+
         if (_dataService?.CurrentUser.Status == PresenceStatus.Online)
         {
-            MicroAnimations.AnimatePulse(ProfileStatusDot, 1.15);
+            _pulseStoryboard = MicroAnimations.AnimatePulse(ProfileStatusDot, 1.15);
+        }
+
+        if (NowPlayingCard is not null)
+        {
+            StartNowPlayingBreathing();
         }
     }
 
     private void StartNowPlayingBreathing()
     {
-        // Subtle breathing effect on the now playing card border
-        if (NowPlayingCard != null)
-        {
-            AnimateNowPlayingGlow();
-        }
-    }
+        var ease = new SineEase { EasingMode = EasingMode.EaseInOut };
+        var anim = new DoubleAnimationUsingKeyFrames();
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.Zero, Value = 0.8, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.FromMilliseconds(2000), Value = 1.0, EasingFunction = ease });
+        anim.KeyFrames.Add(new EasingDoubleKeyFrame { KeyTime = TimeSpan.FromMilliseconds(4000), Value = 0.8, EasingFunction = ease });
+        Storyboard.SetTarget(anim, NowPlayingCard);
+        Storyboard.SetTargetProperty(anim, "Opacity");
 
-    private void AnimateNowPlayingGlow()
-    {
-        var opacityAnim = new DoubleAnimation
-        {
-            From = 0.8,
-            To = 1.0,
-            Duration = new Duration(TimeSpan.FromMilliseconds(2000)),
-            EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var storyboard = new Storyboard();
-        storyboard.Children.Add(opacityAnim);
-        Storyboard.SetTarget(opacityAnim, NowPlayingCard);
-        Storyboard.SetTargetProperty(opacityAnim, "Opacity");
-
-        storyboard.Completed += (s, e) =>
-        {
-            var reverseAnim = new DoubleAnimation
-            {
-                From = 1.0,
-                To = 0.8,
-                Duration = new Duration(TimeSpan.FromMilliseconds(2000)),
-                EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-            };
-
-            var reverseStoryboard = new Storyboard();
-            reverseStoryboard.Children.Add(reverseAnim);
-            Storyboard.SetTarget(reverseAnim, NowPlayingCard);
-            Storyboard.SetTargetProperty(reverseAnim, "Opacity");
-
-            reverseStoryboard.Completed += (s2, e2) => AnimateNowPlayingGlow();
-            reverseStoryboard.Begin();
-        };
-
-        storyboard.Begin();
+        _breathingStoryboard = new Storyboard { RepeatBehavior = RepeatBehavior.Forever };
+        _breathingStoryboard.Children.Add(anim);
+        _breathingStoryboard.Begin();
     }
 
     private void InitializeNowPlaying()
     {
-        // Load mock Spotify data
         _currentTrack = MockSpotifyData.GetCurrentTrack();
         UpdateNowPlayingUI();
 
-        // Start progress timer to simulate playback
-        _progressTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
+        _progressTimer?.Stop();
+        _progressTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _progressTimer.Tick += OnProgressTimerTick;
         _progressTimer.Start();
     }
 
     private void OnProgressTimerTick(object? sender, object e)
     {
-        if (_currentTrack == null || !_currentTrack.IsPlaying) return;
+        if (_currentTrack is null || !_currentTrack.IsPlaying) return;
 
-        // Increment progress
         _currentTrack.Progress = _currentTrack.Progress.Add(TimeSpan.FromSeconds(1));
 
-        // If track finished, get a new random track
         if (_currentTrack.Progress >= _currentTrack.Duration)
         {
             _currentTrack = MockSpotifyData.GetRandomTrack();
@@ -154,12 +135,11 @@ public sealed partial class BuddyListView : UserControl
 
     private void UpdateNowPlayingUI()
     {
-        if (_currentTrack == null) return;
+        if (_currentTrack is null) return;
 
         TrackNameText.Text = _currentTrack.TrackName;
         ArtistNameText.Text = _currentTrack.ArtistName;
 
-        // Load album art
         if (!string.IsNullOrEmpty(_currentTrack.AlbumArtUrl))
         {
             AlbumArtImage.Source = new BitmapImage(new Uri(_currentTrack.AlbumArtUrl));
@@ -170,22 +150,21 @@ public sealed partial class BuddyListView : UserControl
 
     private void UpdateProgressBar()
     {
-        if (_currentTrack == null || ProgressBar == null) return;
+        if (_currentTrack is null || ProgressBar is null) return;
 
-        // Calculate progress width (max width approximately 120px based on card width)
-        var maxWidth = 120.0;
+        const double maxWidth = 120.0;
         var progressWidth = (_currentTrack.ProgressPercent / 100.0) * maxWidth;
-        ProgressBar.Width = Math.Max(4, progressWidth); // Minimum 4px width
+        ProgressBar.Width = Math.Max(4, progressWidth);
     }
 
     private void BindData()
     {
-        if (_dataService == null) return;
+        if (_dataService is null) return;
 
         var user = _dataService.CurrentUser;
         DisplayNameText.Text = user.DisplayName;
         StatusText.Text = user.Status.ToString();
-        ProfileStatusDot.Fill = GetStatusBrush(user.Status);
+        ProfileStatusDot.Fill = StatusBrushes.ForStatus(user.Status);
 
         PersonalMessageText.Text = string.IsNullOrEmpty(user.PersonalMessage)
             ? "What's on your mind?"
@@ -198,25 +177,11 @@ public sealed partial class BuddyListView : UserControl
         GroupsList.ItemsSource = _dataService.Groups;
     }
 
-    private static SolidColorBrush GetStatusBrush(PresenceStatus status)
-    {
-        // Neo-Y2K Design Spec Colors
-        return status switch
-        {
-            PresenceStatus.Online => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 200, 150)),   // #00c896 Teal
-            PresenceStatus.Away => new SolidColorBrush(ColorHelper.FromArgb(255, 247, 183, 49)),    // #f7b731 Gold
-            PresenceStatus.Busy => new SolidColorBrush(ColorHelper.FromArgb(255, 235, 59, 90)),     // #eb3b5a Red
-            PresenceStatus.Offline => new SolidColorBrush(ColorHelper.FromArgb(255, 74, 74, 74)),   // #4a4a4a Gray
-            _ => new SolidColorBrush(Colors.Gray)
-        };
-    }
-
     private async void OnGroupHeaderClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button btn && btn.Tag is ContactGroup group)
         {
-            // Micro-interaction: scale down then up
-            await AnimateButtonPress(btn);
+            await MicroAnimations.AnimatePress(btn);
             group.IsExpanded = !group.IsExpanded;
         }
     }
@@ -225,71 +190,11 @@ public sealed partial class BuddyListView : UserControl
     {
         if (sender is Button btn && btn.Tag is Contact contact)
         {
-            // Micro-interaction: scale press effect
-            await AnimateButtonPress(btn);
+            await MicroAnimations.AnimatePress(btn);
             OnContactSelected?.Invoke(contact);
         }
     }
 
-    private async Task AnimateButtonPress(UIElement element)
-    {
-        var transform = new ScaleTransform { ScaleX = 1, ScaleY = 1 };
-        element.RenderTransform = transform;
-        element.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-
-        // Scale down
-        var scaleDown = new DoubleAnimation
-        {
-            To = 0.95,
-            Duration = new Duration(TimeSpan.FromMilliseconds(80)),
-            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        var storyboard1 = new Storyboard();
-        Storyboard.SetTarget(scaleDown, transform);
-        Storyboard.SetTargetProperty(scaleDown, "ScaleX");
-        storyboard1.Children.Add(scaleDown);
-
-        var scaleDownY = new DoubleAnimation
-        {
-            To = 0.95,
-            Duration = new Duration(TimeSpan.FromMilliseconds(80)),
-            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-        };
-        Storyboard.SetTarget(scaleDownY, transform);
-        Storyboard.SetTargetProperty(scaleDownY, "ScaleY");
-        storyboard1.Children.Add(scaleDownY);
-
-        storyboard1.Begin();
-        await Task.Delay(80);
-
-        // Scale back up
-        var scaleUp = new DoubleAnimation
-        {
-            To = 1.0,
-            Duration = new Duration(TimeSpan.FromMilliseconds(120)),
-            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        var storyboard2 = new Storyboard();
-        Storyboard.SetTarget(scaleUp, transform);
-        Storyboard.SetTargetProperty(scaleUp, "ScaleX");
-        storyboard2.Children.Add(scaleUp);
-
-        var scaleUpY = new DoubleAnimation
-        {
-            To = 1.0,
-            Duration = new Duration(TimeSpan.FromMilliseconds(120)),
-            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-        };
-        Storyboard.SetTarget(scaleUpY, transform);
-        Storyboard.SetTargetProperty(scaleUpY, "ScaleY");
-        storyboard2.Children.Add(scaleUpY);
-
-        storyboard2.Begin();
-    }
-
-    // Display Name Editing
     private void OnDisplayNameClick(object sender, RoutedEventArgs e)
     {
         if (_isEditingName) return;
@@ -329,7 +234,7 @@ public sealed partial class BuddyListView : UserControl
         if (!_isEditingName) return;
 
         var newName = DisplayNameEditBox.Text?.Trim();
-        if (!string.IsNullOrEmpty(newName) && _dataService != null)
+        if (!string.IsNullOrEmpty(newName) && _dataService is not null)
         {
             _dataService.CurrentUser.DisplayName = newName;
             DisplayNameText.Text = newName;
@@ -345,7 +250,6 @@ public sealed partial class BuddyListView : UserControl
         DisplayNameButton.Visibility = Visibility.Visible;
     }
 
-    // Personal Message Editing
     private void OnPersonalMessageClick(object sender, RoutedEventArgs e)
     {
         if (_isEditingMessage) return;
@@ -386,7 +290,7 @@ public sealed partial class BuddyListView : UserControl
         if (!_isEditingMessage) return;
 
         var newMessage = PersonalMessageEditBox.Text?.Trim();
-        if (_dataService != null)
+        if (_dataService is not null)
         {
             _dataService.CurrentUser.PersonalMessage = newMessage ?? "";
             PersonalMessageText.Text = string.IsNullOrEmpty(newMessage) ? "What's on your mind?" : newMessage;
@@ -402,47 +306,42 @@ public sealed partial class BuddyListView : UserControl
         PersonalMessageButton.Visibility = Visibility.Visible;
     }
 
-    // Status Selection
     private void OnStatusSelected(object sender, RoutedEventArgs e)
     {
-        if (sender is Button btn && btn.Tag is string statusString && _dataService != null)
+        if (sender is Button btn && btn.Tag is string statusString && _dataService is not null
+            && Enum.TryParse<PresenceStatus>(statusString, out var newStatus))
         {
-            if (Enum.TryParse<PresenceStatus>(statusString, out var newStatus))
-            {
-                _dataService.CurrentUser.Status = newStatus;
-                StatusText.Text = newStatus.ToString();
-                ProfileStatusDot.Fill = GetStatusBrush(newStatus);
-            }
+            _dataService.CurrentUser.Status = newStatus;
+            StatusText.Text = newStatus.ToString();
+            ProfileStatusDot.Fill = StatusBrushes.ForStatus(newStatus);
         }
     }
 
-    // Add Group functionality
     private async void OnAddGroupClick(object sender, RoutedEventArgs e)
     {
-        if (_dataService == null) return;
+        if (_dataService is null) return;
 
-        // Create a simple input dialog using a ContentDialog
         var dialog = new ContentDialog
         {
             Title = "Add New Group",
             PrimaryButtonText = "Add",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            XamlRoot = this.XamlRoot
+            XamlRoot = this.XamlRoot,
         };
 
         var inputPanel = new StackPanel { Spacing = 12 };
         var nameBox = new TextBox
         {
             PlaceholderText = "Group name (e.g., Work, Gaming)",
-            Header = "Group Name"
+            Header = "Group Name",
         };
         var emojiBox = new TextBox
         {
             PlaceholderText = "Emoji (e.g., 💼, 🎮)",
             Header = "Emoji",
             MaxLength = 4,
-            Text = "👥"
+            Text = "👥",
         };
 
         inputPanel.Children.Add(nameBox);
@@ -458,12 +357,11 @@ public sealed partial class BuddyListView : UserControl
                 Name = nameBox.Text.Trim(),
                 Emoji = string.IsNullOrWhiteSpace(emojiBox.Text) ? "👥" : emojiBox.Text.Trim(),
                 IsExpanded = true,
-                Contacts = new System.Collections.ObjectModel.ObservableCollection<Contact>()
+                Contacts = new System.Collections.ObjectModel.ObservableCollection<Contact>(),
             };
 
             _dataService.Groups.Add(newGroup);
 
-            // Refresh the list
             GroupsList.ItemsSource = null;
             GroupsList.ItemsSource = _dataService.Groups;
         }

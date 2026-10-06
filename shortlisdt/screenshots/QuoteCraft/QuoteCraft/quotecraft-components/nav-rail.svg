@@ -1,0 +1,33 @@
+<svg viewBox="0 0 80 480" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+  </style>
+
+  <!-- Rail background -->
+  <rect width="80" height="480" fill="#FFFFFF"/>
+  <line x1="79.5" y1="0" x2="79.5" y2="480" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Brand header -->
+  <rect width="80" height="64" fill="#2B4C7E"/>
+  <rect y="61" width="80" height="3" fill="#F59E0B"/>
+  <text x="40" y="38" text-anchor="middle" font-size="22" font-weight="800" fill="white" letter-spacing="-1">QC</text>
+
+  <!-- Nav Items -->
+  <!-- Quotes (active) -->
+  <rect x="0" y="86" width="4" height="24" rx="0 2 2 0" fill="#2B4C7E" ry="2"/>
+  <rect x="8" y="80" width="64" height="48" rx="12" fill="#D6E4F0"/>
+  <text x="40" y="100" text-anchor="middle" font-size="22">📋</text>
+  <text x="40" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#2B4C7E">Quotes</text>
+
+  <!-- Clients -->
+  <text x="40" y="160" text-anchor="middle" font-size="22">👤</text>
+  <text x="40" y="178" text-anchor="middle" font-size="11" font-weight="500" fill="#6B7280">Clients</text>
+
+  <!-- Catalog -->
+  <text x="40" y="218" text-anchor="middle" font-size="22">📖</text>
+  <text x="40" y="236" text-anchor="middle" font-size="11" font-weight="500" fill="#6B7280">Catalog</text>
+
+  <!-- Settings -->
+  <text x="40" y="276" text-anchor="middle" font-size="22">⚙</text>
+  <text x="40" y="294" text-anchor="middle" font-size="11" font-weight="500" fill="#6B7280">Settings</text>
+</svg>

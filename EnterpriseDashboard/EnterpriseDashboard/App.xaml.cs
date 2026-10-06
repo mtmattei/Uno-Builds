@@ -20,7 +20,6 @@ public partial class App : Application
     [SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "Uno.Extensions APIs are used in a way that is safe for trimming in this template context.")]
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        // Configure LiveCharts2 dark theme
         LiveCharts.Configure(config =>
             config.AddSkiaSharp()
                   .AddDefaultMappers()
@@ -67,7 +66,6 @@ public partial class App : Application
             rootFrame.Navigate(typeof(ShellPage), args.Arguments);
         }
 
-        // Force dark theme for the analytics dashboard
         if (MainWindow.Content is FrameworkElement rootElement)
         {
             rootElement.RequestedTheme = ElementTheme.Dark;

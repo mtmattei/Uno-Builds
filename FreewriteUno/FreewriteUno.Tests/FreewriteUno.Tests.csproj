@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FreewriteUno.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!--
+    Source-link the testable parts of the main project. This avoids a separate library and
+    matches the Architecture Brief §7.1 directive that EntryStore is testable via an
+    injectable-root constructor. EntryStore.WinRT.cs is NOT linked here — the test project
+    only uses the explicit-root constructor, never DefaultRoot().
+  -->
+  <ItemGroup>
+    <Compile Include="..\FreewriteUno\Models\Entry.cs" Link="Source\Entry.cs" />
+    <Compile Include="..\FreewriteUno\Services\IEntryStore.cs" Link="Source\IEntryStore.cs" />
+    <Compile Include="..\FreewriteUno\Services\EntryStore.cs" Link="Source\EntryStore.cs" />
+  </ItemGroup>
+
+</Project>

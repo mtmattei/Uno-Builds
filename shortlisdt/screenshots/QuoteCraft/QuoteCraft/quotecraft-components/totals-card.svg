@@ -1,0 +1,29 @@
+<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'DM Sans', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+  <defs>
+    <filter id="tcs" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <rect width="300" height="140" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#tcs)"/>
+
+  <!-- Subtotal row -->
+  <text x="20" y="32" font-size="14" fill="#6B7280">Subtotal</text>
+  <text x="280" y="32" font-size="14" font-weight="500" fill="#6B7280" text-anchor="end" class="mono">$2,930.00</text>
+
+  <!-- Tax row -->
+  <text x="20" y="58" font-size="14" fill="#6B7280">Tax (8.5%)</text>
+  <text x="280" y="58" font-size="14" font-weight="500" fill="#6B7280" text-anchor="end" class="mono">$249.05</text>
+
+  <!-- Grand total divider -->
+  <line x1="20" y1="76" x2="280" y2="76" stroke="#1F2937" stroke-width="2"/>
+
+  <!-- Grand total -->
+  <text x="20" y="112" font-size="22" font-weight="700" fill="#1F2937">Total</text>
+  <text x="280" y="112" font-size="24" font-weight="700" fill="#2B4C7E" text-anchor="end" class="mono">$3,179.05</text>
+</svg>

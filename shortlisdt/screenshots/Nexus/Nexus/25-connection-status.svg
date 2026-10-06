@@ -1,0 +1,36 @@
+<svg width="350" height="100" viewBox="0 0 350 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Component: Header Info (System Time + Connection Status) -->
+  <!-- Used in: All pages (header) -->
+  
+  <!-- Background -->
+  <rect width="350" height="100" fill="#0a0a0b"/>
+  
+  <!-- System Time -->
+  <g transform="translate(20, 40)">
+    <text x="0" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a" letter-spacing="1">SYS.TIME</text>
+    <text x="70" y="0" font-family="IBM Plex Mono, monospace" font-size="12" fill="#a1a1aa" letter-spacing="1">14:32:08</text>
+  </g>
+  
+  <!-- Connection Status -->
+  <g transform="translate(200, 40)">
+    <circle cx="0" cy="-4" r="4" fill="#4ade80">
+      <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="4;4.5;4" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="15" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a" letter-spacing="1">CONNECTED</text>
+  </g>
+  
+  <!-- Disconnected State Example -->
+  <g transform="translate(20, 75)">
+    <circle cx="0" cy="-4" r="4" fill="#f87171"/>
+    <text x="15" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a" letter-spacing="1">DISCONNECTED</text>
+  </g>
+  
+  <!-- Connecting State Example -->
+  <g transform="translate(200, 75)">
+    <circle cx="0" cy="-4" r="4" fill="#fbbf24">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+    </circle>
+    <text x="15" y="0" font-family="IBM Plex Mono, monospace" font-size="11" fill="#71717a" letter-spacing="1">CONNECTING</text>
+  </g>
+</svg>

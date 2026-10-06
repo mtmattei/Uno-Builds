@@ -1,0 +1,17 @@
+<!-- Meridian Capital Terminal — masthead -->
+<StackPanel Orientation="Horizontal" Spacing="12">
+
+  <TextBlock Text="Meridian"
+             FontFamily="{StaticResource InstrumentSerifItalicFont}"
+             FontSize="26"
+             Foreground="{ThemeResource MeridianTextPrimaryBrush}" />
+
+  <controls:BrailleRevealControl
+             Text="CAPITAL TERMINAL"
+             FontFamily="{StaticResource OutfitFont}"
+             FontSize="10" FontWeight="Medium"
+             Foreground="{ThemeResource MeridianTextSubtleBrush}"
+             CharacterSpacing="120"
+             DelayMs="800" StaggerMs="50" />
+
+</StackPanel>

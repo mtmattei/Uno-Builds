@@ -12,18 +12,18 @@
                   Glyph="{x:Bind Glyph, Mode=OneWay, FallbackValue='&#xE721;'}"
                   FontSize="64"
                   Opacity="0.3"
-                  Foreground="#F3F8FB"
+                  Foreground="{ThemeResource OnSurfaceBrush}"
                   HorizontalAlignment="Center" />
         <TextBlock Text="{x:Bind Headline, Mode=OneWay, FallbackValue='Nothing to show yet'}"
                    FontSize="18"
                    FontWeight="SemiBold"
-                   Foreground="#F3F8FB"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
                    HorizontalAlignment="Center"
                    TextAlignment="Center"
                    TextWrapping="Wrap" />
         <TextBlock Text="{x:Bind Helper, Mode=OneWay, FallbackValue=''}"
                    FontSize="14"
-                   Foreground="#8FA1AB"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
                    HorizontalAlignment="Center"
                    TextAlignment="Center"
                    TextWrapping="Wrap" />
