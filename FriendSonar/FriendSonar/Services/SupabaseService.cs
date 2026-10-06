@@ -267,40 +267,20 @@ public class SupabaseService : IDisposable
 
         try
         {
-            // Get friend IDs
             var friendships = await _client.From<FriendshipRecord>()
                 .Filter("user_id", Postgrest.Constants.Operator.Equals, _currentUserId.Value.ToString())
                 .Get();
 
-            foreach (var friendship in friendships.Models)
+            // Fan out user + location lookups concurrently per friend
+            var tasks = friendships.Models
+                .Select(f => FetchFriendWithLocationAsync(f.FriendId))
+                .ToArray();
+
+            var results = await Task.WhenAll(tasks);
+
+            foreach (var result in results)
             {
-                // Get friend user info
-                var userResponse = await _client.From<UserRecord>()
-                    .Filter("id", Postgrest.Constants.Operator.Equals, friendship.FriendId.ToString())
-                    .Single();
-
-                if (userResponse == null) continue;
-
-                // Get friend location
-                var locationResponse = await _client.From<LocationRecord>()
-                    .Filter("user_id", Postgrest.Constants.Operator.Equals, friendship.FriendId.ToString())
-                    .Single();
-
-                if (locationResponse == null) continue;
-
-                // Check if location is stale (> 5 minutes)
-                var timeSinceUpdate = DateTime.UtcNow - locationResponse.UpdatedAt;
-                if (timeSinceUpdate.TotalMinutes > 5) continue; // Hide stale friends
-
-                friends.Add(new FriendWithLocation
-                {
-                    Id = userResponse.Id,
-                    DisplayName = userResponse.DisplayName,
-                    Emoji = userResponse.Emoji,
-                    Latitude = locationResponse.Latitude,
-                    Longitude = locationResponse.Longitude,
-                    UpdatedAt = locationResponse.UpdatedAt
-                });
+                if (result != null) friends.Add(result);
             }
         }
         catch (Exception ex)
@@ -309,6 +289,39 @@ public class SupabaseService : IDisposable
         }
 
         return friends;
+    }
+
+    private async Task<FriendWithLocation?> FetchFriendWithLocationAsync(Guid friendId)
+    {
+        if (_client == null) return null;
+
+        var friendIdStr = friendId.ToString();
+        var userTask = _client.From<UserRecord>()
+            .Filter("id", Postgrest.Constants.Operator.Equals, friendIdStr)
+            .Single();
+        var locationTask = _client.From<LocationRecord>()
+            .Filter("user_id", Postgrest.Constants.Operator.Equals, friendIdStr)
+            .Single();
+
+        await Task.WhenAll(userTask, locationTask);
+
+        var userResponse = userTask.Result;
+        var locationResponse = locationTask.Result;
+
+        if (userResponse == null || locationResponse == null) return null;
+
+        // Hide stale friends (> 5 minutes since last update)
+        if ((DateTime.UtcNow - locationResponse.UpdatedAt).TotalMinutes > 5) return null;
+
+        return new FriendWithLocation
+        {
+            Id = userResponse.Id,
+            DisplayName = userResponse.DisplayName,
+            Emoji = userResponse.Emoji,
+            Latitude = locationResponse.Latitude,
+            Longitude = locationResponse.Longitude,
+            UpdatedAt = locationResponse.UpdatedAt
+        };
     }
 
     public async Task SubscribeToFriendLocationsAsync()

@@ -2,12 +2,10 @@ namespace Orbital.Presentation;
 
 public class ShellModel
 {
-    private readonly INavigator _navigator;
-
-    public ShellModel(
-        INavigator navigator)
+    public ShellModel(INavigator navigator)
     {
-        _navigator = navigator;
-        // Add code here to initialize or attach event handlers to singleton services
+        // The navigator is injected for parity with route registration; routing
+        // happens via the RouteMap, not by code in this constructor.
+        _ = navigator;
     }
 }

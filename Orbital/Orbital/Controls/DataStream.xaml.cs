@@ -3,7 +3,6 @@ namespace Orbital.Controls;
 public sealed partial class DataStream : UserControl
 {
     private readonly DispatcherTimer _timer;
-    private readonly Random _random = new();
 
     public DataStream()
     {
@@ -30,7 +29,7 @@ public sealed partial class DataStream : UserControl
         var hex = new char[24 * 3 - 1];
         for (var i = 0; i < 24; i++)
         {
-            var b = _random.Next(256);
+            var b = Random.Shared.Next(256);
             var offset = i * 3;
             hex[offset] = GetHexChar(b >> 4);
             hex[offset + 1] = GetHexChar(b & 0xF);

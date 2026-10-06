@@ -7,7 +7,6 @@ namespace Orbital.Controls;
 
 public sealed partial class PulsingBars : UserControl
 {
-    private readonly Random _random = new();
     private readonly List<Storyboard> _storyboards = [];
 
     public static readonly DependencyProperty BarCountProperty =
@@ -60,7 +59,7 @@ public sealed partial class PulsingBars : UserControl
         for (var i = 0; i < BarCount; i++)
         {
             // Initial random height between 40-100% of max (16px)
-            var initialScale = 0.4 + _random.NextDouble() * 0.6;
+            var initialScale = 0.4 + Random.Shared.NextDouble() * 0.6;
 
             var scaleTransform = new ScaleTransform
             {
@@ -84,7 +83,7 @@ public sealed partial class PulsingBars : UserControl
             BarsPanel.Children.Add(bar);
 
             // Each bar gets its own storyboard with unique duration (1.2-1.9s)
-            var duration = TimeSpan.FromMilliseconds(1200 + _random.Next(700));
+            var duration = TimeSpan.FromMilliseconds(1200 + Random.Shared.Next(700));
             var beginDelay = TimeSpan.FromMilliseconds(i * 150);
 
             // ScaleY keyframes: 0.3 -> 1.0 -> 0.3 (full ping-pong)

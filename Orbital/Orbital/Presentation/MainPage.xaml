@@ -23,10 +23,10 @@
 
       <muxc:NavigationView.Resources>
         <!-- Pane background (matches app background) -->
-        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#FF0A0A0B" />
-        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#FF0A0A0B" />
-        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#FF0A0A0B" />
-        <SolidColorBrush x:Key="SplitViewPaneBackground" Color="#FF0A0A0B" />
+        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{StaticResource OrbitalSurface0}" />
+        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{StaticResource OrbitalSurface0}" />
+        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{StaticResource OrbitalSurface0}" />
+        <SolidColorBrush x:Key="SplitViewPaneBackground" Color="{StaticResource OrbitalSurface0}" />
 
         <!-- Content area -->
         <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />

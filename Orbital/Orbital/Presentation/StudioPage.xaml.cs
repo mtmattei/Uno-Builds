@@ -247,7 +247,10 @@ public sealed partial class StudioPage : Page
                             : new Uri($"https://{connectorUrl}");
                         await Windows.System.Launcher.LaunchUriAsync(uri);
                     }
-                    catch { /* URL not launchable */ }
+                    catch (Exception ex)
+                    {
+                        Helpers.OrbitalLog.Warn(ex, $"StudioPage.LaunchConnector({connectorUrl})");
+                    }
                 }
             };
             Grid.SetColumn(button, 5);

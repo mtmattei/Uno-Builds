@@ -195,9 +195,12 @@ public sealed partial class DiagnosticsPage : Page
         // uno-check can be slow — enforce a 60s timeout
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
         var ct = cts.Token;
-        var stdout = await process.StandardOutput.ReadToEndAsync(ct);
-        var stderr = await process.StandardError.ReadToEndAsync(ct);
-        await process.WaitForExitAsync(ct);
+        // Read stdout and stderr concurrently to avoid deadlock on full buffers.
+        var stdoutTask = process.StandardOutput.ReadToEndAsync(ct);
+        var stderrTask = process.StandardError.ReadToEndAsync(ct);
+        await Task.WhenAll(stdoutTask, stderrTask, process.WaitForExitAsync(ct));
+        var stdout = stdoutTask.Result;
+        var stderr = stderrTask.Result;
 
         // Parse output lines
         var output = !string.IsNullOrWhiteSpace(stdout) ? stdout : stderr;

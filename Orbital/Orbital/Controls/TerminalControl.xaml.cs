@@ -134,7 +134,10 @@ public sealed partial class TerminalControl : UserControl
                 if (!_shellProcess.HasExited)
                     _shellProcess.Kill(entireProcessTree: true);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                OrbitalLog.Warn(ex, "TerminalControl.StopShell.Kill");
+            }
             _shellProcess.Dispose();
             _shellProcess = null;
         }
@@ -407,7 +410,10 @@ public sealed partial class TerminalControl : UserControl
                     return ctx.ActiveProject.RootDirectory;
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, "TerminalControl.GetWorkingDirectory");
+        }
 
         return HostHelper.FindProjectRoot() ?? AppContext.BaseDirectory;
     }

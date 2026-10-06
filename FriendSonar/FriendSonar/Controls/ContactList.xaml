@@ -132,7 +132,7 @@
                     <TextBlock Text="{x:Bind DistanceAndBearing}"
                                Style="{StaticResource SonarContactInfoTextBlockStyle}"
                                HorizontalAlignment="Right" />
-                    <TextBlock Text="{x:Bind EtaText}"
+                    <TextBlock Text="{x:Bind LastSeenText}"
                                Style="{StaticResource SonarCountLabelTextBlockStyle}"
                                Opacity="0.53"
                                HorizontalAlignment="Right" />

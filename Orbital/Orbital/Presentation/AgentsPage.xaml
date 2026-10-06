@@ -39,7 +39,47 @@
         </Grid>
 
         <!-- Session cards -->
-        <StackPanel x:Name="SessionList" Spacing="8" />
+        <ListView x:Name="SessionList"
+                  ItemsSource="{Binding Sessions}"
+                  SelectionMode="Single"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="0">
+          <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+              <Setter Property="Padding" Value="0" />
+              <Setter Property="Margin" Value="0,0,0,8" />
+              <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+              <Setter Property="MinHeight" Value="0" />
+              <Setter Property="Background" Value="Transparent" />
+              <Setter Property="BorderThickness" Value="0" />
+            </Style>
+          </ListView.ItemContainerStyle>
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <Border Background="{ThemeResource OrbitalSurface1Brush}"
+                      BorderBrush="{ThemeResource OrbitalSurface3Brush}"
+                      BorderThickness="1"
+                      CornerRadius="12"
+                      Padding="16">
+                <StackPanel Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <controls:StatusDot Status="{Binding StatusKey}"
+                                        DotSize="8"
+                                        VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Name}"
+                               Style="{StaticResource OrbitalBody}"
+                               Foreground="{ThemeResource OrbitalText82Brush}"
+                               VerticalAlignment="Center" />
+                  </StackPanel>
+                  <TextBlock Text="{Binding MetaLine}"
+                             Style="{StaticResource OrbitalMonoSmall}"
+                             Foreground="{ThemeResource OrbitalText35Brush}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
       </utu:AutoLayout>
 
       <!-- SESSION DETAIL (right panel) -->

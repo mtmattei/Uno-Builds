@@ -10,5 +10,9 @@
     <!-- Pin transitive JWT packages to fix GHSA-59j7-ghrg-fj52 (moderate DoS vulnerability) -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.1.2" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+    <!-- Pin transitive Kiota to fix GHSA-7j59-v9qr-6fq9 (high: RedirectHandler leaks auth headers cross-host) -->
+    <PackageVersion Include="Microsoft.Kiota.Abstractions" Version="1.22.0" />
+    <!-- Pin transitive Tmds.DBus.Protocol to fix GHSA-xrw6-gwf8-vvr9 (high: signal spoofing + FD exhaustion) -->
+    <PackageVersion Include="Tmds.DBus.Protocol" Version="0.21.3" />
   </ItemGroup>
 </Project>

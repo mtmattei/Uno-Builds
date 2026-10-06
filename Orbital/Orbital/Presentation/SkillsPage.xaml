@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:controls="using:Orbital.Controls"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       Background="{ThemeResource OrbitalSurface0Brush}">
 
   <Grid>
@@ -88,8 +89,94 @@
           </Border>
         </Grid>
 
-        <!-- Skill groups are populated in code-behind -->
-        <StackPanel x:Name="SkillGroupsPanel" Spacing="24" Opacity="0" />
+        <!-- Skill groups, bound to SkillsModel.Groups (IListFeed<SkillGroup>) -->
+        <muxc:ItemsRepeater x:Name="SkillGroupsRepeater"
+                            ItemsSource="{Binding Groups}"
+                            Opacity="0">
+          <muxc:ItemsRepeater.Layout>
+            <muxc:StackLayout Spacing="24" />
+          </muxc:ItemsRepeater.Layout>
+          <muxc:ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="8">
+                <TextBlock Text="{Binding CategoryDisplay}"
+                           Style="{StaticResource OrbitalSectionSubLabel}"
+                           Foreground="{ThemeResource OrbitalText30Brush}"
+                           Margin="0,0,0,4" />
+                <muxc:ItemsRepeater ItemsSource="{Binding Skills}">
+                  <muxc:ItemsRepeater.Layout>
+                    <muxc:UniformGridLayout Orientation="Horizontal"
+                                            MaximumRowsOrColumns="2"
+                                            MinColumnSpacing="12"
+                                            MinRowSpacing="8"
+                                            ItemsStretch="Fill" />
+                  </muxc:ItemsRepeater.Layout>
+                  <muxc:ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                      <Border Background="{ThemeResource OrbitalSurface1Brush}"
+                              BorderBrush="{ThemeResource OrbitalSurface3Brush}"
+                              BorderThickness="1"
+                              CornerRadius="10"
+                              Padding="16,14"
+                              Tag="{Binding Id}"
+                              Loaded="OnSkillCardLoaded"
+                              Tapped="OnSkillCardTapped">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock Text="{Binding Name}"
+                                       Style="{StaticResource OrbitalMonoConsole}"
+                                       Foreground="{ThemeResource OrbitalText75Brush}" />
+                            <TextBlock Text="{Binding Description}"
+                                       Style="{StaticResource OrbitalMonoMeta}"
+                                       Foreground="{ThemeResource OrbitalText35Brush}"
+                                       TextWrapping="Wrap"
+                                       MaxLines="2" />
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                              <StackPanel Orientation="Horizontal" Spacing="4">
+                                <Ellipse Width="4" Height="4"
+                                         Fill="{ThemeResource OrbitalText25Brush}"
+                                         VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding InvocationsText}"
+                                           Style="{StaticResource OrbitalMonoMeta}"
+                                           Foreground="{ThemeResource OrbitalText30Brush}"
+                                           VerticalAlignment="Center" />
+                              </StackPanel>
+                              <StackPanel Orientation="Horizontal" Spacing="4">
+                                <Ellipse Width="4" Height="4"
+                                         Fill="{ThemeResource OrbitalText25Brush}"
+                                         VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding AccuracyText}"
+                                           Style="{StaticResource OrbitalMonoMeta}"
+                                           Foreground="{ThemeResource OrbitalText30Brush}"
+                                           VerticalAlignment="Center" />
+                              </StackPanel>
+                            </StackPanel>
+                          </StackPanel>
+                          <!-- Toggle indicator: track + dot, positioned by OnSkillCardLoaded -->
+                          <Border Grid.Column="2"
+                                  x:Name="ToggleTrack"
+                                  Width="40" Height="24"
+                                  CornerRadius="12"
+                                  VerticalAlignment="Top">
+                            <Border x:Name="ToggleDot"
+                                    Width="16" Height="16"
+                                    CornerRadius="8"
+                                    Margin="4" />
+                          </Border>
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+              </StackPanel>
+            </DataTemplate>
+          </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
       </utu:AutoLayout>
     </ScrollViewer>
   </Grid>

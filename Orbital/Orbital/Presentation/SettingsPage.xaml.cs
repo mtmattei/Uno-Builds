@@ -76,7 +76,10 @@ public sealed partial class SettingsPage : Page
                     UseShellExecute = true,
                 });
             }
-            catch { }
+            catch (Exception ex)
+            {
+                OrbitalLog.Warn(ex, "SettingsPage.OpenDataFolderButton");
+            }
         };
 
         OpenDocsButton.Click += async (_, _) =>

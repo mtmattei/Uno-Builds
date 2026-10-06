@@ -180,9 +180,13 @@ public class RuntimeBuildService : IBuildService
             };
 
             process.Start();
-            var stdout = await process.StandardOutput.ReadToEndAsync(ct);
-            var stderr = await process.StandardError.ReadToEndAsync(ct);
-            await process.WaitForExitAsync(ct);
+            // Read stdout and stderr concurrently to avoid a deadlock when the
+            // child fills one buffer while we're still draining the other.
+            var stdoutTask = process.StandardOutput.ReadToEndAsync(ct);
+            var stderrTask = process.StandardError.ReadToEndAsync(ct);
+            await Task.WhenAll(stdoutTask, stderrTask, process.WaitForExitAsync(ct));
+            var stdout = stdoutTask.Result;
+            var stderr = stderrTask.Result;
 
             foreach (var line in stdout.Split('\n', StringSplitOptions.RemoveEmptyEntries))
             {

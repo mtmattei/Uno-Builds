@@ -41,6 +41,10 @@
     <!-- Pinned to fix GHSA-59j7-ghrg-fj52 -->
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <!-- Pinned to fix GHSA-7j59-v9qr-6fq9 -->
+    <PackageReference Include="Microsoft.Kiota.Abstractions" />
+    <!-- Pinned to fix GHSA-xrw6-gwf8-vvr9 -->
+    <PackageReference Include="Tmds.DBus.Protocol" />
   </ItemGroup>
 
 </Project>

@@ -7,8 +7,10 @@ namespace Orbital.Presentation;
 public sealed partial class MainPage : Page
 {
     private readonly DispatcherTimer _spinTimer;
-    private static readonly SolidColorBrush _paneBrush =
-        new(Windows.UI.Color.FromArgb(0xFF, 0x0A, 0x0A, 0x0B));
+    private static SolidColorBrush? _paneBrushCache;
+    private static SolidColorBrush PaneBrush =>
+        _paneBrushCache ??= new SolidColorBrush(
+            (Windows.UI.Color)Application.Current.Resources["OrbitalSurface0"]);
 
     private List<SearchResult> _searchIndex = [];
 
@@ -139,8 +141,9 @@ public sealed partial class MainPage : Page
         SearchResultsScroller.Visibility = results.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
         string? lastCategory = null;
-        foreach (var result in results)
+        for (var i = 0; i < results.Count; i++)
         {
+            var result = results[i];
             // Category header
             if (result.Category != lastCategory)
             {
@@ -150,7 +153,7 @@ public sealed partial class MainPage : Page
                     Text = result.Category.ToUpperInvariant(),
                     Style = (Style)Application.Current.Resources["OrbitalSectionSubLabel"],
                     Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["OrbitalText30Brush"],
-                    Margin = new Thickness(8, results.IndexOf(result) > 0 ? 8 : 4, 8, 4),
+                    Margin = new Thickness(8, i > 0 ? 8 : 4, 8, 4),
                 };
                 SearchResultsList.Children.Add(header);
             }
@@ -350,7 +353,7 @@ public sealed partial class MainPage : Page
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Left,
-                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)),
+                Background = _transparent,
                 BorderThickness = new Thickness(0),
                 Padding = new Thickness(8, 6),
                 Tag = project,
@@ -396,7 +399,7 @@ public sealed partial class MainPage : Page
                 var removeBtn = new Button
                 {
                     Content = new FontIcon { Glyph = "\uE711", FontSize = 10 },
-                    Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)),
+                    Background = _transparent,
                     BorderThickness = new Thickness(0),
                     Padding = new Thickness(4),
                     MinWidth = 0,
@@ -422,7 +425,7 @@ public sealed partial class MainPage : Page
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Left,
-            Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)),
+            Background = _transparent,
             BorderThickness = new Thickness(0),
             Padding = new Thickness(8, 6),
             Margin = new Thickness(0, 4, 0, 0),
@@ -450,7 +453,10 @@ public sealed partial class MainPage : Page
         };
         ProjectFlyoutContent.Children.Add(openBtn);
         }
-        catch { /* fire-and-forget safety */ }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, "MainPage.OnProjectSelectorClick");
+        }
     }
 
     private async Task ShowOpenProjectDialogAsync(IProjectContext ctx)
@@ -522,7 +528,7 @@ public sealed partial class MainPage : Page
         sb.Begin();
     }
 
-    private static readonly SolidColorBrush _transparent = new(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+    private static readonly SolidColorBrush _transparent = new(Microsoft.UI.Colors.Transparent);
     private static readonly CornerRadius _navItemRadius = new(8);
 
     private static void ForceNavItemCornerRadius(DependencyObject root)
@@ -545,7 +551,7 @@ public sealed partial class MainPage : Page
         var sv = FindDescendant<SplitView>(root);
         if (sv is null) return;
 
-        sv.PaneBackground = _paneBrush;
+        sv.PaneBackground = PaneBrush;
 
         var paneRoot = FindDescendantByName(sv, "PaneRoot") as Grid;
         if (paneRoot is not null)

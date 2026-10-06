@@ -2,9 +2,6 @@ using InfiniteImage.Models;
 
 namespace InfiniteImage.Services;
 
-/// <summary>
-/// Manages chunk generation and caching with efficient LRU.
-/// </summary>
 public class ChunkService
 {
     private readonly Dictionary<string, Chunk> _cache = new();
@@ -12,6 +9,7 @@ public class ChunkService
     private readonly Dictionary<string, LinkedListNode<string>> _lruNodes = new();
     private readonly object _lock = new();
     private readonly PhotoLibraryService _libraryService;
+    private readonly List<Chunk> _activeChunksBuffer = new(CanvasConfig.TotalActiveChunks);
 
     private static readonly string[] ArtistNames =
     [
@@ -37,9 +35,6 @@ public class ChunkService
         _libraryService = libraryService;
     }
 
-    /// <summary>
-    /// Gets or generates a chunk at the specified coordinates with O(1) LRU.
-    /// </summary>
     public Chunk GetChunk(int cx, int cy, int cz)
     {
         var key = $"{cx},{cy},{cz}";
@@ -48,7 +43,6 @@ public class ChunkService
         {
             if (_cache.TryGetValue(key, out var chunk))
             {
-                // Move to end of LRU using O(1) node lookup
                 if (_lruNodes.TryGetValue(key, out var node))
                 {
                     _lruOrder.Remove(node);
@@ -58,13 +52,11 @@ public class ChunkService
                 return chunk;
             }
 
-            // Generate new chunk
             chunk = GenerateChunk(cx, cy, cz);
             _cache[key] = chunk;
             var addedNode = _lruOrder.AddLast(key);
             _lruNodes[key] = addedNode;
 
-            // Evict oldest if over limit
             while (_cache.Count > CanvasConfig.MaxCacheSize && _lruOrder.First != null)
             {
                 var oldest = _lruOrder.First.Value;
@@ -77,12 +69,9 @@ public class ChunkService
         }
     }
 
-    /// <summary>
-    /// Gets all active chunks around a camera position.
-    /// </summary>
     public List<Chunk> GetActiveChunks(int cameraCX, int cameraCY, int cameraCZ)
     {
-        var chunks = new List<Chunk>();
+        _activeChunksBuffer.Clear();
 
         for (int dx = -CanvasConfig.RenderRadiusXY; dx <= CanvasConfig.RenderRadiusXY; dx++)
         {
@@ -90,24 +79,18 @@ public class ChunkService
             {
                 for (int dz = -CanvasConfig.RenderRadiusZ; dz <= CanvasConfig.RenderRadiusZ; dz++)
                 {
-                    chunks.Add(GetChunk(cameraCX + dx, cameraCY + dy, cameraCZ + dz));
+                    _activeChunksBuffer.Add(GetChunk(cameraCX + dx, cameraCY + dy, cameraCZ + dz));
                 }
             }
         }
 
-        return chunks;
+        return _activeChunksBuffer;
     }
 
-    private Chunk GenerateChunk(int cx, int cy, int cz)
-    {
-        // Check mode and delegate to appropriate generator
-        if (_libraryService.CurrentMode == LibraryMode.Personal)
-        {
-            return GenerateChunkFromLibrary(cx, cy, cz);
-        }
-
-        return GenerateChunkRandom(cx, cy, cz);
-    }
+    private Chunk GenerateChunk(int cx, int cy, int cz) =>
+        _libraryService.CurrentMode == LibraryMode.Personal
+            ? GenerateChunkFromLibrary(cx, cy, cz)
+            : GenerateChunkRandom(cx, cy, cz);
 
     private Chunk GenerateChunkRandom(int cx, int cy, int cz)
     {
@@ -143,9 +126,7 @@ public class ChunkService
                 Year = 2020 + (int)(HashService.RandomAt(s, 11) * 6)
             };
 
-            // Pre-compute trigonometric values
             plane.CacheTrigValues();
-
             planes.Add(plane);
         }
 
@@ -156,19 +137,15 @@ public class ChunkService
     {
         var planes = new List<ImagePlane>();
 
-        // Calculate Z-range for this chunk
         float chunkZMin = cz * CanvasConfig.ChunkSize;
         float chunkZMax = (cz + 1) * CanvasConfig.ChunkSize;
 
-        // Get photos in this Z-range
         var photosInRange = _libraryService.GetPhotosInZRange(chunkZMin, chunkZMax);
 
-        // Guard rail: limit photos per chunk to prevent overwhelming the viewport
         if (photosInRange.Count > CanvasConfig.MaxPhotosPerChunk)
         {
-            // Evenly sample photos across the range for better dispersement
             var step = photosInRange.Count / (float)CanvasConfig.MaxPhotosPerChunk;
-            var sampledPhotos = new List<Photo>();
+            var sampledPhotos = new List<Photo>(CanvasConfig.MaxPhotosPerChunk);
             for (int i = 0; i < CanvasConfig.MaxPhotosPerChunk; i++)
             {
                 var index = (int)(i * step);
@@ -180,7 +157,6 @@ public class ChunkService
             photosInRange = sampledPhotos;
         }
 
-        // Create planes for photos (use deterministic XY positioning)
         foreach (var photo in photosInRange)
         {
             var seed = HashService.HashString($"photo_{photo.Id}_{cx}_{cy}");
@@ -202,7 +178,7 @@ public class ChunkService
                 ChunkZ = cz,
                 LocalX = (float)(HashService.RandomAt(seed, 0) * CanvasConfig.ChunkSize - CanvasConfig.ChunkSize / 2.0),
                 LocalY = (float)(HashService.RandomAt(seed, 1) * CanvasConfig.ChunkSize - CanvasConfig.ChunkSize / 2.0),
-                LocalZ = photo.ZCoordinate - chunkZMin,  // Relative to chunk
+                LocalZ = photo.ZCoordinate - chunkZMin,
                 Width = width,
                 Height = width * aspectRatio,
                 RotationY = (float)((HashService.RandomAt(seed, 5) - 0.5) * 20),
@@ -212,9 +188,7 @@ public class ChunkService
                 Year = photo.DateTaken.Year
             };
 
-            // Pre-compute trigonometric values
             plane.CacheTrigValues();
-
             planes.Add(plane);
         }
 

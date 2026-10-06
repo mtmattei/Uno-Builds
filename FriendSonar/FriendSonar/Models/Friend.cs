@@ -32,7 +32,6 @@ public class Friend
     public string DistanceMiles => $"{DistanceMilesValue:F1} MI";
     public string BearingDegrees => $"{Angle}°";
     public string DistanceAndBearing => $"{DistanceMiles}  ·  {BearingDegrees}";
-    public string TooltipText => $"{Name} - {DistanceAndBearing}";
 
     // Status based on last update time
     public FriendStatus Status
@@ -64,8 +63,6 @@ public class Friend
             return $"{(int)elapsed.TotalHours}h ago";
         }
     }
-
-    public string EtaText => LastSeenText;
 
     public Color StatusColor => Status switch
     {

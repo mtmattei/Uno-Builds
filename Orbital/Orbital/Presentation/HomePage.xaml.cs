@@ -48,8 +48,10 @@ public sealed partial class HomePage : Page
         SessionPanel.Tapped += async (_, _) => await NavigateToRouteAsync("Agents");
 
         // Populate data that can't be MVUX-bound (dynamic UI building)
-        try { await PopulateRealDataAsync(); } catch { }
-        try { await PopulateRecentProjectsAsync(); } catch { }
+        try { await PopulateRealDataAsync(); }
+        catch (Exception ex) { OrbitalLog.Warn(ex, "HomePage.PopulateRealDataAsync"); }
+        try { await PopulateRecentProjectsAsync(); }
+        catch (Exception ex) { OrbitalLog.Warn(ex, "HomePage.PopulateRecentProjectsAsync"); }
     }
 
     private async Task NavigateToRouteAsync(string route)
@@ -301,7 +303,10 @@ public sealed partial class HomePage : Page
                 RecentProjectsContainer.Children.Add(row);
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            OrbitalLog.Warn(ex, "HomePage.PopulateRecentProjectsAsync");
+        }
     }
 
     private Grid CreateProjectRow(OrbitalProject project, IProjectContext ctx)

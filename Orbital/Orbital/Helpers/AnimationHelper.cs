@@ -54,24 +54,8 @@ public static class AnimationHelper
     }
 
     /// <summary>
-    /// Stagger fade-up a list of elements starting at baseDelayMs, adding staggerMs per item.
-    /// </summary>
-    public static void StaggerFadeUp(IReadOnlyList<UIElement> elements, int baseDelayMs = 0, int staggerMs = 70)
-    {
-        for (var i = 0; i < elements.Count; i++)
-        {
-            FadeUp(elements[i], baseDelayMs + i * staggerMs);
-        }
-    }
-
-    /// <summary>
-    /// Starts a border-breathe animation: border opacity oscillates between low and high.
-    /// Uses a subtle emerald glow effect via opacity on the border brush.
-    /// Returns the Storyboard so caller can stop it.
-    /// </summary>
-    /// <summary>
     /// Timer-driven border breathe. Uno Skia cannot animate brush properties via Storyboard,
-    /// so we manually interpolate the border color alpha on a 30fps timer.
+    /// so we manually interpolate the border color alpha on a timer.
     /// Returns a Storyboard (empty) for API compat — call .Stop() on it to stop the timer.
     /// </summary>
     public static Storyboard StartBorderBreathe(Border border)
@@ -110,51 +94,5 @@ public static class AnimationHelper
             timer.Stop();
             border.Tag = null;
         }
-    }
-
-    /// <summary>
-    /// Starts a glow pulse on an element: opacity oscillates 0.15→0.5→0.15 over 3s.
-    /// Used for sidebar logo glow effect.
-    /// </summary>
-    public static Storyboard StartGlowPulse(UIElement element)
-    {
-        var sb = new Storyboard();
-
-        var glowAnim = new DoubleAnimationUsingKeyFrames
-        {
-            RepeatBehavior = RepeatBehavior.Forever,
-        };
-        glowAnim.KeyFrames.Add(new SplineDoubleKeyFrame
-        {
-            KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
-            Value = 0.15,
-        });
-        glowAnim.KeyFrames.Add(new SplineDoubleKeyFrame
-        {
-            KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(1500)),
-            Value = 0.5,
-            KeySpline = new KeySpline
-            {
-                ControlPoint1 = new Windows.Foundation.Point(0.42, 0),
-                ControlPoint2 = new Windows.Foundation.Point(0.58, 1),
-            },
-        });
-        glowAnim.KeyFrames.Add(new SplineDoubleKeyFrame
-        {
-            KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(3000)),
-            Value = 0.15,
-            KeySpline = new KeySpline
-            {
-                ControlPoint1 = new Windows.Foundation.Point(0.42, 0),
-                ControlPoint2 = new Windows.Foundation.Point(0.58, 1),
-            },
-        });
-
-        Storyboard.SetTarget(glowAnim, element);
-        Storyboard.SetTargetProperty(glowAnim, "Opacity");
-
-        sb.Children.Add(glowAnim);
-        sb.Begin();
-        return sb;
     }
 }

@@ -70,7 +70,7 @@ public class LocationService : IDisposable
         {
             Interval = TimeSpan.FromSeconds(intervalSeconds)
         };
-        _updateTimer.Tick += async (s, e) => await UpdateLocationAsync();
+        _updateTimer.Tick += UpdateTimer_Tick;
         _updateTimer.Start();
         _isTracking = true;
 
@@ -83,9 +83,22 @@ public class LocationService : IDisposable
         if (_updateTimer != null)
         {
             _updateTimer.Stop();
+            _updateTimer.Tick -= UpdateTimer_Tick;
             _updateTimer = null;
         }
         _isTracking = false;
+    }
+
+    private async void UpdateTimer_Tick(object? sender, object e)
+    {
+        try
+        {
+            await UpdateLocationAsync();
+        }
+        catch (Exception ex)
+        {
+            Error?.Invoke(this, $"Location tick failed: {ex.Message}");
+        }
     }
 
     private async Task UpdateLocationAsync()

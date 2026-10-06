@@ -12,8 +12,6 @@ public partial record HomeModel(
     public IFeed<EnvironmentStatus> EnvStatus => Feed.Async(Env.GetStatusAsync);
     public IFeed<StudioStatus> StudioInfo => Feed.Async(Studio.GetStatusAsync);
     public IFeed<McpStatus> McpInfo => Feed.Async(Mcp.GetConnectionStatusAsync);
-    public IFeed<AgentSession> ActiveSession => Feed.Async(async ct =>
-        (await Agents.GetActiveSessionAsync(ct))!);
     public IFeed<VersionInfo> Versions => Feed.Async(Env.GetVersionInfoAsync);
 
     public IFeed<DateTime> CurrentTime => Feed.AsyncEnumerable(Clock.GetTimeStream);

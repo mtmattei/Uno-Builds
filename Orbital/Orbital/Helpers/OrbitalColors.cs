@@ -22,9 +22,6 @@ public static class OrbitalColors
     public static readonly Windows.UI.Color Dim = Windows.UI.ColorHelper.FromArgb(255, 86, 92, 107);
     public static readonly Windows.UI.Color Info = Windows.UI.ColorHelper.FromArgb(255, 163, 168, 182);
 
-    // Surface
-    public static readonly Windows.UI.Color Surface0 = Windows.UI.ColorHelper.FromArgb(255, 10, 10, 11);
-
     public static Windows.UI.Color StatusColor(string status) => status switch
     {
         "ok" => Emerald500,

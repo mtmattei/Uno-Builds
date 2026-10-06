@@ -1,17 +1,14 @@
-using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml;
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FriendSonar.Models;
-using Windows.UI;
 
 namespace FriendSonar.Controls;
 
 public sealed partial class ContactList : UserControl
 {
-    private ObservableCollection<Friend> _allFriends = new();
+    private readonly List<Friend> _allFriends = new();
     public ObservableCollection<Friend> Friends { get; } = new();
 
     private string _currentSortBy = "Distance";
@@ -22,14 +19,11 @@ public sealed partial class ContactList : UserControl
         this.InitializeComponent();
     }
 
-    public void SetFriends(ObservableCollection<Friend> friends, double rangeMiles)
+    public void SetFriends(IReadOnlyList<Friend> friends, double rangeMiles)
     {
         _currentRange = rangeMiles;
         _allFriends.Clear();
-        foreach (var friend in friends)
-        {
-            _allFriends.Add(friend);
-        }
+        _allFriends.AddRange(friends);
 
         ApplySortAndFilter();
     }
@@ -47,7 +41,6 @@ public sealed partial class ContactList : UserControl
     {
         Friends.Clear();
 
-        // Filter by range, then sort
         var filtered = _allFriends.Where(f => f.DistanceMilesValue <= _currentRange);
 
         var sorted = _currentSortBy switch
