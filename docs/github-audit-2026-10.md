@@ -165,7 +165,8 @@ No API keys or tokens were found in `Uno-Builds` (pattern scan of the current tr
 | Secret scan, all repos (current tree) | One finding: `FCM-Push-Notifications-Test/FCMtest/Platforms/Android/google-services.json` has a Firebase API key in a public repo. Restrict or delete the key in Google Cloud Console, then archive the repo. Archiving keeps it public, so the key stays visible. No other keys or tokens found. |
 | Rename `Netflix-dimmer-` → `Nightshade` | Not possible from this session (no repo-rename tool). Run `gh repo rename Nightshade -R mtmattei/Netflix-dimmer-`. |
 | `SampleBuilds` local work | Lives only on your machine. Commit and push from `~/UnoProjects/SampleBuilds-android`. |
-| QuoteCraft, UnoBusiness | Both are flagships. The standalone `QuoteCraft` repo stays; sync the newer `Uno-Builds/QuoteCraft` into it. |
+| QuoteCraft, UnoBusiness | Both are flagships. `mtmattei/QuoteCraft` was synced to the newer `Uno-Builds/QuoteCraft` (commit 0273455): tests project (24 passing), briefs in `docs/`, README fixed for the root layout. Develop QuoteCraft in the standalone repo from now on. |
+| `jinji`, `meridianflow-site` | On hold at your request. Left untouched. |
 
 Desktop builds after the rescue: Orbital, InfiniteImage, FriendSonar, Meridian, Meridian-Dark, CrmDashboard, SalesHeatmap and nakatomi/SmartCity all build for `net10.0-desktop`.
 FreewriteUno could not restore here: its NuGet feed (`pkgs.dev.azure.com/dnceng`) is blocked by this container's network policy. Build it locally.
