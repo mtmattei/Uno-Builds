@@ -37,6 +37,7 @@
       Hosting;
       Toolkit;
       Mvvm;
+      Mvux;
       SkiaRenderer;
     </UnoFeatures>
   </PropertyGroup>

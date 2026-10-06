@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "SmartCity",
+  "display": "standalone",
+  "name": "SmartCity",
+  "short_name": "SmartCity",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

@@ -1,0 +1,86 @@
+<Page x:Class="SmartCity.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SmartCity.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource SurfaceCanvasBrush}">
+
+  <!--
+    App chrome. uno-navigation (canonical Chefs shell): ONE Region.Attached grid contains the
+    content host (single empty Navigator="Visibility" grid, declared FIRST) and the TabBar as
+    direct siblings. Routes inject DashboardPage / ComingSoonPage into the content host by
+    matching TabBarItem Region.Name to the route name. Brand / cluster / icon rail are overlapping
+    children of the same grid.
+    NOTE: extended/custom title bar (locked decision) lands in M4 polish — it needs SetTitleBar
+    drag-region handling; ExtendsContentIntoTitleBar=true otherwise hides this top nav on desktop.
+  -->
+  <Grid uen:Region.Attached="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="48" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="48" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Content host: single empty Visibility region; routes inject the pages here. Declared first. -->
+    <Grid Grid.Row="1" Grid.Column="1"
+          uen:Region.Attached="True"
+          uen:Region.Navigator="Visibility" />
+
+    <!-- Top nav (Tier 1: TabBar + TopTabBarStyle). Direct sibling of the content host. -->
+    <utu:TabBar Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center"
+                uen:Region.Attached="True"
+                Style="{StaticResource TopTabBarStyle}">
+      <utu:TabBarItem uen:Region.Name="Overview" IsSelectable="True" Content="Overview"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+      <utu:TabBarItem uen:Region.Name="Monitoring" IsSelectable="True" Content="Monitoring"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+      <utu:TabBarItem uen:Region.Name="PredictiveAI" IsSelectable="True" Content="Predictive AI"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+      <utu:TabBarItem uen:Region.Name="Management" IsSelectable="True" Content="Management"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+    </utu:TabBar>
+
+    <!-- Brand (top-left, over the icon-rail column) -->
+    <utu:AutoLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" Spacing="8" CounterAxisAlignment="Center"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" Padding="12,0">
+      <SymbolIcon Symbol="Globe" Foreground="{ThemeResource AccentTealBrush}" />
+      <TextBlock Text="Smart City Platform" Style="{StaticResource TitleSmall}"
+                 Foreground="{ThemeResource OnSurfaceBrush}" />
+    </utu:AutoLayout>
+
+    <!-- Right status cluster -->
+    <utu:AutoLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="16"
+                    CounterAxisAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Padding="0,0,12,0">
+      <TextBlock Text="{Binding Location}" Style="{StaticResource LabelMedium}"
+                 Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+      <TextBlock Text="{Binding Weather}" Style="{StaticResource LabelMedium}"
+                 Foreground="{ThemeResource MutedTextBrush}" VerticalAlignment="Center" />
+      <SymbolIcon Symbol="Comment" Foreground="{ThemeResource MutedTextBrush}" />
+      <Border Width="28" Height="28" CornerRadius="14" Background="{ThemeResource TwinBodyBlueBrush}">
+        <TextBlock Text="SC" Style="{StaticResource LabelSmall}" Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+      </Border>
+    </utu:AutoLayout>
+
+    <!-- Far-left icon rail (decorative/secondary nav) -->
+    <utu:AutoLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical" Spacing="22" Padding="0,16"
+                    PrimaryAxisAlignment="Start" CounterAxisAlignment="Center">
+      <SymbolIcon Symbol="Home" Foreground="{ThemeResource MutedTextBrush}" />
+      <SymbolIcon Symbol="Map" Foreground="{ThemeResource MutedTextBrush}" />
+      <SymbolIcon Symbol="View" Foreground="{ThemeResource AccentTealBrush}" />
+      <SymbolIcon Symbol="Calculator" Foreground="{ThemeResource MutedTextBrush}" />
+      <SymbolIcon Symbol="Setting" Foreground="{ThemeResource MutedTextBrush}" />
+    </utu:AutoLayout>
+
+  </Grid>
+</Page>

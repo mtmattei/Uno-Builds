@@ -12,6 +12,7 @@
         <utum:MaterialToolkitTheme
           ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
         <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
+        <ResourceDictionary Source="ms-appx:///InlineAi/Presentation/InlineAiTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

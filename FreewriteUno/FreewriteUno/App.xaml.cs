@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FreewriteUno.InlineAi.Services;
 using FreewriteUno.Services;
 using FreewriteUno.ViewModels;
 using Microsoft.UI.Xaml;
@@ -38,6 +39,13 @@ public partial class App : Application
                     services.AddSingleton<ISettingsStore, SettingsStore>();
                     services.AddSingleton<IPdfExporter, QuestPdfExporter>();
                     services.AddSingleton<MainViewModel>();
+
+                    // Inline AI (P1 seams). FakeAiService backs the prototype; a real
+                    // streaming backend swaps in behind IAiService at P6. EditorBridge
+                    // mediates the model<->TextBox apply/selection seam (host wired at P5).
+                    services.AddSingleton<IAiService, FakeAiService>();
+                    services.AddSingleton<IClipboardService, ClipboardService>();
+                    services.AddSingleton<IEditorBridge, EditorBridge>();
                 })
             );
         MainWindow = builder.Window;

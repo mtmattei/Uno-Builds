@@ -4,6 +4,7 @@
       xmlns:local="using:FreewriteUno"
       xmlns:vm="using:FreewriteUno.ViewModels"
       xmlns:models="using:FreewriteUno.Models"
+      xmlns:aictrl="using:FreewriteUno.InlineAi.Presentation.Controls"
       xmlns:utu="using:Uno.Toolkit.UI"
       RequestedTheme="{x:Bind ViewModel.Theme, Mode=OneWay}"
       Background="{ThemeResource EditorBackgroundBrush}">
@@ -131,13 +132,14 @@
           <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Auto"
                         Padding="48,48,48,112">
-            <Grid HorizontalAlignment="Center" MaxWidth="720">
-              <!-- Placeholder behind the editor TextBox. Same leading newlines so it
-                   aligns with where the cursor sits. The Grid is intentionally
-                   auto-sized + centered so writing begins in the middle of the
-                   viewport and grows outward as text is typed (original spec). -->
+            <!-- Stretch + MaxWidth gives a fixed ~720 reading column centered in the viewport, so
+                 typed text wraps at a comfortable width instead of collapsing to the placeholder's
+                 width (which read as a thin vertical column). -->
+            <Grid HorizontalAlignment="Stretch" MaxWidth="720">
+              <!-- Placeholder behind the editor TextBox. Sits on the caret line (the TextBox
+                   renders the caret at the top, so the placeholder carries no leading newlines). -->
               <TextBlock x:Name="PlaceholderText"
-                         Text="&#10;&#10;What's on your mind?"
+                         Text="What's on your mind?"
                          FontFamily="{x:Bind FontFamilyForName(ViewModel.SelectedFont), Mode=OneWay}"
                          FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}"
                          Opacity="{x:Bind vm:Formatters.PlaceholderOpacity(ViewModel.Text), Mode=OneWay}"
@@ -160,6 +162,19 @@
                        AutomationProperties.Name="Editor" />
             </Grid>
           </ScrollViewer>
+
+          <!-- Inline AI: held-selection highlight band + off-screen mirror used to locate the
+               selected line (TextBox exposes no selection geometry on Skia). Never interactive. -->
+          <Canvas x:Name="OverlayCanvas" IsHitTestVisible="False">
+            <Border x:Name="SelectionHighlight"
+                    Background="{ThemeResource SelectionHighlightBrush}"
+                    CornerRadius="3"
+                    Visibility="Collapsed" />
+            <TextBlock x:Name="MeasureBlock"
+                       Opacity="0"
+                       IsHitTestVisible="False"
+                       TextWrapping="Wrap" />
+          </Canvas>
 
           <!-- Backspace flash overlay -->
           <Border x:Name="BackspaceFlash"
@@ -267,6 +282,14 @@
                       AutomationProperties.Name="Theme"
                       ToolTipService.ToolTip="Toggle theme" />
 
+              <!-- Review mode (inline AI) -->
+              <Button Style="{StaticResource ChromeIconButtonStyle}"
+                      Command="{x:Bind ViewModel.ToggleReviewModeCommand}"
+                      Content="&#x2726;"
+                      Foreground="{x:Bind ActiveOrInactiveBrush(ViewModel.IsReviewMode), Mode=OneWay}"
+                      AutomationProperties.Name="Review mode"
+                      ToolTipService.ToolTip="Review mode — select text to ask AI" />
+
               <!-- Sidebar toggle -->
               <Button Style="{StaticResource ChromeIconButtonStyle}"
                       Command="{x:Bind ViewModel.ToggleSidebarCommand}"
@@ -307,6 +330,17 @@
                        FontFamily="{StaticResource LatoFontFamily}"
                        FontSize="13" />
           </Border>
+
+          <!-- Inline AI overlays (review mode). Popups render above the editor; offsets are set in
+               code-behind in EditorRoot coordinates. DataContext is the generated InlineAiViewModel. -->
+          <Popup x:Name="PillPopup">
+            <aictrl:ActionPillView x:Name="ActionPill" />
+          </Popup>
+          <Popup x:Name="ChatPopup"
+                 IsLightDismissEnabled="True"
+                 IsOpen="{Binding IsChatOpen, Mode=TwoWay}">
+            <aictrl:InlineAiView x:Name="ChatView" />
+          </Popup>
 
           <!-- Theme cross-fade overlay (painted with the OUTGOING surface color,
                then faded out). Kept LAST so it sits above chrome + toasts during

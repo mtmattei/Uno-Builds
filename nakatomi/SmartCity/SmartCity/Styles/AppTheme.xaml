@@ -1,0 +1,58 @@
+<!--
+  Smart City Platform — dark operations-console theme.
+  MD3 dark is the base (ColorPaletteOverride.xaml, generated/DSP). This dictionary layers the
+  bespoke console look on top: darker navy canvas/surfaces + named accent brushes used by the
+  twin, AI card, charts and savings. Accents are defined ONCE here and referenced as
+  {ThemeResource ...} everywhere — never inline hex in control XAML (project rule).
+  Dark-only: the reference screen ships dark; keys live under the Dark theme dictionary.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Dark">
+
+      <!-- Console surfaces (override Material dark defaults for the deep-navy look) -->
+      <Color x:Key="ConsoleCanvasColor">#0A0E16</Color>
+      <Color x:Key="ConsoleSurfaceColor">#121826</Color>
+      <Color x:Key="ConsoleSurfaceRaisedColor">#192133</Color>
+      <Color x:Key="ConsoleOutlineColor">#243045</Color>
+
+      <!-- Accents -->
+      <Color x:Key="TwinGlowGreenColor">#46E08C</Color>
+      <Color x:Key="TwinBodyBlueColor">#5B82FF</Color>
+      <Color x:Key="AiCardBlueColor">#2F6BFF</Color>
+      <Color x:Key="AiCardBlueDeepColor">#1B3DB0</Color>
+      <Color x:Key="AccentTealColor">#2EE0E0</Color>
+      <Color x:Key="SavingsAccentColor">#46E08C</Color>
+      <Color x:Key="MutedTextColor">#8A94A6</Color>
+
+      <!-- Surface brushes: override the Material keys so stock controls inherit the console look -->
+      <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource ConsoleCanvasColor}" />
+      <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource ConsoleSurfaceColor}" />
+      <SolidColorBrush x:Key="SurfaceCanvasBrush" Color="{StaticResource ConsoleCanvasColor}" />
+      <SolidColorBrush x:Key="SurfaceCardBrush" Color="{StaticResource ConsoleSurfaceRaisedColor}" />
+      <SolidColorBrush x:Key="ConsoleOutlineBrush" Color="{StaticResource ConsoleOutlineColor}" />
+
+      <!-- Accent brushes -->
+      <SolidColorBrush x:Key="TwinGlowGreenBrush" Color="{StaticResource TwinGlowGreenColor}" />
+      <SolidColorBrush x:Key="TwinBodyBlueBrush" Color="{StaticResource TwinBodyBlueColor}" />
+      <SolidColorBrush x:Key="AiCardBlueBrush" Color="{StaticResource AiCardBlueColor}" />
+      <SolidColorBrush x:Key="AccentTealBrush" Color="{StaticResource AccentTealColor}" />
+      <SolidColorBrush x:Key="SavingsAccentBrush" Color="{StaticResource SavingsAccentColor}" />
+      <SolidColorBrush x:Key="SavingsChipBrush" Color="#2646E08C" />
+      <SolidColorBrush x:Key="GlassChipBrush" Color="#33FFFFFF" />
+      <SolidColorBrush x:Key="ElevatorAmberBrush" Color="#FFB44C" />
+      <SolidColorBrush x:Key="HazardRedBrush" Color="#FF6A5C" />
+      <SolidColorBrush x:Key="HazardCardBrush" Color="#26FF3B30" />
+      <SolidColorBrush x:Key="HazardOutlineBrush" Color="#80FF3B30" />
+      <SolidColorBrush x:Key="TooltipSurfaceBrush" Color="#E6121826" />
+      <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}" />
+
+      <LinearGradientBrush x:Key="AiCardBlueGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{StaticResource AiCardBlueColor}" />
+        <GradientStop Offset="1" Color="{StaticResource AiCardBlueDeepColor}" />
+      </LinearGradientBrush>
+
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

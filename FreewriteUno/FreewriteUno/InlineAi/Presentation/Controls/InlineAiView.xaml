@@ -1,0 +1,315 @@
+<UserControl x:Class="FreewriteUno.InlineAi.Presentation.Controls.InlineAiView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+             xmlns:conv="using:FreewriteUno.InlineAi.Presentation.Converters"
+             xmlns:ctrl="using:FreewriteUno.InlineAi.Presentation.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <UserControl.Resources>
+    <conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <conv:BooleanToDimConverter x:Key="BoolToDim" />
+    <conv:NullToVisibilityConverter x:Key="NullToVis" />
+
+    <!-- User turn: right-aligned, ink-tinted bubble, serif body. -->
+    <DataTemplate x:Key="UserTurnTemplate">
+      <Grid HorizontalAlignment="Right" Margin="32,0,0,0">
+        <Border Background="{ThemeResource AiSoftAccentBrush}"
+                CornerRadius="14,14,4,14"
+                Padding="12,8">
+          <TextBlock Text="{Binding Text}" Style="{StaticResource AiReadingTextStyle}" />
+        </Border>
+      </Grid>
+    </DataTemplate>
+
+    <!-- Assistant turn: error / result-card / prose, chosen by computed flags on the message. -->
+    <DataTemplate x:Key="AssistantTurnTemplate">
+      <Grid Margin="0,0,32,0">
+
+        <!-- Error row -->
+        <Border Visibility="{Binding ShowError, Converter={StaticResource BoolToVis}}"
+                Background="{ThemeResource SidebarRowBrushSelected}"
+                CornerRadius="4,14,14,14"
+                Padding="12,10">
+          <utu:AutoLayout Orientation="Vertical" Spacing="8">
+            <TextBlock Text="{Binding Text}"
+                       Style="{StaticResource AiReadingTextStyle}" />
+            <Button x:Uid="InlineAi_Result_Retry"
+                    Content="Retry"
+                    Style="{StaticResource TextButtonStyle}"
+                    HorizontalAlignment="Left"
+                    Padding="8,4"
+                    MinHeight="36"
+                    Command="{utu:AncestorBinding AncestorType=UserControl, Path=DataContext.Retry}"
+                    CommandParameter="{Binding}" />
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Proposed-rewrite result card -->
+        <Border Visibility="{Binding ShowResultCard, Converter={StaticResource BoolToVis}}"
+                Opacity="{Binding IsResultSettled, Converter={StaticResource BoolToDim}}"
+                Background="{ThemeResource SidebarRowBrushSelected}"
+                BorderBrush="{ThemeResource ChromeOutlineBrush}"
+                BorderThickness="1"
+                CornerRadius="4,14,14,14"
+                Padding="12,10">
+          <utu:AutoLayout Orientation="Vertical" Spacing="8">
+            <TextBlock x:Uid="InlineAi_Result_Caption"
+                       Text="SUGGESTED REWRITE"
+                       Style="{StaticResource AiChromeMicroStyle}" />
+            <utu:AutoLayout Orientation="Horizontal" Spacing="2" CounterAxisAlignment="Start">
+              <TextBlock Text="{Binding DisplayText}" Style="{StaticResource AiReadingTextStyle}" />
+              <TextBlock Text="▌"
+                         Style="{StaticResource AiReadingTextStyle}"
+                         Foreground="{ThemeResource ChromeIconBrushActive}"
+                         Visibility="{Binding ShowCaret, Converter={StaticResource BoolToVis}}" />
+            </utu:AutoLayout>
+            <ProgressRing IsActive="True"
+                          Width="18" Height="18"
+                          HorizontalAlignment="Left"
+                          Visibility="{Binding ShowTypingDots, Converter={StaticResource BoolToVis}}" />
+            <utu:AutoLayout Orientation="Horizontal" Spacing="4"
+                            IsEnabled="{Binding ResultActionsEnabled}">
+              <Button x:Uid="InlineAi_Result_Apply"
+                      Content="Apply"
+                      Style="{StaticResource FilledButtonStyle}"
+                      MinHeight="40"
+                      Command="{utu:AncestorBinding AncestorType=UserControl, Path=DataContext.ApplyResult}"
+                      CommandParameter="{Binding}" />
+              <Button x:Uid="InlineAi_Result_Copy"
+                      Content="Copy"
+                      Style="{StaticResource TextButtonStyle}"
+                      MinHeight="40"
+                      Command="{utu:AncestorBinding AncestorType=UserControl, Path=DataContext.CopyResult}"
+                      CommandParameter="{Binding}" />
+              <Button x:Uid="InlineAi_Result_Discard"
+                      Content="Discard"
+                      Style="{StaticResource TextButtonStyle}"
+                      MinHeight="40"
+                      Command="{utu:AncestorBinding AncestorType=UserControl, Path=DataContext.DiscardResult}"
+                      CommandParameter="{Binding}" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </Border>
+
+        <!-- Plain prose (Ask / Summarize / Explain) -->
+        <Border Visibility="{Binding ShowProse, Converter={StaticResource BoolToVis}}"
+                Background="{ThemeResource SidebarRowBrushSelected}"
+                CornerRadius="4,14,14,14"
+                Padding="12,10">
+          <utu:AutoLayout Orientation="Vertical" Spacing="6">
+            <ProgressRing IsActive="True"
+                          Width="18" Height="18"
+                          HorizontalAlignment="Left"
+                          Visibility="{Binding ShowTypingDots, Converter={StaticResource BoolToVis}}" />
+            <utu:AutoLayout Orientation="Horizontal" Spacing="2" CounterAxisAlignment="Start">
+              <TextBlock Text="{Binding DisplayText}" Style="{StaticResource AiReadingTextStyle}" />
+              <TextBlock Text="▌"
+                         Style="{StaticResource AiReadingTextStyle}"
+                         Foreground="{ThemeResource ChromeIconBrushActive}"
+                         Visibility="{Binding ShowCaret, Converter={StaticResource BoolToVis}}" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </Border>
+      </Grid>
+    </DataTemplate>
+
+    <ctrl:ChatMessageTemplateSelector x:Key="MessageTemplateSelector"
+                                      UserTemplate="{StaticResource UserTurnTemplate}"
+                                      AssistantTemplate="{StaticResource AssistantTurnTemplate}" />
+  </UserControl.Resources>
+
+  <!-- Flat card: a 1px outline separates it from the document; no drop shadow, by Freewrite's quiet aesthetic. -->
+  <Grid x:Name="LayoutRoot" Width="390">
+      <Border Background="{ThemeResource ChromeBackgroundBrush}"
+              BorderBrush="{ThemeResource ChromeOutlineBrush}"
+              BorderThickness="1"
+              CornerRadius="18">
+        <utu:AutoLayout Orientation="Vertical"
+                        Spacing="12"
+                        Padding="13"
+                        CounterAxisAlignment="Stretch">
+
+          <!-- Header: AI identity + close -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"
+                    Width="28" Height="28" CornerRadius="14"
+                    Background="{ThemeResource ChromeIconBrushActive}"
+                    VerticalAlignment="Center">
+              <TextBlock Text="✦"
+                         Foreground="{ThemeResource EditorBackgroundBrush}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         AutomationProperties.Name="AI assistant" />
+            </Border>
+            <TextBlock x:Uid="InlineAi_Header_Title"
+                       Grid.Column="1"
+                       Text="ASSISTANT"
+                       Style="{StaticResource AiChromeLabelStyle}"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center" />
+            <Button x:Uid="InlineAi_Header_Close"
+                    Grid.Column="2"
+                    Style="{StaticResource TextButtonStyle}"
+                    MinWidth="40" MinHeight="40"
+                    Padding="0"
+                    Command="{Binding Close}"
+                    AutomationProperties.Name="Close">
+              <TextBlock Text="✕" Style="{StaticResource AiChromeLabelStyle}" />
+            </Button>
+          </Grid>
+
+          <!-- Context chip: held selection -->
+          <Border Background="{ThemeResource AiSoftAccentBrush}" CornerRadius="8" Padding="0">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Rectangle Grid.Column="0" Fill="{ThemeResource ChromeIconBrushActive}" RadiusX="2" RadiusY="2" />
+              <utu:AutoLayout Grid.Column="1" Orientation="Vertical" Spacing="3" Padding="10,8">
+                <TextBlock x:Uid="InlineAi_Context_Caption"
+                           Text="SELECTION"
+                           Style="{StaticResource AiChromeMicroStyle}"
+                           Foreground="{ThemeResource ChromeIconBrushActive}" />
+                <TextBlock Text="{Binding SelectionText}"
+                           Style="{StaticResource AiReadingTextStyle}"
+                           MaxLines="2"
+                           TextTrimming="CharacterEllipsis" />
+              </utu:AutoLayout>
+            </Grid>
+          </Border>
+
+          <!-- Message stream -->
+          <ScrollViewer x:Name="StreamScroller"
+                        MaxHeight="260"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Disabled">
+            <mvux:FeedView x:Name="StreamFeed" Source="{Binding Messages}">
+              <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                  <ItemsControl ItemsSource="{Binding Data}"
+                                ItemTemplateSelector="{StaticResource MessageTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <utu:AutoLayout Orientation="Vertical" Spacing="10" />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                  </ItemsControl>
+                </DataTemplate>
+              </mvux:FeedView.ValueTemplate>
+              <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                  <Border Height="0" />
+                </DataTemplate>
+              </mvux:FeedView.NoneTemplate>
+              <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                  <Border Height="0" />
+                </DataTemplate>
+              </mvux:FeedView.ProgressTemplate>
+            </mvux:FeedView>
+          </ScrollViewer>
+
+          <!-- Transient toast -->
+          <TextBlock Text="{Binding Toast}"
+                     Style="{StaticResource AiChromeMicroStyle}"
+                     Foreground="{ThemeResource ChromeIconBrushActive}"
+                     Visibility="{Binding Toast, Converter={StaticResource NullToVis}}" />
+
+          <!-- Quick actions -->
+          <utu:AutoLayout Orientation="Vertical" Spacing="6" IsEnabled="{Binding IsIdle}">
+            <!-- Action chips: a single horizontal row; scrolls sideways when they overflow the card. -->
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                          HorizontalScrollMode="Enabled"
+                          VerticalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Disabled">
+              <utu:ChipGroup SelectionMode="None">
+                <utu:ChipGroup.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="6" />
+                  </ItemsPanelTemplate>
+                </utu:ChipGroup.ItemsPanel>
+                <utu:Chip x:Uid="InlineAi_Action_Rewrite" Content="Rewrite"
+                          Style="{StaticResource AssistChipStyle}" Command="{Binding Rewrite}" />
+                <utu:Chip x:Uid="InlineAi_Action_Summarize" Content="Summarize"
+                          Style="{StaticResource AssistChipStyle}" Command="{Binding Summarize}" />
+                <utu:Chip x:Uid="InlineAi_Action_Explain" Content="Explain"
+                          Style="{StaticResource AssistChipStyle}" Command="{Binding Explain}" />
+                <utu:Chip x:Uid="InlineAi_Action_Shorten" Content="Make shorter"
+                          Style="{StaticResource AssistChipStyle}" Command="{Binding Shorten}" />
+                <utu:Chip x:Uid="InlineAi_Action_Tone" Content="Change tone"
+                          Style="{StaticResource AssistChipStyle}" Command="{Binding ToggleTone}" />
+              </utu:ChipGroup>
+            </ScrollViewer>
+
+            <!-- Tone sub-options: horizontal row (fits the card width). -->
+            <utu:ChipGroup SelectionMode="None"
+                           Visibility="{Binding IsToneExpanded, Converter={StaticResource BoolToVis}}">
+              <utu:ChipGroup.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal" Spacing="6" />
+                </ItemsPanelTemplate>
+              </utu:ChipGroup.ItemsPanel>
+              <utu:Chip x:Uid="InlineAi_Tone_Casual" Content="Casual"
+                        Style="{StaticResource SuggestionChipStyle}" Command="{Binding ChangeTone}" CommandParameter="Casual" />
+              <utu:Chip x:Uid="InlineAi_Tone_Formal" Content="Formal"
+                        Style="{StaticResource SuggestionChipStyle}" Command="{Binding ChangeTone}" CommandParameter="Formal" />
+              <utu:Chip x:Uid="InlineAi_Tone_Confident" Content="Confident"
+                        Style="{StaticResource SuggestionChipStyle}" Command="{Binding ChangeTone}" CommandParameter="Confident" />
+              <utu:Chip x:Uid="InlineAi_Tone_Friendly" Content="Friendly"
+                        Style="{StaticResource SuggestionChipStyle}" Command="{Binding ChangeTone}" CommandParameter="Friendly" />
+            </utu:ChipGroup>
+          </utu:AutoLayout>
+
+          <!-- Composer -->
+          <Border BorderBrush="{ThemeResource ChromeOutlineBrush}"
+                  BorderThickness="1"
+                  CornerRadius="12"
+                  Padding="4,2,4,4"
+                  IsEnabled="{Binding IsIdle}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBox x:Name="ComposerBox"
+                       x:Uid="InlineAi_Composer"
+                       Grid.Column="0"
+                       BorderThickness="0"
+                       Background="Transparent"
+                       FontFamily="{StaticResource ReadingFontFamily}"
+                       Foreground="{ThemeResource EditorTextBrush}"
+                       PlaceholderText="Ask, or request an edit…"
+                       AcceptsReturn="True"
+                       TextWrapping="Wrap"
+                       MaxHeight="120"
+                       VerticalAlignment="Center"
+                       Text="{Binding Draft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       KeyDown="OnComposerKeyDown" />
+              <Button x:Name="SendButton"
+                      x:Uid="InlineAi_Send"
+                      Grid.Column="1"
+                      Style="{StaticResource FilledButtonStyle}"
+                      VerticalAlignment="Bottom"
+                      MinWidth="44" MinHeight="44"
+                      Padding="0"
+                      Command="{Binding SendAsync}"
+                      IsEnabled="{Binding CanSend}"
+                      AutomationProperties.Name="Send">
+                <TextBlock Text="↑" FontFamily="{StaticResource MonoFontFamily}" />
+              </Button>
+            </Grid>
+          </Border>
+        </utu:AutoLayout>
+      </Border>
+  </Grid>
+</UserControl>

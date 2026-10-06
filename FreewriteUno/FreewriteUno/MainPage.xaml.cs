@@ -1,11 +1,17 @@
 using System.Text;
+using FreewriteUno.InlineAi.Models;
+using FreewriteUno.InlineAi.Presentation;
+using FreewriteUno.InlineAi.Presentation.Controls;
+using FreewriteUno.InlineAi.Services;
 using FreewriteUno.Services;
 using FreewriteUno.ViewModels;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -26,6 +32,12 @@ public sealed partial class MainPage : Page
     private const int BackspaceFlashMs = 80;
     private const int ChatPromptUrlMaxLength = 6000;
 
+    // Inline AI overlay anchoring (review mode).
+    private const double InlineCardWidth = 390;
+    private const double InlineEstimatedPillWidth = 150;
+    private const double InlineEstimatedCardHeight = 440;
+    private const double InlineGap = 8;
+
     private const string ChatPromptPrefix =
         "Below is my freewrite entry. Don't analyze it as therapy or coaching. Reply as a thoughtful reader.";
 
@@ -38,6 +50,10 @@ public sealed partial class MainPage : Page
     private DispatcherTimer? _backspaceFlashTimer;
     private Storyboard? _placeholderShimmerStoryboard;
     private bool _animationsEnabled = true;
+
+    private BindableInlineAiModel? _inlineVm;
+    private IEditorBridge? _inlineBridge;
+    private Rect _selectionPageRect;
 
     public MainPage()
     {
@@ -79,6 +95,7 @@ public sealed partial class MainPage : Page
         ApplyThemeToRoot();
         StartCountdownTimer();
         StartPlaceholderShimmer();
+        SetupInlineAi();
         await ViewModel.InitializeAsync();
         EditorTextBox.Focus(FocusState.Programmatic);
         EditorTextBox.SelectionStart = ViewModel.Text.Length;
@@ -196,6 +213,16 @@ public sealed partial class MainPage : Page
         _toastTimer?.Stop();
         _backspaceFlashTimer?.Stop();
         _placeholderShimmerStoryboard?.Stop();
+
+        // The editor bridge is a DI singleton; clear its delegates so a recreated Page
+        // doesn't leave it pointing at this stale instance (mirrors the VM-delegate cleanup above).
+        if (_inlineBridge is not null)
+        {
+            _inlineBridge.Applier = null;
+            _inlineBridge.SelectionReleaser = null;
+        }
+        ActionPill.Activated -= OnPillActivated;
+        ChatPopup.Opened -= OnChatOpened;
     }
 
     private void StartCountdownTimer()
@@ -207,6 +234,8 @@ public sealed partial class MainPage : Page
             if (ViewModel.TimeRemaining <= 0)
             {
                 ViewModel.TimerIsRunning = false;
+                // Countdown complete → enter review mode so the inline AI pill becomes available.
+                ViewModel.IsReviewMode = true;
                 return;
             }
             ViewModel.TimeRemaining -= 1;
@@ -228,6 +257,20 @@ public sealed partial class MainPage : Page
                 if (ViewModel.TimeRemaining == 0 && !ViewModel.TimerIsRunning)
                 {
                     SnapChromeVisible();
+                }
+                break;
+            case nameof(MainViewModel.IsReviewMode):
+                if (ViewModel.IsReviewMode)
+                {
+                    // Entering review mode (e.g. tapping the sparkle): if text is already selected,
+                    // surface the pill now instead of waiting for the next selection gesture.
+                    EvaluateSelection();
+                }
+                else
+                {
+                    // Leaving review mode dismisses any open chat and clears the held selection.
+                    ChatPopup.IsOpen = false;
+                    ReleaseInlineSelection();
                 }
                 break;
         }
@@ -447,6 +490,185 @@ public sealed partial class MainPage : Page
         sb.Children.Add(anim);
         sb.Begin();
     }
+
+    // ─── Inline AI (review mode) ───────────────────────────────────────────
+
+    private void SetupInlineAi()
+    {
+        var services = App.Services;
+        var ai = services.GetRequiredService<IAiService>();
+        var clipboard = services.GetRequiredService<IClipboardService>();
+        _inlineBridge = services.GetRequiredService<IEditorBridge>();
+        _inlineBridge.Applier = ApplyRewriteAsync;
+        _inlineBridge.SelectionReleaser = ReleaseInlineSelection;
+
+        // The generated MVUX ViewModel is the DataContext for both popups; the chat view binds
+        // its feeds/commands via {Binding}, and ChatPopup.IsOpen two-ways against IsChatOpen.
+        _inlineVm = new BindableInlineAiModel(ai, clipboard, _inlineBridge);
+        PillPopup.DataContext = _inlineVm;
+        ChatPopup.DataContext = _inlineVm;
+
+        // Selection-end fires on pointer-up (mouse) and key-up (keyboard); handledEventsToo so the
+        // TextBox's own handling doesn't swallow them.
+        EditorTextBox.AddHandler(PointerReleasedEvent, new PointerEventHandler(OnEditorSelectionGesture), handledEventsToo: true);
+        EditorTextBox.AddHandler(KeyUpEvent, new KeyEventHandler(OnEditorKeyUp), handledEventsToo: true);
+        ActionPill.Activated += OnPillActivated;
+        ChatPopup.Opened += OnChatOpened;
+    }
+
+    private void OnEditorSelectionGesture(object sender, PointerRoutedEventArgs e) => EvaluateSelection();
+
+    private void OnEditorKeyUp(object sender, KeyRoutedEventArgs e) => EvaluateSelection();
+
+    private void EvaluateSelection()
+    {
+        // Gated to review mode — the writing phase stays distraction-free.
+        if (_inlineBridge is null || !ViewModel.IsReviewMode || ChatPopup.IsOpen)
+        {
+            return;
+        }
+
+        if (!SelectionAnchor.TryRead(EditorTextBox, out var context))
+        {
+            PillPopup.IsOpen = false;
+            return;
+        }
+
+        _inlineBridge.CurrentSelection = context;
+        var rectInEditor = TryMeasureSelectionRect(context.Start, context.Length, out var measured)
+            ? measured
+            : default;
+        _selectionPageRect = ToEditorRootRect(rectInEditor);
+        PositionPill(_selectionPageRect);
+        PillPopup.IsOpen = true;
+    }
+
+    /// <summary>
+    /// Approximates the selection's bounding rect in the editor's content coordinates by measuring a
+    /// hidden mirror TextBlock — TextBox exposes no selection geometry on Skia. Locates the vertical
+    /// band of the selected line(s); horizontal extent spans the text column (per-glyph X isn't
+    /// recoverable). Returns false when the editor isn't laid out yet.
+    /// </summary>
+    private bool TryMeasureSelectionRect(int start, int length, out Rect rect)
+    {
+        rect = default;
+        var text = EditorTextBox.Text ?? string.Empty;
+        var width = EditorTextBox.ActualWidth;
+        if (width <= 0 || start < 0 || start > text.Length)
+        {
+            return false;
+        }
+
+        var padding = EditorTextBox.Padding;
+        var contentWidth = Math.Max(1, width - padding.Left - padding.Right);
+        MeasureBlock.FontFamily = EditorTextBox.FontFamily;
+        MeasureBlock.FontSize = EditorTextBox.FontSize;
+        MeasureBlock.Width = contentWidth;
+        var avail = new Size(contentWidth, double.PositiveInfinity);
+
+        MeasureBlock.Text = "Ag";
+        MeasureBlock.Measure(avail);
+        var lineH = MeasureBlock.DesiredSize.Height;
+        if (lineH <= 0)
+        {
+            return false;
+        }
+
+        MeasureBlock.Text = start == 0 ? string.Empty : text[..start];
+        MeasureBlock.Measure(avail);
+        var beforeH = MeasureBlock.DesiredSize.Height;
+
+        var end = Math.Min(text.Length, start + length);
+        MeasureBlock.Text = text[..end];
+        MeasureBlock.Measure(avail);
+        var throughH = MeasureBlock.DesiredSize.Height;
+
+        var lineTop = Math.Max(0, beforeH - lineH);
+        var height = Math.Max(lineH, throughH - lineTop);
+        rect = new Rect(padding.Left, lineTop + padding.Top, contentWidth, height);
+        return true;
+    }
+
+    private Rect ToEditorRootRect(Rect rectInEditor)
+    {
+        // Degenerate rect → platform didn't supply bounds; fall back to a band near the editor top.
+        if (rectInEditor.Width <= 0 && rectInEditor.Height <= 0)
+        {
+            var fallback = EditorTextBox.TransformToVisual(EditorRoot).TransformPoint(new Point(0, 0));
+            return new Rect(fallback.X + 24, fallback.Y + 24, Math.Min(240, EditorTextBox.ActualWidth), 24);
+        }
+
+        var topLeft = EditorTextBox.TransformToVisual(EditorRoot).TransformPoint(new Point(rectInEditor.X, rectInEditor.Y));
+        return new Rect(topLeft.X, topLeft.Y, rectInEditor.Width, rectInEditor.Height);
+    }
+
+    private void PositionPill(Rect anchor)
+    {
+        var x = anchor.X + (anchor.Width / 2) - (InlineEstimatedPillWidth / 2);
+        var y = anchor.Y - 44 - InlineGap;
+        PillPopup.HorizontalOffset = ClampOffset(x, InlineGap, EditorRoot.ActualWidth - InlineEstimatedPillWidth - InlineGap);
+        PillPopup.VerticalOffset = Math.Max(InlineGap, y);
+    }
+
+    private void OnPillActivated(object sender, RoutedEventArgs e)
+    {
+        // The pill buttons' OpenChat command sets IsChatOpen → ChatPopup opens via the two-way binding.
+        PillPopup.IsOpen = false;
+        PositionCard(_selectionPageRect);
+        PaintHighlight(_selectionPageRect);
+    }
+
+    private void PositionCard(Rect anchor)
+    {
+        var belowY = anchor.Y + anchor.Height + InlineGap;
+        var fitsBelow = belowY + InlineEstimatedCardHeight <= EditorRoot.ActualHeight - InlineGap;
+        var y = fitsBelow ? belowY : anchor.Y - InlineEstimatedCardHeight - InlineGap;
+
+        ChatPopup.HorizontalOffset = ClampOffset(anchor.X, InlineGap, Math.Max(InlineGap, EditorRoot.ActualWidth - InlineCardWidth - InlineGap));
+        ChatPopup.VerticalOffset = Math.Max(InlineGap, y);
+    }
+
+    private void OnChatOpened(object? sender, object e) => ChatView.FocusComposer();
+
+    private void PaintHighlight(Rect anchor)
+    {
+        Canvas.SetLeft(SelectionHighlight, anchor.X);
+        Canvas.SetTop(SelectionHighlight, anchor.Y);
+        SelectionHighlight.Width = anchor.Width;
+        SelectionHighlight.Height = anchor.Height;
+        SelectionHighlight.Visibility = Visibility.Visible;
+    }
+
+    private void ReleaseInlineSelection()
+    {
+        SelectionHighlight.Visibility = Visibility.Collapsed;
+        PillPopup.IsOpen = false;
+    }
+
+    /// <summary>
+    /// Writes a rewrite back over the original range. Offsets were captured against the live TextBox
+    /// text (leading "\n\n" prefix included), so Select targets the right characters directly; the
+    /// resulting TextChanged flows through the VM's prefix-guard + debounced save like any edit.
+    /// </summary>
+    private Task<bool> ApplyRewriteAsync(RewriteResult result)
+    {
+        try
+        {
+            var text = EditorTextBox.Text ?? string.Empty;
+            var start = Math.Clamp(result.TargetStart, 0, text.Length);
+            var length = Math.Clamp(result.TargetLength, 0, text.Length - start);
+            EditorTextBox.Select(start, length);
+            EditorTextBox.SelectedText = result.Text;
+            return Task.FromResult(true);
+        }
+        catch
+        {
+            return Task.FromResult(false);
+        }
+    }
+
+    private static double ClampOffset(double value, double min, double max) =>
+        max < min ? min : Math.Clamp(value, min, max);
 
     // ─── Chat handoff ──────────────────────────────────────────────────────
 
