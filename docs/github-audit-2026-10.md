@@ -132,7 +132,7 @@ Keep for now, archive later: `uno-repro-storyboard-begintime` (until the issue c
 | Issue | Where | Fix |
 |---|---|---|
 | **Business cold-email list in a public repo** (37 addresses, MP Cutting Tools outreach) | `Uno-Builds/ClaudeDash/tier_a_cold_emails.md` | Move to private `mptools-site`, delete from `Uno-Builds`. It stays in git history; the addresses are public `info@` contacts, so a history rewrite is optional. |
-| Trailing hyphen in repo name | `Netflix-dimmer-` | Rename to `Nightshade` (its README name) |
+| Trailing hyphen in repo name | `Netflix-dimmer-` | Done 2026-10-06: renamed to `Nightshade` |
 | `jinji` and `meridianflow-site` share 73% of files | both private | Decide which is live, then archive the other |
 | ~40 repos have no real README (only Rider's `.run/Readme.md`) | flagships first | Add a README with a screenshot and run steps to every flagship |
 | Committed `bin/obj` | Habits, HorizontalCalendar, PuckUp, EV-ChargingApp | Archive (see above) |
@@ -162,8 +162,8 @@ No API keys or tokens were found in `Uno-Builds` (pattern scan of the current tr
 | Rescue: `Build-Samples` | Its audited Orbital, InfiniteImage, FriendSonar and Meridian replaced the older `Uno-Builds` copies. Design briefs and prototypes were kept. |
 | Rescue: `Workflow` | Not moved. It is private, and its unique content (`designgraphkitv0.5`, `Uno-Builds-states` variants, git bundles) would become public in `Uno-Builds`. Archiving keeps it intact. |
 | READMEs | Root README added to `Uno-Builds` and 17 repos: Designmd2uno, Deskcompanion, Mapplate, Motiontokens, Flowtype, strata, PreviewsHero, ThoughtSuite, UnoComposer, UnoOrbit, exploded, 6-6-sample-lab, ComponentStatesLab, measures-uno, Bill-tracker, ZooQuest, mptools-site. Repos on the archive or delete lists were skipped. |
-| Secret scan, all repos (current tree) | One finding: `FCM-Push-Notifications-Test/FCMtest/Platforms/Android/google-services.json` has a Firebase API key in a public repo. Restrict or delete the key in Google Cloud Console, then archive the repo. Archiving keeps it public, so the key stays visible. No other keys or tokens found. |
-| Rename `Netflix-dimmer-` → `Nightshade` | Not possible from this session (no repo-rename tool). Run `gh repo rename Nightshade -R mtmattei/Netflix-dimmer-`. |
+| Secret scan, all repos (current tree) | One finding: `FCM-Push-Notifications-Test/FCMtest/Platforms/Android/google-services.json` has a Firebase API key in a public repo. Key restricted or deleted in Google Cloud Console (done 2026-10-06), so the repo is safe to archive. No other keys or tokens found. |
+| Rename `Netflix-dimmer-` → `Nightshade` | Done 2026-10-06 (renamed by you). |
 | `SampleBuilds` local work | Lives only on your machine. Commit and push from `~/UnoProjects/SampleBuilds-android`. |
 | QuoteCraft, UnoBusiness | Both are flagships. `mtmattei/QuoteCraft` was synced to the newer `Uno-Builds/QuoteCraft` (commit 0273455): tests project (24 passing), briefs in `docs/`, README fixed for the root layout. Develop QuoteCraft in the standalone repo from now on. |
 | `jinji`, `meridianflow-site` | On hold at your request. Left untouched. |

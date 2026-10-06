@@ -38,7 +38,7 @@ $ArchiveRepos = @(
     # 2025 Hot Design demos
     'Habits', 'HorizontalCalendar', 'EV-ChargingApp', 'NetflixSplash', 'UnoGPT5SearchBar',
     'EnergyDashboard', 'Codemash',
-    # Public Firebase key stays visible after archiving: restrict or delete it in Google Cloud Console
+    # Firebase key in this repo was restricted/deleted on 2026-10-06
     'FCM-Push-Notifications-Test',
     # Done, parked or superseded
     'Naoto-Light', 'DesignSkillEval', 'Aware', 'DeskBoard',
