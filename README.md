@@ -21,7 +21,7 @@ Run `uno-check` first on a fresh machine. Check each project's `global.json` for
 
 | Folder | What it is |
 |---|---|
-| `QuoteCraft` | Quoting and invoicing for contractors and small businesses (flagship; has architecture, design and go-to-market docs) |
+| `QuoteCraft` | Frozen snapshot. QuoteCraft is developed in [mtmattei/QuoteCraft](https://github.com/mtmattei/QuoteCraft) |
 | `CrmDashboard` | Three-pane enterprise CRM sample (MVVM) |
 | `ClaudeDash` | Real-time dashboard for monitoring Claude AI operations |
 | `EnterpriseDashboard` | Analytics dashboard with charts, tables and maps (LiveCharts2, Mapsui, SkiaSharp) |
