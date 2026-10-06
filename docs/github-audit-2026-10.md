@@ -18,15 +18,15 @@ Companion script: [`github-cleanup.ps1`](github-cleanup.ps1) (dry run by default
 |---|---|---|
 | Completely empty | 4 | Delete |
 | Trivial / starter leftovers | 5 | Delete (save one zip first) |
-| Byte-level duplicates of `Uno-Builds` folders | 14 | Archive |
+| Byte-level duplicates of `Uno-Builds` folders | 13 | Archive |
 | Snapshot / aggregate repos overlapping `Uno-Builds` | 3 | Rescue unique folders, then archive |
 | Old demos, finished labs, superseded repos | 15 | Archive |
 | Repos merging into a flagship | 11 | Archive after the code moves |
 | Stale forks | 15 | Delete |
 | Forks to keep (open PRs) | 3 | Keep |
-| Flagships worth building out | 5 apps + 2 libraries | Invest |
+| Flagships worth building out | 6 apps + 2 libraries | Invest |
 
-67 of 124 repos can be archived or deleted, which leaves 57 active or reference repos.
+66 of 124 repos can be archived or deleted, which leaves 58 active or reference repos.
 
 ---
 
@@ -43,9 +43,10 @@ DevRel work (SOTW, Gallery, Studio videos). Each flagship also absorbs smaller r
 | 2 | **`Patina`** — field conservation app | v1.0.0, CI green, 4 targets, EN/FR, local-first, MVUX + Toolkit done properly. Your most production-grade app. | `trace` (equipment inspection), `fieldcheck-maui`, `Uno-Builds/FieldOpsPro`. Also your backlog items "municipal operations map" and "environmental collection/custody" | Map view of artworks (the municipal map sample) · chain-of-custody log (the custody sample) · PDF condition reports · photo annotation · sync/export · Android keystore + Linux/macOS zips (already on your board) |
 | 3 | **`Cargo`** + **`Meridian`**, sharing **Liveline** | Cargo is your most active build (95 commits, Oct 1). Meridian (53 commits) and Cargo both depend on the Liveline chart control, which is copied into 4 places. | `driftline` (= Liveline, 81% shared), `Uno-Builds/Liveline`, `Uno-Builds/Meridian`, `Build-Samples/Meridian`, `meridian-dark` (in net10) | Make Liveline one repo + NuGet (this also clears your "publish liveline-window so a fresh clone builds" blocker) · Meridian dark theme from `Meridian-Dark` · Cargo motion items on your board |
 | 4 | **`loadpath`** — truss workbench | Original, useful, educational, active (Oct 1), real solver in `Loadpath.Core` | — | Save/open/share designs · preset library (Pratt, Warren, Howe) · member sizing + failure highlight · export PNG/PDF · WASM build for students |
-| 5 | **`QuoteCraft`** — quotes/invoices for contractors | The most "real product" business app; clear users; broad feature set already | `Uno-Builds/QuoteCraft` (newer, 2026-05-19, 217 files) is the canonical copy. Retire the standalone. | Invoice conversion · payment status · client portal link · recurring jobs · Dataverse backend as a second store (reuses UnoBusiness work) |
+| 5 | **`QuoteCraft`**: quotes and invoices for contractors | The most product-like business app, with clear users and a broad feature set | `Uno-Builds/QuoteCraft` is newer (2026-05-19, 217 files). Sync it back into the standalone repo, which stays the flagship's home. | Invoice conversion · payment status · client portal link · recurring jobs · Dataverse as a second store (reuses UnoBusiness) |
+| 6 | **`UnoBusiness`**: CRM on Dataverse | Active work deliverable (40 commits, Sept 2026), with a real backend and a schema generator | Business-control ideas from `Uno-Builds/CrmDashboard` | Fix the lookup picker (on your board) · adaptive controls · generators from the Business Schema Model · share the data layer with QuoteCraft |
 
-`UnoBusiness` stays active (it is a work deliverable on your board). It does not need to absorb anything.
+QuoteCraft and UnoBusiness are both growing. They share a theme (small-business data apps) and can share a Dataverse data layer.
 
 ### Flagship libraries (both already on your backlog)
 
@@ -100,7 +101,7 @@ Archive keeps the repo read-only and keeps URLs working. Use it for anything lin
 **Duplicates of a `Uno-Builds` folder** (shared files in brackets):
 `Sweather` (93%) · `ConfPass` (94%) · `FibonacciSphere` (91%) ·
 `FriendSonar` (87%) · `matrix` (85%) · `LiquidMorph` (85%) · `Orbital` (72%) · `radial-action-menu` (73%) · `parallax-invitation-cards` (74% = DepthCard) ·
-`memory-drift` (68% = InfiniteImage) · `QuoteCraft` (74%; UB copy is newer) · `Composer` (superseded by `UnoComposer`) ·
+`memory-drift` (68% = InfiniteImage) · `Composer` (superseded by `UnoComposer`) ·
 `Thermostat-Build` · `SantaTracker`
 
 **Superseded, archive now:** `ChefsTest` (findings live in `Chefs`), `UnoPlatformSkills`, `LiquidGlassProbe`
@@ -149,3 +150,22 @@ No API keys or tokens were found in `Uno-Builds` (pattern scan of the current tr
 3. Split Liveline into its own repo/NuGet. This unblocks Cargo and Meridian.
 4. Ship DYT deep linking (already this week's plan), then the call-ups write path.
 5. Patina map view + custody log. Those are the two backlog samples, built as features of an app that already exists.
+
+---
+
+## 9. Status update (2026-10-06, second pass)
+
+| Item | Result |
+|---|---|
+| Cold-email list | Removed from `Uno-Builds` (this branch) and from all three public `Uno-Builds-net10` branches. The old draft is kept in private `mptools-site` as `Outreach-Plan/tier_a_cold_emails.v1.md` next to the newer rewrite. It is still in git history (public `info@` contacts, so no rewrite was done). Private `Workflow` still has a copy. |
+| Rescue: `Uno-Builds-net10` | `main` and `feat/inline-ai-integration` merged into `Uno-Builds` with history: `shortlisdt`, `FreewriteUno` (with inline AI), `CrmDashboard`, `Meridian-Dark`, `_catalog`, `nakatomi`, plus the 2026-05-21 audit passes. `net10-upgrade` was left alone: a superseded migration branch that re-imports standalone repos. |
+| Rescue: `Build-Samples` | Its audited Orbital, InfiniteImage, FriendSonar and Meridian replaced the older `Uno-Builds` copies. Design briefs and prototypes were kept. |
+| Rescue: `Workflow` | Not moved. It is private, and its unique content (`designgraphkitv0.5`, `Uno-Builds-states` variants, git bundles) would become public in `Uno-Builds`. Archiving keeps it intact. |
+| READMEs | Root README added to `Uno-Builds` and 17 repos: Designmd2uno, Deskcompanion, Mapplate, Motiontokens, Flowtype, strata, PreviewsHero, ThoughtSuite, UnoComposer, UnoOrbit, exploded, 6-6-sample-lab, ComponentStatesLab, measures-uno, Bill-tracker, ZooQuest, mptools-site. Repos on the archive or delete lists were skipped. |
+| Secret scan, all repos (current tree) | One finding: `FCM-Push-Notifications-Test/FCMtest/Platforms/Android/google-services.json` has a Firebase API key in a public repo. Restrict or delete the key in Google Cloud Console, then delete the repo (it is a 2025 test). No other keys or tokens found. |
+| Rename `Netflix-dimmer-` → `Nightshade` | Not possible from this session (no repo-rename tool). Run `gh repo rename Nightshade -R mtmattei/Netflix-dimmer-`. |
+| `SampleBuilds` local work | Lives only on your machine. Commit and push from `~/UnoProjects/SampleBuilds-android`. |
+| QuoteCraft, UnoBusiness | Both are flagships. The standalone `QuoteCraft` repo stays; sync the newer `Uno-Builds/QuoteCraft` into it. |
+
+Desktop builds after the rescue: Orbital, InfiniteImage, FriendSonar, Meridian, Meridian-Dark, CrmDashboard, SalesHeatmap and nakatomi/SmartCity all build for `net10.0-desktop`.
+FreewriteUno could not restore here: its NuGet feed (`pkgs.dev.azure.com/dnceng`) is blocked by this container's network policy. Build it locally.

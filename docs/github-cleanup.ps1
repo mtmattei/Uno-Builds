@@ -18,7 +18,9 @@ $Owner = 'mtmattei'
 # Empty or trivial. Download Lumen's LUMEN_Project_Kit.zip first if you want it.
 $DeleteRepos = @(
     'ChefsOmakase-test', 'DYT', 'Uno-particle-effects', 'uno.hotdesign',
-    'desktop-tutorial', 'Calculator', 'PuckUp', 'Nexus', 'Lumen'
+    'desktop-tutorial', 'Calculator', 'PuckUp', 'Nexus', 'Lumen',
+    # Public Firebase key: restrict or delete it in Google Cloud Console first
+    'FCM-Push-Notifications-Test'
 )
 
 # Stale forks. uno, uno.extensions and Uno.Samples are kept on purpose (open PRs).
@@ -34,10 +36,10 @@ $ArchiveRepos = @(
     # Duplicates of an Uno-Builds folder
     'Sweather', 'ConfPass', 'FibonacciSphere', 'FriendSonar', 'matrix', 'LiquidMorph',
     'Orbital', 'radial-action-menu', 'parallax-invitation-cards', 'memory-drift',
-    'QuoteCraft', 'Composer', 'Thermostat-Build', 'SantaTracker',
+    'Composer', 'Thermostat-Build', 'SantaTracker',
     # 2025 Hot Design demos
     'Habits', 'HorizontalCalendar', 'EV-ChargingApp', 'NetflixSplash', 'UnoGPT5SearchBar',
-    'EnergyDashboard', 'FCM-Push-Notifications-Test', 'Codemash',
+    'EnergyDashboard', 'Codemash',
     # Done, parked or superseded
     'Naoto-Light', 'DesignSkillEval', 'Aware', 'DeskBoard',
     'ChefsTest', 'UnoPlatformSkills', 'LiquidGlassProbe'
